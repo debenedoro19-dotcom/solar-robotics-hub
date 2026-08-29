@@ -98,7 +98,7 @@ const GiveawayCard = memo(function GiveawayCard({ g, idx, onEnter }: { g: Giveaw
   const pct = Math.min(100, Math.round((g.entries_count / Math.max(1, g.max_entries)) * 100));
   return (
     <article
-      className="glass-card glass-card-hover rounded-2xl overflow-hidden section-reveal relative"
+      className="glass-card glass-card-hover rounded-2xl overflow-hidden relative animate-[fadeSlideUp_0.5s_ease-out_both]"
       style={{ transitionDelay: `${idx * 100}ms` }}
     >
       <img
