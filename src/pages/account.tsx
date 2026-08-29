@@ -1080,6 +1080,21 @@ export default function AccountPage() {
           </>
         )}
       </div>
+
+      {depositOpen && userId && (
+        <DepositModal userId={userId} userEmail={userEmail}
+          onClose={() => setDepositOpen(false)}
+          onDone={(m) => { setBalanceActionMsg({ type: 'success', text: m }); void loadAllData(userId, userEmail); }}
+          onError={(m) => setBalanceActionMsg({ type: 'error', text: m })} />
+      )}
+      {withdrawOpen && userId && (
+        <WithdrawModal balance={balance?.available_balance || 0} userId={userId} userEmail={userEmail}
+          onClose={() => setWithdrawOpen(false)}
+          onDone={(m) => { setBalanceActionMsg({ type: 'success', text: m }); void loadAllData(userId, userEmail); }}
+          onError={(m) => setBalanceActionMsg({ type: 'error', text: m })} />
+      )}
     </main>
+    </InvestorShell>
   );
 }
+
