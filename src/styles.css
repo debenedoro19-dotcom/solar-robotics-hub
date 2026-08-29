@@ -541,3 +541,10 @@
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
 }
+
+.card-badge-solar {
+  background: rgba(255, 201, 77, 0.12);
+  color: #FFC94D;
+  border: 1px solid rgba(255, 201, 77, 0.3);
+}
+.card-badge-vehicles { background: linear-gradient(135deg, #E31937, #CC0000); color: #FFFFFF; }
