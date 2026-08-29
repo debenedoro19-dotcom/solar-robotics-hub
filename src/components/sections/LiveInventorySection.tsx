@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import AppImage from '@/components/ui/AppImage';
+import modelYImg from '@/assets/inventory/model_y.jpg';
+import megapackImg from '@/assets/inventory/megapack.jpg';
+import solarRoofImg from '@/assets/inventory/solar_roof.jpg';
+import cybercabImg from '@/assets/inventory/cybercab.jpg';
 
 type Category = 'All' | 'Vehicles' | 'Energy' | 'Solar' | 'Robotics';
 
@@ -25,23 +29,24 @@ const IMG = {
   model3: U('photo-1591628360686-06bc9367d09a'),
   model3Alt: U('photo-1655792290994-93437dc0482c'),
   modelX: U('photo-1650938777875-a375b33cd705'),
-  modelY: U('photo-1617788138017-80ad40651399'),
-  modelYAlt: U('photo-1536700503339-1e4b06520771'),
+  modelY: modelYImg,
+  modelYAlt: modelYImg,
+  roadster: U('photo-1617788138017-80ad40651399'),
   semi: U('photo-1601584115197-04ecc0da31d7'),
-  cybercab: U('photo-1699016083291-6fdf857e82a8'),
+  cybercab: cybercabImg,
   powerwall: U('photo-1706699778556-a9f9da002139'),
-  megapack: U('photo-1620714223084-8fcacc6dfd8d'),
-  gridStorage: U('photo-1548337138-e87d889cc369'),
+  megapack: megapackImg,
+  gridStorage: megapackImg,
   charger: U('photo-1593941707882-a5bba14938c7'),
   supercharger: U('photo-1633158829585-23ba8f7c8caf'),
-  cleanGrid: U('photo-1497435334941-8c899ee9e8e9'),
-  solarRoof: U('photo-1509391366360-2e959784a276'),
+  cleanGrid: U('photo-1548337138-e87d889cc369'),
+  solarRoof: solarRoofImg,
   solarPanels: U('photo-1613665813446-82a78c468a1d'),
-  solarFarm: U('photo-1508514177221-188b1cf16e9d'),
-  optimus: U('photo-1485827404703-89b55fcc595e'),
+  solarFarm: U('photo-1509391366360-2e959784a276'),
+  optimus: '/assets/images/tesla_optimus_robotics.webp',
   optimusAlt: U('photo-1531746790731-6c087fecd65a'),
-  roboArm: U('photo-1563207153-f403bf289096'),
-  aiCompute: U('photo-1620712943543-bcc4688e7485')
+  roboArm: U('photo-1567789884554-0b844b597180'),
+  aiCompute: U('photo-1558494949-ef010cbdcc31')
 };
 
 const inventory: InventoryItem[] = [
@@ -65,7 +70,7 @@ const inventory: InventoryItem[] = [
 { id: 17, name: 'Tesla Semi – 500 Mile Range', price: '$150,000', badge: 'NEW', badgeType: 'new', category: 'Vehicles', image: IMG.semi, alt: 'Tesla Semi electric long-haul truck on highway' },
 { id: 18, name: 'Tesla Semi – 300 Mile Range', price: '$120,000', badge: 'NEW', badgeType: 'new', category: 'Vehicles', image: IMG.semi, alt: 'Tesla Semi 300 mile regional electric freight truck' },
 { id: 19, name: 'Tesla Cybercab – Reservation', price: '$30,000', badge: 'NEW', badgeType: 'new', category: 'Vehicles', image: IMG.cybercab, alt: 'Tesla Cybercab autonomous robotaxi two-door concept vehicle' },
-{ id: 20, name: 'Roadster Gen 2 – Founders Slot', price: '$250,000', badge: 'NEW', badgeType: 'new', category: 'Vehicles', image: IMG.modelS, alt: 'Next generation Tesla Roadster electric hypercar' },
+{ id: 20, name: 'Roadster Gen 2 – Founders Slot', price: '$250,000', badge: 'NEW', badgeType: 'new', category: 'Vehicles', image: IMG.roadster, alt: 'Next generation Tesla Roadster electric hypercar' },
 
 // ── Energy ────────────────────────────────────────────────────────────────
 { id: 21, name: 'Powerwall 3 – 13.5 kWh', price: '$11,500', badge: 'ENERGY', badgeType: 'energy', category: 'Energy', image: IMG.powerwall, alt: 'Tesla Powerwall 3 home battery mounted on exterior wall' },
