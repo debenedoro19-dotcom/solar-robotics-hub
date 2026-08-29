@@ -339,7 +339,7 @@ export default function AccountPage() {
       const { error } = await supabase.from('balance_transactions').insert({
         user_id: userId,
         type: 'withdrawal',
-        amount: Number(withdrawAmount),
+        amount: -Number(withdrawAmount),
         status: 'pending',
         description: 'Balance withdrawal',
         payment_method: withdrawMethod,
