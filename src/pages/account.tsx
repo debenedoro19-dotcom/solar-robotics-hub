@@ -350,29 +350,24 @@ export default function AccountPage() {
   if (!mounted) return null;
 
   return (
-    <main className="min-h-screen bg-fin-bg text-white">
-      {/* Top bar */}
-      <div className="border-b border-fin-border bg-fin-bg/95 backdrop-blur-xl sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
-          <div className="flex items-center gap-6">
-            <Link href="/" className="flex items-center gap-2.5">
-              <svg width="20" height="20" viewBox="0 0 342 512" fill="currentColor" className="text-primary" aria-hidden="true">
-                <path d="M0 57.3C0 57.3 57.3 0 171 0s171 57.3 171 57.3L285 85.5s-28.5-28.5-114-28.5S57 85.5 57 85.5L0 57.3zM171 512L57 85.5s28.5 28.5 114 28.5 114-28.5 114-28.5L171 512z" />
-              </svg>
-              <span className="text-white font-bold text-sm tracking-widest uppercase">Tesla Trade</span>
-            </Link>
-            <span className="text-[#2A2A2A]">|</span>
-            <span className="text-xs text-fin-muted tracking-widest uppercase">My Account</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <Link href="/account/deposit" className="px-4 py-1.5 text-xs font-bold tracking-widest uppercase rounded text-white transition-all duration-300" style={{ background: '#E31937', boxShadow: '0 0 16px rgba(227,25,55,0.35)' }}>+ Deposit</Link>
-            <Link href="/dashboard" className="text-xs text-fin-muted hover:text-white transition-colors tracking-widest uppercase">Dashboard</Link>
-            <Link href="/profile" className="text-xs text-fin-muted hover:text-white transition-colors tracking-widest uppercase">Settings</Link>
-          </div>
-        </div>
-      </div>
-
+    <InvestorShell
+      balance={balance?.available_balance || 0}
+      onDeposit={() => setDepositOpen(true)}
+      onWithdraw={() => setWithdrawOpen(true)}>
+    <main className="bg-fin-bg text-white">
       <div className="max-w-7xl mx-auto px-6 py-8">
+        {/* Synced wallet strip — same source of truth as the investor dashboard */}
+        <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-8">
+          <div className="fin-card-elevated rounded-2xl p-5">
+            <p className="text-[11px] uppercase tracking-[0.22em] text-fin-muted mb-2">Available Wallet Balance</p>
+            <p className="text-3xl font-extrabold tabular-nums text-fin-emerald">{money(balance?.available_balance || 0)}</p>
+          </div>
+          <MetricCard label="Total Active Capital" value={money(balance?.total_invested || 0)} />
+          <MetricCard label="Net Profit Accrued" value={money(balance?.total_profit || 0)} accent />
+          <MetricCard label="Total Deposited" value={money(balance?.total_deposited || 0)} sub={`${money(balance?.total_withdrawn || 0)} withdrawn`} />
+        </section>
+
+
         {/* Profile header */}
         <div className="flex items-start gap-5 mb-8">
           <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary/30 to-primary/10 border border-primary/30 flex items-center justify-center text-lg font-bold text-primary shrink-0">
