@@ -191,7 +191,8 @@ export default function LiveInventorySection() {
         {displayed.map((item, idx) =>
         <article
           key={item.id}
-          className="glass-card glass-card-hover rounded-2xl overflow-hidden group"
+          className="glass-card glass-card-hover rounded-2xl overflow-hidden group">
+
           
             {/* Image */}
             <div className="relative h-48 overflow-hidden bg-muted">
