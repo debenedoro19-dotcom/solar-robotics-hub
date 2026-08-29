@@ -153,31 +153,45 @@ export default function AdminDepositsPage() {
     setSaving(true);
     try {
       const supabase = createClient();
-      const updateData: Record<string, any> = {
-        deposit_status: actionStatus,
-        notes: actionNotes || null,
-        updated_at: new Date().toISOString(),
-      };
-      if (actionStatus === 'confirmed') updateData.confirmed_at = new Date().toISOString();
 
-      const { error: updateError } = await supabase
-        .from('deposit_records')
-        .update(updateData)
-        .eq('id', selected.id);
+      if (actionStatus === 'confirmed' && selected.deposit_status !== 'confirmed') {
+        // Atomic: marks the deposit confirmed, credits the user's wallet balance
+        // and writes the ledger entry in a single admin-guarded transaction.
+        const { data, error: rpcError } = await supabase.rpc('admin_approve_deposit', {
+          _deposit_id: selected.id,
+        });
+        if (rpcError) throw rpcError;
+        const res = data as { ok: boolean; error?: string } | null;
+        if (!res?.ok) throw new Error(res?.error ?? 'Approval failed');
 
-      if (updateError) throw updateError;
+        if (actionNotes) {
+          await supabase.from('deposit_records').update({ notes: actionNotes }).eq('id', selected.id);
+        }
+      } else {
+        const updateData: Record<string, any> = {
+          deposit_status: actionStatus,
+          notes: actionNotes || null,
+          updated_at: new Date().toISOString(),
+        };
+        const { error: updateError } = await supabase
+          .from('deposit_records')
+          .update(updateData)
+          .eq('id', selected.id);
+        if (updateError) throw updateError;
+      }
 
       const updated = { ...selected, deposit_status: actionStatus, notes: actionNotes || null };
       setSelected(updated);
       setDeposits((prev) => prev.map((d) => (d.id === selected.id ? updated : d)));
       setStats(recomputeStats(deposits.map((d) => (d.id === selected.id ? updated : d))));
-      setSavedMsg('Saved successfully');
+      setSavedMsg(actionStatus === 'confirmed' ? 'Approved — wallet credited' : 'Saved successfully');
       setTimeout(() => setSavedMsg(''), 2500);
     } catch (err) {
-      setSavedMsg('Failed to save');
+      setSavedMsg(err instanceof Error ? err.message : 'Failed to save');
     }
     setSaving(false);
   }
+
 
   const filtered = deposits.filter((d) => {
     if (statusFilter !== 'all' && d.deposit_status !== statusFilter) return false;
