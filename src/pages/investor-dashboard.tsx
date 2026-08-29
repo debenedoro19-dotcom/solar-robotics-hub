@@ -383,7 +383,9 @@ export default function InvestorDashboard() {
           {toast.msg}
         </div>
       )}
-    </main>
+      </main>
+    </InvestorShell>
+
   );
 }
 
