@@ -173,7 +173,8 @@ export default function InvestorDashboard() {
   }
 
   return (
-    <main className="min-h-screen bg-fin-bg text-white">
+    <InvestorShell balance={wallet.available_balance} onDeposit={() => setDepositOpen(true)} onWithdraw={() => setWithdrawOpen(true)}>
+    <main className="bg-fin-bg text-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         {/* Header */}
         <header className="flex flex-wrap items-center justify-between gap-4">
@@ -182,11 +183,9 @@ export default function InvestorDashboard() {
             <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">Portfolio Overview</h1>
             <p className="text-sm text-fin-muted mt-1">{userEmail}</p>
           </div>
-          <div className="flex gap-2">
-            <Link href="/account" className="px-4 py-2 rounded-lg fin-card text-sm font-semibold hover:border-fin-emerald/40 transition-colors">Account</Link>
-            <Link href="/support" className="px-4 py-2 rounded-lg fin-card text-sm font-semibold hover:border-fin-emerald/40 transition-colors">Support</Link>
-          </div>
+          <Link href="/account" className="px-4 py-2 rounded-lg fin-card text-sm font-semibold hover:border-fin-emerald/40 transition-colors">Account & Verification →</Link>
         </header>
+
 
         {/* Hero balance */}
         <section className="grid gap-5 lg:grid-cols-[1.4fr_1fr]">
