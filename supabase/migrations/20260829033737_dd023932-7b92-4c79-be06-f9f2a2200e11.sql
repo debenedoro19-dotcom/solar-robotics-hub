@@ -1,0 +1,1 @@
+DROP POLICY IF EXISTS "job_postings_public_read_open" ON public.job_postings;
