@@ -197,17 +197,19 @@ export default function InvestorDashboard() {
         {/* Hero balance */}
         <section className="grid gap-5 lg:grid-cols-[1.4fr_1fr]">
           <div className="fin-card-elevated rounded-3xl p-6 sm:p-8">
-            <p className="text-xs uppercase tracking-[0.25em] text-fin-muted mb-3">Available Wallet Balance</p>
-            <p className="text-4xl sm:text-5xl font-extrabold tracking-tight text-fin-emerald tabular-nums">
+            <p className="ts-label mb-3">Available Wallet Balance</p>
+            <p className="text-3xl sm:text-5xl font-bold tracking-tight text-white tabular-nums">
               {money(wallet.available_balance)}
             </p>
             <p className="text-sm text-fin-muted mt-2">
               Deposit-first platform — fund your wallet before deploying capital into a plan.
             </p>
             <div className="flex flex-wrap gap-3 mt-6">
-              <button onClick={() => setDepositOpen(true)} className="px-5 py-2.5 rounded-xl bg-fin-emerald text-black text-sm font-bold hover:opacity-90 transition-opacity">+ Deposit</button>
-              <button onClick={() => setWithdrawOpen(true)} className="px-5 py-2.5 rounded-xl fin-card text-sm font-bold hover:border-fin-emerald/40 transition-colors">↑ Withdraw</button>
-              <button onClick={() => { setTab('browse'); document.getElementById('marketplace')?.scrollIntoView({ behavior: 'smooth' }); }} className="px-5 py-2.5 rounded-xl fin-card text-sm font-bold hover:border-fin-emerald/40 transition-colors">⚡ Buy Plan</button>
+              <button onClick={() => setDepositOpen(true)} className="px-5 py-2.5 rounded-xl bg-[#E82127] text-white text-sm font-bold shadow-[inset_0_1px_0_rgba(255,255,255,0.18)] hover:bg-[#B3181D] transition-all duration-300">+ Deposit</button>
+              <button onClick={() => setWithdrawOpen(true)} className="px-5 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] backdrop-blur-xl text-sm font-bold hover:border-white/25 transition-all duration-300">↑ Withdraw</button>
+              <button onClick={() => { setTab('browse'); document.getElementById('marketplace')?.scrollIntoView({ behavior: 'smooth' }); }} className="px-5 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] backdrop-blur-xl text-sm font-bold hover:border-white/25 transition-all duration-300">⚡ Buy Plan</button>
+            </div>
+
             </div>
           </div>
 
