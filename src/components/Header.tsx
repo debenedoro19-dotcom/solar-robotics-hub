@@ -48,16 +48,13 @@ export default function Header() {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
-          scrolled
-            ? 'bg-[#080808]/96 backdrop-blur-2xl shadow-[0_1px_0_rgba(227,25,55,0.15),0_4px_32px_rgba(0,0,0,0.6)]'
-            : 'bg-transparent'
-        }`}
+        className="fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-[#050507]/80 backdrop-blur-xl border-b border-white/[0.06]"
         role="navigation"
         aria-label="Main navigation"
       >
-        {/* Premium top accent line */}
-        <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
+        {/* Live tracking badge pulse rail */}
+        <div className={`absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary/50 to-transparent transition-opacity duration-500 ${scrolled ? 'opacity-100' : 'opacity-40'}`} />
+
 
         <div className="max-w-7xl mx-auto px-6 lg:px-8 h-16 flex items-center justify-between">
           {/* Logo */}
