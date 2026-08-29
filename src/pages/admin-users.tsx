@@ -214,8 +214,49 @@ export default function AdminUsersPage() {
     });
     setBalanceNote('');
     setBalanceSaved(false);
+    setWalletMsg('');
+    setCurrentWallet(0);
+    setWalletInput('');
     setView('balance');
+    void loadWallet(user.profile.id);
   }
+
+  async function loadWallet(uid: string) {
+    const supabase = createClient();
+    const { data } = await supabase
+      .from('user_balance')
+      .select('available_balance')
+      .eq('user_id', uid)
+      .maybeSingle();
+    const bal = Number(data?.available_balance ?? 0);
+    setCurrentWallet(bal);
+    setWalletInput(String(bal));
+  }
+
+  async function saveWalletBalance() {
+    if (!selectedUser) return;
+    const next = Number(walletInput);
+    if (!Number.isFinite(next) || next < 0) { setWalletMsg('Enter a valid balance'); return; }
+    setWalletSaving(true);
+    setWalletMsg('');
+    try {
+      const supabase = createClient();
+      const { data, error: rpcError } = await supabase.rpc('admin_set_wallet_balance', {
+        _user_id: selectedUser.profile.id,
+        _available: next,
+        _note: balanceNote || null,
+      });
+      if (rpcError) throw rpcError;
+      const res = data as { ok: boolean; error?: string; delta?: number } | null;
+      if (!res?.ok) throw new Error(res?.error ?? 'Update failed');
+      setCurrentWallet(next);
+      setWalletMsg(`Wallet updated (${Number(res.delta ?? 0) >= 0 ? '+' : ''}${Number(res.delta ?? 0).toFixed(2)})`);
+    } catch (err) {
+      setWalletMsg(err instanceof Error ? err.message : 'Failed to update wallet');
+    }
+    setWalletSaving(false);
+  }
+
 
   async function saveBalanceAdjustment() {
     if (!selectedUser) return;
