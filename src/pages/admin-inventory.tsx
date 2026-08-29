@@ -184,7 +184,7 @@ export default function AdminInventoryPage() {
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-wrap items-end justify-between gap-4 mb-8">
           <div>
-            <Link to="/admin" className="text-xs text-[#666666] hover:text-primary transition-colors">
+            <Link href="/admin" className="text-xs text-[#666666] hover:text-primary transition-colors">
               ← Admin overview
             </Link>
             <h1 className="text-3xl font-extrabold tracking-tighter mt-2">Inventory Editor</h1>
