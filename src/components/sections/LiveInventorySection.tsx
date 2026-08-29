@@ -15,272 +15,89 @@ interface InventoryItem {
   tag?: string;
 }
 
+const U = (id: string) =>
+  `https://images.unsplash.com/${id}?auto=format&fit=crop&w=640&q=65`;
+
+const IMG = {
+  cybertruck: U('photo-1715135755172-4605bd091ba2'),
+  modelS: U('photo-1560958089-b8a1929cea89'),
+  modelSAlt: U('photo-1554744512-d6c603f27c54'),
+  model3: U('photo-1591628360686-06bc9367d09a'),
+  model3Alt: U('photo-1655792290994-93437dc0482c'),
+  modelX: U('photo-1650938777875-a375b33cd705'),
+  modelY: U('photo-1617788138017-80ad40651399'),
+  modelYAlt: U('photo-1536700503339-1e4b06520771'),
+  semi: U('photo-1601584115197-04ecc0da31d7'),
+  cybercab: U('photo-1699016083291-6fdf857e82a8'),
+  powerwall: U('photo-1706699778556-a9f9da002139'),
+  megapack: U('photo-1620714223084-8fcacc6dfd8d'),
+  gridStorage: U('photo-1548337138-e87d889cc369'),
+  charger: U('photo-1593941707882-a5bba14938c7'),
+  supercharger: U('photo-1633158829585-23ba8f7c8caf'),
+  cleanGrid: U('photo-1497435334941-8c899ee9e8e9'),
+  solarRoof: U('photo-1509391366360-2e959784a276'),
+  solarPanels: U('photo-1613665813446-82a78c468a1d'),
+  solarFarm: U('photo-1508514177221-188b1cf16e9d'),
+  optimus: U('photo-1485827404703-89b55fcc595e'),
+  optimusAlt: U('photo-1531746790731-6c087fecd65a'),
+  roboArm: U('photo-1563207153-f403bf289096'),
+  aiCompute: U('photo-1620712943543-bcc4688e7485')
+};
+
 const inventory: InventoryItem[] = [
 // ── Vehicles ──────────────────────────────────────────────────────────────
-{
-  id: 1,
-  name: '2025 Tesla Cybertruck AWD',
-  price: '$79,990',
-  badge: 'NEW',
-  badgeType: 'new',
-  category: 'Vehicles',
-  image: "https://images.unsplash.com/photo-1715135755172-4605bd091ba2",
-  alt: 'Tesla Cybertruck AWD stainless steel angular body parked on open road at dusk, dramatic sky'
-},
-{
-  id: 2,
-  name: '2025 Cybertruck Cyberbeast',
-  price: '$99,990',
-  badge: 'NEW',
-  badgeType: 'new',
-  category: 'Vehicles',
-  image: "https://images.unsplash.com/photo-1715135755172-4605bd091ba2",
-  alt: 'Tesla Cybertruck Cyberbeast tri-motor edition on desert terrain, stainless steel finish, golden hour lighting'
-},
-{
-  id: 3,
-  name: '2025 Model S Plaid',
-  price: '$89,990',
-  badge: 'NEW',
-  badgeType: 'new',
-  category: 'Vehicles',
-  image: "https://img.rocket.new/generatedImages/rocket_gen_img_129321397-1772068784483.png",
-  alt: 'Tesla Model S Plaid in midnight silver metallic, sleek aerodynamic sedan on dark studio background'
-},
-{
-  id: 4,
-  name: 'CPO Model S Long Range',
-  price: '$69,990',
-  badge: 'CPO',
-  badgeType: 'cpo',
-  category: 'Vehicles',
-  image: "https://img.rocket.new/generatedImages/rocket_gen_img_1997eb805-1767414403178.png",
-  alt: 'Certified pre-owned Tesla Model S Long Range in pearl white, luxury electric sedan side profile on clean background'
-},
-{
-  id: 5,
-  name: '2025 Model 3 Highland Performance',
-  price: '$54,990',
-  badge: 'NEW',
-  badgeType: 'new',
-  category: 'Vehicles',
-  image: "https://images.unsplash.com/photo-1591628360686-06bc9367d09a",
-  alt: 'Tesla Model 3 Highland Performance in ultra red, sporty compact sedan on dynamic outdoor setting'
-},
-{
-  id: 6,
-  name: '2025 Model 3 Highland Long Range AWD',
-  price: '$47,990',
-  badge: 'NEW',
-  badgeType: 'new',
-  category: 'Vehicles',
-  image: "https://img.rocket.new/generatedImages/rocket_gen_img_100135f9a-1772068664677.png",
-  alt: 'Tesla Model 3 Highland Long Range AWD in stealth grey, refreshed front fascia, clean studio lighting'
-},
-{
-  id: 7,
-  name: '2025 Model 3 Highland RWD',
-  price: '$38,990',
-  badge: 'NEW',
-  badgeType: 'new',
-  category: 'Vehicles',
-  image: "https://images.unsplash.com/photo-1655792290994-93437dc0482c",
-  alt: 'Tesla Model 3 Highland RWD in solid black, compact electric sedan in urban environment'
-},
-{
-  id: 8,
-  name: '2025 Model X Plaid',
-  price: '$94,990',
-  badge: 'NEW',
-  badgeType: 'new',
-  category: 'Vehicles',
-  image: "https://images.unsplash.com/photo-1650938777875-a375b33cd705",
-  alt: 'Tesla Model X Plaid SUV with falcon wing doors open, obsidian black, dramatic studio environment'
-},
-{
-  id: 9,
-  name: 'CPO Model X Long Range',
-  price: '$79,990',
-  badge: 'CPO',
-  badgeType: 'cpo',
-  category: 'Vehicles',
-  image: "https://img.rocket.new/generatedImages/rocket_gen_img_1685a1a55-1770334382943.png",
-  alt: 'Certified pre-owned Tesla Model X Long Range in silver metallic, full-size electric SUV on clean background'
-},
-{
-  id: 10,
-  name: '2025 Model Y Juniper Performance',
-  price: '$59,990',
-  badge: 'NEW',
-  badgeType: 'new',
-  category: 'Vehicles',
-  image: "https://img.rocket.new/generatedImages/rocket_gen_img_1eff0c21f-1786700170571.png",
-  alt: 'Tesla Model Y Juniper Performance in quicksilver, refreshed front design, dynamic outdoor setting'
-},
-{
-  id: 11,
-  name: '2025 Model Y Juniper Long Range AWD',
-  price: '$52,990',
-  badge: 'NEW',
-  badgeType: 'new',
-  category: 'Vehicles',
-  image: "https://img.rocket.new/generatedImages/rocket_gen_img_1e9e9d3a5-1772067208650.png",
-  alt: 'Tesla Model Y Juniper Long Range AWD in pearl white, compact SUV with updated headlights, bright studio lighting'
-},
-{
-  id: 12,
-  name: '2025 Model Y Juniper RWD',
-  price: '$44,990',
-  badge: 'NEW',
-  badgeType: 'new',
-  category: 'Vehicles',
-  image: "https://img.rocket.new/generatedImages/rocket_gen_img_1e9e9d3a5-1772067208650.png",
-  alt: 'Tesla Model Y Juniper RWD in midnight cherry red, practical electric crossover side view in urban setting'
-},
-{
-  id: 13,
-  name: 'Tesla Semi – 500 Mile Range',
-  price: '$150,000',
-  badge: 'NEW',
-  badgeType: 'new',
-  category: 'Vehicles',
-  image: "https://img.rocket.new/generatedImages/rocket_gen_img_194c94a32-1782930928777.png",
-  alt: 'Tesla Semi electric truck on highway, futuristic aerodynamic cab design, long-haul electric freight'
-},
-{
-  id: 14,
-  name: 'CPO Model 3 2024',
-  price: '$32,990',
-  badge: 'CPO',
-  badgeType: 'cpo',
-  category: 'Vehicles',
-  image: "https://img.rocket.new/generatedImages/rocket_gen_img_19d277a2a-1786700170011.png",
-  alt: 'Certified pre-owned Tesla Model 3 2024 Highland in clean white setting, compact sedan front three-quarter view'
-},
-{
-  id: 15,
-  name: 'Tesla Cybercab – Reservation',
-  price: '$30,000',
-  badge: 'NEW',
-  badgeType: 'new',
-  category: 'Vehicles',
-  image: "https://images.unsplash.com/photo-1699016083291-6fdf857e82a8",
-  alt: 'Tesla Cybercab autonomous robotaxi concept, sleek two-door design, futuristic electric vehicle'
-},
+{ id: 1, name: '2025 Tesla Cybertruck AWD', price: '$79,990', badge: 'NEW', badgeType: 'new', category: 'Vehicles', image: IMG.cybertruck, alt: 'Tesla Cybertruck AWD stainless steel pickup parked on open road at dusk' },
+{ id: 2, name: '2025 Cybertruck Cyberbeast', price: '$99,990', badge: 'NEW', badgeType: 'new', category: 'Vehicles', image: IMG.cybertruck, alt: 'Tesla Cybertruck Cyberbeast tri-motor edition on desert terrain' },
+{ id: 3, name: '2025 Model S Plaid', price: '$89,990', badge: 'NEW', badgeType: 'new', category: 'Vehicles', image: IMG.modelS, alt: 'Tesla Model S Plaid electric sedan, sleek aerodynamic profile' },
+{ id: 4, name: '2025 Model S Long Range', price: '$74,990', badge: 'NEW', badgeType: 'new', category: 'Vehicles', image: IMG.modelSAlt, alt: 'Tesla Model S Long Range luxury electric sedan side profile' },
+{ id: 5, name: 'CPO Model S Long Range', price: '$69,990', badge: 'CPO', badgeType: 'cpo', category: 'Vehicles', image: IMG.modelSAlt, alt: 'Certified pre-owned Tesla Model S Long Range electric sedan' },
+{ id: 6, name: '2025 Model 3 Highland Performance', price: '$54,990', badge: 'NEW', badgeType: 'new', category: 'Vehicles', image: IMG.model3, alt: 'Tesla Model 3 Highland Performance compact sport sedan' },
+{ id: 7, name: '2025 Model 3 Highland Long Range AWD', price: '$47,990', badge: 'NEW', badgeType: 'new', category: 'Vehicles', image: IMG.model3Alt, alt: 'Tesla Model 3 Highland Long Range all-wheel-drive sedan' },
+{ id: 8, name: '2025 Model 3 Highland RWD', price: '$38,990', badge: 'NEW', badgeType: 'new', category: 'Vehicles', image: IMG.model3Alt, alt: 'Tesla Model 3 Highland rear-wheel-drive sedan in urban setting' },
+{ id: 9, name: 'CPO Model 3 2024', price: '$32,990', badge: 'CPO', badgeType: 'cpo', category: 'Vehicles', image: IMG.model3, alt: 'Certified pre-owned 2024 Tesla Model 3 compact electric sedan' },
+{ id: 10, name: '2025 Model X Plaid', price: '$94,990', badge: 'NEW', badgeType: 'new', category: 'Vehicles', image: IMG.modelX, alt: 'Tesla Model X Plaid SUV with falcon wing doors' },
+{ id: 11, name: '2025 Model X Long Range', price: '$84,990', badge: 'NEW', badgeType: 'new', category: 'Vehicles', image: IMG.modelX, alt: 'Tesla Model X Long Range full-size electric SUV' },
+{ id: 12, name: 'CPO Model X Long Range', price: '$79,990', badge: 'CPO', badgeType: 'cpo', category: 'Vehicles', image: IMG.modelX, alt: 'Certified pre-owned Tesla Model X Long Range electric SUV' },
+{ id: 13, name: '2025 Model Y Juniper Performance', price: '$59,990', badge: 'NEW', badgeType: 'new', category: 'Vehicles', image: IMG.modelY, alt: 'Tesla Model Y Juniper Performance electric crossover' },
+{ id: 14, name: '2025 Model Y Juniper Long Range AWD', price: '$52,990', badge: 'NEW', badgeType: 'new', category: 'Vehicles', image: IMG.modelYAlt, alt: 'Tesla Model Y Juniper Long Range AWD compact SUV' },
+{ id: 15, name: '2025 Model Y Juniper RWD', price: '$44,990', badge: 'NEW', badgeType: 'new', category: 'Vehicles', image: IMG.modelYAlt, alt: 'Tesla Model Y Juniper RWD electric crossover' },
+{ id: 16, name: 'CPO Model Y 2024', price: '$36,990', badge: 'CPO', badgeType: 'cpo', category: 'Vehicles', image: IMG.modelY, alt: 'Certified pre-owned 2024 Tesla Model Y crossover' },
+{ id: 17, name: 'Tesla Semi – 500 Mile Range', price: '$150,000', badge: 'NEW', badgeType: 'new', category: 'Vehicles', image: IMG.semi, alt: 'Tesla Semi electric long-haul truck on highway' },
+{ id: 18, name: 'Tesla Semi – 300 Mile Range', price: '$120,000', badge: 'NEW', badgeType: 'new', category: 'Vehicles', image: IMG.semi, alt: 'Tesla Semi 300 mile regional electric freight truck' },
+{ id: 19, name: 'Tesla Cybercab – Reservation', price: '$30,000', badge: 'NEW', badgeType: 'new', category: 'Vehicles', image: IMG.cybercab, alt: 'Tesla Cybercab autonomous robotaxi two-door concept vehicle' },
+{ id: 20, name: 'Roadster Gen 2 – Founders Slot', price: '$250,000', badge: 'NEW', badgeType: 'new', category: 'Vehicles', image: IMG.modelS, alt: 'Next generation Tesla Roadster electric hypercar' },
 
 // ── Energy ────────────────────────────────────────────────────────────────
-{
-  id: 16,
-  name: 'Powerwall 3 – 13.5 kWh',
-  price: '$11,500',
-  badge: 'ENERGY',
-  badgeType: 'energy',
-  category: 'Energy',
-  image: "https://images.unsplash.com/photo-1706699778556-a9f9da002139",
-  alt: 'Tesla Powerwall 3 home battery unit mounted on white exterior wall, clean modern residential installation'
-},
-{
-  id: 17,
-  name: 'Powerwall 3 – Two-Unit System',
-  price: '$21,500',
-  badge: 'ENERGY',
-  badgeType: 'energy',
-  category: 'Energy',
-  image: "https://images.unsplash.com/photo-1706699778556-a9f9da002139",
-  alt: 'Two Tesla Powerwall 3 units installed side by side on exterior wall, complete home energy storage setup'
-},
-{
-  id: 18,
-  name: 'Tesla Solar Roof V3 – 10 kW',
-  price: '$35,000',
-  badge: 'SOLAR',
-  badgeType: 'solar',
-  category: 'Solar',
-  image: "https://img.rocket.new/generatedImages/rocket_gen_img_1f81c1cd3-1786700170777.png",
-  alt: 'Tesla Solar Roof V3 tiles integrated seamlessly into modern home rooftop, bright sunlight, clean energy installation'
-},
-{
-  id: 19,
-  name: 'Tesla Solar Panels – 8.16 kW',
-  price: '$22,000',
-  badge: 'SOLAR',
-  badgeType: 'solar',
-  category: 'Solar',
-  image: "https://img.rocket.new/generatedImages/rocket_gen_img_1fd4f5900-1775946061202.png",
-  alt: 'Tesla Solar Panels array on modern home roof, blue sky background, residential clean energy setup'
-},
-{
-  id: 20,
-  name: 'Tesla Solar Panels – 12.24 kW',
-  price: '$30,000',
-  badge: 'SOLAR',
-  badgeType: 'solar',
-  category: 'Solar',
-  image: "https://img.rocket.new/generatedImages/rocket_gen_img_14d68ed9c-1784572897425.png",
-  alt: 'Large Tesla Solar Panel installation on commercial building rooftop, expansive solar array, bright sunny environment'
-},
-{
-  id: 21,
-  name: 'Powerwall 3 + Solar Bundle',
-  price: '$44,500',
-  badge: 'ENERGY',
-  badgeType: 'energy',
-  category: 'Energy',
-  image: "https://img.rocket.new/generatedImages/rocket_gen_img_1e4e26e3c-1769245733716.png",
-  alt: 'Tesla Powerwall 3 and Solar Panel bundle installation on modern home, complete home energy system'
-},
-{
-  id: 22,
-  name: 'Tesla Megapack – Commercial',
-  price: '$1,200,000',
-  badge: 'ENERGY',
-  badgeType: 'energy',
-  category: 'Energy',
-  image: "https://img.rocket.new/generatedImages/rocket_gen_img_1fd25a658-1786700170664.png",
-  alt: 'Tesla Megapack large-scale commercial battery energy storage system, industrial installation, utility-scale power'
-},
+{ id: 21, name: 'Powerwall 3 – 13.5 kWh', price: '$11,500', badge: 'ENERGY', badgeType: 'energy', category: 'Energy', image: IMG.powerwall, alt: 'Tesla Powerwall 3 home battery mounted on exterior wall' },
+{ id: 22, name: 'Powerwall 3 – Two-Unit System', price: '$21,500', badge: 'ENERGY', badgeType: 'energy', category: 'Energy', image: IMG.powerwall, alt: 'Two Tesla Powerwall 3 home batteries installed side by side' },
+{ id: 23, name: 'Powerwall 3 – Four-Unit Estate System', price: '$41,000', badge: 'ENERGY', badgeType: 'energy', category: 'Energy', image: IMG.gridStorage, alt: 'Multi-unit Tesla Powerwall estate energy storage installation' },
+{ id: 24, name: 'Backup Gateway 2 + Whole-Home Kit', price: '$3,200', badge: 'ENERGY', badgeType: 'energy', category: 'Energy', image: IMG.cleanGrid, alt: 'Tesla Backup Gateway whole-home energy management hardware' },
+{ id: 25, name: 'Megapack 2 XL – 3.9 MWh', price: '$1,200,000', badge: 'ENERGY', badgeType: 'energy', category: 'Energy', image: IMG.megapack, alt: 'Tesla Megapack utility-scale battery storage unit' },
+{ id: 26, name: 'Megapack Array – 20 MWh Utility', price: '$6,400,000', badge: 'ENERGY', badgeType: 'energy', category: 'Energy', image: IMG.gridStorage, alt: 'Large Tesla Megapack array at a utility-scale storage site' },
+{ id: 27, name: 'Powerpack Commercial – 232 kWh', price: '$185,000', badge: 'ENERGY', badgeType: 'energy', category: 'Energy', image: IMG.megapack, alt: 'Tesla Powerpack commercial battery storage cabinets' },
+{ id: 28, name: 'Wall Connector Gen 3 – 48A', price: '$475', badge: 'ENERGY', badgeType: 'energy', category: 'Energy', image: IMG.charger, alt: 'Tesla Wall Connector home EV charger mounted in garage' },
+{ id: 29, name: 'Supercharger V4 Cabinet – Host Package', price: '$95,000', badge: 'ENERGY', badgeType: 'energy', category: 'Energy', image: IMG.supercharger, alt: 'Tesla Supercharger V4 charging station cabinet and stalls' },
+{ id: 30, name: 'Virtual Power Plant – Grid Allocation', price: '$60,000', badge: 'ENERGY', badgeType: 'energy', category: 'Energy', image: IMG.cleanGrid, alt: 'Clean energy grid infrastructure for virtual power plant program' },
+
+// ── Solar ─────────────────────────────────────────────────────────────────
+{ id: 31, name: 'Tesla Solar Roof V3 – 10 kW', price: '$35,000', badge: 'SOLAR', badgeType: 'solar', category: 'Solar', image: IMG.solarRoof, alt: 'Tesla Solar Roof tiles integrated into a modern home rooftop' },
+{ id: 32, name: 'Tesla Solar Roof V3 – 16 kW', price: '$52,000', badge: 'SOLAR', badgeType: 'solar', category: 'Solar', image: IMG.solarRoof, alt: 'Large Tesla Solar Roof tile installation on residential home' },
+{ id: 33, name: 'Tesla Solar Panels – 4.80 kW', price: '$13,500', badge: 'SOLAR', badgeType: 'solar', category: 'Solar', image: IMG.solarPanels, alt: 'Small Tesla solar panel array on a residential roof' },
+{ id: 34, name: 'Tesla Solar Panels – 8.16 kW', price: '$22,000', badge: 'SOLAR', badgeType: 'solar', category: 'Solar', image: IMG.solarPanels, alt: 'Tesla solar panel array on modern home roof under blue sky' },
+{ id: 35, name: 'Tesla Solar Panels – 12.24 kW', price: '$30,000', badge: 'SOLAR', badgeType: 'solar', category: 'Solar', image: IMG.solarFarm, alt: 'Large Tesla solar panel installation on building rooftop' },
+{ id: 36, name: 'Solar + Powerwall 3 Bundle', price: '$44,500', badge: 'SOLAR', badgeType: 'solar', category: 'Solar', image: IMG.solarPanels, alt: 'Tesla solar panels paired with Powerwall home battery system' },
+{ id: 37, name: 'Commercial Solar Array – 100 kW', price: '$180,000', badge: 'SOLAR', badgeType: 'solar', category: 'Solar', image: IMG.solarFarm, alt: 'Commercial scale solar array field generating clean power' },
+{ id: 38, name: 'Solar Farm Participation – 1 MW Block', price: '$900,000', badge: 'SOLAR', badgeType: 'solar', category: 'Solar', image: IMG.solarFarm, alt: 'Utility scale solar farm with rows of photovoltaic panels' },
 
 // ── Robotics ──────────────────────────────────────────────────────────────
-{
-  id: 23,
-  name: 'Optimus Gen 2 – Production Allocation',
-  price: '$25,000',
-  badge: 'ROBOTICS',
-  badgeType: 'robotics',
-  category: 'Robotics',
-  image: "https://img.rocket.new/generatedImages/rocket_gen_img_10b24ecee-1769873083751.png",
-  alt: 'Tesla Optimus Gen 2 humanoid robot standing in modern facility, white and grey design, advanced AI robotics'
-},
-{
-  id: 24,
-  name: 'Optimus Gen 2 – Industrial Pack',
-  price: '$45,000',
-  badge: 'ROBOTICS',
-  badgeType: 'robotics',
-  category: 'Robotics',
-  image: "https://img.rocket.new/generatedImages/rocket_gen_img_10c3131db-1786700170653.png",
-  alt: 'Tesla Optimus Gen 2 industrial configuration performing factory task, precision robotic manipulation in manufacturing environment'
-},
-{
-  id: 25,
-  name: 'Optimus End-Effector Toolkit',
-  price: '$8,500',
-  badge: 'ROBOTICS',
-  badgeType: 'robotics',
-  category: 'Robotics',
-  image: "https://img.rocket.new/generatedImages/rocket_gen_img_1f9347a15-1775873403838.png",
-  alt: 'Robotic hand and arm end-effector components on dark surface, precision engineering parts for Optimus robot'
-},
-{
-  id: 26,
-  name: 'Autonomous Factory Robot Package',
-  price: '$150,000',
-  badge: 'ROBOTICS',
-  badgeType: 'robotics',
-  category: 'Robotics',
-  image: "https://img.rocket.new/generatedImages/rocket_gen_img_1d5db8362-1779019347119.png",
-  alt: 'Industrial robotic arm in Tesla Gigafactory setting, automated manufacturing environment, dark industrial atmosphere'
-}];
+{ id: 39, name: 'Optimus Gen 2 – Production Allocation', price: '$25,000', badge: 'ROBOTICS', badgeType: 'robotics', category: 'Robotics', image: IMG.optimus, alt: 'Tesla Optimus Gen 2 humanoid robot standing in modern facility' },
+{ id: 40, name: 'Optimus Gen 2 – Industrial Pack', price: '$45,000', badge: 'ROBOTICS', badgeType: 'robotics', category: 'Robotics', image: IMG.optimusAlt, alt: 'Humanoid robot in industrial configuration performing a factory task' },
+{ id: 41, name: 'Optimus Fleet – 10 Unit Deployment', price: '$420,000', badge: 'ROBOTICS', badgeType: 'robotics', category: 'Robotics', image: IMG.optimusAlt, alt: 'Fleet of humanoid robots deployed in a manufacturing facility' },
+{ id: 42, name: 'Optimus End-Effector Toolkit', price: '$8,500', badge: 'ROBOTICS', badgeType: 'robotics', category: 'Robotics', image: IMG.roboArm, alt: 'Precision robotic hand and end-effector engineering components' },
+{ id: 43, name: 'Autonomous Factory Robot Package', price: '$150,000', badge: 'ROBOTICS', badgeType: 'robotics', category: 'Robotics', image: IMG.roboArm, alt: 'Industrial robotic arm in an automated Gigafactory line' },
+{ id: 44, name: 'Dojo AI Training Compute – Allocation', price: '$300,000', badge: 'ROBOTICS', badgeType: 'robotics', category: 'Robotics', image: IMG.aiCompute, alt: 'AI supercomputer training cluster hardware racks' },
+{ id: 45, name: 'FSD Inference Module – Fleet Bundle', price: '$65,000', badge: 'ROBOTICS', badgeType: 'robotics', category: 'Robotics', image: IMG.aiCompute, alt: 'Autonomous driving inference compute modules for vehicle fleets' }];
+
 
 
 const PAGE_SIZE = 4;
