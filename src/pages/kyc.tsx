@@ -43,6 +43,7 @@ function FileUploadZone({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selected = e.target.files?.[0];
     if (!selected) return;
+    if (file?.preview) URL.revokeObjectURL(file.preview);
     const preview = selected.type.startsWith('image/')
       ? URL.createObjectURL(selected)
       : '';
@@ -284,7 +285,7 @@ export default function KYCPage() {
   return (
     <main className="min-h-screen bg-[#050507] text-white px-4 py-16 relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-primary/4 rounded-full blur-[120px]" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-primary/5 rounded-full blur-[120px]" />
       </div>
 
       <div className="relative z-10 max-w-xl mx-auto">
