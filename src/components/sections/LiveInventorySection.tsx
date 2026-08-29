@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AppImage from '@/components/ui/AppImage';
 import modelYImg from '@/assets/inventory/model_y.jpg';
 import megapackImg from '@/assets/inventory/megapack.jpg';
@@ -8,7 +8,7 @@ import cybercabImg from '@/assets/inventory/cybercab.jpg';
 type Category = 'All' | 'Vehicles' | 'Energy' | 'Solar' | 'Robotics';
 
 interface InventoryItem {
-  id: number;
+  id: number | string;
   name: string;
   price: string;
   badge: string;
@@ -120,33 +120,66 @@ const badgeClasses: Record<string, string> = {
 };
 
 export default function LiveInventorySection() {
+  // Static catalog paints instantly; the DB-managed catalog (editable from the
+  // admin inventory editor) replaces it as soon as it arrives.
+  const [items, setItems] = useState<InventoryItem[]>(inventory);
   const [active, setActive] = useState<Category>('All');
   const [visible, setVisible] = useState(PAGE_SIZE);
   const [inquiry, setInquiry] = useState<InventoryItem | null>(null);
 
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const { supabase } = await import('@/lib/supabase/client');
+        const { data } = await supabase
+          .from('inventory_items')
+          .select('id,name,price,badge,badge_type,category,image_url,alt')
+          .eq('is_active', true)
+          .order('sort_order', { ascending: true });
+        if (cancelled || !data || data.length === 0) return;
+        setItems(
+          data.map((r: Record<string, string>) => ({
+            id: r.id,
+            name: r.name,
+            price: r.price,
+            badge: r.badge,
+            badgeType: r.badge_type as InventoryItem['badgeType'],
+            category: r.category as Exclude<Category, 'All'>,
+            image: r.image_url,
+            alt: r.alt,
+          })),
+        );
+      } catch {
+        /* keep the static catalog */
+      }
+    })();
+    return () => { cancelled = true; };
+  }, []);
+
   // "All" interleaves the categories so Energy, Solar and Robotics are visible
   // on the first screen instead of being buried behind 15 vehicles.
   const filtered = React.useMemo(() => {
-    if (active !== 'All') return inventory.filter((i) => i.category === active);
-    const buckets = ORDER.map((c) => inventory.filter((i) => i.category === c));
+    if (active !== 'All') return items.filter((i) => i.category === active);
+    const buckets = ORDER.map((c) => items.filter((i) => i.category === c));
     const out: InventoryItem[] = [];
-    for (let row = 0; out.length < inventory.length; row++) {
+    for (let row = 0; out.length < items.length; row++) {
       for (const bucket of buckets) {
         const item = bucket[row];
         if (item) out.push(item);
       }
     }
     return out;
-  }, [active]);
+  }, [active, items]);
 
   const displayed = filtered.slice(0, visible);
   const remaining = filtered.length - displayed.length;
 
   const counts = React.useMemo(() => {
-    const map: Record<string, number> = { All: inventory.length };
-    for (const c of ORDER) map[c] = inventory.filter((i) => i.category === c).length;
+    const map: Record<string, number> = { All: items.length };
+    for (const c of ORDER) map[c] = items.filter((i) => i.category === c).length;
     return map;
-  }, []);
+  }, [items]);
 
   return (
     <section id="inventory" className="relative z-10 py-20 px-4 sm:px-6 lg:px-8">
