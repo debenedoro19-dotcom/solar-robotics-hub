@@ -63,7 +63,7 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer className="relative z-10 border-t border-[#1A1A1A] py-14 px-6 lg:px-8" style={{ background: 'linear-gradient(to bottom, #0A0A0A, #060606)' }}>
+    <footer className="relative z-10 border-t border-[#12131A] py-14 px-6 lg:px-8" style={{ background: 'linear-gradient(to bottom, #050507, #060606)' }}>
       {/* Top accent */}
       <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
       <div className="max-w-7xl mx-auto">
@@ -85,11 +85,11 @@ export default function Footer() {
           <div className="flex flex-wrap gap-x-6 gap-y-2">
             {footerLinks?.map((link) => (
               link?.href?.startsWith('/') ? (
-                <Link key={link?.label} href={link?.href} className="text-xs font-medium text-[#555555] hover:text-white transition-colors tracking-wider uppercase">
+                <Link key={link?.label} href={link?.href} className="text-xs font-medium text-[#6B7280] hover:text-white transition-colors tracking-wider uppercase">
                   {link?.label}
                 </Link>
               ) : (
-                <a key={link?.label} href={link?.href} className="text-xs font-medium text-[#555555] hover:text-white transition-colors tracking-wider uppercase">
+                <a key={link?.label} href={link?.href} className="text-xs font-medium text-[#6B7280] hover:text-white transition-colors tracking-wider uppercase">
                   {link?.label}
                 </a>
               )
@@ -101,7 +101,7 @@ export default function Footer() {
 
         <div className="flex flex-col sm:flex-row items-center justify-between gap-5">
           {/* Copyright */}
-          <p className="text-xs text-[#444444] tracking-wide">
+          <p className="text-xs text-[#52525B] tracking-wide">
             © 2026 Trade Tesla. All Rights Reserved.
           </p>
 
@@ -112,7 +112,7 @@ export default function Footer() {
                 key={social?.label}
                 aria-label={social?.label}
                 role="img"
-                className="w-8 h-8 flex items-center justify-center rounded border border-[#222222] text-[#555555] hover:text-white hover:border-primary/40 hover:bg-primary/8 transition-all duration-300 cursor-default select-none"
+                className="w-8 h-8 flex items-center justify-center rounded border border-[#222222] text-[#6B7280] hover:text-white hover:border-primary/40 hover:bg-primary/8 transition-all duration-300 cursor-default select-none"
               >
                 {social?.icon}
               </span>

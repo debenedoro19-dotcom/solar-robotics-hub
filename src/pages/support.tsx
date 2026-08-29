@@ -23,10 +23,10 @@ interface SupportTicket {
 }
 
 const STATUS_CONFIG: Record<TicketStatus, { label: string; color: string; bg: string; border: string }> = {
-  open: { label: 'Open', color: '#facc15', bg: '#1a1500', border: '#3a3000' },
-  in_progress: { label: 'In Progress', color: '#60a5fa', bg: '#0a1525', border: '#1a3050' },
-  resolved: { label: 'Resolved', color: '#4ade80', bg: '#0a1a0a', border: '#1a4020' },
-  closed: { label: 'Closed', color: '#888888', bg: '#111111', border: '#2a2a2a' },
+  open: { label: 'Open', color: '#F59E0B', bg: '#1a1500', border: '#3a3000' },
+  in_progress: { label: 'In Progress', color: '#A1A1AA', bg: '#0a1525', border: '#1a3050' },
+  resolved: { label: 'Resolved', color: '#00F59B', bg: '#0a1a0a', border: '#1a4020' },
+  closed: { label: 'Closed', color: '#A1A1AA', bg: '#0D0E12', border: '#2a2a2a' },
 };
 
 const CATEGORY_LABELS: Record<TicketCategory, string> = {
@@ -198,7 +198,7 @@ export default function SupportPage() {
             {submitSuccess ? (
               <div className="glass-card rounded-2xl p-8 text-center border border-green-500/30">
                 <div className="w-16 h-16 rounded-full bg-green-500/10 border border-green-500/30 flex items-center justify-center mx-auto mb-4">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00F59B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
                 </div>
                 <h3 className="text-lg font-bold text-green-400 mb-2">Ticket Submitted!</h3>
                 <p className="text-muted-foreground text-sm">We've received your request and sent a confirmation to your email. Redirecting to your tickets…</p>

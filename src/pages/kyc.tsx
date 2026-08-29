@@ -51,14 +51,14 @@ function FileUploadZone({
 
   return (
     <div>
-      <label className="block text-xs font-semibold text-[#888888] uppercase tracking-widest mb-2">
+      <label className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">
         {label}
       </label>
       <div
         onClick={() => inputRef.current?.click()}
         className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors ${
           file
-            ? 'border-primary/50 bg-primary/5' :'border-[#2A2A2A] hover:border-primary/30'
+            ? 'border-primary/50 bg-primary/5' :'border-[#1E2027] hover:border-primary/30'
         }`}
       >
         {file ? (
@@ -71,20 +71,20 @@ function FileUploadZone({
               />
             ) : (
               <div className="w-12 h-12 rounded bg-primary/10 flex items-center justify-center">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E31937" strokeWidth="1.5" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E82127" strokeWidth="1.5" aria-hidden="true">
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
                   <polyline points="14 2 14 8 20 8" />
                 </svg>
               </div>
             )}
             <p className="text-xs font-semibold text-primary truncate max-w-[200px]">{file.name}</p>
-            <p className="text-[10px] text-[#555555]">Click to replace</p>
+            <p className="text-[10px] text-[#6B7280]">Click to replace</p>
           </div>
         ) : (
           <>
             <div className="text-2xl mb-2">📄</div>
-            <p className="text-sm font-semibold text-[#666666] mb-1">{hint}</p>
-            <p className="text-xs text-[#444444]">JPG, PNG or PDF · Max 10MB</p>
+            <p className="text-sm font-semibold text-[#71717A] mb-1">{hint}</p>
+            <p className="text-xs text-[#52525B]">JPG, PNG or PDF · Max 10MB</p>
           </>
         )}
       </div>
@@ -275,14 +275,14 @@ export default function KYCPage() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-[#0A0A0A] flex items-center justify-center">
+      <main className="min-h-screen bg-[#050507] flex items-center justify-center">
         <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen bg-[#0A0A0A] text-white px-4 py-16 relative overflow-hidden">
+    <main className="min-h-screen bg-[#050507] text-white px-4 py-16 relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-primary/4 rounded-full blur-[120px]" />
       </div>
@@ -297,7 +297,7 @@ export default function KYCPage() {
             <span className="text-white font-bold text-sm tracking-widest uppercase">Tesla Trade</span>
           </Link>
           <h1 className="text-2xl font-extrabold text-white tracking-tight mb-2">Identity Verification</h1>
-          <p className="text-sm text-[#666666]">Complete KYC to unlock full investment access</p>
+          <p className="text-sm text-[#71717A]">Complete KYC to unlock full investment access</p>
         </div>
 
         {/* Existing KYC status banner */}
@@ -316,10 +316,10 @@ export default function KYCPage() {
                 KYC {existingKyc.kyc_status === 'under_review' ? 'Under Review' : existingKyc.kyc_status?.charAt(0).toUpperCase() + existingKyc.kyc_status?.slice(1)}
               </p>
               {existingKyc.admin_notes && (
-                <p className="text-xs text-[#888888] mt-0.5">{existingKyc.admin_notes}</p>
+                <p className="text-xs text-[#A1A1AA] mt-0.5">{existingKyc.admin_notes}</p>
               )}
               {existingKyc.kyc_status === 'pending' || existingKyc.kyc_status === 'rejected' ? (
-                <p className="text-xs text-[#666666] mt-0.5">You can update and resubmit your information below.</p>
+                <p className="text-xs text-[#71717A] mt-0.5">You can update and resubmit your information below.</p>
               ) : null}
             </div>
           </div>
@@ -335,12 +335,12 @@ export default function KYCPage() {
                 }`}>
                   {step > s.num ? '✓' : s.num}
                 </div>
-                <span className={`text-[9px] font-semibold tracking-wider uppercase hidden sm:block ${step >= s.num ? 'text-white' : 'text-[#444444]'}`}>
+                <span className={`text-[9px] font-semibold tracking-wider uppercase hidden sm:block ${step >= s.num ? 'text-white' : 'text-[#52525B]'}`}>
                   {s.label}
                 </span>
               </div>
               {i < steps.length - 1 && (
-                <div className={`flex-1 h-px mx-2 transition-all ${step > s.num ? 'bg-primary' : 'bg-[#2A2A2A]'}`} />
+                <div className={`flex-1 h-px mx-2 transition-all ${step > s.num ? 'bg-primary' : 'bg-[#1E2027]'}`} />
               )}
             </React.Fragment>
           ))}
@@ -348,15 +348,15 @@ export default function KYCPage() {
 
         {/* Step 1: Personal Info */}
         {step === 1 && (
-          <div className="bg-[#111111] border border-[#1A1A1A] rounded-lg p-6 space-y-4">
+          <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-6 space-y-4">
             <h2 className="text-base font-bold text-white mb-4">Personal Information</h2>
             <div>
-              <label className="block text-xs font-semibold text-[#888888] uppercase tracking-widest mb-2">Date of Birth</label>
+              <label className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">Date of Birth</label>
               <input name="dob" type="date" value={form.dob} onChange={handleChange} className="w-full px-4 py-3 rounded text-sm input-tesla" />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-[#888888] uppercase tracking-widest mb-2">Country of Residence</label>
-              <select name="country" value={form.country} onChange={handleChange} className="w-full px-4 py-3 rounded text-sm input-tesla bg-[#111111]">
+              <label className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">Country of Residence</label>
+              <select name="country" value={form.country} onChange={handleChange} className="w-full px-4 py-3 rounded text-sm input-tesla bg-[#0D0E12]">
                 <option value="">Select country</option>
                 <option value="US">United States</option>
                 <option value="UK">United Kingdom</option>
@@ -371,16 +371,16 @@ export default function KYCPage() {
               </select>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-[#888888] uppercase tracking-widest mb-2">Street Address</label>
+              <label className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">Street Address</label>
               <input name="address" type="text" value={form.address} onChange={handleChange} placeholder="123 Main Street" className="w-full px-4 py-3 rounded text-sm input-tesla" />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-semibold text-[#888888] uppercase tracking-widest mb-2">City</label>
+                <label className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">City</label>
                 <input name="city" type="text" value={form.city} onChange={handleChange} placeholder="New York" className="w-full px-4 py-3 rounded text-sm input-tesla" />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-[#888888] uppercase tracking-widest mb-2">ZIP / Postal</label>
+                <label className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">ZIP / Postal</label>
                 <input name="zip" type="text" value={form.zip} onChange={handleChange} placeholder="10001" className="w-full px-4 py-3 rounded text-sm input-tesla" />
               </div>
             </div>
@@ -392,7 +392,7 @@ export default function KYCPage() {
               file={addressProofFile}
               onFileSelect={setAddressProofFile}
             />
-            <p className="text-[10px] text-[#444444]">Accepted: recent utility bill, bank statement, or government letter (within 3 months)</p>
+            <p className="text-[10px] text-[#52525B]">Accepted: recent utility bill, bank statement, or government letter (within 3 months)</p>
 
             <button
               onClick={() => setStep(2)}
@@ -406,10 +406,10 @@ export default function KYCPage() {
 
         {/* Step 2: Identity */}
         {step === 2 && (
-          <div className="bg-[#111111] border border-[#1A1A1A] rounded-lg p-6 space-y-4">
+          <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-6 space-y-4">
             <h2 className="text-base font-bold text-white mb-4">Government ID</h2>
             <div>
-              <label className="block text-xs font-semibold text-[#888888] uppercase tracking-widest mb-2">Document Type</label>
+              <label className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">Document Type</label>
               <div className="grid grid-cols-3 gap-3">
                 {(['passport', 'drivers_license', 'national_id'] as const).map((type) => (
                   <button
@@ -417,7 +417,7 @@ export default function KYCPage() {
                     type="button"
                     onClick={() => setForm((p) => ({ ...p, idType: type }))}
                     className={`py-3 px-2 rounded border text-xs font-semibold tracking-wider uppercase transition-all ${
-                      form.idType === type ? 'border-primary bg-primary/10 text-white' : 'border-[#2A2A2A] text-[#555555] hover:border-[#3A3A3A]'
+                      form.idType === type ? 'border-primary bg-primary/10 text-white' : 'border-[#1E2027] text-[#6B7280] hover:border-[#2A2D35]'
                     }`}
                   >
                     {type === 'passport' ? 'Passport' : type === 'drivers_license' ? "Driver's" : 'National ID'}
@@ -426,7 +426,7 @@ export default function KYCPage() {
               </div>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-[#888888] uppercase tracking-widest mb-2">Document Number</label>
+              <label className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">Document Number</label>
               <input name="idNumber" type="text" value={form.idNumber} onChange={handleChange} placeholder="e.g. A12345678" className="w-full px-4 py-3 rounded text-sm input-tesla" />
             </div>
 
@@ -444,9 +444,9 @@ export default function KYCPage() {
               onFileSelect={setIdBackFile}
             />
 
-            <div className="bg-[#0A0A0A] border border-[#1A1A1A] rounded p-3">
-              <p className="text-[10px] text-[#555555] leading-relaxed">
-                📋 <strong className="text-[#666666]">Requirements:</strong> Document must be valid (not expired), clearly legible, and show your full name and photo. All four corners must be visible.
+            <div className="bg-[#050507] border border-[#12131A] rounded p-3">
+              <p className="text-[10px] text-[#6B7280] leading-relaxed">
+                📋 <strong className="text-[#71717A]">Requirements:</strong> Document must be valid (not expired), clearly legible, and show your full name and photo. All four corners must be visible.
               </p>
             </div>
 
@@ -465,10 +465,10 @@ export default function KYCPage() {
 
         {/* Step 3: Income Verification */}
         {step === 3 && (
-          <div className="bg-[#111111] border border-[#1A1A1A] rounded-lg p-6 space-y-4">
+          <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-6 space-y-4">
             <h2 className="text-base font-bold text-white mb-4">Investor Profile & Income</h2>
             <div>
-              <label className="block text-xs font-semibold text-[#888888] uppercase tracking-widest mb-2">Investor Type</label>
+              <label className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">Investor Type</label>
               <div className="grid grid-cols-2 gap-3">
                 {['Retail Investor', 'Accredited Investor', 'Institutional', 'High Net Worth'].map((type) => (
                   <button
@@ -476,7 +476,7 @@ export default function KYCPage() {
                     type="button"
                     onClick={() => setForm((p) => ({ ...p, investorType: type }))}
                     className={`py-3 px-3 rounded border text-xs font-semibold tracking-wider transition-all text-left ${
-                      form.investorType === type ? 'border-primary bg-primary/10 text-white' : 'border-[#2A2A2A] text-[#555555] hover:border-[#3A3A3A]'
+                      form.investorType === type ? 'border-primary bg-primary/10 text-white' : 'border-[#1E2027] text-[#6B7280] hover:border-[#2A2D35]'
                     }`}
                   >
                     {type}
@@ -485,8 +485,8 @@ export default function KYCPage() {
               </div>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-[#888888] uppercase tracking-widest mb-2">Annual Income Range</label>
-              <select name="income" value={form.income} onChange={handleChange} className="w-full px-4 py-3 rounded text-sm input-tesla bg-[#111111]">
+              <label className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">Annual Income Range</label>
+              <select name="income" value={form.income} onChange={handleChange} className="w-full px-4 py-3 rounded text-sm input-tesla bg-[#0D0E12]">
                 <option value="">Select range</option>
                 <option value="under50k">Under $50,000</option>
                 <option value="50k-100k">$50,000 – $100,000</option>
@@ -496,8 +496,8 @@ export default function KYCPage() {
               </select>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-[#888888] uppercase tracking-widest mb-2">Investment Experience</label>
-              <select name="experience" value={form.experience} onChange={handleChange} className="w-full px-4 py-3 rounded text-sm input-tesla bg-[#111111]">
+              <label className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">Investment Experience</label>
+              <select name="experience" value={form.experience} onChange={handleChange} className="w-full px-4 py-3 rounded text-sm input-tesla bg-[#0D0E12]">
                 <option value="">Select experience level</option>
                 <option value="beginner">Beginner (0–2 years)</option>
                 <option value="intermediate">Intermediate (2–5 years)</option>
@@ -512,7 +512,7 @@ export default function KYCPage() {
               file={incomeDocFile}
               onFileSelect={setIncomeDocFile}
             />
-            <p className="text-[10px] text-[#444444]">Accepted: recent pay stub, bank statement (3 months), tax return, or employment letter</p>
+            <p className="text-[10px] text-[#52525B]">Accepted: recent pay stub, bank statement (3 months), tax return, or employment letter</p>
 
             <div className="flex gap-3">
               <button onClick={() => setStep(2)} className="flex-1 py-3.5 tesla-btn-outline rounded min-h-[48px]">← Back</button>
@@ -529,7 +529,7 @@ export default function KYCPage() {
 
         {/* Step 4: Review & Submit */}
         {step === 4 && (
-          <div className="bg-[#111111] border border-[#1A1A1A] rounded-lg p-6 space-y-4">
+          <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-6 space-y-4">
             <h2 className="text-base font-bold text-white mb-4">Review & Submit</h2>
 
             {/* Summary sections */}
@@ -540,9 +540,9 @@ export default function KYCPage() {
                 { label: 'Address', value: form.address ? `${form.address}, ${form.city} ${form.zip}` : '—' },
                 { label: 'Address Proof', value: addressProofFile ? `✓ ${addressProofFile.name}` : existingKyc?.address_proof_url ? '✓ Previously uploaded' : '— Not uploaded' },
               ].map((item) => (
-                <div key={item.label} className="flex justify-between py-2 border-b border-[#1A1A1A]">
-                  <span className="text-xs text-[#666666] uppercase tracking-wider">{item.label}</span>
-                  <span className={`text-xs font-semibold ${item.value.startsWith('✓') ? 'text-green-400' : item.value.startsWith('—') ? 'text-[#444444]' : 'text-white'}`}>{item.value}</span>
+                <div key={item.label} className="flex justify-between py-2 border-b border-[#12131A]">
+                  <span className="text-xs text-[#71717A] uppercase tracking-wider">{item.label}</span>
+                  <span className={`text-xs font-semibold ${item.value.startsWith('✓') ? 'text-green-400' : item.value.startsWith('—') ? 'text-[#52525B]' : 'text-white'}`}>{item.value}</span>
                 </div>
               ))}
             </div>
@@ -555,9 +555,9 @@ export default function KYCPage() {
                 { label: 'Front', value: idFrontFile ? `✓ ${idFrontFile.name}` : existingKyc?.id_document_url ? '✓ Previously uploaded' : '— Not uploaded' },
                 { label: 'Back', value: idBackFile ? `✓ ${idBackFile.name}` : existingKyc?.id_document_back_url ? '✓ Previously uploaded' : 'Not required' },
               ].map((item) => (
-                <div key={item.label} className="flex justify-between py-2 border-b border-[#1A1A1A]">
-                  <span className="text-xs text-[#666666] uppercase tracking-wider">{item.label}</span>
-                  <span className={`text-xs font-semibold ${item.value.startsWith('✓') ? 'text-green-400' : item.value.startsWith('—') ? 'text-[#444444]' : 'text-white'}`}>{item.value}</span>
+                <div key={item.label} className="flex justify-between py-2 border-b border-[#12131A]">
+                  <span className="text-xs text-[#71717A] uppercase tracking-wider">{item.label}</span>
+                  <span className={`text-xs font-semibold ${item.value.startsWith('✓') ? 'text-green-400' : item.value.startsWith('—') ? 'text-[#52525B]' : 'text-white'}`}>{item.value}</span>
                 </div>
               ))}
             </div>
@@ -570,9 +570,9 @@ export default function KYCPage() {
                 { label: 'Experience', value: form.experience || '—' },
                 { label: 'Income Doc', value: incomeDocFile ? `✓ ${incomeDocFile.name}` : existingKyc?.income_document_url ? '✓ Previously uploaded' : '— Not uploaded' },
               ].map((item) => (
-                <div key={item.label} className="flex justify-between py-2 border-b border-[#1A1A1A]">
-                  <span className="text-xs text-[#666666] uppercase tracking-wider">{item.label}</span>
-                  <span className={`text-xs font-semibold ${item.value.startsWith('✓') ? 'text-green-400' : item.value.startsWith('—') ? 'text-[#444444]' : 'text-white'}`}>{item.value}</span>
+                <div key={item.label} className="flex justify-between py-2 border-b border-[#12131A]">
+                  <span className="text-xs text-[#71717A] uppercase tracking-wider">{item.label}</span>
+                  <span className={`text-xs font-semibold ${item.value.startsWith('✓') ? 'text-green-400' : item.value.startsWith('—') ? 'text-[#52525B]' : 'text-white'}`}>{item.value}</span>
                 </div>
               ))}
             </div>
@@ -591,7 +591,7 @@ export default function KYCPage() {
                 onChange={handleChange}
                 className="mt-0.5 accent-primary"
               />
-              <span className="text-xs text-[#666666] leading-relaxed">
+              <span className="text-xs text-[#71717A] leading-relaxed">
                 I confirm that all information and documents provided are accurate and authentic. I agree to the{' '}
                 <a href="#" className="text-primary hover:underline">Terms of Service</a> and{' '}
                 <a href="#" className="text-primary hover:underline">KYC Policy</a>.

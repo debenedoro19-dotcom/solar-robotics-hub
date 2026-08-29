@@ -23,8 +23,8 @@ interface Booking {
 const STATUSES = ['pending', 'paid', 'confirmed', 'completed', 'cancelled'];
 
 const inputClass =
-  'w-full px-3 py-2.5 rounded-lg text-sm bg-[#0D0D0D] border border-[#1A1A1A] text-white placeholder-[#444444] focus:border-emerald-500/40 focus:outline-none transition-colors';
-const labelClass = 'block text-[10px] font-bold text-[#555555] uppercase tracking-widest mb-1.5';
+  'w-full px-3 py-2.5 rounded-lg text-sm bg-[#050507] border border-[#12131A] text-white placeholder-[#52525B] focus:border-emerald-500/40 focus:outline-none transition-colors';
+const labelClass = 'block text-[10px] font-bold text-[#6B7280] uppercase tracking-widest mb-1.5';
 
 const statusColor = (s: string) =>
   s === 'paid' || s === 'confirmed' || s === 'completed'
@@ -104,7 +104,7 @@ export default function AdminSessionsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#08090C] text-white">
+    <div className="min-h-screen bg-[#050507] text-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
         <div className="mb-8">
           <Link
@@ -114,7 +114,7 @@ export default function AdminSessionsPage() {
             ← Admin
           </Link>
           <h1 className="text-2xl font-extrabold tracking-tight mt-2">Session Bookings</h1>
-          <p className="text-sm text-[#8A8F98] mt-1">
+          <p className="text-sm text-[#A1A1AA] mt-1">
             Review, reschedule, update payment status and annotate every advisory session request.
           </p>
         </div>
@@ -133,7 +133,7 @@ export default function AdminSessionsPage() {
               className={`px-4 py-2 rounded-lg text-xs font-semibold capitalize transition-all ${
                 filter === s
                   ? 'bg-emerald-500 text-black'
-                  : 'bg-[#0D1117] border border-slate-800/80 text-[#8A8F98] hover:text-white'
+                  : 'bg-[#0D0E12] border border-slate-800/80 text-[#A1A1AA] hover:text-white'
               }`}
             >
               {s}
@@ -145,7 +145,7 @@ export default function AdminSessionsPage() {
         </div>
 
         {editing && (
-          <form onSubmit={save} className="mb-8 p-6 rounded-2xl bg-[#0D1117] border border-slate-800/80">
+          <form onSubmit={save} className="mb-8 p-6 rounded-2xl bg-[#0D0E12] border border-slate-800/80">
             <h2 className="text-sm font-bold mb-5">Edit booking — {editing.full_name}</h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               <div>
@@ -207,7 +207,7 @@ export default function AdminSessionsPage() {
               <button type="submit" disabled={saving} className="px-5 py-2.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-bold uppercase tracking-widest disabled:opacity-50">
                 {saving ? 'Saving…' : 'Save changes'}
               </button>
-              <button type="button" onClick={() => setEditing(null)} className="px-5 py-2.5 rounded-lg border border-slate-800/80 text-[#8A8F98] text-xs font-bold uppercase tracking-widest hover:text-white">
+              <button type="button" onClick={() => setEditing(null)} className="px-5 py-2.5 rounded-lg border border-slate-800/80 text-[#A1A1AA] text-xs font-bold uppercase tracking-widest hover:text-white">
                 Cancel
               </button>
             </div>
@@ -215,11 +215,11 @@ export default function AdminSessionsPage() {
         )}
 
         {loading ? (
-          <p className="text-sm text-[#8A8F98]">Loading bookings…</p>
+          <p className="text-sm text-[#A1A1AA]">Loading bookings…</p>
         ) : (
           <div className="space-y-3">
             {visible.map((b) => (
-              <div key={b.id} className="p-5 rounded-2xl bg-[#0D1117] border border-slate-800/80 flex flex-wrap gap-4 items-center justify-between">
+              <div key={b.id} className="p-5 rounded-2xl bg-[#0D0E12] border border-slate-800/80 flex flex-wrap gap-4 items-center justify-between">
                 <div className="min-w-[220px]">
                   <div className="flex items-center gap-2">
                     <p className="font-bold">{b.full_name}</p>
@@ -227,12 +227,12 @@ export default function AdminSessionsPage() {
                       {b.payment_status}
                     </span>
                   </div>
-                  <p className="text-xs text-[#8A8F98] mt-1">
+                  <p className="text-xs text-[#A1A1AA] mt-1">
                     {b.email} · {b.session_type}
                   </p>
                   {b.admin_notes && <p className="text-xs text-[#5c6470] mt-1">Note: {b.admin_notes}</p>}
                 </div>
-                <div className="text-xs text-[#8A8F98] grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-1">
+                <div className="text-xs text-[#A1A1AA] grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-1">
                   <span>
                     Date <b className="text-white">{b.preferred_date || '—'}</b>
                   </span>
@@ -247,7 +247,7 @@ export default function AdminSessionsPage() {
                   <select
                     value={b.payment_status}
                     onChange={(e) => setStatus(b, e.target.value)}
-                    className="px-2 py-1.5 rounded border border-slate-800/80 bg-[#0D0D0D] text-xs text-[#8A8F98]"
+                    className="px-2 py-1.5 rounded border border-slate-800/80 bg-[#050507] text-xs text-[#A1A1AA]"
                   >
                     {STATUSES.map((s) => (
                       <option key={s} value={s}>
@@ -264,7 +264,7 @@ export default function AdminSessionsPage() {
                 </div>
               </div>
             ))}
-            {visible.length === 0 && <p className="text-sm text-[#8A8F98]">No bookings in this view.</p>}
+            {visible.length === 0 && <p className="text-sm text-[#A1A1AA]">No bookings in this view.</p>}
           </div>
         )}
       </div>

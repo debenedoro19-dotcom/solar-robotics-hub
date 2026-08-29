@@ -40,8 +40,8 @@ const EMPTY = {
 };
 
 const inputClass =
-  'w-full px-3 py-2.5 rounded-lg text-sm bg-[#0D0D0D] border border-[#1A1A1A] text-white placeholder-[#444444] focus:border-emerald-500/40 focus:outline-none transition-colors';
-const labelClass = 'block text-[10px] font-bold text-[#555555] uppercase tracking-widest mb-1.5';
+  'w-full px-3 py-2.5 rounded-lg text-sm bg-[#050507] border border-[#12131A] text-white placeholder-[#52525B] focus:border-emerald-500/40 focus:outline-none transition-colors';
+const labelClass = 'block text-[10px] font-bold text-[#6B7280] uppercase tracking-widest mb-1.5';
 
 const money = (n: number) => `$${Number(n || 0).toLocaleString('en-US', { maximumFractionDigits: 2 })}`;
 
@@ -158,14 +158,14 @@ export default function AdminGiveawaysPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#08090C] text-white px-4 sm:px-6 lg:px-8 py-10">
+    <main className="min-h-screen bg-[#050507] text-white px-4 sm:px-6 lg:px-8 py-10">
       <div className="max-w-6xl mx-auto">
-        <Link href="/admin" className="text-xs text-[#666666] hover:text-white transition-colors">← Back to Admin</Link>
+        <Link href="/admin" className="text-xs text-[#71717A] hover:text-white transition-colors">← Back to Admin</Link>
 
         <div className="mt-4 mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
             <h1 className="text-2xl font-extrabold tracking-tight mb-1">Giveaway Management</h1>
-            <p className="text-sm text-[#666666]">
+            <p className="text-sm text-[#71717A]">
               Every campaign here is live on the homepage and paid for from the investor wallet balance automatically.
             </p>
           </div>
@@ -181,8 +181,8 @@ export default function AdminGiveawaysPage() {
             { label: 'Total Entries', value: totals.entries.toLocaleString() },
             { label: 'Entry Fees Collected', value: money(totals.revenue) },
           ].map((k) => (
-            <div key={k.label} className="bg-[#0D1117] border border-[#1A1A1A] rounded-xl p-4">
-              <p className="text-[10px] text-[#555555] uppercase tracking-widest mb-2">{k.label}</p>
+            <div key={k.label} className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-4">
+              <p className="text-[10px] text-[#6B7280] uppercase tracking-widest mb-2">{k.label}</p>
               <p className="text-xl font-extrabold text-white tabular-nums">{k.value}</p>
             </div>
           ))}
@@ -191,7 +191,7 @@ export default function AdminGiveawaysPage() {
         {error && <p className="mb-4 text-sm text-red-400">{error}</p>}
 
         {(creating || editing) && (
-          <div className="bg-[#0D1117] border border-emerald-500/20 rounded-xl p-6 mb-8">
+          <div className="bg-[#0D0E12] border border-emerald-500/20 rounded-xl p-6 mb-8">
             <h2 className="text-sm font-bold mb-5">{editing ? `Edit: ${editing.title}` : 'New Giveaway Campaign'}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
               <div className="sm:col-span-2">
@@ -228,7 +228,7 @@ export default function AdminGiveawaysPage() {
               </div>
               <div className="flex items-center gap-3">
                 <span className={labelClass}>Active</span>
-                <button onClick={() => setForm({ ...form, is_active: !form.is_active })} className={`relative w-10 h-5 rounded-full transition-colors ${form.is_active ? 'bg-emerald-500' : 'bg-[#2A2A2A]'}`} aria-pressed={form.is_active}>
+                <button onClick={() => setForm({ ...form, is_active: !form.is_active })} className={`relative w-10 h-5 rounded-full transition-colors ${form.is_active ? 'bg-emerald-500' : 'bg-[#1E2027]'}`} aria-pressed={form.is_active}>
                   <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full transition-transform ${form.is_active ? 'translate-x-5' : 'translate-x-0.5'}`} />
                 </button>
               </div>
@@ -237,7 +237,7 @@ export default function AdminGiveawaysPage() {
               <button onClick={save} disabled={saving} className="px-5 py-2.5 bg-emerald-500 text-black text-xs font-bold rounded-lg tracking-widest uppercase disabled:opacity-60">
                 {saving ? 'Saving…' : editing ? 'Save Changes' : 'Create Giveaway'}
               </button>
-              <button onClick={() => { setEditing(null); setCreating(false); }} className="px-5 py-2.5 bg-[#1A1A1A] border border-[#2A2A2A] text-[#888888] text-xs font-bold rounded-lg tracking-widest uppercase hover:text-white">
+              <button onClick={() => { setEditing(null); setCreating(false); }} className="px-5 py-2.5 bg-[#12131A] border border-[#1E2027] text-[#A1A1AA] text-xs font-bold rounded-lg tracking-widest uppercase hover:text-white">
                 Cancel
               </button>
             </div>
@@ -245,39 +245,39 @@ export default function AdminGiveawaysPage() {
         )}
 
         {loading ? (
-          <p className="text-sm text-[#666666]">Loading giveaways…</p>
+          <p className="text-sm text-[#71717A]">Loading giveaways…</p>
         ) : items.length === 0 ? (
-          <p className="text-sm text-[#666666]">No giveaways yet. Create one to have it appear on the homepage.</p>
+          <p className="text-sm text-[#71717A]">No giveaways yet. Create one to have it appear on the homepage.</p>
         ) : (
           <div className="space-y-4">
             {items.map((g, idx) => {
               const pct = Math.min(100, Math.round((g.entries_count / Math.max(1, g.max_entries)) * 100));
               const list = entries.filter((e) => e.giveaway_id === g.id);
               return (
-                <div key={g.id} className="bg-[#0D1117] border border-[#1A1A1A] rounded-xl p-5">
+                <div key={g.id} className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-5">
                   <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
                     <div className="min-w-0">
                       <div className="flex items-center gap-2 mb-1 flex-wrap">
                         <h3 className="font-bold">{g.title}</h3>
                         <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">{g.badge}</span>
-                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase border ${g.is_active ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-white/5 text-[#666] border-[#2A2A2A]'}`}>
+                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase border ${g.is_active ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-white/5 text-[#666] border-[#1E2027]'}`}>
                           {g.is_active ? 'Active' : 'Hidden'}
                         </span>
                       </div>
-                      <p className="text-xs text-[#666666] mb-3">{g.prize} · Entry {money(Number(g.entry_fee))} · Ends {new Date(g.ends_at).toLocaleDateString()}</p>
+                      <p className="text-xs text-[#71717A] mb-3">{g.prize} · Entry {money(Number(g.entry_fee))} · Ends {new Date(g.ends_at).toLocaleDateString()}</p>
                       <div className="max-w-md">
-                        <div className="flex justify-between text-[11px] text-[#666666] mb-1">
+                        <div className="flex justify-between text-[11px] text-[#71717A] mb-1">
                           <span>{g.entries_count.toLocaleString()} entries</span>
                           <span>{pct}% of {g.max_entries.toLocaleString()}</span>
                         </div>
-                        <div className="h-1.5 rounded-full bg-[#1A1A1A] overflow-hidden">
+                        <div className="h-1.5 rounded-full bg-[#12131A] overflow-hidden">
                           <div className="h-full rounded-full bg-emerald-500" style={{ width: `${pct}%` }} />
                         </div>
                       </div>
                     </div>
                     <div className="flex flex-wrap gap-2 shrink-0">
-                      <button onClick={() => move(g, -1)} disabled={idx === 0} className="px-2.5 py-1.5 bg-[#1A1A1A] text-[#888] text-xs rounded disabled:opacity-30" aria-label="Move up">↑</button>
-                      <button onClick={() => move(g, 1)} disabled={idx === items.length - 1} className="px-2.5 py-1.5 bg-[#1A1A1A] text-[#888] text-xs rounded disabled:opacity-30" aria-label="Move down">↓</button>
+                      <button onClick={() => move(g, -1)} disabled={idx === 0} className="px-2.5 py-1.5 bg-[#12131A] text-[#888] text-xs rounded disabled:opacity-30" aria-label="Move up">↑</button>
+                      <button onClick={() => move(g, 1)} disabled={idx === items.length - 1} className="px-2.5 py-1.5 bg-[#12131A] text-[#888] text-xs rounded disabled:opacity-30" aria-label="Move down">↓</button>
                       <button onClick={() => setEntrantsFor(entrantsFor === g.id ? null : g.id)} className="px-3 py-1.5 bg-cyan-400/10 border border-cyan-400/20 text-cyan-400 text-xs font-semibold rounded">Entrants ({list.length})</button>
                       <button onClick={() => toggleActive(g)} className="px-3 py-1.5 bg-yellow-400/10 border border-yellow-400/20 text-yellow-400 text-xs font-semibold rounded">{g.is_active ? 'Hide' : 'Show'}</button>
                       <button onClick={() => startEdit(g)} className="px-3 py-1.5 bg-blue-400/10 border border-blue-400/20 text-blue-400 text-xs font-semibold rounded">Edit</button>
@@ -286,14 +286,14 @@ export default function AdminGiveawaysPage() {
                   </div>
 
                   {entrantsFor === g.id && (
-                    <div className="mt-5 border-t border-[#1A1A1A] pt-4">
+                    <div className="mt-5 border-t border-[#12131A] pt-4">
                       {list.length === 0 ? (
-                        <p className="text-xs text-[#555555]">No entrants yet.</p>
+                        <p className="text-xs text-[#6B7280]">No entrants yet.</p>
                       ) : (
                         <div className="overflow-x-auto">
                           <table className="w-full text-xs">
                             <thead>
-                              <tr className="text-left text-[#555555] uppercase tracking-wider">
+                              <tr className="text-left text-[#6B7280] uppercase tracking-wider">
                                 <th className="py-2 pr-4 font-semibold">Entrant</th>
                                 <th className="py-2 pr-4 font-semibold">Paid</th>
                                 <th className="py-2 pr-4 font-semibold">Status</th>
@@ -302,11 +302,11 @@ export default function AdminGiveawaysPage() {
                             </thead>
                             <tbody>
                               {list.map((e) => (
-                                <tr key={e.id} className="border-t border-[#1A1A1A]">
+                                <tr key={e.id} className="border-t border-[#12131A]">
                                   <td className="py-2 pr-4">{profiles[e.user_id]?.full_name || profiles[e.user_id]?.email || e.user_id}</td>
                                   <td className="py-2 pr-4 tabular-nums text-emerald-400">{money(Number(e.amount_paid))}</td>
                                   <td className="py-2 pr-4 uppercase">{e.status}</td>
-                                  <td className="py-2 text-[#666666]">{new Date(e.created_at).toLocaleString()}</td>
+                                  <td className="py-2 text-[#71717A]">{new Date(e.created_at).toLocaleString()}</td>
                                 </tr>
                               ))}
                             </tbody>

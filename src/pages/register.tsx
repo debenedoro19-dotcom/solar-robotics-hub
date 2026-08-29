@@ -92,7 +92,7 @@ export default function RegisterPage() {
   // ── Email sent confirmation screen ──────────────────────────────────────────
   if (emailSent) {
     return (
-      <main className="min-h-screen bg-[#0A0A0A] flex items-center justify-center px-4 py-16 relative overflow-hidden">
+      <main className="min-h-screen bg-[#050507] flex items-center justify-center px-4 py-16 relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
           <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px]" />
           <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-primary/3 rounded-full blur-[100px]" />
@@ -112,17 +112,17 @@ export default function RegisterPage() {
           </div>
 
           <h1 className="text-2xl font-extrabold text-white tracking-tight mb-3">Check Your Email</h1>
-          <p className="text-sm text-[#888888] leading-relaxed mb-2">
+          <p className="text-sm text-[#A1A1AA] leading-relaxed mb-2">
             We sent a verification link to
           </p>
           <p className="text-sm font-semibold text-white mb-6">{registeredEmail}</p>
-          <p className="text-sm text-[#666666] leading-relaxed mb-8">
+          <p className="text-sm text-[#71717A] leading-relaxed mb-8">
             Click the link in the email to verify your account and access your dashboard. The link expires in 24 hours.
           </p>
 
-          <div className="bg-[#111111] border border-[#1A1A1A] rounded-lg p-4 mb-8 text-left">
-            <p className="text-xs text-[#555555] uppercase tracking-widest font-semibold mb-2">Didn't receive it?</p>
-            <ul className="text-xs text-[#666666] space-y-1 list-disc list-inside">
+          <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-4 mb-8 text-left">
+            <p className="text-xs text-[#6B7280] uppercase tracking-widest font-semibold mb-2">Didn't receive it?</p>
+            <ul className="text-xs text-[#71717A] space-y-1 list-disc list-inside">
               <li>Check your spam or junk folder</li>
               <li>Make sure you entered the correct email</li>
               <li>Wait a few minutes and refresh</li>
@@ -135,7 +135,7 @@ export default function RegisterPage() {
           >
             Go to Sign In
           </Link>
-          <p className="text-xs text-[#444444] mt-4">
+          <p className="text-xs text-[#52525B] mt-4">
             Wrong email?{' '}
             <button
               onClick={() => { setEmailSent(false); setForm({ name: '', email: '', phone: '', password: '', confirm: '' }); }}
@@ -151,7 +151,7 @@ export default function RegisterPage() {
 
   // ── Registration form ────────────────────────────────────────────────────────
   return (
-    <main className="min-h-screen bg-[#0A0A0A] flex items-center justify-center px-4 py-16 relative overflow-hidden">
+    <main className="min-h-screen bg-[#050507] flex items-center justify-center px-4 py-16 relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px]" />
@@ -168,7 +168,7 @@ export default function RegisterPage() {
             <span className="text-white font-bold text-base tracking-widest uppercase">Tesla Trade</span>
           </Link>
           <h1 className="text-2xl font-extrabold text-white tracking-tight mb-2">Create Account</h1>
-          <p className="text-sm text-[#666666]">Join the Tesla investment ecosystem</p>
+          <p className="text-sm text-[#71717A]">Join the Tesla investment ecosystem</p>
         </div>
 
         {/* Steps indicator */}
@@ -177,20 +177,20 @@ export default function RegisterPage() {
             <div className="w-6 h-6 rounded-full step-active flex items-center justify-center text-xs font-bold">1</div>
             <span className="text-xs text-white font-semibold tracking-wider uppercase">Account</span>
           </div>
-          <div className="flex-1 h-px bg-[#2A2A2A]" />
+          <div className="flex-1 h-px bg-[#1E2027]" />
           <div className="flex items-center gap-2 flex-1">
             <div className="w-6 h-6 rounded-full step-pending flex items-center justify-center text-xs font-bold">2</div>
-            <span className="text-xs text-[#555555] tracking-wider uppercase">Verify</span>
+            <span className="text-xs text-[#6B7280] tracking-wider uppercase">Verify</span>
           </div>
-          <div className="flex-1 h-px bg-[#2A2A2A]" />
+          <div className="flex-1 h-px bg-[#1E2027]" />
           <div className="flex items-center gap-2 flex-1">
             <div className="w-6 h-6 rounded-full step-pending flex items-center justify-center text-xs font-bold">3</div>
-            <span className="text-xs text-[#555555] tracking-wider uppercase">KYC</span>
+            <span className="text-xs text-[#6B7280] tracking-wider uppercase">KYC</span>
           </div>
-          <div className="flex-1 h-px bg-[#2A2A2A]" />
+          <div className="flex-1 h-px bg-[#1E2027]" />
           <div className="flex items-center gap-2">
             <div className="w-6 h-6 rounded-full step-pending flex items-center justify-center text-xs font-bold">4</div>
-            <span className="text-xs text-[#555555] tracking-wider uppercase">Invest</span>
+            <span className="text-xs text-[#6B7280] tracking-wider uppercase">Invest</span>
           </div>
         </div>
 
@@ -201,7 +201,7 @@ export default function RegisterPage() {
           )}
 
           <div>
-            <label htmlFor="name" className="block text-xs font-semibold text-[#888888] uppercase tracking-widest mb-2">
+            <label htmlFor="name" className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">
               Full Name <span className="text-primary">*</span>
             </label>
             <input
@@ -216,7 +216,7 @@ export default function RegisterPage() {
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-xs font-semibold text-[#888888] uppercase tracking-widest mb-2">
+            <label htmlFor="email" className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">
               Email Address <span className="text-primary">*</span>
             </label>
             <input
@@ -231,7 +231,7 @@ export default function RegisterPage() {
           </div>
 
           <div>
-            <label htmlFor="phone" className="block text-xs font-semibold text-[#888888] uppercase tracking-widest mb-2">
+            <label htmlFor="phone" className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">
               Phone Number
             </label>
             <input
@@ -246,7 +246,7 @@ export default function RegisterPage() {
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-xs font-semibold text-[#888888] uppercase tracking-widest mb-2">
+            <label htmlFor="password" className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">
               Password <span className="text-primary">*</span>
             </label>
             <input
@@ -261,7 +261,7 @@ export default function RegisterPage() {
           </div>
 
           <div>
-            <label htmlFor="confirm" className="block text-xs font-semibold text-[#888888] uppercase tracking-widest mb-2">
+            <label htmlFor="confirm" className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">
               Confirm Password <span className="text-primary">*</span>
             </label>
             <input
@@ -275,7 +275,7 @@ export default function RegisterPage() {
             />
           </div>
 
-          <p className="text-xs text-[#555555] leading-relaxed">
+          <p className="text-xs text-[#6B7280] leading-relaxed">
             By creating an account you agree to our{' '}
             <a href="#" className="text-primary hover:underline">Terms of Service</a>{' '}
             and{' '}
@@ -297,7 +297,7 @@ export default function RegisterPage() {
                   onClick={() => setAcceptedTerms(!acceptedTerms)}
                   className={`w-4 h-4 rounded border flex items-center justify-center transition-all duration-150 ${
                     acceptedTerms
-                      ? 'bg-primary border-primary' :'bg-[#111111] border-[#2A2A2A] group-hover:border-primary/50'
+                      ? 'bg-primary border-primary' :'bg-[#0D0E12] border-[#1E2027] group-hover:border-primary/50'
                   }`}
                 >
                   {acceptedTerms && (
@@ -307,7 +307,7 @@ export default function RegisterPage() {
                   )}
                 </div>
               </div>
-              <span className="text-xs text-[#666666] leading-relaxed">
+              <span className="text-xs text-[#71717A] leading-relaxed">
                 I have read and agree to the{' '}
                 <Link href="/terms" target="_blank" className="text-primary hover:underline font-semibold">
                   Terms of Service
@@ -330,7 +330,7 @@ export default function RegisterPage() {
                   onClick={() => setAcceptedPrivacy(!acceptedPrivacy)}
                   className={`w-4 h-4 rounded border flex items-center justify-center transition-all duration-150 ${
                     acceptedPrivacy
-                      ? 'bg-primary border-primary' :'bg-[#111111] border-[#2A2A2A] group-hover:border-primary/50'
+                      ? 'bg-primary border-primary' :'bg-[#0D0E12] border-[#1E2027] group-hover:border-primary/50'
                   }`}
                 >
                   {acceptedPrivacy && (
@@ -340,7 +340,7 @@ export default function RegisterPage() {
                   )}
                 </div>
               </div>
-              <span className="text-xs text-[#666666] leading-relaxed">
+              <span className="text-xs text-[#71717A] leading-relaxed">
                 I have read and agree to the{' '}
                 <Link href="/privacy" target="_blank" className="text-primary hover:underline font-semibold">
                   Privacy Policy
@@ -371,7 +371,7 @@ export default function RegisterPage() {
         </form>
 
         <div className="mt-6 text-center">
-          <p className="text-sm text-[#555555]">
+          <p className="text-sm text-[#6B7280]">
             Already have an account?{' '}
             <Link href="/login" className="text-primary hover:text-red-400 font-semibold transition-colors">
               Sign In

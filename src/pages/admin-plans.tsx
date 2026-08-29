@@ -29,8 +29,8 @@ const EMPTY = {
 const CATEGORIES = ['Solar', 'Robotics', 'Space', 'Energy', 'Vehicles'];
 
 const inputClass =
-  'w-full px-3 py-2.5 rounded-lg text-sm bg-[#0D0D0D] border border-[#1A1A1A] text-white placeholder-[#444444] focus:border-emerald-500/40 focus:outline-none transition-colors';
-const labelClass = 'block text-[10px] font-bold text-[#555555] uppercase tracking-widest mb-1.5';
+  'w-full px-3 py-2.5 rounded-lg text-sm bg-[#050507] border border-[#12131A] text-white placeholder-[#52525B] focus:border-emerald-500/40 focus:outline-none transition-colors';
+const labelClass = 'block text-[10px] font-bold text-[#6B7280] uppercase tracking-widest mb-1.5';
 
 export default function AdminPlansPage() {
   const [plans, setPlans] = useState<Plan[]>([]);
@@ -141,7 +141,7 @@ export default function AdminPlansPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#08090C] text-white">
+    <div className="min-h-screen bg-[#050507] text-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
         <div className="flex items-center justify-between gap-4 flex-wrap mb-8">
           <div>
@@ -152,7 +152,7 @@ export default function AdminPlansPage() {
               ← Admin
             </Link>
             <h1 className="text-2xl font-extrabold tracking-tight mt-2">Investment Packages</h1>
-            <p className="text-sm text-[#8A8F98] mt-1">
+            <p className="text-sm text-[#A1A1AA] mt-1">
               Create, edit, reorder and retire every investment plan offered on the platform.
             </p>
           </div>
@@ -178,7 +178,7 @@ export default function AdminPlansPage() {
               className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all ${
                 filter === c
                   ? 'bg-emerald-500 text-black'
-                  : 'bg-[#0D1117] border border-slate-800/80 text-[#8A8F98] hover:text-white'
+                  : 'bg-[#0D0E12] border border-slate-800/80 text-[#A1A1AA] hover:text-white'
               }`}
             >
               {c}
@@ -192,7 +192,7 @@ export default function AdminPlansPage() {
         {(creating || editing) && (
           <form
             onSubmit={save}
-            className="mb-8 p-6 rounded-2xl bg-[#0D1117] border border-slate-800/80"
+            className="mb-8 p-6 rounded-2xl bg-[#0D0E12] border border-slate-800/80"
           >
             <h2 className="text-sm font-bold mb-5">{editing ? `Edit — ${editing.name}` : 'New Plan'}</h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -271,7 +271,7 @@ export default function AdminPlansPage() {
                   onChange={(e) => setForm({ ...form, description: e.target.value })}
                 />
               </div>
-              <label className="flex items-center gap-2 text-xs text-[#8A8F98]">
+              <label className="flex items-center gap-2 text-xs text-[#A1A1AA]">
                 <input
                   type="checkbox"
                   checked={form.is_active}
@@ -291,7 +291,7 @@ export default function AdminPlansPage() {
               <button
                 type="button"
                 onClick={close}
-                className="px-5 py-2.5 rounded-lg border border-slate-800/80 text-[#8A8F98] text-xs font-bold uppercase tracking-widest hover:text-white"
+                className="px-5 py-2.5 rounded-lg border border-slate-800/80 text-[#A1A1AA] text-xs font-bold uppercase tracking-widest hover:text-white"
               >
                 Cancel
               </button>
@@ -300,13 +300,13 @@ export default function AdminPlansPage() {
         )}
 
         {loading ? (
-          <p className="text-sm text-[#8A8F98]">Loading plans…</p>
+          <p className="text-sm text-[#A1A1AA]">Loading plans…</p>
         ) : (
           <div className="space-y-3">
             {visible.map((p) => (
               <div
                 key={p.id}
-                className="p-5 rounded-2xl bg-[#0D1117] border border-slate-800/80 flex flex-wrap gap-4 items-center justify-between"
+                className="p-5 rounded-2xl bg-[#0D0E12] border border-slate-800/80 flex flex-wrap gap-4 items-center justify-between"
               >
                 <div className="min-w-[220px]">
                   <div className="flex items-center gap-2">
@@ -320,9 +320,9 @@ export default function AdminPlansPage() {
                       </span>
                     )}
                   </div>
-                  <p className="text-xs text-[#8A8F98] mt-1 max-w-xl">{p.description}</p>
+                  <p className="text-xs text-[#A1A1AA] mt-1 max-w-xl">{p.description}</p>
                 </div>
-                <div className="text-xs text-[#8A8F98] grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-1">
+                <div className="text-xs text-[#A1A1AA] grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-1">
                   <span>
                     ROI <b className="text-emerald-400">{Number(p.daily_roi)}%/d</b>
                   </span>
@@ -337,9 +337,9 @@ export default function AdminPlansPage() {
                   </span>
                 </div>
                 <div className="flex gap-2">
-                  <button onClick={() => move(p, -1)} className="px-2.5 py-1.5 rounded border border-slate-800/80 text-xs text-[#8A8F98] hover:text-white">↑</button>
-                  <button onClick={() => move(p, 1)} className="px-2.5 py-1.5 rounded border border-slate-800/80 text-xs text-[#8A8F98] hover:text-white">↓</button>
-                  <button onClick={() => toggleActive(p)} className="px-3 py-1.5 rounded border border-slate-800/80 text-xs font-semibold text-[#8A8F98] hover:text-white">
+                  <button onClick={() => move(p, -1)} className="px-2.5 py-1.5 rounded border border-slate-800/80 text-xs text-[#A1A1AA] hover:text-white">↑</button>
+                  <button onClick={() => move(p, 1)} className="px-2.5 py-1.5 rounded border border-slate-800/80 text-xs text-[#A1A1AA] hover:text-white">↓</button>
+                  <button onClick={() => toggleActive(p)} className="px-3 py-1.5 rounded border border-slate-800/80 text-xs font-semibold text-[#A1A1AA] hover:text-white">
                     {p.is_active ? 'Hide' : 'Show'}
                   </button>
                   <button onClick={() => openEdit(p)} className="px-3 py-1.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold">
@@ -352,7 +352,7 @@ export default function AdminPlansPage() {
               </div>
             ))}
             {visible.length === 0 && (
-              <p className="text-sm text-[#8A8F98]">No plans in this category yet.</p>
+              <p className="text-sm text-[#A1A1AA]">No plans in this category yet.</p>
             )}
           </div>
         )}

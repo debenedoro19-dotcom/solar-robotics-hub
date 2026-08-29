@@ -30,7 +30,7 @@ const categories = [
     image: '/assets/images/tesla_energy_hero.webp',
     imageAlt: 'Tesla Powerwall and solar panels installed on modern home at golden hour',
     colSpan: 'lg:col-span-1',
-    accent: '#00FF88',
+    accent: '#00F59B',
   },
   {
     id: 3,
@@ -74,8 +74,8 @@ export default function EcosystemSection() {
               priority
             />
             {/* Dark overlay so text stays readable */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#0A0A0A]/85 via-[#0A0A0A]/70 to-[#0A0A0A]/85" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/60 via-transparent to-[#0A0A0A]/40" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#050507]/85 via-[#050507]/70 to-[#050507]/85" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#050507]/60 via-transparent to-[#050507]/40" />
           </div>
 
           {/* Stats grid on top */}
@@ -102,8 +102,8 @@ export default function EcosystemSection() {
                 className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
                 sizes="(max-width: 1024px) 100vw, 66vw"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/60 to-transparent" />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#0A0A0A]/40 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#050507] via-[#050507]/60 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#050507]/40 to-transparent" />
             </div>
             <div className="relative z-10 p-8 flex flex-col justify-end h-full min-h-[280px]">
               <h3 className="text-2xl font-extrabold text-foreground mb-1">{categories?.[0]?.name}</h3>
@@ -126,7 +126,7 @@ export default function EcosystemSection() {
                 className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
                 sizes="(max-width: 1024px) 100vw, 33vw"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/60 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#050507] via-[#050507]/60 to-transparent" />
             </div>
             <div className="relative z-10 p-8 flex flex-col justify-end h-full min-h-[280px]">
               <h3 className="text-xl font-extrabold text-foreground mb-1">{categories?.[1]?.name}</h3>
@@ -149,8 +149,8 @@ export default function EcosystemSection() {
                 className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
                 sizes="100vw"
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#0A0A0A] via-[#0A0A0A]/70 to-[#0A0A0A]/40" />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/80 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#050507] via-[#050507]/70 to-[#050507]/40" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#050507]/80 via-transparent to-transparent" />
             </div>
             <div className="relative z-10 p-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 min-h-[260px]">
               <div className="flex flex-col justify-end">

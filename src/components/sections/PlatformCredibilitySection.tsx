@@ -16,9 +16,9 @@ const chartBarHeights = Array.from({ length: 20 }, (_, i) => Math.round(20 + Mat
 
 const portfolioSlices = [
   { label: 'Vehicles', pct: 45, color: '#00D4FF' },
-  { label: 'Energy Systems', pct: 30, color: '#00FF88' },
+  { label: 'Energy Systems', pct: 30, color: '#00F59B' },
   { label: 'Robotics', pct: 15, color: '#A78BFA' },
-  { label: 'Liquidity', pct: 10, color: '#E31937' },
+  { label: 'Liquidity', pct: 10, color: '#E82127' },
 ];
 
 const paymentMethods = [

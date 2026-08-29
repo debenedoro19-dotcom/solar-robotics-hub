@@ -31,8 +31,8 @@ const EMPTY = {
 };
 
 const inputClass =
-  'w-full px-3 py-2.5 rounded-lg text-sm bg-[#0D0D0D] border border-[#1A1A1A] text-white placeholder-[#444444] focus:border-primary/40 focus:outline-none transition-colors';
-const labelClass = 'block text-[10px] font-bold text-[#555555] uppercase tracking-widest mb-1.5';
+  'w-full px-3 py-2.5 rounded-lg text-sm bg-[#050507] border border-[#12131A] text-white placeholder-[#52525B] focus:border-primary/40 focus:outline-none transition-colors';
+const labelClass = 'block text-[10px] font-bold text-[#6B7280] uppercase tracking-widest mb-1.5';
 
 export default function AdminInventoryPage() {
   const [items, setItems] = useState<Item[]>([]);
@@ -180,15 +180,15 @@ export default function AdminInventoryPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#08090C] text-white px-4 sm:px-6 lg:px-8 py-10">
+    <main className="min-h-screen bg-[#050507] text-white px-4 sm:px-6 lg:px-8 py-10">
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-wrap items-end justify-between gap-4 mb-8">
           <div>
-            <Link href="/admin" className="text-xs text-[#666666] hover:text-primary transition-colors">
+            <Link href="/admin" className="text-xs text-[#71717A] hover:text-primary transition-colors">
               ← Admin overview
             </Link>
             <h1 className="text-3xl font-extrabold tracking-tighter mt-2">Inventory Editor</h1>
-            <p className="text-sm text-[#777777] mt-1">
+            <p className="text-sm text-[#71717A] mt-1">
               Add, edit, reorder, recategorize and hide the products shown on the homepage.
             </p>
           </div>
@@ -207,7 +207,7 @@ export default function AdminInventoryPage() {
               className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${
                 filter === c
                   ? 'bg-primary text-primary-foreground'
-                  : 'bg-[#0D1117] text-[#888888] border border-[#1A1A1A] hover:text-white'
+                  : 'bg-[#0D0E12] text-[#A1A1AA] border border-[#12131A] hover:text-white'
               }`}>
               {c}
               <span className="ml-2 text-xs opacity-60">
@@ -222,33 +222,33 @@ export default function AdminInventoryPage() {
         )}
 
         {loading ? (
-          <p className="text-sm text-[#666666]">Loading inventory…</p>
+          <p className="text-sm text-[#71717A]">Loading inventory…</p>
         ) : (
           <div className="space-y-2">
             {visible.map((item, idx) => (
               <div
                 key={item.id}
-                className="flex flex-wrap items-center gap-3 rounded-xl border border-[#1A1A1A] bg-[#0D1117] p-3">
+                className="flex flex-wrap items-center gap-3 rounded-xl border border-[#12131A] bg-[#0D0E12] p-3">
                 <div className="flex flex-col gap-1">
                   <button
                     aria-label={`Move ${item.name} up`}
                     disabled={idx === 0}
                     onClick={() => void move(item, -1)}
-                    className="w-7 h-6 rounded bg-[#12161C] text-[#888888] text-xs hover:text-white disabled:opacity-30">
+                    className="w-7 h-6 rounded bg-[#12131A] text-[#A1A1AA] text-xs hover:text-white disabled:opacity-30">
                     ↑
                   </button>
                   <button
                     aria-label={`Move ${item.name} down`}
                     disabled={idx === visible.length - 1}
                     onClick={() => void move(item, 1)}
-                    className="w-7 h-6 rounded bg-[#12161C] text-[#888888] text-xs hover:text-white disabled:opacity-30">
+                    className="w-7 h-6 rounded bg-[#12131A] text-[#A1A1AA] text-xs hover:text-white disabled:opacity-30">
                     ↓
                   </button>
                 </div>
                 <img
                   src={item.image_url}
                   alt=""
-                  className="w-20 h-14 object-cover rounded-lg bg-[#12161C] flex-shrink-0"
+                  className="w-20 h-14 object-cover rounded-lg bg-[#12131A] flex-shrink-0"
                   loading="lazy"
                 />
                 <div className="min-w-[180px] flex-1">
@@ -259,7 +259,7 @@ export default function AdminInventoryPage() {
                   aria-label={`Category for ${item.name}`}
                   value={item.category}
                   onChange={(e) => void recategorize(item, e.target.value)}
-                  className="px-2 py-1.5 rounded-lg text-xs bg-[#0D0D0D] border border-[#1A1A1A] text-white">
+                  className="px-2 py-1.5 rounded-lg text-xs bg-[#050507] border border-[#12131A] text-white">
                   {CATEGORIES.map((c) => (
                     <option key={c} value={c}>
                       {c}
@@ -271,13 +271,13 @@ export default function AdminInventoryPage() {
                   className={`px-3 py-1.5 rounded-lg text-xs font-bold border ${
                     item.is_active
                       ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
-                      : 'bg-[#1A1A1A] text-[#666666] border-[#2A2A2A]'
+                      : 'bg-[#12131A] text-[#71717A] border-[#1E2027]'
                   }`}>
                   {item.is_active ? 'Live' : 'Hidden'}
                 </button>
                 <button
                   onClick={() => openEdit(item)}
-                  className="px-3 py-1.5 rounded-lg text-xs font-bold bg-[#12161C] border border-[#1A1A1A] text-white hover:border-primary/40">
+                  className="px-3 py-1.5 rounded-lg text-xs font-bold bg-[#12131A] border border-[#12131A] text-white hover:border-primary/40">
                   Edit
                 </button>
                 <button
@@ -288,7 +288,7 @@ export default function AdminInventoryPage() {
               </div>
             ))}
             {visible.length === 0 && (
-              <p className="text-sm text-[#666666]">No items in this category yet.</p>
+              <p className="text-sm text-[#71717A]">No items in this category yet.</p>
             )}
           </div>
         )}
@@ -301,7 +301,7 @@ export default function AdminInventoryPage() {
           aria-modal="true">
           <form
             onSubmit={save}
-            className="w-full max-w-lg rounded-2xl border border-[#1A1A1A] bg-[#0D1117] p-6 space-y-4">
+            className="w-full max-w-lg rounded-2xl border border-[#12131A] bg-[#0D0E12] p-6 space-y-4">
             <h2 className="text-lg font-extrabold tracking-tight">
               {editing ? 'Edit item' : 'New inventory item'}
             </h2>
@@ -353,12 +353,12 @@ export default function AdminInventoryPage() {
                     const f = e.target.files?.[0];
                     if (f) void uploadImage(f);
                   }}
-                  className="text-xs text-[#888888] file:mr-3 file:px-3 file:py-1.5 file:rounded-lg file:border-0 file:bg-[#12161C] file:text-white file:text-xs"
+                  className="text-xs text-[#A1A1AA] file:mr-3 file:px-3 file:py-1.5 file:rounded-lg file:border-0 file:bg-[#12131A] file:text-white file:text-xs"
                 />
-                {uploading && <span className="text-xs text-[#888888]">Uploading…</span>}
+                {uploading && <span className="text-xs text-[#A1A1AA]">Uploading…</span>}
               </div>
               {form.image_url && (
-                <img src={form.image_url} alt="" className="mt-3 w-full h-40 object-cover rounded-lg bg-[#12161C]" />
+                <img src={form.image_url} alt="" className="mt-3 w-full h-40 object-cover rounded-lg bg-[#12131A]" />
               )}
             </div>
 
@@ -367,7 +367,7 @@ export default function AdminInventoryPage() {
               <input id="inv-alt" value={form.alt} onChange={(e) => setForm({ ...form, alt: e.target.value })} className={inputClass} />
             </div>
 
-            <label className="flex items-center gap-2 text-sm text-[#AAAAAA]">
+            <label className="flex items-center gap-2 text-sm text-[#D4D4D8]">
               <input type="checkbox" checked={form.is_active} onChange={(e) => setForm({ ...form, is_active: e.target.checked })} />
               Visible on the site
             </label>
@@ -378,7 +378,7 @@ export default function AdminInventoryPage() {
               <button type="submit" disabled={saving} className="flex-1 py-3 rounded-lg text-sm font-bold bg-primary text-primary-foreground disabled:opacity-60">
                 {saving ? 'Saving…' : editing ? 'Save changes' : 'Create item'}
               </button>
-              <button type="button" onClick={close} className="px-5 py-3 rounded-lg text-sm font-bold border border-[#1A1A1A] text-[#AAAAAA] hover:text-white">
+              <button type="button" onClick={close} className="px-5 py-3 rounded-lg text-sm font-bold border border-[#12131A] text-[#D4D4D8] hover:text-white">
                 Cancel
               </button>
             </div>

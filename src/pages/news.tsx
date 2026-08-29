@@ -77,7 +77,7 @@ const articles = [
   time: '4 days ago',
   readTime: '4 min read',
   tag: 'Regulation',
-  tagColor: 'text-[#888888] bg-[#1A1A1A] border-[#2A2A2A]',
+  tagColor: 'text-[#A1A1AA] bg-[#12131A] border-[#1E2027]',
   image: "https://img.rocket.new/generatedImages/rocket_gen_img_1daf442ff-1772333279339.png",
   alt: 'Government building with columns and American flag, representing financial regulation and policy',
   featured: false
@@ -91,7 +91,7 @@ export default function NewsPage() {
   const rest = articles?.filter((a) => !a?.featured);
 
   return (
-    <main className="min-h-screen bg-[#0A0A0A] text-white">
+    <main className="min-h-screen bg-[#050507] text-white">
       <Header />
       <div className="pt-24 pb-20 px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
@@ -101,7 +101,7 @@ export default function NewsPage() {
             <h1 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight mb-4">
               News & <span className="gradient-text-primary">Insights</span>
             </h1>
-            <p className="text-[#666666] text-base max-w-xl">
+            <p className="text-[#71717A] text-base max-w-xl">
               Real-time market intelligence, Tesla ecosystem updates, and investment research.
             </p>
           </div>
@@ -112,7 +112,7 @@ export default function NewsPage() {
             <button
               key={cat}
               className={`px-4 py-2 text-xs font-semibold rounded border tracking-wider uppercase transition-all ${
-              cat === 'All' ? 'bg-primary text-white border-primary' : 'bg-transparent text-[#666666] border-[#2A2A2A] hover:border-[#3A3A3A] hover:text-white'}`
+              cat === 'All' ? 'bg-primary text-white border-primary' : 'bg-transparent text-[#71717A] border-[#1E2027] hover:border-[#2A2D35] hover:text-white'}`
               }>
               
                 {cat}
@@ -122,7 +122,7 @@ export default function NewsPage() {
 
           {/* Featured article */}
           {featured &&
-          <div className="mb-10 bg-[#111111] border border-[#1A1A1A] rounded-lg overflow-hidden hover:border-primary/20 transition-all duration-300 group">
+          <div className="mb-10 bg-[#0D0E12] border border-[#12131A] rounded-lg overflow-hidden hover:border-primary/20 transition-all duration-300 group">
               <div className="grid grid-cols-1 lg:grid-cols-2">
                 <div className="relative h-64 lg:h-auto overflow-hidden">
                   <img
@@ -130,20 +130,20 @@ export default function NewsPage() {
                   alt={featured?.alt}
                   className="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500 group-hover:scale-105 transform" />
                 
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#111111] hidden lg:block" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#0D0E12] hidden lg:block" />
                 </div>
                 <div className="p-8 lg:p-10 flex flex-col justify-center">
                   <div className="flex items-center gap-3 mb-4">
                     <span className={`px-2.5 py-1 text-[10px] font-bold rounded border tracking-wider uppercase ${featured?.tagColor}`}>
                       {featured?.tag}
                     </span>
-                    <span className="text-xs text-[#555555]">{featured?.time}</span>
-                    <span className="text-xs text-[#444444]">{featured?.readTime}</span>
+                    <span className="text-xs text-[#6B7280]">{featured?.time}</span>
+                    <span className="text-xs text-[#52525B]">{featured?.readTime}</span>
                   </div>
                   <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight mb-4 leading-tight">
                     {featured?.title}
                   </h2>
-                  <p className="text-sm text-[#888888] leading-relaxed mb-6">{featured?.excerpt}</p>
+                  <p className="text-sm text-[#A1A1AA] leading-relaxed mb-6">{featured?.excerpt}</p>
                   <a href="#" className="inline-flex items-center gap-2 text-xs font-bold text-primary tracking-widest uppercase hover:gap-3 transition-all">
                     Read Full Story
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
@@ -156,7 +156,7 @@ export default function NewsPage() {
           {/* Article grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {rest?.map((article) =>
-            <article key={article?.id} className="bg-[#111111] border border-[#1A1A1A] rounded-lg overflow-hidden hover:border-primary/20 transition-all duration-300 group flex flex-col">
+            <article key={article?.id} className="bg-[#0D0E12] border border-[#12131A] rounded-lg overflow-hidden hover:border-primary/20 transition-all duration-300 group flex flex-col">
                 <div className="relative h-44 overflow-hidden">
                   <img
                   src={article?.image}
@@ -169,10 +169,10 @@ export default function NewsPage() {
                     <span className={`px-2 py-0.5 text-[9px] font-bold rounded border tracking-wider uppercase ${article?.tagColor}`}>
                       {article?.tag}
                     </span>
-                    <span className="text-[10px] text-[#444444]">{article?.time}</span>
+                    <span className="text-[10px] text-[#52525B]">{article?.time}</span>
                   </div>
                   <h3 className="text-sm font-bold text-white leading-snug mb-2 flex-1">{article?.title}</h3>
-                  <p className="text-xs text-[#666666] leading-relaxed mb-4 line-clamp-2">{article?.excerpt}</p>
+                  <p className="text-xs text-[#71717A] leading-relaxed mb-4 line-clamp-2">{article?.excerpt}</p>
                   <a href="#" className="text-[10px] font-bold text-primary tracking-widest uppercase hover:text-red-400 transition-colors">
                     Read More →
                   </a>

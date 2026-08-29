@@ -93,20 +93,20 @@ export default function BookSessionPage() {
 
   if (submitted) {
     return (
-      <main className="min-h-screen bg-[#0A0A0A] text-white">
+      <main className="min-h-screen bg-[#050507] text-white">
         <Header />
         <div className="pt-24 pb-20 px-6 flex items-center justify-center min-h-screen">
           <div className="max-w-md w-full text-center">
             <div className="w-20 h-20 rounded-full bg-green-400/10 border border-green-400/30 flex items-center justify-center mx-auto mb-6">
-              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#00F59B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M20 6L9 17l-5-5"/>
               </svg>
             </div>
             <h1 className="text-2xl font-extrabold text-white mb-3">Booking Submitted!</h1>
-            <p className="text-[#888888] text-sm mb-2 leading-relaxed">
+            <p className="text-[#A1A1AA] text-sm mb-2 leading-relaxed">
               Your session request with Elon Musk has been received. Our team will review your payment and confirm your appointment within 24–48 hours.
             </p>
-            <p className="text-[#555555] text-xs mb-8">A confirmation will be sent to <span className="text-white">{form.email}</span></p>
+            <p className="text-[#6B7280] text-xs mb-8">A confirmation will be sent to <span className="text-white">{form.email}</span></p>
             <div className="flex flex-col gap-3">
               <Link href="/dashboard" className="w-full py-3 tesla-btn-primary rounded text-xs font-bold tracking-widest uppercase text-center">
                 Go to Dashboard
@@ -123,7 +123,7 @@ export default function BookSessionPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#0A0A0A] text-white">
+    <main className="min-h-screen bg-[#050507] text-white">
       <Header />
       <div className="pt-24 pb-20 px-6 lg:px-8">
         <div className="max-w-2xl mx-auto">
@@ -133,7 +133,7 @@ export default function BookSessionPage() {
             <h1 className="text-4xl font-extrabold text-white tracking-tight mb-3">
               Book a Session with <span className="gradient-text-primary">Elon Musk</span>
             </h1>
-            <p className="text-[#666666] text-sm">
+            <p className="text-[#71717A] text-sm">
               Private 30-minute session — In-Person or Virtual. Appointment fee: <span className="text-white font-bold">$50,000</span>
             </p>
           </div>
@@ -151,11 +151,11 @@ export default function BookSessionPage() {
                     }`}>
                       {currentIdx > i ? '✓' : i + 1}
                     </div>
-                    <span className={`text-[10px] font-semibold tracking-wider uppercase hidden sm:block ${step === s ? 'text-white' : 'text-[#444444]'}`}>
+                    <span className={`text-[10px] font-semibold tracking-wider uppercase hidden sm:block ${step === s ? 'text-white' : 'text-[#52525B]'}`}>
                       {s === 'details' ? 'Your Details' : s === 'payment' ? 'Payment' : 'Confirm'}
                     </span>
                   </div>
-                  {i < 2 && <div className={`flex-1 h-px ${currentIdx > i ? 'bg-primary' : 'bg-[#2A2A2A]'}`} />}
+                  {i < 2 && <div className={`flex-1 h-px ${currentIdx > i ? 'bg-primary' : 'bg-[#1E2027]'}`} />}
                 </React.Fragment>
               );
             })}
@@ -164,12 +164,12 @@ export default function BookSessionPage() {
           {/* Step 1: Details */}
           {step === 'details' && (
             <div className="space-y-5">
-              <div className="bg-[#111111] border border-[#1A1A1A] rounded-lg p-6 space-y-5">
+              <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-6 space-y-5">
                 <h2 className="text-sm font-bold text-white tracking-widest uppercase">Personal Information</h2>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold text-[#888888] uppercase tracking-widest mb-2">Full Name *</label>
+                    <label className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">Full Name *</label>
                     <input
                       type="text"
                       value={form.fullName}
@@ -180,7 +180,7 @@ export default function BookSessionPage() {
                     {errors.fullName && <p className="text-xs text-red-400 mt-1">{errors.fullName}</p>}
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-[#888888] uppercase tracking-widest mb-2">Email *</label>
+                    <label className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">Email *</label>
                     <input
                       type="email"
                       value={form.email}
@@ -193,7 +193,7 @@ export default function BookSessionPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-[#888888] uppercase tracking-widest mb-2">Phone (Optional)</label>
+                  <label className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">Phone (Optional)</label>
                   <input
                     type="tel"
                     value={form.phone}
@@ -204,7 +204,7 @@ export default function BookSessionPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-[#888888] uppercase tracking-widest mb-2">Session Format *</label>
+                  <label className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">Session Format *</label>
                   <div className="grid grid-cols-2 gap-3">
                     {[
                       { id: 'virtual', label: 'Virtual', icon: '💻', detail: 'Video call via secure platform' },
@@ -214,13 +214,13 @@ export default function BookSessionPage() {
                         key={opt.id}
                         onClick={() => setForm({ ...form, sessionType: opt.id })}
                         className={`flex items-center gap-3 p-4 rounded-lg border text-left transition-all ${
-                          form.sessionType === opt.id ? 'border-primary bg-primary/5' : 'border-[#1A1A1A] bg-[#0D0D0D] hover:border-[#2A2A2A]'
+                          form.sessionType === opt.id ? 'border-primary bg-primary/5' : 'border-[#12131A] bg-[#050507] hover:border-[#1E2027]'
                         }`}
                       >
                         <span className="text-xl">{opt.icon}</span>
                         <div>
                           <div className="text-sm font-bold text-white">{opt.label}</div>
-                          <div className="text-[10px] text-[#555555]">{opt.detail}</div>
+                          <div className="text-[10px] text-[#6B7280]">{opt.detail}</div>
                         </div>
                       </button>
                     ))}
@@ -229,7 +229,7 @@ export default function BookSessionPage() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold text-[#888888] uppercase tracking-widest mb-2">Preferred Date *</label>
+                    <label className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">Preferred Date *</label>
                     <input
                       type="date"
                       value={form.preferredDate}
@@ -240,7 +240,7 @@ export default function BookSessionPage() {
                     {errors.preferredDate && <p className="text-xs text-red-400 mt-1">{errors.preferredDate}</p>}
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-[#888888] uppercase tracking-widest mb-2">Preferred Time *</label>
+                    <label className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">Preferred Time *</label>
                     <select
                       value={form.preferredTime}
                       onChange={(e) => setForm({ ...form, preferredTime: e.target.value })}
@@ -256,7 +256,7 @@ export default function BookSessionPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-[#888888] uppercase tracking-widest mb-2">Topics to Discuss (Optional)</label>
+                  <label className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">Topics to Discuss (Optional)</label>
                   <textarea
                     value={form.topics}
                     onChange={(e) => setForm({ ...form, topics: e.target.value })}
@@ -283,7 +283,7 @@ export default function BookSessionPage() {
                 <span className="text-2xl">💰</span>
                 <div>
                   <p className="text-sm font-bold text-white">Appointment Fee: $50,000 USD</p>
-                  <p className="text-xs text-[#888888]">Payment is required to confirm your booking</p>
+                  <p className="text-xs text-[#A1A1AA]">Payment is required to confirm your booking</p>
                 </div>
               </div>
 
@@ -297,13 +297,13 @@ export default function BookSessionPage() {
                     key={method.id}
                     onClick={() => setPaymentMethod(method.id)}
                     className={`w-full flex items-center gap-4 p-4 rounded-lg border text-left transition-all ${
-                      paymentMethod === method.id ? 'border-primary bg-primary/5' : 'border-[#1A1A1A] bg-[#111111] hover:border-[#2A2A2A]'
+                      paymentMethod === method.id ? 'border-primary bg-primary/5' : 'border-[#12131A] bg-[#0D0E12] hover:border-[#1E2027]'
                     }`}
                   >
                     <span className="text-2xl">{method.icon}</span>
                     <div className="flex-1">
                       <div className="text-sm font-bold text-white">{method.name}</div>
-                      <div className="text-xs text-[#555555]">{method.detail}</div>
+                      <div className="text-xs text-[#6B7280]">{method.detail}</div>
                     </div>
                     {paymentMethod === method.id && (
                       <div className="w-5 h-5 bg-primary rounded-full flex items-center justify-center shrink-0">
@@ -316,15 +316,15 @@ export default function BookSessionPage() {
               </div>
 
               {paymentMethod === 'crypto' && (
-                <div className="bg-[#111111] border border-[#1A1A1A] rounded-lg p-5 space-y-4">
+                <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-5 space-y-4">
                   <p className="text-xs font-bold text-white uppercase tracking-widest">Crypto Payment Instructions</p>
-                  <p className="text-xs text-[#888888]">Send exactly <span className="text-white font-bold">$50,000 USD equivalent</span> to the wallet address below, then paste your transaction hash.</p>
-                  <div className="bg-[#0D0D0D] border border-[#2A2A2A] rounded p-3">
-                    <p className="text-[10px] text-[#555555] uppercase tracking-widest mb-1">BTC / ETH / USDT Wallet</p>
+                  <p className="text-xs text-[#A1A1AA]">Send exactly <span className="text-white font-bold">$50,000 USD equivalent</span> to the wallet address below, then paste your transaction hash.</p>
+                  <div className="bg-[#050507] border border-[#1E2027] rounded p-3">
+                    <p className="text-[10px] text-[#6B7280] uppercase tracking-widest mb-1">BTC / ETH / USDT Wallet</p>
                     <p className="text-xs text-white font-mono break-all">Contact support for wallet address after submitting your booking</p>
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-[#888888] uppercase tracking-widest mb-2">Transaction Hash *</label>
+                    <label className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">Transaction Hash *</label>
                     <input
                       type="text"
                       value={cryptoTxHash}
@@ -338,16 +338,16 @@ export default function BookSessionPage() {
               )}
 
               {paymentMethod === 'wire' && (
-                <div className="bg-[#111111] border border-[#1A1A1A] rounded-lg p-5">
+                <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-5">
                   <p className="text-xs font-bold text-white uppercase tracking-widest mb-3">Wire Transfer Instructions</p>
-                  <p className="text-xs text-[#888888] leading-relaxed">After submitting your booking, our team will send wire transfer details to your email within 2 business hours. Payment must be received within 48 hours to hold your appointment slot.</p>
+                  <p className="text-xs text-[#A1A1AA] leading-relaxed">After submitting your booking, our team will send wire transfer details to your email within 2 business hours. Payment must be received within 48 hours to hold your appointment slot.</p>
                 </div>
               )}
 
               {paymentMethod === 'card' && (
-                <div className="bg-[#111111] border border-[#1A1A1A] rounded-lg p-5">
+                <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-5">
                   <p className="text-xs font-bold text-white uppercase tracking-widest mb-3">Card Payment</p>
-                  <p className="text-xs text-[#888888] leading-relaxed">A secure payment link will be sent to your email after booking submission. Complete payment within 24 hours to confirm your slot.</p>
+                  <p className="text-xs text-[#A1A1AA] leading-relaxed">A secure payment link will be sent to your email after booking submission. Complete payment within 24 hours to confirm your slot.</p>
                 </div>
               )}
 
@@ -373,7 +373,7 @@ export default function BookSessionPage() {
           {/* Step 3: Confirm */}
           {step === 'confirm' && (
             <div className="space-y-5">
-              <div className="bg-[#111111] border border-[#1A1A1A] rounded-lg p-6 space-y-3">
+              <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-6 space-y-3">
                 <h3 className="text-sm font-bold text-white uppercase tracking-widest mb-4">Booking Summary</h3>
                 {[
                   { label: 'Name', value: form.fullName },
@@ -384,21 +384,21 @@ export default function BookSessionPage() {
                   { label: 'Payment Method', value: paymentMethod === 'crypto' ? 'Cryptocurrency' : paymentMethod === 'wire' ? 'Bank Wire Transfer' : 'Credit / Debit Card' },
                   { label: 'Appointment Fee', value: '$50,000 USD' },
                 ].map((item) => (
-                  <div key={item.label} className="flex justify-between py-2 border-b border-[#1A1A1A]">
-                    <span className="text-xs text-[#555555] uppercase tracking-wider">{item.label}</span>
+                  <div key={item.label} className="flex justify-between py-2 border-b border-[#12131A]">
+                    <span className="text-xs text-[#6B7280] uppercase tracking-wider">{item.label}</span>
                     <span className="text-xs font-bold text-white text-right max-w-[60%]">{item.value}</span>
                   </div>
                 ))}
                 {form.topics && (
                   <div className="py-2">
-                    <span className="text-xs text-[#555555] uppercase tracking-wider block mb-1">Topics</span>
+                    <span className="text-xs text-[#6B7280] uppercase tracking-wider block mb-1">Topics</span>
                     <span className="text-xs text-white">{form.topics}</span>
                   </div>
                 )}
               </div>
 
               <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
-                <p className="text-xs text-[#888888] leading-relaxed">
+                <p className="text-xs text-[#A1A1AA] leading-relaxed">
                   By confirming, you acknowledge the $50,000 appointment fee and agree to our{' '}
                   <Link href="/terms" className="text-primary hover:underline">Terms of Service</Link>.
                   Bookings are subject to availability and admin confirmation.

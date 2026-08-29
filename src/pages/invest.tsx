@@ -15,7 +15,7 @@ const packages = [
     description: 'Perfect first step into the Tesla ecosystem with minimal commitment.',
     includes: ['Monthly reports', 'Email support', 'Community access'],
     featured: false,
-    color: 'border-[#2A2A2A]',
+    color: 'border-[#1E2027]',
     badge: 'New',
   },
   {
@@ -27,7 +27,7 @@ const packages = [
     description: 'Build early exposure to Tesla energy and vehicle asset pools.',
     includes: ['Bi-monthly reports', 'Email support', 'Community access', 'Referral bonus eligible'],
     featured: false,
-    color: 'border-[#2A2A2A]',
+    color: 'border-[#1E2027]',
     badge: 'New',
   },
   {
@@ -39,7 +39,7 @@ const packages = [
     description: 'Entry-level package focused on Tesla energy products and Powerwall allocations.',
     includes: ['Powerwall priority access', 'Quarterly reports', 'Email support'],
     featured: false,
-    color: 'border-[#2A2A2A]',
+    color: 'border-[#1E2027]',
   },
   {
     id: 3,
@@ -61,7 +61,7 @@ const packages = [
     description: 'Bespoke high-net-worth package with private session eligibility and Optimus early access.',
     includes: ['Dedicated account manager', 'Private Elon session eligibility', 'Optimus allocation priority', 'Custom reporting'],
     featured: false,
-    color: 'border-[#2A2A2A]',
+    color: 'border-[#1E2027]',
   },
 ];
 
@@ -152,7 +152,7 @@ export default function InvestPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#0A0A0A] text-white">
+    <main className="min-h-screen bg-[#050507] text-white">
       <Header />
       <div className="pt-24 pb-20 px-6 lg:px-8">
         <div className="max-w-5xl mx-auto">
@@ -162,7 +162,7 @@ export default function InvestPage() {
             <h1 className="text-4xl font-extrabold text-white tracking-tight mb-4">
               Start <span className="gradient-text-primary">Investing</span>
             </h1>
-            <p className="text-[#666666] text-base max-w-xl">
+            <p className="text-[#71717A] text-base max-w-xl">
               Choose your investment package and begin your journey in the Tesla ecosystem.
             </p>
           </div>
@@ -175,7 +175,7 @@ export default function InvestPage() {
                 <p className={`text-sm font-bold mb-1 ${kycBannerConfig[kycStatus]!.titleColor}`}>
                   {kycBannerConfig[kycStatus]!.title}
                 </p>
-                <p className="text-xs text-[#666666]">{kycBannerConfig[kycStatus]!.message}</p>
+                <p className="text-xs text-[#71717A]">{kycBannerConfig[kycStatus]!.message}</p>
               </div>
               <Link
                 href={kycBannerConfig[kycStatus]!.href}
@@ -204,11 +204,11 @@ export default function InvestPage() {
                   }`}>
                     {['select', 'amount', 'payment', 'confirm'].indexOf(step) > i ? '✓' : i + 1}
                   </div>
-                  <span className={`text-[10px] font-semibold tracking-wider uppercase hidden sm:block ${step === s ? 'text-white' : 'text-[#444444]'}`}>
+                  <span className={`text-[10px] font-semibold tracking-wider uppercase hidden sm:block ${step === s ? 'text-white' : 'text-[#52525B]'}`}>
                     {s === 'select' ? 'Package' : s === 'amount' ? 'Amount' : s === 'payment' ? 'Payment' : 'Confirm'}
                   </span>
                 </div>
-                {i < 3 && <div className={`flex-1 h-px ${['select', 'amount', 'payment', 'confirm'].indexOf(step) > i ? 'bg-primary' : 'bg-[#2A2A2A]'}`} />}
+                {i < 3 && <div className={`flex-1 h-px ${['select', 'amount', 'payment', 'confirm'].indexOf(step) > i ? 'bg-primary' : 'bg-[#1E2027]'}`} />}
               </React.Fragment>
             ))}
           </div>
@@ -224,9 +224,9 @@ export default function InvestPage() {
                     <button
                       key={pkg.id}
                       onClick={() => !pkgLocked && setSelected(pkg.id)}
-                      className={`relative text-left bg-[#111111] rounded-lg p-6 border transition-all duration-300 ${
+                      className={`relative text-left bg-[#0D0E12] rounded-lg p-6 border transition-all duration-300 ${
                         pkgLocked
-                          ? 'opacity-60 cursor-not-allowed border-[#1A1A1A]'
+                          ? 'opacity-60 cursor-not-allowed border-[#12131A]'
                           : selected === pkg.id
                           ? 'border-primary bg-primary/5'
                           : `${pkg.color} hover:border-primary/30`
@@ -238,17 +238,17 @@ export default function InvestPage() {
                         </div>
                       )}
                       {pkg.badge && !pkgLocked && (
-                        <div className="absolute top-3 right-3 px-2 py-0.5 bg-[#1A1A1A] text-[#888888] text-[9px] font-bold rounded tracking-widest uppercase">
+                        <div className="absolute top-3 right-3 px-2 py-0.5 bg-[#12131A] text-[#A1A1AA] text-[9px] font-bold rounded tracking-widest uppercase">
                           {pkg.badge}
                         </div>
                       )}
                       {pkgLocked && (
-                        <div className="absolute top-3 right-3 flex items-center gap-1 px-2 py-0.5 bg-[#1A1A1A] border border-[#2A2A2A] rounded">
+                        <div className="absolute top-3 right-3 flex items-center gap-1 px-2 py-0.5 bg-[#12131A] border border-[#1E2027] rounded">
                           <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="2" aria-hidden="true">
                             <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
                             <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                           </svg>
-                          <span className="text-[9px] text-[#555555] font-bold uppercase tracking-widest">KYC Required</span>
+                          <span className="text-[9px] text-[#6B7280] font-bold uppercase tracking-widest">KYC Required</span>
                         </div>
                       )}
                       {selected === pkg.id && !pkgLocked && (
@@ -257,31 +257,31 @@ export default function InvestPage() {
                         </div>
                       )}
                       <h3 className="text-base font-extrabold text-white mb-1 mt-2">{pkg.name}</h3>
-                      <p className="text-xs text-[#666666] mb-4 leading-relaxed">{pkg.description}</p>
+                      <p className="text-xs text-[#71717A] mb-4 leading-relaxed">{pkg.description}</p>
                       <div className="space-y-2 mb-4">
                         <div className="flex justify-between">
-                          <span className="text-[10px] text-[#555555] uppercase tracking-widest">Min. Investment</span>
+                          <span className="text-[10px] text-[#6B7280] uppercase tracking-widest">Min. Investment</span>
                           <span className="text-sm font-bold text-primary">${pkg.min.toLocaleString()}</span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-[10px] text-[#555555] uppercase tracking-widest">Return</span>
+                          <span className="text-[10px] text-[#6B7280] uppercase tracking-widest">Return</span>
                           <span className="text-sm font-bold text-white">{pkg.return}</span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-[10px] text-[#555555] uppercase tracking-widest">Duration</span>
+                          <span className="text-[10px] text-[#6B7280] uppercase tracking-widest">Duration</span>
                           <span className="text-sm font-semibold text-white">{pkg.duration}</span>
                         </div>
                       </div>
                       <ul className="space-y-1.5">
                         {pkg.includes.map((item) => (
-                          <li key={item} className="flex items-center gap-2 text-xs text-[#666666]">
+                          <li key={item} className="flex items-center gap-2 text-xs text-[#71717A]">
                             <svg className="w-3 h-3 text-primary shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
                             {item}
                           </li>
                         ))}
                       </ul>
                       {pkgLocked ? (
-                        <div className="mt-2 pt-3 border-t border-[#1A1A1A]">
+                        <div className="mt-2 pt-3 border-t border-[#12131A]">
                           <Link
                             href="/kyc"
                             onClick={(e) => e.stopPropagation()}
@@ -292,9 +292,9 @@ export default function InvestPage() {
                         </div>
                       ) : (
                         <div
-                          className={`mt-2 pt-3 border-t border-[#1A1A1A] flex items-center justify-center py-2 rounded text-[10px] font-bold tracking-widest uppercase transition-all ${
+                          className={`mt-2 pt-3 border-t border-[#12131A] flex items-center justify-center py-2 rounded text-[10px] font-bold tracking-widest uppercase transition-all ${
                             selected === pkg.id
-                              ? 'bg-primary text-white' :'bg-[#1A1A1A] text-[#888888] group-hover:bg-primary/10 group-hover:text-primary'
+                              ? 'bg-primary text-white' :'bg-[#12131A] text-[#A1A1AA] group-hover:bg-primary/10 group-hover:text-primary'
                           }`}
                           onClick={(e) => {
                             e.stopPropagation();
@@ -324,17 +324,17 @@ export default function InvestPage() {
           {/* Step 2: Amount */}
           {step === 'amount' && selectedPkg && (
             <div className="max-w-md">
-              <div className="bg-[#111111] border border-[#1A1A1A] rounded-lg p-6 mb-6">
-                <div className="flex items-center justify-between mb-4 pb-4 border-b border-[#1A1A1A]">
+              <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-6 mb-6">
+                <div className="flex items-center justify-between mb-4 pb-4 border-b border-[#12131A]">
                   <span className="text-sm font-bold text-white">{selectedPkg.name}</span>
-                  <button onClick={() => setStep('select')} className="text-xs text-[#555555] hover:text-primary transition-colors">Change</button>
+                  <button onClick={() => setStep('select')} className="text-xs text-[#6B7280] hover:text-primary transition-colors">Change</button>
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-[#888888] uppercase tracking-widest mb-2">
+                  <label className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">
                     Investment Amount (USD)
                   </label>
                   <div className="relative">
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#555555] font-bold">$</span>
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#6B7280] font-bold">$</span>
                     <input
                       type="number"
                       value={amount}
@@ -344,17 +344,17 @@ export default function InvestPage() {
                       className="w-full pl-8 pr-4 py-3 rounded text-sm input-tesla"
                     />
                   </div>
-                  <p className="text-xs text-[#555555] mt-2">
+                  <p className="text-xs text-[#6B7280] mt-2">
                     Minimum: <span className="text-primary font-semibold">${selectedPkg.min.toLocaleString()}</span>
                   </p>
                 </div>
                 {amount && Number(amount) >= selectedPkg.min && (
-                  <div className="mt-4 p-4 bg-[#0A0A0A] rounded border border-[#2A2A2A]">
-                    <div className="text-xs text-[#555555] uppercase tracking-widest mb-2">Projected Returns</div>
+                  <div className="mt-4 p-4 bg-[#050507] rounded border border-[#1E2027]">
+                    <div className="text-xs text-[#6B7280] uppercase tracking-widest mb-2">Projected Returns</div>
                     <div className="text-lg font-extrabold text-green-400">
                       +${Math.round(Number(amount) * 0.12).toLocaleString()} – ${Math.round(Number(amount) * 0.18).toLocaleString()}
                     </div>
-                    <div className="text-xs text-[#555555] mt-1">Estimated over {selectedPkg.duration}</div>
+                    <div className="text-xs text-[#6B7280] mt-1">Estimated over {selectedPkg.duration}</div>
                   </div>
                 )}
               </div>
@@ -385,13 +385,13 @@ export default function InvestPage() {
                     onClick={() => setPaymentMethod(method.id)}
                     className={`w-full flex items-center gap-4 p-4 rounded-lg border text-left transition-all ${
                       paymentMethod === method.id
-                        ? 'border-primary bg-primary/5' :'border-[#1A1A1A] bg-[#111111] hover:border-[#2A2A2A]'
+                        ? 'border-primary bg-primary/5' :'border-[#12131A] bg-[#0D0E12] hover:border-[#1E2027]'
                     }`}
                   >
                     <span className="text-2xl">{method.icon}</span>
                     <div>
                       <div className="text-sm font-bold text-white">{method.name}</div>
-                      <div className="text-xs text-[#555555]">{method.detail}</div>
+                      <div className="text-xs text-[#6B7280]">{method.detail}</div>
                     </div>
                     {paymentMethod === method.id && (
                       <div className="ml-auto w-5 h-5 bg-primary rounded-full flex items-center justify-center shrink-0">
@@ -424,7 +424,7 @@ export default function InvestPage() {
           {/* Step 4: Confirm */}
           {step === 'confirm' && selectedPkg && (
             <div className="max-w-md">
-              <div className="bg-[#111111] border border-[#1A1A1A] rounded-lg p-6 mb-6 space-y-3">
+              <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-6 mb-6 space-y-3">
                 <h3 className="text-sm font-bold text-white uppercase tracking-widest mb-4">Order Summary</h3>
                 {[
                   { label: 'Package', value: selectedPkg.name },
@@ -433,14 +433,14 @@ export default function InvestPage() {
                   { label: 'Duration', value: selectedPkg.duration },
                   { label: 'Payment Method', value: paymentMethod === 'wire' ? 'Bank Wire' : paymentMethod === 'crypto' ? 'Cryptocurrency' : 'Card' },
                 ].map((item) => (
-                  <div key={item.label} className="flex justify-between py-2 border-b border-[#1A1A1A]">
-                    <span className="text-xs text-[#555555] uppercase tracking-wider">{item.label}</span>
+                  <div key={item.label} className="flex justify-between py-2 border-b border-[#12131A]">
+                    <span className="text-xs text-[#6B7280] uppercase tracking-wider">{item.label}</span>
                     <span className="text-xs font-bold text-white">{item.value}</span>
                   </div>
                 ))}
               </div>
               <div className="bg-primary/5 border border-primary/20 rounded-lg p-4 mb-6">
-                <p className="text-xs text-[#888888] leading-relaxed">
+                <p className="text-xs text-[#A1A1AA] leading-relaxed">
                   By confirming, you acknowledge this is an investment with associated risks. Returns are not guaranteed. Please review our{' '}
                   <a href="#" className="text-primary hover:underline">Investment Terms</a>.
                 </p>

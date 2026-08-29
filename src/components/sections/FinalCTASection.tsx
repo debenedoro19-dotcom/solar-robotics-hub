@@ -36,7 +36,7 @@ export default function FinalCTASection() {
               Power Tomorrow&apos;s{' '}
               <span className="gradient-text-primary neon-red">Wealth</span>
             </h2>
-            <p className="text-[#666666] text-lg font-light max-w-xl mx-auto mb-10">
+            <p className="text-[#71717A] text-lg font-light max-w-xl mx-auto mb-10">
               Invest smarter. Drive the future. Build sustainable energy with Tesla.
             </p>
 
