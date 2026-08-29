@@ -109,6 +109,13 @@ export default function AdminUsersPage() {
   const [balanceSaved, setBalanceSaved] = useState(false);
   const [balanceNote, setBalanceNote] = useState('');
 
+  // Canonical wallet balance state
+  const [currentWallet, setCurrentWallet] = useState(0);
+  const [walletInput, setWalletInput] = useState('');
+  const [walletSaving, setWalletSaving] = useState(false);
+  const [walletMsg, setWalletMsg] = useState('');
+
+
   // ── Auth ────────────────────────────────────────────────────────────────────
 
   useEffect(() => {
