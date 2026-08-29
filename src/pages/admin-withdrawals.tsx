@@ -144,7 +144,6 @@ export default function AdminWithdrawalsPage() {
     const currentUser = getCurrentUser();
     if (currentUser) void checkIsAdmin().then((ok) => { if (!ok) return; setAuthorized(true); });
     if (currentUser) {
-      setAuthorized(true);
       loadWithdrawals();
       subscribeToWithdrawals();
     }

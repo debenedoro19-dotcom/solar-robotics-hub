@@ -193,7 +193,6 @@ export default function AdminSettingsPage() {
     const currentUser = getCurrentUser();
     if (currentUser) void checkIsAdmin().then((ok) => { if (!ok) return; setAuthorized(true); });
     if (currentUser) {
-      setAuthorized(true);
       // Load saved settings from localStorage
       try {
         const savedPlatform = localStorage.getItem(STORAGE_KEYS.platform);
