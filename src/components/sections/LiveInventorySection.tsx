@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import AppImage from '@/components/ui/AppImage';
 
-type Category = 'All' | 'Vehicles' | 'Energy' | 'Robotics';
+type Category = 'All' | 'Vehicles' | 'Energy' | 'Solar' | 'Robotics';
 
 interface InventoryItem {
   id: number;
   name: string;
   price: string;
   badge: string;
-  badgeType: 'new' | 'cpo' | 'energy' | 'robotics';
+  badgeType: 'new' | 'cpo' | 'energy' | 'solar' | 'robotics';
   category: Exclude<Category, 'All'>;
   image: string;
   alt: string;
@@ -193,9 +193,9 @@ const inventory: InventoryItem[] = [
   id: 18,
   name: 'Tesla Solar Roof V3 – 10 kW',
   price: '$35,000',
-  badge: 'ENERGY',
-  badgeType: 'energy',
-  category: 'Energy',
+  badge: 'SOLAR',
+  badgeType: 'solar',
+  category: 'Solar',
   image: "https://img.rocket.new/generatedImages/rocket_gen_img_1f81c1cd3-1786700170777.png",
   alt: 'Tesla Solar Roof V3 tiles integrated seamlessly into modern home rooftop, bright sunlight, clean energy installation'
 },
@@ -203,9 +203,9 @@ const inventory: InventoryItem[] = [
   id: 19,
   name: 'Tesla Solar Panels – 8.16 kW',
   price: '$22,000',
-  badge: 'ENERGY',
-  badgeType: 'energy',
-  category: 'Energy',
+  badge: 'SOLAR',
+  badgeType: 'solar',
+  category: 'Solar',
   image: "https://img.rocket.new/generatedImages/rocket_gen_img_1fd4f5900-1775946061202.png",
   alt: 'Tesla Solar Panels array on modern home roof, blue sky background, residential clean energy setup'
 },
@@ -213,9 +213,9 @@ const inventory: InventoryItem[] = [
   id: 20,
   name: 'Tesla Solar Panels – 12.24 kW',
   price: '$30,000',
-  badge: 'ENERGY',
-  badgeType: 'energy',
-  category: 'Energy',
+  badge: 'SOLAR',
+  badgeType: 'solar',
+  category: 'Solar',
   image: "https://img.rocket.new/generatedImages/rocket_gen_img_14d68ed9c-1784572897425.png",
   alt: 'Large Tesla Solar Panel installation on commercial building rooftop, expansive solar array, bright sunny environment'
 },
@@ -283,21 +283,46 @@ const inventory: InventoryItem[] = [
 }];
 
 
-const categories: Category[] = ['All', 'Vehicles', 'Energy', 'Robotics'];
+const PAGE_SIZE = 12;
+const ORDER: Exclude<Category, 'All'>[] = ['Vehicles', 'Energy', 'Solar', 'Robotics'];
+
+const categories: Category[] = ['All', 'Vehicles', 'Energy', 'Solar', 'Robotics'];
 
 const badgeClasses: Record<string, string> = {
   new: 'card-badge-new',
   cpo: 'card-badge-cpo',
   energy: 'card-badge-energy',
+  solar: 'card-badge-solar',
   robotics: 'card-badge-robotics'
 };
 
 export default function LiveInventorySection() {
   const [active, setActive] = useState<Category>('All');
-  const [showAll, setShowAll] = useState(false);
+  const [visible, setVisible] = useState(PAGE_SIZE);
 
-  const filtered = active === 'All' ? inventory : inventory.filter((i) => i.category === active);
-  const displayed = showAll ? filtered : filtered.slice(0, 12);
+  // "All" interleaves the categories so Energy, Solar and Robotics are visible
+  // on the first screen instead of being buried behind 15 vehicles.
+  const filtered = React.useMemo(() => {
+    if (active !== 'All') return inventory.filter((i) => i.category === active);
+    const buckets = ORDER.map((c) => inventory.filter((i) => i.category === c));
+    const out: InventoryItem[] = [];
+    for (let row = 0; out.length < inventory.length; row++) {
+      for (const bucket of buckets) {
+        const item = bucket[row];
+        if (item) out.push(item);
+      }
+    }
+    return out;
+  }, [active]);
+
+  const displayed = filtered.slice(0, visible);
+  const remaining = filtered.length - displayed.length;
+
+  const counts = React.useMemo(() => {
+    const map: Record<string, number> = { All: inventory.length };
+    for (const c of ORDER) map[c] = inventory.filter((i) => i.category === c).length;
+    return map;
+  }, []);
 
   return (
     <section id="inventory" className="relative z-10 py-20 px-4 sm:px-6 lg:px-8">
@@ -327,7 +352,7 @@ export default function LiveInventorySection() {
             key={cat}
             role="tab"
             aria-selected={active === cat}
-            onClick={() => {setActive(cat);setShowAll(false);}}
+            onClick={() => {setActive(cat);setVisible(PAGE_SIZE);}}
             className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 min-h-[44px] ${
             active === cat ?
             'bg-primary text-primary-foreground shadow-lg' :
@@ -336,6 +361,7 @@ export default function LiveInventorySection() {
             style={active === cat ? { boxShadow: '0 0 20px rgba(0,212,255,0.25)' } : {}}>
             
               {cat}
+              <span className="ml-2 opacity-60 text-xs">{counts[cat] ?? 0}</span>
             </button>
           )}
         </div>
@@ -347,7 +373,7 @@ export default function LiveInventorySection() {
         <article
           key={item.id}
           className="glass-card glass-card-hover rounded-2xl overflow-hidden group section-reveal"
-          style={{ transitionDelay: `${idx % 12 * 40}ms` }}>
+          style={{ transitionDelay: `${idx % PAGE_SIZE * 40}ms` }}>
           
             {/* Image */}
             <div className="relative h-48 overflow-hidden bg-muted">
@@ -380,13 +406,13 @@ export default function LiveInventorySection() {
       </div>
 
       {/* Load more */}
-      {filtered.length > 12 &&
+      {remaining > 0 &&
       <div className="max-w-7xl mx-auto mt-10 text-center">
           <button
-          onClick={() => setShowAll(!showAll)}
+          onClick={() => setVisible((v) => v + PAGE_SIZE)}
           className="px-8 py-3.5 border border-border text-foreground font-semibold rounded-xl hover:border-primary/40 hover:bg-primary/5 text-sm transition-all duration-300 btn-shimmer min-h-[44px]">
           
-            {showAll ? 'Show Less' : `Load More (${filtered.length - 12} remaining)`}
+            {`Load More (${remaining} remaining)`}
           </button>
         </div>
       }
