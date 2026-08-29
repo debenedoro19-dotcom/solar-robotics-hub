@@ -33,6 +33,7 @@ import { Route as CareersSlugRouteImport } from './routes/careers.$slug'
 import { Route as AuthenticatedAccountIndexRouteImport } from './routes/_authenticated.account.index'
 import { Route as AuthenticatedAccountDepositRouteImport } from './routes/_authenticated.account.deposit'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated.admin.index'
+import { Route as AuthenticatedAdminCareersRouteImport } from './routes/_authenticated.admin.careers'
 import { Route as AuthenticatedAdminDepositsRouteImport } from './routes/_authenticated.admin.deposits'
 import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated.admin.settings'
 import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated.admin.users'
@@ -159,6 +160,12 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminCareersRoute =
+  AuthenticatedAdminCareersRouteImport.update({
+    id: '/careers',
+    path: '/careers',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminDepositsRoute =
   AuthenticatedAdminDepositsRouteImport.update({
     id: '/deposits',
@@ -205,6 +212,7 @@ export interface FileRoutesByFullPath {
   '/support': typeof AuthenticatedSupportRoute
   '/careers/$slug': typeof CareersSlugRoute
   '/account/deposit': typeof AuthenticatedAccountDepositRoute
+  '/admin/careers': typeof AuthenticatedAdminCareersRoute
   '/admin/deposits': typeof AuthenticatedAdminDepositsRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
@@ -233,6 +241,7 @@ export interface FileRoutesByTo {
   '/support': typeof AuthenticatedSupportRoute
   '/careers/$slug': typeof CareersSlugRoute
   '/account/deposit': typeof AuthenticatedAccountDepositRoute
+  '/admin/careers': typeof AuthenticatedAdminCareersRoute
   '/admin/deposits': typeof AuthenticatedAdminDepositsRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
@@ -264,6 +273,7 @@ export interface FileRoutesById {
   '/_authenticated/support': typeof AuthenticatedSupportRoute
   '/careers/$slug': typeof CareersSlugRoute
   '/_authenticated/account/deposit': typeof AuthenticatedAccountDepositRoute
+  '/_authenticated/admin/careers': typeof AuthenticatedAdminCareersRoute
   '/_authenticated/admin/deposits': typeof AuthenticatedAdminDepositsRoute
   '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
@@ -295,6 +305,7 @@ export interface FileRouteTypes {
     | '/support'
     | '/careers/$slug'
     | '/account/deposit'
+    | '/admin/careers'
     | '/admin/deposits'
     | '/admin/settings'
     | '/admin/users'
@@ -323,6 +334,7 @@ export interface FileRouteTypes {
     | '/support'
     | '/careers/$slug'
     | '/account/deposit'
+    | '/admin/careers'
     | '/admin/deposits'
     | '/admin/settings'
     | '/admin/users'
@@ -353,6 +365,7 @@ export interface FileRouteTypes {
     | '/_authenticated/support'
     | '/careers/$slug'
     | '/_authenticated/account/deposit'
+    | '/_authenticated/admin/careers'
     | '/_authenticated/admin/deposits'
     | '/_authenticated/admin/settings'
     | '/_authenticated/admin/users'
@@ -548,6 +561,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/careers': {
+      id: '/_authenticated/admin/careers'
+      path: '/careers'
+      fullPath: '/admin/careers'
+      preLoaderRoute: typeof AuthenticatedAdminCareersRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/deposits': {
       id: '/_authenticated/admin/deposits'
       path: '/deposits'
@@ -580,6 +600,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminCareersRoute: typeof AuthenticatedAdminCareersRoute
   AuthenticatedAdminDepositsRoute: typeof AuthenticatedAdminDepositsRoute
   AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
   AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
@@ -588,6 +609,7 @@ interface AuthenticatedAdminRouteChildren {
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminCareersRoute: AuthenticatedAdminCareersRoute,
   AuthenticatedAdminDepositsRoute: AuthenticatedAdminDepositsRoute,
   AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
   AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
