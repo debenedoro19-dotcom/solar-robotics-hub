@@ -583,3 +583,9 @@
   border: 1px solid rgba(255, 201, 77, 0.3);
 }
 .card-badge-vehicles { background: linear-gradient(135deg, #E31937, #CC0000); color: #FFFFFF; }
+
+/* Defer offscreen paint work for long marketing pages (big scroll perf win) */
+.defer-paint {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 900px;
+}
