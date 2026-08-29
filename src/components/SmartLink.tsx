@@ -47,5 +47,9 @@ export default function SmartLink({
     ...rest,
   } as Record<string, unknown>;
 
-  return <Link {...(linkProps as never)}>{children}</Link>;
+  const AnyLink = Link as unknown as (
+    props: Record<string, unknown>,
+  ) => JSX.Element;
+
+  return <AnyLink {...linkProps}>{children}</AnyLink>;
 }
