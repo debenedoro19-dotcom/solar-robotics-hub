@@ -1,42 +1,62 @@
-import React, { useState, useEffect, memo } from 'react';
+import React, { useState, useEffect, memo, useCallback } from 'react';
 import { createClient } from '@/lib/supabase/client';
+import SmartLink from '@/components/SmartLink';
+import model3Img from '@/assets/giveaways/model_3.jpg';
+import cybertruckImg from '@/assets/giveaways/cybertruck.jpg';
 
-interface Giveaway {
-  id: number;
+export interface Giveaway {
+  id: string;
   title: string;
   description: string;
   prize: string;
-  ends: string;
-  entryFee: string;
-  entries: number;
-  maxEntries: number;
+  image_url: string | null;
+  entry_fee: number;
+  ends_at: string;
+  entries_count: number;
+  max_entries: number;
   badge: string;
 }
 
-const DEFAULT_GIVEAWAYS: Giveaway[] = [
+// Instant-paint fallback that mirrors the seeded campaigns.
+const FALLBACK_GIVEAWAYS: Giveaway[] = [
   {
-    id: 1,
+    id: 'fallback-1',
     title: 'Win a 2025 Model 3 Long Range',
-    description: '2025 Tesla Model 3 Long Range AWD. One winner selected after campaign ends. Includes standard delivery within the continental US.',
+    description:
+      '2025 Tesla Model 3 Long Range AWD. One winner selected after the campaign ends. Includes standard delivery within the continental US.',
     prize: '2025 Tesla Model 3 Long Range AWD',
-    ends: '2026-12-31',
-    entryFee: 'Free with any inventory inquiry',
-    entries: 1247,
-    maxEntries: 5000,
-    badge: 'FREE ENTRY',
+    image_url: null,
+    entry_fee: 200,
+    ends_at: '2026-12-31',
+    entries_count: 1247,
+    max_entries: 5000,
+    badge: '$200 ENTRY',
   },
   {
-    id: 2,
+    id: 'fallback-2',
     title: 'Cybertruck Experience Weekend',
-    description: 'Win a full weekend with a Cybertruck Foundation Series plus a $2,000 platform credit toward any purchase.',
+    description:
+      'Win a full weekend with a Cybertruck Foundation Series plus a $2,000 platform credit toward any purchase.',
     prize: 'Cybertruck Foundation Series + $2,000 credit',
-    ends: '2026-10-15',
-    entryFee: '$25 entry',
-    entries: 683,
-    maxEntries: 2000,
-    badge: '$25 ENTRY',
+    image_url: null,
+    entry_fee: 500,
+    ends_at: '2026-10-15',
+    entries_count: 683,
+    max_entries: 2000,
+    badge: '$500 ENTRY',
   },
 ];
+
+const money = (n: number) =>
+  `$${Number(n || 0).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 })}`;
+
+// Pick a legitimate vehicle image based on what the campaign is about.
+function imageFor(g: Giveaway): string {
+  if (g.image_url) return g.image_url;
+  const text = `${g.title} ${g.prize}`.toLowerCase();
+  if (text.includes('cybertruck') || text.includes('cyber')) return cybertruckImg;
+  return model3Img;
+}
 
 interface TimeLeft { d: number; h: number; m: number; s: number }
 
@@ -74,15 +94,22 @@ const CountdownTimer = memo(function CountdownTimer({ endDate }: { endDate: stri
   );
 });
 
-const GiveawayCard = memo(function GiveawayCard({ g, idx }: { g: Giveaway; idx: number }) {
-  const pct = Math.round((g.entries / g.maxEntries) * 100);
+const GiveawayCard = memo(function GiveawayCard({ g, idx, onEnter }: { g: Giveaway; idx: number; onEnter: (g: Giveaway) => void }) {
+  const pct = Math.min(100, Math.round((g.entries_count / Math.max(1, g.max_entries)) * 100));
   return (
     <article
-      className="glass-card glass-card-hover rounded-2xl p-8 section-reveal relative overflow-hidden"
+      className="glass-card glass-card-hover rounded-2xl overflow-hidden section-reveal relative"
       style={{ transitionDelay: `${idx * 100}ms` }}
     >
-      <div className="absolute top-0 right-0 w-48 h-48 blob-accent opacity-30 pointer-events-none" aria-hidden="true" />
-      <div className="relative z-10">
+      <img
+        src={imageFor(g)}
+        alt={g.prize || g.title}
+        width={1024}
+        height={640}
+        loading="lazy"
+        className="w-full h-52 object-cover"
+      />
+      <div className="p-8 relative z-10">
         <div className="flex items-start justify-between mb-4 gap-4">
           <h3 className="text-xl font-extrabold text-foreground leading-tight">{g.title}</h3>
           <span className="shrink-0 px-3 py-1 rounded-full text-[10px] font-extrabold tracking-widest uppercase bg-accent/15 text-accent border border-accent/30">
@@ -91,54 +118,169 @@ const GiveawayCard = memo(function GiveawayCard({ g, idx }: { g: Giveaway; idx: 
         </div>
         <p className="text-sm text-muted-foreground leading-relaxed mb-6">{g.description}</p>
         <div className="mb-6">
-          <div className="text-[10px] font-bold text-muted-foreground tracking-widest uppercase mb-2">Ends {g.ends}</div>
-          <CountdownTimer endDate={g.ends} />
+          <div className="text-[10px] font-bold text-muted-foreground tracking-widest uppercase mb-2">
+            Ends {new Date(g.ends_at).toLocaleDateString()}
+          </div>
+          <CountdownTimer endDate={g.ends_at} />
         </div>
         <div className="mb-6">
           <div className="flex justify-between text-xs font-medium text-muted-foreground mb-2">
-            <span>{g.entries.toLocaleString()} entries</span>
-            <span>{g.maxEntries.toLocaleString()} max</span>
+            <span>{g.entries_count.toLocaleString()} entries</span>
+            <span>{g.max_entries.toLocaleString()} max</span>
           </div>
           <div className="h-2 rounded-full bg-muted overflow-hidden">
             <div
               className="h-full rounded-full bg-gradient-to-r from-primary to-primary/60"
               style={{ width: `${pct}%` }}
               role="progressbar"
-              aria-valuenow={g.entries}
+              aria-valuenow={g.entries_count}
               aria-valuemin={0}
-              aria-valuemax={g.maxEntries}
+              aria-valuemax={g.max_entries}
             />
           </div>
-          <div className="text-xs text-muted-foreground mt-1">{pct}% filled · {g.entryFee}</div>
+          <div className="text-xs text-muted-foreground mt-1">
+            {pct}% filled · {g.entry_fee > 0 ? `${money(g.entry_fee)} entry — paid from your wallet balance` : 'Free entry'}
+          </div>
         </div>
-        <button className="w-full py-3.5 bg-accent text-accent-foreground font-bold rounded-xl btn-shimmer text-sm transition-all duration-300 hover:opacity-90 hover:-translate-y-0.5 min-h-[48px]">
-          Enter Giveaway →
+        <button
+          onClick={() => onEnter(g)}
+          className="w-full py-3.5 bg-accent text-accent-foreground font-bold rounded-xl btn-shimmer text-sm transition-all duration-300 hover:opacity-90 hover:-translate-y-0.5 min-h-[48px]"
+        >
+          Enter Giveaway — {g.entry_fee > 0 ? money(g.entry_fee) : 'Free'} →
         </button>
       </div>
     </article>
   );
 });
 
-export default function GiveawaysSection() {
-  const [giveaways, setGiveaways] = useState<Giveaway[]>(DEFAULT_GIVEAWAYS);
+function EntryModal({ giveaway, onClose, onEntered }: { giveaway: Giveaway; onClose: () => void; onEntered: (id: string) => void }) {
+  const [checking, setChecking] = useState(true);
+  const [signedIn, setSignedIn] = useState(false);
+  const [balance, setBalance] = useState(0);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState('');
+  const [done, setDone] = useState(false);
 
   useEffect(() => {
-    async function loadGiveaways() {
+    let cancelled = false;
+    void (async () => {
+      const supabase = createClient();
+      const { data } = await supabase.auth.getUser();
+      const user = data?.user;
+      if (cancelled) return;
+      if (!user) { setSignedIn(false); setChecking(false); return; }
+      setSignedIn(true);
+      const { data: row } = await supabase.from('user_balance').select('available_balance').eq('user_id', user.id).maybeSingle();
+      if (cancelled) return;
+      setBalance(Number(row?.['available_balance'] ?? 0));
+      setChecking(false);
+    })();
+    return () => { cancelled = true; };
+  }, []);
+
+  const insufficient = balance < giveaway.entry_fee;
+
+  async function confirm() {
+    setBusy(true);
+    setError('');
+    const supabase = createClient();
+    const { data, error: rpcError } = await supabase.rpc('enter_giveaway', { _giveaway_id: giveaway.id });
+    setBusy(false);
+    if (rpcError) { setError(rpcError.message); return; }
+    const result = data as { ok?: boolean; error?: string } | null;
+    if (!result?.ok) { setError(result?.error || 'Could not complete your entry'); return; }
+    setBalance((b) => b - giveaway.entry_fee);
+    setDone(true);
+    onEntered(giveaway.id);
+  }
+
+  return (
+    <div className="fixed inset-0 z-[95] flex items-center justify-center px-4 bg-black/70 backdrop-blur-sm" role="dialog" aria-modal="true">
+      <div className="w-full max-w-md rounded-2xl bg-card border border-border p-6 max-h-[90vh] overflow-y-auto">
+        <div className="flex items-start justify-between mb-5 gap-4">
+          <h2 className="text-lg font-bold text-foreground">{done ? 'Entry confirmed' : 'Confirm Giveaway Entry'}</h2>
+          <button onClick={onClose} aria-label="Close" className="text-muted-foreground hover:text-foreground text-xl leading-none">×</button>
+        </div>
+
+        {checking ? (
+          <p className="text-sm text-muted-foreground py-6 text-center">Checking your wallet…</p>
+        ) : !signedIn ? (
+          <div className="space-y-4">
+            <p className="text-sm text-muted-foreground">
+              Giveaway entries are paid from your wallet balance. Sign in to enter <strong className="text-foreground">{giveaway.title}</strong>.
+            </p>
+            <SmartLink href="/login" className="block text-center w-full py-3 rounded-xl bg-accent text-accent-foreground font-bold text-sm">Sign in to enter</SmartLink>
+            <SmartLink href="/register" className="block text-center w-full py-3 rounded-xl border border-border text-foreground font-semibold text-sm">Create an account</SmartLink>
+          </div>
+        ) : done ? (
+          <div className="space-y-4">
+            <p className="text-sm text-muted-foreground">
+              You are entered into <strong className="text-foreground">{giveaway.title}</strong>. {money(giveaway.entry_fee)} was debited from your wallet balance and logged in your transaction ledger.
+            </p>
+            <SmartLink href="/dashboard" className="block text-center w-full py-3 rounded-xl bg-accent text-accent-foreground font-bold text-sm">View in dashboard</SmartLink>
+          </div>
+        ) : (
+          <div className="space-y-5">
+            <div className="rounded-xl border border-border p-4 space-y-2 text-sm">
+              <div className="flex justify-between"><span className="text-muted-foreground">Prize</span><span className="font-semibold text-foreground text-right">{giveaway.prize}</span></div>
+              <div className="flex justify-between"><span className="text-muted-foreground">Entry fee</span><span className="font-bold text-foreground tabular-nums">{money(giveaway.entry_fee)}</span></div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Wallet balance</span>
+                <span className={`font-bold tabular-nums ${insufficient ? 'text-destructive' : 'text-foreground'}`}>{money(balance)}</span>
+              </div>
+              <div className="flex justify-between border-t border-border pt-2">
+                <span className="text-muted-foreground">Balance after entry</span>
+                <span className="font-bold tabular-nums text-foreground">{money(Math.max(0, balance - giveaway.entry_fee))}</span>
+              </div>
+            </div>
+
+            {error && <p className="text-sm text-destructive">{error}</p>}
+
+            {insufficient ? (
+              <>
+                <p className="text-sm text-destructive">Your wallet balance is too low for this entry. Deposit funds first.</p>
+                <SmartLink href="/account/deposit" className="block text-center w-full py-3 rounded-xl bg-accent text-accent-foreground font-bold text-sm">Deposit Funds</SmartLink>
+              </>
+            ) : (
+              <button
+                onClick={confirm}
+                disabled={busy}
+                className="w-full py-3 rounded-xl bg-accent text-accent-foreground font-bold text-sm disabled:opacity-60"
+              >
+                {busy ? 'Processing…' : `Pay ${money(giveaway.entry_fee)} & Enter`}
+              </button>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default function GiveawaysSection() {
+  const [giveaways, setGiveaways] = useState<Giveaway[]>(FALLBACK_GIVEAWAYS);
+  const [active, setActive] = useState<Giveaway | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    void (async () => {
       try {
         const supabase = createClient();
         const { data } = await supabase
-          .from('site_settings')
-          .select('value')
-          .eq('key', 'giveaways')
-          .single();
-        if (data?.value && Array.isArray(data.value) && data.value.length > 0) {
-          setGiveaways(data.value as Giveaway[]);
-        }
+          .from('giveaways')
+          .select('*')
+          .eq('is_active', true)
+          .order('sort_order');
+        if (!cancelled && data && data.length > 0) setGiveaways(data as Giveaway[]);
       } catch {
-        // fallback to defaults already shown
+        // keep fallback cards
       }
-    }
-    loadGiveaways();
+    })();
+    return () => { cancelled = true; };
+  }, []);
+
+  const handleEntered = useCallback((id: string) => {
+    setGiveaways((prev) => prev.map((g) => (g.id === id ? { ...g, entries_count: g.entries_count + 1 } : g)));
   }, []);
 
   return (
@@ -150,13 +292,17 @@ export default function GiveawaysSection() {
             Win Vehicles &{' '}
             <span className="gradient-text-accent">Exclusive Experiences</span>
           </h2>
+          <p className="text-sm text-muted-foreground mt-3 max-w-2xl">
+            Entries are paid instantly from your wallet balance — the same balance used for deposits, plans and withdrawals.
+          </p>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {giveaways.map((g, idx) => (
-            <GiveawayCard key={g.id} g={g} idx={idx} />
+            <GiveawayCard key={g.id} g={g} idx={idx} onEnter={setActive} />
           ))}
         </div>
       </div>
+      {active && <EntryModal giveaway={active} onClose={() => setActive(null)} onEntered={handleEntered} />}
     </section>
   );
 }
