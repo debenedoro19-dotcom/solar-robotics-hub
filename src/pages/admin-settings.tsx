@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from '@/components/SmartLink';
 import { getCurrentUser, isAdmin } from '@/lib/portfolioStore';
+import { checkIsAdmin } from '@/lib/adminAuth';
 import { createClient } from '@/lib/supabase/client';
 
 type SettingsTab = 'platform' | 'security' | 'customercare' | 'email' | 'payments' | 'giveaways';
@@ -190,7 +191,8 @@ export default function AdminSettingsPage() {
   useEffect(() => {
     setMounted(true);
     const currentUser = getCurrentUser();
-    if (currentUser && isAdmin(currentUser.id)) {
+    if (currentUser) void checkIsAdmin().then((ok) => { if (!ok) return; setAuthorized(true); });
+    if (currentUser) {
       setAuthorized(true);
       // Load saved settings from localStorage
       try {

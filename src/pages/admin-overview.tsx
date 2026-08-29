@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Link from '@/components/SmartLink';
 import { createClient } from '@/lib/supabase/client';
 import { createEmptyPortfolio, getCurrentUser, isAdmin, type UserPortfolio, type Investment, type Transaction, type Alert, type ChartPoint, type AllocationItem,  } from '@/lib/portfolioStore';
+import { checkIsAdmin } from '@/lib/adminAuth';
 import { sendKYCApprovedEmail, sendPortfolioModifiedEmail, sendReturnsUpdatedEmail, sendSupportTicketUpdatedEmail } from '@/lib/emailService';
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
@@ -185,7 +186,8 @@ export default function AdminPage() {
   useEffect(() => {
     setMounted(true);
     const currentUser = getCurrentUser();
-    if (currentUser && isAdmin(currentUser.id)) {
+    if (currentUser) void checkIsAdmin().then((ok) => { if (!ok) return; setAuthorized(true); });
+    if (currentUser) {
       setAuthorized(true);
       loadUsers();
     }
