@@ -183,6 +183,7 @@
   --color-fin-amber: var(--fin-amber);
   --color-fin-danger: var(--fin-danger);
   --color-fin-muted: var(--fin-muted);
+  --color-fin-crimson: var(--fin-crimson);
 }
 
 .dark {
@@ -205,9 +206,30 @@
   }
   html {
     scroll-behavior: smooth;
+    background-color: var(--background);
   }
   h1, h2, h3, h4, h5, h6, p {
     margin: 0;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  input, select, textarea, button {
+    font-family: inherit;
+  }
+  input, select, textarea {
+    border-radius: 0.75rem;
+    color: #FFFFFF;
+  }
+  input:focus-visible, select:focus-visible, textarea:focus-visible {
+    outline: none;
+    border-color: rgba(232, 33, 39, 0.6);
+    box-shadow: 0 0 0 2px rgba(232, 33, 39, 0.15);
+  }
+  ::selection {
+    background: rgba(232, 33, 39, 0.35);
+    color: #FFFFFF;
   }
 
 }
@@ -233,19 +255,22 @@
     font-size: clamp(2rem, 5vw, 3.5rem);
   }
   .glass-card {
-    background: rgba(17, 17, 17, 0.8);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(13, 14, 18, 0.8);
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1.5rem;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
   .glass-card-hover {
-    transition: border-color 0.4s cubic-bezier(0.19, 1, 0.22, 1), background 0.4s cubic-bezier(0.19, 1, 0.22, 1), box-shadow 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
   }
   .glass-card-hover:hover {
-    border-color: rgba(232, 33, 39, 0.3);
-    background: rgba(20, 20, 20, 0.9);
-    box-shadow: 0 0 30px rgba(232, 33, 39, 0.08);
+    border-color: rgba(255, 255, 255, 0.25);
+    background: rgba(16, 17, 22, 0.9);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 0 30px rgba(0, 0, 0, 0.5);
   }
+
   .hud-line {
     height: 1px;
     background: linear-gradient(90deg, var(--primary), transparent);
