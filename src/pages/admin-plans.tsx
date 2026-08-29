@@ -29,7 +29,7 @@ const EMPTY = {
 const CATEGORIES = ['Solar', 'Robotics', 'Space', 'Energy', 'Vehicles'];
 
 const inputClass =
-  'w-full px-3 py-2.5 rounded-lg text-sm bg-[#050507] border border-[#12131A] text-white placeholder-[#52525B] focus:border-emerald-500/40 focus:outline-none transition-colors';
+  'w-full px-3 py-2.5 rounded-xl text-sm bg-[#050507] border border-[#12131A] text-white placeholder-[#52525B] focus:border-emerald-500/40 focus:outline-none transition-colors';
 const labelClass = 'block text-[10px] font-bold text-[#6B7280] uppercase tracking-widest mb-1.5';
 
 export default function AdminPlansPage() {
@@ -158,14 +158,14 @@ export default function AdminPlansPage() {
           </div>
           <button
             onClick={openCreate}
-            className="px-5 py-2.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-bold uppercase tracking-widest transition-colors"
+            className="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-bold uppercase tracking-widest transition-colors"
           >
             + New Plan
           </button>
         </div>
 
         {error && (
-          <div className="mb-6 px-4 py-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-300 text-sm">
+          <div className="mb-6 px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-sm">
             {error}
           </div>
         )}
@@ -175,7 +175,7 @@ export default function AdminPlansPage() {
             <button
               key={c}
               onClick={() => setFilter(c)}
-              className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all ${
+              className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all ${
                 filter === c
                   ? 'bg-emerald-500 text-black'
                   : 'bg-[#0D0E12] border border-slate-800/80 text-[#A1A1AA] hover:text-white'
@@ -192,7 +192,7 @@ export default function AdminPlansPage() {
         {(creating || editing) && (
           <form
             onSubmit={save}
-            className="mb-8 p-6 rounded-2xl bg-[#0D0E12] border border-slate-800/80"
+            className="mb-8 p-6 rounded-3xl bg-[#0D0E12] border border-slate-800/80"
           >
             <h2 className="text-sm font-bold mb-5">{editing ? `Edit — ${editing.name}` : 'New Plan'}</h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -284,14 +284,14 @@ export default function AdminPlansPage() {
               <button
                 type="submit"
                 disabled={saving}
-                className="px-5 py-2.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-bold uppercase tracking-widest disabled:opacity-50"
+                className="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-bold uppercase tracking-widest disabled:opacity-50"
               >
                 {saving ? 'Saving…' : editing ? 'Save changes' : 'Create plan'}
               </button>
               <button
                 type="button"
                 onClick={close}
-                className="px-5 py-2.5 rounded-lg border border-slate-800/80 text-[#A1A1AA] text-xs font-bold uppercase tracking-widest hover:text-white"
+                className="px-5 py-2.5 rounded-xl border border-slate-800/80 text-[#A1A1AA] text-xs font-bold uppercase tracking-widest hover:text-white"
               >
                 Cancel
               </button>
@@ -306,16 +306,16 @@ export default function AdminPlansPage() {
             {visible.map((p) => (
               <div
                 key={p.id}
-                className="p-5 rounded-2xl bg-[#0D0E12] border border-slate-800/80 flex flex-wrap gap-4 items-center justify-between"
+                className="p-5 rounded-3xl bg-[#0D0E12] border border-slate-800/80 flex flex-wrap gap-4 items-center justify-between"
               >
                 <div className="min-w-[220px]">
                   <div className="flex items-center gap-2">
                     <p className="font-bold">{p.name}</p>
-                    <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-emerald-500/10 text-emerald-400">
+                    <span className="px-2 py-0.5 rounded-xl text-[10px] font-bold uppercase bg-emerald-500/10 text-emerald-400">
                       {p.category}
                     </span>
                     {!p.is_active && (
-                      <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-red-500/10 text-red-400">
+                      <span className="px-2 py-0.5 rounded-xl text-[10px] font-bold uppercase bg-red-500/10 text-red-400">
                         Hidden
                       </span>
                     )}
@@ -337,15 +337,15 @@ export default function AdminPlansPage() {
                   </span>
                 </div>
                 <div className="flex gap-2">
-                  <button onClick={() => move(p, -1)} className="px-2.5 py-1.5 rounded border border-slate-800/80 text-xs text-[#A1A1AA] hover:text-white">↑</button>
-                  <button onClick={() => move(p, 1)} className="px-2.5 py-1.5 rounded border border-slate-800/80 text-xs text-[#A1A1AA] hover:text-white">↓</button>
-                  <button onClick={() => toggleActive(p)} className="px-3 py-1.5 rounded border border-slate-800/80 text-xs font-semibold text-[#A1A1AA] hover:text-white">
+                  <button onClick={() => move(p, -1)} className="px-2.5 py-1.5 rounded-xl border border-slate-800/80 text-xs text-[#A1A1AA] hover:text-white">↑</button>
+                  <button onClick={() => move(p, 1)} className="px-2.5 py-1.5 rounded-xl border border-slate-800/80 text-xs text-[#A1A1AA] hover:text-white">↓</button>
+                  <button onClick={() => toggleActive(p)} className="px-3 py-1.5 rounded-xl border border-slate-800/80 text-xs font-semibold text-[#A1A1AA] hover:text-white">
                     {p.is_active ? 'Hide' : 'Show'}
                   </button>
-                  <button onClick={() => openEdit(p)} className="px-3 py-1.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold">
+                  <button onClick={() => openEdit(p)} className="px-3 py-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold">
                     Edit
                   </button>
-                  <button onClick={() => remove(p)} className="px-3 py-1.5 rounded bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-semibold">
+                  <button onClick={() => remove(p)} className="px-3 py-1.5 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-semibold">
                     Delete
                   </button>
                 </div>

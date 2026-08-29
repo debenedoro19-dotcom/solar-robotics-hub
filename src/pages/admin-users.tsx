@@ -369,7 +369,7 @@ export default function AdminUsersPage() {
           </div>
           <h1 className="text-xl font-bold text-white mb-2">Admin Access Required</h1>
           <p className="text-sm text-[#6B7280] mb-6">You must be logged in as admin to view this page.</p>
-          <Link href="/login" className="px-6 py-2.5 bg-primary text-white rounded text-sm font-semibold hover:bg-primary/90 transition-colors">
+          <Link href="/login" className="px-6 py-2.5 bg-primary text-white rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors">
             Sign In as Admin
           </Link>
         </div>
@@ -445,7 +445,7 @@ export default function AdminUsersPage() {
             <div className="flex items-center gap-3">
               <button
                 onClick={() => openBalanceView(selectedUser)}
-                className="flex items-center gap-2 px-4 py-2 bg-[#0D0E12] hover:bg-[#12131A] border border-[#1E2027] hover:border-[#2A2D35] text-[#D4D4D8] hover:text-white text-xs font-bold rounded tracking-widest uppercase transition-all"
+                className="flex items-center gap-2 px-4 py-2 bg-[#0D0E12] hover:bg-[#12131A] border border-[#1E2027] hover:border-[#2A2D35] text-[#D4D4D8] hover:text-white text-xs font-bold rounded-xl tracking-widest uppercase transition-all"
               >
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                   <line x1="12" y1="1" x2="12" y2="23" /><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
@@ -498,7 +498,7 @@ export default function AdminUsersPage() {
                 {/* Current status */}
                 <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-5">
                   <h3 className="text-[10px] font-bold text-[#6B7280] uppercase tracking-widest mb-3">Current Status</h3>
-                  <span className={`inline-flex items-center gap-2 px-3 py-1.5 rounded border text-xs font-bold uppercase tracking-widest ${kycCfg.bg} ${kycCfg.color}`}>
+                  <span className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-xl border text-xs font-bold uppercase tracking-widest ${kycCfg.bg} ${kycCfg.color}`}>
                     <span className={`w-1.5 h-1.5 rounded-full ${kycCfg.dot}`} />
                     {kycCfg.label}
                   </span>
@@ -512,7 +512,7 @@ export default function AdminUsersPage() {
                     onChange={(e) => setKycNotes(e.target.value)}
                     placeholder="Add notes for the applicant (optional)…"
                     rows={4}
-                    className="w-full px-3 py-2.5 bg-[#050507] border border-[#1E2027] rounded text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-[#2A2D35] resize-none"
+                    className="w-full px-3 py-2.5 bg-[#050507] border border-[#1E2027] rounded-xl text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-[#2A2D35] resize-none"
                   />
                 </div>
 
@@ -521,7 +521,7 @@ export default function AdminUsersPage() {
                   <button
                     onClick={() => updateKYCStatus('approved')}
                     disabled={kycSaving || kyc.kyc_status === 'approved'}
-                    className="w-full py-3 rounded text-xs font-bold uppercase tracking-widest transition-all bg-green-400/10 hover:bg-green-400/20 border border-green-400/20 hover:border-green-400/40 text-green-400 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    className="w-full py-3 rounded-xl text-xs font-bold uppercase tracking-widest transition-all bg-green-400/10 hover:bg-green-400/20 border border-green-400/20 hover:border-green-400/40 text-green-400 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >
                     {kycSaving ? (
                       <div className="w-3 h-3 border-2 border-green-400 border-t-transparent rounded-full animate-spin" />
@@ -533,7 +533,7 @@ export default function AdminUsersPage() {
                   <button
                     onClick={() => updateKYCStatus('under_review')}
                     disabled={kycSaving || kyc.kyc_status === 'under_review'}
-                    className="w-full py-3 rounded text-xs font-bold uppercase tracking-widest transition-all bg-zinc-300/10 hover:bg-zinc-300/20 border border-zinc-300/20 hover:border-zinc-300/40 text-zinc-300 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    className="w-full py-3 rounded-xl text-xs font-bold uppercase tracking-widest transition-all bg-zinc-300/10 hover:bg-zinc-300/20 border border-zinc-300/20 hover:border-zinc-300/40 text-zinc-300 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
                     Mark Under Review
@@ -541,13 +541,13 @@ export default function AdminUsersPage() {
                   <button
                     onClick={() => updateKYCStatus('rejected')}
                     disabled={kycSaving || kyc.kyc_status === 'rejected'}
-                    className="w-full py-3 rounded text-xs font-bold uppercase tracking-widest transition-all bg-red-400/10 hover:bg-red-400/20 border border-red-400/20 hover:border-red-400/40 text-red-400 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    className="w-full py-3 rounded-xl text-xs font-bold uppercase tracking-widest transition-all bg-red-400/10 hover:bg-red-400/20 border border-red-400/20 hover:border-red-400/40 text-red-400 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
                     Reject KYC
                   </button>
                   {kycSaved && (
-                    <div className="flex items-center justify-center gap-2 py-2 bg-green-400/10 border border-green-400/20 rounded text-xs text-green-400 font-semibold">
+                    <div className="flex items-center justify-center gap-2 py-2 bg-green-400/10 border border-green-400/20 rounded-xl text-xs text-green-400 font-semibold">
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg>
                       Status updated successfully
                     </div>
@@ -578,7 +578,7 @@ export default function AdminUsersPage() {
                       },
                       { label: 'Income Verification', url: kyc.income_document_url, detail: kyc.annual_income || '—' },
                     ].map((doc) => (
-                      <div key={doc.label} className="border border-[#12131A] rounded-lg overflow-hidden">
+                      <div key={doc.label} className="border border-[#12131A] rounded-xl overflow-hidden">
                         <div className="px-3 py-2.5 border-b border-[#12131A] bg-[#050507]">
                           <p className="text-[10px] font-bold text-[#71717A] uppercase tracking-widest">{doc.label}</p>
                           {doc.detail && <p className="text-[10px] text-[#52525B] mt-0.5 capitalize">{doc.detail}</p>}
@@ -589,10 +589,10 @@ export default function AdminUsersPage() {
                               <img
                                 src={doc.url}
                                 alt={`${doc.label} document preview`}
-                                className="w-full h-32 object-cover rounded"
+                                className="w-full h-32 object-cover rounded-xl"
                               />
                             ) : (
-                              <div className="h-32 flex flex-col items-center justify-center gap-2 bg-[#050507] rounded">
+                              <div className="h-32 flex flex-col items-center justify-center gap-2 bg-[#050507] rounded-xl">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="1.5" aria-hidden="true">
                                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
                                   <polyline points="14 2 14 8 20 8" />
@@ -635,7 +635,7 @@ export default function AdminUsersPage() {
                       { label: 'Country', value: kyc.country },
                       { label: 'Date of Birth', value: kyc.date_of_birth },
                     ].map((item) => (
-                      <div key={item.label} className="bg-[#050507] rounded-lg p-3">
+                      <div key={item.label} className="bg-[#050507] rounded-xl p-3">
                         <p className="text-[9px] text-[#52525B] uppercase tracking-widest mb-1">{item.label}</p>
                         <p className="text-xs font-semibold text-white">{item.value || '—'}</p>
                       </div>
@@ -678,7 +678,7 @@ export default function AdminUsersPage() {
             </div>
             <button
               onClick={() => openKYCDetail(selectedUser)}
-              className="flex items-center gap-2 px-4 py-2 bg-[#0D0E12] hover:bg-[#12131A] border border-[#1E2027] hover:border-[#2A2D35] text-[#D4D4D8] hover:text-white text-xs font-bold rounded tracking-widest uppercase transition-all self-start sm:self-auto"
+              className="flex items-center gap-2 px-4 py-2 bg-[#0D0E12] hover:bg-[#12131A] border border-[#1E2027] hover:border-[#2A2D35] text-[#D4D4D8] hover:text-white text-xs font-bold rounded-xl tracking-widest uppercase transition-all self-start sm:self-auto"
             >
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                 <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
@@ -698,11 +698,11 @@ export default function AdminUsersPage() {
             </div>
             <div className="flex items-center gap-3">
               {selectedUser.kyc && (
-                <span className={`text-[10px] font-bold px-2.5 py-1 rounded border ${KYC_STATUS_CONFIG[selectedUser.kyc.kyc_status].bg} ${KYC_STATUS_CONFIG[selectedUser.kyc.kyc_status].color}`}>
+                <span className={`text-[10px] font-bold px-2.5 py-1 rounded-xl border ${KYC_STATUS_CONFIG[selectedUser.kyc.kyc_status].bg} ${KYC_STATUS_CONFIG[selectedUser.kyc.kyc_status].color}`}>
                   KYC: {KYC_STATUS_CONFIG[selectedUser.kyc.kyc_status].label}
                 </span>
               )}
-              <span className="text-[10px] font-bold px-2.5 py-1 rounded bg-[#12131A] border border-[#1E2027] text-[#71717A]">
+              <span className="text-[10px] font-bold px-2.5 py-1 rounded-xl bg-[#12131A] border border-[#1E2027] text-[#71717A]">
                 Joined {formatDate(selectedUser.profile.created_at)}
               </span>
             </div>
@@ -722,14 +722,14 @@ export default function AdminUsersPage() {
                   type="number"
                   value={walletInput}
                   onChange={(e) => setWalletInput(e.target.value)}
-                  className="w-full px-3 py-2.5 bg-[#050507] border border-[#1E2027] rounded text-sm text-white focus:outline-none focus:border-[#2A2D35]"
+                  className="w-full px-3 py-2.5 bg-[#050507] border border-[#1E2027] rounded-xl text-sm text-white focus:outline-none focus:border-[#2A2D35]"
                 />
                 <p className="text-[10px] text-[#52525B] mt-1">The difference is logged as an admin adjustment in the user ledger.</p>
               </div>
               <button
                 onClick={saveWalletBalance}
                 disabled={walletSaving}
-                className="px-5 py-2.5 rounded bg-green-500 text-black text-xs font-bold uppercase tracking-widest disabled:opacity-40"
+                className="px-5 py-2.5 rounded-xl bg-green-500 text-black text-xs font-bold uppercase tracking-widest disabled:opacity-40"
               >
                 {walletSaving ? 'Saving…' : 'Update Wallet Balance'}
               </button>
@@ -759,7 +759,7 @@ export default function AdminUsersPage() {
                     value={(balanceForm as any)[field.key]}
                     onChange={(e) => setBalanceForm((prev) => ({ ...prev, [field.key]: e.target.value }))}
                     placeholder={field.placeholder}
-                    className="w-full px-3 py-2.5 bg-[#050507] border border-[#1E2027] rounded text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-[#2A2D35] transition-colors"
+                    className="w-full px-3 py-2.5 bg-[#050507] border border-[#1E2027] rounded-xl text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-[#2A2D35] transition-colors"
                   />
                   <p className="text-[10px] text-[#52525B] mt-1">{field.hint}</p>
                 </div>
@@ -775,7 +775,7 @@ export default function AdminUsersPage() {
               onChange={(e) => setBalanceNote(e.target.value)}
               placeholder="Reason for balance adjustment (internal use only, not shown to user)…"
               rows={3}
-              className="w-full px-3 py-2.5 bg-[#050507] border border-[#1E2027] rounded text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-[#2A2D35] resize-none"
+              className="w-full px-3 py-2.5 bg-[#050507] border border-[#1E2027] rounded-xl text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-[#2A2D35] resize-none"
             />
           </div>
 
@@ -785,7 +785,7 @@ export default function AdminUsersPage() {
               <h3 className="text-[10px] font-bold text-[#52525B] uppercase tracking-widest mb-3">Current Stored Values</h3>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {Object.entries(selectedUser.portfolio.stats).map(([k, v]) => (
-                  <div key={k} className="bg-[#0D0E12] rounded-lg p-3">
+                  <div key={k} className="bg-[#0D0E12] rounded-xl p-3">
                     <p className="text-[9px] text-[#52525B] uppercase tracking-widest mb-1">{k.replace(/([A-Z])/g, ' $1').trim()}</p>
                     <p className="text-xs font-bold text-[#A1A1AA]">{String(v)}</p>
                   </div>
@@ -799,7 +799,7 @@ export default function AdminUsersPage() {
             <button
               onClick={saveBalanceAdjustment}
               disabled={balanceSaving}
-              className="flex items-center gap-2 px-8 py-3 bg-primary hover:bg-primary/90 text-white text-xs font-bold rounded tracking-widest uppercase transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center gap-2 px-8 py-3 bg-primary hover:bg-primary/90 text-white text-xs font-bold rounded-xl tracking-widest uppercase transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {balanceSaving ? (
                 <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -814,7 +814,7 @@ export default function AdminUsersPage() {
             </button>
             <button
               onClick={() => setView('users')}
-              className="px-6 py-3 bg-[#0D0E12] hover:bg-[#12131A] border border-[#1E2027] text-[#A1A1AA] hover:text-white text-xs font-bold rounded tracking-widest uppercase transition-all"
+              className="px-6 py-3 bg-[#0D0E12] hover:bg-[#12131A] border border-[#1E2027] text-[#A1A1AA] hover:text-white text-xs font-bold rounded-xl tracking-widest uppercase transition-all"
             >
               Cancel
             </button>
@@ -850,7 +850,7 @@ export default function AdminUsersPage() {
           <button
             onClick={loadUsers}
             disabled={loading}
-            className="flex items-center gap-2 px-5 py-2.5 bg-[#0D0E12] hover:bg-[#12131A] border border-[#1E2027] hover:border-[#2A2D35] text-[#D4D4D8] hover:text-white text-xs font-bold rounded tracking-widest uppercase transition-all disabled:opacity-50 self-start sm:self-auto"
+            className="flex items-center gap-2 px-5 py-2.5 bg-[#0D0E12] hover:bg-[#12131A] border border-[#1E2027] hover:border-[#2A2D35] text-[#D4D4D8] hover:text-white text-xs font-bold rounded-xl tracking-widest uppercase transition-all disabled:opacity-50 self-start sm:self-auto"
           >
             <svg
               width="13"
@@ -915,7 +915,7 @@ export default function AdminUsersPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by name or email…"
-              className="w-full pl-9 pr-4 py-2.5 bg-[#0D0E12] border border-[#1E2027] rounded text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-[#2A2D35] transition-colors"
+              className="w-full pl-9 pr-4 py-2.5 bg-[#0D0E12] border border-[#1E2027] rounded-xl text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-[#2A2D35] transition-colors"
             />
           </div>
           <div className="flex gap-1 overflow-x-auto">
@@ -932,7 +932,7 @@ export default function AdminUsersPage() {
               <button
                 key={f.value}
                 onClick={() => setKycFilter(f.value)}
-                className={`px-3 py-2 rounded text-xs font-semibold whitespace-nowrap transition-all ${
+                className={`px-3 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
                   kycFilter === f.value
                     ? 'bg-primary text-white' :'bg-[#0D0E12] border border-[#1E2027] text-[#A1A1AA] hover:text-white'
                 }`}
@@ -945,7 +945,7 @@ export default function AdminUsersPage() {
 
         {/* Error */}
         {error && (
-          <div className="mb-4 px-4 py-3 bg-red-400/10 border border-red-400/20 rounded text-xs text-red-400">
+          <div className="mb-4 px-4 py-3 bg-red-400/10 border border-red-400/20 rounded-xl text-xs text-red-400">
             {error}
           </div>
         )}
@@ -1007,7 +1007,7 @@ export default function AdminUsersPage() {
                   {/* KYC Status */}
                   <div className="lg:col-span-2 flex items-center">
                     <span
-                      className={`inline-flex items-center gap-1.5 text-[10px] font-bold px-2.5 py-1 rounded border ${kycCfg.bg} ${kycCfg.color}`}
+                      className={`inline-flex items-center gap-1.5 text-[10px] font-bold px-2.5 py-1 rounded-xl border ${kycCfg.bg} ${kycCfg.color}`}
                     >
                       <span className={`w-1.5 h-1.5 rounded-full ${kycCfg.dot}`} />
                       {kycCfg.label}
@@ -1034,7 +1034,7 @@ export default function AdminUsersPage() {
                     {u.kyc && (
                       <button
                         onClick={() => openKYCDetail(u)}
-                        className={`px-3 py-1.5 text-[10px] font-bold rounded border transition-all uppercase tracking-widest ${
+                        className={`px-3 py-1.5 text-[10px] font-bold rounded-xl border transition-all uppercase tracking-widest ${
                           u.kyc.kyc_status === 'pending' || u.kyc.kyc_status === 'under_review' ?'bg-yellow-400/10 hover:bg-yellow-400/20 border-yellow-400/20 hover:border-yellow-400/40 text-yellow-400' :'bg-[#12131A] hover:bg-[#222222] border-[#1E2027] hover:border-[#2A2D35] text-[#A1A1AA] hover:text-white'
                         }`}
                       >
@@ -1042,13 +1042,13 @@ export default function AdminUsersPage() {
                       </button>
                     )}
                     {!u.kyc && (
-                      <span className="px-3 py-1.5 text-[10px] font-bold rounded border bg-[#12131A] border-[#1E2027] text-[#52525B] uppercase tracking-widest">
+                      <span className="px-3 py-1.5 text-[10px] font-bold rounded-xl border bg-[#12131A] border-[#1E2027] text-[#52525B] uppercase tracking-widest">
                         No KYC
                       </span>
                     )}
                     <button
                       onClick={() => openBalanceView(u)}
-                      className="px-3 py-1.5 text-[10px] font-bold rounded border bg-primary/10 hover:bg-primary/20 border-primary/20 hover:border-primary/40 text-primary transition-all uppercase tracking-widest"
+                      className="px-3 py-1.5 text-[10px] font-bold rounded-xl border bg-primary/10 hover:bg-primary/20 border-primary/20 hover:border-primary/40 text-primary transition-all uppercase tracking-widest"
                     >
                       Adjust Balance
                     </button>

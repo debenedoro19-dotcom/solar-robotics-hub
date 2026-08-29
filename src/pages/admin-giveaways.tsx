@@ -40,7 +40,7 @@ const EMPTY = {
 };
 
 const inputClass =
-  'w-full px-3 py-2.5 rounded-lg text-sm bg-[#050507] border border-[#12131A] text-white placeholder-[#52525B] focus:border-emerald-500/40 focus:outline-none transition-colors';
+  'w-full px-3 py-2.5 rounded-xl text-sm bg-[#050507] border border-[#12131A] text-white placeholder-[#52525B] focus:border-emerald-500/40 focus:outline-none transition-colors';
 const labelClass = 'block text-[10px] font-bold text-[#6B7280] uppercase tracking-widest mb-1.5';
 
 const money = (n: number) => `$${Number(n || 0).toLocaleString('en-US', { maximumFractionDigits: 2 })}`;
@@ -169,7 +169,7 @@ export default function AdminGiveawaysPage() {
               Every campaign here is live on the homepage and paid for from the investor wallet balance automatically.
             </p>
           </div>
-          <button onClick={startCreate} className="px-5 py-2.5 bg-emerald-500 text-black text-xs font-bold rounded-lg tracking-widest uppercase hover:opacity-90 transition-opacity self-start sm:self-auto">
+          <button onClick={startCreate} className="px-5 py-2.5 bg-emerald-500 text-black text-xs font-bold rounded-xl tracking-widest uppercase hover:opacity-90 transition-opacity self-start sm:self-auto">
             + New Giveaway
           </button>
         </div>
@@ -234,10 +234,10 @@ export default function AdminGiveawaysPage() {
               </div>
             </div>
             <div className="flex gap-3">
-              <button onClick={save} disabled={saving} className="px-5 py-2.5 bg-emerald-500 text-black text-xs font-bold rounded-lg tracking-widest uppercase disabled:opacity-60">
+              <button onClick={save} disabled={saving} className="px-5 py-2.5 bg-emerald-500 text-black text-xs font-bold rounded-xl tracking-widest uppercase disabled:opacity-60">
                 {saving ? 'Saving…' : editing ? 'Save Changes' : 'Create Giveaway'}
               </button>
-              <button onClick={() => { setEditing(null); setCreating(false); }} className="px-5 py-2.5 bg-[#12131A] border border-[#1E2027] text-[#A1A1AA] text-xs font-bold rounded-lg tracking-widest uppercase hover:text-white">
+              <button onClick={() => { setEditing(null); setCreating(false); }} className="px-5 py-2.5 bg-[#12131A] border border-[#1E2027] text-[#A1A1AA] text-xs font-bold rounded-xl tracking-widest uppercase hover:text-white">
                 Cancel
               </button>
             </div>
@@ -259,8 +259,8 @@ export default function AdminGiveawaysPage() {
                     <div className="min-w-0">
                       <div className="flex items-center gap-2 mb-1 flex-wrap">
                         <h3 className="font-bold">{g.title}</h3>
-                        <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">{g.badge}</span>
-                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase border ${g.is_active ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-white/5 text-[#666] border-[#1E2027]'}`}>
+                        <span className="px-2 py-0.5 rounded-xl text-[10px] font-bold uppercase bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">{g.badge}</span>
+                        <span className={`px-2 py-0.5 rounded-xl text-[10px] font-bold uppercase border ${g.is_active ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-white/5 text-[#666] border-[#1E2027]'}`}>
                           {g.is_active ? 'Active' : 'Hidden'}
                         </span>
                       </div>
@@ -276,12 +276,12 @@ export default function AdminGiveawaysPage() {
                       </div>
                     </div>
                     <div className="flex flex-wrap gap-2 shrink-0">
-                      <button onClick={() => move(g, -1)} disabled={idx === 0} className="px-2.5 py-1.5 bg-[#12131A] text-[#888] text-xs rounded disabled:opacity-30" aria-label="Move up">↑</button>
-                      <button onClick={() => move(g, 1)} disabled={idx === items.length - 1} className="px-2.5 py-1.5 bg-[#12131A] text-[#888] text-xs rounded disabled:opacity-30" aria-label="Move down">↓</button>
-                      <button onClick={() => setEntrantsFor(entrantsFor === g.id ? null : g.id)} className="px-3 py-1.5 bg-cyan-400/10 border border-cyan-400/20 text-cyan-400 text-xs font-semibold rounded">Entrants ({list.length})</button>
-                      <button onClick={() => toggleActive(g)} className="px-3 py-1.5 bg-yellow-400/10 border border-yellow-400/20 text-yellow-400 text-xs font-semibold rounded">{g.is_active ? 'Hide' : 'Show'}</button>
-                      <button onClick={() => startEdit(g)} className="px-3 py-1.5 bg-zinc-300/10 border border-zinc-300/20 text-zinc-300 text-xs font-semibold rounded">Edit</button>
-                      <button onClick={() => remove(g)} className="px-3 py-1.5 bg-red-400/10 border border-red-400/20 text-red-400 text-xs font-semibold rounded">Delete</button>
+                      <button onClick={() => move(g, -1)} disabled={idx === 0} className="px-2.5 py-1.5 bg-[#12131A] text-[#888] text-xs rounded-xl disabled:opacity-30" aria-label="Move up">↑</button>
+                      <button onClick={() => move(g, 1)} disabled={idx === items.length - 1} className="px-2.5 py-1.5 bg-[#12131A] text-[#888] text-xs rounded-xl disabled:opacity-30" aria-label="Move down">↓</button>
+                      <button onClick={() => setEntrantsFor(entrantsFor === g.id ? null : g.id)} className="px-3 py-1.5 bg-cyan-400/10 border border-cyan-400/20 text-cyan-400 text-xs font-semibold rounded-xl">Entrants ({list.length})</button>
+                      <button onClick={() => toggleActive(g)} className="px-3 py-1.5 bg-yellow-400/10 border border-yellow-400/20 text-yellow-400 text-xs font-semibold rounded-xl">{g.is_active ? 'Hide' : 'Show'}</button>
+                      <button onClick={() => startEdit(g)} className="px-3 py-1.5 bg-zinc-300/10 border border-zinc-300/20 text-zinc-300 text-xs font-semibold rounded-xl">Edit</button>
+                      <button onClick={() => remove(g)} className="px-3 py-1.5 bg-red-400/10 border border-red-400/20 text-red-400 text-xs font-semibold rounded-xl">Delete</button>
                     </div>
                   </div>
 

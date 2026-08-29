@@ -32,7 +32,7 @@ function markShown(lsKey: string) {
 }
 
 const inputClass =
-  'w-full px-3 py-2.5 rounded-lg text-sm bg-[#050507] border border-[#1E2027] text-white placeholder-[#6B7280] focus:border-primary/50 focus:outline-none transition-colors';
+  'w-full px-3 py-2.5 rounded-xl text-sm bg-[#050507] border border-[#1E2027] text-white placeholder-[#6B7280] focus:border-primary/50 focus:outline-none transition-colors';
 
 /* ---------------- Welcome / offer modal ---------------- */
 function WelcomePopup({ onClose }: { onClose: () => void }) {
@@ -41,7 +41,7 @@ function WelcomePopup({ onClose }: { onClose: () => void }) {
   if (!cfg.enabled) return null;
   return (
     <div className="fixed inset-0 z-[90] flex items-center justify-center bg-black/70 backdrop-blur-sm px-4" role="dialog" aria-modal="true">
-      <div className="relative w-full max-w-md rounded-2xl border border-[#1E2027] bg-[#0D0E12] p-8 shadow-[0_0_60px_rgba(227,25,55,0.15)]">
+      <div className="relative w-full max-w-md rounded-3xl border border-[#1E2027] bg-[#0D0E12] p-8 shadow-[0_0_60px_rgba(227,25,55,0.15)]">
         <button
           onClick={onClose}
           aria-label="Close"
@@ -67,7 +67,7 @@ function WelcomePopup({ onClose }: { onClose: () => void }) {
               navigate({ to: cfg.ctaHref });
             }
           }}
-          className="w-full py-3 rounded-lg tesla-btn-primary text-sm font-bold tracking-wide"
+          className="w-full py-3 rounded-xl tesla-btn-primary text-sm font-bold tracking-wide"
         >
           {cfg.ctaLabel}
         </button>
@@ -100,7 +100,7 @@ function LeadPopup({ onClose }: { onClose: () => void }) {
 
   return (
     <div className="fixed inset-0 z-[90] flex items-center justify-center bg-black/70 backdrop-blur-sm px-4" role="dialog" aria-modal="true">
-      <div className="relative w-full max-w-md rounded-2xl border border-[#1E2027] bg-[#0D0E12] p-8 shadow-[0_0_60px_rgba(227,25,55,0.15)]">
+      <div className="relative w-full max-w-md rounded-3xl border border-[#1E2027] bg-[#0D0E12] p-8 shadow-[0_0_60px_rgba(227,25,55,0.15)]">
         <button onClick={onClose} aria-label="Close" className="absolute top-4 right-4 text-[#71717A] hover:text-white transition-colors">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6 6 18M6 6l12 12" /></svg>
         </button>
@@ -122,7 +122,7 @@ function LeadPopup({ onClose }: { onClose: () => void }) {
             <button
               type="submit"
               disabled={status === 'saving'}
-              className="w-full py-3 rounded-lg tesla-btn-primary text-sm font-bold tracking-wide disabled:opacity-60"
+              className="w-full py-3 rounded-xl tesla-btn-primary text-sm font-bold tracking-wide disabled:opacity-60"
             >
               {status === 'saving' ? 'Subscribing…' : cfg.ctaLabel}
             </button>
@@ -162,10 +162,10 @@ function CookieBar() {
           <a href="/terms" className="text-primary hover:underline">Terms</a>.
         </p>
         <div className="flex items-center gap-2 shrink-0">
-          <button onClick={accept} className="px-4 py-2 rounded-lg border border-[#1E2027] text-xs font-semibold text-[#A1A1AA] hover:text-white transition-colors">
+          <button onClick={accept} className="px-4 py-2 rounded-xl border border-[#1E2027] text-xs font-semibold text-[#A1A1AA] hover:text-white transition-colors">
             Decline
           </button>
-          <button onClick={accept} className="px-5 py-2 rounded-lg tesla-btn-primary text-xs font-bold">
+          <button onClick={accept} className="px-5 py-2 rounded-xl tesla-btn-primary text-xs font-bold">
             Accept
           </button>
         </div>

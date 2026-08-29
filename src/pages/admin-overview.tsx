@@ -616,7 +616,7 @@ export default function AdminPage() {
           </div>
           <h1 className="text-xl font-bold text-white mb-2">Admin Access Required</h1>
           <p className="text-sm text-[#6B7280] mb-6">You must be logged in as admin to view this page.</p>
-          <Link href="/login" className="px-6 py-2.5 tesla-btn-primary rounded text-sm font-semibold">Sign In as Admin</Link>
+          <Link href="/login" className="px-6 py-2.5 tesla-btn-primary rounded-xl text-sm font-semibold">Sign In as Admin</Link>
         </div>
       </main>
     );
@@ -643,7 +643,7 @@ export default function AdminPage() {
   const PIE_COLORS = ['#E82127', '#FF6B6B', '#F59E0B', '#A1A1AA', '#00F59B', '#E82127', '#a78bfa', '#fb923c'];
 
   const navBtnClass = (v: AdminView) =>
-    `flex items-center gap-2 px-4 py-2 border text-xs font-bold rounded tracking-widest uppercase transition-all ${
+    `flex items-center gap-2 px-4 py-2 border text-xs font-bold rounded-xl tracking-widest uppercase transition-all ${
       view === v
         ? 'bg-primary/20 border-primary/40 text-primary' :'bg-[#0D0E12] hover:bg-[#12131A] border-[#1E2027] hover:border-[#2A2D35] text-[#D4D4D8] hover:text-white'
     }`;
@@ -690,7 +690,7 @@ export default function AdminPage() {
             <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
               <div>
                 <div className="flex items-center gap-3 mb-2">
-                  <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E82127" strokeWidth="2" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
                   </div>
                   <h1 className="text-2xl font-extrabold text-white tracking-tight">Admin Dashboard</h1>
@@ -698,7 +698,7 @@ export default function AdminPage() {
                 <p className="text-sm text-[#6B7280]">{users.length} registered user{users.length !== 1 ? 's' : ''}. Full platform control below.</p>
               </div>
               <div className="flex items-center gap-2">
-                <div className="flex items-center gap-1.5 px-3 py-1.5 bg-[#0D0E12] border border-[#12131A] rounded-lg">
+                <div className="flex items-center gap-1.5 px-3 py-1.5 bg-[#0D0E12] border border-[#12131A] rounded-xl">
                   <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
                   <span className="text-[10px] text-[#6B7280] uppercase tracking-widest font-semibold">Live</span>
                 </div>
@@ -717,7 +717,7 @@ export default function AdminPage() {
                   <div className="absolute top-0 right-0 w-20 h-20 rounded-full opacity-5" style={{ background: kpi.accent, transform: 'translate(30%, -30%)' }} />
                   <div className="flex items-start justify-between mb-3">
                     <div className="text-[10px] font-bold text-[#6B7280] uppercase tracking-widest">{kpi.label}</div>
-                    <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style={{ background: `${kpi.accent}15` }}>
+                    <div className="w-7 h-7 rounded-xl flex items-center justify-center shrink-0" style={{ background: `${kpi.accent}15` }}>
                       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={kpi.accent} strokeWidth="2" aria-hidden="true">{kpi.icon}</svg>
                     </div>
                   </div>
@@ -881,7 +881,7 @@ export default function AdminPage() {
                           <p className="text-[10px] text-[#52525B] uppercase tracking-widest mb-0.5">Status</p>
                           <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${hasData ? 'bg-green-400/10 text-green-400 border border-green-400/20' : 'bg-[#12131A] text-[#6B7280] border border-[#1E2027]'}`}>{hasData ? 'Active' : 'Empty'}</span>
                         </div>
-                        <button onClick={() => openEdit(u)} className="px-4 py-2 bg-primary/10 hover:bg-primary/20 border border-primary/20 hover:border-primary/40 text-primary text-xs font-bold rounded-lg transition-all tracking-widest uppercase">Manage</button>
+                        <button onClick={() => openEdit(u)} className="px-4 py-2 bg-primary/10 hover:bg-primary/20 border border-primary/20 hover:border-primary/40 text-primary text-xs font-bold rounded-xl transition-all tracking-widest uppercase">Manage</button>
                       </div>
                     </div>
                   );
@@ -899,7 +899,7 @@ export default function AdminPage() {
                 <h1 className="text-2xl font-extrabold text-white tracking-tight mb-1">User Analytics</h1>
                 <p className="text-sm text-[#71717A]">Demographics, geography, and platform activity — live from Supabase.</p>
               </div>
-              <button onClick={loadAnalytics} disabled={analyticsLoading} className="flex items-center gap-2 px-4 py-2 bg-[#0D0E12] hover:bg-[#12131A] border border-[#1E2027] text-[#A1A1AA] hover:text-white text-xs font-semibold rounded transition-all disabled:opacity-50 self-start sm:self-auto">
+              <button onClick={loadAnalytics} disabled={analyticsLoading} className="flex items-center gap-2 px-4 py-2 bg-[#0D0E12] hover:bg-[#12131A] border border-[#1E2027] text-[#A1A1AA] hover:text-white text-xs font-semibold rounded-xl transition-all disabled:opacity-50 self-start sm:self-auto">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={analyticsLoading ? 'animate-spin' : ''} aria-hidden="true"><path d="M23 4v6h-6M1 20v-6h6" /><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" /></svg>
                 Refresh
               </button>
@@ -917,13 +917,13 @@ export default function AdminPage() {
                     { label: 'Active Portfolios', value: analyticsData.activeUsers, icon: '📈', color: 'text-primary' },
                     { label: 'Portfolio Rows', value: analyticsData.portfolioUsers, icon: '🗂️', color: 'text-zinc-300' },
                   ].map((kpi) => (
-                    <div key={kpi.label} className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-5">
+                    <div key={kpi.label} className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-5">
                       <div className="flex items-center justify-between mb-3"><span className="text-xs text-[#6B7280] uppercase tracking-widest font-semibold">{kpi.label}</span><span className="text-lg">{kpi.icon}</span></div>
                       <p className={`text-3xl font-extrabold ${kpi.color}`}>{kpi.value}</p>
                     </div>
                   ))}
                 </div>
-                <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-6">
+                <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-6">
                   <h3 className="text-xs font-bold text-[#71717A] uppercase tracking-widest mb-5">Signups Over Time</h3>
                   {analyticsData.signupsOverTime.length === 0 ? <p className="text-xs text-[#52525B] text-center py-8">No signup data available.</p> : (
                     <ResponsiveContainer width="100%" height={200}>
@@ -938,7 +938,7 @@ export default function AdminPage() {
                   )}
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-6">
+                  <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-6">
                     <h3 className="text-xs font-bold text-[#71717A] uppercase tracking-widest mb-5">KYC Status Breakdown</h3>
                     {analyticsData.kycBreakdown.length === 0 ? <p className="text-xs text-[#52525B] text-center py-8">No KYC data yet.</p> : (
                       <div className="flex items-center gap-6">
@@ -961,7 +961,7 @@ export default function AdminPage() {
                       </div>
                     )}
                   </div>
-                  <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-6">
+                  <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-6">
                     <h3 className="text-xs font-bold text-[#71717A] uppercase tracking-widest mb-5">Top Countries (KYC)</h3>
                     {analyticsData.countryBreakdown.length === 0 ? <p className="text-xs text-[#52525B] text-center py-8">No country data yet.</p> : (
                       <div className="space-y-3">
@@ -980,7 +980,7 @@ export default function AdminPage() {
                   </div>
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-6">
+                  <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-6">
                     <h3 className="text-xs font-bold text-[#71717A] uppercase tracking-widest mb-5">Investor Type</h3>
                     {analyticsData.investorTypeBreakdown.length === 0 ? <p className="text-xs text-[#52525B] text-center py-8">No investor type data yet.</p> : (
                       <ResponsiveContainer width="100%" height={180}>
@@ -994,7 +994,7 @@ export default function AdminPage() {
                       </ResponsiveContainer>
                     )}
                   </div>
-                  <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-6">
+                  <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-6">
                     <h3 className="text-xs font-bold text-[#71717A] uppercase tracking-widest mb-5">Annual Income Range</h3>
                     {analyticsData.incomeBreakdown.length === 0 ? <p className="text-xs text-[#52525B] text-center py-8">No income data yet.</p> : (
                       <div className="space-y-3">
@@ -1012,7 +1012,7 @@ export default function AdminPage() {
                     )}
                   </div>
                 </div>
-                <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-6">
+                <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-6">
                   <h3 className="text-xs font-bold text-[#71717A] uppercase tracking-widest mb-5">Platform Activity Summary</h3>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                     {[
@@ -1021,7 +1021,7 @@ export default function AdminPage() {
                       { label: 'Active Investors', value: analyticsData.totalUsers > 0 ? `${Math.round((analyticsData.activeUsers / analyticsData.totalUsers) * 100)}%` : '0%', sub: `${analyticsData.activeUsers} with funded portfolios`, color: 'text-primary' },
                       { label: 'Unverified Users', value: analyticsData.unverifiedUsers, sub: 'awaiting KYC approval', color: 'text-yellow-400' },
                     ].map((stat) => (
-                      <div key={stat.label} className="border border-[#12131A] rounded-lg p-4">
+                      <div key={stat.label} className="border border-[#12131A] rounded-xl p-4">
                         <p className="text-[10px] text-[#6B7280] uppercase tracking-widest mb-2">{stat.label}</p>
                         <p className={`text-2xl font-extrabold mb-1 ${stat.color}`}>{stat.value}</p>
                         <p className="text-[10px] text-[#52525B]">{stat.sub}</p>
@@ -1042,7 +1042,7 @@ export default function AdminPage() {
                 <h1 className="text-2xl font-extrabold text-white tracking-tight mb-1">Storage Bucket</h1>
                 <p className="text-sm text-[#71717A]">Browse and manage uploaded user documents and files from Supabase Storage.</p>
               </div>
-              <button onClick={loadStorageFiles} disabled={storageLoading} className="flex items-center gap-2 px-4 py-2 bg-[#0D0E12] hover:bg-[#12131A] border border-[#1E2027] text-[#A1A1AA] hover:text-white text-xs font-semibold rounded transition-all disabled:opacity-50 self-start sm:self-auto">
+              <button onClick={loadStorageFiles} disabled={storageLoading} className="flex items-center gap-2 px-4 py-2 bg-[#0D0E12] hover:bg-[#12131A] border border-[#1E2027] text-[#A1A1AA] hover:text-white text-xs font-semibold rounded-xl transition-all disabled:opacity-50 self-start sm:self-auto">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={storageLoading ? 'animate-spin' : ''} aria-hidden="true"><path d="M23 4v6h-6M1 20v-6h6" /><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" /></svg>
                 Refresh
               </button>
@@ -1052,16 +1052,16 @@ export default function AdminPage() {
             <div className="flex flex-wrap gap-3 mb-6">
               <div className="flex flex-col gap-1">
                 <label className="text-[10px] text-[#6B7280] uppercase tracking-widest">Bucket</label>
-                <select value={storageBucket} onChange={e => setStorageBucket(e.target.value)} className="bg-[#0D0E12] border border-[#1E2027] text-white text-xs rounded px-3 py-2 focus:outline-none focus:border-[#2A2D35]">
+                <select value={storageBucket} onChange={e => setStorageBucket(e.target.value)} className="bg-[#0D0E12] border border-[#1E2027] text-white text-xs rounded-xl px-3 py-2 focus:outline-none focus:border-[#2A2D35]">
                   {storageBuckets.map(b => <option key={b} value={b}>{b}</option>)}
                 </select>
               </div>
               <div className="flex flex-col gap-1">
                 <label className="text-[10px] text-[#6B7280] uppercase tracking-widest">Folder Prefix (optional)</label>
-                <input value={storagePrefix} onChange={e => setStoragePrefix(e.target.value)} placeholder="e.g. user-id/kyc" className="bg-[#0D0E12] border border-[#1E2027] text-white text-xs rounded px-3 py-2 focus:outline-none focus:border-[#2A2D35] w-56" />
+                <input value={storagePrefix} onChange={e => setStoragePrefix(e.target.value)} placeholder="e.g. user-id/kyc" className="bg-[#0D0E12] border border-[#1E2027] text-white text-xs rounded-xl px-3 py-2 focus:outline-none focus:border-[#2A2D35] w-56" />
               </div>
               <div className="flex flex-col justify-end">
-                <button onClick={loadStorageFiles} className="px-5 py-2 bg-primary/10 hover:bg-primary/20 border border-primary/20 text-primary text-xs font-bold rounded transition-all">Browse</button>
+                <button onClick={loadStorageFiles} className="px-5 py-2 bg-primary/10 hover:bg-primary/20 border border-primary/20 text-primary text-xs font-bold rounded-xl transition-all">Browse</button>
               </div>
             </div>
 
@@ -1116,7 +1116,7 @@ export default function AdminPage() {
                 <h1 className="text-2xl font-extrabold text-white tracking-tight mb-1">User Data</h1>
                 <p className="text-sm text-[#71717A]">Browse and manage collected user records from the database.</p>
               </div>
-              <button onClick={loadUserData} disabled={userDataLoading} className="flex items-center gap-2 px-4 py-2 bg-[#0D0E12] hover:bg-[#12131A] border border-[#1E2027] text-[#A1A1AA] hover:text-white text-xs font-semibold rounded transition-all disabled:opacity-50 self-start sm:self-auto">
+              <button onClick={loadUserData} disabled={userDataLoading} className="flex items-center gap-2 px-4 py-2 bg-[#0D0E12] hover:bg-[#12131A] border border-[#1E2027] text-[#A1A1AA] hover:text-white text-xs font-semibold rounded-xl transition-all disabled:opacity-50 self-start sm:self-auto">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={userDataLoading ? 'animate-spin' : ''} aria-hidden="true"><path d="M23 4v6h-6M1 20v-6h6" /><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" /></svg>
                 Refresh
               </button>
@@ -1126,7 +1126,7 @@ export default function AdminPage() {
             <div className="flex flex-wrap gap-3 mb-6 items-end">
               <div className="flex flex-col gap-1">
                 <label className="text-[10px] text-[#6B7280] uppercase tracking-widest">Table</label>
-                <select value={userDataTable} onChange={e => { setUserDataTable(e.target.value as any); setUserData([]); }} className="bg-[#0D0E12] border border-[#1E2027] text-white text-xs rounded px-3 py-2 focus:outline-none focus:border-[#2A2D35]">
+                <select value={userDataTable} onChange={e => { setUserDataTable(e.target.value as any); setUserData([]); }} className="bg-[#0D0E12] border border-[#1E2027] text-white text-xs rounded-xl px-3 py-2 focus:outline-none focus:border-[#2A2D35]">
                   <option value="user_profiles">user_profiles</option>
                   <option value="kyc_submissions">kyc_submissions</option>
                   <option value="user_portfolios">user_portfolios</option>
@@ -1134,9 +1134,9 @@ export default function AdminPage() {
               </div>
               <div className="flex flex-col gap-1 flex-1 min-w-[200px]">
                 <label className="text-[10px] text-[#6B7280] uppercase tracking-widest">Search</label>
-                <input value={userDataSearch} onChange={e => setUserDataSearch(e.target.value)} placeholder="Filter by any field…" className="bg-[#0D0E12] border border-[#1E2027] text-white text-xs rounded px-3 py-2 focus:outline-none focus:border-[#2A2D35]" />
+                <input value={userDataSearch} onChange={e => setUserDataSearch(e.target.value)} placeholder="Filter by any field…" className="bg-[#0D0E12] border border-[#1E2027] text-white text-xs rounded-xl px-3 py-2 focus:outline-none focus:border-[#2A2D35]" />
               </div>
-              <button onClick={loadUserData} className="px-5 py-2 bg-primary/10 hover:bg-primary/20 border border-primary/20 text-primary text-xs font-bold rounded transition-all">Load</button>
+              <button onClick={loadUserData} className="px-5 py-2 bg-primary/10 hover:bg-primary/20 border border-primary/20 text-primary text-xs font-bold rounded-xl transition-all">Load</button>
             </div>
 
             {userDataLoading ? (
@@ -1150,7 +1150,7 @@ export default function AdminPage() {
               <div className="space-y-3">
                 <p className="text-xs text-[#6B7280]">{filteredUserData.length} record{filteredUserData.length !== 1 ? 's' : ''} in <span className="text-white">{userDataTable}</span></p>
                 {filteredUserData.map((row) => (
-                  <div key={row.id} className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-4 hover:border-[#1E2027] transition-colors">
+                  <div key={row.id} className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-4 hover:border-[#1E2027] transition-colors">
                     <div className="flex items-start justify-between gap-4 mb-3">
                       <div className="flex items-center gap-3">
                         <div className="w-8 h-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-xs font-bold text-primary shrink-0">
@@ -1163,11 +1163,11 @@ export default function AdminPage() {
                       </div>
                       <div className="flex items-center gap-3 shrink-0">
                         {row.kyc_status && (
-                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded border ${kycStatusConfig[row.kyc_status as keyof typeof kycStatusConfig]?.bg} ${kycStatusConfig[row.kyc_status as keyof typeof kycStatusConfig]?.color}`}>
+                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-xl border ${kycStatusConfig[row.kyc_status as keyof typeof kycStatusConfig]?.bg} ${kycStatusConfig[row.kyc_status as keyof typeof kycStatusConfig]?.color}`}>
                             {kycStatusConfig[row.kyc_status as keyof typeof kycStatusConfig]?.label}
                           </span>
                         )}
-                        {row.role && <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-primary/10 border border-primary/20 text-primary">{row.role}</span>}
+                        {row.role && <span className="text-[10px] font-bold px-2 py-0.5 rounded-xl bg-primary/10 border border-primary/20 text-primary">{row.role}</span>}
                         <button onClick={() => deleteUserRow(row.id)} className="text-[10px] text-red-400 hover:text-red-300 font-semibold transition-colors">Delete</button>
                       </div>
                     </div>
@@ -1176,7 +1176,7 @@ export default function AdminPage() {
                         .filter(([k]) => !['id', 'full_name', 'email', 'user_email', 'user_name', 'role', 'kyc_status', 'stats', 'investments', 'transactions', 'alerts', 'chart_data', 'allocation', 'referrals'].includes(k))
                         .slice(0, 8)
                         .map(([k, v]) => (
-                          <div key={k} className="bg-[#050507] rounded p-2">
+                          <div key={k} className="bg-[#050507] rounded-xl p-2">
                             <p className="text-[9px] text-[#52525B] uppercase tracking-widest mb-0.5">{k.replace(/_/g, ' ')}</p>
                             <p className="text-[10px] text-[#D4D4D8] truncate">{v === null || v === undefined ? '—' : String(v).slice(0, 40)}</p>
                           </div>
@@ -1197,7 +1197,7 @@ export default function AdminPage() {
                 <h1 className="text-2xl font-extrabold text-white tracking-tight mb-1">Inventory Management</h1>
                 <p className="text-sm text-[#71717A]">Add, edit, or remove vehicles, energy products, and robotics from the live inventory.</p>
               </div>
-              <button onClick={() => setShowAddItem(true)} className="flex items-center gap-2 px-5 py-2.5 bg-primary/10 hover:bg-primary/20 border border-primary/20 hover:border-primary/40 text-primary text-xs font-bold rounded tracking-widest uppercase transition-all self-start sm:self-auto">
+              <button onClick={() => setShowAddItem(true)} className="flex items-center gap-2 px-5 py-2.5 bg-primary/10 hover:bg-primary/20 border border-primary/20 hover:border-primary/40 text-primary text-xs font-bold rounded-xl tracking-widest uppercase transition-all self-start sm:self-auto">
                 <span>+</span> Add Item
               </button>
             </div>
@@ -1205,7 +1205,7 @@ export default function AdminPage() {
             {/* Category filter */}
             <div className="flex gap-2 mb-6 flex-wrap">
               {(['All', 'Vehicles', 'Energy', 'Robotics'] as const).map(cat => (
-                <button key={cat} onClick={() => setInventoryFilter(cat)} className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all ${inventoryFilter === cat ? 'bg-primary text-white' : 'bg-[#0D0E12] border border-[#1E2027] text-[#A1A1AA] hover:text-white'}`}>{cat}</button>
+                <button key={cat} onClick={() => setInventoryFilter(cat)} className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all ${inventoryFilter === cat ? 'bg-primary text-white' : 'bg-[#0D0E12] border border-[#1E2027] text-[#A1A1AA] hover:text-white'}`}>{cat}</button>
               ))}
             </div>
 
@@ -1223,12 +1223,12 @@ export default function AdminPage() {
                   ].map(f => (
                     <div key={f.key}>
                       <label className="block text-[10px] text-[#6B7280] uppercase tracking-widest mb-1.5">{f.label}</label>
-                      <input value={(newItem as any)[f.key] || ''} onChange={e => setNewItem(p => ({ ...p, [f.key]: e.target.value }))} placeholder={f.placeholder} className="w-full px-3 py-2 rounded text-sm input-tesla" />
+                      <input value={(newItem as any)[f.key] || ''} onChange={e => setNewItem(p => ({ ...p, [f.key]: e.target.value }))} placeholder={f.placeholder} className="w-full px-3 py-2 rounded-xl text-sm input-tesla" />
                     </div>
                   ))}
                   <div>
                     <label className="block text-[10px] text-[#6B7280] uppercase tracking-widest mb-1.5">Category</label>
-                    <select value={newItem.category} onChange={e => setNewItem(p => ({ ...p, category: e.target.value as InventoryCategory }))} className="w-full px-3 py-2 rounded text-sm input-tesla">
+                    <select value={newItem.category} onChange={e => setNewItem(p => ({ ...p, category: e.target.value as InventoryCategory }))} className="w-full px-3 py-2 rounded-xl text-sm input-tesla">
                       <option value="Vehicles">Vehicles</option>
                       <option value="Energy">Energy</option>
                       <option value="Robotics">Robotics</option>
@@ -1242,8 +1242,8 @@ export default function AdminPage() {
                   </div>
                 </div>
                 <div className="flex gap-3">
-                  <button onClick={addInventoryItem} className="px-5 py-2.5 bg-primary text-white text-xs font-bold rounded tracking-widest uppercase transition-all hover:bg-primary/90">Add Item</button>
-                  <button onClick={() => setShowAddItem(false)} className="px-5 py-2.5 bg-[#12131A] border border-[#1E2027] text-[#A1A1AA] text-xs font-bold rounded tracking-widest uppercase transition-all hover:text-white">Cancel</button>
+                  <button onClick={addInventoryItem} className="px-5 py-2.5 bg-primary text-white text-xs font-bold rounded-xl tracking-widest uppercase transition-all hover:bg-primary/90">Add Item</button>
+                  <button onClick={() => setShowAddItem(false)} className="px-5 py-2.5 bg-[#12131A] border border-[#1E2027] text-[#A1A1AA] text-xs font-bold rounded-xl tracking-widest uppercase transition-all hover:text-white">Cancel</button>
                 </div>
               </div>
             )}
@@ -1262,12 +1262,12 @@ export default function AdminPage() {
                   ].map(f => (
                     <div key={f.key}>
                       <label className="block text-[10px] text-[#6B7280] uppercase tracking-widest mb-1.5">{f.label}</label>
-                      <input value={(editingItem as any)[f.key] || ''} onChange={e => setEditingItem(p => p ? { ...p, [f.key]: e.target.value } : p)} className="w-full px-3 py-2 rounded text-sm input-tesla" />
+                      <input value={(editingItem as any)[f.key] || ''} onChange={e => setEditingItem(p => p ? { ...p, [f.key]: e.target.value } : p)} className="w-full px-3 py-2 rounded-xl text-sm input-tesla" />
                     </div>
                   ))}
                   <div>
                     <label className="block text-[10px] text-[#6B7280] uppercase tracking-widest mb-1.5">Category</label>
-                    <select value={editingItem.category} onChange={e => setEditingItem(p => p ? { ...p, category: e.target.value as InventoryCategory } : p)} className="w-full px-3 py-2 rounded text-sm input-tesla">
+                    <select value={editingItem.category} onChange={e => setEditingItem(p => p ? { ...p, category: e.target.value as InventoryCategory } : p)} className="w-full px-3 py-2 rounded-xl text-sm input-tesla">
                       <option value="Vehicles">Vehicles</option>
                       <option value="Energy">Energy</option>
                       <option value="Robotics">Robotics</option>
@@ -1281,8 +1281,8 @@ export default function AdminPage() {
                   </div>
                 </div>
                 <div className="flex gap-3">
-                  <button onClick={saveInventoryItem} className="px-5 py-2.5 bg-primary text-white text-xs font-bold rounded tracking-widest uppercase transition-all hover:bg-primary/90">Save Changes</button>
-                  <button onClick={() => setEditingItem(null)} className="px-5 py-2.5 bg-[#12131A] border border-[#1E2027] text-[#A1A1AA] text-xs font-bold rounded tracking-widest uppercase transition-all hover:text-white">Cancel</button>
+                  <button onClick={saveInventoryItem} className="px-5 py-2.5 bg-primary text-white text-xs font-bold rounded-xl tracking-widest uppercase transition-all hover:bg-primary/90">Save Changes</button>
+                  <button onClick={() => setEditingItem(null)} className="px-5 py-2.5 bg-[#12131A] border border-[#1E2027] text-[#A1A1AA] text-xs font-bold rounded-xl tracking-widest uppercase transition-all hover:text-white">Cancel</button>
                 </div>
               </div>
             )}
@@ -1290,9 +1290,9 @@ export default function AdminPage() {
             {/* Inventory list */}
             <div className="grid gap-3">
               {filteredInventory.map(item => (
-                <div key={item.id} className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-[#1E2027] transition-colors">
+                <div key={item.id} className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-[#1E2027] transition-colors">
                   <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-lg bg-[#12131A] border border-[#1E2027] flex items-center justify-center text-lg shrink-0">
+                    <div className="w-10 h-10 rounded-xl bg-[#12131A] border border-[#1E2027] flex items-center justify-center text-lg shrink-0">
                       {item.category === 'Vehicles' ? '🚗' : item.category === 'Energy' ? '⚡' : '🤖'}
                     </div>
                     <div>
@@ -1306,11 +1306,11 @@ export default function AdminPage() {
                     <div className="text-center"><p className="text-xs text-[#52525B] uppercase tracking-widest mb-0.5">Badge</p><p className="text-xs font-bold text-[#A1A1AA]">{item.badge}</p></div>
                     <div className="text-center">
                       <p className="text-xs text-[#52525B] uppercase tracking-widest mb-0.5">Status</p>
-                      <span className={`text-xs font-semibold px-2 py-0.5 rounded border ${item.available ? 'bg-green-400/10 text-green-400 border-green-400/20' : 'bg-[#12131A] text-[#6B7280] border-[#1E2027]'}`}>{item.available ? 'Available' : 'Unavailable'}</span>
+                      <span className={`text-xs font-semibold px-2 py-0.5 rounded-xl border ${item.available ? 'bg-green-400/10 text-green-400 border-green-400/20' : 'bg-[#12131A] text-[#6B7280] border-[#1E2027]'}`}>{item.available ? 'Available' : 'Unavailable'}</span>
                     </div>
                     <div className="flex gap-2">
-                      <button onClick={() => setEditingItem({ ...item })} className="px-3 py-1.5 bg-zinc-300/10 hover:bg-zinc-300/20 border border-zinc-300/20 text-zinc-300 text-xs font-semibold rounded transition-all">Edit</button>
-                      <button onClick={() => deleteInventoryItem(item.id)} className="px-3 py-1.5 bg-red-400/10 hover:bg-red-400/20 border border-red-400/20 text-red-400 text-xs font-semibold rounded transition-all">Remove</button>
+                      <button onClick={() => setEditingItem({ ...item })} className="px-3 py-1.5 bg-zinc-300/10 hover:bg-zinc-300/20 border border-zinc-300/20 text-zinc-300 text-xs font-semibold rounded-xl transition-all">Edit</button>
+                      <button onClick={() => deleteInventoryItem(item.id)} className="px-3 py-1.5 bg-red-400/10 hover:bg-red-400/20 border border-red-400/20 text-red-400 text-xs font-semibold rounded-xl transition-all">Remove</button>
                     </div>
                   </div>
                 </div>
@@ -1330,7 +1330,7 @@ export default function AdminPage() {
                 <h1 className="text-2xl font-extrabold text-white tracking-tight mb-1">Giveaway Management</h1>
                 <p className="text-sm text-[#71717A]">Create, edit, and manage active giveaway campaigns shown on the website.</p>
               </div>
-              <button onClick={() => setShowAddGiveaway(true)} className="flex items-center gap-2 px-5 py-2.5 bg-primary/10 hover:bg-primary/20 border border-primary/20 hover:border-primary/40 text-primary text-xs font-bold rounded tracking-widest uppercase transition-all self-start sm:self-auto">
+              <button onClick={() => setShowAddGiveaway(true)} className="flex items-center gap-2 px-5 py-2.5 bg-primary/10 hover:bg-primary/20 border border-primary/20 hover:border-primary/40 text-primary text-xs font-bold rounded-xl tracking-widest uppercase transition-all self-start sm:self-auto">
                 <span>+</span> New Giveaway
               </button>
             </div>
@@ -1343,7 +1343,7 @@ export default function AdminPage() {
                 { label: 'Total Entries', value: giveawayItems.reduce((s, g) => s + g.entries, 0).toLocaleString(), color: 'text-primary' },
                 { label: 'Max Capacity', value: giveawayItems.reduce((s, g) => s + g.maxEntries, 0).toLocaleString(), color: 'text-zinc-300' },
               ].map(kpi => (
-                <div key={kpi.label} className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-4">
+                <div key={kpi.label} className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-4">
                   <p className="text-xs text-[#6B7280] uppercase tracking-widest mb-2">{kpi.label}</p>
                   <p className={`text-2xl font-extrabold ${kpi.color}`}>{kpi.value}</p>
                 </div>
@@ -1365,7 +1365,7 @@ export default function AdminPage() {
                   ].map(f => (
                     <div key={f.key}>
                       <label className="block text-[10px] text-[#6B7280] uppercase tracking-widest mb-1.5">{f.label}</label>
-                      <input type={f.key === 'maxEntries' ? 'number' : 'text'} value={(newGiveaway as any)[f.key] || ''} onChange={e => setNewGiveaway(p => ({ ...p, [f.key]: f.key === 'maxEntries' ? Number(e.target.value) : e.target.value }))} placeholder={f.placeholder} className="w-full px-3 py-2 rounded text-sm input-tesla" />
+                      <input type={f.key === 'maxEntries' ? 'number' : 'text'} value={(newGiveaway as any)[f.key] || ''} onChange={e => setNewGiveaway(p => ({ ...p, [f.key]: f.key === 'maxEntries' ? Number(e.target.value) : e.target.value }))} placeholder={f.placeholder} className="w-full px-3 py-2 rounded-xl text-sm input-tesla" />
                     </div>
                   ))}
                   <div className="flex items-center gap-3 pt-5">
@@ -1376,8 +1376,8 @@ export default function AdminPage() {
                   </div>
                 </div>
                 <div className="flex gap-3">
-                  <button onClick={addGiveawayItem} className="px-5 py-2.5 bg-primary text-white text-xs font-bold rounded tracking-widest uppercase transition-all hover:bg-primary/90">Create Giveaway</button>
-                  <button onClick={() => setShowAddGiveaway(false)} className="px-5 py-2.5 bg-[#12131A] border border-[#1E2027] text-[#A1A1AA] text-xs font-bold rounded tracking-widest uppercase transition-all hover:text-white">Cancel</button>
+                  <button onClick={addGiveawayItem} className="px-5 py-2.5 bg-primary text-white text-xs font-bold rounded-xl tracking-widest uppercase transition-all hover:bg-primary/90">Create Giveaway</button>
+                  <button onClick={() => setShowAddGiveaway(false)} className="px-5 py-2.5 bg-[#12131A] border border-[#1E2027] text-[#A1A1AA] text-xs font-bold rounded-xl tracking-widest uppercase transition-all hover:text-white">Cancel</button>
                 </div>
               </div>
             )}
@@ -1398,7 +1398,7 @@ export default function AdminPage() {
                   ].map(f => (
                     <div key={f.key}>
                       <label className="block text-[10px] text-[#6B7280] uppercase tracking-widest mb-1.5">{f.label}</label>
-                      <input type={['entries', 'maxEntries'].includes(f.key) ? 'number' : 'text'} value={(editingGiveaway as any)[f.key] || ''} onChange={e => setEditingGiveaway(p => p ? { ...p, [f.key]: ['entries', 'maxEntries'].includes(f.key) ? Number(e.target.value) : e.target.value } : p)} className="w-full px-3 py-2 rounded text-sm input-tesla" />
+                      <input type={['entries', 'maxEntries'].includes(f.key) ? 'number' : 'text'} value={(editingGiveaway as any)[f.key] || ''} onChange={e => setEditingGiveaway(p => p ? { ...p, [f.key]: ['entries', 'maxEntries'].includes(f.key) ? Number(e.target.value) : e.target.value } : p)} className="w-full px-3 py-2 rounded-xl text-sm input-tesla" />
                     </div>
                   ))}
                   <div className="flex items-center gap-3 pt-5">
@@ -1409,8 +1409,8 @@ export default function AdminPage() {
                   </div>
                 </div>
                 <div className="flex gap-3">
-                  <button onClick={saveGiveawayItem} className="px-5 py-2.5 bg-primary text-white text-xs font-bold rounded tracking-widest uppercase transition-all hover:bg-primary/90">Save Changes</button>
-                  <button onClick={() => setEditingGiveaway(null)} className="px-5 py-2.5 bg-[#12131A] border border-[#1E2027] text-[#A1A1AA] text-xs font-bold rounded tracking-widest uppercase transition-all hover:text-white">Cancel</button>
+                  <button onClick={saveGiveawayItem} className="px-5 py-2.5 bg-primary text-white text-xs font-bold rounded-xl tracking-widest uppercase transition-all hover:bg-primary/90">Save Changes</button>
+                  <button onClick={() => setEditingGiveaway(null)} className="px-5 py-2.5 bg-[#12131A] border border-[#1E2027] text-[#A1A1AA] text-xs font-bold rounded-xl tracking-widest uppercase transition-all hover:text-white">Cancel</button>
                 </div>
               </div>
             )}
@@ -1425,14 +1425,14 @@ export default function AdminPage() {
                       <div>
                         <div className="flex items-center gap-3 mb-1">
                           <h3 className="text-sm font-bold text-white">{g.title}</h3>
-                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded border ${g.active ? 'bg-green-400/10 text-green-400 border-green-400/20' : 'bg-[#12131A] text-[#6B7280] border-[#1E2027]'}`}>{g.active ? 'Active' : 'Inactive'}</span>
+                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-xl border ${g.active ? 'bg-green-400/10 text-green-400 border-green-400/20' : 'bg-[#12131A] text-[#6B7280] border-[#1E2027]'}`}>{g.active ? 'Active' : 'Inactive'}</span>
                         </div>
                         <p className="text-xs text-[#71717A]">Prize: <span className="text-[#D4D4D8]">{g.prize}</span></p>
                         <p className="text-xs text-[#71717A] mt-0.5">Ends: <span className="text-[#D4D4D8]">{g.ends}</span> · Entry: <span className="text-[#D4D4D8]">{g.entryFee}</span></p>
                       </div>
                       <div className="flex gap-2 shrink-0">
-                        <button onClick={() => setEditingGiveaway({ ...g })} className="px-3 py-1.5 bg-zinc-300/10 hover:bg-zinc-300/20 border border-zinc-300/20 text-zinc-300 text-xs font-semibold rounded transition-all">Edit</button>
-                        <button onClick={() => deleteGiveawayItem(g.id)} className="px-3 py-1.5 bg-red-400/10 hover:bg-red-400/20 border border-red-400/20 text-red-400 text-xs font-semibold rounded transition-all">Remove</button>
+                        <button onClick={() => setEditingGiveaway({ ...g })} className="px-3 py-1.5 bg-zinc-300/10 hover:bg-zinc-300/20 border border-zinc-300/20 text-zinc-300 text-xs font-semibold rounded-xl transition-all">Edit</button>
+                        <button onClick={() => deleteGiveawayItem(g.id)} className="px-3 py-1.5 bg-red-400/10 hover:bg-red-400/20 border border-red-400/20 text-red-400 text-xs font-semibold rounded-xl transition-all">Remove</button>
                       </div>
                     </div>
                     <div>
@@ -1469,7 +1469,7 @@ export default function AdminPage() {
                 </button>
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                   <div className="lg:col-span-1 space-y-4">
-                    <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-5">
+                    <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-5">
                       <h3 className="text-xs font-bold text-[#71717A] uppercase tracking-widest mb-4">Applicant</h3>
                       <p className="text-sm font-bold text-white mb-1">{selectedKyc.user_profiles?.full_name || 'Unknown User'}</p>
                       <p className="text-xs text-[#6B7280] mb-4">{selectedKyc.user_profiles?.email}</p>
@@ -1488,25 +1488,25 @@ export default function AdminPage() {
                         ))}
                       </div>
                     </div>
-                    <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-5">
+                    <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-5">
                       <h3 className="text-xs font-bold text-[#71717A] uppercase tracking-widest mb-3">Current Status</h3>
-                      <span className={`inline-flex items-center px-3 py-1.5 rounded border text-xs font-bold uppercase tracking-widest ${kycStatusConfig[selectedKyc.kyc_status]?.bg} ${kycStatusConfig[selectedKyc.kyc_status]?.color}`}>{kycStatusConfig[selectedKyc.kyc_status]?.label}</span>
+                      <span className={`inline-flex items-center px-3 py-1.5 rounded-xl border text-xs font-bold uppercase tracking-widest ${kycStatusConfig[selectedKyc.kyc_status]?.bg} ${kycStatusConfig[selectedKyc.kyc_status]?.color}`}>{kycStatusConfig[selectedKyc.kyc_status]?.label}</span>
                     </div>
-                    <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-5">
+                    <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-5">
                       <h3 className="text-xs font-bold text-[#71717A] uppercase tracking-widest mb-3">Admin Notes</h3>
-                      <textarea value={kycNotes} onChange={(e) => setKycNotes(e.target.value)} placeholder="Add notes for the applicant (optional)..." rows={3} className="w-full px-3 py-2.5 rounded text-sm input-tesla resize-none" />
+                      <textarea value={kycNotes} onChange={(e) => setKycNotes(e.target.value)} placeholder="Add notes for the applicant (optional)..." rows={3} className="w-full px-3 py-2.5 rounded-xl text-sm input-tesla resize-none" />
                     </div>
                     <div className="space-y-2">
-                      <button onClick={() => updateKYCStatus('approved')} disabled={kycSaving || selectedKyc.kyc_status === 'approved'} className="w-full py-3 rounded text-xs font-bold uppercase tracking-widest transition-all bg-green-400/10 hover:bg-green-400/20 border border-green-400/20 hover:border-green-400/40 text-green-400 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+                      <button onClick={() => updateKYCStatus('approved')} disabled={kycSaving || selectedKyc.kyc_status === 'approved'} className="w-full py-3 rounded-xl text-xs font-bold uppercase tracking-widest transition-all bg-green-400/10 hover:bg-green-400/20 border border-green-400/20 hover:border-green-400/40 text-green-400 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2">
                         {kycSaving ? <div className="w-3 h-3 border-2 border-green-400 border-t-transparent rounded-full animate-spin" /> : '✓'} Approve KYC
                       </button>
-                      <button onClick={() => updateKYCStatus('under_review')} disabled={kycSaving || selectedKyc.kyc_status === 'under_review'} className="w-full py-3 rounded text-xs font-bold uppercase tracking-widest transition-all bg-zinc-300/10 hover:bg-zinc-300/20 border border-zinc-300/20 hover:border-zinc-300/40 text-zinc-300 disabled:opacity-40 disabled:cursor-not-allowed">Mark Under Review</button>
-                      <button onClick={() => updateKYCStatus('rejected')} disabled={kycSaving || selectedKyc.kyc_status === 'rejected'} className="w-full py-3 rounded text-xs font-bold uppercase tracking-widest transition-all bg-red-400/10 hover:bg-red-400/20 border border-red-400/20 hover:border-red-400/40 text-red-400 disabled:opacity-40 disabled:cursor-not-allowed">Reject KYC</button>
+                      <button onClick={() => updateKYCStatus('under_review')} disabled={kycSaving || selectedKyc.kyc_status === 'under_review'} className="w-full py-3 rounded-xl text-xs font-bold uppercase tracking-widest transition-all bg-zinc-300/10 hover:bg-zinc-300/20 border border-zinc-300/20 hover:border-zinc-300/40 text-zinc-300 disabled:opacity-40 disabled:cursor-not-allowed">Mark Under Review</button>
+                      <button onClick={() => updateKYCStatus('rejected')} disabled={kycSaving || selectedKyc.kyc_status === 'rejected'} className="w-full py-3 rounded-xl text-xs font-bold uppercase tracking-widest transition-all bg-red-400/10 hover:bg-red-400/20 border border-red-400/20 hover:border-red-400/40 text-red-400 disabled:opacity-40 disabled:cursor-not-allowed">Reject KYC</button>
                       {kycSaved && <p className="text-center text-xs text-green-400 font-semibold">✓ Status updated</p>}
                     </div>
                   </div>
                   <div className="lg:col-span-2 space-y-4">
-                    <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-5">
+                    <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-5">
                       <h3 className="text-xs font-bold text-[#71717A] uppercase tracking-widest mb-4">Identity Documents</h3>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {[
@@ -1515,7 +1515,7 @@ export default function AdminPage() {
                           { label: 'Proof of Address', url: selectedKyc.address_proof_url, detail: `${selectedKyc.street_address}, ${selectedKyc.city}` },
                           { label: 'Income Verification', url: selectedKyc.income_document_url, detail: selectedKyc.annual_income || '' },
                         ].map((doc) => (
-                          <div key={doc.label} className="border border-[#12131A] rounded-lg overflow-hidden">
+                          <div key={doc.label} className="border border-[#12131A] rounded-xl overflow-hidden">
                             <div className="p-3 border-b border-[#12131A]">
                               <p className="text-[10px] font-bold text-[#71717A] uppercase tracking-widest">{doc.label}</p>
                               {doc.detail && <p className="text-[10px] text-[#52525B] mt-0.5 capitalize">{doc.detail}</p>}
@@ -1523,9 +1523,9 @@ export default function AdminPage() {
                             {doc.url ? (
                               <div className="p-3">
                                 {doc.url.match(/\.(jpg|jpeg|png|webp)$/i) ? (
-                                  <img src={doc.url} alt={`${doc.label} document`} className="w-full h-32 object-cover rounded" />
+                                  <img src={doc.url} alt={`${doc.label} document`} className="w-full h-32 object-cover rounded-xl" />
                                 ) : (
-                                  <div className="h-32 flex flex-col items-center justify-center gap-2 bg-[#050507] rounded">
+                                  <div className="h-32 flex flex-col items-center justify-center gap-2 bg-[#050507] rounded-xl">
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="1.5" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /></svg>
                                     <span className="text-[10px] text-[#6B7280]">PDF Document</span>
                                   </div>
@@ -1542,7 +1542,7 @@ export default function AdminPage() {
                         ))}
                       </div>
                     </div>
-                    <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-5">
+                    <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-5">
                       <h3 className="text-xs font-bold text-[#71717A] uppercase tracking-widest mb-4">Residential Address</h3>
                       <div className="grid grid-cols-2 gap-3">
                         {[
@@ -1586,7 +1586,7 @@ export default function AdminPage() {
                     {filteredKyc.map((kyc) => {
                       const cfg = kycStatusConfig[kyc.kyc_status];
                       return (
-                        <div key={kyc.id} className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-[#1E2027] transition-colors">
+                        <div key={kyc.id} className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-[#1E2027] transition-colors">
                           <div className="flex items-center gap-4">
                             <div className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-sm font-bold text-primary shrink-0">{(kyc.user_profiles?.full_name || 'U').charAt(0).toUpperCase()}</div>
                             <div>
@@ -1597,8 +1597,8 @@ export default function AdminPage() {
                           <div className="flex items-center gap-6 sm:gap-8">
                             <div className="text-center"><p className="text-xs text-[#52525B] uppercase tracking-widest mb-0.5">Country</p><p className="text-sm font-bold text-white">{kyc.country || '—'}</p></div>
                             <div className="text-center"><p className="text-xs text-[#52525B] uppercase tracking-widest mb-0.5">Submitted</p><p className="text-xs font-semibold text-white">{kyc.submitted_at ? new Date(kyc.submitted_at).toLocaleDateString() : '—'}</p></div>
-                            <div className="text-center"><p className="text-xs text-[#52525B] uppercase tracking-widest mb-0.5">Status</p><span className={`text-xs font-semibold px-2 py-0.5 rounded border ${cfg?.bg} ${cfg?.color}`}>{cfg?.label}</span></div>
-                            <button onClick={() => openKYCDetail(kyc)} className="px-4 py-2 bg-primary/10 hover:bg-primary/20 border border-primary/20 hover:border-primary/40 text-primary text-xs font-semibold rounded transition-all">Review</button>
+                            <div className="text-center"><p className="text-xs text-[#52525B] uppercase tracking-widest mb-0.5">Status</p><span className={`text-xs font-semibold px-2 py-0.5 rounded-xl border ${cfg?.bg} ${cfg?.color}`}>{cfg?.label}</span></div>
+                            <button onClick={() => openKYCDetail(kyc)} className="px-4 py-2 bg-primary/10 hover:bg-primary/20 border border-primary/20 hover:border-primary/40 text-primary text-xs font-semibold rounded-xl transition-all">Review</button>
                           </div>
                         </div>
                       );
@@ -1619,14 +1619,14 @@ export default function AdminPage() {
                 <p className="text-sm text-[#71717A]">Manage user support requests and send email updates.</p>
               </div>
               <div className="flex items-center gap-3">
-                <select value={supportFilter} onChange={e => setSupportFilter(e.target.value as any)} className="bg-[#0D0E12] border border-[#1E2027] text-[#D4D4D8] text-xs rounded px-3 py-2 focus:outline-none focus:border-[#2A2D35]">
+                <select value={supportFilter} onChange={e => setSupportFilter(e.target.value as any)} className="bg-[#0D0E12] border border-[#1E2027] text-[#D4D4D8] text-xs rounded-xl px-3 py-2 focus:outline-none focus:border-[#2A2D35]">
                   <option value="all">All Tickets</option>
                   <option value="open">Open</option>
                   <option value="in_progress">In Progress</option>
                   <option value="resolved">Resolved</option>
                   <option value="closed">Closed</option>
                 </select>
-                <button onClick={loadSupportTickets} disabled={supportLoading} className="flex items-center gap-2 px-4 py-2 bg-[#0D0E12] hover:bg-[#12131A] border border-[#1E2027] text-[#A1A1AA] hover:text-white text-xs font-semibold rounded transition-all disabled:opacity-50">
+                <button onClick={loadSupportTickets} disabled={supportLoading} className="flex items-center gap-2 px-4 py-2 bg-[#0D0E12] hover:bg-[#12131A] border border-[#1E2027] text-[#A1A1AA] hover:text-white text-xs font-semibold rounded-xl transition-all disabled:opacity-50">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={supportLoading ? 'animate-spin' : ''} aria-hidden="true"><path d="M23 4v6h-6M1 20v-6h6" /><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" /></svg>
                   Refresh
                 </button>
@@ -1634,7 +1634,7 @@ export default function AdminPage() {
             </div>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
               {(['open', 'in_progress', 'resolved', 'closed'] as TicketStatus[]).map(s => (
-                <div key={s} className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-4">
+                <div key={s} className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-4">
                   <p className="text-2xl font-bold" style={{ color: TICKET_STATUS_CONFIG[s].color }}>{supportTickets.filter(t => t.ticket_status === s).length}</p>
                   <p className="text-xs text-[#6B7280] uppercase tracking-widest mt-1">{TICKET_STATUS_CONFIG[s].label}</p>
                 </div>
@@ -1646,7 +1646,7 @@ export default function AdminPage() {
                   <div className="flex items-center justify-center py-16"><div className="w-7 h-7 border-2 border-primary border-t-transparent rounded-full animate-spin" /></div>
                 ) : (
                   (supportFilter === 'all' ? supportTickets : supportTickets.filter(t => t.ticket_status === supportFilter)).map(ticket => (
-                    <button key={ticket.id} onClick={() => { setSelectedTicket(ticket); setTicketReply(ticket.admin_reply || ''); setTicketStatusUpdate(ticket.ticket_status); setTicketSaved(false); }} className={`w-full text-left p-4 rounded-lg border transition-all ${selectedTicket?.id === ticket.id ? 'bg-[#12131A] border-primary/40' : 'bg-[#0D0E12] border-[#12131A] hover:border-[#1E2027]'}`}>
+                    <button key={ticket.id} onClick={() => { setSelectedTicket(ticket); setTicketReply(ticket.admin_reply || ''); setTicketStatusUpdate(ticket.ticket_status); setTicketSaved(false); }} className={`w-full text-left p-4 rounded-xl border transition-all ${selectedTicket?.id === ticket.id ? 'bg-[#12131A] border-primary/40' : 'bg-[#0D0E12] border-[#12131A] hover:border-[#1E2027]'}`}>
                       <div className="flex items-start justify-between gap-2 mb-1">
                         <span className="text-[10px] font-mono text-[#6B7280]">{ticket.ticket_number}</span>
                         <span className="text-[10px] font-bold px-2 py-0.5 rounded-full" style={{ color: TICKET_STATUS_CONFIG[ticket.ticket_status].color, background: `${TICKET_STATUS_CONFIG[ticket.ticket_status].color}15` }}>{TICKET_STATUS_CONFIG[ticket.ticket_status].label}</span>
@@ -1661,12 +1661,12 @@ export default function AdminPage() {
               </div>
               <div className="lg:col-span-3">
                 {!selectedTicket ? (
-                  <div className="flex flex-col items-center justify-center h-64 bg-[#0D0E12] border border-[#12131A] rounded-lg">
+                  <div className="flex flex-col items-center justify-center h-64 bg-[#0D0E12] border border-[#12131A] rounded-xl">
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#333" strokeWidth="1.5" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                     <p className="text-[#52525B] text-sm mt-3">Select a ticket to review</p>
                   </div>
                 ) : (
-                  <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-6 space-y-5">
+                  <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-6 space-y-5">
                     <div>
                       <div className="flex items-center gap-2 mb-1">
                         <span className="text-xs font-mono text-[#6B7280]">{selectedTicket.ticket_number}</span>
@@ -1676,12 +1676,12 @@ export default function AdminPage() {
                       <h2 className="text-lg font-bold text-white">{selectedTicket.subject}</h2>
                       <p className="text-xs text-[#71717A] mt-1">{selectedTicket.user_profiles?.full_name || selectedTicket.user_name || 'Unknown'} · {selectedTicket.user_profiles?.email || selectedTicket.user_email} · {TICKET_CATEGORY_LABELS[selectedTicket.category]}</p>
                     </div>
-                    <div className="bg-[#050507] border border-[#12131A] rounded-lg p-4">
+                    <div className="bg-[#050507] border border-[#12131A] rounded-xl p-4">
                       <p className="text-xs text-[#6B7280] uppercase tracking-widest mb-2">User Request</p>
                       <p className="text-sm text-[#E4E4E7] leading-relaxed whitespace-pre-wrap">{selectedTicket.description}</p>
                     </div>
                     {selectedTicket.admin_reply && (
-                      <div className="bg-[#050507] border border-primary/20 rounded-lg p-4">
+                      <div className="bg-[#050507] border border-primary/20 rounded-xl p-4">
                         <p className="text-xs text-primary uppercase tracking-widest mb-2">Previous Response</p>
                         <p className="text-sm text-[#E4E4E7] leading-relaxed whitespace-pre-wrap">{selectedTicket.admin_reply}</p>
                       </div>
@@ -1691,15 +1691,15 @@ export default function AdminPage() {
                         <label className="block text-xs text-[#6B7280] uppercase tracking-widest mb-2">Update Status</label>
                         <div className="grid grid-cols-4 gap-2">
                           {(['open', 'in_progress', 'resolved', 'closed'] as TicketStatus[]).map(s => (
-                            <button key={s} type="button" onClick={() => setTicketStatusUpdate(s)} className={`py-2 rounded text-xs font-bold capitalize border transition-all ${ticketStatusUpdate === s ? 'border-current' : 'border-[#1E2027] text-[#6B7280] hover:border-[#2A2D35]'}`} style={ticketStatusUpdate === s ? { color: TICKET_STATUS_CONFIG[s].color, background: `${TICKET_STATUS_CONFIG[s].color}15` } : {}}>{TICKET_STATUS_CONFIG[s].label}</button>
+                            <button key={s} type="button" onClick={() => setTicketStatusUpdate(s)} className={`py-2 rounded-xl text-xs font-bold capitalize border transition-all ${ticketStatusUpdate === s ? 'border-current' : 'border-[#1E2027] text-[#6B7280] hover:border-[#2A2D35]'}`} style={ticketStatusUpdate === s ? { color: TICKET_STATUS_CONFIG[s].color, background: `${TICKET_STATUS_CONFIG[s].color}15` } : {}}>{TICKET_STATUS_CONFIG[s].label}</button>
                           ))}
                         </div>
                       </div>
                       <div>
                         <label className="block text-xs text-[#6B7280] uppercase tracking-widest mb-2">Reply to User (optional)</label>
-                        <textarea rows={4} value={ticketReply} onChange={e => setTicketReply(e.target.value)} placeholder="Write a response that will be sent to the user via email and shown in their ticket…" className="w-full bg-[#050507] border border-[#1E2027] rounded-lg px-4 py-3 text-sm text-white placeholder:text-[#52525B] focus:outline-none focus:border-[#2A2D35] resize-none" />
+                        <textarea rows={4} value={ticketReply} onChange={e => setTicketReply(e.target.value)} placeholder="Write a response that will be sent to the user via email and shown in their ticket…" className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-4 py-3 text-sm text-white placeholder:text-[#52525B] focus:outline-none focus:border-[#2A2D35] resize-none" />
                       </div>
-                      <button onClick={updateTicketStatus} disabled={ticketSaving} className="w-full py-3 bg-primary/10 hover:bg-primary/20 border border-primary/20 hover:border-primary/40 text-primary text-xs font-bold rounded tracking-widest uppercase transition-all disabled:opacity-50">
+                      <button onClick={updateTicketStatus} disabled={ticketSaving} className="w-full py-3 bg-primary/10 hover:bg-primary/20 border border-primary/20 hover:border-primary/40 text-primary text-xs font-bold rounded-xl tracking-widest uppercase transition-all disabled:opacity-50">
                         {ticketSaving ? 'Saving…' : ticketSaved ? '✓ Saved & Email Sent' : 'Update Ticket & Notify User'}
                       </button>
                     </div>
@@ -1718,7 +1718,7 @@ export default function AdminPage() {
                 <h1 className="text-xl font-extrabold text-white tracking-tight mb-0.5">{selectedPortfolio.userName}</h1>
                 <p className="text-xs text-[#6B7280]">{selectedPortfolio.userEmail}</p>
               </div>
-              <button onClick={handleSave} className="px-6 py-2.5 tesla-btn-primary rounded text-sm font-semibold flex items-center gap-2 self-start sm:self-auto">
+              <button onClick={handleSave} className="px-6 py-2.5 tesla-btn-primary rounded-xl text-sm font-semibold flex items-center gap-2 self-start sm:self-auto">
                 {saved ? (<><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg>Saved!</>) : 'Save Changes'}
               </button>
             </div>
@@ -1728,7 +1728,7 @@ export default function AdminPage() {
               ))}
             </div>
             {activeSection === 'stats' && (
-              <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-6">
+              <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-6">
                 <h3 className="text-sm font-bold text-white mb-5">Portfolio Statistics</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {[
@@ -1741,7 +1741,7 @@ export default function AdminPage() {
                   ].map((field) => (
                     <div key={field.key}>
                       <label className="block text-xs font-semibold text-[#71717A] uppercase tracking-widest mb-2">{field.label}</label>
-                      <input type="text" value={String(selectedPortfolio.stats[field.key as keyof typeof selectedPortfolio.stats])} onChange={(e) => updateStats(field.key as keyof UserPortfolio['stats'], e.target.value)} placeholder={field.placeholder} className="w-full px-4 py-2.5 rounded text-sm input-tesla" />
+                      <input type="text" value={String(selectedPortfolio.stats[field.key as keyof typeof selectedPortfolio.stats])} onChange={(e) => updateStats(field.key as keyof UserPortfolio['stats'], e.target.value)} placeholder={field.placeholder} className="w-full px-4 py-2.5 rounded-xl text-sm input-tesla" />
                     </div>
                   ))}
                 </div>
@@ -1751,11 +1751,11 @@ export default function AdminPage() {
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <p className="text-xs text-[#6B7280]">{selectedPortfolio.investments.length} investment(s)</p>
-                  <button onClick={addInvestment} className="px-4 py-2 bg-primary/10 hover:bg-primary/20 border border-primary/20 text-primary text-xs font-semibold rounded transition-all flex items-center gap-1.5"><span>+</span> Add Investment</button>
+                  <button onClick={addInvestment} className="px-4 py-2 bg-primary/10 hover:bg-primary/20 border border-primary/20 text-primary text-xs font-semibold rounded-xl transition-all flex items-center gap-1.5"><span>+</span> Add Investment</button>
                 </div>
-                {selectedPortfolio.investments.length === 0 && <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-8 text-center"><p className="text-xs text-[#52525B]">No investments yet. Click &quot;Add Investment&quot; to create one.</p></div>}
+                {selectedPortfolio.investments.length === 0 && <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-8 text-center"><p className="text-xs text-[#52525B]">No investments yet. Click &quot;Add Investment&quot; to create one.</p></div>}
                 {selectedPortfolio.investments.map((inv) => (
-                  <div key={inv.id} className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-5">
+                  <div key={inv.id} className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-5">
                     <div className="flex items-center justify-between mb-4"><span className="text-xs font-semibold text-[#71717A] uppercase tracking-widest">Investment</span><button onClick={() => removeInvestment(inv.id)} className="text-xs text-[#52525B] hover:text-primary transition-colors">Remove</button></div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {[
@@ -1768,12 +1768,12 @@ export default function AdminPage() {
                       ].map((f) => (
                         <div key={f.key}>
                           <label className="block text-[10px] font-semibold text-[#6B7280] uppercase tracking-widest mb-1.5">{f.label}</label>
-                          <input type="text" value={String(inv[f.key as keyof Investment])} onChange={(e) => updateInvestment(inv.id, f.key as keyof Investment, e.target.value)} placeholder={f.placeholder} className="w-full px-3 py-2 rounded text-sm input-tesla" />
+                          <input type="text" value={String(inv[f.key as keyof Investment])} onChange={(e) => updateInvestment(inv.id, f.key as keyof Investment, e.target.value)} placeholder={f.placeholder} className="w-full px-3 py-2 rounded-xl text-sm input-tesla" />
                         </div>
                       ))}
                       <div>
                         <label className="block text-[10px] font-semibold text-[#6B7280] uppercase tracking-widest mb-1.5">Progress (0-100)</label>
-                        <input type="number" min="0" max="100" value={inv.progress} onChange={(e) => updateInvestment(inv.id, 'progress', Number(e.target.value))} className="w-full px-3 py-2 rounded text-sm input-tesla" />
+                        <input type="number" min="0" max="100" value={inv.progress} onChange={(e) => updateInvestment(inv.id, 'progress', Number(e.target.value))} className="w-full px-3 py-2 rounded-xl text-sm input-tesla" />
                       </div>
                     </div>
                   </div>
@@ -1784,16 +1784,16 @@ export default function AdminPage() {
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <p className="text-xs text-[#6B7280]">{selectedPortfolio.transactions.length} transaction(s)</p>
-                  <button onClick={addTransaction} className="px-4 py-2 bg-primary/10 hover:bg-primary/20 border border-primary/20 text-primary text-xs font-semibold rounded transition-all flex items-center gap-1.5"><span>+</span> Add Transaction</button>
+                  <button onClick={addTransaction} className="px-4 py-2 bg-primary/10 hover:bg-primary/20 border border-primary/20 text-primary text-xs font-semibold rounded-xl transition-all flex items-center gap-1.5"><span>+</span> Add Transaction</button>
                 </div>
-                {selectedPortfolio.transactions.length === 0 && <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-8 text-center"><p className="text-xs text-[#52525B]">No transactions yet.</p></div>}
+                {selectedPortfolio.transactions.length === 0 && <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-8 text-center"><p className="text-xs text-[#52525B]">No transactions yet.</p></div>}
                 {selectedPortfolio.transactions.map((tx) => (
-                  <div key={tx.id} className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-5">
+                  <div key={tx.id} className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-5">
                     <div className="flex items-center justify-between mb-4"><span className="text-xs font-semibold text-[#71717A] uppercase tracking-widest">Transaction</span><button onClick={() => removeTransaction(tx.id)} className="text-xs text-[#52525B] hover:text-primary transition-colors">Remove</button></div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div>
                         <label className="block text-[10px] font-semibold text-[#6B7280] uppercase tracking-widest mb-1.5">Type</label>
-                        <select value={tx.type} onChange={(e) => updateTransaction(tx.id, 'type', e.target.value)} className="w-full px-3 py-2 rounded text-sm input-tesla">
+                        <select value={tx.type} onChange={(e) => updateTransaction(tx.id, 'type', e.target.value)} className="w-full px-3 py-2 rounded-xl text-sm input-tesla">
                           <option value="Investment">Investment</option>
                           <option value="Return">Return</option>
                           <option value="Withdrawal">Withdrawal</option>
@@ -1807,7 +1807,7 @@ export default function AdminPage() {
                       ].map((f) => (
                         <div key={f.key}>
                           <label className="block text-[10px] font-semibold text-[#6B7280] uppercase tracking-widest mb-1.5">{f.label}</label>
-                          <input type="text" value={String(tx[f.key as keyof Transaction])} onChange={(e) => updateTransaction(tx.id, f.key as keyof Transaction, e.target.value)} placeholder={f.placeholder} className="w-full px-3 py-2 rounded text-sm input-tesla" />
+                          <input type="text" value={String(tx[f.key as keyof Transaction])} onChange={(e) => updateTransaction(tx.id, f.key as keyof Transaction, e.target.value)} placeholder={f.placeholder} className="w-full px-3 py-2 rounded-xl text-sm input-tesla" />
                         </div>
                       ))}
                     </div>
@@ -1819,11 +1819,11 @@ export default function AdminPage() {
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <p className="text-xs text-[#6B7280]">{selectedPortfolio.alerts.length} alert(s)</p>
-                  <button onClick={addAlert} className="px-4 py-2 bg-primary/10 hover:bg-primary/20 border border-primary/20 text-primary text-xs font-semibold rounded transition-all flex items-center gap-1.5"><span>+</span> Add Alert</button>
+                  <button onClick={addAlert} className="px-4 py-2 bg-primary/10 hover:bg-primary/20 border border-primary/20 text-primary text-xs font-semibold rounded-xl transition-all flex items-center gap-1.5"><span>+</span> Add Alert</button>
                 </div>
-                {selectedPortfolio.alerts.length === 0 && <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-8 text-center"><p className="text-xs text-[#52525B]">No alerts yet.</p></div>}
+                {selectedPortfolio.alerts.length === 0 && <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-8 text-center"><p className="text-xs text-[#52525B]">No alerts yet.</p></div>}
                 {selectedPortfolio.alerts.map((alert) => (
-                  <div key={alert.id} className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-5">
+                  <div key={alert.id} className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-5">
                     <div className="flex items-center justify-between mb-4"><span className="text-xs font-semibold text-[#71717A] uppercase tracking-widest">Alert</span><button onClick={() => removeAlert(alert.id)} className="text-xs text-[#52525B] hover:text-primary transition-colors">Remove</button></div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {[
@@ -1833,7 +1833,7 @@ export default function AdminPage() {
                       ].map((f) => (
                         <div key={f.key}>
                           <label className="block text-[10px] font-semibold text-[#6B7280] uppercase tracking-widest mb-1.5">{f.label}</label>
-                          <input type="text" value={String(alert[f.key as keyof Alert])} onChange={(e) => updateAlert(alert.id, f.key as keyof Alert, e.target.value)} placeholder={f.placeholder} className="w-full px-3 py-2 rounded text-sm input-tesla" />
+                          <input type="text" value={String(alert[f.key as keyof Alert])} onChange={(e) => updateAlert(alert.id, f.key as keyof Alert, e.target.value)} placeholder={f.placeholder} className="w-full px-3 py-2 rounded-xl text-sm input-tesla" />
                         </div>
                       ))}
                       <div className="flex items-center gap-3 pt-4">
@@ -1851,16 +1851,16 @@ export default function AdminPage() {
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <p className="text-xs text-[#6B7280]">{selectedPortfolio.chartData.length} data point(s)</p>
-                  <button onClick={addChartPoint} className="px-4 py-2 bg-primary/10 hover:bg-primary/20 border border-primary/20 text-primary text-xs font-semibold rounded transition-all flex items-center gap-1.5"><span>+</span> Add Point</button>
+                  <button onClick={addChartPoint} className="px-4 py-2 bg-primary/10 hover:bg-primary/20 border border-primary/20 text-primary text-xs font-semibold rounded-xl transition-all flex items-center gap-1.5"><span>+</span> Add Point</button>
                 </div>
-                {selectedPortfolio.chartData.length === 0 && <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-8 text-center"><p className="text-xs text-[#52525B]">No chart data yet.</p></div>}
+                {selectedPortfolio.chartData.length === 0 && <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-8 text-center"><p className="text-xs text-[#52525B]">No chart data yet.</p></div>}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                   {selectedPortfolio.chartData.map((pt, i) => (
-                    <div key={i} className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-4">
+                    <div key={i} className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-4">
                       <div className="flex items-center justify-between mb-3"><span className="text-[10px] text-[#52525B] uppercase tracking-widest">Point {i + 1}</span><button onClick={() => removeChartPoint(i)} className="text-[10px] text-[#52525B] hover:text-primary transition-colors">Remove</button></div>
                       <div className="space-y-2">
-                        <div><label className="block text-[10px] font-semibold text-[#6B7280] uppercase tracking-widest mb-1">Month</label><input type="text" value={pt.month} onChange={(e) => updateChartPoint(i, 'month', e.target.value)} placeholder="Jan" className="w-full px-3 py-2 rounded text-sm input-tesla" /></div>
-                        <div><label className="block text-[10px] font-semibold text-[#6B7280] uppercase tracking-widest mb-1">Value ($)</label><input type="number" value={pt.value} onChange={(e) => updateChartPoint(i, 'value', e.target.value)} placeholder="50000" className="w-full px-3 py-2 rounded text-sm input-tesla" /></div>
+                        <div><label className="block text-[10px] font-semibold text-[#6B7280] uppercase tracking-widest mb-1">Month</label><input type="text" value={pt.month} onChange={(e) => updateChartPoint(i, 'month', e.target.value)} placeholder="Jan" className="w-full px-3 py-2 rounded-xl text-sm input-tesla" /></div>
+                        <div><label className="block text-[10px] font-semibold text-[#6B7280] uppercase tracking-widest mb-1">Value ($)</label><input type="number" value={pt.value} onChange={(e) => updateChartPoint(i, 'value', e.target.value)} placeholder="50000" className="w-full px-3 py-2 rounded-xl text-sm input-tesla" /></div>
                       </div>
                     </div>
                   ))}
@@ -1871,22 +1871,22 @@ export default function AdminPage() {
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <p className="text-xs text-[#6B7280]">{selectedPortfolio.allocation.length} allocation(s) — values should sum to 100%</p>
-                  <button onClick={addAllocation} className="px-4 py-2 bg-primary/10 hover:bg-primary/20 border border-primary/20 text-primary text-xs font-semibold rounded transition-all flex items-center gap-1.5"><span>+</span> Add Allocation</button>
+                  <button onClick={addAllocation} className="px-4 py-2 bg-primary/10 hover:bg-primary/20 border border-primary/20 text-primary text-xs font-semibold rounded-xl transition-all flex items-center gap-1.5"><span>+</span> Add Allocation</button>
                 </div>
-                {selectedPortfolio.allocation.length === 0 && <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-8 text-center"><p className="text-xs text-[#52525B]">No allocation data yet.</p></div>}
+                {selectedPortfolio.allocation.length === 0 && <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-8 text-center"><p className="text-xs text-[#52525B]">No allocation data yet.</p></div>}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                   {selectedPortfolio.allocation.map((item, i) => (
-                    <div key={i} className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-4">
+                    <div key={i} className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-4">
                       <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full" style={{ background: item.color }} /><span className="text-[10px] text-[#52525B] uppercase tracking-widest">Slice {i + 1}</span></div>
                         <button onClick={() => removeAllocation(i)} className="text-[10px] text-[#52525B] hover:text-primary transition-colors">Remove</button>
                       </div>
                       <div className="space-y-2">
-                        <div><label className="block text-[10px] font-semibold text-[#6B7280] uppercase tracking-widest mb-1">Name</label><input type="text" value={item.name} onChange={(e) => updateAllocation(i, 'name', e.target.value)} placeholder="Vehicles" className="w-full px-3 py-2 rounded text-sm input-tesla" /></div>
-                        <div><label className="block text-[10px] font-semibold text-[#6B7280] uppercase tracking-widest mb-1">Value (%)</label><input type="number" min="0" max="100" value={item.value} onChange={(e) => updateAllocation(i, 'value', e.target.value)} placeholder="45" className="w-full px-3 py-2 rounded text-sm input-tesla" /></div>
+                        <div><label className="block text-[10px] font-semibold text-[#6B7280] uppercase tracking-widest mb-1">Name</label><input type="text" value={item.name} onChange={(e) => updateAllocation(i, 'name', e.target.value)} placeholder="Vehicles" className="w-full px-3 py-2 rounded-xl text-sm input-tesla" /></div>
+                        <div><label className="block text-[10px] font-semibold text-[#6B7280] uppercase tracking-widest mb-1">Value (%)</label><input type="number" min="0" max="100" value={item.value} onChange={(e) => updateAllocation(i, 'value', e.target.value)} placeholder="45" className="w-full px-3 py-2 rounded-xl text-sm input-tesla" /></div>
                         <div>
                           <label className="block text-[10px] font-semibold text-[#6B7280] uppercase tracking-widest mb-1">Color</label>
-                          <select value={item.color} onChange={(e) => updateAllocation(i, 'color', e.target.value)} className="w-full px-3 py-2 rounded text-sm input-tesla">
+                          <select value={item.color} onChange={(e) => updateAllocation(i, 'color', e.target.value)} className="w-full px-3 py-2 rounded-xl text-sm input-tesla">
                             {ALLOC_COLORS.map((c) => <option key={c} value={c}>{c}</option>)}
                           </select>
                         </div>
@@ -1897,7 +1897,7 @@ export default function AdminPage() {
               </div>
             )}
             <div className="mt-8 pt-6 border-t border-[#12131A] flex justify-end">
-              <button onClick={handleSave} className="px-8 py-3 tesla-btn-primary rounded text-sm font-semibold flex items-center gap-2">
+              <button onClick={handleSave} className="px-8 py-3 tesla-btn-primary rounded-xl text-sm font-semibold flex items-center gap-2">
                 {saved ? (<><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg>Saved!</>) : 'Save Changes'}
               </button>
             </div>

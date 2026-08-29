@@ -108,10 +108,10 @@ export default function BookSessionPage() {
             </p>
             <p className="text-[#6B7280] text-xs mb-8">A confirmation will be sent to <span className="text-white">{form.email}</span></p>
             <div className="flex flex-col gap-3">
-              <Link href="/dashboard" className="w-full py-3 tesla-btn-primary rounded text-xs font-bold tracking-widest uppercase text-center">
+              <Link href="/dashboard" className="w-full py-3 tesla-btn-primary rounded-xl text-xs font-bold tracking-widest uppercase text-center">
                 Go to Dashboard
               </Link>
-              <Link href="/" className="w-full py-3 tesla-btn-outline rounded text-xs font-bold tracking-widest uppercase text-center">
+              <Link href="/" className="w-full py-3 tesla-btn-outline rounded-xl text-xs font-bold tracking-widest uppercase text-center">
                 Back to Home
               </Link>
             </div>
@@ -164,7 +164,7 @@ export default function BookSessionPage() {
           {/* Step 1: Details */}
           {step === 'details' && (
             <div className="space-y-5">
-              <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-6 space-y-5">
+              <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-6 space-y-5">
                 <h2 className="text-sm font-bold text-white tracking-widest uppercase">Personal Information</h2>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -174,7 +174,7 @@ export default function BookSessionPage() {
                       type="text"
                       value={form.fullName}
                       onChange={(e) => setForm({ ...form, fullName: e.target.value })}
-                      className="w-full px-4 py-3 rounded text-sm input-tesla"
+                      className="w-full px-4 py-3 rounded-xl text-sm input-tesla"
                       placeholder="Your full name"
                     />
                     {errors.fullName && <p className="text-xs text-red-400 mt-1">{errors.fullName}</p>}
@@ -185,7 +185,7 @@ export default function BookSessionPage() {
                       type="email"
                       value={form.email}
                       onChange={(e) => setForm({ ...form, email: e.target.value })}
-                      className="w-full px-4 py-3 rounded text-sm input-tesla"
+                      className="w-full px-4 py-3 rounded-xl text-sm input-tesla"
                       placeholder="your@email.com"
                     />
                     {errors.email && <p className="text-xs text-red-400 mt-1">{errors.email}</p>}
@@ -198,7 +198,7 @@ export default function BookSessionPage() {
                     type="tel"
                     value={form.phone}
                     onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                    className="w-full px-4 py-3 rounded text-sm input-tesla"
+                    className="w-full px-4 py-3 rounded-xl text-sm input-tesla"
                     placeholder="+1 (555) 000-0000"
                   />
                 </div>
@@ -213,7 +213,7 @@ export default function BookSessionPage() {
                       <button
                         key={opt.id}
                         onClick={() => setForm({ ...form, sessionType: opt.id })}
-                        className={`flex items-center gap-3 p-4 rounded-lg border text-left transition-all ${
+                        className={`flex items-center gap-3 p-4 rounded-xl border text-left transition-all ${
                           form.sessionType === opt.id ? 'border-primary bg-primary/5' : 'border-[#12131A] bg-[#050507] hover:border-[#1E2027]'
                         }`}
                       >
@@ -234,7 +234,7 @@ export default function BookSessionPage() {
                       type="date"
                       value={form.preferredDate}
                       onChange={(e) => setForm({ ...form, preferredDate: e.target.value })}
-                      className="w-full px-4 py-3 rounded text-sm input-tesla"
+                      className="w-full px-4 py-3 rounded-xl text-sm input-tesla"
                       min={new Date().toISOString().split('T')[0]}
                     />
                     {errors.preferredDate && <p className="text-xs text-red-400 mt-1">{errors.preferredDate}</p>}
@@ -244,7 +244,7 @@ export default function BookSessionPage() {
                     <select
                       value={form.preferredTime}
                       onChange={(e) => setForm({ ...form, preferredTime: e.target.value })}
-                      className="w-full px-4 py-3 rounded text-sm input-tesla"
+                      className="w-full px-4 py-3 rounded-xl text-sm input-tesla"
                     >
                       <option value="">Select time slot</option>
                       {['09:00 AM', '10:00 AM', '11:00 AM', '01:00 PM', '02:00 PM', '03:00 PM', '04:00 PM'].map((t) => (
@@ -261,7 +261,7 @@ export default function BookSessionPage() {
                     value={form.topics}
                     onChange={(e) => setForm({ ...form, topics: e.target.value })}
                     rows={3}
-                    className="w-full px-4 py-3 rounded text-sm input-tesla resize-none"
+                    className="w-full px-4 py-3 rounded-xl text-sm input-tesla resize-none"
                     placeholder="e.g. Tesla energy investments, SpaceX opportunities, AI and robotics..."
                   />
                 </div>
@@ -269,7 +269,7 @@ export default function BookSessionPage() {
 
               <button
                 onClick={() => { if (validateDetails()) setStep('payment'); }}
-                className="w-full py-3.5 tesla-btn-primary rounded min-h-[48px] text-xs font-bold tracking-widest uppercase"
+                className="w-full py-3.5 tesla-btn-primary rounded-xl min-h-[48px] text-xs font-bold tracking-widest uppercase"
               >
                 Continue to Payment →
               </button>
@@ -279,7 +279,7 @@ export default function BookSessionPage() {
           {/* Step 2: Payment */}
           {step === 'payment' && (
             <div className="space-y-5">
-              <div className="bg-primary/5 border border-primary/20 rounded-lg p-4 flex items-center gap-3">
+              <div className="bg-primary/5 border border-primary/20 rounded-xl p-4 flex items-center gap-3">
                 <span className="text-2xl">💰</span>
                 <div>
                   <p className="text-sm font-bold text-white">Appointment Fee: $50,000 USD</p>
@@ -296,7 +296,7 @@ export default function BookSessionPage() {
                   <button
                     key={method.id}
                     onClick={() => setPaymentMethod(method.id)}
-                    className={`w-full flex items-center gap-4 p-4 rounded-lg border text-left transition-all ${
+                    className={`w-full flex items-center gap-4 p-4 rounded-xl border text-left transition-all ${
                       paymentMethod === method.id ? 'border-primary bg-primary/5' : 'border-[#12131A] bg-[#0D0E12] hover:border-[#1E2027]'
                     }`}
                   >
@@ -316,10 +316,10 @@ export default function BookSessionPage() {
               </div>
 
               {paymentMethod === 'crypto' && (
-                <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-5 space-y-4">
+                <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-5 space-y-4">
                   <p className="text-xs font-bold text-white uppercase tracking-widest">Crypto Payment Instructions</p>
                   <p className="text-xs text-[#A1A1AA]">Send exactly <span className="text-white font-bold">$50,000 USD equivalent</span> to the wallet address below, then paste your transaction hash.</p>
-                  <div className="bg-[#050507] border border-[#1E2027] rounded p-3">
+                  <div className="bg-[#050507] border border-[#1E2027] rounded-xl p-3">
                     <p className="text-[10px] text-[#6B7280] uppercase tracking-widest mb-1">BTC / ETH / USDT Wallet</p>
                     <p className="text-xs text-white font-mono break-all">Contact support for wallet address after submitting your booking</p>
                   </div>
@@ -329,7 +329,7 @@ export default function BookSessionPage() {
                       type="text"
                       value={cryptoTxHash}
                       onChange={(e) => setCryptoTxHash(e.target.value)}
-                      className="w-full px-4 py-3 rounded text-sm input-tesla font-mono"
+                      className="w-full px-4 py-3 rounded-xl text-sm input-tesla font-mono"
                       placeholder="0x..."
                     />
                     {errors.cryptoTxHash && <p className="text-xs text-red-400 mt-1">{errors.cryptoTxHash}</p>}
@@ -338,31 +338,31 @@ export default function BookSessionPage() {
               )}
 
               {paymentMethod === 'wire' && (
-                <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-5">
+                <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-5">
                   <p className="text-xs font-bold text-white uppercase tracking-widest mb-3">Wire Transfer Instructions</p>
                   <p className="text-xs text-[#A1A1AA] leading-relaxed">After submitting your booking, our team will send wire transfer details to your email within 2 business hours. Payment must be received within 48 hours to hold your appointment slot.</p>
                 </div>
               )}
 
               {paymentMethod === 'card' && (
-                <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-5">
+                <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-5">
                   <p className="text-xs font-bold text-white uppercase tracking-widest mb-3">Card Payment</p>
                   <p className="text-xs text-[#A1A1AA] leading-relaxed">A secure payment link will be sent to your email after booking submission. Complete payment within 24 hours to confirm your slot.</p>
                 </div>
               )}
 
               {errors.submit && (
-                <div className="p-4 bg-red-400/5 border border-red-400/20 rounded-lg">
+                <div className="p-4 bg-red-400/5 border border-red-400/20 rounded-xl">
                   <p className="text-xs text-red-400">{errors.submit}</p>
                 </div>
               )}
 
               <div className="flex gap-3">
-                <button onClick={() => setStep('details')} className="flex-1 py-3.5 tesla-btn-outline rounded min-h-[48px] text-xs font-bold tracking-widest uppercase">← Back</button>
+                <button onClick={() => setStep('details')} className="flex-1 py-3.5 tesla-btn-outline rounded-xl min-h-[48px] text-xs font-bold tracking-widest uppercase">← Back</button>
                 <button
                   onClick={() => { if (validatePayment()) setStep('confirm'); }}
                   disabled={!paymentMethod}
-                  className="flex-1 py-3.5 tesla-btn-primary rounded min-h-[48px] text-xs font-bold tracking-widest uppercase disabled:opacity-40 disabled:cursor-not-allowed"
+                  className="flex-1 py-3.5 tesla-btn-primary rounded-xl min-h-[48px] text-xs font-bold tracking-widest uppercase disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   Review Booking →
                 </button>
@@ -373,7 +373,7 @@ export default function BookSessionPage() {
           {/* Step 3: Confirm */}
           {step === 'confirm' && (
             <div className="space-y-5">
-              <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-6 space-y-3">
+              <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-6 space-y-3">
                 <h3 className="text-sm font-bold text-white uppercase tracking-widest mb-4">Booking Summary</h3>
                 {[
                   { label: 'Name', value: form.fullName },
@@ -397,7 +397,7 @@ export default function BookSessionPage() {
                 )}
               </div>
 
-              <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
+              <div className="bg-primary/5 border border-primary/20 rounded-xl p-4">
                 <p className="text-xs text-[#A1A1AA] leading-relaxed">
                   By confirming, you acknowledge the $50,000 appointment fee and agree to our{' '}
                   <Link href="/terms" className="text-primary hover:underline">Terms of Service</Link>.
@@ -406,17 +406,17 @@ export default function BookSessionPage() {
               </div>
 
               {errors.submit && (
-                <div className="p-4 bg-red-400/5 border border-red-400/20 rounded-lg">
+                <div className="p-4 bg-red-400/5 border border-red-400/20 rounded-xl">
                   <p className="text-xs text-red-400">{errors.submit}</p>
                 </div>
               )}
 
               <div className="flex gap-3">
-                <button onClick={() => setStep('payment')} className="flex-1 py-3.5 tesla-btn-outline rounded min-h-[48px] text-xs font-bold tracking-widest uppercase">← Back</button>
+                <button onClick={() => setStep('payment')} className="flex-1 py-3.5 tesla-btn-outline rounded-xl min-h-[48px] text-xs font-bold tracking-widest uppercase">← Back</button>
                 <button
                   onClick={handleSubmit}
                   disabled={loading}
-                  className="flex-1 py-3.5 tesla-btn-primary rounded min-h-[48px] text-xs font-bold tracking-widest uppercase disabled:opacity-60"
+                  className="flex-1 py-3.5 tesla-btn-primary rounded-xl min-h-[48px] text-xs font-bold tracking-widest uppercase disabled:opacity-60"
                 >
                   {loading ? 'Submitting...' : 'Confirm Booking ✓'}
                 </button>

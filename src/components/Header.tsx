@@ -152,7 +152,7 @@ export default function Header() {
                 <Link
                   key={link?.label}
                   href={link?.href}
-                  className="px-4 py-3 text-sm font-semibold text-[#A1A1AA] hover:text-white hover:bg-[#0D0E12] rounded transition-colors tracking-widest uppercase min-h-[44px] flex items-center"
+                  className="px-4 py-3 text-sm font-semibold text-[#A1A1AA] hover:text-white hover:bg-[#0D0E12] rounded-xl transition-colors tracking-widest uppercase min-h-[44px] flex items-center"
                   onClick={() => setMenuOpen(false)}
                 >
                   {link?.label}
@@ -161,7 +161,7 @@ export default function Header() {
                 <a
                   key={link?.label}
                   href={link?.href}
-                  className="px-4 py-3 text-sm font-semibold text-[#A1A1AA] hover:text-white hover:bg-[#0D0E12] rounded transition-colors tracking-widest uppercase min-h-[44px] flex items-center"
+                  className="px-4 py-3 text-sm font-semibold text-[#A1A1AA] hover:text-white hover:bg-[#0D0E12] rounded-xl transition-colors tracking-widest uppercase min-h-[44px] flex items-center"
                   onClick={() => setMenuOpen(false)}
                 >
                   {link?.label}
@@ -171,16 +171,16 @@ export default function Header() {
           </div>
           <div className="flex flex-col gap-3 pt-4 border-t border-[#12131A]">
             {!isLoggedIn && (
-              <Link href="/login" className="w-full py-3 text-center text-xs font-semibold text-white border border-[#1E2027] rounded tracking-widest uppercase min-h-[44px] flex items-center justify-center" onClick={() => setMenuOpen(false)}>
+              <Link href="/login" className="w-full py-3 text-center text-xs font-semibold text-white border border-[#1E2027] rounded-xl tracking-widest uppercase min-h-[44px] flex items-center justify-center" onClick={() => setMenuOpen(false)}>
                 Sign In
               </Link>
             )}
             {isLoggedIn ? (
-              <Link href="/dashboard" className="w-full py-3 text-center text-xs font-bold bg-primary text-white rounded tracking-widest uppercase min-h-[44px] flex items-center justify-center" style={{ boxShadow: '0 0 20px rgba(227,25,55,0.3)' }} onClick={() => setMenuOpen(false)}>
+              <Link href="/dashboard" className="w-full py-3 text-center text-xs font-bold bg-primary text-white rounded-xl tracking-widest uppercase min-h-[44px] flex items-center justify-center" style={{ boxShadow: '0 0 20px rgba(227,25,55,0.3)' }} onClick={() => setMenuOpen(false)}>
                 Dashboard
               </Link>
             ) : (
-              <Link href="/register" className="w-full py-3 text-center text-xs font-bold bg-primary text-white rounded tracking-widest uppercase min-h-[44px] flex items-center justify-center" style={{ boxShadow: '0 0 20px rgba(227,25,55,0.3)' }} onClick={() => setMenuOpen(false)}>
+              <Link href="/register" className="w-full py-3 text-center text-xs font-bold bg-primary text-white rounded-xl tracking-widest uppercase min-h-[44px] flex items-center justify-center" style={{ boxShadow: '0 0 20px rgba(227,25,55,0.3)' }} onClick={() => setMenuOpen(false)}>
                 Get Started
               </Link>
             )}

@@ -175,7 +175,7 @@ export default function CryptoPaymentClient() {
 
           {/* Investment Summary Bar */}
           {step !== 'success' && (
-            <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg px-5 py-3 flex items-center justify-between mb-8">
+            <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl px-5 py-3 flex items-center justify-between mb-8">
               <div>
                 <div className="text-[10px] text-[#6B7280] uppercase tracking-widest">Package</div>
                 <div className="text-sm font-bold text-white">{packageName}</div>
@@ -202,7 +202,7 @@ export default function CryptoPaymentClient() {
                   <button
                     key={c.id}
                     onClick={() => setSelectedCrypto(c.id)}
-                    className={`w-full flex items-center gap-4 p-5 rounded-lg border text-left transition-all duration-300 ${
+                    className={`w-full flex items-center gap-4 p-5 rounded-xl border text-left transition-all duration-300 ${
                       selectedCrypto === c.id
                         ? 'border-primary bg-primary/5' :'border-[#12131A] bg-[#0D0E12] hover:border-[#1E2027]'
                     }`}
@@ -230,13 +230,13 @@ export default function CryptoPaymentClient() {
                 ))}
               </div>
               <div className="flex gap-3">
-                <Link href="/invest" className="flex-1 py-3.5 tesla-btn-outline rounded min-h-[48px] flex items-center justify-center text-xs font-bold tracking-widest uppercase">
+                <Link href="/invest" className="flex-1 py-3.5 tesla-btn-outline rounded-xl min-h-[48px] flex items-center justify-center text-xs font-bold tracking-widest uppercase">
                   ← Back
                 </Link>
                 <button
                   onClick={() => selectedCrypto && setStep('send')}
                   disabled={!selectedCrypto}
-                  className="flex-1 py-3.5 tesla-btn-primary rounded min-h-[48px] disabled:opacity-40 disabled:cursor-not-allowed"
+                  className="flex-1 py-3.5 tesla-btn-primary rounded-xl min-h-[48px] disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   Continue →
                 </button>
@@ -249,13 +249,13 @@ export default function CryptoPaymentClient() {
             <div>
               <div className="flex items-center justify-between mb-6">
                 <p className="text-xs text-[#71717A] uppercase tracking-widest">Send exact amount to wallet below</p>
-                <div className={`flex items-center gap-2 px-3 py-1.5 rounded border ${timeLeft < 300 ? 'border-red-500/30 bg-red-500/5' : 'border-[#1E2027] bg-[#0D0E12]'}`}>
+                <div className={`flex items-center gap-2 px-3 py-1.5 rounded-xl border ${timeLeft < 300 ? 'border-red-500/30 bg-red-500/5' : 'border-[#1E2027] bg-[#0D0E12]'}`}>
                   <svg className={`w-3 h-3 ${timeLeft < 300 ? 'text-red-400' : 'text-[#6B7280]'}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
                   <span className={`text-xs font-mono font-bold ${timeLeft < 300 ? 'text-red-400' : 'text-[#A1A1AA]'}`}>{formatTime(timeLeft)}</span>
                 </div>
               </div>
 
-              <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-6 mb-4">
+              <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-6 mb-4">
                 <div className="flex items-center gap-4 mb-6 pb-5 border-b border-[#12131A]">
                   <div
                     className="w-14 h-14 rounded-full flex items-center justify-center text-2xl font-bold shrink-0"
@@ -281,12 +281,12 @@ export default function CryptoPaymentClient() {
                 <div>
                   <div className="text-[10px] text-[#6B7280] uppercase tracking-widest mb-2">Wallet Address</div>
                   <div className="flex items-center gap-2">
-                    <div className="flex-1 bg-[#050507] border border-[#1E2027] rounded px-3 py-2.5 font-mono text-xs text-[#E4E4E7] break-all leading-relaxed">
+                    <div className="flex-1 bg-[#050507] border border-[#1E2027] rounded-xl px-3 py-2.5 font-mono text-xs text-[#E4E4E7] break-all leading-relaxed">
                       {crypto.address}
                     </div>
                     <button
                       onClick={copyAddress}
-                      className={`shrink-0 px-3 py-2.5 rounded border text-xs font-bold transition-all duration-200 ${
+                      className={`shrink-0 px-3 py-2.5 rounded-xl border text-xs font-bold transition-all duration-200 ${
                         copied
                           ? 'border-green-500/40 bg-green-500/10 text-green-400' :'border-[#1E2027] bg-[#0D0E12] text-[#A1A1AA] hover:border-primary/40 hover:text-primary'
                       }`}
@@ -299,9 +299,9 @@ export default function CryptoPaymentClient() {
               </div>
 
               {/* QR Visual */}
-              <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-5 mb-4 flex items-center gap-5">
+              <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-5 mb-4 flex items-center gap-5">
                 <div
-                  className="w-20 h-20 rounded shrink-0 flex items-center justify-center"
+                  className="w-20 h-20 rounded-xl shrink-0 flex items-center justify-center"
                   style={{ background: crypto.bgColor, border: `1px solid ${crypto.borderColor}` }}
                   aria-label={`QR code visual for ${crypto.name} wallet`}
                 >
@@ -324,7 +324,7 @@ export default function CryptoPaymentClient() {
               </div>
 
               {/* Warning */}
-              <div className="bg-amber-500/5 border border-amber-500/20 rounded-lg p-4 mb-6">
+              <div className="bg-amber-500/5 border border-amber-500/20 rounded-xl p-4 mb-6">
                 <div className="flex items-start gap-3">
                   <svg className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
                   <p className="text-xs text-amber-300/80 leading-relaxed">
@@ -334,8 +334,8 @@ export default function CryptoPaymentClient() {
               </div>
 
               <div className="flex gap-3">
-                <button onClick={() => setStep('select')} className="flex-1 py-3.5 tesla-btn-outline rounded min-h-[48px]">← Back</button>
-                <button onClick={() => setStep('confirm')} className="flex-1 py-3.5 tesla-btn-primary rounded min-h-[48px]">
+                <button onClick={() => setStep('select')} className="flex-1 py-3.5 tesla-btn-outline rounded-xl min-h-[48px]">← Back</button>
+                <button onClick={() => setStep('confirm')} className="flex-1 py-3.5 tesla-btn-primary rounded-xl min-h-[48px]">
                   I&apos;ve Sent the Payment →
                 </button>
               </div>
@@ -347,7 +347,7 @@ export default function CryptoPaymentClient() {
             <div>
               <p className="text-xs text-[#71717A] uppercase tracking-widest mb-6">Provide your transaction hash for verification</p>
 
-              <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-6 mb-5">
+              <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-6 mb-5">
                 <div className="space-y-3 mb-6 pb-5 border-b border-[#12131A]">
                   {[
                     { label: 'Cryptocurrency', value: `${crypto.name} (${crypto.symbol})` },
@@ -372,7 +372,7 @@ export default function CryptoPaymentClient() {
                     value={txHash}
                     onChange={(e) => setTxHash(e.target.value)}
                     placeholder="e.g. 0x4a3b2c1d..."
-                    className="w-full px-4 py-3 rounded text-sm input-tesla font-mono"
+                    className="w-full px-4 py-3 rounded-xl text-sm input-tesla font-mono"
                   />
                   <p className="text-xs text-[#52525B] mt-2">
                     Find this in your wallet&apos;s transaction history after sending. Speeds up verification.
@@ -380,18 +380,18 @@ export default function CryptoPaymentClient() {
                 </div>
               </div>
 
-              <div className="bg-primary/5 border border-primary/20 rounded-lg p-4 mb-6">
+              <div className="bg-primary/5 border border-primary/20 rounded-xl p-4 mb-6">
                 <p className="text-xs text-[#A1A1AA] leading-relaxed">
                   After confirming, our team will verify your transaction on-chain. You&apos;ll receive an email once your investment is activated. Keep your reference <span className="text-primary font-bold">{txRef}</span> for support inquiries.
                 </p>
               </div>
 
               <div className="flex gap-3">
-                <button onClick={() => setStep('send')} className="flex-1 py-3.5 tesla-btn-outline rounded min-h-[48px]">← Back</button>
+                <button onClick={() => setStep('send')} className="flex-1 py-3.5 tesla-btn-outline rounded-xl min-h-[48px]">← Back</button>
                 <button
                   onClick={handleConfirmPayment}
                   disabled={confirming}
-                  className="flex-1 py-3.5 tesla-btn-primary rounded min-h-[48px] disabled:opacity-60"
+                  className="flex-1 py-3.5 tesla-btn-primary rounded-xl min-h-[48px] disabled:opacity-60"
                 >
                   {confirming ? (
                     <span className="flex items-center justify-center gap-2">
@@ -422,7 +422,7 @@ export default function CryptoPaymentClient() {
                 Your {crypto.name} payment has been received and is pending on-chain confirmation. We&apos;ll activate your investment once verified.
               </p>
 
-              <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-6 mb-6 text-left">
+              <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-6 mb-6 text-left">
                 <div className="text-[10px] text-[#6B7280] uppercase tracking-widest mb-4">Payment Summary</div>
                 <div className="space-y-3">
                   {[
@@ -442,7 +442,7 @@ export default function CryptoPaymentClient() {
                 </div>
               </div>
 
-              <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-5 mb-8 text-left">
+              <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-5 mb-8 text-left">
                 <div className="text-[10px] text-[#6B7280] uppercase tracking-widest mb-4">What Happens Next</div>
                 <div className="space-y-3">
                   {[
@@ -462,10 +462,10 @@ export default function CryptoPaymentClient() {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-3">
-                <Link href="/dashboard" className="flex-1 py-3.5 tesla-btn-primary rounded min-h-[48px] flex items-center justify-center text-xs font-bold tracking-widest uppercase">
+                <Link href="/dashboard" className="flex-1 py-3.5 tesla-btn-primary rounded-xl min-h-[48px] flex items-center justify-center text-xs font-bold tracking-widest uppercase">
                   Go to Dashboard →
                 </Link>
-                <Link href="/" className="flex-1 py-3.5 tesla-btn-outline rounded min-h-[48px] flex items-center justify-center text-xs font-bold tracking-widest uppercase">
+                <Link href="/" className="flex-1 py-3.5 tesla-btn-outline rounded-xl min-h-[48px] flex items-center justify-center text-xs font-bold tracking-widest uppercase">
                   Back to Home
                 </Link>
               </div>

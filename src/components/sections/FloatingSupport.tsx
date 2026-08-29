@@ -8,7 +8,7 @@ export default function FloatingSupport() {
     <div className="fixed bottom-6 right-4 sm:right-6 z-50 flex flex-col items-end gap-3">
       {/* Chat bubble */}
       {chatOpen && (
-        <div className="glass-card rounded-2xl p-5 w-72 border border-border shadow-2xl animate-fade-up">
+        <div className="glass-card rounded-3xl p-5 w-72 border border-border shadow-2xl animate-fade-up">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />

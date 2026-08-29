@@ -215,7 +215,7 @@ export default function AdminDepositsPage() {
           </div>
           <h1 className="text-xl font-bold text-white mb-2">Admin Access Required</h1>
           <p className="text-sm text-[#6B7280] mb-6">You must be logged in as admin to view this page.</p>
-          <Link href="/login" className="px-6 py-2.5 bg-primary text-white rounded text-sm font-semibold">Sign In as Admin</Link>
+          <Link href="/login" className="px-6 py-2.5 bg-primary text-white rounded-xl text-sm font-semibold">Sign In as Admin</Link>
         </div>
       </main>
     );
@@ -255,7 +255,7 @@ export default function AdminDepositsPage() {
         <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <div className="w-8 h-8 rounded-lg bg-green-400/10 border border-green-400/20 flex items-center justify-center">
+              <div className="w-8 h-8 rounded-xl bg-green-400/10 border border-green-400/20 flex items-center justify-center">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00F59B" strokeWidth="2" aria-hidden="true"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
               </div>
               <h1 className="text-2xl font-extrabold text-white tracking-tight">Deposit Management</h1>
@@ -265,7 +265,7 @@ export default function AdminDepositsPage() {
           <button
             onClick={loadDeposits}
             disabled={loading}
-            className="flex items-center gap-2 px-4 py-2 bg-[#0D0E12] hover:bg-[#12131A] border border-[#1E2027] text-[#A1A1AA] hover:text-white text-xs font-semibold rounded transition-all disabled:opacity-50 self-start sm:self-auto"
+            className="flex items-center gap-2 px-4 py-2 bg-[#0D0E12] hover:bg-[#12131A] border border-[#1E2027] text-[#A1A1AA] hover:text-white text-xs font-semibold rounded-xl transition-all disabled:opacity-50 self-start sm:self-auto"
           >
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={loading ? 'animate-spin' : ''} aria-hidden="true"><path d="M23 4v6h-6M1 20v-6h6" /><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" /></svg>
             Refresh
@@ -300,7 +300,7 @@ export default function AdminDepositsPage() {
                 <button
                   key={s}
                   onClick={() => setStatusFilter(s)}
-                  className={`px-3 py-1.5 rounded text-[10px] font-bold uppercase tracking-widest transition-all border ${
+                  className={`px-3 py-1.5 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all border ${
                     statusFilter === s
                       ? s === 'all' ? 'bg-white/10 border-white/20 text-white' : `${STATUS_CONFIG[s]?.bg} ${STATUS_CONFIG[s]?.color}`
                       : 'bg-transparent border-[#1E2027] text-[#6B7280] hover:text-[#A1A1AA]'
@@ -316,19 +316,19 @@ export default function AdminDepositsPage() {
                 placeholder="Search user, email, ref…"
                 value={userSearch}
                 onChange={(e) => setUserSearch(e.target.value)}
-                className="w-full bg-[#050507] border border-[#1E2027] rounded px-3 py-1.5 text-xs text-white placeholder-[#52525B] focus:outline-none focus:border-[#2A2D35]"
+                className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-3 py-1.5 text-xs text-white placeholder-[#52525B] focus:outline-none focus:border-[#2A2D35]"
               />
             </div>
             <div className="flex items-center gap-2">
-              <input type="date" value={dateFrom} onChange={(e) => setDateFrom(e.target.value)} className="bg-[#050507] border border-[#1E2027] rounded px-2 py-1.5 text-xs text-[#A1A1AA] focus:outline-none focus:border-[#2A2D35]" />
+              <input type="date" value={dateFrom} onChange={(e) => setDateFrom(e.target.value)} className="bg-[#050507] border border-[#1E2027] rounded-xl px-2 py-1.5 text-xs text-[#A1A1AA] focus:outline-none focus:border-[#2A2D35]" />
               <span className="text-[#52525B] text-xs">–</span>
-              <input type="date" value={dateTo} onChange={(e) => setDateTo(e.target.value)} className="bg-[#050507] border border-[#1E2027] rounded px-2 py-1.5 text-xs text-[#A1A1AA] focus:outline-none focus:border-[#2A2D35]" />
+              <input type="date" value={dateTo} onChange={(e) => setDateTo(e.target.value)} className="bg-[#050507] border border-[#1E2027] rounded-xl px-2 py-1.5 text-xs text-[#A1A1AA] focus:outline-none focus:border-[#2A2D35]" />
             </div>
           </div>
         </div>
 
         {error && (
-          <div className="mb-4 px-4 py-3 bg-red-400/10 border border-red-400/20 rounded-lg text-xs text-red-400">{error}</div>
+          <div className="mb-4 px-4 py-3 bg-red-400/10 border border-red-400/20 rounded-xl text-xs text-red-400">{error}</div>
         )}
 
         <div className="flex gap-6">
@@ -422,11 +422,11 @@ export default function AdminDepositsPage() {
 
                   {/* Amount + status */}
                   <div className="grid grid-cols-2 gap-3">
-                    <div className="bg-[#050507] border border-[#12131A] rounded-lg p-3">
+                    <div className="bg-[#050507] border border-[#12131A] rounded-xl p-3">
                       <div className="text-[10px] text-[#6B7280] uppercase tracking-widest mb-1">Amount</div>
                       <div className="text-lg font-extrabold text-white">${Number(selected.amount).toLocaleString()}</div>
                     </div>
-                    <div className="bg-[#050507] border border-[#12131A] rounded-lg p-3">
+                    <div className="bg-[#050507] border border-[#12131A] rounded-xl p-3">
                       <div className="text-[10px] text-[#6B7280] uppercase tracking-widest mb-1">Status</div>
                       <div className={`text-sm font-bold ${STATUS_CONFIG[selected.deposit_status]?.color}`}>
                         {STATUS_CONFIG[selected.deposit_status]?.label}
@@ -456,7 +456,7 @@ export default function AdminDepositsPage() {
                       <select
                         value={actionStatus}
                         onChange={(e) => setActionStatus(e.target.value as DepositRecord['deposit_status'])}
-                        className="w-full bg-[#050507] border border-[#1E2027] rounded px-3 py-2 text-xs text-white focus:outline-none focus:border-[#2A2D35]"
+                        className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[#2A2D35]"
                       >
                         <option value="pending">Pending</option>
                         <option value="processing">Processing</option>
@@ -471,7 +471,7 @@ export default function AdminDepositsPage() {
                         onChange={(e) => setActionNotes(e.target.value)}
                         rows={3}
                         placeholder="Add internal notes…"
-                        className="w-full bg-[#050507] border border-[#1E2027] rounded px-3 py-2 text-xs text-white placeholder-[#52525B] focus:outline-none focus:border-[#2A2D35] resize-none"
+                        className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-3 py-2 text-xs text-white placeholder-[#52525B] focus:outline-none focus:border-[#2A2D35] resize-none"
                       />
                     </div>
 
@@ -479,14 +479,14 @@ export default function AdminDepositsPage() {
                       <button
                         onClick={saveAction}
                         disabled={saving}
-                        className="flex-1 py-2.5 bg-primary hover:bg-red-700 text-white text-xs font-bold rounded tracking-widest uppercase transition-all disabled:opacity-50"
+                        className="flex-1 py-2.5 bg-primary hover:bg-red-700 text-white text-xs font-bold rounded-xl tracking-widest uppercase transition-all disabled:opacity-50"
                       >
                         {saving ? 'Saving…' : 'Save Changes'}
                       </button>
                       <button
                         onClick={() => { setActionStatus('confirmed'); saveAction(); }}
                         disabled={saving || selected.deposit_status === 'confirmed'}
-                        className="px-3 py-2.5 bg-green-400/10 hover:bg-green-400/20 border border-green-400/20 text-green-400 text-xs font-bold rounded transition-all disabled:opacity-30"
+                        className="px-3 py-2.5 bg-green-400/10 hover:bg-green-400/20 border border-green-400/20 text-green-400 text-xs font-bold rounded-xl transition-all disabled:opacity-30"
                         title="Quick confirm"
                       >
                         ✓

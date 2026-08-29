@@ -412,7 +412,7 @@ export default function AdminWithdrawalsPage() {
           <button
             onClick={loadWithdrawals}
             disabled={loading}
-            className="flex items-center gap-2 px-5 py-2.5 bg-[#0D0E12] hover:bg-[#12131A] border border-[#1E2027] hover:border-[#2A2D35] text-[#D4D4D8] hover:text-white text-xs font-bold rounded tracking-widest uppercase transition-all disabled:opacity-50 self-start sm:self-auto"
+            className="flex items-center gap-2 px-5 py-2.5 bg-[#0D0E12] hover:bg-[#12131A] border border-[#1E2027] hover:border-[#2A2D35] text-[#D4D4D8] hover:text-white text-xs font-bold rounded-xl tracking-widest uppercase transition-all disabled:opacity-50 self-start sm:self-auto"
           >
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={loading ? 'animate-spin' : ''} aria-hidden="true">
               <path d="M23 4v6h-6M1 20v-6h6" /><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15" />
@@ -431,7 +431,7 @@ export default function AdminWithdrawalsPage() {
             { label: 'Rejected', value: stats.rejected, color: 'text-red-400' },
             { label: 'Total Paid Out', value: formatAmount(stats.totalPaid), color: 'text-green-400' },
           ].map((card) => (
-            <div key={card.label} className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-4">
+            <div key={card.label} className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-4">
               <p className="text-[10px] text-[#71717A] uppercase tracking-widest mb-1.5">{card.label}</p>
               <p className={`text-xl font-extrabold ${card.color}`}>{card.value}</p>
             </div>
@@ -439,7 +439,7 @@ export default function AdminWithdrawalsPage() {
         </div>
 
         {/* Filters */}
-        <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-4 mb-6">
+        <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-4 mb-6">
           <div className="flex flex-wrap gap-3 items-end">
             <div className="flex-1 min-w-[180px]">
               <label className="block text-[10px] text-[#71717A] uppercase tracking-widest mb-1.5">Search User</label>
@@ -452,7 +452,7 @@ export default function AdminWithdrawalsPage() {
                   value={userSearch}
                   onChange={(e) => setUserSearch(e.target.value)}
                   placeholder="Name or email…"
-                  className="w-full bg-[#050507] border border-[#1E2027] rounded pl-8 pr-3 py-2 text-sm text-white placeholder-[#444] focus:outline-none focus:border-primary/50 transition-colors"
+                  className="w-full bg-[#050507] border border-[#1E2027] rounded-xl pl-8 pr-3 py-2 text-sm text-white placeholder-[#444] focus:outline-none focus:border-primary/50 transition-colors"
                 />
               </div>
             </div>
@@ -461,7 +461,7 @@ export default function AdminWithdrawalsPage() {
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value as StatusFilter)}
-                className="w-full bg-[#050507] border border-[#1E2027] rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-primary/50 transition-colors"
+                className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-primary/50 transition-colors"
               >
                 <option value="all">All Statuses</option>
                 <option value="pending">Pending</option>
@@ -476,7 +476,7 @@ export default function AdminWithdrawalsPage() {
                 type="date"
                 value={dateFrom}
                 onChange={(e) => setDateFrom(e.target.value)}
-                className="w-full bg-[#050507] border border-[#1E2027] rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-primary/50 transition-colors [color-scheme:dark]"
+                className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-primary/50 transition-colors [color-scheme:dark]"
               />
             </div>
             <div className="min-w-[140px]">
@@ -485,13 +485,13 @@ export default function AdminWithdrawalsPage() {
                 type="date"
                 value={dateTo}
                 onChange={(e) => setDateTo(e.target.value)}
-                className="w-full bg-[#050507] border border-[#1E2027] rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-primary/50 transition-colors [color-scheme:dark]"
+                className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-primary/50 transition-colors [color-scheme:dark]"
               />
             </div>
             {(statusFilter !== 'all' || userSearch || dateFrom || dateTo) && (
               <button
                 onClick={() => { setStatusFilter('all'); setUserSearch(''); setDateFrom(''); setDateTo(''); }}
-                className="px-4 py-2 text-xs text-[#71717A] hover:text-white border border-[#1E2027] hover:border-[#2A2D35] rounded transition-colors"
+                className="px-4 py-2 text-xs text-[#71717A] hover:text-white border border-[#1E2027] hover:border-[#2A2D35] rounded-xl transition-colors"
               >
                 Clear
               </button>
@@ -503,7 +503,7 @@ export default function AdminWithdrawalsPage() {
         </div>
 
         {error && (
-          <div className="mb-4 p-3 bg-red-500/10 border border-red-500/20 rounded text-red-400 text-sm">{error}</div>
+          <div className="mb-4 p-3 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-sm">{error}</div>
         )}
 
         <div className="flex gap-6">
@@ -512,11 +512,11 @@ export default function AdminWithdrawalsPage() {
             {loading ? (
               <div className="space-y-2">
                 {[...Array(6)].map((_, i) => (
-                  <div key={i} className="h-14 bg-[#0D0E12] border border-[#12131A] rounded-lg animate-pulse" />
+                  <div key={i} className="h-14 bg-[#0D0E12] border border-[#12131A] rounded-xl animate-pulse" />
                 ))}
               </div>
             ) : filtered.length === 0 ? (
-              <div className="flex flex-col items-center justify-center gap-3 py-20 bg-[#0D0E12] border border-[#12131A] rounded-lg">
+              <div className="flex flex-col items-center justify-center gap-3 py-20 bg-[#0D0E12] border border-[#12131A] rounded-xl">
                 <div className="w-12 h-12 rounded-full bg-[#050507] border border-[#1E2027] flex items-center justify-center">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#444" strokeWidth="1.5" aria-hidden="true">
                     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
@@ -525,7 +525,7 @@ export default function AdminWithdrawalsPage() {
                 <p className="text-[#71717A] text-sm">No withdrawal requests found</p>
               </div>
             ) : (
-              <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg overflow-hidden">
+              <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl overflow-hidden">
                 <div className="grid grid-cols-[1fr_auto_auto_auto] gap-4 px-5 py-3 border-b border-[#12131A] text-[10px] text-[#555] uppercase tracking-widest">
                   <span>User</span>
                   <span className="text-right">Amount</span>
@@ -569,13 +569,13 @@ export default function AdminWithdrawalsPage() {
           {/* Detail panel */}
           {selected && (
             <div className="w-full lg:w-[400px] flex-shrink-0">
-              <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg overflow-hidden sticky top-20">
+              <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl overflow-hidden sticky top-20">
                 {/* Panel header */}
                 <div className="flex items-center justify-between px-5 py-4 border-b border-[#12131A]">
                   <h2 className="text-sm font-bold text-white">Withdrawal Detail</h2>
                   <button
                     onClick={() => setSelected(null)}
-                    className="w-7 h-7 flex items-center justify-center rounded hover:bg-[#12131A] text-[#666] hover:text-white transition-colors"
+                    className="w-7 h-7 flex items-center justify-center rounded-xl hover:bg-[#12131A] text-[#666] hover:text-white transition-colors"
                     aria-label="Close detail panel"
                   >
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
@@ -586,7 +586,7 @@ export default function AdminWithdrawalsPage() {
 
                 <div className="p-5 space-y-5 max-h-[calc(100vh-140px)] overflow-y-auto">
                   {/* Amount */}
-                  <div className="text-center py-4 bg-[#050507] rounded-lg border border-[#12131A]">
+                  <div className="text-center py-4 bg-[#050507] rounded-xl border border-[#12131A]">
                     <p className="text-[10px] text-[#555] uppercase tracking-widest mb-1">Requested Amount</p>
                     <p className="text-3xl font-extrabold text-white">{formatAmount(selected.amount)}</p>
                     <div className="mt-2">
@@ -653,7 +653,7 @@ export default function AdminWithdrawalsPage() {
                       <div className="grid grid-cols-2 gap-2">
                         <button
                           onClick={() => openConfirm('approve', 'paid', actionNotes)}
-                          className="flex items-center justify-center gap-2 py-2.5 bg-green-500/10 hover:bg-green-500/20 border border-green-500/20 hover:border-green-500/40 text-green-400 text-xs font-bold rounded tracking-widest uppercase transition-all"
+                          className="flex items-center justify-center gap-2 py-2.5 bg-green-500/10 hover:bg-green-500/20 border border-green-500/20 hover:border-green-500/40 text-green-400 text-xs font-bold rounded-xl tracking-widest uppercase transition-all"
                         >
                           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
                             <path d="M20 6L9 17l-5-5" />
@@ -662,7 +662,7 @@ export default function AdminWithdrawalsPage() {
                         </button>
                         <button
                           onClick={() => openConfirm('reject', 'rejected', actionNotes)}
-                          className="flex items-center justify-center gap-2 py-2.5 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 hover:border-red-500/40 text-red-400 text-xs font-bold rounded tracking-widest uppercase transition-all"
+                          className="flex items-center justify-center gap-2 py-2.5 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 hover:border-red-500/40 text-red-400 text-xs font-bold rounded-xl tracking-widest uppercase transition-all"
                         >
                           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
                             <path d="M18 6L6 18M6 6l12 12" />
@@ -680,7 +680,7 @@ export default function AdminWithdrawalsPage() {
                       <select
                         value={actionStatus}
                         onChange={(e) => setActionStatus(e.target.value as WithdrawalRequest['payout_status'])}
-                        className="w-full bg-[#050507] border border-[#1E2027] rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-primary/50 transition-colors"
+                        className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-primary/50 transition-colors"
                       >
                         <option value="pending">Pending</option>
                         <option value="processing">Processing</option>
@@ -692,12 +692,12 @@ export default function AdminWithdrawalsPage() {
                         onChange={(e) => setActionNotes(e.target.value)}
                         placeholder="Admin notes (optional)…"
                         rows={3}
-                        className="w-full bg-[#050507] border border-[#1E2027] rounded px-3 py-2 text-sm text-white placeholder-[#444] focus:outline-none focus:border-primary/50 transition-colors resize-none"
+                        className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-3 py-2 text-sm text-white placeholder-[#444] focus:outline-none focus:border-primary/50 transition-colors resize-none"
                       />
                       <button
                         onClick={() => openConfirm('update', actionStatus, actionNotes)}
                         disabled={saving}
-                        className="w-full py-2.5 bg-primary hover:bg-primary/90 text-white text-xs font-bold rounded tracking-widest uppercase transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                        className="w-full py-2.5 bg-primary hover:bg-primary/90 text-white text-xs font-bold rounded-xl tracking-widest uppercase transition-all disabled:opacity-50 flex items-center justify-center gap-2"
                       >
                         {saving ? (
                           <>
@@ -752,7 +752,7 @@ export default function AdminWithdrawalsPage() {
 
                   {/* Existing notes */}
                   {selected.notes && (
-                    <div className="bg-[#050507] border border-[#12131A] rounded p-3">
+                    <div className="bg-[#050507] border border-[#12131A] rounded-xl p-3">
                       <p className="text-[10px] text-[#555] uppercase tracking-widest mb-1">Admin Notes</p>
                       <p className="text-sm text-[#D4D4D8]">{selected.notes}</p>
                     </div>
@@ -801,7 +801,7 @@ export default function AdminWithdrawalsPage() {
               </div>
               <button
                 onClick={() => setConfirmModal((prev) => ({ ...prev, open: false }))}
-                className="w-7 h-7 flex items-center justify-center rounded hover:bg-[#12131A] text-[#666] hover:text-white transition-colors"
+                className="w-7 h-7 flex items-center justify-center rounded-xl hover:bg-[#12131A] text-[#666] hover:text-white transition-colors"
                 aria-label="Close modal"
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
@@ -813,7 +813,7 @@ export default function AdminWithdrawalsPage() {
             {/* Modal body */}
             <div className="px-6 py-5 space-y-4">
               {/* Payout summary */}
-              <div className="bg-[#050507] border border-[#12131A] rounded-lg p-4 space-y-3">
+              <div className="bg-[#050507] border border-[#12131A] rounded-xl p-4 space-y-3">
                 <div className="flex justify-between items-center">
                   <span className="text-xs text-[#666]">User</span>
                   <span className="text-sm font-semibold text-white">{confirmModal.withdrawal.user_name || confirmModal.withdrawal.user_email}</span>
@@ -840,7 +840,7 @@ export default function AdminWithdrawalsPage() {
               </div>
 
               {confirmModal.type === 'approve' && (
-                <div className="flex items-start gap-2 p-3 bg-green-500/5 border border-green-500/15 rounded-lg">
+                <div className="flex items-start gap-2 p-3 bg-green-500/5 border border-green-500/15 rounded-xl">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00F59B" strokeWidth="2" className="flex-shrink-0 mt-0.5" aria-hidden="true">
                     <circle cx="12" cy="12" r="10" /><path d="M12 8v4m0 4h.01" />
                   </svg>
@@ -851,7 +851,7 @@ export default function AdminWithdrawalsPage() {
               )}
 
               {confirmModal.type === 'reject' && (
-                <div className="flex items-start gap-2 p-3 bg-red-500/5 border border-red-500/15 rounded-lg">
+                <div className="flex items-start gap-2 p-3 bg-red-500/5 border border-red-500/15 rounded-xl">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E82127" strokeWidth="2" className="flex-shrink-0 mt-0.5" aria-hidden="true">
                     <circle cx="12" cy="12" r="10" /><path d="M12 8v4m0 4h.01" />
                   </svg>
@@ -864,7 +864,7 @@ export default function AdminWithdrawalsPage() {
               {confirmModal.notes && (
                 <div>
                   <p className="text-[10px] text-[#555] uppercase tracking-widest mb-1.5">Notes</p>
-                  <p className="text-xs text-[#D4D4D8] bg-[#050507] border border-[#12131A] rounded p-3">{confirmModal.notes}</p>
+                  <p className="text-xs text-[#D4D4D8] bg-[#050507] border border-[#12131A] rounded-xl p-3">{confirmModal.notes}</p>
                 </div>
               )}
             </div>
@@ -873,13 +873,13 @@ export default function AdminWithdrawalsPage() {
             <div className="flex gap-3 px-6 pb-5">
               <button
                 onClick={() => setConfirmModal((prev) => ({ ...prev, open: false }))}
-                className="flex-1 py-2.5 bg-[#050507] hover:bg-[#12131A] border border-[#1E2027] hover:border-[#2A2D35] text-[#D4D4D8] hover:text-white text-xs font-bold rounded tracking-widest uppercase transition-all"
+                className="flex-1 py-2.5 bg-[#050507] hover:bg-[#12131A] border border-[#1E2027] hover:border-[#2A2D35] text-[#D4D4D8] hover:text-white text-xs font-bold rounded-xl tracking-widest uppercase transition-all"
               >
                 Cancel
               </button>
               <button
                 onClick={executeStatusUpdate}
-                className={`flex-1 py-2.5 text-white text-xs font-bold rounded tracking-widest uppercase transition-all ${
+                className={`flex-1 py-2.5 text-white text-xs font-bold rounded-xl tracking-widest uppercase transition-all ${
                   confirmModal.type === 'approve' ?'bg-green-600 hover:bg-green-500'
                     : confirmModal.type === 'reject' ?'bg-red-600 hover:bg-red-500' :'bg-primary hover:bg-primary/90'
                 }`}

@@ -287,7 +287,7 @@ export default function ProfilePage() {
             <span className="text-xs text-[#71717A] tracking-widest uppercase">Profile Settings</span>
           </div>
           <div className="flex items-center gap-3">
-            <Link href="/dashboard" className="px-4 py-1.5 text-xs font-semibold text-[#A1A1AA] hover:text-white border border-[#1E2027] hover:border-[#52525B] rounded transition-all tracking-widest uppercase">
+            <Link href="/dashboard" className="px-4 py-1.5 text-xs font-semibold text-[#A1A1AA] hover:text-white border border-[#1E2027] hover:border-[#52525B] rounded-xl transition-all tracking-widest uppercase">
               Dashboard
             </Link>
             <div className="w-8 h-8 rounded-full bg-[#E82127]/20 border border-[#E82127]/30 flex items-center justify-center text-xs font-bold text-[#E82127]">
@@ -314,7 +314,7 @@ export default function ProfilePage() {
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Sidebar Nav */}
           <aside className="lg:w-56 shrink-0">
-            <nav className="bg-[#0D0E12] border border-[#12131A] rounded-lg overflow-hidden">
+            <nav className="bg-[#0D0E12] border border-[#12131A] rounded-xl overflow-hidden">
               {navItems.map((item) => (
                 <button
                   key={item.id}
@@ -337,7 +337,7 @@ export default function ProfilePage() {
 
             {/* ── Personal Info ── */}
             {activeSection === 'personal' && (
-              <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-6">
+              <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-6">
                 <div className="mb-6">
                   <h2 className="text-base font-bold text-white tracking-wide mb-1">Personal Information</h2>
                   <p className="text-xs text-[#6B7280]">Update your name, contact details, and profile information.</p>
@@ -349,7 +349,7 @@ export default function ProfilePage() {
                       type="text"
                       value={personal.fullName}
                       onChange={e => setPersonal(p => ({ ...p, fullName: e.target.value }))}
-                      className="w-full bg-[#050507] border border-[#1E2027] rounded px-4 py-2.5 text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-[#E82127]/50 transition-colors"
+                      className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-4 py-2.5 text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-[#E82127]/50 transition-colors"
                       placeholder="John Doe"
                     />
                   </div>
@@ -359,7 +359,7 @@ export default function ProfilePage() {
                       type="email"
                       value={personal.email}
                       disabled
-                      className="w-full bg-[#050507] border border-[#12131A] rounded px-4 py-2.5 text-sm text-[#6B7280] cursor-not-allowed"
+                      className="w-full bg-[#050507] border border-[#12131A] rounded-xl px-4 py-2.5 text-sm text-[#6B7280] cursor-not-allowed"
                     />
                     <p className="text-[10px] text-[#52525B] mt-1">Email cannot be changed here.</p>
                   </div>
@@ -369,7 +369,7 @@ export default function ProfilePage() {
                       type="tel"
                       value={personal.phone}
                       onChange={e => setPersonal(p => ({ ...p, phone: e.target.value }))}
-                      className="w-full bg-[#050507] border border-[#1E2027] rounded px-4 py-2.5 text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-[#E82127]/50 transition-colors"
+                      className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-4 py-2.5 text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-[#E82127]/50 transition-colors"
                       placeholder="+1 (555) 000-0000"
                     />
                   </div>
@@ -378,7 +378,7 @@ export default function ProfilePage() {
                     <select
                       value={personal.country}
                       onChange={e => setPersonal(p => ({ ...p, country: e.target.value }))}
-                      className="w-full bg-[#050507] border border-[#1E2027] rounded px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#E82127]/50 transition-colors"
+                      className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#E82127]/50 transition-colors"
                     >
                       <option value="">Select country</option>
                       {['United States', 'United Kingdom', 'Canada', 'Australia', 'Germany', 'France', 'Japan', 'Singapore', 'UAE', 'Other'].map(c => (
@@ -392,7 +392,7 @@ export default function ProfilePage() {
                       type="text"
                       value={personal.city}
                       onChange={e => setPersonal(p => ({ ...p, city: e.target.value }))}
-                      className="w-full bg-[#050507] border border-[#1E2027] rounded px-4 py-2.5 text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-[#E82127]/50 transition-colors"
+                      className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-4 py-2.5 text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-[#E82127]/50 transition-colors"
                       placeholder="New York"
                     />
                   </div>
@@ -402,7 +402,7 @@ export default function ProfilePage() {
                       type="text"
                       value={personal.address}
                       onChange={e => setPersonal(p => ({ ...p, address: e.target.value }))}
-                      className="w-full bg-[#050507] border border-[#1E2027] rounded px-4 py-2.5 text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-[#E82127]/50 transition-colors"
+                      className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-4 py-2.5 text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-[#E82127]/50 transition-colors"
                       placeholder="123 Main St"
                     />
                   </div>
@@ -413,7 +413,7 @@ export default function ProfilePage() {
                     value={personal.bio}
                     onChange={e => setPersonal(p => ({ ...p, bio: e.target.value }))}
                     rows={3}
-                    className="w-full bg-[#050507] border border-[#1E2027] rounded px-4 py-2.5 text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-[#E82127]/50 transition-colors resize-none"
+                    className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-4 py-2.5 text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-[#E82127]/50 transition-colors resize-none"
                     placeholder="Tell us a bit about yourself..."
                   />
                 </div>
@@ -423,12 +423,12 @@ export default function ProfilePage() {
 
             {/* ── Bank Account ── */}
             {activeSection === 'bank' && (
-              <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-6">
+              <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-6">
                 <div className="mb-6">
                   <h2 className="text-base font-bold text-white tracking-wide mb-1">Bank Account Details</h2>
                   <p className="text-xs text-[#6B7280]">Your payout destination for approved withdrawals. All data is encrypted.</p>
                 </div>
-                <div className="flex items-center gap-2 mb-5 px-4 py-3 bg-[#E82127]/5 border border-[#E82127]/20 rounded-lg">
+                <div className="flex items-center gap-2 mb-5 px-4 py-3 bg-[#E82127]/5 border border-[#E82127]/20 rounded-xl">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E82127" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                     <circle cx="12" cy="12" r="10" />
                     <line x1="12" y1="8" x2="12" y2="12" />
@@ -443,7 +443,7 @@ export default function ProfilePage() {
                       type="text"
                       value={bank.bankName}
                       onChange={e => setBank(b => ({ ...b, bankName: e.target.value }))}
-                      className="w-full bg-[#050507] border border-[#1E2027] rounded px-4 py-2.5 text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-[#E82127]/50 transition-colors"
+                      className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-4 py-2.5 text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-[#E82127]/50 transition-colors"
                       placeholder="Chase Bank"
                     />
                   </div>
@@ -453,7 +453,7 @@ export default function ProfilePage() {
                       type="text"
                       value={bank.accountHolder}
                       onChange={e => setBank(b => ({ ...b, accountHolder: e.target.value }))}
-                      className="w-full bg-[#050507] border border-[#1E2027] rounded px-4 py-2.5 text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-[#E82127]/50 transition-colors"
+                      className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-4 py-2.5 text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-[#E82127]/50 transition-colors"
                       placeholder="John Doe"
                     />
                   </div>
@@ -464,7 +464,7 @@ export default function ProfilePage() {
                         type={showAccountNumber ? 'text' : 'password'}
                         value={bank.accountNumber}
                         onChange={e => setBank(b => ({ ...b, accountNumber: e.target.value }))}
-                        className="w-full bg-[#050507] border border-[#1E2027] rounded px-4 py-2.5 pr-10 text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-[#E82127]/50 transition-colors"
+                        className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-4 py-2.5 pr-10 text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-[#E82127]/50 transition-colors"
                         placeholder="••••••••••"
                       />
                       <button
@@ -488,7 +488,7 @@ export default function ProfilePage() {
                         type={showRoutingNumber ? 'text' : 'password'}
                         value={bank.routingNumber}
                         onChange={e => setBank(b => ({ ...b, routingNumber: e.target.value }))}
-                        className="w-full bg-[#050507] border border-[#1E2027] rounded px-4 py-2.5 pr-10 text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-[#E82127]/50 transition-colors"
+                        className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-4 py-2.5 pr-10 text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-[#E82127]/50 transition-colors"
                         placeholder="••••••••••"
                       />
                       <button
@@ -510,7 +510,7 @@ export default function ProfilePage() {
                     <select
                       value={bank.accountType}
                       onChange={e => setBank(b => ({ ...b, accountType: e.target.value as 'checking' | 'savings' }))}
-                      className="w-full bg-[#050507] border border-[#1E2027] rounded px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#E82127]/50 transition-colors"
+                      className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#E82127]/50 transition-colors"
                     >
                       <option value="checking">Checking</option>
                       <option value="savings">Savings</option>
@@ -522,7 +522,7 @@ export default function ProfilePage() {
                       type="text"
                       value={bank.swiftCode}
                       onChange={e => setBank(b => ({ ...b, swiftCode: e.target.value.toUpperCase() }))}
-                      className="w-full bg-[#050507] border border-[#1E2027] rounded px-4 py-2.5 text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-[#E82127]/50 transition-colors"
+                      className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-4 py-2.5 text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-[#E82127]/50 transition-colors"
                       placeholder="CHASUS33"
                     />
                   </div>
@@ -533,7 +533,7 @@ export default function ProfilePage() {
 
             {/* ── Password ── */}
             {activeSection === 'password' && (
-              <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-6">
+              <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-6">
                 <div className="mb-6">
                   <h2 className="text-base font-bold text-white tracking-wide mb-1">Change Password</h2>
                   <p className="text-xs text-[#6B7280]">Use a strong, unique password to protect your account.</p>
@@ -583,7 +583,7 @@ export default function ProfilePage() {
                     <p className="text-xs text-[#E82127]">{passwordError}</p>
                   )}
                 </div>
-                <div className="mb-4 p-4 bg-[#050507] border border-[#12131A] rounded-lg">
+                <div className="mb-4 p-4 bg-[#050507] border border-[#12131A] rounded-xl">
                   <p className="text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">Password Requirements</p>
                   {[
                     { label: 'At least 8 characters', met: passwords.newPass.length >= 8 },
@@ -609,7 +609,7 @@ export default function ProfilePage() {
 
             {/* ── Notifications ── */}
             {activeSection === 'notifications' && (
-              <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-6">
+              <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-6">
                 <div className="mb-6">
                   <h2 className="text-base font-bold text-white tracking-wide mb-1">Notification Preferences</h2>
                   <p className="text-xs text-[#6B7280]">Control how and when you receive alerts from Tesla Trade.</p>
@@ -671,14 +671,14 @@ export default function ProfilePage() {
 
             {/* ── Two-Factor Auth ── */}
             {activeSection === 'twofa' && (
-              <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-6">
+              <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-6">
                 <div className="mb-6">
                   <h2 className="text-base font-bold text-white tracking-wide mb-1">Two-Factor Authentication</h2>
                   <p className="text-xs text-[#6B7280]">Add an extra layer of security to your account with an authenticator app.</p>
                 </div>
 
                 {/* Status Banner */}
-                <div className={`flex items-center gap-3 px-4 py-3 rounded-lg border mb-6 ${twoFAEnabled ? 'bg-green-400/5 border-green-400/20' : 'bg-[#E82127]/5 border-[#E82127]/20'}`}>
+                <div className={`flex items-center gap-3 px-4 py-3 rounded-xl border mb-6 ${twoFAEnabled ? 'bg-green-400/5 border-green-400/20' : 'bg-[#E82127]/5 border-[#E82127]/20'}`}>
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center ${twoFAEnabled ? 'bg-green-400/20' : 'bg-[#E82127]/20'}`}>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={twoFAEnabled ? '#00F59B' : '#E82127'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                       <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
@@ -703,7 +703,7 @@ export default function ProfilePage() {
                         { step: '2', title: 'Scan QR Code', desc: 'Scan the QR code shown during setup with your app.' },
                         { step: '3', title: 'Enter Code', desc: 'Enter the 6-digit code from your app to verify.' },
                       ].map(s => (
-                        <div key={s.step} className="bg-[#050507] border border-[#12131A] rounded-lg p-4">
+                        <div key={s.step} className="bg-[#050507] border border-[#12131A] rounded-xl p-4">
                           <div className="w-7 h-7 rounded-full bg-[#E82127]/20 border border-[#E82127]/30 flex items-center justify-center text-xs font-bold text-[#E82127] mb-3">{s.step}</div>
                           <p className="text-xs font-bold text-white mb-1">{s.title}</p>
                           <p className="text-xs text-[#6B7280]">{s.desc}</p>
@@ -712,7 +712,7 @@ export default function ProfilePage() {
                     </div>
                     <button
                       onClick={handle2FASetup}
-                      className="px-6 py-2.5 bg-[#E82127] text-white text-xs font-bold rounded tracking-widest uppercase hover:bg-[#B3181D] transition-colors"
+                      className="px-6 py-2.5 bg-[#E82127] text-white text-xs font-bold rounded-xl tracking-widest uppercase hover:bg-[#B3181D] transition-colors"
                     >
                       Enable Two-Factor Auth
                     </button>
@@ -724,14 +724,14 @@ export default function ProfilePage() {
                   <div className="max-w-sm">
                     <p className="text-xs text-[#A1A1AA] mb-4">Scan this QR code with your authenticator app, or enter the secret key manually.</p>
                     {/* QR placeholder */}
-                    <div className="w-40 h-40 bg-white rounded-lg flex items-center justify-center mb-4 mx-auto">
+                    <div className="w-40 h-40 bg-white rounded-xl flex items-center justify-center mb-4 mx-auto">
                       <div className="grid grid-cols-7 gap-0.5 p-2">
                         {Array.from({ length: 49 }).map((_, i) => (
                           <div key={i} className={`w-3 h-3 ${Math.random() > 0.5 ? 'bg-black' : 'bg-white'}`} />
                         ))}
                       </div>
                     </div>
-                    <div className="bg-[#050507] border border-[#1E2027] rounded px-4 py-2.5 mb-4 text-center">
+                    <div className="bg-[#050507] border border-[#1E2027] rounded-xl px-4 py-2.5 mb-4 text-center">
                       <p className="text-[10px] text-[#6B7280] uppercase tracking-widest mb-1">Manual Entry Key</p>
                       <p className="text-sm font-mono text-white tracking-widest">{twoFASecret}</p>
                     </div>
@@ -741,20 +741,20 @@ export default function ProfilePage() {
                       maxLength={6}
                       value={twoFACode}
                       onChange={e => setTwoFACode(e.target.value.replace(/\D/g, ''))}
-                      className="w-full bg-[#050507] border border-[#1E2027] rounded px-4 py-2.5 text-sm text-white text-center tracking-[0.5em] font-mono placeholder-[#52525B] focus:outline-none focus:border-[#E82127]/50 transition-colors mb-4"
+                      className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-4 py-2.5 text-sm text-white text-center tracking-[0.5em] font-mono placeholder-[#52525B] focus:outline-none focus:border-[#E82127]/50 transition-colors mb-4"
                       placeholder="000000"
                     />
                     <div className="flex gap-3">
                       <button
                         onClick={handle2FAVerify}
                         disabled={twoFACode.length !== 6}
-                        className="flex-1 py-2.5 bg-[#E82127] text-white text-xs font-bold rounded tracking-widest uppercase hover:bg-[#B3181D] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                        className="flex-1 py-2.5 bg-[#E82127] text-white text-xs font-bold rounded-xl tracking-widest uppercase hover:bg-[#B3181D] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                       >
                         Verify & Enable
                       </button>
                       <button
                         onClick={() => { setTwoFAStep('idle'); setTwoFACode(''); }}
-                        className="px-4 py-2.5 border border-[#1E2027] text-[#A1A1AA] text-xs font-semibold rounded tracking-widest uppercase hover:text-white hover:border-[#52525B] transition-colors"
+                        className="px-4 py-2.5 border border-[#1E2027] text-[#A1A1AA] text-xs font-semibold rounded-xl tracking-widest uppercase hover:text-white hover:border-[#52525B] transition-colors"
                       >
                         Cancel
                       </button>
@@ -770,7 +770,7 @@ export default function ProfilePage() {
                       <p className="text-xs text-[#6B7280] mb-3">Save these backup codes in a secure location. Each code can only be used once.</p>
                       <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-3">
                         {backupCodes.map(code => (
-                          <div key={code} className="bg-[#050507] border border-[#12131A] rounded px-3 py-2 text-center font-mono text-xs text-white tracking-widest">
+                          <div key={code} className="bg-[#050507] border border-[#12131A] rounded-xl px-3 py-2 text-center font-mono text-xs text-white tracking-widest">
                             {code}
                           </div>
                         ))}
@@ -778,7 +778,7 @@ export default function ProfilePage() {
                     </div>
                     <button
                       onClick={handle2FADisable}
-                      className="px-6 py-2.5 border border-[#E82127]/40 text-[#E82127] text-xs font-bold rounded tracking-widest uppercase hover:bg-[#E82127]/10 transition-colors"
+                      className="px-6 py-2.5 border border-[#E82127]/40 text-[#E82127] text-xs font-bold rounded-xl tracking-widest uppercase hover:bg-[#E82127]/10 transition-colors"
                     >
                       Disable 2FA
                     </button>
@@ -801,7 +801,7 @@ function SaveButton({ status, onClick, label = 'Save Changes' }: { status: strin
     <button
       onClick={onClick}
       disabled={status === 'saving'}
-      className={`px-6 py-2.5 text-xs font-bold rounded tracking-widest uppercase transition-all ${
+      className={`px-6 py-2.5 text-xs font-bold rounded-xl tracking-widest uppercase transition-all ${
         status === 'saved' ?'bg-green-400/20 text-green-400 border border-green-400/30'
           : status === 'error' ?'bg-[#E82127]/20 text-[#E82127] border border-[#E82127]/30' :'bg-[#E82127] text-white hover:bg-[#B3181D]'
       } disabled:opacity-60 disabled:cursor-not-allowed`}
@@ -834,7 +834,7 @@ function PasswordField({
           type={show ? 'text' : 'password'}
           value={value}
           onChange={e => onChange(e.target.value)}
-          className="w-full bg-[#050507] border border-[#1E2027] rounded px-4 py-2.5 pr-10 text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-[#E82127]/50 transition-colors"
+          className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-4 py-2.5 pr-10 text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-[#E82127]/50 transition-colors"
           placeholder={placeholder}
         />
         <button
@@ -868,7 +868,7 @@ function NotifGroup({
   onChange: (key: string, val: boolean) => void;
 }) {
   return (
-    <div className="bg-[#050507] border border-[#12131A] rounded-lg p-4">
+    <div className="bg-[#050507] border border-[#12131A] rounded-xl p-4">
       <div className="flex items-center gap-2 mb-4">
         {icon}
         <span className="text-xs font-bold text-white uppercase tracking-widest">{title}</span>

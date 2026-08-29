@@ -46,7 +46,7 @@ export default function CareersPage() {
   );
 
   const selectClass =
-    'px-3 py-2.5 rounded-lg text-xs font-semibold bg-[#0D0E12] border border-[#1E2027] text-white focus:border-primary/50 focus:outline-none';
+    'px-3 py-2.5 rounded-xl text-xs font-semibold bg-[#0D0E12] border border-[#1E2027] text-white focus:border-primary/50 focus:outline-none';
 
   return (
     <main className="min-h-screen bg-[#050507] text-white">

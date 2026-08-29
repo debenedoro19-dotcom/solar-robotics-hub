@@ -63,7 +63,7 @@ export default function EcosystemSection() {
         </div>
 
         {/* Stats — with SpaceX launch cinematic background */}
-        <div className="relative rounded-2xl overflow-hidden mb-12 section-reveal">
+        <div className="relative rounded-3xl overflow-hidden mb-12 section-reveal">
           {/* SpaceX background image */}
           <div className="absolute inset-0 z-0">
             <AppImage
@@ -92,7 +92,7 @@ export default function EcosystemSection() {
         {/* Bento grid — 3 cards across 3 cols */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
           {/* col-1–2: Vehicles */}
-          <div className="glass-card glass-card-hover rounded-2xl section-reveal lg:col-span-2 relative overflow-hidden group min-h-[280px]">
+          <div className="glass-card glass-card-hover rounded-3xl section-reveal lg:col-span-2 relative overflow-hidden group min-h-[280px]">
             {/* Background image */}
             <div className="absolute inset-0 z-0">
               <AppImage
@@ -116,7 +116,7 @@ export default function EcosystemSection() {
           </div>
 
           {/* col-3: Energy */}
-          <div className="glass-card glass-card-hover rounded-2xl section-reveal lg:col-span-1 relative overflow-hidden group min-h-[280px]">
+          <div className="glass-card glass-card-hover rounded-3xl section-reveal lg:col-span-1 relative overflow-hidden group min-h-[280px]">
             {/* Background image */}
             <div className="absolute inset-0 z-0">
               <AppImage
@@ -139,7 +139,7 @@ export default function EcosystemSection() {
           </div>
 
           {/* col-1–3: Robotics (full width) */}
-          <div className="glass-card glass-card-hover rounded-2xl section-reveal lg:col-span-3 relative overflow-hidden group min-h-[260px]">
+          <div className="glass-card glass-card-hover rounded-3xl section-reveal lg:col-span-3 relative overflow-hidden group min-h-[260px]">
             {/* Background image */}
             <div className="absolute inset-0 z-0">
               <AppImage

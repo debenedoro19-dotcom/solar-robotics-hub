@@ -112,7 +112,7 @@ export default function Footer() {
                 key={social?.label}
                 aria-label={social?.label}
                 role="img"
-                className="w-8 h-8 flex items-center justify-center rounded border border-[#222222] text-[#6B7280] hover:text-white hover:border-primary/40 hover:bg-primary/8 transition-all duration-300 cursor-default select-none"
+                className="w-8 h-8 flex items-center justify-center rounded-xl border border-[#222222] text-[#6B7280] hover:text-white hover:border-primary/40 hover:bg-primary/8 transition-all duration-300 cursor-default select-none"
               >
                 {social?.icon}
               </span>

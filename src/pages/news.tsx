@@ -111,7 +111,7 @@ export default function NewsPage() {
             {categories?.map((cat) =>
             <button
               key={cat}
-              className={`px-4 py-2 text-xs font-semibold rounded border tracking-wider uppercase transition-all ${
+              className={`px-4 py-2 text-xs font-semibold rounded-xl border tracking-wider uppercase transition-all ${
               cat === 'All' ? 'bg-primary text-white border-primary' : 'bg-transparent text-[#71717A] border-[#1E2027] hover:border-[#2A2D35] hover:text-white'}`
               }>
               
@@ -122,7 +122,7 @@ export default function NewsPage() {
 
           {/* Featured article */}
           {featured &&
-          <div className="mb-10 bg-[#0D0E12] border border-[#12131A] rounded-lg overflow-hidden hover:border-primary/20 transition-all duration-300 group">
+          <div className="mb-10 bg-[#0D0E12] border border-[#12131A] rounded-xl overflow-hidden hover:border-primary/20 transition-all duration-300 group">
               <div className="grid grid-cols-1 lg:grid-cols-2">
                 <div className="relative h-64 lg:h-auto overflow-hidden">
                   <img
@@ -134,7 +134,7 @@ export default function NewsPage() {
                 </div>
                 <div className="p-8 lg:p-10 flex flex-col justify-center">
                   <div className="flex items-center gap-3 mb-4">
-                    <span className={`px-2.5 py-1 text-[10px] font-bold rounded border tracking-wider uppercase ${featured?.tagColor}`}>
+                    <span className={`px-2.5 py-1 text-[10px] font-bold rounded-xl border tracking-wider uppercase ${featured?.tagColor}`}>
                       {featured?.tag}
                     </span>
                     <span className="text-xs text-[#6B7280]">{featured?.time}</span>
@@ -156,7 +156,7 @@ export default function NewsPage() {
           {/* Article grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {rest?.map((article) =>
-            <article key={article?.id} className="bg-[#0D0E12] border border-[#12131A] rounded-lg overflow-hidden hover:border-primary/20 transition-all duration-300 group flex flex-col">
+            <article key={article?.id} className="bg-[#0D0E12] border border-[#12131A] rounded-xl overflow-hidden hover:border-primary/20 transition-all duration-300 group flex flex-col">
                 <div className="relative h-44 overflow-hidden">
                   <img
                   src={article?.image}
@@ -166,7 +166,7 @@ export default function NewsPage() {
                 </div>
                 <div className="p-5 flex flex-col flex-1">
                   <div className="flex items-center gap-2 mb-3">
-                    <span className={`px-2 py-0.5 text-[9px] font-bold rounded border tracking-wider uppercase ${article?.tagColor}`}>
+                    <span className={`px-2 py-0.5 text-[9px] font-bold rounded-xl border tracking-wider uppercase ${article?.tagColor}`}>
                       {article?.tag}
                     </span>
                     <span className="text-[10px] text-[#52525B]">{article?.time}</span>

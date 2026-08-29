@@ -124,7 +124,7 @@ export default function TermsPage() {
             </div>
           </div>
 
-          <div className="mt-6 p-4 bg-primary/8 border border-primary/20 rounded-lg">
+          <div className="mt-6 p-4 bg-primary/8 border border-primary/20 rounded-xl">
             <p className="text-sm text-[#E4E4E7] leading-relaxed">
               <span className="text-primary font-semibold">Please read carefully.</span> These Terms of Service govern your use of the {COMPANY_NAME} investment platform. By creating an account or using our services, you agree to be legally bound by these terms.
             </p>
@@ -134,7 +134,7 @@ export default function TermsPage() {
         <div className="tesla-divider mb-10" />
 
         {/* Table of Contents */}
-        <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-6 mb-10">
+        <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-6 mb-10">
           <h2 className="text-xs font-bold text-[#6B7280] uppercase tracking-widest mb-4">Table of Contents</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {sections?.map((s) => (
@@ -156,7 +156,7 @@ export default function TermsPage() {
             <div
               key={section?.id}
               id={section?.id}
-              className={`bg-[#0D0E12] border rounded-lg transition-all duration-200 ${
+              className={`bg-[#0D0E12] border rounded-xl transition-all duration-200 ${
                 activeSection === section?.id ? 'border-primary/30' : 'border-[#12131A]'
               }`}
             >

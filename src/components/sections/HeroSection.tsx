@@ -86,7 +86,7 @@ export default function HeroSection() {
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 w-full py-24">
         <div className="max-w-3xl">
           {/* Eyebrow */}
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded border border-primary/25 bg-primary/8 mb-8 badge-3d">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl border border-primary/25 bg-primary/8 mb-8 badge-3d">
             <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" style={{ boxShadow: '0 0 6px rgba(227,25,55,0.8)' }} />
             <span className="text-primary font-bold text-[10px] tracking-[0.3em] uppercase neon-red">Tesla Ecosystem · Investment Platform</span>
           </div>
@@ -105,7 +105,7 @@ export default function HeroSection() {
           {/* Trust badges */}
           <div className="flex flex-wrap gap-3 mb-10">
             {badges?.map((b) => (
-              <div key={b?.label} className="flex items-center gap-2 px-3 py-1.5 rounded border border-[#1E2027] bg-[#0D0E12] text-xs font-medium text-[#71717A] depth-card">
+              <div key={b?.label} className="flex items-center gap-2 px-3 py-1.5 rounded-xl border border-[#1E2027] bg-[#0D0E12] text-xs font-medium text-[#71717A] depth-card">
                 <span>{b?.icon}</span>
                 <span>{b?.label}</span>
               </div>
@@ -116,14 +116,14 @@ export default function HeroSection() {
           <div className="flex flex-col sm:flex-row gap-4">
             <Link
               href="/register"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 tesla-btn-primary rounded text-xs min-h-[52px] btn-shimmer btn-elevated"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 tesla-btn-primary rounded-xl text-xs min-h-[52px] btn-shimmer btn-elevated"
             >
               Start Investing
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
             </Link>
             <a
               href="#inventory"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 tesla-btn-outline rounded text-xs min-h-[52px]"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 tesla-btn-outline rounded-xl text-xs min-h-[52px]"
             >
               Browse Inventory
             </a>

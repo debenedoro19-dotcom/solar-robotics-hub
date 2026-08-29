@@ -243,7 +243,7 @@ export default function DashboardPage() {
               </button>
 
               {notifOpen && (
-                <div className="absolute right-0 top-10 w-80 bg-[#0D0E12] border border-[#12131A] rounded-lg shadow-2xl z-50 overflow-hidden">
+                <div className="absolute right-0 top-10 w-80 bg-[#0D0E12] border border-[#12131A] rounded-xl shadow-2xl z-50 overflow-hidden">
                   <div className="flex items-center justify-between px-4 py-3 border-b border-[#12131A]">
                     <div className="flex items-center gap-2">
                       <span className="text-xs font-bold text-white uppercase tracking-widest">Notifications</span>
@@ -375,7 +375,7 @@ export default function DashboardPage() {
               <div className="relative">
                 <div className="flex items-center justify-between mb-3">
                   <div className="text-xs font-semibold text-[#6B7280] uppercase tracking-widest">{stat.label}</div>
-                  <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: `${stat.accent}15`, color: stat.accent }}>
+                  <div className="w-7 h-7 rounded-xl flex items-center justify-center" style={{ background: `${stat.accent}15`, color: stat.accent }}>
                     {stat.icon}
                   </div>
                 </div>
@@ -415,14 +415,14 @@ export default function DashboardPage() {
         {activeTab === 'overview' && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Chart */}
-            <div className="lg:col-span-2 bg-[#0D0E12] border border-[#12131A] rounded-lg p-6">
+            <div className="lg:col-span-2 bg-[#0D0E12] border border-[#12131A] rounded-xl p-6">
               <div className="flex items-center justify-between mb-6">
                 <div>
                   <h3 className="text-sm font-bold text-white tracking-wide">Portfolio Performance</h3>
                   <p className="text-xs text-[#6B7280] mt-0.5">Growth trajectory</p>
                 </div>
                 {hasPortfolioData && portfolio?.chartData && portfolio.chartData.length > 0 && (
-                  <span className="px-2.5 py-1 bg-green-400/10 text-green-400 text-xs font-bold rounded border border-green-400/20">
+                  <span className="px-2.5 py-1 bg-green-400/10 text-green-400 text-xs font-bold rounded-xl border border-green-400/20">
                     Active
                   </span>
                 )}
@@ -465,7 +465,7 @@ export default function DashboardPage() {
             </div>
 
             {/* Allocation */}
-            <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-6">
+            <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-6">
               <h3 className="text-sm font-bold text-white tracking-wide mb-1">Allocation</h3>
               <p className="text-xs text-[#6B7280] mb-6">Current portfolio breakdown</p>
               {portfolio?.allocation && portfolio.allocation.length > 0 ? (
@@ -534,13 +534,13 @@ export default function DashboardPage() {
           <div className="space-y-4">
             {portfolio?.investments && portfolio.investments.length > 0 ? (
               portfolio.investments.map((inv) => (
-                <div key={inv.id} className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-6">
+                <div key={inv.id} className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-6">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
                     <div>
                       <h3 className="text-base font-bold text-white">{inv.name}</h3>
                       <span className="text-xs text-[#6B7280]">{inv.duration} term</span>
                     </div>
-                    <span className="px-3 py-1 bg-green-400/10 text-green-400 text-xs font-bold rounded border border-green-400/20 self-start sm:self-auto">
+                    <span className="px-3 py-1 bg-green-400/10 text-green-400 text-xs font-bold rounded-xl border border-green-400/20 self-start sm:self-auto">
                       {inv.status}
                     </span>
                   </div>
@@ -595,7 +595,7 @@ export default function DashboardPage() {
                 { label: 'Overall Return', value: `${overallReturn >= 0 ? '+' : ''}${overallReturn.toFixed(2)}%`, color: overallReturn >= 0 ? 'text-green-400' : 'text-primary' },
                 { label: 'Active Packages', value: String(portfolio?.investments.length || 0), color: 'text-white' },
               ].map((kpi) => (
-                <div key={kpi.label} className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-5">
+                <div key={kpi.label} className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-5">
                   <div className="text-[10px] font-bold text-[#6B7280] uppercase tracking-widest mb-2">{kpi.label}</div>
                   <div className={`text-xl font-extrabold ${kpi.color}`}>{kpi.value}</div>
                 </div>
@@ -603,7 +603,7 @@ export default function DashboardPage() {
             </div>
 
             {/* Range selector + Growth chart */}
-            <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-6">
+            <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-6">
               <div className="flex items-center justify-between mb-5">
                 <div>
                   <h3 className="text-sm font-bold text-white">Portfolio Growth</h3>
@@ -614,7 +614,7 @@ export default function DashboardPage() {
                     <button
                       key={r}
                       onClick={() => setAnalyticsRange(r)}
-                      className={`px-3 py-1.5 rounded text-[10px] font-bold uppercase tracking-widest transition-all ${
+                      className={`px-3 py-1.5 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all ${
                         analyticsRange === r ? 'bg-primary text-white' : 'bg-[#12131A] text-[#6B7280] hover:text-white'
                       }`}
                     >
@@ -650,7 +650,7 @@ export default function DashboardPage() {
             {/* Monthly Returns Bar + Allocation side by side */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Monthly Returns */}
-              <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-6">
+              <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-6">
                 <h3 className="text-sm font-bold text-white mb-1">Monthly Returns</h3>
                 <p className="text-xs text-[#6B7280] mb-5">Month-over-month gain/loss</p>
                 {monthlyReturns.length > 0 ? (
@@ -676,7 +676,7 @@ export default function DashboardPage() {
               </div>
 
               {/* Allocation Donut */}
-              <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-6">
+              <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-6">
                 <h3 className="text-sm font-bold text-white mb-1">Asset Allocation</h3>
                 <p className="text-xs text-[#6B7280] mb-5">Portfolio distribution by asset class</p>
                 {portfolio?.allocation && portfolio.allocation.length > 0 ? (
@@ -716,7 +716,7 @@ export default function DashboardPage() {
             </div>
 
             {/* Performance Trend Line */}
-            <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-6">
+            <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-6">
               <h3 className="text-sm font-bold text-white mb-1">Invested vs Current Value</h3>
               <p className="text-xs text-[#6B7280] mb-5">Compare cost basis against current portfolio value</p>
               {portfolio?.investments && portfolio.investments.length > 0 ? (
@@ -750,7 +750,7 @@ export default function DashboardPage() {
 
         {/* Transactions Tab */}
         {activeTab === 'transactions' && (
-          <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg overflow-hidden">
+          <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl overflow-hidden">
             <div className="p-5 border-b border-[#12131A]">
               <h3 className="text-sm font-bold text-white">Transaction History</h3>
             </div>
@@ -805,7 +805,7 @@ export default function DashboardPage() {
                 {alerts.map((alert) => (
                   <div
                     key={alert.id}
-                    className={`flex items-start gap-4 p-4 rounded-lg border transition-colors ${alert.unread ? 'bg-[#0D0E12] border-[#12131A]' : 'bg-[#050507] border-[#0D0E12]'}`}
+                    className={`flex items-start gap-4 p-4 rounded-xl border transition-colors ${alert.unread ? 'bg-[#0D0E12] border-[#12131A]' : 'bg-[#050507] border-[#0D0E12]'}`}
                   >
                     <span className="text-xl shrink-0">{alert.icon}</span>
                     <div className="flex-1 min-w-0">

@@ -6,7 +6,7 @@ import { supabase } from '@/lib/supabase/client';
 import type { JobPosting } from './careers';
 
 const inputClass =
-  'w-full px-3 py-2.5 rounded-lg text-sm bg-[#050507] border border-[#1E2027] text-white placeholder-[#6B7280] focus:border-primary/50 focus:outline-none transition-colors';
+  'w-full px-3 py-2.5 rounded-xl text-sm bg-[#050507] border border-[#1E2027] text-white placeholder-[#6B7280] focus:border-primary/50 focus:outline-none transition-colors';
 const labelClass = 'block text-[10px] font-bold text-[#6B7280] uppercase tracking-widest mb-1.5';
 
 export default function CareerDetailPage({ slug }: { slug: string }) {
@@ -65,8 +65,8 @@ export default function CareerDetailPage({ slug }: { slug: string }) {
       <main className="min-h-screen bg-[#050507] text-white">
         <Header />
         <div className="max-w-3xl mx-auto px-6 pt-32">
-          <div className="h-8 w-2/3 rounded bg-[#0D0E12] animate-pulse mb-4" />
-          <div className="h-4 w-1/3 rounded bg-[#0D0E12] animate-pulse" />
+          <div className="h-8 w-2/3 rounded-xl bg-[#0D0E12] animate-pulse mb-4" />
+          <div className="h-4 w-1/3 rounded-xl bg-[#0D0E12] animate-pulse" />
         </div>
       </main>
     );
@@ -79,7 +79,7 @@ export default function CareerDetailPage({ slug }: { slug: string }) {
         <div className="max-w-3xl mx-auto px-6 pt-40 text-center">
           <h1 className="text-2xl font-bold mb-2">Role not found</h1>
           <p className="text-sm text-[#71717A] mb-6">This position may have been filled or closed.</p>
-          <Link href="/careers" className="px-6 py-2.5 tesla-btn-primary rounded-lg text-sm font-semibold">View all roles</Link>
+          <Link href="/careers" className="px-6 py-2.5 tesla-btn-primary rounded-xl text-sm font-semibold">View all roles</Link>
         </div>
       </main>
     );
@@ -147,7 +147,7 @@ export default function CareerDetailPage({ slug }: { slug: string }) {
                 <button
                   type="button"
                   onClick={() => fileInput.current?.click()}
-                  className="w-full px-4 py-3 rounded-lg border border-dashed border-[#1E2027] text-xs text-[#A1A1AA] hover:border-primary/40 hover:text-white transition-colors text-left"
+                  className="w-full px-4 py-3 rounded-xl border border-dashed border-[#1E2027] text-xs text-[#A1A1AA] hover:border-primary/40 hover:text-white transition-colors text-left"
                 >
                   {resume ? resume.name : 'Click to attach your resume…'}
                 </button>
@@ -156,7 +156,7 @@ export default function CareerDetailPage({ slug }: { slug: string }) {
               <button
                 type="submit"
                 disabled={status === 'saving'}
-                className="w-full py-3 rounded-lg tesla-btn-primary text-sm font-bold tracking-wide disabled:opacity-60"
+                className="w-full py-3 rounded-xl tesla-btn-primary text-sm font-bold tracking-wide disabled:opacity-60"
               >
                 {status === 'saving' ? 'Submitting…' : 'Submit Application'}
               </button>

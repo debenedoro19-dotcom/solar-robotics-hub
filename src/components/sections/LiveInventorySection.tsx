@@ -229,7 +229,7 @@ export default function LiveInventorySection() {
         {displayed.map((item, idx) =>
         <article
           key={item.id}
-          className="glass-card glass-card-hover rounded-2xl overflow-hidden group">
+          className="glass-card glass-card-hover rounded-3xl overflow-hidden group">
 
           
             {/* Image */}
@@ -244,7 +244,7 @@ export default function LiveInventorySection() {
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw" />
             
               <div className="absolute inset-0 bg-gradient-to-t from-card/80 to-transparent" />
-              <span className={`absolute top-3 left-3 px-2.5 py-1 rounded-lg text-[10px] font-extrabold tracking-widest uppercase ${badgeClasses[item.badgeType]}`}>
+              <span className={`absolute top-3 left-3 px-2.5 py-1 rounded-xl text-[10px] font-extrabold tracking-widest uppercase ${badgeClasses[item.badgeType]}`}>
                 {item.badge}
               </span>
             </div>
@@ -256,7 +256,7 @@ export default function LiveInventorySection() {
                 <span className="text-primary font-extrabold text-base">{item.price}</span>
                 <button
                   onClick={() => setInquiry(item)}
-                  className="px-3 py-1.5 text-xs font-bold text-primary-foreground bg-primary rounded-lg btn-shimmer hover:opacity-90 transition-all min-h-[36px]">
+                  className="px-3 py-1.5 text-xs font-bold text-primary-foreground bg-primary rounded-xl btn-shimmer hover:opacity-90 transition-all min-h-[36px]">
                   Inquire
                 </button>
               </div>
@@ -307,11 +307,11 @@ function InquiryModal({ item, onClose }: { item: InventoryItem; onClose: () => v
 
   return (
     <div className="fixed inset-0 z-[90] flex items-center justify-center bg-black/70 backdrop-blur-sm px-4" role="dialog" aria-modal="true">
-      <div className="relative w-full max-w-md rounded-2xl border border-border bg-card p-7 shadow-2xl">
+      <div className="relative w-full max-w-md rounded-3xl border border-border bg-card p-7 shadow-2xl">
         <button onClick={onClose} aria-label="Close" className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6 6 18M6 6l12 12" /></svg>
         </button>
-        <span className={`inline-block px-2.5 py-1 rounded-lg text-[10px] font-extrabold tracking-widest uppercase mb-3 ${badgeClasses[item.badgeType]}`}>
+        <span className={`inline-block px-2.5 py-1 rounded-xl text-[10px] font-extrabold tracking-widest uppercase mb-3 ${badgeClasses[item.badgeType]}`}>
           {item.badge}
         </span>
         <h3 className="text-lg font-extrabold text-foreground tracking-tight">{item.name}</h3>
@@ -326,7 +326,7 @@ function InquiryModal({ item, onClose }: { item: InventoryItem; onClose: () => v
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Your name"
-              className="w-full px-3 py-2.5 rounded-lg text-sm bg-muted/40 border border-border text-foreground placeholder-muted-foreground focus:border-primary/50 focus:outline-none transition-colors"
+              className="w-full px-3 py-2.5 rounded-xl text-sm bg-muted/40 border border-border text-foreground placeholder-muted-foreground focus:border-primary/50 focus:outline-none transition-colors"
             />
             <input
               required
@@ -334,20 +334,20 @@ function InquiryModal({ item, onClose }: { item: InventoryItem; onClose: () => v
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
-              className="w-full px-3 py-2.5 rounded-lg text-sm bg-muted/40 border border-border text-foreground placeholder-muted-foreground focus:border-primary/50 focus:outline-none transition-colors"
+              className="w-full px-3 py-2.5 rounded-xl text-sm bg-muted/40 border border-border text-foreground placeholder-muted-foreground focus:border-primary/50 focus:outline-none transition-colors"
             />
             <textarea
               rows={3}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Questions, financing, trade-in…"
-              className="w-full px-3 py-2.5 rounded-lg text-sm bg-muted/40 border border-border text-foreground placeholder-muted-foreground focus:border-primary/50 focus:outline-none transition-colors"
+              className="w-full px-3 py-2.5 rounded-xl text-sm bg-muted/40 border border-border text-foreground placeholder-muted-foreground focus:border-primary/50 focus:outline-none transition-colors"
             />
             {status === 'error' && <p className="text-xs text-primary">Could not send — please try again.</p>}
             <button
               type="submit"
               disabled={status === 'saving'}
-              className="w-full py-3 rounded-lg text-sm font-bold text-primary-foreground bg-primary btn-shimmer hover:opacity-90 transition-all disabled:opacity-60">
+              className="w-full py-3 rounded-xl text-sm font-bold text-primary-foreground bg-primary btn-shimmer hover:opacity-90 transition-all disabled:opacity-60">
               {status === 'saving' ? 'Sending…' : 'Reserve Allocation'}
             </button>
           </form>

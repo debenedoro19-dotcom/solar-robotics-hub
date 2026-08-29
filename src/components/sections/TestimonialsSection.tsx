@@ -80,7 +80,7 @@ export default function TestimonialsSection() {
           {testimonials?.map((t, idx) => (
             <article
               key={t?.name}
-              className="min-w-[300px] sm:min-w-[360px] glass-card glass-card-hover rounded-2xl p-7 snap-center shrink-0 section-reveal"
+              className="min-w-[300px] sm:min-w-[360px] glass-card glass-card-hover rounded-3xl p-7 snap-center shrink-0 section-reveal"
               style={{ transitionDelay: `${idx * 80}ms` }}
             >
               {/* Stars */}

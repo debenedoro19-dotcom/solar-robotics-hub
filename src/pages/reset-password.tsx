@@ -110,7 +110,7 @@ export default function ResetPasswordPage() {
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
-              <div className="px-4 py-3 rounded bg-primary/10 border border-primary/30 text-sm text-primary">{error}</div>
+              <div className="px-4 py-3 rounded-xl bg-primary/10 border border-primary/30 text-sm text-primary">{error}</div>
             )}
 
             <div>
@@ -124,7 +124,7 @@ export default function ResetPasswordPage() {
                 value={form.email}
                 onChange={handleChange}
                 placeholder="you@example.com"
-                className="w-full px-4 py-3 rounded text-sm input-tesla"
+                className="w-full px-4 py-3 rounded-xl text-sm input-tesla"
                 autoComplete="email"
               />
             </div>
@@ -140,7 +140,7 @@ export default function ResetPasswordPage() {
                 value={form.token}
                 onChange={handleChange}
                 placeholder="Paste your reset code"
-                className="w-full px-4 py-3 rounded text-sm input-tesla font-mono"
+                className="w-full px-4 py-3 rounded-xl text-sm input-tesla font-mono"
               />
               <p className="text-xs text-[#6B7280] mt-1.5">
                 Find the code in your reset email or{' '}
@@ -162,7 +162,7 @@ export default function ResetPasswordPage() {
                 value={form.password}
                 onChange={handleChange}
                 placeholder="Min. 8 characters"
-                className="w-full px-4 py-3 rounded text-sm input-tesla"
+                className="w-full px-4 py-3 rounded-xl text-sm input-tesla"
                 autoComplete="new-password"
               />
             </div>
@@ -178,7 +178,7 @@ export default function ResetPasswordPage() {
                 value={form.confirm}
                 onChange={handleChange}
                 placeholder="Repeat new password"
-                className="w-full px-4 py-3 rounded text-sm input-tesla"
+                className="w-full px-4 py-3 rounded-xl text-sm input-tesla"
                 autoComplete="new-password"
               />
             </div>
@@ -186,7 +186,7 @@ export default function ResetPasswordPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 tesla-btn-primary rounded min-h-[48px] flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+              className="w-full py-3.5 tesla-btn-primary rounded-xl min-h-[48px] flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {loading ? (
                 <>

@@ -77,18 +77,18 @@ export default function VerifyPendingPage() {
 
         {/* Status messages */}
         {resent && (
-          <div className="px-4 py-3 rounded bg-green-900/20 border border-green-700/30 text-sm text-green-400 mb-4">
+          <div className="px-4 py-3 rounded-xl bg-green-900/20 border border-green-700/30 text-sm text-green-400 mb-4">
             ✓ Verification email resent successfully. Check your inbox.
           </div>
         )}
         {error && (
-          <div className="px-4 py-3 rounded bg-primary/10 border border-primary/30 text-sm text-primary mb-4">
+          <div className="px-4 py-3 rounded-xl bg-primary/10 border border-primary/30 text-sm text-primary mb-4">
             {error}
           </div>
         )}
 
         {/* Tips */}
-        <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-4 mb-8 text-left">
+        <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-4 mb-8 text-left">
           <p className="text-xs text-[#6B7280] uppercase tracking-widest font-semibold mb-2">Didn't receive it?</p>
           <ul className="text-xs text-[#71717A] space-y-1 list-disc list-inside">
             <li>Check your spam or junk folder</li>
@@ -101,7 +101,7 @@ export default function VerifyPendingPage() {
         <button
           onClick={handleResend}
           disabled={resending || resent}
-          className="w-full py-3.5 tesla-btn-primary rounded min-h-[48px] flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed mb-3"
+          className="w-full py-3.5 tesla-btn-primary rounded-xl min-h-[48px] flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed mb-3"
         >
           {resending ? (
             <>
@@ -120,7 +120,7 @@ export default function VerifyPendingPage() {
 
         <Link
           href="/login"
-          className="block w-full py-3 rounded border border-[#1E2027] text-sm text-[#A1A1AA] hover:text-white hover:border-[#52525B] transition-colors text-center"
+          className="block w-full py-3 rounded-xl border border-[#1E2027] text-sm text-[#A1A1AA] hover:text-white hover:border-[#52525B] transition-colors text-center"
         >
           Back to Sign In
         </Link>

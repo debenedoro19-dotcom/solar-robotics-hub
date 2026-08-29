@@ -120,7 +120,7 @@ export default function RegisterPage() {
             Click the link in the email to verify your account and access your dashboard. The link expires in 24 hours.
           </p>
 
-          <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-4 mb-8 text-left">
+          <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-4 mb-8 text-left">
             <p className="text-xs text-[#6B7280] uppercase tracking-widest font-semibold mb-2">Didn't receive it?</p>
             <ul className="text-xs text-[#71717A] space-y-1 list-disc list-inside">
               <li>Check your spam or junk folder</li>
@@ -131,7 +131,7 @@ export default function RegisterPage() {
 
           <Link
             href="/login"
-            className="block w-full py-3.5 tesla-btn-primary rounded text-sm font-bold tracking-widest uppercase text-center"
+            className="block w-full py-3.5 tesla-btn-primary rounded-xl text-sm font-bold tracking-widest uppercase text-center"
           >
             Go to Sign In
           </Link>
@@ -197,7 +197,7 @@ export default function RegisterPage() {
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
-            <div className="px-4 py-3 rounded bg-primary/10 border border-primary/30 text-sm text-primary">{error}</div>
+            <div className="px-4 py-3 rounded-xl bg-primary/10 border border-primary/30 text-sm text-primary">{error}</div>
           )}
 
           <div>
@@ -211,7 +211,7 @@ export default function RegisterPage() {
               value={form.name}
               onChange={handleChange}
               placeholder="John Smith"
-              className="w-full px-4 py-3 rounded text-sm input-tesla"
+              className="w-full px-4 py-3 rounded-xl text-sm input-tesla"
             />
           </div>
 
@@ -226,7 +226,7 @@ export default function RegisterPage() {
               value={form.email}
               onChange={handleChange}
               placeholder="you@example.com"
-              className="w-full px-4 py-3 rounded text-sm input-tesla"
+              className="w-full px-4 py-3 rounded-xl text-sm input-tesla"
             />
           </div>
 
@@ -241,7 +241,7 @@ export default function RegisterPage() {
               value={form.phone}
               onChange={handleChange}
               placeholder="+1 (555) 000-0000"
-              className="w-full px-4 py-3 rounded text-sm input-tesla"
+              className="w-full px-4 py-3 rounded-xl text-sm input-tesla"
             />
           </div>
 
@@ -256,7 +256,7 @@ export default function RegisterPage() {
               value={form.password}
               onChange={handleChange}
               placeholder="Min. 8 characters"
-              className="w-full px-4 py-3 rounded text-sm input-tesla"
+              className="w-full px-4 py-3 rounded-xl text-sm input-tesla"
             />
           </div>
 
@@ -271,7 +271,7 @@ export default function RegisterPage() {
               value={form.confirm}
               onChange={handleChange}
               placeholder="Repeat password"
-              className="w-full px-4 py-3 rounded text-sm input-tesla"
+              className="w-full px-4 py-3 rounded-xl text-sm input-tesla"
             />
           </div>
 
@@ -295,7 +295,7 @@ export default function RegisterPage() {
                 />
                 <div
                   onClick={() => setAcceptedTerms(!acceptedTerms)}
-                  className={`w-4 h-4 rounded border flex items-center justify-center transition-all duration-150 ${
+                  className={`w-4 h-4 rounded-xl border flex items-center justify-center transition-all duration-150 ${
                     acceptedTerms
                       ? 'bg-primary border-primary' :'bg-[#0D0E12] border-[#1E2027] group-hover:border-primary/50'
                   }`}
@@ -328,7 +328,7 @@ export default function RegisterPage() {
                 />
                 <div
                   onClick={() => setAcceptedPrivacy(!acceptedPrivacy)}
-                  className={`w-4 h-4 rounded border flex items-center justify-center transition-all duration-150 ${
+                  className={`w-4 h-4 rounded-xl border flex items-center justify-center transition-all duration-150 ${
                     acceptedPrivacy
                       ? 'bg-primary border-primary' :'bg-[#0D0E12] border-[#1E2027] group-hover:border-primary/50'
                   }`}
@@ -354,7 +354,7 @@ export default function RegisterPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3.5 tesla-btn-primary rounded min-h-[48px] flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+            className="w-full py-3.5 tesla-btn-primary rounded-xl min-h-[48px] flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {loading ? (
               <>

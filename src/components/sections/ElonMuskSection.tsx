@@ -120,7 +120,7 @@ export default function ElonMuskSection() {
         {/* Biography Block */}
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 mb-16 section-reveal">
           {/* Portrait */}
-          <div className="lg:col-span-2 relative rounded-2xl overflow-hidden min-h-[420px] group">
+          <div className="lg:col-span-2 relative rounded-3xl overflow-hidden min-h-[420px] group">
             <AppImage
               src="/assets/images/elon_musk_portrait.webp"
               alt="Elon Musk portrait in formal attire against dark background"
@@ -147,7 +147,7 @@ export default function ElonMuskSection() {
           {/* Bio text + timeline */}
           <div className="lg:col-span-3 flex flex-col gap-6">
             {/* Bio paragraphs */}
-            <div className="glass-card rounded-2xl p-8">
+            <div className="glass-card rounded-3xl p-8">
               <h3 className="text-lg font-extrabold text-foreground mb-4">Biography</h3>
               <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
                 <p>
@@ -163,7 +163,7 @@ export default function ElonMuskSection() {
             </div>
 
             {/* Timeline */}
-            <div className="glass-card rounded-2xl p-8">
+            <div className="glass-card rounded-3xl p-8">
               <h3 className="text-sm font-extrabold text-foreground mb-5 tracking-widest uppercase">Key Milestones</h3>
               <div className="relative">
                 {/* Vertical line */}
@@ -212,7 +212,7 @@ export default function ElonMuskSection() {
           </div>
 
           {/* Active company detail */}
-          <div className="glass-card rounded-2xl overflow-hidden">
+          <div className="glass-card rounded-3xl overflow-hidden">
             <div className="p-1" style={{ background: `linear-gradient(90deg, ${activeCompany?.color}22, transparent)` }}>
               <div className="glass-card rounded-xl p-8">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

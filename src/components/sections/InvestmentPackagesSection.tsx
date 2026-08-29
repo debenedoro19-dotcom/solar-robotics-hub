@@ -105,9 +105,9 @@ export default function InvestmentPackagesSection() {
               className="section-reveal"
               style={{ transitionDelay: `${idx * 100}ms` }}
             >
-              <div className={`relative bg-[#0D0E12] rounded-lg p-6 h-full flex flex-col border ${pkg.color} overflow-hidden`}>
+              <div className={`relative bg-[#0D0E12] rounded-xl p-6 h-full flex flex-col border ${pkg.color} overflow-hidden`}>
                 {pkg.badge && (
-                  <div className="absolute top-4 right-4 px-2.5 py-1 rounded bg-green-500/20 text-green-400 text-[9px] font-extrabold tracking-widest uppercase border border-green-500/30">
+                  <div className="absolute top-4 right-4 px-2.5 py-1 rounded-xl bg-green-500/20 text-green-400 text-[9px] font-extrabold tracking-widest uppercase border border-green-500/30">
                     {pkg.badge}
                   </div>
                 )}
@@ -139,7 +139,7 @@ export default function InvestmentPackagesSection() {
                 </ul>
                 <Link
                   href="/invest"
-                  className="w-full py-3 rounded text-xs font-bold tracking-widest uppercase text-center transition-all duration-300 hover:-translate-y-0.5 min-h-[44px] flex items-center justify-center border border-[#1E2027] text-white hover:border-primary/40 hover:bg-primary/5"
+                  className="w-full py-3 rounded-xl text-xs font-bold tracking-widest uppercase text-center transition-all duration-300 hover:-translate-y-0.5 min-h-[44px] flex items-center justify-center border border-[#1E2027] text-white hover:border-primary/40 hover:bg-primary/5"
                 >
                   Get Started →
                 </Link>
@@ -157,12 +157,12 @@ export default function InvestmentPackagesSection() {
               style={{ transitionDelay: `${(idx + 2) * 100}ms` }}
             >
               {pkg.featured && (
-                <div className="absolute -inset-px bg-gradient-to-b from-primary/30 via-primary/10 to-transparent rounded-lg blur-sm" aria-hidden="true" />
+                <div className="absolute -inset-px bg-gradient-to-b from-primary/30 via-primary/10 to-transparent rounded-xl blur-sm" aria-hidden="true" />
               )}
 
-              <div className={`relative bg-[#0D0E12] rounded-lg p-7 h-full flex flex-col border ${pkg.color} overflow-hidden`}>
+              <div className={`relative bg-[#0D0E12] rounded-xl p-7 h-full flex flex-col border ${pkg.color} overflow-hidden`}>
                 {pkg.featured && (
-                  <div className="absolute top-4 right-4 px-2.5 py-1 rounded bg-primary text-white text-[9px] font-extrabold tracking-widest uppercase">
+                  <div className="absolute top-4 right-4 px-2.5 py-1 rounded-xl bg-primary text-white text-[9px] font-extrabold tracking-widest uppercase">
                     Most Popular
                   </div>
                 )}
@@ -198,7 +198,7 @@ export default function InvestmentPackagesSection() {
 
                 <Link
                   href="/invest"
-                  className={`w-full py-3.5 rounded text-xs font-bold tracking-widest uppercase text-center transition-all duration-300 hover:-translate-y-0.5 min-h-[48px] flex items-center justify-center btn-shimmer ${
+                  className={`w-full py-3.5 rounded-xl text-xs font-bold tracking-widest uppercase text-center transition-all duration-300 hover:-translate-y-0.5 min-h-[48px] flex items-center justify-center btn-shimmer ${
                     pkg.featured
                       ? 'bg-primary text-white' :'border border-[#1E2027] text-white hover:border-primary/40 hover:bg-primary/5'
                   }`}

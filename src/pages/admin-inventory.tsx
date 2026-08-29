@@ -31,7 +31,7 @@ const EMPTY = {
 };
 
 const inputClass =
-  'w-full px-3 py-2.5 rounded-lg text-sm bg-[#050507] border border-[#12131A] text-white placeholder-[#52525B] focus:border-primary/40 focus:outline-none transition-colors';
+  'w-full px-3 py-2.5 rounded-xl text-sm bg-[#050507] border border-[#12131A] text-white placeholder-[#52525B] focus:border-primary/40 focus:outline-none transition-colors';
 const labelClass = 'block text-[10px] font-bold text-[#6B7280] uppercase tracking-widest mb-1.5';
 
 export default function AdminInventoryPage() {
@@ -204,7 +204,7 @@ export default function AdminInventoryPage() {
             <button
               key={c}
               onClick={() => setFilter(c)}
-              className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${
+              className={`px-4 py-2 rounded-xl text-sm font-semibold transition-colors ${
                 filter === c
                   ? 'bg-primary text-primary-foreground'
                   : 'bg-[#0D0E12] text-[#A1A1AA] border border-[#12131A] hover:text-white'
@@ -234,21 +234,21 @@ export default function AdminInventoryPage() {
                     aria-label={`Move ${item.name} up`}
                     disabled={idx === 0}
                     onClick={() => void move(item, -1)}
-                    className="w-7 h-6 rounded bg-[#12131A] text-[#A1A1AA] text-xs hover:text-white disabled:opacity-30">
+                    className="w-7 h-6 rounded-xl bg-[#12131A] text-[#A1A1AA] text-xs hover:text-white disabled:opacity-30">
                     ↑
                   </button>
                   <button
                     aria-label={`Move ${item.name} down`}
                     disabled={idx === visible.length - 1}
                     onClick={() => void move(item, 1)}
-                    className="w-7 h-6 rounded bg-[#12131A] text-[#A1A1AA] text-xs hover:text-white disabled:opacity-30">
+                    className="w-7 h-6 rounded-xl bg-[#12131A] text-[#A1A1AA] text-xs hover:text-white disabled:opacity-30">
                     ↓
                   </button>
                 </div>
                 <img
                   src={item.image_url}
                   alt=""
-                  className="w-20 h-14 object-cover rounded-lg bg-[#12131A] flex-shrink-0"
+                  className="w-20 h-14 object-cover rounded-xl bg-[#12131A] flex-shrink-0"
                   loading="lazy"
                 />
                 <div className="min-w-[180px] flex-1">
@@ -259,7 +259,7 @@ export default function AdminInventoryPage() {
                   aria-label={`Category for ${item.name}`}
                   value={item.category}
                   onChange={(e) => void recategorize(item, e.target.value)}
-                  className="px-2 py-1.5 rounded-lg text-xs bg-[#050507] border border-[#12131A] text-white">
+                  className="px-2 py-1.5 rounded-xl text-xs bg-[#050507] border border-[#12131A] text-white">
                   {CATEGORIES.map((c) => (
                     <option key={c} value={c}>
                       {c}
@@ -268,7 +268,7 @@ export default function AdminInventoryPage() {
                 </select>
                 <button
                   onClick={() => void toggleActive(item)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold border ${
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold border ${
                     item.is_active
                       ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
                       : 'bg-[#12131A] text-[#71717A] border-[#1E2027]'
@@ -277,12 +277,12 @@ export default function AdminInventoryPage() {
                 </button>
                 <button
                   onClick={() => openEdit(item)}
-                  className="px-3 py-1.5 rounded-lg text-xs font-bold bg-[#12131A] border border-[#12131A] text-white hover:border-primary/40">
+                  className="px-3 py-1.5 rounded-xl text-xs font-bold bg-[#12131A] border border-[#12131A] text-white hover:border-primary/40">
                   Edit
                 </button>
                 <button
                   onClick={() => void remove(item)}
-                  className="px-3 py-1.5 rounded-lg text-xs font-bold text-red-400 border border-red-500/30 hover:bg-red-500/10">
+                  className="px-3 py-1.5 rounded-xl text-xs font-bold text-red-400 border border-red-500/30 hover:bg-red-500/10">
                   Delete
                 </button>
               </div>
@@ -301,7 +301,7 @@ export default function AdminInventoryPage() {
           aria-modal="true">
           <form
             onSubmit={save}
-            className="w-full max-w-lg rounded-2xl border border-[#12131A] bg-[#0D0E12] p-6 space-y-4">
+            className="w-full max-w-lg rounded-3xl border border-[#12131A] bg-[#0D0E12] p-6 space-y-4">
             <h2 className="text-lg font-extrabold tracking-tight">
               {editing ? 'Edit item' : 'New inventory item'}
             </h2>
@@ -353,12 +353,12 @@ export default function AdminInventoryPage() {
                     const f = e.target.files?.[0];
                     if (f) void uploadImage(f);
                   }}
-                  className="text-xs text-[#A1A1AA] file:mr-3 file:px-3 file:py-1.5 file:rounded-lg file:border-0 file:bg-[#12131A] file:text-white file:text-xs"
+                  className="text-xs text-[#A1A1AA] file:mr-3 file:px-3 file:py-1.5 file:rounded-xl file:border-0 file:bg-[#12131A] file:text-white file:text-xs"
                 />
                 {uploading && <span className="text-xs text-[#A1A1AA]">Uploading…</span>}
               </div>
               {form.image_url && (
-                <img src={form.image_url} alt="" className="mt-3 w-full h-40 object-cover rounded-lg bg-[#12131A]" />
+                <img src={form.image_url} alt="" className="mt-3 w-full h-40 object-cover rounded-xl bg-[#12131A]" />
               )}
             </div>
 
@@ -375,10 +375,10 @@ export default function AdminInventoryPage() {
             {error && <p className="text-sm text-red-400">{error}</p>}
 
             <div className="flex gap-3 pt-2">
-              <button type="submit" disabled={saving} className="flex-1 py-3 rounded-lg text-sm font-bold bg-primary text-primary-foreground disabled:opacity-60">
+              <button type="submit" disabled={saving} className="flex-1 py-3 rounded-xl text-sm font-bold bg-primary text-primary-foreground disabled:opacity-60">
                 {saving ? 'Saving…' : editing ? 'Save changes' : 'Create item'}
               </button>
-              <button type="button" onClick={close} className="px-5 py-3 rounded-lg text-sm font-bold border border-[#12131A] text-[#D4D4D8] hover:text-white">
+              <button type="button" onClick={close} className="px-5 py-3 rounded-xl text-sm font-bold border border-[#12131A] text-[#D4D4D8] hover:text-white">
                 Cancel
               </button>
             </div>

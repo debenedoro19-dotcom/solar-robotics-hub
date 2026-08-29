@@ -88,7 +88,7 @@ export default function ForgotPasswordPage() {
 
             <Link
               href="/reset-password"
-              className="w-full py-3.5 tesla-btn-primary rounded min-h-[48px] flex items-center justify-center text-sm font-bold tracking-widest uppercase"
+              className="w-full py-3.5 tesla-btn-primary rounded-xl min-h-[48px] flex items-center justify-center text-sm font-bold tracking-widest uppercase"
             >
               Enter Reset Code →
             </Link>
@@ -103,7 +103,7 @@ export default function ForgotPasswordPage() {
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
-              <div className="px-4 py-3 rounded bg-primary/10 border border-primary/30 text-sm text-primary">{error}</div>
+              <div className="px-4 py-3 rounded-xl bg-primary/10 border border-primary/30 text-sm text-primary">{error}</div>
             )}
 
             <div>
@@ -116,7 +116,7 @@ export default function ForgotPasswordPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
-                className="w-full px-4 py-3 rounded text-sm input-tesla"
+                className="w-full px-4 py-3 rounded-xl text-sm input-tesla"
                 autoComplete="email"
               />
             </div>
@@ -124,7 +124,7 @@ export default function ForgotPasswordPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 tesla-btn-primary rounded min-h-[48px] flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+              className="w-full py-3.5 tesla-btn-primary rounded-xl min-h-[48px] flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {loading ? (
                 <>

@@ -318,7 +318,7 @@ export default function ReferralPage() {
           </div>
 
           {/* Earnings notice */}
-          <div className="mb-8 flex items-start gap-3 px-4 py-3 bg-amber-500/5 border border-amber-500/20 rounded-lg">
+          <div className="mb-8 flex items-start gap-3 px-4 py-3 bg-amber-500/5 border border-amber-500/20 rounded-xl">
             <svg className="w-4 h-4 text-amber-400 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20A10 10 0 0012 2z" />
             </svg>
@@ -331,9 +331,9 @@ export default function ReferralPage() {
           {loading ? (
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
               {[...Array(4)].map((_, i) => (
-                <div key={i} className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-5 text-center animate-pulse">
-                  <div className="h-7 w-16 bg-[#12131A] rounded mx-auto mb-2" />
-                  <div className="h-3 w-20 bg-[#12131A] rounded mx-auto" />
+                <div key={i} className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-5 text-center animate-pulse">
+                  <div className="h-7 w-16 bg-[#12131A] rounded-xl mx-auto mb-2" />
+                  <div className="h-3 w-20 bg-[#12131A] rounded-xl mx-auto" />
                 </div>
               ))}
             </div>
@@ -345,7 +345,7 @@ export default function ReferralPage() {
                 { label: 'Invested Referrals', value: String(investedCount) },
                 { label: 'Total Earnings', value: earnings },
               ].map((stat) => (
-                <div key={stat.label} className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-5 text-center">
+                <div key={stat.label} className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-5 text-center">
                   <div className="text-2xl font-extrabold text-white mb-1">{stat.value}</div>
                   <div className="text-[10px] text-[#6B7280] uppercase tracking-widest">{stat.label}</div>
                 </div>
@@ -354,15 +354,15 @@ export default function ReferralPage() {
           )}
 
           {/* Referral link */}
-          <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-6 mb-6">
+          <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-6 mb-6">
             <h2 className="text-xs font-bold text-white uppercase tracking-widest mb-4">Your Referral Link</h2>
             <div className="flex gap-3 mb-4">
-              <div className="flex-1 px-4 py-3 bg-[#050507] border border-[#1E2027] rounded text-sm text-[#A1A1AA] font-mono truncate select-all">
+              <div className="flex-1 px-4 py-3 bg-[#050507] border border-[#1E2027] rounded-xl text-sm text-[#A1A1AA] font-mono truncate select-all">
                 {referralLink}
               </div>
               <button
                 onClick={handleCopy}
-                className={`px-5 py-3 rounded text-xs font-bold tracking-widest uppercase transition-all min-w-[90px] ${
+                className={`px-5 py-3 rounded-xl text-xs font-bold tracking-widest uppercase transition-all min-w-[90px] ${
                   copied ? 'bg-green-500 text-white' : 'tesla-btn-primary'
                 }`}
               >
@@ -371,7 +371,7 @@ export default function ReferralPage() {
             </div>
             <div className="flex items-center gap-3">
               <span className="text-xs text-[#6B7280]">Your code:</span>
-              <span className="px-3 py-1 bg-primary/10 border border-primary/20 rounded text-xs font-bold text-primary tracking-widest">
+              <span className="px-3 py-1 bg-primary/10 border border-primary/20 rounded-xl text-xs font-bold text-primary tracking-widest">
                 {referralCode}
               </span>
             </div>
@@ -380,7 +380,7 @@ export default function ReferralPage() {
           {/* Tier system + Estimated payout side by side */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
             {/* Tiers — spans 2 cols */}
-            <div className="lg:col-span-2 bg-[#0D0E12] border border-[#12131A] rounded-lg p-6">
+            <div className="lg:col-span-2 bg-[#0D0E12] border border-[#12131A] rounded-xl p-6">
               <h2 className="text-xs font-bold text-white uppercase tracking-widest mb-5">Earnings Per Tier</h2>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {TIERS.map((tier) => {
@@ -388,7 +388,7 @@ export default function ReferralPage() {
                   return (
                     <div
                       key={tier.name}
-                      className="p-4 rounded-lg border text-center transition-all"
+                      className="p-4 rounded-xl border text-center transition-all"
                       style={{
                         background: isCurrent ? tier.bg : '#050507',
                         borderColor: isCurrent ? tier.border : '#12131A',
@@ -399,7 +399,7 @@ export default function ReferralPage() {
                       <div className="text-[10px] text-[#6B7280] mb-2 uppercase tracking-wider">{tier.label}</div>
                       <div className="text-xs text-[#A1A1AA] leading-tight">{tier.reward}</div>
                       {isCurrent && (
-                        <div className="mt-2 px-2 py-0.5 bg-primary text-white text-[9px] font-bold rounded tracking-wider uppercase">
+                        <div className="mt-2 px-2 py-0.5 bg-primary text-white text-[9px] font-bold rounded-xl tracking-wider uppercase">
                           Current
                         </div>
                       )}
@@ -410,7 +410,7 @@ export default function ReferralPage() {
             </div>
 
             {/* Estimated payout */}
-            <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-6 flex flex-col justify-between">
+            <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-6 flex flex-col justify-between">
               <div>
                 <h2 className="text-xs font-bold text-white uppercase tracking-widest mb-2">Estimated Payout</h2>
                 <p className="text-[#6B7280] text-xs mb-6 leading-relaxed">
@@ -419,7 +419,7 @@ export default function ReferralPage() {
               </div>
               <div>
                 {loading ? (
-                  <div className="h-12 w-32 bg-[#12131A] rounded animate-pulse mb-3" />
+                  <div className="h-12 w-32 bg-[#12131A] rounded-xl animate-pulse mb-3" />
                 ) : (
                   <div className="text-5xl font-extrabold text-white mb-1 tracking-tight">{estimatedPayout}</div>
                 )}
@@ -441,7 +441,7 @@ export default function ReferralPage() {
           </div>
 
           {/* ── WITHDRAWAL SECTION ── */}
-          <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg mb-6 overflow-hidden">
+          <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl mb-6 overflow-hidden">
             <div className="p-5 border-b border-[#12131A] flex items-center justify-between">
               <div>
                 <h2 className="text-xs font-bold text-white uppercase tracking-widest">Withdrawal Requests</h2>
@@ -449,7 +449,7 @@ export default function ReferralPage() {
               </div>
               <button
                 onClick={() => { setShowWithdrawForm((v) => !v); setWithdrawError(''); }}
-                className="tesla-btn-primary px-4 py-2 text-xs font-bold tracking-widest uppercase rounded"
+                className="tesla-btn-primary px-4 py-2 text-xs font-bold tracking-widest uppercase rounded-xl"
               >
                 {showWithdrawForm ? 'Cancel' : '+ Request Payout'}
               </button>
@@ -457,7 +457,7 @@ export default function ReferralPage() {
 
             {/* Success banner */}
             {withdrawSuccess && (
-              <div className="mx-5 mt-4 flex items-center gap-2 px-4 py-3 bg-green-500/10 border border-green-500/25 rounded text-xs text-green-400 font-semibold">
+              <div className="mx-5 mt-4 flex items-center gap-2 px-4 py-3 bg-green-500/10 border border-green-500/25 rounded-xl text-xs text-green-400 font-semibold">
                 <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
@@ -480,7 +480,7 @@ export default function ReferralPage() {
                       min="1"
                       step="0.01"
                       required
-                      className="w-full px-3 py-2.5 bg-[#050507] border border-[#1E2027] rounded text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-primary/50 transition-colors"
+                      className="w-full px-3 py-2.5 bg-[#050507] border border-[#1E2027] rounded-xl text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-primary/50 transition-colors"
                     />
                   </div>
                   <div>
@@ -492,7 +492,7 @@ export default function ReferralPage() {
                       onChange={handleWithdrawChange}
                       placeholder="e.g. Chase Bank"
                       required
-                      className="w-full px-3 py-2.5 bg-[#050507] border border-[#1E2027] rounded text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-primary/50 transition-colors"
+                      className="w-full px-3 py-2.5 bg-[#050507] border border-[#1E2027] rounded-xl text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-primary/50 transition-colors"
                     />
                   </div>
                   <div>
@@ -504,7 +504,7 @@ export default function ReferralPage() {
                       onChange={handleWithdrawChange}
                       placeholder="Full name on account"
                       required
-                      className="w-full px-3 py-2.5 bg-[#050507] border border-[#1E2027] rounded text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-primary/50 transition-colors"
+                      className="w-full px-3 py-2.5 bg-[#050507] border border-[#1E2027] rounded-xl text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-primary/50 transition-colors"
                     />
                   </div>
                   <div>
@@ -516,7 +516,7 @@ export default function ReferralPage() {
                       onChange={handleWithdrawChange}
                       placeholder="••••••••••"
                       required
-                      className="w-full px-3 py-2.5 bg-[#050507] border border-[#1E2027] rounded text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-primary/50 transition-colors"
+                      className="w-full px-3 py-2.5 bg-[#050507] border border-[#1E2027] rounded-xl text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-primary/50 transition-colors"
                     />
                   </div>
                   <div className="sm:col-span-2">
@@ -527,20 +527,20 @@ export default function ReferralPage() {
                       value={withdrawForm.routing_number}
                       onChange={handleWithdrawChange}
                       placeholder="9-digit routing number (optional)"
-                      className="w-full px-3 py-2.5 bg-[#050507] border border-[#1E2027] rounded text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-primary/50 transition-colors"
+                      className="w-full px-3 py-2.5 bg-[#050507] border border-[#1E2027] rounded-xl text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-primary/50 transition-colors"
                     />
                   </div>
                 </div>
 
                 {withdrawError && (
-                  <p className="text-xs text-red-400 bg-red-500/10 border border-red-500/20 px-3 py-2 rounded">{withdrawError}</p>
+                  <p className="text-xs text-red-400 bg-red-500/10 border border-red-500/20 px-3 py-2 rounded-xl">{withdrawError}</p>
                 )}
 
                 <div className="flex items-center gap-3 pt-1">
                   <button
                     type="submit"
                     disabled={withdrawSubmitting}
-                    className="tesla-btn-primary px-6 py-2.5 text-xs font-bold tracking-widest uppercase rounded disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="tesla-btn-primary px-6 py-2.5 text-xs font-bold tracking-widest uppercase rounded-xl disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {withdrawSubmitting ? 'Submitting…' : 'Submit Request'}
                   </button>
@@ -554,7 +554,7 @@ export default function ReferralPage() {
               <div className="divide-y divide-[#12131A]">
                 {[...Array(2)].map((_, i) => (
                   <div key={i} className="flex items-center justify-between px-5 py-4 animate-pulse">
-                    <div className="h-3 w-32 bg-[#12131A] rounded" />
+                    <div className="h-3 w-32 bg-[#12131A] rounded-xl" />
                     <div className="h-5 w-20 bg-[#12131A] rounded-full" />
                   </div>
                 ))}
@@ -610,7 +610,7 @@ export default function ReferralPage() {
           </div>
 
           {/* Referral history */}
-          <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg overflow-hidden">
+          <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl overflow-hidden">
             <div className="p-5 border-b border-[#12131A] flex items-center justify-between">
               <h2 className="text-xs font-bold text-white uppercase tracking-widest">Active Referrals</h2>
               {history.length > 0 && (
@@ -625,13 +625,13 @@ export default function ReferralPage() {
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-full bg-[#12131A]" />
                       <div>
-                        <div className="h-3 w-28 bg-[#12131A] rounded mb-1.5" />
-                        <div className="h-2.5 w-20 bg-[#12131A] rounded" />
+                        <div className="h-3 w-28 bg-[#12131A] rounded-xl mb-1.5" />
+                        <div className="h-2.5 w-20 bg-[#12131A] rounded-xl" />
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="h-3 w-16 bg-[#12131A] rounded mb-1.5 ml-auto" />
-                      <div className="h-2.5 w-12 bg-[#12131A] rounded ml-auto" />
+                      <div className="h-3 w-16 bg-[#12131A] rounded-xl mb-1.5 ml-auto" />
+                      <div className="h-2.5 w-12 bg-[#12131A] rounded-xl ml-auto" />
                     </div>
                   </div>
                 ))}
@@ -648,9 +648,9 @@ export default function ReferralPage() {
                         <div className="flex items-center gap-2">
                           <span className="text-sm font-semibold text-white">{ref.name}</span>
                           {ref.invested ? (
-                            <span className="px-1.5 py-0.5 bg-green-500/10 border border-green-500/20 rounded text-[9px] font-bold text-green-400 uppercase tracking-wider">Invested</span>
+                            <span className="px-1.5 py-0.5 bg-green-500/10 border border-green-500/20 rounded-xl text-[9px] font-bold text-green-400 uppercase tracking-wider">Invested</span>
                           ) : (
-                            <span className="px-1.5 py-0.5 bg-[#12131A] border border-[#1E2027] rounded text-[9px] font-bold text-[#6B7280] uppercase tracking-wider">Signed Up</span>
+                            <span className="px-1.5 py-0.5 bg-[#12131A] border border-[#1E2027] rounded-xl text-[9px] font-bold text-[#6B7280] uppercase tracking-wider">Signed Up</span>
                           )}
                         </div>
                         <div className="text-xs text-[#52525B]">{ref.date}</div>

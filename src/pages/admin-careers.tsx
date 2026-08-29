@@ -39,7 +39,7 @@ interface Application {
 }
 
 const EMPTY_JOB = { title: '', department: 'Engineering', location: 'Remote', job_type: 'Full-time', description: '', requirements: '' };
-const inputClass = 'w-full px-3 py-2.5 rounded-lg text-sm bg-[#050507] border border-[#12131A] text-white placeholder-[#52525B] focus:border-primary/40 focus:outline-none transition-colors';
+const inputClass = 'w-full px-3 py-2.5 rounded-xl text-sm bg-[#050507] border border-[#12131A] text-white placeholder-[#52525B] focus:border-primary/40 focus:outline-none transition-colors';
 const labelClass = 'block text-[10px] font-bold text-[#6B7280] uppercase tracking-widest mb-1.5';
 
 export default function AdminCareersPage() {
@@ -138,7 +138,7 @@ export default function AdminCareersPage() {
               <button
                 key={t}
                 onClick={() => setTab(t)}
-                className={`px-4 py-2 text-[10px] font-bold rounded-lg tracking-widest uppercase transition-all ${
+                className={`px-4 py-2 text-[10px] font-bold rounded-xl tracking-widest uppercase transition-all ${
                   tab === t ? 'bg-primary/20 border border-primary/40 text-primary' : 'bg-[#0D0E12] border border-[#12131A] text-[#71717A] hover:text-white'
                 }`}
               >
@@ -156,7 +156,7 @@ export default function AdminCareersPage() {
           <>
             <div className="flex items-center gap-3 mb-6">
               <label className={labelClass + ' mb-0'}>Role</label>
-              <select value={jobFilter} onChange={(e) => setJobFilter(e.target.value)} className="px-3 py-2 rounded-lg text-xs bg-[#0D0E12] border border-[#1E2027] text-white focus:outline-none">
+              <select value={jobFilter} onChange={(e) => setJobFilter(e.target.value)} className="px-3 py-2 rounded-xl text-xs bg-[#0D0E12] border border-[#1E2027] text-white focus:outline-none">
                 <option value="all">All roles ({apps.length})</option>
                 {jobs.map((j) => (
                   <option key={j.id} value={j.id}>{j.title} ({apps.filter((a) => a.job_id === j.id).length})</option>
@@ -171,7 +171,7 @@ export default function AdminCareersPage() {
                   </div>
                   <div className="space-y-2">
                     {byStage[stage].map((app) => (
-                      <div key={app.id} className="rounded-lg bg-[#0D0E12] border border-[#12131A] p-3">
+                      <div key={app.id} className="rounded-xl bg-[#0D0E12] border border-[#12131A] p-3">
                         <button
                           className="w-full text-left"
                           onClick={() => {
@@ -195,7 +195,7 @@ export default function AdminCareersPage() {
                             <select
                               value={app.stage}
                               onChange={(e) => setStage(app, e.target.value as Stage)}
-                              className="w-full px-2 py-1.5 rounded text-[10px] bg-[#050507] border border-[#1E2027] text-white focus:outline-none"
+                              className="w-full px-2 py-1.5 rounded-xl text-[10px] bg-[#050507] border border-[#1E2027] text-white focus:outline-none"
                             >
                               {STAGES.map((s) => <option key={s} value={s}>{s}</option>)}
                             </select>
@@ -204,9 +204,9 @@ export default function AdminCareersPage() {
                               value={notesDraft}
                               onChange={(e) => setNotesDraft(e.target.value)}
                               placeholder="Internal notes…"
-                              className="w-full px-2 py-1.5 rounded text-[10px] bg-[#050507] border border-[#1E2027] text-white placeholder-[#52525B] focus:outline-none"
+                              className="w-full px-2 py-1.5 rounded-xl text-[10px] bg-[#050507] border border-[#1E2027] text-white placeholder-[#52525B] focus:outline-none"
                             />
-                            <button onClick={() => saveNotes(app)} className="w-full py-1.5 rounded tesla-btn-primary text-[10px] font-bold">
+                            <button onClick={() => saveNotes(app)} className="w-full py-1.5 rounded-xl tesla-btn-primary text-[10px] font-bold">
                               Save notes
                             </button>
                           </div>
@@ -234,11 +234,11 @@ export default function AdminCareersPage() {
                     </span>
                     <button
                       onClick={() => { setEditingJob(job); setJobForm({ title: job.title, department: job.department, location: job.location, job_type: job.job_type, description: job.description, requirements: job.requirements }); }}
-                      className="px-3 py-1.5 rounded-lg border border-[#1E2027] text-[10px] font-semibold text-[#A1A1AA] hover:text-white"
+                      className="px-3 py-1.5 rounded-xl border border-[#1E2027] text-[10px] font-semibold text-[#A1A1AA] hover:text-white"
                     >
                       Edit
                     </button>
-                    <button onClick={() => toggleJobStatus(job)} className="px-3 py-1.5 rounded-lg border border-[#1E2027] text-[10px] font-semibold text-[#A1A1AA] hover:text-white">
+                    <button onClick={() => toggleJobStatus(job)} className="px-3 py-1.5 rounded-xl border border-[#1E2027] text-[10px] font-semibold text-[#A1A1AA] hover:text-white">
                       {job.status === 'open' ? 'Close' : 'Reopen'}
                     </button>
                   </div>
@@ -276,11 +276,11 @@ export default function AdminCareersPage() {
                 <textarea rows={3} value={jobForm.requirements} onChange={(e) => setJobForm({ ...jobForm, requirements: e.target.value })} className={inputClass} />
               </div>
               <div className="flex gap-2">
-                <button type="submit" disabled={savingJob} className="flex-1 py-2.5 rounded-lg tesla-btn-primary text-xs font-bold disabled:opacity-60">
+                <button type="submit" disabled={savingJob} className="flex-1 py-2.5 rounded-xl tesla-btn-primary text-xs font-bold disabled:opacity-60">
                   {savingJob ? 'Saving…' : editingJob ? 'Save changes' : 'Publish posting'}
                 </button>
                 {editingJob && (
-                  <button type="button" onClick={() => { setEditingJob(null); setJobForm(EMPTY_JOB); }} className="px-4 py-2.5 rounded-lg border border-[#1E2027] text-xs font-semibold text-[#A1A1AA]">
+                  <button type="button" onClick={() => { setEditingJob(null); setJobForm(EMPTY_JOB); }} className="px-4 py-2.5 rounded-xl border border-[#1E2027] text-xs font-semibold text-[#A1A1AA]">
                     Cancel
                   </button>
                 )}

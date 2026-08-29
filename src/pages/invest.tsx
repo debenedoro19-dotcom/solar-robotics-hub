@@ -169,7 +169,7 @@ export default function InvestPage() {
 
           {/* KYC status banner (shown when a KYC-required package is selected and KYC not approved) */}
           {kycBlocked && kycStatus !== 'loading' && kycBannerConfig[kycStatus] && (
-            <div className={`mb-8 p-5 rounded-lg border flex flex-col sm:flex-row sm:items-center gap-4 ${kycBannerConfig[kycStatus]!.color}`}>
+            <div className={`mb-8 p-5 rounded-xl border flex flex-col sm:flex-row sm:items-center gap-4 ${kycBannerConfig[kycStatus]!.color}`}>
               <span className="text-2xl shrink-0">{kycBannerConfig[kycStatus]!.icon}</span>
               <div className="flex-1">
                 <p className={`text-sm font-bold mb-1 ${kycBannerConfig[kycStatus]!.titleColor}`}>
@@ -179,7 +179,7 @@ export default function InvestPage() {
               </div>
               <Link
                 href={kycBannerConfig[kycStatus]!.href}
-                className="shrink-0 px-4 py-2 tesla-btn-primary rounded text-xs font-bold tracking-widest uppercase"
+                className="shrink-0 px-4 py-2 tesla-btn-primary rounded-xl text-xs font-bold tracking-widest uppercase"
               >
                 {kycBannerConfig[kycStatus]!.cta}
               </Link>
@@ -188,7 +188,7 @@ export default function InvestPage() {
 
           {/* KYC approved badge */}
           {kycStatus === 'approved' && (
-            <div className="mb-8 p-4 rounded-lg border border-green-400/20 bg-green-400/5 flex items-center gap-3">
+            <div className="mb-8 p-4 rounded-xl border border-green-400/20 bg-green-400/5 flex items-center gap-3">
               <span className="text-lg">✅</span>
               <p className="text-xs font-semibold text-green-400">KYC Verified — All investment tiers unlocked</p>
             </div>
@@ -224,7 +224,7 @@ export default function InvestPage() {
                     <button
                       key={pkg.id}
                       onClick={() => !pkgLocked && setSelected(pkg.id)}
-                      className={`relative text-left bg-[#0D0E12] rounded-lg p-6 border transition-all duration-300 ${
+                      className={`relative text-left bg-[#0D0E12] rounded-xl p-6 border transition-all duration-300 ${
                         pkgLocked
                           ? 'opacity-60 cursor-not-allowed border-[#12131A]'
                           : selected === pkg.id
@@ -233,17 +233,17 @@ export default function InvestPage() {
                       }`}
                     >
                       {pkg.featured && (
-                        <div className="absolute top-3 right-3 px-2 py-0.5 bg-primary text-white text-[9px] font-bold rounded tracking-widest uppercase">
+                        <div className="absolute top-3 right-3 px-2 py-0.5 bg-primary text-white text-[9px] font-bold rounded-xl tracking-widest uppercase">
                           Popular
                         </div>
                       )}
                       {pkg.badge && !pkgLocked && (
-                        <div className="absolute top-3 right-3 px-2 py-0.5 bg-[#12131A] text-[#A1A1AA] text-[9px] font-bold rounded tracking-widest uppercase">
+                        <div className="absolute top-3 right-3 px-2 py-0.5 bg-[#12131A] text-[#A1A1AA] text-[9px] font-bold rounded-xl tracking-widest uppercase">
                           {pkg.badge}
                         </div>
                       )}
                       {pkgLocked && (
-                        <div className="absolute top-3 right-3 flex items-center gap-1 px-2 py-0.5 bg-[#12131A] border border-[#1E2027] rounded">
+                        <div className="absolute top-3 right-3 flex items-center gap-1 px-2 py-0.5 bg-[#12131A] border border-[#1E2027] rounded-xl">
                           <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="2" aria-hidden="true">
                             <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
                             <path d="M7 11V7a5 5 0 0 1 10 0v4" />
@@ -292,7 +292,7 @@ export default function InvestPage() {
                         </div>
                       ) : (
                         <div
-                          className={`mt-2 pt-3 border-t border-[#12131A] flex items-center justify-center py-2 rounded text-[10px] font-bold tracking-widest uppercase transition-all ${
+                          className={`mt-2 pt-3 border-t border-[#12131A] flex items-center justify-center py-2 rounded-xl text-[10px] font-bold tracking-widest uppercase transition-all ${
                             selected === pkg.id
                               ? 'bg-primary text-white' :'bg-[#12131A] text-[#A1A1AA] group-hover:bg-primary/10 group-hover:text-primary'
                           }`}
@@ -314,7 +314,7 @@ export default function InvestPage() {
               <button
                 onClick={() => selected !== null && !kycBlocked && setStep('amount')}
                 disabled={selected === null || kycBlocked === true}
-                className="w-full sm:w-auto px-10 py-3.5 tesla-btn-primary rounded min-h-[48px] disabled:opacity-40 disabled:cursor-not-allowed"
+                className="w-full sm:w-auto px-10 py-3.5 tesla-btn-primary rounded-xl min-h-[48px] disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 {kycBlocked ? '🔒 KYC Required to Continue' : `Continue with ${selectedPkg?.name || 'Selected Package'} →`}
               </button>
@@ -324,7 +324,7 @@ export default function InvestPage() {
           {/* Step 2: Amount */}
           {step === 'amount' && selectedPkg && (
             <div className="max-w-md">
-              <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-6 mb-6">
+              <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-6 mb-6">
                 <div className="flex items-center justify-between mb-4 pb-4 border-b border-[#12131A]">
                   <span className="text-sm font-bold text-white">{selectedPkg.name}</span>
                   <button onClick={() => setStep('select')} className="text-xs text-[#6B7280] hover:text-primary transition-colors">Change</button>
@@ -341,7 +341,7 @@ export default function InvestPage() {
                       onChange={(e) => setAmount(e.target.value)}
                       placeholder={selectedPkg.min.toString()}
                       min={selectedPkg.min}
-                      className="w-full pl-8 pr-4 py-3 rounded text-sm input-tesla"
+                      className="w-full pl-8 pr-4 py-3 rounded-xl text-sm input-tesla"
                     />
                   </div>
                   <p className="text-xs text-[#6B7280] mt-2">
@@ -349,7 +349,7 @@ export default function InvestPage() {
                   </p>
                 </div>
                 {amount && Number(amount) >= selectedPkg.min && (
-                  <div className="mt-4 p-4 bg-[#050507] rounded border border-[#1E2027]">
+                  <div className="mt-4 p-4 bg-[#050507] rounded-xl border border-[#1E2027]">
                     <div className="text-xs text-[#6B7280] uppercase tracking-widest mb-2">Projected Returns</div>
                     <div className="text-lg font-extrabold text-green-400">
                       +${Math.round(Number(amount) * 0.12).toLocaleString()} – ${Math.round(Number(amount) * 0.18).toLocaleString()}
@@ -359,11 +359,11 @@ export default function InvestPage() {
                 )}
               </div>
               <div className="flex gap-3">
-                <button onClick={() => setStep('select')} className="flex-1 py-3.5 tesla-btn-outline rounded min-h-[48px]">← Back</button>
+                <button onClick={() => setStep('select')} className="flex-1 py-3.5 tesla-btn-outline rounded-xl min-h-[48px]">← Back</button>
                 <button
                   onClick={() => amount && Number(amount) >= selectedPkg.min && setStep('payment')}
                   disabled={!amount || Number(amount) < selectedPkg.min}
-                  className="flex-1 py-3.5 tesla-btn-primary rounded min-h-[48px] disabled:opacity-40 disabled:cursor-not-allowed"
+                  className="flex-1 py-3.5 tesla-btn-primary rounded-xl min-h-[48px] disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   Continue →
                 </button>
@@ -383,7 +383,7 @@ export default function InvestPage() {
                   <button
                     key={method.id}
                     onClick={() => setPaymentMethod(method.id)}
-                    className={`w-full flex items-center gap-4 p-4 rounded-lg border text-left transition-all ${
+                    className={`w-full flex items-center gap-4 p-4 rounded-xl border text-left transition-all ${
                       paymentMethod === method.id
                         ? 'border-primary bg-primary/5' :'border-[#12131A] bg-[#0D0E12] hover:border-[#1E2027]'
                     }`}
@@ -402,7 +402,7 @@ export default function InvestPage() {
                 ))}
               </div>
               <div className="flex gap-3">
-                <button onClick={() => setStep('amount')} className="flex-1 py-3.5 tesla-btn-outline rounded min-h-[48px]">← Back</button>
+                <button onClick={() => setStep('amount')} className="flex-1 py-3.5 tesla-btn-outline rounded-xl min-h-[48px]">← Back</button>
                 <button
                   onClick={() => {
                     if (!paymentMethod) return;
@@ -413,7 +413,7 @@ export default function InvestPage() {
                     }
                   }}
                   disabled={!paymentMethod}
-                  className="flex-1 py-3.5 tesla-btn-primary rounded min-h-[48px] disabled:opacity-40 disabled:cursor-not-allowed"
+                  className="flex-1 py-3.5 tesla-btn-primary rounded-xl min-h-[48px] disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   {paymentMethod === 'crypto' ? 'Pay with Crypto →' : 'Review Order →'}
                 </button>
@@ -424,7 +424,7 @@ export default function InvestPage() {
           {/* Step 4: Confirm */}
           {step === 'confirm' && selectedPkg && (
             <div className="max-w-md">
-              <div className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-6 mb-6 space-y-3">
+              <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-6 mb-6 space-y-3">
                 <h3 className="text-sm font-bold text-white uppercase tracking-widest mb-4">Order Summary</h3>
                 {[
                   { label: 'Package', value: selectedPkg.name },
@@ -439,15 +439,15 @@ export default function InvestPage() {
                   </div>
                 ))}
               </div>
-              <div className="bg-primary/5 border border-primary/20 rounded-lg p-4 mb-6">
+              <div className="bg-primary/5 border border-primary/20 rounded-xl p-4 mb-6">
                 <p className="text-xs text-[#A1A1AA] leading-relaxed">
                   By confirming, you acknowledge this is an investment with associated risks. Returns are not guaranteed. Please review our{' '}
                   <a href="#" className="text-primary hover:underline">Investment Terms</a>.
                 </p>
               </div>
               <div className="flex gap-3">
-                <button onClick={() => setStep('payment')} className="flex-1 py-3.5 tesla-btn-outline rounded min-h-[48px]">← Back</button>
-                <Link href="/dashboard" className="flex-1 py-3.5 tesla-btn-primary rounded min-h-[48px] flex items-center justify-center text-xs font-bold tracking-widest uppercase">
+                <button onClick={() => setStep('payment')} className="flex-1 py-3.5 tesla-btn-outline rounded-xl min-h-[48px]">← Back</button>
+                <Link href="/dashboard" className="flex-1 py-3.5 tesla-btn-primary rounded-xl min-h-[48px] flex items-center justify-center text-xs font-bold tracking-widest uppercase">
                   Confirm Investment ✓
                 </Link>
               </div>
