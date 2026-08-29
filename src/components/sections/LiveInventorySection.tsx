@@ -299,6 +299,7 @@ const badgeClasses: Record<string, string> = {
 export default function LiveInventorySection() {
   const [active, setActive] = useState<Category>('All');
   const [visible, setVisible] = useState(PAGE_SIZE);
+  const [inquiry, setInquiry] = useState<InventoryItem | null>(null);
 
   // "All" interleaves the categories so Energy, Solar and Robotics are visible
   // on the first screen instead of being buried behind 15 vehicles.
@@ -396,7 +397,9 @@ export default function LiveInventorySection() {
               <h3 className="text-sm font-bold text-foreground mb-1 leading-tight">{item.name}</h3>
               <div className="flex items-center justify-between mt-3">
                 <span className="text-primary font-extrabold text-base">{item.price}</span>
-                <button className="px-3 py-1.5 text-xs font-bold text-primary-foreground bg-primary rounded-lg btn-shimmer hover:opacity-90 transition-all min-h-[36px]">
+                <button
+                  onClick={() => setInquiry(item)}
+                  className="px-3 py-1.5 text-xs font-bold text-primary-foreground bg-primary rounded-lg btn-shimmer hover:opacity-90 transition-all min-h-[36px]">
                   Inquire
                 </button>
               </div>
