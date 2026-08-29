@@ -40,14 +40,12 @@ export default function SmartLink({
 
   const [path, hash] = href.split("#");
 
-  return (
-    <Link
-      to={(path || "/") as never}
-      {...(hash ? { hash } : {})}
-      {...(replace ? { replace: true } : {})}
-      {...rest}
-    >
-      {children}
-    </Link>
-  );
+  const linkProps = {
+    to: (path || "/") as never,
+    ...(hash ? { hash } : {}),
+    ...(replace ? { replace: true } : {}),
+    ...rest,
+  } as Record<string, unknown>;
+
+  return <Link {...(linkProps as never)}>{children}</Link>;
 }
