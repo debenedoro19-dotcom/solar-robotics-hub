@@ -112,14 +112,14 @@ export default function Header() {
             {isLoggedIn ? (
               <Link
                 href="/dashboard"
-                className="px-5 py-2 text-xs font-bold bg-primary text-white rounded-xl btn-shimmer hover:bg-[#B3181D] transition-all duration-300 tracking-widest uppercase shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]"
+                className="px-5 py-2 text-xs font-bold bg-primary text-white rounded-xl btn-shimmer hover:bg-[#B3181D] transition-all duration-300 tracking-widest uppercase shadow-[inset_0_1px_0_rgba(255,255,255,0.18)] whitespace-nowrap"
               >
                 Dashboard
               </Link>
             ) : (
               <Link
                 href="/register"
-                className="px-5 py-2 text-xs font-bold bg-primary text-white rounded-xl btn-shimmer hover:bg-[#B3181D] transition-all duration-300 tracking-widest uppercase shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]"
+                className="px-5 py-2 text-xs font-bold bg-primary text-white rounded-xl btn-shimmer hover:bg-[#B3181D] transition-all duration-300 tracking-widest uppercase shadow-[inset_0_1px_0_rgba(255,255,255,0.18)] whitespace-nowrap"
               >
                 Get Started
               </Link>
