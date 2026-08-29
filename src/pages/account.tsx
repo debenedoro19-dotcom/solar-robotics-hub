@@ -203,7 +203,30 @@ export default function AccountPage() {
             .order('requested_at', { ascending: false })
             .then(({ data }) => { if (data) setWithdrawals(data); });
         })
+        .on('postgres_changes', {
+          event: '*',
+          schema: 'public',
+          table: 'user_balance',
+          filter: `user_id=eq.${user.id}`,
+        }, (payload) => {
+          setBalance(payload.new as unknown as BalanceData);
+        })
+        .on('postgres_changes', {
+          event: '*',
+          schema: 'public',
+          table: 'balance_transactions',
+          filter: `user_id=eq.${user.id}`,
+        }, () => {
+          supabase
+            .from('balance_transactions')
+            .select('*')
+            .eq('user_id', user.id)
+            .order('created_at', { ascending: false })
+            .limit(50)
+            .then(({ data }) => { if (data) setBalanceTxs(data); });
+        })
         .subscribe();
+
       channelRef.current = channel;
     });
 
