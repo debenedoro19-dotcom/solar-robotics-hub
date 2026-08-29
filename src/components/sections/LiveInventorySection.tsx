@@ -100,7 +100,8 @@ const inventory: InventoryItem[] = [
 
 
 
-const PAGE_SIZE = 4;
+const PAGE_SIZE = 8;
+const LOAD_STEP = 8;
 const ORDER: Exclude<Category, 'All'>[] = ['Vehicles', 'Energy', 'Solar', 'Robotics'];
 
 const categories: Category[] = ['All', 'Vehicles', 'Energy', 'Solar', 'Robotics'];
@@ -199,7 +200,8 @@ export default function LiveInventorySection() {
               src={item.image}
               alt={item.alt}
               fill
-              loading="lazy"
+              priority={idx < 4}
+              loading={idx < 8 ? "eager" : "lazy"}
               className="object-cover transition-transform duration-700 group-hover:scale-105"
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw" />
             
@@ -229,7 +231,7 @@ export default function LiveInventorySection() {
       {remaining > 0 &&
       <div className="max-w-7xl mx-auto mt-10 text-center">
           <button
-          onClick={() => setVisible((v) => v + PAGE_SIZE)}
+          onClick={() => setVisible((v) => v + LOAD_STEP)}
           className="px-8 py-3.5 border border-border text-foreground font-semibold rounded-xl hover:border-primary/40 hover:bg-primary/5 text-sm transition-all duration-300 btn-shimmer min-h-[44px]">
 
             {`Load More (${remaining} remaining)`}
