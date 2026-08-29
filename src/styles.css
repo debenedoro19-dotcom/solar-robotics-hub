@@ -215,7 +215,7 @@
 /* ===== Utility classes ===== */
 
   .gradient-text-primary {
-    background: linear-gradient(135deg, #E31937 0%, #FF4D6A 50%, #CC0000 100%);
+    background: linear-gradient(135deg, #E82127 0%, #FF5A60 50%, #B3181D 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -242,9 +242,9 @@
     transition: border-color 0.4s cubic-bezier(0.19, 1, 0.22, 1), background 0.4s cubic-bezier(0.19, 1, 0.22, 1), box-shadow 0.4s cubic-bezier(0.19, 1, 0.22, 1);
   }
   .glass-card-hover:hover {
-    border-color: rgba(227, 25, 55, 0.3);
+    border-color: rgba(232, 33, 39, 0.3);
     background: rgba(20, 20, 20, 0.9);
-    box-shadow: 0 0 30px rgba(227, 25, 55, 0.08);
+    box-shadow: 0 0 30px rgba(232, 33, 39, 0.08);
   }
   .hud-line {
     height: 1px;
@@ -273,7 +273,7 @@
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
   .blob-primary {
-    background: radial-gradient(circle, rgba(227, 25, 55, 0.12) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(232, 33, 39, 0.12) 0%, transparent 70%);
     filter: blur(80px);
   }
   .blob-accent {
@@ -324,7 +324,7 @@
     to { transform: rotate(360deg); }
   }
   .glow-primary {
-    box-shadow: 0 0 40px rgba(227, 25, 55, 0.2), 0 0 80px rgba(227, 25, 55, 0.08);
+    box-shadow: 0 0 40px rgba(232, 33, 39, 0.2), 0 0 80px rgba(232, 33, 39, 0.08);
   }
   .glow-accent {
     box-shadow: 0 0 40px rgba(200, 0, 0, 0.2);
@@ -340,18 +340,18 @@
   .no-scrollbar::-webkit-scrollbar { display: none; }
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   .card-badge-new {
-    background: linear-gradient(135deg, #E31937, #CC0000);
+    background: linear-gradient(135deg, #E82127, #B3181D);
     color: #FFFFFF;
   }
   .card-badge-cpo {
-    background: rgba(227, 25, 55, 0.15);
-    color: #FF4D6A;
-    border: 1px solid rgba(227, 25, 55, 0.3);
+    background: rgba(232, 33, 39, 0.15);
+    color: #FF5A60;
+    border: 1px solid rgba(232, 33, 39, 0.3);
   }
   .card-badge-energy {
-    background: rgba(0, 255, 136, 0.1);
-    color: #00FF88;
-    border: 1px solid rgba(0, 255, 136, 0.25);
+    background: rgba(0, 245, 155, 0.1);
+    color: #00F59B;
+    border: 1px solid rgba(0, 245, 155, 0.25);
   }
   .card-badge-robotics {
     background: rgba(139, 92, 246, 0.15);
@@ -361,7 +361,7 @@
   .pricing-glow {
     position: absolute;
     inset: -1px;
-    background: linear-gradient(135deg, #E31937, #CC0000, #E31937);
+    background: linear-gradient(135deg, #E82127, #B3181D, #E82127);
     border-radius: calc(var(--radius) + 1px);
     opacity: 0;
     transition: opacity 0.4s ease;
@@ -376,10 +376,10 @@
   }
   .tesla-divider {
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(227,25,55,0.4), transparent);
+    background: linear-gradient(90deg, transparent, rgba(232, 33, 39,0.4), transparent);
   }
   .tesla-btn-primary {
-    background: #E31937;
+    background: #E82127;
     color: #FFFFFF;
     font-weight: 700;
     letter-spacing: 0.05em;
@@ -388,9 +388,9 @@
     transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
   }
   .tesla-btn-primary:hover {
-    background: #CC0000;
+    background: #B3181D;
     transform: translateY(-1px);
-    box-shadow: 0 8px 30px rgba(227,25,55,0.35);
+    box-shadow: 0 8px 30px rgba(232, 33, 39,0.35);
   }
   .tesla-btn-outline {
     background: transparent;
@@ -403,8 +403,8 @@
     transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
   }
   .tesla-btn-outline:hover {
-    border-color: rgba(227,25,55,0.5);
-    background: rgba(227,25,55,0.05);
+    border-color: rgba(232, 33, 39,0.5);
+    background: rgba(232, 33, 39,0.05);
   }
   .input-tesla {
     background: #111111;
@@ -414,20 +414,20 @@
   }
   .input-tesla:focus {
     outline: none;
-    border-color: #E31937;
-    box-shadow: 0 0 0 2px rgba(227,25,55,0.15);
+    border-color: #E82127;
+    box-shadow: 0 0 0 2px rgba(232, 33, 39,0.15);
   }
   .input-tesla::placeholder {
     color: #555555;
   }
   .step-active {
-    background: #E31937;
+    background: #E82127;
     color: #FFFFFF;
   }
   .step-done {
     background: #1A1A1A;
-    border: 1px solid #E31937;
-    color: #E31937;
+    border: 1px solid #E82127;
+    color: #E82127;
   }
   .step-pending {
     background: #1A1A1A;
@@ -452,7 +452,7 @@
 }
 .card-3d:hover {
   transform: translateY(-6px) rotateX(2deg) rotateY(-1deg);
-  box-shadow: 0 24px 60px rgba(0,0,0,0.6), 0 0 40px rgba(227,25,55,0.12);
+  box-shadow: 0 24px 60px rgba(0,0,0,0.6), 0 0 40px rgba(232, 33, 39,0.12);
 }
 
 /* Premium Glass Card — elevated */
@@ -464,8 +464,8 @@
   box-shadow: 0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);
 }
 .glass-premium:hover {
-  border-color: rgba(227,25,55,0.25);
-  box-shadow: 0 16px 48px rgba(0,0,0,0.6), 0 0 30px rgba(227,25,55,0.08), inset 0 1px 0 rgba(255,255,255,0.06);
+  border-color: rgba(232, 33, 39,0.25);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.6), 0 0 30px rgba(232, 33, 39,0.08), inset 0 1px 0 rgba(255,255,255,0.06);
 }
 
 /* Holographic shimmer border */
@@ -477,7 +477,7 @@
   position: absolute;
   inset: -1px;
   border-radius: inherit;
-  background: linear-gradient(135deg, rgba(227,25,55,0.5) 0%, rgba(255,100,120,0.2) 30%, rgba(200,0,0,0.4) 60%, rgba(227,25,55,0.5) 100%);
+  background: linear-gradient(135deg, rgba(232, 33, 39,0.5) 0%, rgba(255,100,120,0.2) 30%, rgba(200,0,0,0.4) 60%, rgba(232, 33, 39,0.5) 100%);
   background-size: 200% 200%;
   animation: holo-rotate 4s linear infinite;
   z-index: -1;
@@ -498,8 +498,8 @@
   animation: glow-pulse-anim 3s ease-in-out infinite;
 }
 @keyframes glow-pulse-anim {
-  0%, 100% { box-shadow: 0 0 20px rgba(227,25,55,0.2), 0 0 60px rgba(227,25,55,0.06); }
-  50% { box-shadow: 0 0 40px rgba(227,25,55,0.35), 0 0 100px rgba(227,25,55,0.12); }
+  0%, 100% { box-shadow: 0 0 20px rgba(232, 33, 39,0.2), 0 0 60px rgba(232, 33, 39,0.06); }
+  50% { box-shadow: 0 0 40px rgba(232, 33, 39,0.35), 0 0 100px rgba(232, 33, 39,0.12); }
 }
 
 /* Floating depth card */
@@ -517,17 +517,17 @@
     0 -1px 0 rgba(0,0,0,0.5) inset,
     0 8px 32px rgba(0,0,0,0.5),
     0 24px 64px rgba(0,0,0,0.4),
-    0 0 40px rgba(227,25,55,0.1);
+    0 0 40px rgba(232, 33, 39,0.1);
   transform: translateY(-4px);
 }
 
 /* Premium stat number */
 .stat-number {
-  background: linear-gradient(135deg, #FFFFFF 0%, #E31937 60%, #FF6680 100%);
+  background: linear-gradient(135deg, #FFFFFF 0%, #E82127 60%, #FF7A80 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  filter: drop-shadow(0 0 8px rgba(227,25,55,0.3));
+  filter: drop-shadow(0 0 8px rgba(232, 33, 39,0.3));
 }
 
 /* Scanline overlay for premium HUD feel */
@@ -552,20 +552,20 @@
 
 /* Neon text glow */
 .neon-red {
-  text-shadow: 0 0 10px rgba(227,25,55,0.6), 0 0 30px rgba(227,25,55,0.3), 0 0 60px rgba(227,25,55,0.15);
+  text-shadow: 0 0 10px rgba(232, 33, 39,0.6), 0 0 30px rgba(232, 33, 39,0.3), 0 0 60px rgba(232, 33, 39,0.15);
 }
 
 /* Premium section background */
 .section-premium {
-  background: radial-gradient(ellipse at 50% 0%, rgba(227,25,55,0.04) 0%, transparent 60%);
+  background: radial-gradient(ellipse at 50% 0%, rgba(232, 33, 39,0.04) 0%, transparent 60%);
 }
 
 /* 3D badge */
 .badge-3d {
-  background: linear-gradient(135deg, rgba(227,25,55,0.15) 0%, rgba(180,0,0,0.1) 100%);
-  border: 1px solid rgba(227,25,55,0.3);
-  box-shadow: 0 2px 8px rgba(227,25,55,0.15), inset 0 1px 0 rgba(255,255,255,0.05);
-  text-shadow: 0 0 8px rgba(227,25,55,0.4);
+  background: linear-gradient(135deg, rgba(232, 33, 39,0.15) 0%, rgba(180,0,0,0.1) 100%);
+  border: 1px solid rgba(232, 33, 39,0.3);
+  box-shadow: 0 2px 8px rgba(232, 33, 39,0.15), inset 0 1px 0 rgba(255,255,255,0.05);
+  text-shadow: 0 0 8px rgba(232, 33, 39,0.4);
 }
 
 /* Animated gradient border */
@@ -578,7 +578,7 @@
   position: absolute;
   inset: -1px;
   border-radius: inherit;
-  background: linear-gradient(90deg, #E31937, #FF4D6A, #CC0000, #E31937);
+  background: linear-gradient(90deg, #E82127, #FF5A60, #B3181D, #E82127);
   background-size: 300% 100%;
   animation: gradient-shift 3s linear infinite;
   z-index: -1;
@@ -590,23 +590,23 @@
 
 /* Elevated button */
 .btn-elevated {
-  box-shadow: 0 4px 15px rgba(227,25,55,0.3), 0 1px 0 rgba(255,255,255,0.1) inset, 0 -2px 0 rgba(0,0,0,0.3) inset;
+  box-shadow: 0 4px 15px rgba(232, 33, 39,0.3), 0 1px 0 rgba(255,255,255,0.1) inset, 0 -2px 0 rgba(0,0,0,0.3) inset;
   transition: all 0.3s cubic-bezier(0.19,1,0.22,1);
 }
 .btn-elevated:hover {
-  box-shadow: 0 8px 30px rgba(227,25,55,0.45), 0 1px 0 rgba(255,255,255,0.15) inset, 0 -2px 0 rgba(0,0,0,0.3) inset;
+  box-shadow: 0 8px 30px rgba(232, 33, 39,0.45), 0 1px 0 rgba(255,255,255,0.15) inset, 0 -2px 0 rgba(0,0,0,0.3) inset;
   transform: translateY(-2px);
 }
 .btn-elevated:active {
   transform: translateY(0);
-  box-shadow: 0 2px 8px rgba(227,25,55,0.3);
+  box-shadow: 0 2px 8px rgba(232, 33, 39,0.3);
 }
 
 /* Premium divider with glow */
 .divider-premium {
   height: 1px;
-  background: linear-gradient(90deg, transparent 0%, rgba(227,25,55,0.5) 30%, rgba(255,100,120,0.6) 50%, rgba(227,25,55,0.5) 70%, transparent 100%);
-  box-shadow: 0 0 8px rgba(227,25,55,0.2);
+  background: linear-gradient(90deg, transparent 0%, rgba(232, 33, 39,0.5) 30%, rgba(255,100,120,0.6) 50%, rgba(232, 33, 39,0.5) 70%, transparent 100%);
+  box-shadow: 0 0 8px rgba(232, 33, 39,0.2);
 }
 
 /* Metallic surface */
@@ -623,7 +623,7 @@
 
 /* Particle dot grid */
 .dot-grid {
-  background-image: radial-gradient(rgba(227,25,55,0.15) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(232, 33, 39,0.15) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
@@ -653,7 +653,7 @@
   color: #FFC94D;
   border: 1px solid rgba(255, 201, 77, 0.3);
 }
-.card-badge-vehicles { background: linear-gradient(135deg, #E31937, #CC0000); color: #FFFFFF; }
+.card-badge-vehicles { background: linear-gradient(135deg, #E82127, #B3181D); color: #FFFFFF; }
 
 /* Defer offscreen paint work for long marketing pages (big scroll perf win) */
 .defer-paint {
