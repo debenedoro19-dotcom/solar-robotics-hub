@@ -132,6 +132,95 @@ export type Database = {
           },
         ]
       }
+      giveaway_entries: {
+        Row: {
+          amount_paid: number
+          created_at: string
+          giveaway_id: string
+          giveaway_title: string
+          id: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          amount_paid?: number
+          created_at?: string
+          giveaway_id: string
+          giveaway_title?: string
+          id?: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          amount_paid?: number
+          created_at?: string
+          giveaway_id?: string
+          giveaway_title?: string
+          id?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "giveaway_entries_giveaway_id_fkey"
+            columns: ["giveaway_id"]
+            isOneToOne: false
+            referencedRelation: "giveaways"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      giveaways: {
+        Row: {
+          badge: string
+          created_at: string
+          description: string
+          ends_at: string
+          entries_count: number
+          entry_fee: number
+          id: string
+          image_url: string | null
+          is_active: boolean
+          max_entries: number
+          prize: string
+          sort_order: number
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          badge?: string
+          created_at?: string
+          description?: string
+          ends_at?: string
+          entries_count?: number
+          entry_fee?: number
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          max_entries?: number
+          prize?: string
+          sort_order?: number
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          badge?: string
+          created_at?: string
+          description?: string
+          ends_at?: string
+          entries_count?: number
+          entry_fee?: number
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          max_entries?: number
+          prize?: string
+          sort_order?: number
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       inventory_items: {
         Row: {
           alt: string
@@ -850,6 +939,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      enter_giveaway: { Args: { _giveaway_id: string }; Returns: Json }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
