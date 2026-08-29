@@ -35,6 +35,7 @@ import { Route as AuthenticatedAccountDepositRouteImport } from './routes/_authe
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated.admin.index'
 import { Route as AuthenticatedAdminCareersRouteImport } from './routes/_authenticated.admin.careers'
 import { Route as AuthenticatedAdminDepositsRouteImport } from './routes/_authenticated.admin.deposits'
+import { Route as AuthenticatedAdminGiveawaysRouteImport } from './routes/_authenticated.admin.giveaways'
 import { Route as AuthenticatedAdminInventoryRouteImport } from './routes/_authenticated.admin.inventory'
 import { Route as AuthenticatedAdminPlansRouteImport } from './routes/_authenticated.admin.plans'
 import { Route as AuthenticatedAdminSessionsRouteImport } from './routes/_authenticated.admin.sessions'
@@ -175,6 +176,12 @@ const AuthenticatedAdminDepositsRoute =
     path: '/deposits',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminGiveawaysRoute =
+  AuthenticatedAdminGiveawaysRouteImport.update({
+    id: '/giveaways',
+    path: '/giveaways',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminInventoryRoute =
   AuthenticatedAdminInventoryRouteImport.update({
     id: '/inventory',
@@ -234,6 +241,7 @@ export interface FileRoutesByFullPath {
   '/account/deposit': typeof AuthenticatedAccountDepositRoute
   '/admin/careers': typeof AuthenticatedAdminCareersRoute
   '/admin/deposits': typeof AuthenticatedAdminDepositsRoute
+  '/admin/giveaways': typeof AuthenticatedAdminGiveawaysRoute
   '/admin/inventory': typeof AuthenticatedAdminInventoryRoute
   '/admin/plans': typeof AuthenticatedAdminPlansRoute
   '/admin/sessions': typeof AuthenticatedAdminSessionsRoute
@@ -266,6 +274,7 @@ export interface FileRoutesByTo {
   '/account/deposit': typeof AuthenticatedAccountDepositRoute
   '/admin/careers': typeof AuthenticatedAdminCareersRoute
   '/admin/deposits': typeof AuthenticatedAdminDepositsRoute
+  '/admin/giveaways': typeof AuthenticatedAdminGiveawaysRoute
   '/admin/inventory': typeof AuthenticatedAdminInventoryRoute
   '/admin/plans': typeof AuthenticatedAdminPlansRoute
   '/admin/sessions': typeof AuthenticatedAdminSessionsRoute
@@ -301,6 +310,7 @@ export interface FileRoutesById {
   '/_authenticated/account/deposit': typeof AuthenticatedAccountDepositRoute
   '/_authenticated/admin/careers': typeof AuthenticatedAdminCareersRoute
   '/_authenticated/admin/deposits': typeof AuthenticatedAdminDepositsRoute
+  '/_authenticated/admin/giveaways': typeof AuthenticatedAdminGiveawaysRoute
   '/_authenticated/admin/inventory': typeof AuthenticatedAdminInventoryRoute
   '/_authenticated/admin/plans': typeof AuthenticatedAdminPlansRoute
   '/_authenticated/admin/sessions': typeof AuthenticatedAdminSessionsRoute
@@ -336,6 +346,7 @@ export interface FileRouteTypes {
     | '/account/deposit'
     | '/admin/careers'
     | '/admin/deposits'
+    | '/admin/giveaways'
     | '/admin/inventory'
     | '/admin/plans'
     | '/admin/sessions'
@@ -368,6 +379,7 @@ export interface FileRouteTypes {
     | '/account/deposit'
     | '/admin/careers'
     | '/admin/deposits'
+    | '/admin/giveaways'
     | '/admin/inventory'
     | '/admin/plans'
     | '/admin/sessions'
@@ -402,6 +414,7 @@ export interface FileRouteTypes {
     | '/_authenticated/account/deposit'
     | '/_authenticated/admin/careers'
     | '/_authenticated/admin/deposits'
+    | '/_authenticated/admin/giveaways'
     | '/_authenticated/admin/inventory'
     | '/_authenticated/admin/plans'
     | '/_authenticated/admin/sessions'
@@ -614,6 +627,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminDepositsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/giveaways': {
+      id: '/_authenticated/admin/giveaways'
+      path: '/giveaways'
+      fullPath: '/admin/giveaways'
+      preLoaderRoute: typeof AuthenticatedAdminGiveawaysRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/inventory': {
       id: '/_authenticated/admin/inventory'
       path: '/inventory'
@@ -662,6 +682,7 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminCareersRoute: typeof AuthenticatedAdminCareersRoute
   AuthenticatedAdminDepositsRoute: typeof AuthenticatedAdminDepositsRoute
+  AuthenticatedAdminGiveawaysRoute: typeof AuthenticatedAdminGiveawaysRoute
   AuthenticatedAdminInventoryRoute: typeof AuthenticatedAdminInventoryRoute
   AuthenticatedAdminPlansRoute: typeof AuthenticatedAdminPlansRoute
   AuthenticatedAdminSessionsRoute: typeof AuthenticatedAdminSessionsRoute
@@ -674,6 +695,7 @@ interface AuthenticatedAdminRouteChildren {
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminCareersRoute: AuthenticatedAdminCareersRoute,
   AuthenticatedAdminDepositsRoute: AuthenticatedAdminDepositsRoute,
+  AuthenticatedAdminGiveawaysRoute: AuthenticatedAdminGiveawaysRoute,
   AuthenticatedAdminInventoryRoute: AuthenticatedAdminInventoryRoute,
   AuthenticatedAdminPlansRoute: AuthenticatedAdminPlansRoute,
   AuthenticatedAdminSessionsRoute: AuthenticatedAdminSessionsRoute,
