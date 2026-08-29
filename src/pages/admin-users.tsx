@@ -660,9 +660,39 @@ export default function AdminUsersPage() {
             </div>
           </div>
 
+          {/* Live wallet balance (canonical) */}
+          <div className="bg-[#111111] border border-[#1A1A1A] rounded-xl p-6 mb-6">
+            <h2 className="text-xs font-bold text-[#555555] uppercase tracking-widest mb-5">Wallet Balance (Live)</h2>
+            <p className="text-3xl font-extrabold text-green-400 tabular-nums mb-5">
+              ${Number(currentWallet).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 items-end">
+              <div>
+                <label htmlFor="wallet-new" className="block text-[10px] text-[#555555] uppercase tracking-widest mb-1.5">Set available balance (USD)</label>
+                <input
+                  id="wallet-new"
+                  type="number"
+                  value={walletInput}
+                  onChange={(e) => setWalletInput(e.target.value)}
+                  className="w-full px-3 py-2.5 bg-[#0A0A0A] border border-[#2A2A2A] rounded text-sm text-white focus:outline-none focus:border-[#3A3A3A]"
+                />
+                <p className="text-[10px] text-[#444444] mt-1">The difference is logged as an admin adjustment in the user ledger.</p>
+              </div>
+              <button
+                onClick={saveWalletBalance}
+                disabled={walletSaving}
+                className="px-5 py-2.5 rounded bg-green-500 text-black text-xs font-bold uppercase tracking-widest disabled:opacity-40"
+              >
+                {walletSaving ? 'Saving…' : 'Update Wallet Balance'}
+              </button>
+            </div>
+            {walletMsg && <p className="text-xs text-[#888888] mt-3">{walletMsg}</p>}
+          </div>
+
           {/* Balance form */}
           <div className="bg-[#111111] border border-[#1A1A1A] rounded-xl p-6 mb-6">
-            <h2 className="text-xs font-bold text-[#555555] uppercase tracking-widest mb-5">Portfolio Balance Fields</h2>
+            <h2 className="text-xs font-bold text-[#555555] uppercase tracking-widest mb-5">Portfolio Display Fields</h2>
+
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               {[
                 { key: 'totalPortfolio', label: 'Total Portfolio Value', placeholder: '$0', hint: 'e.g. $12,500.00' },
