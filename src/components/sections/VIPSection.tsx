@@ -23,7 +23,7 @@ export default function VIPSection() {
             {/* Elon Musk portrait — left side */}
             <div className="relative w-full lg:w-[340px] shrink-0 h-[320px] lg:h-auto lg:self-stretch overflow-hidden">
               <AppImage
-                src="/assets/images/elon_musk_portrait.png"
+                src="/assets/images/elon_musk_portrait.webp"
                 alt="Elon Musk professional portrait, CEO of Tesla and SpaceX, in dark suit with confident expression"
                 fill
                 className="object-cover object-top"
