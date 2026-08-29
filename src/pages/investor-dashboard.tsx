@@ -81,6 +81,7 @@ export default function InvestorDashboard() {
   const [plans, setPlans] = useState<Plan[]>([]);
   const [contracts, setContracts] = useState<Contract[]>([]);
   const [ledger, setLedger] = useState<LedgerRow[]>([]);
+  const [giveawayEntries, setGiveawayEntries] = useState<GiveawayEntry[]>([]);
   const [tab, setTab] = useState<'active' | 'browse'>('active');
   const [range, setRange] = useState<Range>('1m');
 
