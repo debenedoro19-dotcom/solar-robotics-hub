@@ -71,7 +71,7 @@ export default function Header() {
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden lg:flex items-center gap-0">
+          <div className="hidden lg:flex items-center gap-0 xl:gap-1">
             {navLinks?.map((link) => (
               link?.href?.startsWith('/') ? (
                 <Link
@@ -97,7 +97,7 @@ export default function Header() {
 
           {/* Actions */}
           <div className="hidden lg:flex items-center gap-3">
-            <span className="hidden xl:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-[10px] font-semibold tracking-widest uppercase text-zinc-300 whitespace-nowrap">
+            <span className="hidden 2xl:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-[10px] font-semibold tracking-widest uppercase text-zinc-300 whitespace-nowrap">
               <span className="ts-pulse" aria-hidden="true" />
               Live Tracking
             </span>
