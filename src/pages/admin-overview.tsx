@@ -186,8 +186,8 @@ export default function AdminPage() {
   useEffect(() => {
     setMounted(true);
     const currentUser = getCurrentUser();
-    if (currentUser) void checkIsAdmin().then((ok) => { if (!ok) return; setAuthorized(true); });
-    if (currentUser) {
+    void checkIsAdmin().then((ok) => { if (ok) setAuthorized(true); });
+    {
       loadUsers();
     }
   }, []);
