@@ -441,16 +441,22 @@ export default function AdminSettingsPage() {
     setTimeout(() => setTestEmailResult(null), 5000);
   }
 
-  function saveSettings(tab: SettingsTab) {
+  async function saveSettings(tab: SettingsTab) {
+    setSaveError('');
+    setSavingTab(tab);
     try {
-      if (tab === 'platform') localStorage.setItem(STORAGE_KEYS.platform, JSON.stringify(platform));
-      if (tab === 'security') localStorage.setItem(STORAGE_KEYS.security, JSON.stringify(security));
-      if (tab === 'customercare') localStorage.setItem(STORAGE_KEYS.customerCare, JSON.stringify(customerCare));
-      if (tab === 'email') localStorage.setItem(STORAGE_KEYS.email, JSON.stringify(emailTemplates));
-    } catch {}
-    setSaved(tab);
-    setTimeout(() => setSaved(null), 2500);
+      if (tab === 'platform') await saveSetting(SETTINGS_KEYS.platform, platform);
+      if (tab === 'security') await saveSetting(SETTINGS_KEYS.security, security);
+      if (tab === 'customercare') await saveSetting(SETTINGS_KEYS.customerCare, customerCare);
+      if (tab === 'email') await saveSetting(SETTINGS_KEYS.email, emailTemplates);
+      setSaved(tab);
+      setTimeout(() => setSaved(null), 2500);
+    } catch (err) {
+      setSaveError(err instanceof Error ? err.message : 'Failed to save settings.');
+    }
+    setSavingTab(null);
   }
+
 
   if (!mounted) return null;
 
