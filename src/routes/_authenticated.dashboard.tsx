@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import Page from "@/pages/dashboard";
+import Page from "@/pages/investor-dashboard";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({

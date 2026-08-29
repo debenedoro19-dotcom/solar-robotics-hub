@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Link from '@/components/SmartLink';
 import { createClient } from '@/lib/supabase/client';
 import { getCurrentUser, isAdmin } from '@/lib/portfolioStore';
+import { checkIsAdmin } from '@/lib/adminAuth';
 import { sendWithdrawalConfirmedEmail } from '@/lib/emailService';
 
 interface WithdrawalRequest {
@@ -141,8 +142,8 @@ export default function AdminWithdrawalsPage() {
   useEffect(() => {
     setMounted(true);
     const currentUser = getCurrentUser();
-    if (currentUser && isAdmin(currentUser.id)) {
-      setAuthorized(true);
+    void checkIsAdmin().then((ok) => { if (ok) setAuthorized(true); });
+    {
       loadWithdrawals();
       subscribeToWithdrawals();
     }

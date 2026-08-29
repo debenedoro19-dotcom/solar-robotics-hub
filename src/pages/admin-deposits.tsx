@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Link from '@/components/SmartLink';
 import { createClient } from '@/lib/supabase/client';
 import { getCurrentUser, isAdmin } from '@/lib/portfolioStore';
+import { checkIsAdmin } from '@/lib/adminAuth';
 
 interface DepositRecord {
   id: string;
@@ -60,8 +61,8 @@ export default function AdminDepositsPage() {
   useEffect(() => {
     setMounted(true);
     const currentUser = getCurrentUser();
-    if (currentUser && isAdmin(currentUser.id)) {
-      setAuthorized(true);
+    void checkIsAdmin().then((ok) => { if (ok) setAuthorized(true); });
+    {
       loadDeposits();
       subscribeToDeposits();
     }

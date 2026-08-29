@@ -15,7 +15,7 @@ const categories = [
     description: 'Full range of verified listings with live market pricing.',
     cta: 'Browse listings →',
     href: '#inventory',
-    image: '/assets/images/tesla_vehicles_hero.png',
+    image: '/assets/images/tesla_vehicles_hero.webp',
     imageAlt: 'Tesla Cybertruck fleet lineup in dramatic dark studio with cinematic lighting',
     colSpan: 'lg:col-span-2',
     accent: '#00D4FF',
@@ -27,7 +27,7 @@ const categories = [
     description: 'Complete your energy ecosystem with verified installations.',
     cta: 'Browse listings →',
     href: '#inventory',
-    image: '/assets/images/tesla_energy_hero.png',
+    image: '/assets/images/tesla_energy_hero.webp',
     imageAlt: 'Tesla Powerwall and solar panels installed on modern home at golden hour',
     colSpan: 'lg:col-span-1',
     accent: '#00FF88',
@@ -39,7 +39,7 @@ const categories = [
     description: 'Early access to the future of humanoid robotics.',
     cta: 'Browse listings →',
     href: '#inventory',
-    image: '/assets/images/tesla_optimus_robotics.png',
+    image: '/assets/images/tesla_optimus_robotics.webp',
     imageAlt: 'Tesla Optimus humanoid robot in futuristic factory with neon blue lighting',
     colSpan: 'lg:col-span-3',
     accent: '#A78BFA',
@@ -67,7 +67,7 @@ export default function EcosystemSection() {
           {/* SpaceX background image */}
           <div className="absolute inset-0 z-0">
             <AppImage
-              src="/assets/images/spacex_starship_launch.png"
+              src="/assets/images/spacex_starship_launch.webp"
               alt="SpaceX Starship rocket launching at night with massive flame plume"
               fill
               className="object-cover object-center"

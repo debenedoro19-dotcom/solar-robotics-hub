@@ -21,14 +21,14 @@ export default function HomePage() {
       <Header />
       <HeroSection />
       <LiveInventorySection />
-      <GiveawaysSection />
-      <InvestmentPackagesSection />
-      <PlatformCredibilitySection />
-      <EcosystemSection />
-      <ElonMuskSection />
-      <VIPSection />
-      <TestimonialsSection />
-      <FinalCTASection />
+      <div className="defer-paint"><GiveawaysSection /></div>
+      <div className="defer-paint"><InvestmentPackagesSection /></div>
+      <div className="defer-paint"><PlatformCredibilitySection /></div>
+      <div className="defer-paint"><EcosystemSection /></div>
+      <div className="defer-paint"><ElonMuskSection /></div>
+      <div className="defer-paint"><VIPSection /></div>
+      <div className="defer-paint"><TestimonialsSection /></div>
+      <div className="defer-paint"><FinalCTASection /></div>
       <Footer />
       <FloatingSupport />
       <ScrollAnimations />

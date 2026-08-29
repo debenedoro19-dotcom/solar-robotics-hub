@@ -122,7 +122,7 @@ export default function ElonMuskSection() {
           {/* Portrait */}
           <div className="lg:col-span-2 relative rounded-2xl overflow-hidden min-h-[420px] group">
             <AppImage
-              src="/assets/images/elon_musk_portrait.png"
+              src="/assets/images/elon_musk_portrait.webp"
               alt="Elon Musk portrait in formal attire against dark background"
               fill
               className="object-cover object-top transition-transform duration-700 group-hover:scale-105"

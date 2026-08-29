@@ -39,6 +39,31 @@
   --chart-5: oklch(0.7112 0.1559 250.96);
 }
 
+:root {
+  /* Institutional fintech / Web3 dashboard palette */
+  --fin-bg: #08090C;
+  --fin-card: #0D1117;
+  --fin-elevated: #11161F;
+  --fin-border: rgba(30, 41, 59, 0.8);
+  --fin-emerald: #10B981;
+  --fin-emerald-soft: rgba(16, 185, 129, 0.12);
+  --fin-amber: #F59E0B;
+  --fin-danger: #EF4444;
+  --fin-muted: #7D8898;
+}
+
+.fin-card {
+  background: var(--fin-card);
+  border: 1px solid var(--fin-border);
+  backdrop-filter: blur(12px);
+}
+
+.fin-card-elevated {
+  background: linear-gradient(160deg, var(--fin-elevated), var(--fin-card));
+  border: 1px solid var(--fin-border);
+  box-shadow: 0 24px 60px -30px rgba(16, 185, 129, 0.35);
+}
+
 @theme inline {
   --font-sans: 'Manrope', ui-sans-serif, system-ui, sans-serif;
   --radius-sm: calc(var(--radius) - 2px);
@@ -77,6 +102,16 @@
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
+  /* Institutional fintech dashboard surfaces */
+  --color-fin-bg: var(--fin-bg);
+  --color-fin-card: var(--fin-card);
+  --color-fin-elevated: var(--fin-elevated);
+  --color-fin-border: var(--fin-border);
+  --color-fin-emerald: var(--fin-emerald);
+  --color-fin-emerald-soft: var(--fin-emerald-soft);
+  --color-fin-amber: var(--fin-amber);
+  --color-fin-danger: var(--fin-danger);
+  --color-fin-muted: var(--fin-muted);
 }
 
 .dark {
@@ -548,3 +583,9 @@
   border: 1px solid rgba(255, 201, 77, 0.3);
 }
 .card-badge-vehicles { background: linear-gradient(135deg, #E31937, #CC0000); color: #FFFFFF; }
+
+/* Defer offscreen paint work for long marketing pages (big scroll perf win) */
+.defer-paint {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 900px;
+}

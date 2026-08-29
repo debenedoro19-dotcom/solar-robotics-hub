@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Link from '@/components/SmartLink';
 import { createClient } from '@/lib/supabase/client';
 import { getCurrentUser, isAdmin } from '@/lib/portfolioStore';
+import { checkIsAdmin } from '@/lib/adminAuth';
 import { sendKYCApprovedEmail } from '@/lib/emailService';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -113,8 +114,8 @@ export default function AdminUsersPage() {
   useEffect(() => {
     setMounted(true);
     const currentUser = getCurrentUser();
-    if (currentUser && isAdmin(currentUser.id)) {
-      setAuthorized(true);
+    void checkIsAdmin().then((ok) => { if (ok) setAuthorized(true); });
+    {
       loadUsers();
     }
   }, []);

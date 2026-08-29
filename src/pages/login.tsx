@@ -20,15 +20,6 @@ export default function LoginPage() {
     }
     setLoading(true);
 
-    // Admin login (bypass Supabase auth)
-    if (cleanEmail === 'admin@teslatrade.com' && password === 'admin123') {
-      setCurrentUser({ id: 'admin_tesla_trade', name: 'Admin', email: 'admin@teslatrade.com' });
-      setTimeout(() => {
-        window.location.href = '/admin';
-      }, 800);
-      return;
-    }
-
     try {
       const supabase = createClient();
       const { data, error: signInError } = await supabase.auth.signInWithPassword({ email: cleanEmail, password });
@@ -57,7 +48,19 @@ export default function LoginPage() {
         });
       }
 
-      window.location.href = '/dashboard';
+      // Route by role: admins land on the admin console, everyone else on the dashboard.
+      let isAdmin = false;
+      if (user) {
+        const { data: roleRow } = await supabase
+          .from('user_roles')
+          .select('role')
+          .eq('user_id', user.id)
+          .eq('role', 'admin')
+          .maybeSingle();
+        isAdmin = !!roleRow;
+      }
+
+      window.location.href = isAdmin ? '/admin' : '/dashboard';
     } catch (err: any) {
       setLoading(false);
       // Fallback: localStorage-based login for legacy accounts

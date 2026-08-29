@@ -1,0 +1,659 @@
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import Link from '@/components/SmartLink';
+import {
+  AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
+} from 'recharts';
+import { createClient } from '@/lib/supabase/client';
+
+// ── Types ─────────────────────────────────────────────────────────────────────
+interface Wallet {
+  available_balance: number;
+  total_invested: number;
+  total_profit: number;
+  total_deposited: number;
+  total_withdrawn: number;
+}
+
+interface Plan {
+  id: string;
+  name: string;
+  category: string;
+  description: string;
+  daily_roi: number;
+  duration_days: number;
+  min_deposit: number;
+  max_deposit: number;
+}
+
+interface Contract {
+  id: string;
+  plan_name: string;
+  plan_category: string;
+  principal: number;
+  daily_roi: number;
+  duration_days: number;
+  yield_earned: number;
+  status: string;
+  started_at: string;
+  matures_at: string;
+}
+
+interface LedgerRow {
+  id: string;
+  type: string;
+  amount: number;
+  status: string;
+  description: string | null;
+  created_at: string;
+}
+
+const EMPTY_WALLET: Wallet = {
+  available_balance: 0,
+  total_invested: 0,
+  total_profit: 0,
+  total_deposited: 0,
+  total_withdrawn: 0,
+};
+
+const NETWORKS = [
+  { id: 'usdt_trc20', label: 'USDT (TRC-20)', address: 'TQn9Y2khDD95J42FQtQTdwVVRZqjHqPzGm' },
+  { id: 'usdt_erc20', label: 'USDT (ERC-20)', address: '0x7a3B9c1D5e8F2a4b6C0d9E1f3A5b7C9d1E3f5A70' },
+  { id: 'btc', label: 'Bitcoin (BTC)', address: 'bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq' },
+];
+
+const WITHDRAWAL_FEE_RATE = 0.015;
+
+const money = (n: number) =>
+  `$${(Number.isFinite(n) ? n : 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
+const CATEGORY_STYLES: Record<string, string> = {
+  'Solar Megapack': 'bg-fin-emerald/10 text-fin-emerald border-fin-emerald/30',
+  'Optimus Robotics': 'bg-sky-400/10 text-sky-300 border-sky-400/30',
+  'Space Infrastructure': 'bg-violet-400/10 text-violet-300 border-violet-400/30',
+};
+
+const STATUS_STYLES: Record<string, string> = {
+  completed: 'bg-fin-emerald/10 text-fin-emerald border-fin-emerald/30',
+  pending: 'bg-fin-amber/10 text-fin-amber border-fin-amber/30',
+  failed: 'bg-fin-danger/10 text-fin-danger border-fin-danger/30',
+  rejected: 'bg-fin-danger/10 text-fin-danger border-fin-danger/30',
+};
+
+const TYPE_LABELS: Record<string, string> = {
+  deposit: 'Deposit',
+  investment: 'Plan Purchase',
+  yield: 'Yield Payout',
+  return: 'Yield Payout',
+  withdrawal: 'Withdrawal',
+};
+
+type Range = '7d' | '1m' | '1y' | 'all';
+
+export default function InvestorDashboard() {
+  const [loading, setLoading] = useState(true);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [userEmail, setUserEmail] = useState('');
+  const [wallet, setWallet] = useState<Wallet>(EMPTY_WALLET);
+  const [plans, setPlans] = useState<Plan[]>([]);
+  const [contracts, setContracts] = useState<Contract[]>([]);
+  const [ledger, setLedger] = useState<LedgerRow[]>([]);
+  const [tab, setTab] = useState<'active' | 'browse'>('active');
+  const [range, setRange] = useState<Range>('1m');
+
+  const [depositOpen, setDepositOpen] = useState(false);
+  const [withdrawOpen, setWithdrawOpen] = useState(false);
+  const [investPlan, setInvestPlan] = useState<Plan | null>(null);
+  const [toast, setToast] = useState<{ kind: 'ok' | 'err'; msg: string } | null>(null);
+
+  const notify = useCallback((kind: 'ok' | 'err', msg: string) => {
+    setToast({ kind, msg });
+    setTimeout(() => setToast(null), 4000);
+  }, []);
+
+  const load = useCallback(async () => {
+    const supabase = createClient();
+    const { data: userRes } = await supabase.auth.getUser();
+    const user = userRes?.user;
+    if (!user) {
+      setLoading(false);
+      return;
+    }
+    setUserId(user.id);
+    setUserEmail(user.email ?? '');
+
+    const [balanceRes, plansRes, investmentsRes, ledgerRes] = await Promise.all([
+      supabase.from('user_balance').select('*').eq('user_id', user.id).maybeSingle(),
+      supabase.from('investment_plans').select('*').eq('is_active', true).order('sort_order'),
+      supabase.from('user_investments').select('*').eq('user_id', user.id).order('created_at', { ascending: false }),
+      supabase.from('balance_transactions').select('*').eq('user_id', user.id).order('created_at', { ascending: false }).limit(100),
+    ]);
+
+    if (balanceRes.data) {
+      setWallet({
+        available_balance: Number(balanceRes.data.available_balance ?? 0),
+        total_invested: Number(balanceRes.data.total_invested ?? 0),
+        total_profit: Number(balanceRes.data.total_profit ?? 0),
+        total_deposited: Number(balanceRes.data.total_deposited ?? 0),
+        total_withdrawn: Number(balanceRes.data.total_withdrawn ?? 0),
+      });
+    } else {
+      await supabase.from('user_balance').insert({ user_id: user.id });
+      setWallet(EMPTY_WALLET);
+    }
+
+    setPlans((plansRes.data ?? []) as Plan[]);
+    setContracts((investmentsRes.data ?? []) as Contract[]);
+    setLedger((ledgerRes.data ?? []) as LedgerRow[]);
+    setLoading(false);
+  }, []);
+
+  useEffect(() => {
+    void load();
+  }, [load]);
+
+  const activeContracts = contracts.filter((c) => c.status === 'active');
+  const totalActiveCapital = activeContracts.reduce((sum, c) => sum + Number(c.principal), 0);
+  const totalYield = contracts.reduce((sum, c) => sum + Number(c.yield_earned), 0) + wallet.total_profit;
+
+  // Portfolio growth series derived from the ledger + accrued yield.
+  const chartData = useMemo(() => {
+    const days = range === '7d' ? 7 : range === '1m' ? 30 : range === '1y' ? 365 : 730;
+    const points: { label: string; value: number }[] = [];
+    const now = Date.now();
+    const base = wallet.available_balance + totalActiveCapital;
+    for (let i = days; i >= 0; i -= Math.max(1, Math.round(days / 24))) {
+      const t = new Date(now - i * 86400000);
+      const accrued = activeContracts.reduce((sum, c) => {
+        const started = new Date(c.started_at).getTime();
+        if (t.getTime() < started) return sum;
+        const elapsedDays = Math.min((t.getTime() - started) / 86400000, c.duration_days);
+        return sum + Number(c.principal) * (Number(c.daily_roi) / 100) * elapsedDays;
+      }, 0);
+      points.push({
+        label: t.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+        value: Number((base + accrued).toFixed(2)),
+      });
+    }
+    return points;
+  }, [range, wallet.available_balance, totalActiveCapital, activeContracts]);
+
+  if (loading) {
+    return (
+      <main className="min-h-screen bg-fin-bg flex items-center justify-center">
+        <div className="h-10 w-10 rounded-full border-2 border-fin-emerald border-t-transparent animate-spin" />
+      </main>
+    );
+  }
+
+  if (!userId) {
+    return (
+      <main className="min-h-screen bg-fin-bg flex items-center justify-center px-4">
+        <div className="text-center">
+          <h1 className="text-xl font-bold text-white mb-2">Sign in required</h1>
+          <p className="text-sm text-fin-muted mb-6">Access your investor dashboard to view your wallet.</p>
+          <Link href="/login" className="px-6 py-2.5 rounded-lg bg-fin-emerald text-black text-sm font-semibold">Sign In</Link>
+        </div>
+      </main>
+    );
+  }
+
+  return (
+    <main className="min-h-screen bg-fin-bg text-white">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+        {/* Header */}
+        <header className="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <p className="text-xs uppercase tracking-[0.3em] text-fin-muted">Investor Console</p>
+            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">Portfolio Overview</h1>
+            <p className="text-sm text-fin-muted mt-1">{userEmail}</p>
+          </div>
+          <div className="flex gap-2">
+            <Link href="/account" className="px-4 py-2 rounded-lg fin-card text-sm font-semibold hover:border-fin-emerald/40 transition-colors">Account</Link>
+            <Link href="/support" className="px-4 py-2 rounded-lg fin-card text-sm font-semibold hover:border-fin-emerald/40 transition-colors">Support</Link>
+          </div>
+        </header>
+
+        {/* Hero balance */}
+        <section className="grid gap-5 lg:grid-cols-[1.4fr_1fr]">
+          <div className="fin-card-elevated rounded-2xl p-6 sm:p-8">
+            <p className="text-xs uppercase tracking-[0.25em] text-fin-muted mb-3">Available Wallet Balance</p>
+            <p className="text-4xl sm:text-5xl font-extrabold tracking-tight text-fin-emerald tabular-nums">
+              {money(wallet.available_balance)}
+            </p>
+            <p className="text-sm text-fin-muted mt-2">
+              Deposit-first platform — fund your wallet before deploying capital into a plan.
+            </p>
+            <div className="flex flex-wrap gap-3 mt-6">
+              <button onClick={() => setDepositOpen(true)} className="px-5 py-2.5 rounded-lg bg-fin-emerald text-black text-sm font-bold hover:opacity-90 transition-opacity">+ Deposit</button>
+              <button onClick={() => setWithdrawOpen(true)} className="px-5 py-2.5 rounded-lg fin-card text-sm font-bold hover:border-fin-emerald/40 transition-colors">↑ Withdraw</button>
+              <button onClick={() => { setTab('browse'); document.getElementById('marketplace')?.scrollIntoView({ behavior: 'smooth' }); }} className="px-5 py-2.5 rounded-lg fin-card text-sm font-bold hover:border-fin-emerald/40 transition-colors">⚡ Buy Plan</button>
+            </div>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
+            <MetricCard label="Total Active Capital" value={money(totalActiveCapital)} />
+            <MetricCard label="Total Net Profit Accrued" value={money(totalYield)} accent />
+            <MetricCard label="Active Contracts" value={String(activeContracts.length)} />
+          </div>
+        </section>
+
+        {/* Chart */}
+        <section className="fin-card rounded-2xl p-5 sm:p-6">
+          <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
+            <div>
+              <h2 className="text-lg font-bold">Portfolio Analytics</h2>
+              <p className="text-xs text-fin-muted">Capital base plus accrued daily yield</p>
+            </div>
+            <div className="flex gap-1 p-1 rounded-lg bg-fin-elevated border border-fin-border">
+              {(['7d', '1m', '1y', 'all'] as Range[]).map((r) => (
+                <button
+                  key={r}
+                  onClick={() => setRange(r)}
+                  className={`px-3 py-1.5 rounded-md text-xs font-bold uppercase transition-colors ${range === r ? 'bg-fin-emerald text-black' : 'text-fin-muted hover:text-white'}`}>
+                  {r === 'all' ? 'All' : r.toUpperCase()}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={chartData}>
+                <defs>
+                  <linearGradient id="finEmerald" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#10B981" stopOpacity={0.55} />
+                    <stop offset="100%" stopColor="#10B981" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.12)" vertical={false} />
+                <XAxis dataKey="label" tick={{ fill: '#7D8898', fontSize: 11 }} axisLine={false} tickLine={false} minTickGap={24} />
+                <YAxis tick={{ fill: '#7D8898', fontSize: 11 }} axisLine={false} tickLine={false} width={70} tickFormatter={(v) => `$${Number(v).toLocaleString()}`} />
+                <Tooltip
+                  contentStyle={{ background: '#0D1117', border: '1px solid rgba(30,41,59,0.8)', borderRadius: 12, color: '#fff' }}
+                  formatter={(v: number | string) => [money(Number(v)), 'Portfolio']} />
+                <Area type="monotone" dataKey="value" stroke="#10B981" strokeWidth={2} fill="url(#finEmerald)" />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+        </section>
+
+        {/* Marketplace */}
+        <section id="marketplace" className="space-y-5">
+          <div className="flex gap-2">
+            {(['active', 'browse'] as const).map((t) => (
+              <button
+                key={t}
+                onClick={() => setTab(t)}
+                className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-colors ${tab === t ? 'bg-fin-emerald text-black' : 'fin-card text-fin-muted hover:text-white'}`}>
+                {t === 'active' ? `Active Investments (${activeContracts.length})` : 'Browse & Deploy Capital'}
+              </button>
+            ))}
+          </div>
+
+          {tab === 'active' ? (
+            activeContracts.length === 0 ? (
+              <div className="fin-card rounded-2xl p-10 text-center">
+                <p className="text-sm text-fin-muted mb-4">No active contracts yet.</p>
+                <button onClick={() => setTab('browse')} className="px-5 py-2.5 rounded-lg bg-fin-emerald text-black text-sm font-bold">Browse Plans</button>
+              </div>
+            ) : (
+              <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                {activeContracts.map((c) => {
+                  const started = new Date(c.started_at).getTime();
+                  const matures = new Date(c.matures_at).getTime();
+                  const progress = Math.min(100, Math.max(0, ((Date.now() - started) / (matures - started)) * 100));
+                  return (
+                    <article key={c.id} className="fin-card rounded-2xl p-5">
+                      <div className="flex items-start justify-between gap-3 mb-3">
+                        <h3 className="font-bold">{c.plan_name}</h3>
+                        <span className={`px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider border ${CATEGORY_STYLES[c.plan_category] ?? 'bg-white/5 text-fin-muted border-fin-border'}`}>
+                          {c.plan_category}
+                        </span>
+                      </div>
+                      <dl className="grid grid-cols-2 gap-3 text-sm mb-4">
+                        <div><dt className="text-xs text-fin-muted">Principal</dt><dd className="font-bold tabular-nums">{money(Number(c.principal))}</dd></div>
+                        <div><dt className="text-xs text-fin-muted">Daily ROI</dt><dd className="font-bold text-fin-emerald tabular-nums">{Number(c.daily_roi).toFixed(2)}%</dd></div>
+                        <div><dt className="text-xs text-fin-muted">Yield Earned</dt><dd className="font-bold text-fin-emerald tabular-nums">{money(Number(c.yield_earned))}</dd></div>
+                        <div><dt className="text-xs text-fin-muted">Matures</dt><dd className="font-bold">{new Date(c.matures_at).toLocaleDateString()}</dd></div>
+                      </dl>
+                      <div className="h-2 rounded-full bg-fin-elevated overflow-hidden">
+                        <div className="h-full rounded-full bg-fin-emerald" style={{ width: `${progress}%` }} />
+                      </div>
+                      <p className="text-[11px] text-fin-muted mt-2">{progress.toFixed(0)}% of {c.duration_days}-day term complete</p>
+                    </article>
+                  );
+                })}
+              </div>
+            )
+          ) : (
+            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+              {plans.map((p) => (
+                <article key={p.id} className="fin-card rounded-2xl p-5 flex flex-col">
+                  <span className={`self-start px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider border mb-3 ${CATEGORY_STYLES[p.category] ?? 'bg-white/5 text-fin-muted border-fin-border'}`}>
+                    {p.category}
+                  </span>
+                  <h3 className="font-bold text-lg">{p.name}</h3>
+                  <p className="text-sm text-fin-muted mt-1 mb-4 flex-1">{p.description}</p>
+                  <dl className="grid grid-cols-2 gap-3 text-sm mb-4">
+                    <div><dt className="text-xs text-fin-muted">Daily ROI</dt><dd className="font-bold text-fin-emerald tabular-nums">{Number(p.daily_roi).toFixed(2)}%</dd></div>
+                    <div><dt className="text-xs text-fin-muted">Term</dt><dd className="font-bold">{p.duration_days} days</dd></div>
+                    <div><dt className="text-xs text-fin-muted">Minimum</dt><dd className="font-bold tabular-nums">{money(Number(p.min_deposit))}</dd></div>
+                    <div><dt className="text-xs text-fin-muted">Maximum</dt><dd className="font-bold tabular-nums">{money(Number(p.max_deposit))}</dd></div>
+                  </dl>
+                  <button onClick={() => setInvestPlan(p)} className="w-full py-2.5 rounded-lg bg-fin-emerald text-black text-sm font-bold hover:opacity-90 transition-opacity">Invest</button>
+                </article>
+              ))}
+            </div>
+          )}
+        </section>
+
+        {/* Ledger */}
+        <section className="fin-card rounded-2xl overflow-hidden">
+          <div className="p-5 border-b border-fin-border">
+            <h2 className="text-lg font-bold">Transaction Ledger</h2>
+            <p className="text-xs text-fin-muted">Deposits, plan purchases, yield payouts and withdrawals</p>
+          </div>
+          {ledger.length === 0 ? (
+            <p className="p-8 text-center text-sm text-fin-muted">No transactions yet.</p>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="text-left text-xs uppercase tracking-wider text-fin-muted">
+                    <th className="px-5 py-3 font-semibold">Date / Time</th>
+                    <th className="px-5 py-3 font-semibold">Type</th>
+                    <th className="px-5 py-3 font-semibold text-right">Amount</th>
+                    <th className="px-5 py-3 font-semibold">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {ledger.map((row) => (
+                    <tr key={row.id} className="border-t border-fin-border">
+                      <td className="px-5 py-3 text-fin-muted whitespace-nowrap">{new Date(row.created_at).toLocaleString()}</td>
+                      <td className="px-5 py-3">{TYPE_LABELS[row.type] ?? row.type}</td>
+                      <td className={`px-5 py-3 text-right font-bold tabular-nums ${Number(row.amount) < 0 ? 'text-white' : 'text-fin-emerald'}`}>
+                        {Number(row.amount) < 0 ? '-' : '+'}{money(Math.abs(Number(row.amount)))}
+                      </td>
+                      <td className="px-5 py-3">
+                        <span className={`px-2.5 py-1 rounded-md text-[10px] font-bold uppercase border ${STATUS_STYLES[row.status] ?? 'bg-white/5 text-fin-muted border-fin-border'}`}>
+                          {row.status}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </section>
+      </div>
+
+      {depositOpen && (
+        <DepositModal userId={userId} userEmail={userEmail} onClose={() => setDepositOpen(false)} onDone={(msg) => { notify('ok', msg); void load(); }} onError={(m) => notify('err', m)} />
+      )}
+      {withdrawOpen && (
+        <WithdrawModal balance={wallet.available_balance} userId={userId} userEmail={userEmail} onClose={() => setWithdrawOpen(false)} onDone={(msg) => { notify('ok', msg); void load(); }} onError={(m) => notify('err', m)} />
+      )}
+      {investPlan && (
+        <InvestModal
+          plan={investPlan}
+          balance={wallet.available_balance}
+          onClose={() => setInvestPlan(null)}
+          onDeposit={() => { setInvestPlan(null); setDepositOpen(true); }}
+          onDone={(msg) => { notify('ok', msg); void load(); }}
+          onError={(m) => notify('err', m)} />
+      )}
+
+      {toast && (
+        <div className={`fixed bottom-6 right-6 z-[100] px-5 py-3 rounded-xl border text-sm font-semibold ${toast.kind === 'ok' ? 'bg-fin-emerald/10 border-fin-emerald/40 text-fin-emerald' : 'bg-fin-danger/10 border-fin-danger/40 text-fin-danger'}`}>
+          {toast.msg}
+        </div>
+      )}
+    </main>
+  );
+}
+
+// ── Pieces ────────────────────────────────────────────────────────────────────
+function MetricCard({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
+  return (
+    <div className="fin-card rounded-2xl p-5">
+      <p className="text-xs uppercase tracking-[0.2em] text-fin-muted mb-2">{label}</p>
+      <p className={`text-2xl font-extrabold tabular-nums ${accent ? 'text-fin-emerald' : 'text-white'}`}>{value}</p>
+    </div>
+  );
+}
+
+function Modal({ title, onClose, children }: { title: string; onClose: () => void; children: React.ReactNode }) {
+  return (
+    <div className="fixed inset-0 z-[90] flex items-center justify-center px-4 bg-black/70 backdrop-blur-sm" role="dialog" aria-modal="true">
+      <div className="w-full max-w-md fin-card-elevated rounded-2xl p-6 max-h-[90vh] overflow-y-auto">
+        <div className="flex items-center justify-between mb-5">
+          <h2 className="text-lg font-bold">{title}</h2>
+          <button onClick={onClose} aria-label="Close" className="text-fin-muted hover:text-white text-xl leading-none">×</button>
+        </div>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function InvestModal({ plan, balance, onClose, onDone, onError, onDeposit }: {
+  plan: Plan; balance: number; onClose: () => void;
+  onDone: (msg: string) => void; onError: (msg: string) => void; onDeposit: () => void;
+}) {
+  const [amount, setAmount] = useState<string>(String(plan.min_deposit));
+  const [busy, setBusy] = useState(false);
+  const value = Number(amount) || 0;
+  const insufficient = value > balance;
+  const outOfBounds = value < Number(plan.min_deposit) || value > Number(plan.max_deposit);
+  const dailyPayout = value * (Number(plan.daily_roi) / 100);
+  const totalReturn = dailyPayout * plan.duration_days;
+
+  async function confirm() {
+    if (insufficient || outOfBounds || value <= 0) return;
+    setBusy(true);
+    const supabase = createClient();
+    const { data, error } = await supabase.rpc('purchase_investment_plan', { _plan_id: plan.id, _amount: value });
+    setBusy(false);
+    if (error) { onError(error.message); return; }
+    const result = data as { ok: boolean; error?: string } | null;
+    if (!result?.ok) { onError(result?.error ?? 'Purchase failed'); return; }
+    onDone(`${plan.name} activated with ${money(value)}`);
+    onClose();
+  }
+
+  return (
+    <Modal title={`Deploy Capital — ${plan.name}`} onClose={onClose}>
+      <div className="space-y-5">
+        <div className="grid grid-cols-2 gap-3">
+          <div className="rounded-xl bg-fin-elevated border border-fin-border p-3">
+            <p className="text-[11px] uppercase text-fin-muted">Available Balance</p>
+            <p className={`text-lg font-extrabold tabular-nums ${insufficient ? 'text-fin-danger' : 'text-fin-emerald'}`}>{money(balance)}</p>
+          </div>
+          <div className="rounded-xl bg-fin-elevated border border-fin-border p-3">
+            <p className="text-[11px] uppercase text-fin-muted">Required Capital</p>
+            <p className="text-lg font-extrabold tabular-nums">{money(value)}</p>
+          </div>
+        </div>
+
+        <div>
+          <label htmlFor="invest-amount" className="block text-xs uppercase tracking-wider text-fin-muted mb-2">Investment Amount</label>
+          <input
+            id="invest-amount"
+            type="number"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            className="w-full rounded-lg bg-fin-bg border border-fin-border px-4 py-3 text-white tabular-nums focus:border-fin-emerald outline-none" />
+          <div className="flex gap-2 mt-2">
+            {[25, 50, 75, 100].map((pct) => (
+              <button key={pct} onClick={() => setAmount(String(Math.floor(balance * (pct / 100) * 100) / 100))}
+                className="flex-1 py-1.5 rounded-md text-xs font-bold fin-card hover:border-fin-emerald/40 transition-colors">
+                {pct === 100 ? 'MAX' : `${pct}%`}
+              </button>
+            ))}
+          </div>
+          <p className="text-[11px] text-fin-muted mt-2">
+            Limits: {money(Number(plan.min_deposit))} – {money(Number(plan.max_deposit))} · {plan.duration_days}-day term
+          </p>
+        </div>
+
+        <div className="rounded-xl border border-fin-emerald/25 bg-fin-emerald-soft p-4 space-y-1.5">
+          <div className="flex justify-between text-sm"><span className="text-fin-muted">Projected daily payout</span><span className="font-bold text-fin-emerald tabular-nums">{money(dailyPayout)}</span></div>
+          <div className="flex justify-between text-sm"><span className="text-fin-muted">Total return at maturity</span><span className="font-bold text-fin-emerald tabular-nums">{money(totalReturn)}</span></div>
+          <div className="flex justify-between text-sm"><span className="text-fin-muted">Principal + yield</span><span className="font-bold tabular-nums">{money(value + totalReturn)}</span></div>
+        </div>
+
+        {insufficient ? (
+          <div className="space-y-3">
+            <p className="text-sm text-fin-danger font-semibold">Insufficient wallet balance for this allocation.</p>
+            <button onClick={onDeposit} className="w-full py-3 rounded-lg bg-fin-emerald text-black font-bold text-sm">Deposit Funds</button>
+          </div>
+        ) : (
+          <button
+            onClick={confirm}
+            disabled={busy || outOfBounds || value <= 0}
+            className="w-full py-3 rounded-lg bg-fin-emerald text-black font-bold text-sm disabled:opacity-40">
+            {busy ? 'Processing…' : outOfBounds ? 'Amount outside plan limits' : 'Confirm Investment'}
+          </button>
+        )}
+      </div>
+    </Modal>
+  );
+}
+
+function DepositModal({ userId, userEmail, onClose, onDone, onError }: {
+  userId: string; userEmail: string; onClose: () => void; onDone: (m: string) => void; onError: (m: string) => void;
+}) {
+  const [network, setNetwork] = useState(NETWORKS[0]!);
+  const [amount, setAmount] = useState('');
+  const [busy, setBusy] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  async function submit() {
+    const value = Number(amount) || 0;
+    if (value <= 0) { onError('Enter a deposit amount'); return; }
+    setBusy(true);
+    const supabase = createClient();
+    const { error } = await supabase.from('balance_transactions').insert({
+      user_id: userId,
+      type: 'deposit',
+      amount: value,
+      status: 'pending',
+      payment_method: network.label,
+      wallet_address: network.address,
+      description: `Crypto deposit via ${network.label}`,
+      reference: userEmail,
+    });
+    setBusy(false);
+    if (error) { onError(error.message); return; }
+    onDone('Deposit request submitted — pending confirmation');
+    onClose();
+  }
+
+  return (
+    <Modal title="Deposit Funds" onClose={onClose}>
+      <div className="space-y-5">
+        <div>
+          <p className="text-xs uppercase tracking-wider text-fin-muted mb-2">Network</p>
+          <div className="grid gap-2">
+            {NETWORKS.map((n) => (
+              <button key={n.id} onClick={() => setNetwork(n)}
+                className={`px-4 py-2.5 rounded-lg text-sm font-semibold text-left border transition-colors ${network.id === n.id ? 'border-fin-emerald bg-fin-emerald-soft text-fin-emerald' : 'border-fin-border bg-fin-elevated text-fin-muted hover:text-white'}`}>
+                {n.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="rounded-xl bg-fin-elevated border border-fin-border p-4">
+          <p className="text-xs uppercase tracking-wider text-fin-muted mb-2">Deposit Address</p>
+          <div className="flex items-center gap-2">
+            <code className="flex-1 text-xs break-all text-white">{network.address}</code>
+            <button
+              onClick={() => { void navigator.clipboard?.writeText(network.address); setCopied(true); setTimeout(() => setCopied(false), 2000); }}
+              className="px-3 py-1.5 rounded-md text-xs font-bold bg-fin-emerald text-black shrink-0">
+              {copied ? 'Copied' : 'Copy'}
+            </button>
+          </div>
+          <div className="mt-4 h-32 rounded-lg border border-dashed border-fin-border flex items-center justify-center text-xs text-fin-muted">
+            QR code
+          </div>
+        </div>
+
+        <div>
+          <label htmlFor="deposit-amount" className="block text-xs uppercase tracking-wider text-fin-muted mb-2">Amount (USD)</label>
+          <input id="deposit-amount" type="number" value={amount} onChange={(e) => setAmount(e.target.value)}
+            className="w-full rounded-lg bg-fin-bg border border-fin-border px-4 py-3 text-white tabular-nums focus:border-fin-emerald outline-none" />
+        </div>
+
+        <button onClick={submit} disabled={busy} className="w-full py-3 rounded-lg bg-fin-emerald text-black font-bold text-sm disabled:opacity-40">
+          {busy ? 'Submitting…' : 'Submit Deposit Request'}
+        </button>
+      </div>
+    </Modal>
+  );
+}
+
+function WithdrawModal({ balance, userId, userEmail, onClose, onDone, onError }: {
+  balance: number; userId: string; userEmail: string; onClose: () => void; onDone: (m: string) => void; onError: (m: string) => void;
+}) {
+  const [amount, setAmount] = useState('');
+  const [address, setAddress] = useState('');
+  const [busy, setBusy] = useState(false);
+  const value = Number(amount) || 0;
+  const fee = value * WITHDRAWAL_FEE_RATE;
+  const net = value - fee;
+  const insufficient = value > balance;
+
+  async function submit() {
+    if (value <= 0) { onError('Enter a withdrawal amount'); return; }
+    if (!address.trim()) { onError('Enter a destination wallet address'); return; }
+    if (insufficient) { onError('Amount exceeds available balance'); return; }
+    setBusy(true);
+    const supabase = createClient();
+    const { error } = await supabase.from('balance_transactions').insert({
+      user_id: userId,
+      type: 'withdrawal',
+      amount: -value,
+      status: 'pending',
+      wallet_address: address.trim(),
+      description: `Crypto withdrawal (1.5% network fee ${money(fee)})`,
+      reference: userEmail,
+    });
+    setBusy(false);
+    if (error) { onError(error.message); return; }
+    onDone('Withdrawal request submitted for review');
+    onClose();
+  }
+
+  return (
+    <Modal title="Withdraw Funds" onClose={onClose}>
+      <div className="space-y-5">
+        <div className="rounded-xl bg-fin-elevated border border-fin-border p-4">
+          <p className="text-[11px] uppercase text-fin-muted">Available Balance</p>
+          <p className={`text-2xl font-extrabold tabular-nums ${insufficient ? 'text-fin-danger' : 'text-fin-emerald'}`}>{money(balance)}</p>
+        </div>
+
+        <div>
+          <label htmlFor="wd-address" className="block text-xs uppercase tracking-wider text-fin-muted mb-2">Destination Wallet Address</label>
+          <input id="wd-address" value={address} onChange={(e) => setAddress(e.target.value)}
+            className="w-full rounded-lg bg-fin-bg border border-fin-border px-4 py-3 text-white text-sm focus:border-fin-emerald outline-none" />
+        </div>
+
+        <div>
+          <label htmlFor="wd-amount" className="block text-xs uppercase tracking-wider text-fin-muted mb-2">Amount (USD)</label>
+          <input id="wd-amount" type="number" value={amount} onChange={(e) => setAmount(e.target.value)}
+            className="w-full rounded-lg bg-fin-bg border border-fin-border px-4 py-3 text-white tabular-nums focus:border-fin-emerald outline-none" />
+        </div>
+
+        <div className="rounded-xl border border-fin-border bg-fin-elevated p-4 space-y-1.5 text-sm">
+          <div className="flex justify-between"><span className="text-fin-muted">Network fee (1.5%)</span><span className="font-bold tabular-nums">{money(fee)}</span></div>
+          <div className="flex justify-between"><span className="text-fin-muted">You receive</span><span className="font-bold text-fin-emerald tabular-nums">{money(Math.max(0, net))}</span></div>
+        </div>
+
+        <button onClick={submit} disabled={busy || insufficient} className="w-full py-3 rounded-lg bg-fin-emerald text-black font-bold text-sm disabled:opacity-40">
+          {busy ? 'Submitting…' : insufficient ? 'Insufficient balance' : 'Confirm Withdrawal'}
+        </button>
+      </div>
+    </Modal>
+  );
+}
