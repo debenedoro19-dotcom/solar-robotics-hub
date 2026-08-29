@@ -39,6 +39,31 @@
   --chart-5: oklch(0.7112 0.1559 250.96);
 }
 
+:root {
+  /* Institutional fintech / Web3 dashboard palette */
+  --fin-bg: #08090C;
+  --fin-card: #0D1117;
+  --fin-elevated: #11161F;
+  --fin-border: rgba(30, 41, 59, 0.8);
+  --fin-emerald: #10B981;
+  --fin-emerald-soft: rgba(16, 185, 129, 0.12);
+  --fin-amber: #F59E0B;
+  --fin-danger: #EF4444;
+  --fin-muted: #7D8898;
+}
+
+.fin-card {
+  background: var(--fin-card);
+  border: 1px solid var(--fin-border);
+  backdrop-filter: blur(12px);
+}
+
+.fin-card-elevated {
+  background: linear-gradient(160deg, var(--fin-elevated), var(--fin-card));
+  border: 1px solid var(--fin-border);
+  box-shadow: 0 24px 60px -30px rgba(16, 185, 129, 0.35);
+}
+
 @theme inline {
   --font-sans: 'Manrope', ui-sans-serif, system-ui, sans-serif;
   --radius-sm: calc(var(--radius) - 2px);
