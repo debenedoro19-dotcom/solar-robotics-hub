@@ -38,7 +38,7 @@ const articles = [
   time: '1 day ago',
   readTime: '5 min read',
   tag: 'Robotics',
-  tagColor: 'text-purple-400 bg-purple-400/10 border-purple-400/20',
+  tagColor: 'text-zinc-300 bg-zinc-300/10 border-zinc-300/20',
   image: "https://img.rocket.new/generatedImages/rocket_gen_img_114687bad-1772811528144.png",
   alt: 'Futuristic humanoid robot in industrial factory setting with bright lights and machinery',
   featured: false
@@ -64,7 +64,7 @@ const articles = [
   time: '3 days ago',
   readTime: '3 min read',
   tag: 'Vehicles',
-  tagColor: 'text-blue-400 bg-blue-400/10 border-blue-400/20',
+  tagColor: 'text-zinc-300 bg-zinc-300/10 border-zinc-300/20',
   image: "https://images.unsplash.com/photo-1667137092038-27612b7233d1",
   alt: 'Modern electric pickup truck on a dark road with dramatic lighting and mountain backdrop',
   featured: false

@@ -48,9 +48,9 @@ const STATUS_CONFIG: Record<string, { label: string; color: string; bg: string; 
   },
   processing: {
     label: 'Processing',
-    color: 'text-blue-400',
-    bg: 'bg-blue-400/10 border-blue-400/20',
-    dot: 'bg-blue-400',
+    color: 'text-zinc-300',
+    bg: 'bg-zinc-300/10 border-zinc-300/20',
+    dot: 'bg-zinc-300',
     icon: (
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
         <path d="M23 4v6h-6M1 20v-6h6" /><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15" />
@@ -426,7 +426,7 @@ export default function AdminWithdrawalsPage() {
           {[
             { label: 'Total Requests', value: stats.total, color: 'text-white' },
             { label: 'Pending', value: stats.pending, color: 'text-yellow-400' },
-            { label: 'Processing', value: stats.processing, color: 'text-blue-400' },
+            { label: 'Processing', value: stats.processing, color: 'text-zinc-300' },
             { label: 'Paid', value: stats.paid, color: 'text-green-400' },
             { label: 'Rejected', value: stats.rejected, color: 'text-red-400' },
             { label: 'Total Paid Out', value: formatAmount(stats.totalPaid), color: 'text-green-400' },

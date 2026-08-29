@@ -280,7 +280,7 @@ export default function AdminGiveawaysPage() {
                       <button onClick={() => move(g, 1)} disabled={idx === items.length - 1} className="px-2.5 py-1.5 bg-[#12131A] text-[#888] text-xs rounded disabled:opacity-30" aria-label="Move down">↓</button>
                       <button onClick={() => setEntrantsFor(entrantsFor === g.id ? null : g.id)} className="px-3 py-1.5 bg-cyan-400/10 border border-cyan-400/20 text-cyan-400 text-xs font-semibold rounded">Entrants ({list.length})</button>
                       <button onClick={() => toggleActive(g)} className="px-3 py-1.5 bg-yellow-400/10 border border-yellow-400/20 text-yellow-400 text-xs font-semibold rounded">{g.is_active ? 'Hide' : 'Show'}</button>
-                      <button onClick={() => startEdit(g)} className="px-3 py-1.5 bg-blue-400/10 border border-blue-400/20 text-blue-400 text-xs font-semibold rounded">Edit</button>
+                      <button onClick={() => startEdit(g)} className="px-3 py-1.5 bg-zinc-300/10 border border-zinc-300/20 text-zinc-300 text-xs font-semibold rounded">Edit</button>
                       <button onClick={() => remove(g)} className="px-3 py-1.5 bg-red-400/10 border border-red-400/20 text-red-400 text-xs font-semibold rounded">Delete</button>
                     </div>
                   </div>

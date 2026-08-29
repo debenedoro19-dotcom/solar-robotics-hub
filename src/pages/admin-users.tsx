@@ -66,7 +66,7 @@ interface EnrichedUser {
 
 const KYC_STATUS_CONFIG = {
   pending: { label: 'Pending', color: 'text-yellow-400', bg: 'bg-yellow-400/10 border-yellow-400/20', dot: 'bg-yellow-400' },
-  under_review: { label: 'Under Review', color: 'text-blue-400', bg: 'bg-blue-400/10 border-blue-400/20', dot: 'bg-blue-400' },
+  under_review: { label: 'Under Review', color: 'text-zinc-300', bg: 'bg-zinc-300/10 border-zinc-300/20', dot: 'bg-zinc-300' },
   approved: { label: 'Approved', color: 'text-green-400', bg: 'bg-green-400/10 border-green-400/20', dot: 'bg-green-400' },
   rejected: { label: 'Rejected', color: 'text-red-400', bg: 'bg-red-400/10 border-red-400/20', dot: 'bg-red-400' },
   none: { label: 'No KYC', color: 'text-[#6B7280]', bg: 'bg-[#12131A] border-[#1E2027]', dot: 'bg-[#52525B]' },
@@ -533,7 +533,7 @@ export default function AdminUsersPage() {
                   <button
                     onClick={() => updateKYCStatus('under_review')}
                     disabled={kycSaving || kyc.kyc_status === 'under_review'}
-                    className="w-full py-3 rounded text-xs font-bold uppercase tracking-widest transition-all bg-blue-400/10 hover:bg-blue-400/20 border border-blue-400/20 hover:border-blue-400/40 text-blue-400 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    className="w-full py-3 rounded text-xs font-bold uppercase tracking-widest transition-all bg-zinc-300/10 hover:bg-zinc-300/20 border border-zinc-300/20 hover:border-zinc-300/40 text-zinc-300 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
                     Mark Under Review
@@ -875,7 +875,7 @@ export default function AdminUsersPage() {
             [
               { label: 'Total Users', value: kycCounts.all, color: 'text-white', filter: 'all' as KYCFilterType },
               { label: 'KYC Pending', value: kycCounts.pending, color: 'text-yellow-400', filter: 'pending' as KYCFilterType },
-              { label: 'Under Review', value: kycCounts.under_review, color: 'text-blue-400', filter: 'under_review' as KYCFilterType },
+              { label: 'Under Review', value: kycCounts.under_review, color: 'text-zinc-300', filter: 'under_review' as KYCFilterType },
               { label: 'KYC Approved', value: kycCounts.approved, color: 'text-green-400', filter: 'approved' as KYCFilterType },
               { label: 'KYC Rejected', value: kycCounts.rejected, color: 'text-red-400', filter: 'rejected' as KYCFilterType },
               { label: 'No KYC', value: kycCounts.none, color: 'text-[#6B7280]', filter: 'none' as KYCFilterType },

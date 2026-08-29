@@ -624,7 +624,7 @@ export default function AdminPage() {
 
   const kycStatusConfig = {
     pending: { label: 'Pending', color: 'text-yellow-400', bg: 'bg-yellow-400/10 border-yellow-400/20' },
-    under_review: { label: 'Under Review', color: 'text-blue-400', bg: 'bg-blue-400/10 border-blue-400/20' },
+    under_review: { label: 'Under Review', color: 'text-zinc-300', bg: 'bg-zinc-300/10 border-zinc-300/20' },
     approved: { label: 'Approved', color: 'text-green-400', bg: 'bg-green-400/10 border-green-400/20' },
     rejected: { label: 'Rejected', color: 'text-red-400', bg: 'bg-red-400/10 border-red-400/20' },
   };
@@ -730,10 +730,10 @@ export default function AdminPage() {
             {/* ── Control Grid ── */}
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 mb-8">
               {[
-                { view: 'analytics' as AdminView, label: 'Analytics', icon: <path d="M18 20V10M12 20V4M6 20v-6" />, color: 'text-blue-400', desc: 'User demographics & signups' },
+                { view: 'analytics' as AdminView, label: 'Analytics', icon: <path d="M18 20V10M12 20V4M6 20v-6" />, color: 'text-zinc-300', desc: 'User demographics & signups' },
                 { view: 'kyc' as AdminView, label: 'KYC Review', icon: <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />, color: 'text-yellow-400', desc: 'Verify identity documents', badge: kycList.filter(k => k.kyc_status === 'pending').length },
                 { view: 'support' as AdminView, label: 'Support', icon: <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>, color: 'text-green-400', desc: 'Manage support tickets', badge: supportTickets.filter(t => t.ticket_status === 'open').length },
-                { view: 'storage' as AdminView, label: 'Storage Bucket', icon: <><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></>, color: 'text-purple-400', desc: 'View & manage uploaded files' },
+                { view: 'storage' as AdminView, label: 'Storage Bucket', icon: <><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></>, color: 'text-zinc-300', desc: 'View & manage uploaded files' },
                 { view: 'userdata' as AdminView, label: 'User Data', icon: <><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></>, color: 'text-cyan-400', desc: 'Browse & manage database records' },
                 { view: 'inventory' as AdminView, label: 'Inventory', icon: <><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></>, color: 'text-orange-400', desc: 'Add/edit vehicles, energy, robotics' },
                 { view: 'giveaways' as AdminView, label: 'Giveaways', icon: <><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></>, color: 'text-pink-400', desc: 'Manage active giveaway campaigns' },
@@ -762,7 +762,7 @@ export default function AdminPage() {
                 href="/admin/users"
                 className="bg-[#0D0E12] border border-[#12131A] hover:border-[#1E2027] rounded-xl p-5 text-left transition-all hover:bg-[#0D0E12]"
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-indigo-400 mb-3" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" /></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-zinc-300 mb-3" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" /></svg>
                 <p className="text-sm font-bold text-white mb-1">User Management</p>
                 <p className="text-[10px] text-[#6B7280] leading-relaxed">View users, review KYC & adjust balances</p>
               </Link>
@@ -810,7 +810,7 @@ export default function AdminPage() {
                 href="/admin/sessions"
                 className="bg-[#0D0E12] border border-[#12131A] hover:border-[#1E2027] rounded-xl p-5 text-left transition-all hover:bg-[#0D0E12]"
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-indigo-400 mb-3" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-zinc-300 mb-3" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
                 <p className="text-sm font-bold text-white mb-1">Session Bookings</p>
                 <p className="text-[10px] text-[#6B7280] leading-relaxed">Reschedule, update payment status & notes</p>
               </Link>
@@ -915,7 +915,7 @@ export default function AdminPage() {
                     { label: 'Total Users', value: analyticsData.totalUsers, icon: '👥', color: 'text-white' },
                     { label: 'KYC Approved', value: analyticsData.verifiedUsers, icon: '✅', color: 'text-green-400' },
                     { label: 'Active Portfolios', value: analyticsData.activeUsers, icon: '📈', color: 'text-primary' },
-                    { label: 'Portfolio Rows', value: analyticsData.portfolioUsers, icon: '🗂️', color: 'text-blue-400' },
+                    { label: 'Portfolio Rows', value: analyticsData.portfolioUsers, icon: '🗂️', color: 'text-zinc-300' },
                   ].map((kpi) => (
                     <div key={kpi.label} className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-5">
                       <div className="flex items-center justify-between mb-3"><span className="text-xs text-[#6B7280] uppercase tracking-widest font-semibold">{kpi.label}</span><span className="text-lg">{kpi.icon}</span></div>
@@ -1017,7 +1017,7 @@ export default function AdminPage() {
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                     {[
                       { label: 'Verification Rate', value: analyticsData.totalUsers > 0 ? `${Math.round((analyticsData.verifiedUsers / analyticsData.totalUsers) * 100)}%` : '0%', sub: `${analyticsData.verifiedUsers} of ${analyticsData.totalUsers} users`, color: 'text-green-400' },
-                      { label: 'Portfolio Adoption', value: analyticsData.totalUsers > 0 ? `${Math.round((analyticsData.portfolioUsers / analyticsData.totalUsers) * 100)}%` : '0%', sub: `${analyticsData.portfolioUsers} have portfolios`, color: 'text-blue-400' },
+                      { label: 'Portfolio Adoption', value: analyticsData.totalUsers > 0 ? `${Math.round((analyticsData.portfolioUsers / analyticsData.totalUsers) * 100)}%` : '0%', sub: `${analyticsData.portfolioUsers} have portfolios`, color: 'text-zinc-300' },
                       { label: 'Active Investors', value: analyticsData.totalUsers > 0 ? `${Math.round((analyticsData.activeUsers / analyticsData.totalUsers) * 100)}%` : '0%', sub: `${analyticsData.activeUsers} with funded portfolios`, color: 'text-primary' },
                       { label: 'Unverified Users', value: analyticsData.unverifiedUsers, sub: 'awaiting KYC approval', color: 'text-yellow-400' },
                     ].map((stat) => (
@@ -1250,7 +1250,7 @@ export default function AdminPage() {
 
             {/* Edit Item Form */}
             {editingItem && (
-              <div className="bg-[#0D0E12] border border-blue-400/20 rounded-xl p-6 mb-6">
+              <div className="bg-[#0D0E12] border border-zinc-300/20 rounded-xl p-6 mb-6">
                 <h3 className="text-sm font-bold text-white mb-4">Edit: {editingItem.name}</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
                   {[
@@ -1309,7 +1309,7 @@ export default function AdminPage() {
                       <span className={`text-xs font-semibold px-2 py-0.5 rounded border ${item.available ? 'bg-green-400/10 text-green-400 border-green-400/20' : 'bg-[#12131A] text-[#6B7280] border-[#1E2027]'}`}>{item.available ? 'Available' : 'Unavailable'}</span>
                     </div>
                     <div className="flex gap-2">
-                      <button onClick={() => setEditingItem({ ...item })} className="px-3 py-1.5 bg-blue-400/10 hover:bg-blue-400/20 border border-blue-400/20 text-blue-400 text-xs font-semibold rounded transition-all">Edit</button>
+                      <button onClick={() => setEditingItem({ ...item })} className="px-3 py-1.5 bg-zinc-300/10 hover:bg-zinc-300/20 border border-zinc-300/20 text-zinc-300 text-xs font-semibold rounded transition-all">Edit</button>
                       <button onClick={() => deleteInventoryItem(item.id)} className="px-3 py-1.5 bg-red-400/10 hover:bg-red-400/20 border border-red-400/20 text-red-400 text-xs font-semibold rounded transition-all">Remove</button>
                     </div>
                   </div>
@@ -1341,7 +1341,7 @@ export default function AdminPage() {
                 { label: 'Total Giveaways', value: giveawayItems.length, color: 'text-white' },
                 { label: 'Active', value: giveawayItems.filter(g => g.active).length, color: 'text-green-400' },
                 { label: 'Total Entries', value: giveawayItems.reduce((s, g) => s + g.entries, 0).toLocaleString(), color: 'text-primary' },
-                { label: 'Max Capacity', value: giveawayItems.reduce((s, g) => s + g.maxEntries, 0).toLocaleString(), color: 'text-blue-400' },
+                { label: 'Max Capacity', value: giveawayItems.reduce((s, g) => s + g.maxEntries, 0).toLocaleString(), color: 'text-zinc-300' },
               ].map(kpi => (
                 <div key={kpi.label} className="bg-[#0D0E12] border border-[#12131A] rounded-lg p-4">
                   <p className="text-xs text-[#6B7280] uppercase tracking-widest mb-2">{kpi.label}</p>
@@ -1384,7 +1384,7 @@ export default function AdminPage() {
 
             {/* Edit Giveaway Form */}
             {editingGiveaway && (
-              <div className="bg-[#0D0E12] border border-blue-400/20 rounded-xl p-6 mb-6">
+              <div className="bg-[#0D0E12] border border-zinc-300/20 rounded-xl p-6 mb-6">
                 <h3 className="text-sm font-bold text-white mb-4">Edit: {editingGiveaway.title}</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
                   {[
@@ -1431,7 +1431,7 @@ export default function AdminPage() {
                         <p className="text-xs text-[#71717A] mt-0.5">Ends: <span className="text-[#D4D4D8]">{g.ends}</span> · Entry: <span className="text-[#D4D4D8]">{g.entryFee}</span></p>
                       </div>
                       <div className="flex gap-2 shrink-0">
-                        <button onClick={() => setEditingGiveaway({ ...g })} className="px-3 py-1.5 bg-blue-400/10 hover:bg-blue-400/20 border border-blue-400/20 text-blue-400 text-xs font-semibold rounded transition-all">Edit</button>
+                        <button onClick={() => setEditingGiveaway({ ...g })} className="px-3 py-1.5 bg-zinc-300/10 hover:bg-zinc-300/20 border border-zinc-300/20 text-zinc-300 text-xs font-semibold rounded transition-all">Edit</button>
                         <button onClick={() => deleteGiveawayItem(g.id)} className="px-3 py-1.5 bg-red-400/10 hover:bg-red-400/20 border border-red-400/20 text-red-400 text-xs font-semibold rounded transition-all">Remove</button>
                       </div>
                     </div>
@@ -1500,7 +1500,7 @@ export default function AdminPage() {
                       <button onClick={() => updateKYCStatus('approved')} disabled={kycSaving || selectedKyc.kyc_status === 'approved'} className="w-full py-3 rounded text-xs font-bold uppercase tracking-widest transition-all bg-green-400/10 hover:bg-green-400/20 border border-green-400/20 hover:border-green-400/40 text-green-400 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2">
                         {kycSaving ? <div className="w-3 h-3 border-2 border-green-400 border-t-transparent rounded-full animate-spin" /> : '✓'} Approve KYC
                       </button>
-                      <button onClick={() => updateKYCStatus('under_review')} disabled={kycSaving || selectedKyc.kyc_status === 'under_review'} className="w-full py-3 rounded text-xs font-bold uppercase tracking-widest transition-all bg-blue-400/10 hover:bg-blue-400/20 border border-blue-400/20 hover:border-blue-400/40 text-blue-400 disabled:opacity-40 disabled:cursor-not-allowed">Mark Under Review</button>
+                      <button onClick={() => updateKYCStatus('under_review')} disabled={kycSaving || selectedKyc.kyc_status === 'under_review'} className="w-full py-3 rounded text-xs font-bold uppercase tracking-widest transition-all bg-zinc-300/10 hover:bg-zinc-300/20 border border-zinc-300/20 hover:border-zinc-300/40 text-zinc-300 disabled:opacity-40 disabled:cursor-not-allowed">Mark Under Review</button>
                       <button onClick={() => updateKYCStatus('rejected')} disabled={kycSaving || selectedKyc.kyc_status === 'rejected'} className="w-full py-3 rounded text-xs font-bold uppercase tracking-widest transition-all bg-red-400/10 hover:bg-red-400/20 border border-red-400/20 hover:border-red-400/40 text-red-400 disabled:opacity-40 disabled:cursor-not-allowed">Reject KYC</button>
                       {kycSaved && <p className="text-center text-xs text-green-400 font-semibold">✓ Status updated</p>}
                     </div>

@@ -23,7 +23,7 @@ type StatusFilter = 'all' | 'pending' | 'confirmed' | 'processing' | 'rejected';
 
 const STATUS_CONFIG: Record<string, { label: string; color: string; bg: string; dot: string }> = {
   pending: { label: 'Pending', color: 'text-yellow-400', bg: 'bg-yellow-400/10 border-yellow-400/20', dot: 'bg-yellow-400' },
-  processing: { label: 'Processing', color: 'text-blue-400', bg: 'bg-blue-400/10 border-blue-400/20', dot: 'bg-blue-400' },
+  processing: { label: 'Processing', color: 'text-zinc-300', bg: 'bg-zinc-300/10 border-zinc-300/20', dot: 'bg-zinc-300' },
   confirmed: { label: 'Confirmed', color: 'text-green-400', bg: 'bg-green-400/10 border-green-400/20', dot: 'bg-green-400' },
   rejected: { label: 'Rejected', color: 'text-red-400', bg: 'bg-red-400/10 border-red-400/20', dot: 'bg-red-400' },
 };
@@ -277,7 +277,7 @@ export default function AdminDepositsPage() {
           {[
             { label: 'Total', value: stats.total, color: 'text-white', accent: '#6B7280' },
             { label: 'Pending', value: stats.pending, color: 'text-yellow-400', accent: '#F59E0B' },
-            { label: 'Processing', value: stats.processing, color: 'text-blue-400', accent: '#A1A1AA' },
+            { label: 'Processing', value: stats.processing, color: 'text-zinc-300', accent: '#A1A1AA' },
             { label: 'Confirmed', value: stats.confirmed, color: 'text-green-400', accent: '#00F59B' },
             { label: 'Rejected', value: stats.rejected, color: 'text-red-400', accent: '#E82127' },
             { label: 'Total Confirmed', value: `$${stats.totalConfirmed.toLocaleString()}`, color: 'text-green-400', accent: '#00F59B' },

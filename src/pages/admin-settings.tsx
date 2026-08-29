@@ -1292,7 +1292,7 @@ export default function AdminSettingsPage() {
         {activeTab === 'email' && (
           <div className="space-y-6">
             <div className="bg-[#050507] border border-[#12131A] rounded-xl p-5 flex items-start gap-3">
-              <div className="w-9 h-9 rounded-lg bg-blue-400/10 flex items-center justify-center shrink-0">
+              <div className="w-9 h-9 rounded-lg bg-zinc-300/10 flex items-center justify-center shrink-0">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A1A1AA" strokeWidth="2" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
               </div>
               <div>
@@ -1358,7 +1358,7 @@ export default function AdminSettingsPage() {
             {/* Withdrawal Email */}
             <div className={sectionClass}>
               <p className={sectionTitleClass}>
-                <span className="w-5 h-5 rounded bg-blue-400/10 flex items-center justify-center text-[10px]">💸</span>
+                <span className="w-5 h-5 rounded bg-zinc-300/10 flex items-center justify-center text-[10px]">💸</span>
                 Withdrawal Processed Email
               </p>
               <div className="space-y-3">
@@ -1391,10 +1391,10 @@ export default function AdminSettingsPage() {
                 <button
                   onClick={sendTestEmail}
                   disabled={testEmailSending || !testEmailAddr}
-                  className="px-5 py-2.5 rounded-lg text-xs font-bold uppercase tracking-widest transition-all bg-blue-400/10 hover:bg-blue-400/20 border border-blue-400/20 hover:border-blue-400/40 text-blue-400 disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2 whitespace-nowrap"
+                  className="px-5 py-2.5 rounded-lg text-xs font-bold uppercase tracking-widest transition-all bg-zinc-300/10 hover:bg-zinc-300/20 border border-zinc-300/20 hover:border-zinc-300/40 text-zinc-300 disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2 whitespace-nowrap"
                 >
                   {testEmailSending ? (
-                    <><div className="w-3 h-3 border-2 border-blue-400 border-t-transparent rounded-full animate-spin" />Sending…</>
+                    <><div className="w-3 h-3 border-2 border-zinc-300 border-t-transparent rounded-full animate-spin" />Sending…</>
                   ) : 'Send Test'}
                 </button>
               </div>

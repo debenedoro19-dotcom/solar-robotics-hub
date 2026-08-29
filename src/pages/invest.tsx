@@ -126,8 +126,8 @@ export default function InvestPage() {
       message: 'Your verification is pending admin review. You can invest in $100–$500 tiers while you wait.',
       cta: 'View KYC Status',
       href: '/kyc',
-      color: 'border-blue-400/20 bg-blue-400/5',
-      titleColor: 'text-blue-400',
+      color: 'border-zinc-300/20 bg-zinc-300/5',
+      titleColor: 'text-zinc-300',
     },
     under_review: {
       icon: '🔍',
@@ -135,8 +135,8 @@ export default function InvestPage() {
       message: 'Our team is reviewing your documents. You will be notified once approved.',
       cta: 'View KYC Status',
       href: '/kyc',
-      color: 'border-blue-400/20 bg-blue-400/5',
-      titleColor: 'text-blue-400',
+      color: 'border-zinc-300/20 bg-zinc-300/5',
+      titleColor: 'text-zinc-300',
     },
     rejected: {
       icon: '❌',
