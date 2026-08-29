@@ -39,9 +39,13 @@ export default function CareerDetailPage({ slug }: { slug: string }) {
     try {
       let resume_path: string | null = null;
       if (resume) {
-        const ext = resume.name.split('.').pop() ?? 'pdf';
-        resume_path = `${job.slug}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-        const { error: upErr } = await supabase.storage.from('resumes').upload(resume_path, resume);
+        const rawExt = (resume.name.split('.').pop() ?? 'pdf').toLowerCase();
+        const ext = ['pdf', 'doc', 'docx', 'rtf', 'txt'].includes(rawExt) ? rawExt : 'pdf';
+        if (resume.size > 10 * 1024 * 1024) throw new Error('Resume must be under 10MB.');
+        resume_path = `applications/${crypto.randomUUID()}.${ext}`;
+        const { error: upErr } = await supabase.storage
+          .from('resumes')
+          .upload(resume_path, resume, { upsert: false, contentType: resume.type || undefined });
         if (upErr) throw upErr;
       }
       const { error } = await supabase.from('job_applications').insert({
