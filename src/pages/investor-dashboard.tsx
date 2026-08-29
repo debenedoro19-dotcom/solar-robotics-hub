@@ -104,17 +104,12 @@ export default function InvestorDashboard() {
     ]);
 
     if (balanceRes.data) {
-      setWallet({
-        available_balance: Number(balanceRes.data.available_balance ?? 0),
-        total_invested: Number(balanceRes.data.total_invested ?? 0),
-        total_profit: Number(balanceRes.data.total_profit ?? 0),
-        total_deposited: Number(balanceRes.data.total_deposited ?? 0),
-        total_withdrawn: Number(balanceRes.data.total_withdrawn ?? 0),
-      });
+      setWallet(toWallet(balanceRes.data as Record<string, unknown>));
     } else {
       await supabase.from('user_balance').insert({ user_id: user.id });
       setWallet(EMPTY_WALLET);
     }
+
 
     setPlans((plansRes.data ?? []) as Plan[]);
     setContracts((investmentsRes.data ?? []) as Contract[]);
