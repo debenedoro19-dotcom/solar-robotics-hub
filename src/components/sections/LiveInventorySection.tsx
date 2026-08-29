@@ -283,7 +283,7 @@ const inventory: InventoryItem[] = [
 }];
 
 
-const PAGE_SIZE = 12;
+const PAGE_SIZE = 4;
 const ORDER: Exclude<Category, 'All'>[] = ['Vehicles', 'Energy', 'Solar', 'Robotics'];
 
 const categories: Category[] = ['All', 'Vehicles', 'Energy', 'Solar', 'Robotics'];
