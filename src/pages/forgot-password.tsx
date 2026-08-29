@@ -33,7 +33,7 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#0A0A0A] flex items-center justify-center px-4 relative overflow-hidden">
+    <main className="min-h-screen bg-[#050507] flex items-center justify-center px-4 relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px]" />
@@ -59,7 +59,7 @@ export default function ForgotPasswordPage() {
           <h1 className="text-2xl font-extrabold text-white tracking-tight mb-2">
             {sent ? 'Check Your Email' : 'Reset Password'}
           </h1>
-          <p className="text-sm text-[#666666]">
+          <p className="text-sm text-[#71717A]">
             {sent
               ? 'Recovery instructions have been sent.' :'Enter your email to receive reset instructions.'}
           </p>
@@ -70,17 +70,17 @@ export default function ForgotPasswordPage() {
             {/* Success state */}
             <div className="flex flex-col items-center gap-4 py-6">
               <div className="w-16 h-16 rounded-full bg-green-500/10 border border-green-500/30 flex items-center justify-center">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00F59B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                   <polyline points="22,6 12,13 2,6" />
                 </svg>
               </div>
               <div className="text-center">
-                <p className="text-sm text-[#888888] leading-relaxed">
+                <p className="text-sm text-[#A1A1AA] leading-relaxed">
                   We&apos;ve sent password reset instructions to{' '}
                   <span className="text-white font-semibold">{email}</span>.
                 </p>
-                <p className="text-xs text-[#555555] mt-2">
+                <p className="text-xs text-[#6B7280] mt-2">
                   Didn&apos;t receive it? Check your spam folder or try again.
                 </p>
               </div>
@@ -88,14 +88,14 @@ export default function ForgotPasswordPage() {
 
             <Link
               href="/reset-password"
-              className="w-full py-3.5 tesla-btn-primary rounded min-h-[48px] flex items-center justify-center text-sm font-bold tracking-widest uppercase"
+              className="w-full py-3.5 tesla-btn-primary rounded-xl min-h-[48px] flex items-center justify-center text-sm font-bold tracking-widest uppercase"
             >
               Enter Reset Code →
             </Link>
 
             <button
               onClick={() => { setSent(false); setEmail(''); }}
-              className="w-full py-3 text-xs text-[#555555] hover:text-white transition-colors tracking-wider uppercase"
+              className="w-full py-3 text-xs text-[#6B7280] hover:text-white transition-colors tracking-wider uppercase"
             >
               Try a different email
             </button>
@@ -103,11 +103,11 @@ export default function ForgotPasswordPage() {
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
-              <div className="px-4 py-3 rounded bg-primary/10 border border-primary/30 text-sm text-primary">{error}</div>
+              <div className="px-4 py-3 rounded-xl bg-primary/10 border border-primary/30 text-sm text-primary">{error}</div>
             )}
 
             <div>
-              <label htmlFor="email" className="block text-xs font-semibold text-[#888888] uppercase tracking-widest mb-2">
+              <label htmlFor="email" className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">
                 Email Address
               </label>
               <input
@@ -116,7 +116,7 @@ export default function ForgotPasswordPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
-                className="w-full px-4 py-3 rounded text-sm input-tesla"
+                className="w-full px-4 py-3 rounded-xl text-sm input-tesla"
                 autoComplete="email"
               />
             </div>
@@ -124,7 +124,7 @@ export default function ForgotPasswordPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 tesla-btn-primary rounded min-h-[48px] flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+              className="w-full py-3.5 tesla-btn-primary rounded-xl min-h-[48px] flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {loading ? (
                 <>
@@ -142,7 +142,7 @@ export default function ForgotPasswordPage() {
         )}
 
         <div className="mt-6 text-center">
-          <p className="text-sm text-[#555555]">
+          <p className="text-sm text-[#6B7280]">
             Remember your password?{' '}
             <Link href="/login" className="text-primary hover:text-red-400 font-semibold transition-colors">
               Sign In
@@ -150,8 +150,8 @@ export default function ForgotPasswordPage() {
           </p>
         </div>
 
-        <div className="mt-8 pt-6 border-t border-[#1A1A1A] text-center">
-          <Link href="/" className="text-xs text-[#444444] hover:text-[#888888] transition-colors tracking-wider uppercase">
+        <div className="mt-8 pt-6 border-t border-[#12131A] text-center">
+          <Link href="/" className="text-xs text-[#52525B] hover:text-[#A1A1AA] transition-colors tracking-wider uppercase">
             ← Back to Home
           </Link>
         </div>

@@ -83,7 +83,7 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#0A0A0A] flex items-center justify-center px-4 relative overflow-hidden">
+    <main className="min-h-screen bg-[#050507] flex items-center justify-center px-4 relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px]" />
@@ -107,17 +107,17 @@ export default function LoginPage() {
             <span className="text-white font-bold text-lg tracking-widest uppercase">Tesla Trade</span>
           </Link>
           <h1 className="text-2xl font-extrabold text-white tracking-tight mb-2">Sign In</h1>
-          <p className="text-sm text-[#666666]">Access your investment dashboard</p>
+          <p className="text-sm text-[#71717A]">Access your investment dashboard</p>
         </div>
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
-            <div className="px-4 py-3 rounded bg-primary/10 border border-primary/30 text-sm text-primary">{error}</div>
+            <div className="px-4 py-3 rounded-xl bg-primary/10 border border-primary/30 text-sm text-primary">{error}</div>
           )}
 
           <div>
-            <label htmlFor="email" className="block text-xs font-semibold text-[#888888] uppercase tracking-widest mb-2">
+            <label htmlFor="email" className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">
               Email Address
             </label>
             <input
@@ -126,12 +126,12 @@ export default function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
-              className="w-full px-4 py-3 rounded text-sm input-tesla"
+              className="w-full px-4 py-3 rounded-xl text-sm input-tesla"
             />
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-xs font-semibold text-[#888888] uppercase tracking-widest mb-2">
+            <label htmlFor="password" className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">
               Password
             </label>
             <input
@@ -140,12 +140,12 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Your password"
-              className="w-full px-4 py-3 rounded text-sm input-tesla"
+              className="w-full px-4 py-3 rounded-xl text-sm input-tesla"
             />
           </div>
 
           <div className="flex justify-end">
-            <Link href="/forgot-password" className="text-xs text-[#555555] hover:text-primary transition-colors">
+            <Link href="/forgot-password" className="text-xs text-[#6B7280] hover:text-primary transition-colors">
               Forgot password?
             </Link>
           </div>
@@ -153,7 +153,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3.5 tesla-btn-primary rounded min-h-[48px] flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+            className="w-full py-3.5 tesla-btn-primary rounded-xl min-h-[48px] flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {loading ? (
               <>
@@ -170,7 +170,7 @@ export default function LoginPage() {
         </form>
 
         <div className="mt-6 text-center">
-          <p className="text-sm text-[#555555]">
+          <p className="text-sm text-[#6B7280]">
             Don&apos;t have an account?{' '}
             <Link href="/register" className="text-primary hover:text-red-400 font-semibold transition-colors">
               Create Account

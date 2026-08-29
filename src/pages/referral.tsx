@@ -291,7 +291,7 @@ export default function ReferralPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#0A0A0A] text-white">
+    <main className="min-h-screen bg-[#050507] text-white">
       <Header />
       <div className="pt-24 pb-20 px-6 lg:px-8">
         <div className="max-w-5xl mx-auto">
@@ -303,22 +303,22 @@ export default function ReferralPage() {
               <h1 className="text-4xl font-extrabold text-white tracking-tight mb-3">
                 Earn by <span className="gradient-text-primary">Referring</span>
               </h1>
-              <p className="text-[#666666] text-sm max-w-xl">
+              <p className="text-[#71717A] text-sm max-w-xl">
                 Invite friends to invest in the Tesla ecosystem. Earnings are credited only when your referee makes an actual investment, stock purchase, or inventory buy.
               </p>
             </div>
             {/* Live indicator */}
             <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-semibold tracking-wider uppercase transition-all ${
               realtimeConnected
-                ? 'border-green-500/30 bg-green-500/10 text-green-400' : 'border-[#2A2A2A] bg-[#111111] text-[#555555]'
+                ? 'border-green-500/30 bg-green-500/10 text-green-400' : 'border-[#1E2027] bg-[#0D0E12] text-[#6B7280]'
             }`}>
-              <span className={`w-1.5 h-1.5 rounded-full ${realtimeConnected ? 'bg-green-400 animate-pulse' : 'bg-[#444444]'}`} />
+              <span className={`w-1.5 h-1.5 rounded-full ${realtimeConnected ? 'bg-green-400 animate-pulse' : 'bg-[#52525B]'}`} />
               {realtimeConnected ? 'Live' : 'Connecting…'}
             </div>
           </div>
 
           {/* Earnings notice */}
-          <div className="mb-8 flex items-start gap-3 px-4 py-3 bg-amber-500/5 border border-amber-500/20 rounded-lg">
+          <div className="mb-8 flex items-start gap-3 px-4 py-3 bg-amber-500/5 border border-amber-500/20 rounded-xl">
             <svg className="w-4 h-4 text-amber-400 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20A10 10 0 0012 2z" />
             </svg>
@@ -331,9 +331,9 @@ export default function ReferralPage() {
           {loading ? (
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
               {[...Array(4)].map((_, i) => (
-                <div key={i} className="bg-[#111111] border border-[#1A1A1A] rounded-lg p-5 text-center animate-pulse">
-                  <div className="h-7 w-16 bg-[#1A1A1A] rounded mx-auto mb-2" />
-                  <div className="h-3 w-20 bg-[#1A1A1A] rounded mx-auto" />
+                <div key={i} className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-5 text-center animate-pulse">
+                  <div className="h-7 w-16 bg-[#12131A] rounded-xl mx-auto mb-2" />
+                  <div className="h-3 w-20 bg-[#12131A] rounded-xl mx-auto" />
                 </div>
               ))}
             </div>
@@ -345,24 +345,24 @@ export default function ReferralPage() {
                 { label: 'Invested Referrals', value: String(investedCount) },
                 { label: 'Total Earnings', value: earnings },
               ].map((stat) => (
-                <div key={stat.label} className="bg-[#111111] border border-[#1A1A1A] rounded-lg p-5 text-center">
+                <div key={stat.label} className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-5 text-center">
                   <div className="text-2xl font-extrabold text-white mb-1">{stat.value}</div>
-                  <div className="text-[10px] text-[#555555] uppercase tracking-widest">{stat.label}</div>
+                  <div className="text-[10px] text-[#6B7280] uppercase tracking-widest">{stat.label}</div>
                 </div>
               ))}
             </div>
           )}
 
           {/* Referral link */}
-          <div className="bg-[#111111] border border-[#1A1A1A] rounded-lg p-6 mb-6">
+          <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-6 mb-6">
             <h2 className="text-xs font-bold text-white uppercase tracking-widest mb-4">Your Referral Link</h2>
             <div className="flex gap-3 mb-4">
-              <div className="flex-1 px-4 py-3 bg-[#0A0A0A] border border-[#2A2A2A] rounded text-sm text-[#888888] font-mono truncate select-all">
+              <div className="flex-1 px-4 py-3 bg-[#050507] border border-[#1E2027] rounded-xl text-sm text-[#A1A1AA] font-mono truncate select-all">
                 {referralLink}
               </div>
               <button
                 onClick={handleCopy}
-                className={`px-5 py-3 rounded text-xs font-bold tracking-widest uppercase transition-all min-w-[90px] ${
+                className={`px-5 py-3 rounded-xl text-xs font-bold tracking-widest uppercase transition-all min-w-[90px] ${
                   copied ? 'bg-green-500 text-white' : 'tesla-btn-primary'
                 }`}
               >
@@ -370,8 +370,8 @@ export default function ReferralPage() {
               </button>
             </div>
             <div className="flex items-center gap-3">
-              <span className="text-xs text-[#555555]">Your code:</span>
-              <span className="px-3 py-1 bg-primary/10 border border-primary/20 rounded text-xs font-bold text-primary tracking-widest">
+              <span className="text-xs text-[#6B7280]">Your code:</span>
+              <span className="px-3 py-1 bg-primary/10 border border-primary/20 rounded-xl text-xs font-bold text-primary tracking-widest">
                 {referralCode}
               </span>
             </div>
@@ -380,7 +380,7 @@ export default function ReferralPage() {
           {/* Tier system + Estimated payout side by side */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
             {/* Tiers — spans 2 cols */}
-            <div className="lg:col-span-2 bg-[#111111] border border-[#1A1A1A] rounded-lg p-6">
+            <div className="lg:col-span-2 bg-[#0D0E12] border border-[#12131A] rounded-xl p-6">
               <h2 className="text-xs font-bold text-white uppercase tracking-widest mb-5">Earnings Per Tier</h2>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {TIERS.map((tier) => {
@@ -388,18 +388,18 @@ export default function ReferralPage() {
                   return (
                     <div
                       key={tier.name}
-                      className="p-4 rounded-lg border text-center transition-all"
+                      className="p-4 rounded-xl border text-center transition-all"
                       style={{
-                        background: isCurrent ? tier.bg : '#0D0D0D',
-                        borderColor: isCurrent ? tier.border : '#1A1A1A',
+                        background: isCurrent ? tier.bg : '#050507',
+                        borderColor: isCurrent ? tier.border : '#12131A',
                       }}
                     >
                       <div className="text-2xl mb-2" style={{ color: tier.color }}>◆</div>
                       <div className="text-sm font-bold text-white mb-1">{tier.name}</div>
-                      <div className="text-[10px] text-[#555555] mb-2 uppercase tracking-wider">{tier.label}</div>
-                      <div className="text-xs text-[#888888] leading-tight">{tier.reward}</div>
+                      <div className="text-[10px] text-[#6B7280] mb-2 uppercase tracking-wider">{tier.label}</div>
+                      <div className="text-xs text-[#A1A1AA] leading-tight">{tier.reward}</div>
                       {isCurrent && (
-                        <div className="mt-2 px-2 py-0.5 bg-primary text-white text-[9px] font-bold rounded tracking-wider uppercase">
+                        <div className="mt-2 px-2 py-0.5 bg-primary text-white text-[9px] font-bold rounded-xl tracking-wider uppercase">
                           Current
                         </div>
                       )}
@@ -410,20 +410,20 @@ export default function ReferralPage() {
             </div>
 
             {/* Estimated payout */}
-            <div className="bg-[#111111] border border-[#1A1A1A] rounded-lg p-6 flex flex-col justify-between">
+            <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-6 flex flex-col justify-between">
               <div>
                 <h2 className="text-xs font-bold text-white uppercase tracking-widest mb-2">Estimated Payout</h2>
-                <p className="text-[#555555] text-xs mb-6 leading-relaxed">
+                <p className="text-[#6B7280] text-xs mb-6 leading-relaxed">
                   Based on invested referrals × tier rate. Only referees who made a purchase count.
                 </p>
               </div>
               <div>
                 {loading ? (
-                  <div className="h-12 w-32 bg-[#1A1A1A] rounded animate-pulse mb-3" />
+                  <div className="h-12 w-32 bg-[#12131A] rounded-xl animate-pulse mb-3" />
                 ) : (
                   <div className="text-5xl font-extrabold text-white mb-1 tracking-tight">{estimatedPayout}</div>
                 )}
-                <div className="text-xs text-[#555555] mb-4">
+                <div className="text-xs text-[#6B7280] mb-4">
                   {currentTier
                     ? `${currentTier.name} tier · $${currentTier.rewardPerReferral}/referral`
                     : 'No qualifying referrals yet'}
@@ -441,15 +441,15 @@ export default function ReferralPage() {
           </div>
 
           {/* ── WITHDRAWAL SECTION ── */}
-          <div className="bg-[#111111] border border-[#1A1A1A] rounded-lg mb-6 overflow-hidden">
-            <div className="p-5 border-b border-[#1A1A1A] flex items-center justify-between">
+          <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl mb-6 overflow-hidden">
+            <div className="p-5 border-b border-[#12131A] flex items-center justify-between">
               <div>
                 <h2 className="text-xs font-bold text-white uppercase tracking-widest">Withdrawal Requests</h2>
-                <p className="text-[10px] text-[#555555] mt-1">Request a payout to your verified bank account</p>
+                <p className="text-[10px] text-[#6B7280] mt-1">Request a payout to your verified bank account</p>
               </div>
               <button
                 onClick={() => { setShowWithdrawForm((v) => !v); setWithdrawError(''); }}
-                className="tesla-btn-primary px-4 py-2 text-xs font-bold tracking-widest uppercase rounded"
+                className="tesla-btn-primary px-4 py-2 text-xs font-bold tracking-widest uppercase rounded-xl"
               >
                 {showWithdrawForm ? 'Cancel' : '+ Request Payout'}
               </button>
@@ -457,7 +457,7 @@ export default function ReferralPage() {
 
             {/* Success banner */}
             {withdrawSuccess && (
-              <div className="mx-5 mt-4 flex items-center gap-2 px-4 py-3 bg-green-500/10 border border-green-500/25 rounded text-xs text-green-400 font-semibold">
+              <div className="mx-5 mt-4 flex items-center gap-2 px-4 py-3 bg-green-500/10 border border-green-500/25 rounded-xl text-xs text-green-400 font-semibold">
                 <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
@@ -467,10 +467,10 @@ export default function ReferralPage() {
 
             {/* Withdrawal form */}
             {showWithdrawForm && (
-              <form onSubmit={handleWithdrawSubmit} className="p-5 border-b border-[#1A1A1A] space-y-4">
+              <form onSubmit={handleWithdrawSubmit} className="p-5 border-b border-[#12131A] space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[10px] text-[#555555] uppercase tracking-widest mb-1.5">Amount (USD) *</label>
+                    <label className="block text-[10px] text-[#6B7280] uppercase tracking-widest mb-1.5">Amount (USD) *</label>
                     <input
                       type="number"
                       name="amount"
@@ -480,11 +480,11 @@ export default function ReferralPage() {
                       min="1"
                       step="0.01"
                       required
-                      className="w-full px-3 py-2.5 bg-[#0A0A0A] border border-[#2A2A2A] rounded text-sm text-white placeholder-[#444444] focus:outline-none focus:border-primary/50 transition-colors"
+                      className="w-full px-3 py-2.5 bg-[#050507] border border-[#1E2027] rounded-xl text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-primary/50 transition-colors"
                     />
                   </div>
                   <div>
-                    <label className="block text-[10px] text-[#555555] uppercase tracking-widest mb-1.5">Bank Name *</label>
+                    <label className="block text-[10px] text-[#6B7280] uppercase tracking-widest mb-1.5">Bank Name *</label>
                     <input
                       type="text"
                       name="bank_name"
@@ -492,11 +492,11 @@ export default function ReferralPage() {
                       onChange={handleWithdrawChange}
                       placeholder="e.g. Chase Bank"
                       required
-                      className="w-full px-3 py-2.5 bg-[#0A0A0A] border border-[#2A2A2A] rounded text-sm text-white placeholder-[#444444] focus:outline-none focus:border-primary/50 transition-colors"
+                      className="w-full px-3 py-2.5 bg-[#050507] border border-[#1E2027] rounded-xl text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-primary/50 transition-colors"
                     />
                   </div>
                   <div>
-                    <label className="block text-[10px] text-[#555555] uppercase tracking-widest mb-1.5">Account Holder Name *</label>
+                    <label className="block text-[10px] text-[#6B7280] uppercase tracking-widest mb-1.5">Account Holder Name *</label>
                     <input
                       type="text"
                       name="account_name"
@@ -504,11 +504,11 @@ export default function ReferralPage() {
                       onChange={handleWithdrawChange}
                       placeholder="Full name on account"
                       required
-                      className="w-full px-3 py-2.5 bg-[#0A0A0A] border border-[#2A2A2A] rounded text-sm text-white placeholder-[#444444] focus:outline-none focus:border-primary/50 transition-colors"
+                      className="w-full px-3 py-2.5 bg-[#050507] border border-[#1E2027] rounded-xl text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-primary/50 transition-colors"
                     />
                   </div>
                   <div>
-                    <label className="block text-[10px] text-[#555555] uppercase tracking-widest mb-1.5">Account Number *</label>
+                    <label className="block text-[10px] text-[#6B7280] uppercase tracking-widest mb-1.5">Account Number *</label>
                     <input
                       type="text"
                       name="account_number"
@@ -516,70 +516,70 @@ export default function ReferralPage() {
                       onChange={handleWithdrawChange}
                       placeholder="••••••••••"
                       required
-                      className="w-full px-3 py-2.5 bg-[#0A0A0A] border border-[#2A2A2A] rounded text-sm text-white placeholder-[#444444] focus:outline-none focus:border-primary/50 transition-colors"
+                      className="w-full px-3 py-2.5 bg-[#050507] border border-[#1E2027] rounded-xl text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-primary/50 transition-colors"
                     />
                   </div>
                   <div className="sm:col-span-2">
-                    <label className="block text-[10px] text-[#555555] uppercase tracking-widest mb-1.5">Routing Number</label>
+                    <label className="block text-[10px] text-[#6B7280] uppercase tracking-widest mb-1.5">Routing Number</label>
                     <input
                       type="text"
                       name="routing_number"
                       value={withdrawForm.routing_number}
                       onChange={handleWithdrawChange}
                       placeholder="9-digit routing number (optional)"
-                      className="w-full px-3 py-2.5 bg-[#0A0A0A] border border-[#2A2A2A] rounded text-sm text-white placeholder-[#444444] focus:outline-none focus:border-primary/50 transition-colors"
+                      className="w-full px-3 py-2.5 bg-[#050507] border border-[#1E2027] rounded-xl text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-primary/50 transition-colors"
                     />
                   </div>
                 </div>
 
                 {withdrawError && (
-                  <p className="text-xs text-red-400 bg-red-500/10 border border-red-500/20 px-3 py-2 rounded">{withdrawError}</p>
+                  <p className="text-xs text-red-400 bg-red-500/10 border border-red-500/20 px-3 py-2 rounded-xl">{withdrawError}</p>
                 )}
 
                 <div className="flex items-center gap-3 pt-1">
                   <button
                     type="submit"
                     disabled={withdrawSubmitting}
-                    className="tesla-btn-primary px-6 py-2.5 text-xs font-bold tracking-widest uppercase rounded disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="tesla-btn-primary px-6 py-2.5 text-xs font-bold tracking-widest uppercase rounded-xl disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {withdrawSubmitting ? 'Submitting…' : 'Submit Request'}
                   </button>
-                  <p className="text-[10px] text-[#444444]">Payouts processed within 3–5 business days after admin approval.</p>
+                  <p className="text-[10px] text-[#52525B]">Payouts processed within 3–5 business days after admin approval.</p>
                 </div>
               </form>
             )}
 
             {/* Withdrawal history */}
             {withdrawalsLoading ? (
-              <div className="divide-y divide-[#1A1A1A]">
+              <div className="divide-y divide-[#12131A]">
                 {[...Array(2)].map((_, i) => (
                   <div key={i} className="flex items-center justify-between px-5 py-4 animate-pulse">
-                    <div className="h-3 w-32 bg-[#1A1A1A] rounded" />
-                    <div className="h-5 w-20 bg-[#1A1A1A] rounded-full" />
+                    <div className="h-3 w-32 bg-[#12131A] rounded-xl" />
+                    <div className="h-5 w-20 bg-[#12131A] rounded-full" />
                   </div>
                 ))}
               </div>
             ) : withdrawals.length > 0 ? (
-              <div className="divide-y divide-[#1A1A1A]">
+              <div className="divide-y divide-[#12131A]">
                 {withdrawals.map((wd) => {
                   const s = STATUS_STYLES[wd.payout_status] ?? STATUS_STYLES.pending;
                   const dateStr = wd.requested_at ? new Date(wd.requested_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : '';
                   return (
-                    <div key={wd.id} className="flex flex-wrap items-center justify-between gap-3 px-5 py-4 hover:bg-[#141414] transition-colors">
+                    <div key={wd.id} className="flex flex-wrap items-center justify-between gap-3 px-5 py-4 hover:bg-[#0D0E12] transition-colors">
                       <div className="flex items-center gap-4">
-                        <div className="w-9 h-9 rounded-full bg-[#0D0D0D] border border-[#1A1A1A] flex items-center justify-center shrink-0">
-                          <svg className="w-4 h-4 text-[#555555]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
+                        <div className="w-9 h-9 rounded-full bg-[#050507] border border-[#12131A] flex items-center justify-center shrink-0">
+                          <svg className="w-4 h-4 text-[#6B7280]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                           </svg>
                         </div>
                         <div>
                           <div className="text-sm font-bold text-white">${wd.amount.toLocaleString()}</div>
-                          <div className="text-xs text-[#444444]">{wd.bank_name} · {dateStr}</div>
+                          <div className="text-xs text-[#52525B]">{wd.bank_name} · {dateStr}</div>
                         </div>
                       </div>
                       <div className="flex items-center gap-3">
                         {wd.processed_at && (
-                          <span className="text-[10px] text-[#444444]">
+                          <span className="text-[10px] text-[#52525B]">
                             Processed {new Date(wd.processed_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                           </span>
                         )}
@@ -596,13 +596,13 @@ export default function ReferralPage() {
               </div>
             ) : (
               <div className="flex flex-col items-center justify-center gap-3 py-12">
-                <div className="w-12 h-12 rounded-full bg-[#0D0D0D] border border-[#1A1A1A] flex items-center justify-center">
-                  <svg className="w-5 h-5 text-[#444444]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
+                <div className="w-12 h-12 rounded-full bg-[#050507] border border-[#12131A] flex items-center justify-center">
+                  <svg className="w-5 h-5 text-[#52525B]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                   </svg>
                 </div>
-                <p className="text-sm font-semibold text-[#555555]">No withdrawal requests yet</p>
-                <p className="text-xs text-[#3A3A3A] max-w-xs text-center">
+                <p className="text-sm font-semibold text-[#6B7280]">No withdrawal requests yet</p>
+                <p className="text-xs text-[#2A2D35] max-w-xs text-center">
                   Once you have qualifying earnings, click &quot;Request Payout&quot; to submit a withdrawal.
                 </p>
               </div>
@@ -610,64 +610,64 @@ export default function ReferralPage() {
           </div>
 
           {/* Referral history */}
-          <div className="bg-[#111111] border border-[#1A1A1A] rounded-lg overflow-hidden">
-            <div className="p-5 border-b border-[#1A1A1A] flex items-center justify-between">
+          <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl overflow-hidden">
+            <div className="p-5 border-b border-[#12131A] flex items-center justify-between">
               <h2 className="text-xs font-bold text-white uppercase tracking-widest">Active Referrals</h2>
               {history.length > 0 && (
-                <span className="text-[10px] text-[#555555] uppercase tracking-widest">{history.length} total</span>
+                <span className="text-[10px] text-[#6B7280] uppercase tracking-widest">{history.length} total</span>
               )}
             </div>
 
             {loading ? (
-              <div className="divide-y divide-[#1A1A1A]">
+              <div className="divide-y divide-[#12131A]">
                 {[...Array(3)].map((_, i) => (
                   <div key={i} className="flex items-center justify-between px-5 py-4 animate-pulse">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-[#1A1A1A]" />
+                      <div className="w-8 h-8 rounded-full bg-[#12131A]" />
                       <div>
-                        <div className="h-3 w-28 bg-[#1A1A1A] rounded mb-1.5" />
-                        <div className="h-2.5 w-20 bg-[#1A1A1A] rounded" />
+                        <div className="h-3 w-28 bg-[#12131A] rounded-xl mb-1.5" />
+                        <div className="h-2.5 w-20 bg-[#12131A] rounded-xl" />
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="h-3 w-16 bg-[#1A1A1A] rounded mb-1.5 ml-auto" />
-                      <div className="h-2.5 w-12 bg-[#1A1A1A] rounded ml-auto" />
+                      <div className="h-3 w-16 bg-[#12131A] rounded-xl mb-1.5 ml-auto" />
+                      <div className="h-2.5 w-12 bg-[#12131A] rounded-xl ml-auto" />
                     </div>
                   </div>
                 ))}
               </div>
             ) : history.length > 0 ? (
-              <div className="divide-y divide-[#1A1A1A]">
+              <div className="divide-y divide-[#12131A]">
                 {history.map((ref, i) => (
-                  <div key={i} className="flex items-center justify-between px-5 py-4 hover:bg-[#141414] transition-colors">
+                  <div key={i} className="flex items-center justify-between px-5 py-4 hover:bg-[#0D0E12] transition-colors">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-[#1A1A1A] flex items-center justify-center text-xs font-bold text-[#666666]">
+                      <div className="w-8 h-8 rounded-full bg-[#12131A] flex items-center justify-center text-xs font-bold text-[#71717A]">
                         {ref.name?.charAt(0)?.toUpperCase()}
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
                           <span className="text-sm font-semibold text-white">{ref.name}</span>
                           {ref.invested ? (
-                            <span className="px-1.5 py-0.5 bg-green-500/10 border border-green-500/20 rounded text-[9px] font-bold text-green-400 uppercase tracking-wider">Invested</span>
+                            <span className="px-1.5 py-0.5 bg-green-500/10 border border-green-500/20 rounded-xl text-[9px] font-bold text-green-400 uppercase tracking-wider">Invested</span>
                           ) : (
-                            <span className="px-1.5 py-0.5 bg-[#1A1A1A] border border-[#2A2A2A] rounded text-[9px] font-bold text-[#555555] uppercase tracking-wider">Signed Up</span>
+                            <span className="px-1.5 py-0.5 bg-[#12131A] border border-[#1E2027] rounded-xl text-[9px] font-bold text-[#6B7280] uppercase tracking-wider">Signed Up</span>
                           )}
                         </div>
-                        <div className="text-xs text-[#444444]">{ref.date}</div>
+                        <div className="text-xs text-[#52525B]">{ref.date}</div>
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className={`text-sm font-bold ${ref.invested ? (ref.statusColor || 'text-white') : 'text-[#444444]'}`}>
+                      <div className={`text-sm font-bold ${ref.invested ? (ref.statusColor || 'text-white') : 'text-[#52525B]'}`}>
                         {ref.invested ? ref.reward : 'Pending investment'}
                       </div>
-                      <div className={`text-xs ${ref.statusColor || 'text-[#555555]'}`}>{ref.status}</div>
+                      <div className={`text-xs ${ref.statusColor || 'text-[#6B7280]'}`}>{ref.status}</div>
                     </div>
                   </div>
                 ))}
               </div>
             ) : (
               <div className="flex flex-col items-center justify-center gap-4 py-16">
-                <div className="w-14 h-14 rounded-full bg-[#0D0D0D] border border-[#1A1A1A] flex items-center justify-center">
+                <div className="w-14 h-14 rounded-full bg-[#050507] border border-[#12131A] flex items-center justify-center">
                   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#444" strokeWidth="1.5" aria-hidden="true">
                     <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
                     <circle cx="9" cy="7" r="4" />
@@ -676,8 +676,8 @@ export default function ReferralPage() {
                   </svg>
                 </div>
                 <div className="text-center">
-                  <p className="text-sm font-semibold text-[#555555] mb-1">No referrals yet</p>
-                  <p className="text-xs text-[#3A3A3A] max-w-xs">
+                  <p className="text-sm font-semibold text-[#6B7280] mb-1">No referrals yet</p>
+                  <p className="text-xs text-[#2A2D35] max-w-xs">
                     Share your referral link to start earning. Your referral history will appear here in real time.
                   </p>
                 </div>
@@ -686,7 +686,7 @@ export default function ReferralPage() {
           </div>
 
           <div className="mt-8 text-center">
-            <Link href="/dashboard" className="text-xs text-[#555555] hover:text-white transition-colors tracking-wider uppercase">
+            <Link href="/dashboard" className="text-xs text-[#6B7280] hover:text-white transition-colors tracking-wider uppercase">
               ← Back to Dashboard
             </Link>
           </div>

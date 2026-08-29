@@ -173,7 +173,7 @@ export default function InvestorDashboard() {
         <div className="text-center">
           <h1 className="text-xl font-bold text-white mb-2">Sign in required</h1>
           <p className="text-sm text-fin-muted mb-6">Access your investor dashboard to view your wallet.</p>
-          <Link href="/login" className="px-6 py-2.5 rounded-lg bg-fin-emerald text-black text-sm font-semibold">Sign In</Link>
+          <Link href="/login" className="px-6 py-2.5 rounded-xl bg-fin-emerald text-black text-sm font-semibold">Sign In</Link>
         </div>
       </main>
     );
@@ -190,26 +190,27 @@ export default function InvestorDashboard() {
             <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">Portfolio Overview</h1>
             <p className="text-sm text-fin-muted mt-1">{userEmail}</p>
           </div>
-          <Link href="/account" className="px-4 py-2 rounded-lg fin-card text-sm font-semibold hover:border-fin-emerald/40 transition-colors">Account & Verification →</Link>
+          <Link href="/account" className="px-4 py-2 rounded-xl fin-card text-sm font-semibold hover:border-fin-emerald/40 transition-colors">Account & Verification →</Link>
         </header>
 
 
         {/* Hero balance */}
         <section className="grid gap-5 lg:grid-cols-[1.4fr_1fr]">
-          <div className="fin-card-elevated rounded-2xl p-6 sm:p-8">
-            <p className="text-xs uppercase tracking-[0.25em] text-fin-muted mb-3">Available Wallet Balance</p>
-            <p className="text-4xl sm:text-5xl font-extrabold tracking-tight text-fin-emerald tabular-nums">
+          <div className="fin-card-elevated rounded-3xl p-6 sm:p-8">
+            <p className="ts-label mb-3">Available Wallet Balance</p>
+            <p className="text-3xl sm:text-5xl font-bold tracking-tight text-white tabular-nums">
               {money(wallet.available_balance)}
             </p>
             <p className="text-sm text-fin-muted mt-2">
               Deposit-first platform — fund your wallet before deploying capital into a plan.
             </p>
             <div className="flex flex-wrap gap-3 mt-6">
-              <button onClick={() => setDepositOpen(true)} className="px-5 py-2.5 rounded-lg bg-fin-emerald text-black text-sm font-bold hover:opacity-90 transition-opacity">+ Deposit</button>
-              <button onClick={() => setWithdrawOpen(true)} className="px-5 py-2.5 rounded-lg fin-card text-sm font-bold hover:border-fin-emerald/40 transition-colors">↑ Withdraw</button>
-              <button onClick={() => { setTab('browse'); document.getElementById('marketplace')?.scrollIntoView({ behavior: 'smooth' }); }} className="px-5 py-2.5 rounded-lg fin-card text-sm font-bold hover:border-fin-emerald/40 transition-colors">⚡ Buy Plan</button>
+              <button onClick={() => setDepositOpen(true)} className="px-5 py-2.5 rounded-xl bg-[#E82127] text-white text-sm font-bold shadow-[inset_0_1px_0_rgba(255,255,255,0.18)] hover:bg-[#B3181D] transition-all duration-300">+ Deposit</button>
+              <button onClick={() => setWithdrawOpen(true)} className="px-5 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] backdrop-blur-xl text-sm font-bold hover:border-white/25 transition-all duration-300">↑ Withdraw</button>
+              <button onClick={() => { setTab('browse'); document.getElementById('marketplace')?.scrollIntoView({ behavior: 'smooth' }); }} className="px-5 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] backdrop-blur-xl text-sm font-bold hover:border-white/25 transition-all duration-300">⚡ Buy Plan</button>
             </div>
           </div>
+
 
           <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
             <MetricCard label="Total Active Capital" value={money(totalActiveCapital)} />
@@ -219,13 +220,13 @@ export default function InvestorDashboard() {
         </section>
 
         {/* Chart */}
-        <section className="fin-card rounded-2xl p-5 sm:p-6">
+        <section className="fin-card rounded-3xl p-5 sm:p-6">
           <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
             <div>
               <h2 className="text-lg font-bold">Portfolio Analytics</h2>
               <p className="text-xs text-fin-muted">Capital base plus accrued daily yield</p>
             </div>
-            <div className="flex gap-1 p-1 rounded-lg bg-fin-elevated border border-fin-border">
+            <div className="flex gap-1 p-1 rounded-xl bg-fin-elevated border border-fin-border">
               {(['7d', '1m', '1y', 'all'] as Range[]).map((r) => (
                 <button
                   key={r}
@@ -241,17 +242,17 @@ export default function InvestorDashboard() {
               <AreaChart data={chartData}>
                 <defs>
                   <linearGradient id="finEmerald" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#10B981" stopOpacity={0.55} />
-                    <stop offset="100%" stopColor="#10B981" stopOpacity={0} />
+                    <stop offset="0%" stopColor="#00F59B" stopOpacity={0.55} />
+                    <stop offset="100%" stopColor="#00F59B" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.12)" vertical={false} />
-                <XAxis dataKey="label" tick={{ fill: '#7D8898', fontSize: 11 }} axisLine={false} tickLine={false} minTickGap={24} />
-                <YAxis tick={{ fill: '#7D8898', fontSize: 11 }} axisLine={false} tickLine={false} width={70} tickFormatter={(v) => `$${Number(v).toLocaleString()}`} />
+                <XAxis dataKey="label" tick={{ fill: '#A1A1AA', fontSize: 11 }} axisLine={false} tickLine={false} minTickGap={24} />
+                <YAxis tick={{ fill: '#A1A1AA', fontSize: 11 }} axisLine={false} tickLine={false} width={70} tickFormatter={(v) => `$${Number(v).toLocaleString()}`} />
                 <Tooltip
-                  contentStyle={{ background: '#0D1117', border: '1px solid rgba(30,41,59,0.8)', borderRadius: 12, color: '#fff' }}
+                  contentStyle={{ background: '#0D0E12', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, color: '#fff' }}
                   formatter={(v: number | string) => [money(Number(v)), 'Portfolio']} />
-                <Area type="monotone" dataKey="value" stroke="#10B981" strokeWidth={2} fill="url(#finEmerald)" />
+                <Area type="monotone" dataKey="value" stroke="#00F59B" strokeWidth={2} fill="url(#finEmerald)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
@@ -272,9 +273,9 @@ export default function InvestorDashboard() {
 
           {tab === 'active' ? (
             activeContracts.length === 0 ? (
-              <div className="fin-card rounded-2xl p-10 text-center">
+              <div className="fin-card rounded-3xl p-10 text-center">
                 <p className="text-sm text-fin-muted mb-4">No active contracts yet.</p>
-                <button onClick={() => setTab('browse')} className="px-5 py-2.5 rounded-lg bg-fin-emerald text-black text-sm font-bold">Browse Plans</button>
+                <button onClick={() => setTab('browse')} className="px-5 py-2.5 rounded-xl bg-fin-emerald text-black text-sm font-bold">Browse Plans</button>
               </div>
             ) : (
               <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -283,7 +284,7 @@ export default function InvestorDashboard() {
                   const matures = new Date(c.matures_at).getTime();
                   const progress = Math.min(100, Math.max(0, ((Date.now() - started) / (matures - started)) * 100));
                   return (
-                    <article key={c.id} className="fin-card rounded-2xl p-5">
+                    <article key={c.id} className="fin-card rounded-3xl p-5">
                       <div className="flex items-start justify-between gap-3 mb-3">
                         <h3 className="font-bold">{c.plan_name}</h3>
                         <span className={`px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider border ${CATEGORY_STYLES[c.plan_category] ?? 'bg-white/5 text-fin-muted border-fin-border'}`}>
@@ -296,8 +297,9 @@ export default function InvestorDashboard() {
                         <div><dt className="text-xs text-fin-muted">Yield Earned</dt><dd className="font-bold text-fin-emerald tabular-nums">{money(Number(c.yield_earned))}</dd></div>
                         <div><dt className="text-xs text-fin-muted">Matures</dt><dd className="font-bold">{new Date(c.matures_at).toLocaleDateString()}</dd></div>
                       </dl>
-                      <div className="h-2 rounded-full bg-fin-elevated overflow-hidden">
-                        <div className="h-full rounded-full bg-fin-emerald" style={{ width: `${progress}%` }} />
+                      <div className="h-2 ts-progress">
+                        <div className="ts-progress-fill" style={{ width: `${progress}%` }} />
+
                       </div>
                       <p className="text-[11px] text-fin-muted mt-2">{progress.toFixed(0)}% of {c.duration_days}-day term complete</p>
                     </article>
@@ -308,7 +310,7 @@ export default function InvestorDashboard() {
           ) : (
             <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
               {plans.map((p) => (
-                <article key={p.id} className="fin-card rounded-2xl p-5 flex flex-col">
+                <article key={p.id} className="fin-card rounded-3xl p-5 flex flex-col">
                   <span className={`self-start px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider border mb-3 ${CATEGORY_STYLES[p.category] ?? 'bg-white/5 text-fin-muted border-fin-border'}`}>
                     {p.category}
                   </span>
@@ -320,7 +322,7 @@ export default function InvestorDashboard() {
                     <div><dt className="text-xs text-fin-muted">Minimum</dt><dd className="font-bold tabular-nums">{money(Number(p.min_deposit))}</dd></div>
                     <div><dt className="text-xs text-fin-muted">Maximum</dt><dd className="font-bold tabular-nums">{money(Number(p.max_deposit))}</dd></div>
                   </dl>
-                  <button onClick={() => setInvestPlan(p)} className="w-full py-2.5 rounded-lg bg-fin-emerald text-black text-sm font-bold hover:opacity-90 transition-opacity">Invest</button>
+                  <button onClick={() => setInvestPlan(p)} className="w-full py-2.5 rounded-xl bg-fin-emerald text-black text-sm font-bold hover:opacity-90 transition-opacity">Invest</button>
                 </article>
               ))}
             </div>
@@ -328,13 +330,13 @@ export default function InvestorDashboard() {
         </section>
 
         {/* Giveaway entries */}
-        <section className="fin-card rounded-2xl overflow-hidden">
+        <section className="fin-card rounded-3xl overflow-hidden">
           <div className="p-5 border-b border-fin-border flex items-center justify-between gap-4">
             <div>
               <h2 className="text-lg font-bold">Giveaway Entries</h2>
               <p className="text-xs text-fin-muted">Entries paid from your wallet balance</p>
             </div>
-            <a href="/#giveaways" className="px-4 py-2 rounded-lg bg-fin-emerald text-black text-xs font-bold whitespace-nowrap">Enter a Giveaway</a>
+            <a href="/#giveaways" className="px-4 py-2 rounded-xl bg-fin-emerald text-black text-xs font-bold whitespace-nowrap">Enter a Giveaway</a>
           </div>
           {giveawayEntries.length === 0 ? (
             <p className="p-8 text-center text-sm text-fin-muted">No giveaway entries yet.</p>
@@ -367,7 +369,7 @@ export default function InvestorDashboard() {
         </section>
 
         {/* Ledger */}
-        <section className="fin-card rounded-2xl overflow-hidden">
+        <section className="fin-card rounded-3xl overflow-hidden">
           <div className="p-5 border-b border-fin-border">
             <h2 className="text-lg font-bold">Transaction Ledger</h2>
             <p className="text-xs text-fin-muted">Deposits, plan purchases, giveaway entries, yield payouts and withdrawals</p>
@@ -481,7 +483,7 @@ function InvestModal({ plan, balance, onClose, onDone, onError, onDeposit }: {
             type="number"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
-            className="w-full rounded-lg bg-fin-bg border border-fin-border px-4 py-3 text-white tabular-nums focus:border-fin-emerald outline-none" />
+            className="w-full rounded-xl bg-fin-bg border border-fin-border px-4 py-3 text-white tabular-nums focus:border-fin-emerald outline-none" />
           <div className="flex gap-2 mt-2">
             {[25, 50, 75, 100].map((pct) => (
               <button key={pct} onClick={() => setAmount(String(Math.floor(balance * (pct / 100) * 100) / 100))}
@@ -504,13 +506,13 @@ function InvestModal({ plan, balance, onClose, onDone, onError, onDeposit }: {
         {insufficient ? (
           <div className="space-y-3">
             <p className="text-sm text-fin-danger font-semibold">Insufficient wallet balance for this allocation.</p>
-            <button onClick={onDeposit} className="w-full py-3 rounded-lg bg-fin-emerald text-black font-bold text-sm">Deposit Funds</button>
+            <button onClick={onDeposit} className="w-full py-3 rounded-xl bg-fin-emerald text-black font-bold text-sm">Deposit Funds</button>
           </div>
         ) : (
           <button
             onClick={confirm}
             disabled={busy || outOfBounds || value <= 0}
-            className="w-full py-3 rounded-lg bg-fin-emerald text-black font-bold text-sm disabled:opacity-40">
+            className="w-full py-3 rounded-xl bg-fin-emerald text-black font-bold text-sm disabled:opacity-40">
             {busy ? 'Processing…' : outOfBounds ? 'Amount outside plan limits' : 'Confirm Investment'}
           </button>
         )}

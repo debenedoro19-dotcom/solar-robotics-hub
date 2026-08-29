@@ -4,7 +4,7 @@ import { NETWORKS, WITHDRAWAL_FEE_RATE, money } from './wallet';
 
 export function MetricCard({ label, value, accent, sub }: { label: string; value: string; accent?: boolean; sub?: string }) {
   return (
-    <div className="fin-card rounded-2xl p-5">
+    <div className="fin-card rounded-3xl p-5">
       <p className="text-xs uppercase tracking-[0.2em] text-fin-muted mb-2">{label}</p>
       <p className={`text-2xl font-extrabold tabular-nums ${accent ? 'text-fin-emerald' : 'text-white'}`}>{value}</p>
       {sub && <p className="text-[11px] text-fin-muted mt-1">{sub}</p>}
@@ -15,7 +15,7 @@ export function MetricCard({ label, value, accent, sub }: { label: string; value
 export function Modal({ title, onClose, children }: { title: string; onClose: () => void; children: React.ReactNode }) {
   return (
     <div className="fixed inset-0 z-[90] flex items-center justify-center px-4 bg-black/70 backdrop-blur-sm" role="dialog" aria-modal="true">
-      <div className="w-full max-w-md fin-card-elevated rounded-2xl p-6 max-h-[90vh] overflow-y-auto">
+      <div className="w-full max-w-md fin-card-elevated rounded-3xl p-6 max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-5">
           <h2 className="text-lg font-bold text-white">{title}</h2>
           <button onClick={onClose} aria-label="Close" className="text-fin-muted hover:text-white text-xl leading-none">×</button>
@@ -63,7 +63,7 @@ export function DepositModal({ userId, userEmail, onClose, onDone, onError }: {
           <div className="grid gap-2">
             {NETWORKS.map((n) => (
               <button key={n.id} onClick={() => setNetwork(n)}
-                className={`px-4 py-2.5 rounded-lg text-sm font-semibold text-left border transition-colors ${network.id === n.id ? 'border-fin-emerald bg-fin-emerald-soft text-fin-emerald' : 'border-fin-border bg-fin-elevated text-fin-muted hover:text-white'}`}>
+                className={`px-4 py-2.5 rounded-xl text-sm font-semibold text-left border transition-colors ${network.id === n.id ? 'border-fin-emerald bg-fin-emerald-soft text-fin-emerald' : 'border-fin-border bg-fin-elevated text-fin-muted hover:text-white'}`}>
                 {n.label}
               </button>
             ))}
@@ -80,7 +80,7 @@ export function DepositModal({ userId, userEmail, onClose, onDone, onError }: {
               {copied ? 'Copied' : 'Copy'}
             </button>
           </div>
-          <div className="mt-4 h-32 rounded-lg border border-dashed border-fin-border flex items-center justify-center text-xs text-fin-muted">
+          <div className="mt-4 h-32 rounded-xl border border-dashed border-fin-border flex items-center justify-center text-xs text-fin-muted">
             QR code
           </div>
         </div>
@@ -88,10 +88,10 @@ export function DepositModal({ userId, userEmail, onClose, onDone, onError }: {
         <div>
           <label htmlFor="deposit-amount" className="block text-xs uppercase tracking-wider text-fin-muted mb-2">Amount (USD)</label>
           <input id="deposit-amount" type="number" value={amount} onChange={(e) => setAmount(e.target.value)}
-            className="w-full rounded-lg bg-fin-bg border border-fin-border px-4 py-3 text-white tabular-nums focus:border-fin-emerald outline-none" />
+            className="w-full rounded-xl bg-fin-bg border border-fin-border px-4 py-3 text-white tabular-nums focus:border-fin-emerald outline-none" />
         </div>
 
-        <button onClick={submit} disabled={busy} className="w-full py-3 rounded-lg bg-fin-emerald text-black font-bold text-sm disabled:opacity-40">
+        <button onClick={submit} disabled={busy} className="w-full py-3 rounded-xl bg-fin-emerald text-black font-bold text-sm disabled:opacity-40">
           {busy ? 'Submitting…' : 'Submit Deposit Request'}
         </button>
       </div>
@@ -142,13 +142,13 @@ export function WithdrawModal({ balance, userId, userEmail, onClose, onDone, onE
         <div>
           <label htmlFor="wd-address" className="block text-xs uppercase tracking-wider text-fin-muted mb-2">Destination Wallet Address</label>
           <input id="wd-address" value={address} onChange={(e) => setAddress(e.target.value)}
-            className="w-full rounded-lg bg-fin-bg border border-fin-border px-4 py-3 text-white text-sm focus:border-fin-emerald outline-none" />
+            className="w-full rounded-xl bg-fin-bg border border-fin-border px-4 py-3 text-white text-sm focus:border-fin-emerald outline-none" />
         </div>
 
         <div>
           <label htmlFor="wd-amount" className="block text-xs uppercase tracking-wider text-fin-muted mb-2">Amount (USD)</label>
           <input id="wd-amount" type="number" value={amount} onChange={(e) => setAmount(e.target.value)}
-            className="w-full rounded-lg bg-fin-bg border border-fin-border px-4 py-3 text-white tabular-nums focus:border-fin-emerald outline-none" />
+            className="w-full rounded-xl bg-fin-bg border border-fin-border px-4 py-3 text-white tabular-nums focus:border-fin-emerald outline-none" />
         </div>
 
         <div className="rounded-xl border border-fin-border bg-fin-elevated p-4 space-y-1.5 text-sm">
@@ -156,7 +156,7 @@ export function WithdrawModal({ balance, userId, userEmail, onClose, onDone, onE
           <div className="flex justify-between"><span className="text-fin-muted">You receive</span><span className="font-bold text-fin-emerald tabular-nums">{money(Math.max(0, net))}</span></div>
         </div>
 
-        <button onClick={submit} disabled={busy || insufficient} className="w-full py-3 rounded-lg bg-fin-emerald text-black font-bold text-sm disabled:opacity-40">
+        <button onClick={submit} disabled={busy || insufficient} className="w-full py-3 rounded-xl bg-fin-emerald text-black font-bold text-sm disabled:opacity-40">
           {busy ? 'Submitting…' : insufficient ? 'Insufficient balance' : 'Confirm Withdrawal'}
         </button>
       </div>

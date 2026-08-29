@@ -48,9 +48,9 @@ const STATUS_CONFIG: Record<string, { label: string; color: string; bg: string; 
   },
   processing: {
     label: 'Processing',
-    color: 'text-blue-400',
-    bg: 'bg-blue-400/10 border-blue-400/20',
-    dot: 'bg-blue-400',
+    color: 'text-zinc-300',
+    bg: 'bg-zinc-300/10 border-zinc-300/20',
+    dot: 'bg-zinc-300',
     icon: (
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
         <path d="M23 4v6h-6M1 20v-6h6" /><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15" />
@@ -351,14 +351,14 @@ export default function AdminWithdrawalsPage() {
 
   if (!authorized) {
     return (
-      <main className="min-h-screen bg-[#0A0A0A] flex items-center justify-center">
+      <main className="min-h-screen bg-[#050507] flex items-center justify-center">
         <div className="text-center">
-          <div className="w-16 h-16 rounded-full bg-[#111111] border border-[#1A1A1A] flex items-center justify-center mx-auto mb-4">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E31937" strokeWidth="1.5" aria-hidden="true">
+          <div className="w-16 h-16 rounded-full bg-[#0D0E12] border border-[#12131A] flex items-center justify-center mx-auto mb-4">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E82127" strokeWidth="1.5" aria-hidden="true">
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
             </svg>
           </div>
-          <p className="text-[#666666] text-sm mb-4">Admin access required</p>
+          <p className="text-[#71717A] text-sm mb-4">Admin access required</p>
           <Link href="/login" className="text-primary text-sm hover:underline">Return to Login</Link>
         </div>
       </main>
@@ -366,9 +366,9 @@ export default function AdminWithdrawalsPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#0A0A0A] text-white">
+    <main className="min-h-screen bg-[#050507] text-white">
       {/* Top bar */}
-      <div className="border-b border-[#1A1A1A] bg-[#0A0A0A]/95 backdrop-blur-xl sticky top-0 z-40">
+      <div className="border-b border-[#12131A] bg-[#050507]/95 backdrop-blur-xl sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link href="/" className="flex items-center gap-2.5">
@@ -377,20 +377,20 @@ export default function AdminWithdrawalsPage() {
               </svg>
               <span className="text-white font-bold text-sm tracking-widest uppercase">Tesla Trade</span>
             </Link>
-            <span className="text-[#2A2A2A]">|</span>
+            <span className="text-[#1E2027]">|</span>
             <span className="text-xs text-primary tracking-widest uppercase font-semibold">Admin Panel</span>
-            <span className="text-[#2A2A2A]">|</span>
-            <span className="text-xs text-[#666666] tracking-widest uppercase">Withdrawals</span>
+            <span className="text-[#1E2027]">|</span>
+            <span className="text-xs text-[#71717A] tracking-widest uppercase">Withdrawals</span>
           </div>
           <div className="flex items-center gap-3">
             {/* Live indicator */}
             <div className="flex items-center gap-1.5">
-              <span className={`w-2 h-2 rounded-full transition-colors duration-300 ${liveIndicator ? 'bg-green-400 shadow-[0_0_6px_#4ade80]' : 'bg-green-500/40'}`} />
+              <span className={`w-2 h-2 rounded-full transition-colors duration-300 ${liveIndicator ? 'bg-green-400 shadow-[0_0_6px_#00F59B]' : 'bg-green-500/40'}`} />
               <span className="text-[10px] text-[#555] uppercase tracking-widest">Live</span>
             </div>
             <Link
               href="/admin"
-              className="text-xs text-[#666666] hover:text-white transition-colors flex items-center gap-1.5"
+              className="text-xs text-[#71717A] hover:text-white transition-colors flex items-center gap-1.5"
             >
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                 <path d="M19 12H5M12 19l-7-7 7-7" />
@@ -407,12 +407,12 @@ export default function AdminWithdrawalsPage() {
         <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
             <h1 className="text-2xl font-extrabold text-white tracking-tight mb-1">Withdrawals Management</h1>
-            <p className="text-sm text-[#666666]">Review pending requests, approve or reject payouts, and track disbursement status in real time.</p>
+            <p className="text-sm text-[#71717A]">Review pending requests, approve or reject payouts, and track disbursement status in real time.</p>
           </div>
           <button
             onClick={loadWithdrawals}
             disabled={loading}
-            className="flex items-center gap-2 px-5 py-2.5 bg-[#111111] hover:bg-[#1A1A1A] border border-[#2A2A2A] hover:border-[#3A3A3A] text-[#AAAAAA] hover:text-white text-xs font-bold rounded tracking-widest uppercase transition-all disabled:opacity-50 self-start sm:self-auto"
+            className="flex items-center gap-2 px-5 py-2.5 bg-[#0D0E12] hover:bg-[#12131A] border border-[#1E2027] hover:border-[#2A2D35] text-[#D4D4D8] hover:text-white text-xs font-bold rounded-xl tracking-widest uppercase transition-all disabled:opacity-50 self-start sm:self-auto"
           >
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={loading ? 'animate-spin' : ''} aria-hidden="true">
               <path d="M23 4v6h-6M1 20v-6h6" /><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15" />
@@ -426,23 +426,23 @@ export default function AdminWithdrawalsPage() {
           {[
             { label: 'Total Requests', value: stats.total, color: 'text-white' },
             { label: 'Pending', value: stats.pending, color: 'text-yellow-400' },
-            { label: 'Processing', value: stats.processing, color: 'text-blue-400' },
+            { label: 'Processing', value: stats.processing, color: 'text-zinc-300' },
             { label: 'Paid', value: stats.paid, color: 'text-green-400' },
             { label: 'Rejected', value: stats.rejected, color: 'text-red-400' },
             { label: 'Total Paid Out', value: formatAmount(stats.totalPaid), color: 'text-green-400' },
           ].map((card) => (
-            <div key={card.label} className="bg-[#111111] border border-[#1A1A1A] rounded-lg p-4">
-              <p className="text-[10px] text-[#666666] uppercase tracking-widest mb-1.5">{card.label}</p>
+            <div key={card.label} className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-4">
+              <p className="text-[10px] text-[#71717A] uppercase tracking-widest mb-1.5">{card.label}</p>
               <p className={`text-xl font-extrabold ${card.color}`}>{card.value}</p>
             </div>
           ))}
         </div>
 
         {/* Filters */}
-        <div className="bg-[#111111] border border-[#1A1A1A] rounded-lg p-4 mb-6">
+        <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-4 mb-6">
           <div className="flex flex-wrap gap-3 items-end">
             <div className="flex-1 min-w-[180px]">
-              <label className="block text-[10px] text-[#666666] uppercase tracking-widest mb-1.5">Search User</label>
+              <label className="block text-[10px] text-[#71717A] uppercase tracking-widest mb-1.5">Search User</label>
               <div className="relative">
                 <svg className="absolute left-3 top-1/2 -translate-y-1/2 text-[#444]" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                   <circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" />
@@ -452,16 +452,16 @@ export default function AdminWithdrawalsPage() {
                   value={userSearch}
                   onChange={(e) => setUserSearch(e.target.value)}
                   placeholder="Name or email…"
-                  className="w-full bg-[#0A0A0A] border border-[#2A2A2A] rounded pl-8 pr-3 py-2 text-sm text-white placeholder-[#444] focus:outline-none focus:border-primary/50 transition-colors"
+                  className="w-full bg-[#050507] border border-[#1E2027] rounded-xl pl-8 pr-3 py-2 text-sm text-white placeholder-[#444] focus:outline-none focus:border-primary/50 transition-colors"
                 />
               </div>
             </div>
             <div className="min-w-[140px]">
-              <label className="block text-[10px] text-[#666666] uppercase tracking-widest mb-1.5">Status</label>
+              <label className="block text-[10px] text-[#71717A] uppercase tracking-widest mb-1.5">Status</label>
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value as StatusFilter)}
-                className="w-full bg-[#0A0A0A] border border-[#2A2A2A] rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-primary/50 transition-colors"
+                className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-primary/50 transition-colors"
               >
                 <option value="all">All Statuses</option>
                 <option value="pending">Pending</option>
@@ -471,39 +471,39 @@ export default function AdminWithdrawalsPage() {
               </select>
             </div>
             <div className="min-w-[140px]">
-              <label className="block text-[10px] text-[#666666] uppercase tracking-widest mb-1.5">From Date</label>
+              <label className="block text-[10px] text-[#71717A] uppercase tracking-widest mb-1.5">From Date</label>
               <input
                 type="date"
                 value={dateFrom}
                 onChange={(e) => setDateFrom(e.target.value)}
-                className="w-full bg-[#0A0A0A] border border-[#2A2A2A] rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-primary/50 transition-colors [color-scheme:dark]"
+                className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-primary/50 transition-colors [color-scheme:dark]"
               />
             </div>
             <div className="min-w-[140px]">
-              <label className="block text-[10px] text-[#666666] uppercase tracking-widest mb-1.5">To Date</label>
+              <label className="block text-[10px] text-[#71717A] uppercase tracking-widest mb-1.5">To Date</label>
               <input
                 type="date"
                 value={dateTo}
                 onChange={(e) => setDateTo(e.target.value)}
-                className="w-full bg-[#0A0A0A] border border-[#2A2A2A] rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-primary/50 transition-colors [color-scheme:dark]"
+                className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-primary/50 transition-colors [color-scheme:dark]"
               />
             </div>
             {(statusFilter !== 'all' || userSearch || dateFrom || dateTo) && (
               <button
                 onClick={() => { setStatusFilter('all'); setUserSearch(''); setDateFrom(''); setDateTo(''); }}
-                className="px-4 py-2 text-xs text-[#666666] hover:text-white border border-[#2A2A2A] hover:border-[#3A3A3A] rounded transition-colors"
+                className="px-4 py-2 text-xs text-[#71717A] hover:text-white border border-[#1E2027] hover:border-[#2A2D35] rounded-xl transition-colors"
               >
                 Clear
               </button>
             )}
           </div>
           <p className="text-[11px] text-[#444] mt-3">
-            Showing <span className="text-[#AAAAAA] font-semibold">{filtered.length}</span> of <span className="text-[#AAAAAA] font-semibold">{withdrawals.length}</span> requests
+            Showing <span className="text-[#D4D4D8] font-semibold">{filtered.length}</span> of <span className="text-[#D4D4D8] font-semibold">{withdrawals.length}</span> requests
           </p>
         </div>
 
         {error && (
-          <div className="mb-4 p-3 bg-red-500/10 border border-red-500/20 rounded text-red-400 text-sm">{error}</div>
+          <div className="mb-4 p-3 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-sm">{error}</div>
         )}
 
         <div className="flex gap-6">
@@ -512,27 +512,27 @@ export default function AdminWithdrawalsPage() {
             {loading ? (
               <div className="space-y-2">
                 {[...Array(6)].map((_, i) => (
-                  <div key={i} className="h-14 bg-[#111111] border border-[#1A1A1A] rounded-lg animate-pulse" />
+                  <div key={i} className="h-14 bg-[#0D0E12] border border-[#12131A] rounded-xl animate-pulse" />
                 ))}
               </div>
             ) : filtered.length === 0 ? (
-              <div className="flex flex-col items-center justify-center gap-3 py-20 bg-[#111111] border border-[#1A1A1A] rounded-lg">
-                <div className="w-12 h-12 rounded-full bg-[#0A0A0A] border border-[#2A2A2A] flex items-center justify-center">
+              <div className="flex flex-col items-center justify-center gap-3 py-20 bg-[#0D0E12] border border-[#12131A] rounded-xl">
+                <div className="w-12 h-12 rounded-full bg-[#050507] border border-[#1E2027] flex items-center justify-center">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#444" strokeWidth="1.5" aria-hidden="true">
                     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                   </svg>
                 </div>
-                <p className="text-[#666666] text-sm">No withdrawal requests found</p>
+                <p className="text-[#71717A] text-sm">No withdrawal requests found</p>
               </div>
             ) : (
-              <div className="bg-[#111111] border border-[#1A1A1A] rounded-lg overflow-hidden">
-                <div className="grid grid-cols-[1fr_auto_auto_auto] gap-4 px-5 py-3 border-b border-[#1A1A1A] text-[10px] text-[#555] uppercase tracking-widest">
+              <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl overflow-hidden">
+                <div className="grid grid-cols-[1fr_auto_auto_auto] gap-4 px-5 py-3 border-b border-[#12131A] text-[10px] text-[#555] uppercase tracking-widest">
                   <span>User</span>
                   <span className="text-right">Amount</span>
                   <span className="text-center">Status</span>
                   <span className="text-right">Date</span>
                 </div>
-                <div className="divide-y divide-[#1A1A1A]">
+                <div className="divide-y divide-[#12131A]">
                   {filtered.map((w) => {
                     const sc = STATUS_CONFIG[w.payout_status];
                     const isActive = selected?.id === w.id;
@@ -569,13 +569,13 @@ export default function AdminWithdrawalsPage() {
           {/* Detail panel */}
           {selected && (
             <div className="w-full lg:w-[400px] flex-shrink-0">
-              <div className="bg-[#111111] border border-[#1A1A1A] rounded-lg overflow-hidden sticky top-20">
+              <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl overflow-hidden sticky top-20">
                 {/* Panel header */}
-                <div className="flex items-center justify-between px-5 py-4 border-b border-[#1A1A1A]">
+                <div className="flex items-center justify-between px-5 py-4 border-b border-[#12131A]">
                   <h2 className="text-sm font-bold text-white">Withdrawal Detail</h2>
                   <button
                     onClick={() => setSelected(null)}
-                    className="w-7 h-7 flex items-center justify-center rounded hover:bg-[#1A1A1A] text-[#666] hover:text-white transition-colors"
+                    className="w-7 h-7 flex items-center justify-center rounded-xl hover:bg-[#12131A] text-[#666] hover:text-white transition-colors"
                     aria-label="Close detail panel"
                   >
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
@@ -586,7 +586,7 @@ export default function AdminWithdrawalsPage() {
 
                 <div className="p-5 space-y-5 max-h-[calc(100vh-140px)] overflow-y-auto">
                   {/* Amount */}
-                  <div className="text-center py-4 bg-[#0A0A0A] rounded-lg border border-[#1A1A1A]">
+                  <div className="text-center py-4 bg-[#050507] rounded-xl border border-[#12131A]">
                     <p className="text-[10px] text-[#555] uppercase tracking-widest mb-1">Requested Amount</p>
                     <p className="text-3xl font-extrabold text-white">{formatAmount(selected.amount)}</p>
                     <div className="mt-2">
@@ -648,12 +648,12 @@ export default function AdminWithdrawalsPage() {
 
                   {/* Quick action buttons for pending */}
                   {selected.payout_status === 'pending' && (
-                    <div className="border-t border-[#1A1A1A] pt-4">
+                    <div className="border-t border-[#12131A] pt-4">
                       <p className="text-[10px] text-[#555] uppercase tracking-widest mb-3">Quick Actions</p>
                       <div className="grid grid-cols-2 gap-2">
                         <button
                           onClick={() => openConfirm('approve', 'paid', actionNotes)}
-                          className="flex items-center justify-center gap-2 py-2.5 bg-green-500/10 hover:bg-green-500/20 border border-green-500/20 hover:border-green-500/40 text-green-400 text-xs font-bold rounded tracking-widest uppercase transition-all"
+                          className="flex items-center justify-center gap-2 py-2.5 bg-green-500/10 hover:bg-green-500/20 border border-green-500/20 hover:border-green-500/40 text-green-400 text-xs font-bold rounded-xl tracking-widest uppercase transition-all"
                         >
                           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
                             <path d="M20 6L9 17l-5-5" />
@@ -662,7 +662,7 @@ export default function AdminWithdrawalsPage() {
                         </button>
                         <button
                           onClick={() => openConfirm('reject', 'rejected', actionNotes)}
-                          className="flex items-center justify-center gap-2 py-2.5 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 hover:border-red-500/40 text-red-400 text-xs font-bold rounded tracking-widest uppercase transition-all"
+                          className="flex items-center justify-center gap-2 py-2.5 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 hover:border-red-500/40 text-red-400 text-xs font-bold rounded-xl tracking-widest uppercase transition-all"
                         >
                           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
                             <path d="M18 6L6 18M6 6l12 12" />
@@ -674,13 +674,13 @@ export default function AdminWithdrawalsPage() {
                   )}
 
                   {/* Status update */}
-                  <div className="border-t border-[#1A1A1A] pt-4">
+                  <div className="border-t border-[#12131A] pt-4">
                     <p className="text-[10px] text-[#555] uppercase tracking-widest mb-3">Update Status</p>
                     <div className="space-y-3">
                       <select
                         value={actionStatus}
                         onChange={(e) => setActionStatus(e.target.value as WithdrawalRequest['payout_status'])}
-                        className="w-full bg-[#0A0A0A] border border-[#2A2A2A] rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-primary/50 transition-colors"
+                        className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-primary/50 transition-colors"
                       >
                         <option value="pending">Pending</option>
                         <option value="processing">Processing</option>
@@ -692,12 +692,12 @@ export default function AdminWithdrawalsPage() {
                         onChange={(e) => setActionNotes(e.target.value)}
                         placeholder="Admin notes (optional)…"
                         rows={3}
-                        className="w-full bg-[#0A0A0A] border border-[#2A2A2A] rounded px-3 py-2 text-sm text-white placeholder-[#444] focus:outline-none focus:border-primary/50 transition-colors resize-none"
+                        className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-3 py-2 text-sm text-white placeholder-[#444] focus:outline-none focus:border-primary/50 transition-colors resize-none"
                       />
                       <button
                         onClick={() => openConfirm('update', actionStatus, actionNotes)}
                         disabled={saving}
-                        className="w-full py-2.5 bg-primary hover:bg-primary/90 text-white text-xs font-bold rounded tracking-widest uppercase transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                        className="w-full py-2.5 bg-primary hover:bg-primary/90 text-white text-xs font-bold rounded-xl tracking-widest uppercase transition-all disabled:opacity-50 flex items-center justify-center gap-2"
                       >
                         {saving ? (
                           <>
@@ -719,7 +719,7 @@ export default function AdminWithdrawalsPage() {
                   </div>
 
                   {/* Disbursement Activity Log */}
-                  <div className="border-t border-[#1A1A1A] pt-4">
+                  <div className="border-t border-[#12131A] pt-4">
                     <p className="text-[10px] text-[#555] uppercase tracking-widest mb-3">Disbursement Activity</p>
                     {logEvents.length === 0 ? (
                       <p className="text-xs text-[#444] italic">No activity recorded yet for this request.</p>
@@ -735,12 +735,12 @@ export default function AdminWithdrawalsPage() {
                                   {sc.icon}
                                 </div>
                                 {idx < logEvents.length - 1 && (
-                                  <div className="w-px flex-1 bg-[#1A1A1A] mt-1" />
+                                  <div className="w-px flex-1 bg-[#12131A] mt-1" />
                                 )}
                               </div>
                               <div className="pb-3 min-w-0">
                                 <p className={`text-xs font-semibold ${sc.color}`}>{sc.label}</p>
-                                <p className="text-xs text-[#AAAAAA] mt-0.5 leading-relaxed">{ev.note}</p>
+                                <p className="text-xs text-[#D4D4D8] mt-0.5 leading-relaxed">{ev.note}</p>
                                 <p className="text-[10px] text-[#444] mt-1">{formatDateTime(ev.timestamp)} · {ev.actor}</p>
                               </div>
                             </div>
@@ -752,9 +752,9 @@ export default function AdminWithdrawalsPage() {
 
                   {/* Existing notes */}
                   {selected.notes && (
-                    <div className="bg-[#0A0A0A] border border-[#1A1A1A] rounded p-3">
+                    <div className="bg-[#050507] border border-[#12131A] rounded-xl p-3">
                       <p className="text-[10px] text-[#555] uppercase tracking-widest mb-1">Admin Notes</p>
-                      <p className="text-sm text-[#AAAAAA]">{selected.notes}</p>
+                      <p className="text-sm text-[#D4D4D8]">{selected.notes}</p>
                     </div>
                   )}
                 </div>
@@ -771,25 +771,25 @@ export default function AdminWithdrawalsPage() {
             className="absolute inset-0 bg-black/70 backdrop-blur-sm"
             onClick={() => setConfirmModal((prev) => ({ ...prev, open: false }))}
           />
-          <div className="relative bg-[#111111] border border-[#2A2A2A] rounded-xl w-full max-w-md shadow-2xl">
+          <div className="relative bg-[#0D0E12] border border-[#1E2027] rounded-xl w-full max-w-md shadow-2xl">
             {/* Modal header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-[#1A1A1A]">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-[#12131A]">
               <div className="flex items-center gap-3">
                 {confirmModal.type === 'approve' ? (
                   <div className="w-8 h-8 rounded-full bg-green-500/10 border border-green-500/20 flex items-center justify-center">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="2.5" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00F59B" strokeWidth="2.5" aria-hidden="true">
                       <path d="M20 6L9 17l-5-5" />
                     </svg>
                   </div>
                 ) : confirmModal.type === 'reject' ? (
                   <div className="w-8 h-8 rounded-full bg-red-500/10 border border-red-500/20 flex items-center justify-center">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f87171" strokeWidth="2.5" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E82127" strokeWidth="2.5" aria-hidden="true">
                       <path d="M18 6L6 18M6 6l12 12" />
                     </svg>
                   </div>
                 ) : (
                   <div className="w-8 h-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E31937" strokeWidth="2" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E82127" strokeWidth="2" aria-hidden="true">
                       <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
                     </svg>
                   </div>
@@ -801,7 +801,7 @@ export default function AdminWithdrawalsPage() {
               </div>
               <button
                 onClick={() => setConfirmModal((prev) => ({ ...prev, open: false }))}
-                className="w-7 h-7 flex items-center justify-center rounded hover:bg-[#1A1A1A] text-[#666] hover:text-white transition-colors"
+                className="w-7 h-7 flex items-center justify-center rounded-xl hover:bg-[#12131A] text-[#666] hover:text-white transition-colors"
                 aria-label="Close modal"
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
@@ -813,7 +813,7 @@ export default function AdminWithdrawalsPage() {
             {/* Modal body */}
             <div className="px-6 py-5 space-y-4">
               {/* Payout summary */}
-              <div className="bg-[#0A0A0A] border border-[#1A1A1A] rounded-lg p-4 space-y-3">
+              <div className="bg-[#050507] border border-[#12131A] rounded-xl p-4 space-y-3">
                 <div className="flex justify-between items-center">
                   <span className="text-xs text-[#666]">User</span>
                   <span className="text-sm font-semibold text-white">{confirmModal.withdrawal.user_name || confirmModal.withdrawal.user_email}</span>
@@ -830,7 +830,7 @@ export default function AdminWithdrawalsPage() {
                   <span className="text-xs text-[#666]">Account No.</span>
                   <span className="text-sm text-white font-mono">{confirmModal.withdrawal.account_number || '—'}</span>
                 </div>
-                <div className="flex justify-between items-center border-t border-[#1A1A1A] pt-3">
+                <div className="flex justify-between items-center border-t border-[#12131A] pt-3">
                   <span className="text-xs text-[#666]">New Status</span>
                   <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold border ${STATUS_CONFIG[confirmModal.targetStatus].bg} ${STATUS_CONFIG[confirmModal.targetStatus].color}`}>
                     <span className={`w-1.5 h-1.5 rounded-full ${STATUS_CONFIG[confirmModal.targetStatus].dot}`} />
@@ -840,8 +840,8 @@ export default function AdminWithdrawalsPage() {
               </div>
 
               {confirmModal.type === 'approve' && (
-                <div className="flex items-start gap-2 p-3 bg-green-500/5 border border-green-500/15 rounded-lg">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="2" className="flex-shrink-0 mt-0.5" aria-hidden="true">
+                <div className="flex items-start gap-2 p-3 bg-green-500/5 border border-green-500/15 rounded-xl">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00F59B" strokeWidth="2" className="flex-shrink-0 mt-0.5" aria-hidden="true">
                     <circle cx="12" cy="12" r="10" /><path d="M12 8v4m0 4h.01" />
                   </svg>
                   <p className="text-xs text-green-400/80">
@@ -851,8 +851,8 @@ export default function AdminWithdrawalsPage() {
               )}
 
               {confirmModal.type === 'reject' && (
-                <div className="flex items-start gap-2 p-3 bg-red-500/5 border border-red-500/15 rounded-lg">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f87171" strokeWidth="2" className="flex-shrink-0 mt-0.5" aria-hidden="true">
+                <div className="flex items-start gap-2 p-3 bg-red-500/5 border border-red-500/15 rounded-xl">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E82127" strokeWidth="2" className="flex-shrink-0 mt-0.5" aria-hidden="true">
                     <circle cx="12" cy="12" r="10" /><path d="M12 8v4m0 4h.01" />
                   </svg>
                   <p className="text-xs text-red-400/80">
@@ -864,7 +864,7 @@ export default function AdminWithdrawalsPage() {
               {confirmModal.notes && (
                 <div>
                   <p className="text-[10px] text-[#555] uppercase tracking-widest mb-1.5">Notes</p>
-                  <p className="text-xs text-[#AAAAAA] bg-[#0A0A0A] border border-[#1A1A1A] rounded p-3">{confirmModal.notes}</p>
+                  <p className="text-xs text-[#D4D4D8] bg-[#050507] border border-[#12131A] rounded-xl p-3">{confirmModal.notes}</p>
                 </div>
               )}
             </div>
@@ -873,13 +873,13 @@ export default function AdminWithdrawalsPage() {
             <div className="flex gap-3 px-6 pb-5">
               <button
                 onClick={() => setConfirmModal((prev) => ({ ...prev, open: false }))}
-                className="flex-1 py-2.5 bg-[#0A0A0A] hover:bg-[#1A1A1A] border border-[#2A2A2A] hover:border-[#3A3A3A] text-[#AAAAAA] hover:text-white text-xs font-bold rounded tracking-widest uppercase transition-all"
+                className="flex-1 py-2.5 bg-[#050507] hover:bg-[#12131A] border border-[#1E2027] hover:border-[#2A2D35] text-[#D4D4D8] hover:text-white text-xs font-bold rounded-xl tracking-widest uppercase transition-all"
               >
                 Cancel
               </button>
               <button
                 onClick={executeStatusUpdate}
-                className={`flex-1 py-2.5 text-white text-xs font-bold rounded tracking-widest uppercase transition-all ${
+                className={`flex-1 py-2.5 text-white text-xs font-bold rounded-xl tracking-widest uppercase transition-all ${
                   confirmModal.type === 'approve' ?'bg-green-600 hover:bg-green-500'
                     : confirmModal.type === 'reject' ?'bg-red-600 hover:bg-red-500' :'bg-primary hover:bg-primary/90'
                 }`}

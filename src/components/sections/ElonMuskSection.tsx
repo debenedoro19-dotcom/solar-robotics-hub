@@ -11,7 +11,7 @@ const companies = [
     review:
       'Under Musk\'s leadership, Tesla transformed from a niche EV startup into the world\'s most valuable automaker. The company pioneered over-the-air software updates, built the Gigafactory network, and achieved full vertical integration across vehicles, energy storage, and solar. Tesla\'s market cap surpassed $1 trillion in 2021, validating the long-term bet on electrification.',
     valuation: '$700B+',
-    color: '#E31937',
+    color: '#E82127',
     icon: '⚡',
     highlights: ['Model S, 3, X, Y, Cybertruck', 'Gigafactory network', 'Full Self-Driving AI', 'Powerwall & Megapack'],
   },
@@ -63,7 +63,7 @@ const companies = [
     review:
       'Founded to compete directly with OpenAI and Google DeepMind, xAI launched Grok — an AI assistant integrated into X with real-time internet access. Grok 3 benchmarks rival GPT-4o and Claude 3.5 Sonnet. xAI raised $6B in 2024 at a $24B valuation and is building the Colossus supercomputer cluster in Memphis — the largest AI training facility in the world.',
     valuation: '$50B+',
-    color: '#00FF88',
+    color: '#00F59B',
     icon: '🤖',
     highlights: ['Grok AI assistant', 'Colossus supercomputer', '$6B Series B 2024', 'Real-time AI reasoning'],
   },
@@ -120,7 +120,7 @@ export default function ElonMuskSection() {
         {/* Biography Block */}
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 mb-16 section-reveal">
           {/* Portrait */}
-          <div className="lg:col-span-2 relative rounded-2xl overflow-hidden min-h-[420px] group">
+          <div className="lg:col-span-2 relative rounded-3xl overflow-hidden min-h-[420px] group">
             <AppImage
               src="/assets/images/elon_musk_portrait.webp"
               alt="Elon Musk portrait in formal attire against dark background"
@@ -128,8 +128,8 @@ export default function ElonMuskSection() {
               className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
               sizes="(max-width: 1024px) 100vw, 40vw"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/30 to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#0A0A0A]/50 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#050507] via-[#050507]/30 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#050507]/50 to-transparent" />
             {/* Name badge */}
             <div className="absolute bottom-0 left-0 right-0 p-6">
               <div className="text-2xl font-extrabold text-foreground">Elon Musk</div>
@@ -147,7 +147,7 @@ export default function ElonMuskSection() {
           {/* Bio text + timeline */}
           <div className="lg:col-span-3 flex flex-col gap-6">
             {/* Bio paragraphs */}
-            <div className="glass-card rounded-2xl p-8">
+            <div className="glass-card rounded-3xl p-8">
               <h3 className="text-lg font-extrabold text-foreground mb-4">Biography</h3>
               <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
                 <p>
@@ -163,7 +163,7 @@ export default function ElonMuskSection() {
             </div>
 
             {/* Timeline */}
-            <div className="glass-card rounded-2xl p-8">
+            <div className="glass-card rounded-3xl p-8">
               <h3 className="text-sm font-extrabold text-foreground mb-5 tracking-widest uppercase">Key Milestones</h3>
               <div className="relative">
                 {/* Vertical line */}
@@ -203,7 +203,7 @@ export default function ElonMuskSection() {
                   activeCompany?.id === c?.id
                     ? 'border-transparent text-background' :'border-border text-muted-foreground hover:border-primary/30 hover:text-foreground bg-transparent'
                 }`}
-                style={activeCompany?.id === c?.id ? { background: c?.color, color: '#0A0A0A' } : {}}
+                style={activeCompany?.id === c?.id ? { background: c?.color, color: '#050507' } : {}}
               >
                 <span>{c?.icon}</span>
                 <span>{c?.name}</span>
@@ -212,7 +212,7 @@ export default function ElonMuskSection() {
           </div>
 
           {/* Active company detail */}
-          <div className="glass-card rounded-2xl overflow-hidden">
+          <div className="glass-card rounded-3xl overflow-hidden">
             <div className="p-1" style={{ background: `linear-gradient(90deg, ${activeCompany?.color}22, transparent)` }}>
               <div className="glass-card rounded-xl p-8">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -268,9 +268,9 @@ export default function ElonMuskSection() {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6">
             {[
               { label: 'Companies Led', value: '6', color: '#00D4FF' },
-              { label: 'Combined Valuation', value: '$1T+', color: '#00FF88' },
+              { label: 'Combined Valuation', value: '$1T+', color: '#00F59B' },
               { label: 'Patents Filed', value: '200+', color: '#A78BFA' },
-              { label: 'Net Worth (2025)', value: '$300B+', color: '#E31937' },
+              { label: 'Net Worth (2025)', value: '$300B+', color: '#E82127' },
             ]?.map((s) => (
               <div key={s?.label} className="glass-card rounded-xl p-5 text-center">
                 <div className="text-2xl font-extrabold mb-1" style={{ color: s?.color }}>{s?.value}</div>

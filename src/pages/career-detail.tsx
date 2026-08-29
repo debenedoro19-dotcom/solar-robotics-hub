@@ -6,8 +6,8 @@ import { supabase } from '@/lib/supabase/client';
 import type { JobPosting } from './careers';
 
 const inputClass =
-  'w-full px-3 py-2.5 rounded-lg text-sm bg-[#0D0D0D] border border-[#2A2A2A] text-white placeholder-[#555555] focus:border-primary/50 focus:outline-none transition-colors';
-const labelClass = 'block text-[10px] font-bold text-[#555555] uppercase tracking-widest mb-1.5';
+  'w-full px-3 py-2.5 rounded-xl text-sm bg-[#050507] border border-[#1E2027] text-white placeholder-[#6B7280] focus:border-primary/50 focus:outline-none transition-colors';
+const labelClass = 'block text-[10px] font-bold text-[#6B7280] uppercase tracking-widest mb-1.5';
 
 export default function CareerDetailPage({ slug }: { slug: string }) {
   const [job, setJob] = useState<JobPosting | null>(null);
@@ -62,11 +62,11 @@ export default function CareerDetailPage({ slug }: { slug: string }) {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-[#0A0A0A] text-white">
+      <main className="min-h-screen bg-[#050507] text-white">
         <Header />
         <div className="max-w-3xl mx-auto px-6 pt-32">
-          <div className="h-8 w-2/3 rounded bg-[#111111] animate-pulse mb-4" />
-          <div className="h-4 w-1/3 rounded bg-[#111111] animate-pulse" />
+          <div className="h-8 w-2/3 rounded-xl bg-[#0D0E12] animate-pulse mb-4" />
+          <div className="h-4 w-1/3 rounded-xl bg-[#0D0E12] animate-pulse" />
         </div>
       </main>
     );
@@ -74,52 +74,52 @@ export default function CareerDetailPage({ slug }: { slug: string }) {
 
   if (!job) {
     return (
-      <main className="min-h-screen bg-[#0A0A0A] text-white">
+      <main className="min-h-screen bg-[#050507] text-white">
         <Header />
         <div className="max-w-3xl mx-auto px-6 pt-40 text-center">
           <h1 className="text-2xl font-bold mb-2">Role not found</h1>
-          <p className="text-sm text-[#666666] mb-6">This position may have been filled or closed.</p>
-          <Link href="/careers" className="px-6 py-2.5 tesla-btn-primary rounded-lg text-sm font-semibold">View all roles</Link>
+          <p className="text-sm text-[#71717A] mb-6">This position may have been filled or closed.</p>
+          <Link href="/careers" className="px-6 py-2.5 tesla-btn-primary rounded-xl text-sm font-semibold">View all roles</Link>
         </div>
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen bg-[#0A0A0A] text-white">
+    <main className="min-h-screen bg-[#050507] text-white">
       <Header />
       <section className="max-w-3xl mx-auto px-6 pt-32 pb-20">
-        <Link href="/careers" className="text-xs text-[#666666] hover:text-white transition-colors flex items-center gap-1.5 mb-6">
+        <Link href="/careers" className="text-xs text-[#71717A] hover:text-white transition-colors flex items-center gap-1.5 mb-6">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
           All roles
         </Link>
         <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-2">{job.title}</h1>
-        <p className="text-xs text-[#777777] mb-8">{job.department} · {job.location} · {job.job_type}</p>
+        <p className="text-xs text-[#71717A] mb-8">{job.department} · {job.location} · {job.job_type}</p>
 
-        <div className="rounded-xl bg-[#111111] border border-[#1A1A1A] p-6 mb-10 space-y-6">
+        <div className="rounded-xl bg-[#0D0E12] border border-[#12131A] p-6 mb-10 space-y-6">
           <div>
             <h2 className="text-sm font-bold text-white mb-2">About the role</h2>
-            <p className="text-sm text-[#999999] leading-relaxed whitespace-pre-line">{job.description}</p>
+            <p className="text-sm text-[#A1A1AA] leading-relaxed whitespace-pre-line">{job.description}</p>
           </div>
           {job.requirements && (
             <div>
               <h2 className="text-sm font-bold text-white mb-2">What we're looking for</h2>
-              <p className="text-sm text-[#999999] leading-relaxed whitespace-pre-line">{job.requirements}</p>
+              <p className="text-sm text-[#A1A1AA] leading-relaxed whitespace-pre-line">{job.requirements}</p>
             </div>
           )}
         </div>
 
-        <div className="rounded-xl bg-[#111111] border border-[#1A1A1A] p-6">
+        <div className="rounded-xl bg-[#0D0E12] border border-[#12131A] p-6">
           <h2 className="text-lg font-bold mb-1">Apply for this role</h2>
-          <p className="text-xs text-[#666666] mb-6">We review every application and respond within 5 business days.</p>
+          <p className="text-xs text-[#71717A] mb-6">We review every application and respond within 5 business days.</p>
 
           {status === 'done' ? (
             <div className="text-center py-10">
               <div className="w-14 h-14 rounded-full bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center mx-auto mb-4">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="2"><path d="M20 6 9 17l-5-5" /></svg>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00F59B" strokeWidth="2"><path d="M20 6 9 17l-5-5" /></svg>
               </div>
               <p className="text-sm font-semibold text-white">Application received</p>
-              <p className="text-xs text-[#777777] mt-1">We'll be in touch at {form.email}.</p>
+              <p className="text-xs text-[#71717A] mt-1">We'll be in touch at {form.email}.</p>
             </div>
           ) : (
             <form onSubmit={submit} className="space-y-4">
@@ -147,7 +147,7 @@ export default function CareerDetailPage({ slug }: { slug: string }) {
                 <button
                   type="button"
                   onClick={() => fileInput.current?.click()}
-                  className="w-full px-4 py-3 rounded-lg border border-dashed border-[#2A2A2A] text-xs text-[#999999] hover:border-primary/40 hover:text-white transition-colors text-left"
+                  className="w-full px-4 py-3 rounded-xl border border-dashed border-[#1E2027] text-xs text-[#A1A1AA] hover:border-primary/40 hover:text-white transition-colors text-left"
                 >
                   {resume ? resume.name : 'Click to attach your resume…'}
                 </button>
@@ -156,7 +156,7 @@ export default function CareerDetailPage({ slug }: { slug: string }) {
               <button
                 type="submit"
                 disabled={status === 'saving'}
-                className="w-full py-3 rounded-lg tesla-btn-primary text-sm font-bold tracking-wide disabled:opacity-60"
+                className="w-full py-3 rounded-xl tesla-btn-primary text-sm font-bold tracking-wide disabled:opacity-60"
               >
                 {status === 'saving' ? 'Submitting…' : 'Submit Application'}
               </button>

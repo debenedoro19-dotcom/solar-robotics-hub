@@ -48,16 +48,13 @@ export default function Header() {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
-          scrolled
-            ? 'bg-[#080808]/96 backdrop-blur-2xl shadow-[0_1px_0_rgba(227,25,55,0.15),0_4px_32px_rgba(0,0,0,0.6)]'
-            : 'bg-transparent'
-        }`}
+        className="fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-[#050507]/80 backdrop-blur-xl border-b border-white/[0.06]"
         role="navigation"
         aria-label="Main navigation"
       >
-        {/* Premium top accent line */}
-        <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
+        {/* Live tracking badge pulse rail */}
+        <div className={`absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary/50 to-transparent transition-opacity duration-500 ${scrolled ? 'opacity-100' : 'opacity-40'}`} />
+
 
         <div className="max-w-7xl mx-auto px-6 lg:px-8 h-16 flex items-center justify-between">
           {/* Logo */}
@@ -74,13 +71,13 @@ export default function Header() {
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden lg:flex items-center gap-0">
+          <div className="hidden lg:flex items-center gap-0 xl:gap-1">
             {navLinks?.map((link) => (
               link?.href?.startsWith('/') ? (
                 <Link
                   key={link?.label}
                   href={link?.href}
-                  className="px-4 py-2 text-xs font-semibold text-[#888888] hover:text-white transition-colors tracking-widest uppercase relative group"
+                  className="px-4 py-2 text-xs font-semibold text-[#A1A1AA] hover:text-white transition-colors tracking-widest uppercase relative group"
                 >
                   {link?.label}
                   <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[1px] bg-primary group-hover:w-4 transition-all duration-300" />
@@ -89,7 +86,7 @@ export default function Header() {
                 <a
                   key={link?.label}
                   href={link?.href}
-                  className="px-4 py-2 text-xs font-semibold text-[#888888] hover:text-white transition-colors tracking-widest uppercase relative group"
+                  className="px-4 py-2 text-xs font-semibold text-[#A1A1AA] hover:text-white transition-colors tracking-widest uppercase relative group"
                 >
                   {link?.label}
                   <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[1px] bg-primary group-hover:w-4 transition-all duration-300" />
@@ -100,10 +97,14 @@ export default function Header() {
 
           {/* Actions */}
           <div className="hidden lg:flex items-center gap-3">
+            <span className="hidden 2xl:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-[10px] font-semibold tracking-widest uppercase text-zinc-300 whitespace-nowrap">
+              <span className="ts-pulse" aria-hidden="true" />
+              Live Tracking
+            </span>
             {!isLoggedIn && (
               <Link
                 href="/login"
-                className="px-5 py-2 text-xs font-semibold text-white border border-[#2A2A2A] rounded hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 tracking-widest uppercase"
+                className="px-5 py-2 text-xs font-semibold text-white bg-white/[0.04] border border-white/[0.08] rounded-xl hover:border-white/25 transition-all duration-300 tracking-widest uppercase whitespace-nowrap"
               >
                 Sign In
               </Link>
@@ -111,21 +112,20 @@ export default function Header() {
             {isLoggedIn ? (
               <Link
                 href="/dashboard"
-                className="px-5 py-2 text-xs font-bold bg-primary text-white rounded btn-shimmer hover:bg-accent transition-all duration-300 tracking-widest uppercase"
-                style={{ boxShadow: '0 0 20px rgba(227,25,55,0.4), 0 2px 8px rgba(0,0,0,0.4)' }}
+                className="px-5 py-2 text-xs font-bold bg-primary text-white rounded-xl btn-shimmer hover:bg-[#B3181D] transition-all duration-300 tracking-widest uppercase shadow-[inset_0_1px_0_rgba(255,255,255,0.18)] whitespace-nowrap"
               >
                 Dashboard
               </Link>
             ) : (
               <Link
                 href="/register"
-                className="px-5 py-2 text-xs font-bold bg-primary text-white rounded btn-shimmer hover:bg-accent transition-all duration-300 tracking-widest uppercase"
-                style={{ boxShadow: '0 0 20px rgba(227,25,55,0.4), 0 2px 8px rgba(0,0,0,0.4)' }}
+                className="px-5 py-2 text-xs font-bold bg-primary text-white rounded-xl btn-shimmer hover:bg-[#B3181D] transition-all duration-300 tracking-widest uppercase shadow-[inset_0_1px_0_rgba(255,255,255,0.18)] whitespace-nowrap"
               >
                 Get Started
               </Link>
             )}
           </div>
+
 
           {/* Mobile Hamburger */}
           <button
@@ -144,15 +144,15 @@ export default function Header() {
       <div
         className={`fixed inset-0 z-40 lg:hidden transition-all duration-300 ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
       >
-        <div className="absolute inset-0 bg-[#0A0A0A]/98 backdrop-blur-xl" onClick={() => setMenuOpen(false)} />
-        <div className={`absolute top-16 left-0 right-0 bg-[#080808] border-b border-[#1A1A1A] p-6 transition-transform duration-300 shadow-[0_8px_40px_rgba(0,0,0,0.8)] ${menuOpen ? 'translate-y-0' : '-translate-y-4'}`}>
+        <div className="absolute inset-0 bg-[#050507]/98 backdrop-blur-xl" onClick={() => setMenuOpen(false)} />
+        <div className={`absolute top-16 left-0 right-0 bg-[#080808] border-b border-[#12131A] p-6 transition-transform duration-300 shadow-[0_8px_40px_rgba(0,0,0,0.8)] ${menuOpen ? 'translate-y-0' : '-translate-y-4'}`}>
           <div className="flex flex-col gap-1 mb-6">
             {navLinks?.map((link) => (
               link?.href?.startsWith('/') ? (
                 <Link
                   key={link?.label}
                   href={link?.href}
-                  className="px-4 py-3 text-sm font-semibold text-[#888888] hover:text-white hover:bg-[#111111] rounded transition-colors tracking-widest uppercase min-h-[44px] flex items-center"
+                  className="px-4 py-3 text-sm font-semibold text-[#A1A1AA] hover:text-white hover:bg-[#0D0E12] rounded-xl transition-colors tracking-widest uppercase min-h-[44px] flex items-center"
                   onClick={() => setMenuOpen(false)}
                 >
                   {link?.label}
@@ -161,7 +161,7 @@ export default function Header() {
                 <a
                   key={link?.label}
                   href={link?.href}
-                  className="px-4 py-3 text-sm font-semibold text-[#888888] hover:text-white hover:bg-[#111111] rounded transition-colors tracking-widest uppercase min-h-[44px] flex items-center"
+                  className="px-4 py-3 text-sm font-semibold text-[#A1A1AA] hover:text-white hover:bg-[#0D0E12] rounded-xl transition-colors tracking-widest uppercase min-h-[44px] flex items-center"
                   onClick={() => setMenuOpen(false)}
                 >
                   {link?.label}
@@ -169,18 +169,18 @@ export default function Header() {
               )
             ))}
           </div>
-          <div className="flex flex-col gap-3 pt-4 border-t border-[#1A1A1A]">
+          <div className="flex flex-col gap-3 pt-4 border-t border-[#12131A]">
             {!isLoggedIn && (
-              <Link href="/login" className="w-full py-3 text-center text-xs font-semibold text-white border border-[#2A2A2A] rounded tracking-widest uppercase min-h-[44px] flex items-center justify-center" onClick={() => setMenuOpen(false)}>
+              <Link href="/login" className="w-full py-3 text-center text-xs font-semibold text-white border border-[#1E2027] rounded-xl tracking-widest uppercase min-h-[44px] flex items-center justify-center" onClick={() => setMenuOpen(false)}>
                 Sign In
               </Link>
             )}
             {isLoggedIn ? (
-              <Link href="/dashboard" className="w-full py-3 text-center text-xs font-bold bg-primary text-white rounded tracking-widest uppercase min-h-[44px] flex items-center justify-center" style={{ boxShadow: '0 0 20px rgba(227,25,55,0.3)' }} onClick={() => setMenuOpen(false)}>
+              <Link href="/dashboard" className="w-full py-3 text-center text-xs font-bold bg-primary text-white rounded-xl tracking-widest uppercase min-h-[44px] flex items-center justify-center" style={{ boxShadow: '0 0 20px rgba(227,25,55,0.3)' }} onClick={() => setMenuOpen(false)}>
                 Dashboard
               </Link>
             ) : (
-              <Link href="/register" className="w-full py-3 text-center text-xs font-bold bg-primary text-white rounded tracking-widest uppercase min-h-[44px] flex items-center justify-center" style={{ boxShadow: '0 0 20px rgba(227,25,55,0.3)' }} onClick={() => setMenuOpen(false)}>
+              <Link href="/register" className="w-full py-3 text-center text-xs font-bold bg-primary text-white rounded-xl tracking-widest uppercase min-h-[44px] flex items-center justify-center" style={{ boxShadow: '0 0 20px rgba(227,25,55,0.3)' }} onClick={() => setMenuOpen(false)}>
                 Get Started
               </Link>
             )}

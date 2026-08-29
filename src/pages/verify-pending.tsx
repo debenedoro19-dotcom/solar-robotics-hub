@@ -42,7 +42,7 @@ export default function VerifyPendingPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#0A0A0A] flex items-center justify-center px-4 py-16 relative overflow-hidden">
+    <main className="min-h-screen bg-[#050507] flex items-center justify-center px-4 py-16 relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px]" />
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-primary/3 rounded-full blur-[100px]" />
@@ -58,39 +58,39 @@ export default function VerifyPendingPage() {
         </Link>
 
         {/* Icon */}
-        <div className="w-20 h-20 rounded-full bg-[#111111] border border-[#2A2A2A] flex items-center justify-center mx-auto mb-6">
+        <div className="w-20 h-20 rounded-full bg-[#0D0E12] border border-[#1E2027] flex items-center justify-center mx-auto mb-6">
           <svg className="w-10 h-10 text-primary" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" aria-hidden="true">
             <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
           </svg>
         </div>
 
         <h1 className="text-2xl font-extrabold text-white tracking-tight mb-3">Email Verification Required</h1>
-        <p className="text-sm text-[#888888] leading-relaxed mb-2">
+        <p className="text-sm text-[#A1A1AA] leading-relaxed mb-2">
           Your dashboard is locked until you verify your email.
         </p>
         {userEmail && (
           <p className="text-sm font-semibold text-white mb-6">{userEmail}</p>
         )}
-        <p className="text-sm text-[#666666] leading-relaxed mb-8">
+        <p className="text-sm text-[#71717A] leading-relaxed mb-8">
           We sent a verification link to your email address. Click the link to unlock your account and continue to your dashboard.
         </p>
 
         {/* Status messages */}
         {resent && (
-          <div className="px-4 py-3 rounded bg-green-900/20 border border-green-700/30 text-sm text-green-400 mb-4">
+          <div className="px-4 py-3 rounded-xl bg-green-900/20 border border-green-700/30 text-sm text-green-400 mb-4">
             ✓ Verification email resent successfully. Check your inbox.
           </div>
         )}
         {error && (
-          <div className="px-4 py-3 rounded bg-primary/10 border border-primary/30 text-sm text-primary mb-4">
+          <div className="px-4 py-3 rounded-xl bg-primary/10 border border-primary/30 text-sm text-primary mb-4">
             {error}
           </div>
         )}
 
         {/* Tips */}
-        <div className="bg-[#111111] border border-[#1A1A1A] rounded-lg p-4 mb-8 text-left">
-          <p className="text-xs text-[#555555] uppercase tracking-widest font-semibold mb-2">Didn't receive it?</p>
-          <ul className="text-xs text-[#666666] space-y-1 list-disc list-inside">
+        <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-4 mb-8 text-left">
+          <p className="text-xs text-[#6B7280] uppercase tracking-widest font-semibold mb-2">Didn't receive it?</p>
+          <ul className="text-xs text-[#71717A] space-y-1 list-disc list-inside">
             <li>Check your spam or junk folder</li>
             <li>Make sure you used the correct email</li>
             <li>Wait a few minutes and check again</li>
@@ -101,7 +101,7 @@ export default function VerifyPendingPage() {
         <button
           onClick={handleResend}
           disabled={resending || resent}
-          className="w-full py-3.5 tesla-btn-primary rounded min-h-[48px] flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed mb-3"
+          className="w-full py-3.5 tesla-btn-primary rounded-xl min-h-[48px] flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed mb-3"
         >
           {resending ? (
             <>
@@ -120,7 +120,7 @@ export default function VerifyPendingPage() {
 
         <Link
           href="/login"
-          className="block w-full py-3 rounded border border-[#2A2A2A] text-sm text-[#888888] hover:text-white hover:border-[#444444] transition-colors text-center"
+          className="block w-full py-3 rounded-xl border border-[#1E2027] text-sm text-[#A1A1AA] hover:text-white hover:border-[#52525B] transition-colors text-center"
         >
           Back to Sign In
         </Link>

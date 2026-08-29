@@ -31,12 +31,12 @@ export default function VIPSection() {
                 priority
               />
               {/* Gradient fade to the right on desktop, bottom on mobile */}
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#111111]/80 lg:hidden" />
-              <div className="absolute inset-0 hidden lg:block bg-gradient-to-r from-transparent to-[#111111]/90" />
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#0D0E12]/80 lg:hidden" />
+              <div className="absolute inset-0 hidden lg:block bg-gradient-to-r from-transparent to-[#0D0E12]/90" />
               {/* Verified badge overlay */}
               <div className="absolute bottom-4 left-4 flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-sm border border-accent/30 z-10">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="#E31937" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="#E82127" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
                 <span className="text-[10px] font-bold text-white tracking-widest uppercase">Verified</span>
               </div>

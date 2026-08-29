@@ -98,7 +98,7 @@ const GiveawayCard = memo(function GiveawayCard({ g, idx, onEnter }: { g: Giveaw
   const pct = Math.min(100, Math.round((g.entries_count / Math.max(1, g.max_entries)) * 100));
   return (
     <article
-      className="glass-card glass-card-hover rounded-2xl overflow-hidden relative animate-[fadeSlideUp_0.5s_ease-out_both]"
+      className="glass-card glass-card-hover rounded-3xl overflow-hidden relative animate-[fadeSlideUp_0.5s_ease-out_both]"
       style={{ transitionDelay: `${idx * 100}ms` }}
     >
       <img
@@ -196,7 +196,7 @@ function EntryModal({ giveaway, onClose, onEntered }: { giveaway: Giveaway; onCl
 
   return (
     <div className="fixed inset-0 z-[95] flex items-center justify-center px-4 bg-black/70 backdrop-blur-sm" role="dialog" aria-modal="true">
-      <div className="w-full max-w-md rounded-2xl bg-card border border-border p-6 max-h-[90vh] overflow-y-auto">
+      <div className="w-full max-w-md rounded-3xl bg-card border border-border p-6 max-h-[90vh] overflow-y-auto">
         <div className="flex items-start justify-between mb-5 gap-4">
           <h2 className="text-lg font-bold text-foreground">{done ? 'Entry confirmed' : 'Confirm Giveaway Entry'}</h2>
           <button onClick={onClose} aria-label="Close" className="text-muted-foreground hover:text-foreground text-xl leading-none">×</button>

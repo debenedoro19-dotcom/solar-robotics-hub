@@ -69,7 +69,7 @@ export default function AccountDepositPage() {
             </p>
           </div>
 
-          <div className="fin-card rounded-2xl p-5 mb-8">
+          <div className="fin-card rounded-3xl p-5 mb-8">
             <p className="text-xs uppercase tracking-[0.2em] text-fin-muted mb-1">Available Wallet Balance</p>
             <p className="text-3xl font-extrabold tabular-nums text-fin-emerald">
               {loading ? '—' : money(wallet.available_balance)}
@@ -77,7 +77,7 @@ export default function AccountDepositPage() {
           </div>
 
           {done ? (
-            <div className="fin-card-elevated rounded-2xl p-8 text-center">
+            <div className="fin-card-elevated rounded-3xl p-8 text-center">
               <div className="w-14 h-14 rounded-full bg-fin-emerald-soft border border-fin-emerald/40 flex items-center justify-center mx-auto mb-4 text-fin-emerald text-2xl">✓</div>
               <h2 className="text-xl font-bold mb-2">Deposit request submitted</h2>
               <p className="text-sm text-fin-muted mb-6">
@@ -85,17 +85,17 @@ export default function AccountDepositPage() {
                 the moment an administrator confirms the payment.
               </p>
               <div className="flex gap-3 justify-center">
-                <Link href="/dashboard" className="px-5 py-2.5 rounded-lg bg-fin-emerald text-black text-sm font-bold">Go to Dashboard</Link>
+                <Link href="/dashboard" className="px-5 py-2.5 rounded-xl bg-fin-emerald text-black text-sm font-bold">Go to Dashboard</Link>
                 <button
                   onClick={() => { setDone(false); setAmount(''); setTxRef(''); setNote(''); }}
-                  className="px-5 py-2.5 rounded-lg border border-fin-border text-sm font-semibold text-fin-muted hover:text-white"
+                  className="px-5 py-2.5 rounded-xl border border-fin-border text-sm font-semibold text-fin-muted hover:text-white"
                 >
                   New deposit
                 </button>
               </div>
             </div>
           ) : (
-            <div className="fin-card-elevated rounded-2xl p-6 space-y-7">
+            <div className="fin-card-elevated rounded-3xl p-6 space-y-7">
               <div>
                 <label htmlFor="dep-amount" className="block text-xs uppercase tracking-wider text-fin-muted mb-2">Amount (USD)</label>
                 <input
@@ -105,14 +105,14 @@ export default function AccountDepositPage() {
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
                   placeholder="500"
-                  className="w-full rounded-lg bg-fin-bg border border-fin-border px-4 py-3 text-white tabular-nums focus:border-fin-emerald outline-none"
+                  className="w-full rounded-xl bg-fin-bg border border-fin-border px-4 py-3 text-white tabular-nums focus:border-fin-emerald outline-none"
                 />
                 <div className="flex flex-wrap gap-2 mt-3">
                   {QUICK_AMOUNTS.map((v) => (
                     <button
                       key={v}
                       onClick={() => setAmount(String(v))}
-                      className="px-3 py-1.5 text-[11px] font-semibold rounded border border-fin-border text-fin-muted hover:text-white hover:border-fin-emerald/50 transition-colors"
+                      className="px-3 py-1.5 text-[11px] font-semibold rounded-xl border border-fin-border text-fin-muted hover:text-white hover:border-fin-emerald/50 transition-colors"
                     >
                       ${v.toLocaleString()}
                     </button>
@@ -127,7 +127,7 @@ export default function AccountDepositPage() {
                     <button
                       key={m.id}
                       onClick={() => setMethod(m.id)}
-                      className={`flex items-center gap-4 p-4 rounded-lg border text-left transition-colors ${
+                      className={`flex items-center gap-4 p-4 rounded-xl border text-left transition-colors ${
                         method === m.id ? 'border-fin-emerald bg-fin-emerald-soft' : 'border-fin-border bg-fin-elevated hover:border-fin-muted/40'
                       }`}
                     >
@@ -149,7 +149,7 @@ export default function AccountDepositPage() {
                       <button
                         key={n.id}
                         onClick={() => setNetwork(n.id)}
-                        className={`px-4 py-2.5 rounded-lg text-sm font-semibold text-left border transition-colors ${
+                        className={`px-4 py-2.5 rounded-xl text-sm font-semibold text-left border transition-colors ${
                           network === n.id ? 'border-fin-emerald bg-fin-emerald-soft text-fin-emerald' : 'border-fin-border text-fin-muted hover:text-white'
                         }`}
                       >
@@ -178,7 +178,7 @@ export default function AccountDepositPage() {
                     value={txRef}
                     onChange={(e) => setTxRef(e.target.value)}
                     placeholder="Tx hash or bank reference"
-                    className="w-full rounded-lg bg-fin-bg border border-fin-border px-4 py-3 text-white text-sm focus:border-fin-emerald outline-none"
+                    className="w-full rounded-xl bg-fin-bg border border-fin-border px-4 py-3 text-white text-sm focus:border-fin-emerald outline-none"
                   />
                 </div>
                 <div>
@@ -187,7 +187,7 @@ export default function AccountDepositPage() {
                     id="dep-note"
                     value={note}
                     onChange={(e) => setNote(e.target.value)}
-                    className="w-full rounded-lg bg-fin-bg border border-fin-border px-4 py-3 text-white text-sm focus:border-fin-emerald outline-none"
+                    className="w-full rounded-xl bg-fin-bg border border-fin-border px-4 py-3 text-white text-sm focus:border-fin-emerald outline-none"
                   />
                 </div>
               </div>
@@ -197,7 +197,7 @@ export default function AccountDepositPage() {
               <button
                 onClick={submitDeposit}
                 disabled={busy || !userId}
-                className="w-full py-3.5 rounded-lg bg-fin-emerald text-black font-bold text-sm disabled:opacity-40"
+                className="w-full py-3.5 rounded-xl bg-fin-emerald text-black font-bold text-sm disabled:opacity-40"
               >
                 {busy ? 'Submitting…' : !userId ? 'Sign in to deposit' : `Submit deposit request${value > 0 ? ` · ${money(value)}` : ''}`}
               </button>

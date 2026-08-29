@@ -456,34 +456,34 @@ export default function AdminSettingsPage() {
 
   if (!authorized) {
     return (
-      <main className="min-h-screen bg-[#0A0A0A] flex items-center justify-center px-4">
+      <main className="min-h-screen bg-[#050507] flex items-center justify-center px-4">
         <div className="text-center">
           <div className="w-16 h-16 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto mb-4">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E31937" strokeWidth="1.5" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E82127" strokeWidth="1.5" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
           </div>
           <h1 className="text-xl font-bold text-white mb-2">Admin Access Required</h1>
-          <p className="text-sm text-[#555555] mb-6">You must be logged in as admin to view this page.</p>
-          <Link href="/login" className="px-6 py-2.5 tesla-btn-primary rounded text-sm font-semibold">Sign In as Admin</Link>
+          <p className="text-sm text-[#6B7280] mb-6">You must be logged in as admin to view this page.</p>
+          <Link href="/login" className="px-6 py-2.5 tesla-btn-primary rounded-xl text-sm font-semibold">Sign In as Admin</Link>
         </div>
       </main>
     );
   }
 
   const tabClass = (t: SettingsTab) =>
-    `flex items-center gap-2 px-4 py-2.5 text-xs font-bold rounded-lg tracking-widest uppercase transition-all ${
+    `flex items-center gap-2 px-4 py-2.5 text-xs font-bold rounded-xl tracking-widest uppercase transition-all ${
       activeTab === t
-        ? 'bg-primary/20 border border-primary/40 text-primary' :'bg-[#111111] hover:bg-[#1A1A1A] border border-[#1A1A1A] hover:border-[#2A2A2A] text-[#666666] hover:text-white'
+        ? 'bg-primary/20 border border-primary/40 text-primary' :'bg-[#0D0E12] hover:bg-[#12131A] border border-[#12131A] hover:border-[#1E2027] text-[#71717A] hover:text-white'
     }`;
 
-  const inputClass = 'w-full px-3 py-2.5 rounded-lg text-sm input-tesla bg-[#0D0D0D] border border-[#1A1A1A] text-white placeholder-[#444444] focus:border-primary/40 focus:outline-none transition-colors';
-  const labelClass = 'block text-[10px] font-bold text-[#555555] uppercase tracking-widest mb-1.5';
-  const sectionClass = 'bg-[#0D0D0D] border border-[#1A1A1A] rounded-xl p-6 space-y-5';
+  const inputClass = 'w-full px-3 py-2.5 rounded-xl text-sm input-tesla bg-[#050507] border border-[#12131A] text-white placeholder-[#52525B] focus:border-primary/40 focus:outline-none transition-colors';
+  const labelClass = 'block text-[10px] font-bold text-[#6B7280] uppercase tracking-widest mb-1.5';
+  const sectionClass = 'bg-[#050507] border border-[#12131A] rounded-xl p-6 space-y-5';
   const sectionTitleClass = 'text-sm font-bold text-white mb-4 flex items-center gap-2';
 
   return (
-    <main className="min-h-screen bg-[#0A0A0A] text-white">
+    <main className="min-h-screen bg-[#050507] text-white">
       {/* Top bar */}
-      <div className="border-b border-[#1A1A1A] bg-[#0A0A0A]/95 backdrop-blur-xl sticky top-0 z-40">
+      <div className="border-b border-[#12131A] bg-[#050507]/95 backdrop-blur-xl sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link href="/" className="flex items-center gap-2.5">
@@ -492,11 +492,11 @@ export default function AdminSettingsPage() {
               </svg>
               <span className="text-white font-bold text-sm tracking-widest uppercase">Tesla Trade</span>
             </Link>
-            <span className="text-[#2A2A2A]">|</span>
+            <span className="text-[#1E2027]">|</span>
             <span className="text-xs text-primary tracking-widest uppercase font-semibold">Admin Settings</span>
           </div>
           <div className="flex items-center gap-3">
-            <Link href="/admin" className="text-xs text-[#666666] hover:text-white transition-colors flex items-center gap-1.5">
+            <Link href="/admin" className="text-xs text-[#71717A] hover:text-white transition-colors flex items-center gap-1.5">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
               Dashboard
             </Link>
@@ -508,7 +508,7 @@ export default function AdminSettingsPage() {
       <div className="max-w-5xl mx-auto px-6 py-8">
         <div className="mb-8">
           <h1 className="text-2xl font-extrabold text-white tracking-tight mb-1">Platform Settings</h1>
-          <p className="text-sm text-[#555555]">Configure withdrawal limits, commissions, KYC rules, security, customer care, payment wallets, and giveaways.</p>
+          <p className="text-sm text-[#6B7280]">Configure withdrawal limits, commissions, KYC rules, security, customer care, payment wallets, and giveaways.</p>
         </div>
 
         {/* Tabs */}
@@ -546,18 +546,18 @@ export default function AdminSettingsPage() {
         {/* ── PAYMENTS TAB ── */}
         {activeTab === 'payments' && (
           <div className="space-y-6">
-            <div className="bg-[#0D0D0D] border border-[#1A1A1A] rounded-xl p-5 flex items-start gap-3">
-              <div className="w-9 h-9 rounded-lg bg-[#F7931A]/10 flex items-center justify-center shrink-0">
+            <div className="bg-[#050507] border border-[#12131A] rounded-xl p-5 flex items-start gap-3">
+              <div className="w-9 h-9 rounded-xl bg-[#F7931A]/10 flex items-center justify-center shrink-0">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F7931A" strokeWidth="2" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
               </div>
               <div>
                 <p className="text-sm font-bold text-white mb-0.5">Crypto Payment Wallets</p>
-                <p className="text-xs text-[#555555]">Set the destination wallet addresses for Bitcoin, Ethereum, and USDT payments. These addresses are shown live on the crypto payment page.</p>
+                <p className="text-xs text-[#6B7280]">Set the destination wallet addresses for Bitcoin, Ethereum, and USDT payments. These addresses are shown live on the crypto payment page.</p>
               </div>
             </div>
 
             {walletsError && (
-              <div className="px-4 py-3 rounded-lg bg-primary/10 border border-primary/30 text-sm text-primary">{walletsError}</div>
+              <div className="px-4 py-3 rounded-xl bg-primary/10 border border-primary/30 text-sm text-primary">{walletsError}</div>
             )}
 
             {/* Bitcoin */}
@@ -575,11 +575,11 @@ export default function AdminSettingsPage() {
                   className={inputClass + ' font-mono text-xs'}
                   placeholder="1A1zP1eP5QGefi2DMPTfTL5SLmv7Divf6"
                 />
-                <p className="text-[10px] text-[#444444] mt-1.5">Accepts native BTC on the Bitcoin mainnet. Verify address carefully before saving.</p>
+                <p className="text-[10px] text-[#52525B] mt-1.5">Accepts native BTC on the Bitcoin mainnet. Verify address carefully before saving.</p>
               </div>
               {cryptoWallets.btc && (
-                <div className="p-3 bg-[#F7931A]/5 border border-[#F7931A]/20 rounded-lg">
-                  <p className="text-[11px] text-[#888888]">Live address: <span className="text-[#F7931A] font-mono text-[10px] break-all">{cryptoWallets.btc}</span></p>
+                <div className="p-3 bg-[#F7931A]/5 border border-[#F7931A]/20 rounded-xl">
+                  <p className="text-[11px] text-[#A1A1AA]">Live address: <span className="text-[#F7931A] font-mono text-[10px] break-all">{cryptoWallets.btc}</span></p>
                 </div>
               )}
             </div>
@@ -599,11 +599,11 @@ export default function AdminSettingsPage() {
                   className={inputClass + ' font-mono text-xs'}
                   placeholder="0x742d35Cc6634C0532925a3b8D4C9C4e8b1e2F3A4"
                 />
-                <p className="text-[10px] text-[#444444] mt-1.5">Accepts ETH and ERC-20 tokens on Ethereum mainnet. Must start with 0x.</p>
+                <p className="text-[10px] text-[#52525B] mt-1.5">Accepts ETH and ERC-20 tokens on Ethereum mainnet. Must start with 0x.</p>
               </div>
               {cryptoWallets.eth && (
-                <div className="p-3 bg-[#627EEA]/5 border border-[#627EEA]/20 rounded-lg">
-                  <p className="text-[11px] text-[#888888]">Live address: <span className="text-[#627EEA] font-mono text-[10px] break-all">{cryptoWallets.eth}</span></p>
+                <div className="p-3 bg-[#627EEA]/5 border border-[#627EEA]/20 rounded-xl">
+                  <p className="text-[11px] text-[#A1A1AA]">Live address: <span className="text-[#627EEA] font-mono text-[10px] break-all">{cryptoWallets.eth}</span></p>
                 </div>
               )}
             </div>
@@ -623,16 +623,16 @@ export default function AdminSettingsPage() {
                   className={inputClass + ' font-mono text-xs'}
                   placeholder="TQn9Y2khEsLJW1ChVWFMSMeRDow5KcbLSE"
                 />
-                <p className="text-[10px] text-[#444444] mt-1.5">Accepts USDT on the Tron (TRC-20) network. Tron addresses start with T.</p>
+                <p className="text-[10px] text-[#52525B] mt-1.5">Accepts USDT on the Tron (TRC-20) network. Tron addresses start with T.</p>
               </div>
               {cryptoWallets.usdt && (
-                <div className="p-3 bg-[#26A17B]/5 border border-[#26A17B]/20 rounded-lg">
-                  <p className="text-[11px] text-[#888888]">Live address: <span className="text-[#26A17B] font-mono text-[10px] break-all">{cryptoWallets.usdt}</span></p>
+                <div className="p-3 bg-[#26A17B]/5 border border-[#26A17B]/20 rounded-xl">
+                  <p className="text-[11px] text-[#A1A1AA]">Live address: <span className="text-[#26A17B] font-mono text-[10px] break-all">{cryptoWallets.usdt}</span></p>
                 </div>
               )}
             </div>
 
-            <div className="p-4 bg-amber-500/5 border border-amber-500/20 rounded-lg">
+            <div className="p-4 bg-amber-500/5 border border-amber-500/20 rounded-xl">
               <div className="flex items-start gap-3">
                 <svg className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
                 <p className="text-xs text-amber-300/80 leading-relaxed">
@@ -645,7 +645,7 @@ export default function AdminSettingsPage() {
               <button
                 onClick={saveCryptoWallets}
                 disabled={walletsLoading}
-                className="px-8 py-3 tesla-btn-primary rounded-lg text-sm font-semibold flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+                className="px-8 py-3 tesla-btn-primary rounded-xl text-sm font-semibold flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {walletsLoading ? (
                   <><div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />Saving...</>
@@ -660,22 +660,22 @@ export default function AdminSettingsPage() {
         {/* ── GIVEAWAYS TAB ── */}
         {activeTab === 'giveaways' && (
           <div className="space-y-6">
-            <div className="bg-[#0D0D0D] border border-[#1A1A1A] rounded-xl p-5 flex items-start gap-3">
-              <div className="w-9 h-9 rounded-lg bg-accent/10 flex items-center justify-center shrink-0">
+            <div className="bg-[#050507] border border-[#12131A] rounded-xl p-5 flex items-start gap-3">
+              <div className="w-9 h-9 rounded-xl bg-accent/10 flex items-center justify-center shrink-0">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-accent" aria-hidden="true"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
               </div>
               <div>
                 <p className="text-sm font-bold text-white mb-0.5">Giveaway Management</p>
-                <p className="text-xs text-[#555555]">Add, edit, or remove giveaway entries. Changes reflect immediately on the homepage giveaway section.</p>
+                <p className="text-xs text-[#6B7280]">Add, edit, or remove giveaway entries. Changes reflect immediately on the homepage giveaway section.</p>
               </div>
             </div>
 
             {giveawaysError && (
-              <div className="px-4 py-3 rounded-lg bg-primary/10 border border-primary/30 text-sm text-primary">{giveawaysError}</div>
+              <div className="px-4 py-3 rounded-xl bg-primary/10 border border-primary/30 text-sm text-primary">{giveawaysError}</div>
             )}
 
             {saved === 'giveaways' && (
-              <div className="px-4 py-3 rounded-lg bg-green-500/10 border border-green-500/30 text-sm text-green-400 flex items-center gap-2">
+              <div className="px-4 py-3 rounded-xl bg-green-500/10 border border-green-500/30 text-sm text-green-400 flex items-center gap-2">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg>
                 Giveaways updated — changes are live on the homepage!
               </div>
@@ -684,35 +684,35 @@ export default function AdminSettingsPage() {
             {/* Giveaway list */}
             <div className="space-y-4">
               {giveaways.map((g) => (
-                <div key={g.id} className="bg-[#0D0D0D] border border-[#1A1A1A] rounded-xl p-5">
+                <div key={g.id} className="bg-[#050507] border border-[#12131A] rounded-xl p-5">
                   <div className="flex items-start justify-between gap-4 mb-3">
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
                         <span className="px-2 py-0.5 rounded-full text-[9px] font-extrabold tracking-widest uppercase bg-accent/15 text-accent border border-accent/30">{g.badge}</span>
                       </div>
                       <h3 className="text-sm font-bold text-white truncate">{g.title}</h3>
-                      <p className="text-xs text-[#555555] mt-0.5 line-clamp-2">{g.description}</p>
+                      <p className="text-xs text-[#6B7280] mt-0.5 line-clamp-2">{g.description}</p>
                     </div>
                     <div className="flex items-center gap-2 shrink-0">
                       <button
                         onClick={() => setEditingGiveaway({ ...g })}
-                        className="px-3 py-1.5 rounded-lg text-xs font-bold bg-[#111111] border border-[#2A2A2A] hover:border-primary/40 hover:text-primary text-[#888888] transition-all"
+                        className="px-3 py-1.5 rounded-xl text-xs font-bold bg-[#0D0E12] border border-[#1E2027] hover:border-primary/40 hover:text-primary text-[#A1A1AA] transition-all"
                       >
                         Edit
                       </button>
                       <button
                         onClick={() => deleteGiveaway(g.id)}
                         disabled={giveawaysLoading}
-                        className="px-3 py-1.5 rounded-lg text-xs font-bold bg-primary/5 border border-primary/20 hover:bg-primary/10 text-primary transition-all disabled:opacity-40"
+                        className="px-3 py-1.5 rounded-xl text-xs font-bold bg-primary/5 border border-primary/20 hover:bg-primary/10 text-primary transition-all disabled:opacity-40"
                       >
                         Delete
                       </button>
                     </div>
                   </div>
                   <div className="grid grid-cols-3 gap-3 text-[10px]">
-                    <div><span className="text-[#444444] uppercase tracking-widest">Ends</span><div className="text-white font-mono mt-0.5">{g.ends}</div></div>
-                    <div><span className="text-[#444444] uppercase tracking-widest">Entries</span><div className="text-white font-mono mt-0.5">{g.entries.toLocaleString()} / {g.maxEntries.toLocaleString()}</div></div>
-                    <div><span className="text-[#444444] uppercase tracking-widest">Entry Fee</span><div className="text-white mt-0.5">{g.entryFee}</div></div>
+                    <div><span className="text-[#52525B] uppercase tracking-widest">Ends</span><div className="text-white font-mono mt-0.5">{g.ends}</div></div>
+                    <div><span className="text-[#52525B] uppercase tracking-widest">Entries</span><div className="text-white font-mono mt-0.5">{g.entries.toLocaleString()} / {g.maxEntries.toLocaleString()}</div></div>
+                    <div><span className="text-[#52525B] uppercase tracking-widest">Entry Fee</span><div className="text-white mt-0.5">{g.entryFee}</div></div>
                   </div>
                 </div>
               ))}
@@ -735,7 +735,7 @@ export default function AdminSettingsPage() {
                     badge: 'FREE ENTRY',
                   });
                 }}
-                className="w-full py-3 border border-dashed border-[#2A2A2A] hover:border-primary/40 rounded-xl text-xs font-bold text-[#555555] hover:text-primary transition-all flex items-center justify-center gap-2"
+                className="w-full py-3 border border-dashed border-[#1E2027] hover:border-primary/40 rounded-xl text-xs font-bold text-[#6B7280] hover:text-primary transition-all flex items-center justify-center gap-2"
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                 Add New Giveaway
@@ -746,7 +746,7 @@ export default function AdminSettingsPage() {
             {editingGiveaway && (
               <div className={sectionClass + ' border-primary/30'}>
                 <p className={sectionTitleClass}>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E31937" strokeWidth="2" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E82127" strokeWidth="2" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                   {addingGiveaway ? 'Add New Giveaway' : 'Edit Giveaway'}
                 </p>
                 <div className="space-y-4">
@@ -790,14 +790,14 @@ export default function AdminSettingsPage() {
                 <div className="flex gap-3 pt-2">
                   <button
                     onClick={() => { setEditingGiveaway(null); setAddingGiveaway(false); }}
-                    className="flex-1 py-3 tesla-btn-outline rounded-lg text-sm font-semibold"
+                    className="flex-1 py-3 tesla-btn-outline rounded-xl text-sm font-semibold"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={() => editingGiveaway && upsertGiveaway(editingGiveaway)}
                     disabled={giveawaysLoading || !editingGiveaway?.title}
-                    className="flex-1 py-3 tesla-btn-primary rounded-lg text-sm font-semibold flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+                    className="flex-1 py-3 tesla-btn-primary rounded-xl text-sm font-semibold flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     {giveawaysLoading ? (
                       <><div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />Saving...</>
@@ -813,21 +813,21 @@ export default function AdminSettingsPage() {
         {activeTab === 'platform' && (
           <div className="space-y-6">
             {/* Maintenance Mode — prominent banner */}
-            <div className={`rounded-xl border p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-all ${platform.maintenanceMode ? 'bg-yellow-400/5 border-yellow-400/30' : 'bg-[#0D0D0D] border-[#1A1A1A]'}`}>
+            <div className={`rounded-xl border p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-all ${platform.maintenanceMode ? 'bg-yellow-400/5 border-yellow-400/30' : 'bg-[#050507] border-[#12131A]'}`}>
               <div className="flex items-start gap-3">
-                <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${platform.maintenanceMode ? 'bg-yellow-400/10' : 'bg-[#111111]'}`}>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={platform.maintenanceMode ? '#facc15' : '#666'} strokeWidth="2" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${platform.maintenanceMode ? 'bg-yellow-400/10' : 'bg-[#0D0E12]'}`}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={platform.maintenanceMode ? '#F59E0B' : '#666'} strokeWidth="2" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
                 </div>
                 <div>
                   <p className={`text-sm font-bold mb-0.5 ${platform.maintenanceMode ? 'text-yellow-400' : 'text-white'}`}>
                     Maintenance Mode {platform.maintenanceMode ? '— ACTIVE' : '— Disabled'}
                   </p>
-                  <p className="text-xs text-[#555555]">When enabled, users see a maintenance page instead of the platform.</p>
+                  <p className="text-xs text-[#6B7280]">When enabled, users see a maintenance page instead of the platform.</p>
                 </div>
               </div>
               <button
                 onClick={() => setPlatform(p => ({ ...p, maintenanceMode: !p.maintenanceMode }))}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors shrink-0 ${platform.maintenanceMode ? 'bg-yellow-400' : 'bg-[#2A2A2A]'}`}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors shrink-0 ${platform.maintenanceMode ? 'bg-yellow-400' : 'bg-[#1E2027]'}`}
                 role="switch"
                 aria-checked={platform.maintenanceMode}
               >
@@ -838,7 +838,7 @@ export default function AdminSettingsPage() {
             {platform.maintenanceMode && (
               <div className={sectionClass}>
                 <p className={sectionTitleClass}>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#facc15" strokeWidth="2" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" strokeWidth="2" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                   Maintenance Message
                 </p>
                 <div>
@@ -857,7 +857,7 @@ export default function AdminSettingsPage() {
             {/* Withdrawal Limits */}
             <div className={sectionClass}>
               <p className={sectionTitleClass}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" strokeWidth="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#A1A1AA" strokeWidth="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                 Withdrawal Limits
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -879,19 +879,19 @@ export default function AdminSettingsPage() {
             {/* Commission Rates */}
             <div className={sectionClass}>
               <p className={sectionTitleClass}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="2" aria-hidden="true"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00F59B" strokeWidth="2" aria-hidden="true"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                 Commission Rates
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className={labelClass}>Platform Commission Rate (%)</label>
                   <input type="number" step="0.1" value={platform.commissionRate} onChange={e => setPlatform(p => ({ ...p, commissionRate: e.target.value }))} className={inputClass} placeholder="2.5" />
-                  <p className="text-[10px] text-[#444444] mt-1.5">Applied on each investment transaction</p>
+                  <p className="text-[10px] text-[#52525B] mt-1.5">Applied on each investment transaction</p>
                 </div>
                 <div>
                   <label className={labelClass}>Referral Commission (%)</label>
                   <input type="number" step="0.1" value={platform.referralCommission} onChange={e => setPlatform(p => ({ ...p, referralCommission: e.target.value }))} className={inputClass} placeholder="5" />
-                  <p className="text-[10px] text-[#444444] mt-1.5">Paid to referrer on referred user&apos;s first investment</p>
+                  <p className="text-[10px] text-[#52525B] mt-1.5">Paid to referrer on referred user&apos;s first investment</p>
                 </div>
               </div>
             </div>
@@ -917,7 +917,7 @@ export default function AdminSettingsPage() {
             {/* KYC Requirements */}
             <div className={sectionClass}>
               <p className={sectionTitleClass}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#facc15" strokeWidth="2" aria-hidden="true"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" strokeWidth="2" aria-hidden="true"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
                 KYC Requirements
               </p>
               <div className="space-y-4">
@@ -926,14 +926,14 @@ export default function AdminSettingsPage() {
                   { key: 'kycRequiredForWithdrawal' as keyof PlatformSettings, label: 'KYC Required for Withdrawals', desc: 'Block withdrawals until KYC is approved' },
                   { key: 'kycRequiredForInvestment' as keyof PlatformSettings, label: 'KYC Required for Investments', desc: 'Block investments until KYC is approved' },
                 ].map(({ key, label, desc }) => (
-                  <div key={key} className="flex items-center justify-between py-3 border-b border-[#1A1A1A] last:border-0">
+                  <div key={key} className="flex items-center justify-between py-3 border-b border-[#12131A] last:border-0">
                     <div>
                       <p className="text-sm font-semibold text-white">{label}</p>
-                      <p className="text-[11px] text-[#555555] mt-0.5">{desc}</p>
+                      <p className="text-[11px] text-[#6B7280] mt-0.5">{desc}</p>
                     </div>
                     <button
                       onClick={() => setPlatform(p => ({ ...p, [key]: !p[key] }))}
-                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors shrink-0 ml-4 ${platform[key] ? 'bg-primary' : 'bg-[#2A2A2A]'}`}
+                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors shrink-0 ml-4 ${platform[key] ? 'bg-primary' : 'bg-[#1E2027]'}`}
                       role="switch"
                       aria-checked={!!platform[key]}
                     >
@@ -945,7 +945,7 @@ export default function AdminSettingsPage() {
             </div>
 
             <div className="flex justify-end">
-              <button onClick={() => saveSettings('platform')} className="px-8 py-3 tesla-btn-primary rounded-lg text-sm font-semibold flex items-center gap-2">
+              <button onClick={() => saveSettings('platform')} className="px-8 py-3 tesla-btn-primary rounded-xl text-sm font-semibold flex items-center gap-2">
                 {saved === 'platform' ? (
                   <><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg>Saved!</>
                 ) : 'Save Platform Settings'}
@@ -958,20 +958,20 @@ export default function AdminSettingsPage() {
         {activeTab === 'security' && (
           <div className="space-y-6">
             {/* Security overview banner */}
-            <div className="bg-[#0D0D0D] border border-[#1A1A1A] rounded-xl p-5 flex items-start gap-3">
-              <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E31937" strokeWidth="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <div className="bg-[#050507] border border-[#12131A] rounded-xl p-5 flex items-start gap-3">
+              <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E82127" strokeWidth="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
               </div>
               <div>
                 <p className="text-sm font-bold text-white mb-0.5">Admin Dashboard Security</p>
-                <p className="text-xs text-[#555555]">Configure authentication requirements, session controls, and access restrictions for the admin panel.</p>
+                <p className="text-xs text-[#6B7280]">Configure authentication requirements, session controls, and access restrictions for the admin panel.</p>
               </div>
             </div>
 
             {/* Authentication */}
             <div className={sectionClass}>
               <p className={sectionTitleClass}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" strokeWidth="2" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#A1A1AA" strokeWidth="2" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                 Authentication Controls
               </p>
               <div className="space-y-4">
@@ -980,14 +980,14 @@ export default function AdminSettingsPage() {
                   { key: 'requireStrongPassword' as keyof SecuritySettings, label: 'Require Strong Passwords', desc: 'Minimum 12 chars, uppercase, numbers, and symbols required' },
                   { key: 'auditLogEnabled' as keyof SecuritySettings, label: 'Enable Audit Logging', desc: 'Log all admin actions with timestamps and IP addresses' },
                 ].map(({ key, label, desc }) => (
-                  <div key={key} className="flex items-center justify-between py-3 border-b border-[#1A1A1A] last:border-0">
+                  <div key={key} className="flex items-center justify-between py-3 border-b border-[#12131A] last:border-0">
                     <div>
                       <p className="text-sm font-semibold text-white">{label}</p>
-                      <p className="text-[11px] text-[#555555] mt-0.5">{desc}</p>
+                      <p className="text-[11px] text-[#6B7280] mt-0.5">{desc}</p>
                     </div>
                     <button
                       onClick={() => setSecurity(s => ({ ...s, [key]: !s[key] }))}
-                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors shrink-0 ml-4 ${security[key] ? 'bg-primary' : 'bg-[#2A2A2A]'}`}
+                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors shrink-0 ml-4 ${security[key] ? 'bg-primary' : 'bg-[#1E2027]'}`}
                       role="switch"
                       aria-checked={!!security[key]}
                     >
@@ -1008,12 +1008,12 @@ export default function AdminSettingsPage() {
                 <div>
                   <label className={labelClass}>Session Timeout (minutes)</label>
                   <input type="number" value={security.sessionTimeoutMinutes} onChange={e => setSecurity(s => ({ ...s, sessionTimeoutMinutes: e.target.value }))} className={inputClass} placeholder="60" />
-                  <p className="text-[10px] text-[#444444] mt-1.5">Auto-logout after inactivity</p>
+                  <p className="text-[10px] text-[#52525B] mt-1.5">Auto-logout after inactivity</p>
                 </div>
                 <div>
                   <label className={labelClass}>Max Login Attempts</label>
                   <input type="number" value={security.maxLoginAttempts} onChange={e => setSecurity(s => ({ ...s, maxLoginAttempts: e.target.value }))} className={inputClass} placeholder="5" />
-                  <p className="text-[10px] text-[#444444] mt-1.5">Account locked after this many failed attempts</p>
+                  <p className="text-[10px] text-[#52525B] mt-1.5">Account locked after this many failed attempts</p>
                 </div>
               </div>
             </div>
@@ -1022,12 +1022,12 @@ export default function AdminSettingsPage() {
             <div className={sectionClass}>
               <div className="flex items-center justify-between mb-4">
                 <p className={sectionTitleClass + ' mb-0'}>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00F59B" strokeWidth="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
                   IP Whitelist
                 </p>
                 <button
                   onClick={() => setSecurity(s => ({ ...s, ipWhitelistEnabled: !s.ipWhitelistEnabled }))}
-                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${security.ipWhitelistEnabled ? 'bg-primary' : 'bg-[#2A2A2A]'}`}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${security.ipWhitelistEnabled ? 'bg-primary' : 'bg-[#1E2027]'}`}
                   role="switch"
                   aria-checked={security.ipWhitelistEnabled}
                 >
@@ -1044,11 +1044,11 @@ export default function AdminSettingsPage() {
                     className={inputClass + ' resize-none font-mono text-xs'}
                     placeholder={'192.168.1.1\n10.0.0.0/24\n203.0.113.0'}
                   />
-                  <p className="text-[10px] text-[#444444] mt-1.5">Only these IPs can access the admin panel. Supports CIDR notation.</p>
+                  <p className="text-[10px] text-[#52525B] mt-1.5">Only these IPs can access the admin panel. Supports CIDR notation.</p>
                 </div>
               )}
               {!security.ipWhitelistEnabled && (
-                <p className="text-xs text-[#444444]">Enable to restrict admin access to specific IP addresses only.</p>
+                <p className="text-xs text-[#52525B]">Enable to restrict admin access to specific IP addresses only.</p>
               )}
             </div>
 
@@ -1060,10 +1060,10 @@ export default function AdminSettingsPage() {
               </p>
               <form onSubmit={handlePasswordChange} className="space-y-4">
                 {pwError && (
-                  <div className="px-4 py-3 rounded-lg bg-primary/10 border border-primary/30 text-sm text-primary">{pwError}</div>
+                  <div className="px-4 py-3 rounded-xl bg-primary/10 border border-primary/30 text-sm text-primary">{pwError}</div>
                 )}
                 {pwSuccess && (
-                  <div className="px-4 py-3 rounded-lg bg-green-500/10 border border-green-500/30 text-sm text-green-400 flex items-center gap-2">
+                  <div className="px-4 py-3 rounded-xl bg-green-500/10 border border-green-500/30 text-sm text-green-400 flex items-center gap-2">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg>
                     Password updated successfully!
                   </div>
@@ -1104,11 +1104,11 @@ export default function AdminSettingsPage() {
                   </div>
                 </div>
                 <div className="flex items-center justify-between pt-1">
-                  <p className="text-[11px] text-[#555555]">Last changed: {security.adminPasswordLastChanged}</p>
+                  <p className="text-[11px] text-[#6B7280]">Last changed: {security.adminPasswordLastChanged}</p>
                   <button
                     type="submit"
                     disabled={pwLoading}
-                    className="px-6 py-2.5 tesla-btn-primary rounded-lg text-sm font-semibold flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+                    className="px-6 py-2.5 tesla-btn-primary rounded-xl text-sm font-semibold flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     {pwLoading ? (
                       <>
@@ -1122,15 +1122,15 @@ export default function AdminSettingsPage() {
                   </button>
                 </div>
               </form>
-              <div className="p-4 bg-primary/5 border border-primary/20 rounded-lg mt-2">
-                <p className="text-xs text-[#888888] leading-relaxed">
+              <div className="p-4 bg-primary/5 border border-primary/20 rounded-xl mt-2">
+                <p className="text-xs text-[#A1A1AA] leading-relaxed">
                   <span className="text-primary font-semibold">Security Tip:</span> Use a unique password of at least 16 characters with mixed case, numbers, and symbols. Never reuse passwords across services.
                 </p>
               </div>
             </div>
 
             <div className="flex justify-end">
-              <button onClick={() => saveSettings('security')} className="px-8 py-3 tesla-btn-primary rounded-lg text-sm font-semibold flex items-center gap-2">
+              <button onClick={() => saveSettings('security')} className="px-8 py-3 tesla-btn-primary rounded-xl text-sm font-semibold flex items-center gap-2">
                 {saved === 'security' ? (
                   <><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg>Saved!</>
                 ) : 'Save Security Settings'}
@@ -1142,13 +1142,13 @@ export default function AdminSettingsPage() {
         {/* ── CUSTOMER CARE TAB ── */}
         {activeTab === 'customercare' && (
           <div className="space-y-6">
-            <div className="bg-[#0D0D0D] border border-[#1A1A1A] rounded-xl p-5 flex items-start gap-3">
-              <div className="w-9 h-9 rounded-lg bg-green-400/10 flex items-center justify-center shrink-0">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="2" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <div className="bg-[#050507] border border-[#12131A] rounded-xl p-5 flex items-start gap-3">
+              <div className="w-9 h-9 rounded-xl bg-green-400/10 flex items-center justify-center shrink-0">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00F59B" strokeWidth="2" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
               </div>
               <div>
                 <p className="text-sm font-bold text-white mb-0.5">Customer Care Channels</p>
-                <p className="text-xs text-[#555555]">Configure WhatsApp and Telegram support contacts. Enabled channels appear as floating buttons on the platform.</p>
+                <p className="text-xs text-[#6B7280]">Configure WhatsApp and Telegram support contacts. Enabled channels appear as floating buttons on the platform.</p>
               </div>
             </div>
 
@@ -1161,7 +1161,7 @@ export default function AdminSettingsPage() {
                 </p>
                 <button
                   onClick={() => setCustomerCare(c => ({ ...c, whatsappEnabled: !c.whatsappEnabled }))}
-                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${customerCare.whatsappEnabled ? 'bg-[#25D366]' : 'bg-[#2A2A2A]'}`}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${customerCare.whatsappEnabled ? 'bg-[#25D366]' : 'bg-[#1E2027]'}`}
                   role="switch"
                   aria-checked={customerCare.whatsappEnabled}
                 >
@@ -1179,7 +1179,7 @@ export default function AdminSettingsPage() {
                     placeholder="+1234567890"
                     disabled={!customerCare.whatsappEnabled}
                   />
-                  <p className="text-[10px] text-[#444444] mt-1.5">Include country code without spaces or dashes (e.g. +14155552671)</p>
+                  <p className="text-[10px] text-[#52525B] mt-1.5">Include country code without spaces or dashes (e.g. +14155552671)</p>
                 </div>
                 <div>
                   <label className={labelClass}>Pre-filled Message</label>
@@ -1193,8 +1193,8 @@ export default function AdminSettingsPage() {
                   />
                 </div>
                 {customerCare.whatsappEnabled && customerCare.whatsappNumber && (
-                  <div className="p-3 bg-[#25D366]/5 border border-[#25D366]/20 rounded-lg">
-                    <p className="text-[11px] text-[#888888]">
+                  <div className="p-3 bg-[#25D366]/5 border border-[#25D366]/20 rounded-xl">
+                    <p className="text-[11px] text-[#A1A1AA]">
                       Preview link:{' '}
                       <span className="text-[#25D366] font-mono text-[10px] break-all">
                         https://wa.me/{customerCare.whatsappNumber.replace(/\D/g, '')}?text={encodeURIComponent(customerCare.whatsappMessage)}
@@ -1214,7 +1214,7 @@ export default function AdminSettingsPage() {
                 </p>
                 <button
                   onClick={() => setCustomerCare(c => ({ ...c, telegramEnabled: !c.telegramEnabled }))}
-                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${customerCare.telegramEnabled ? 'bg-[#229ED9]' : 'bg-[#2A2A2A]'}`}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${customerCare.telegramEnabled ? 'bg-[#229ED9]' : 'bg-[#1E2027]'}`}
                   role="switch"
                   aria-checked={customerCare.telegramEnabled}
                 >
@@ -1225,7 +1225,7 @@ export default function AdminSettingsPage() {
                 <div>
                   <label className={labelClass}>Telegram Username (without @)</label>
                   <div className="relative">
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#444444] text-sm">@</span>
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#52525B] text-sm">@</span>
                     <input
                       type="text"
                       value={customerCare.telegramUsername}
@@ -1248,8 +1248,8 @@ export default function AdminSettingsPage() {
                   />
                 </div>
                 {customerCare.telegramEnabled && customerCare.telegramUsername && (
-                  <div className="p-3 bg-[#229ED9]/5 border border-[#229ED9]/20 rounded-lg">
-                    <p className="text-[11px] text-[#888888]">
+                  <div className="p-3 bg-[#229ED9]/5 border border-[#229ED9]/20 rounded-xl">
+                    <p className="text-[11px] text-[#A1A1AA]">
                       Preview link:{' '}
                       <span className="text-[#229ED9] font-mono text-[10px]">
                         https://t.me/{customerCare.telegramUsername}
@@ -1279,7 +1279,7 @@ export default function AdminSettingsPage() {
             </div>
 
             <div className="flex justify-end">
-              <button onClick={() => saveSettings('customercare')} className="px-8 py-3 tesla-btn-primary rounded-lg text-sm font-semibold flex items-center gap-2">
+              <button onClick={() => saveSettings('customercare')} className="px-8 py-3 tesla-btn-primary rounded-xl text-sm font-semibold flex items-center gap-2">
                 {saved === 'customercare' ? (
                   <><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg>Saved!</>
                 ) : 'Save Customer Care Settings'}
@@ -1291,13 +1291,13 @@ export default function AdminSettingsPage() {
         {/* ── EMAIL TEMPLATES TAB ── */}
         {activeTab === 'email' && (
           <div className="space-y-6">
-            <div className="bg-[#0D0D0D] border border-[#1A1A1A] rounded-xl p-5 flex items-start gap-3">
-              <div className="w-9 h-9 rounded-lg bg-blue-400/10 flex items-center justify-center shrink-0">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" strokeWidth="2" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <div className="bg-[#050507] border border-[#12131A] rounded-xl p-5 flex items-start gap-3">
+              <div className="w-9 h-9 rounded-xl bg-zinc-300/10 flex items-center justify-center shrink-0">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A1A1AA" strokeWidth="2" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
               </div>
               <div>
                 <p className="text-sm font-bold text-white mb-0.5">Email Templates</p>
-                <p className="text-xs text-[#555555]">Customize automated emails sent to users. Use <code className="text-primary bg-primary/10 px-1 rounded text-[10px]">{'{{name}}'}</code>, <code className="text-primary bg-primary/10 px-1 rounded text-[10px]">{'{{amount}}'}</code> as dynamic placeholders.</p>
+                <p className="text-xs text-[#6B7280]">Customize automated emails sent to users. Use <code className="text-primary bg-primary/10 px-1 rounded-xl text-[10px]">{'{{name}}'}</code>, <code className="text-primary bg-primary/10 px-1 rounded-xl text-[10px]">{'{{amount}}'}</code> as dynamic placeholders.</p>
               </div>
             </div>
 
@@ -1322,7 +1322,7 @@ export default function AdminSettingsPage() {
             {/* Welcome Email */}
             <div className={sectionClass}>
               <p className={sectionTitleClass}>
-                <span className="w-5 h-5 rounded bg-green-400/10 flex items-center justify-center text-[10px]">👋</span>
+                <span className="w-5 h-5 rounded-xl bg-green-400/10 flex items-center justify-center text-[10px]">👋</span>
                 Welcome Email
               </p>
               <div className="space-y-3">
@@ -1340,7 +1340,7 @@ export default function AdminSettingsPage() {
             {/* KYC Approved Email */}
             <div className={sectionClass}>
               <p className={sectionTitleClass}>
-                <span className="w-5 h-5 rounded bg-yellow-400/10 flex items-center justify-center text-[10px]">✅</span>
+                <span className="w-5 h-5 rounded-xl bg-yellow-400/10 flex items-center justify-center text-[10px]">✅</span>
                 KYC Approved Email
               </p>
               <div className="space-y-3">
@@ -1358,7 +1358,7 @@ export default function AdminSettingsPage() {
             {/* Withdrawal Email */}
             <div className={sectionClass}>
               <p className={sectionTitleClass}>
-                <span className="w-5 h-5 rounded bg-blue-400/10 flex items-center justify-center text-[10px]">💸</span>
+                <span className="w-5 h-5 rounded-xl bg-zinc-300/10 flex items-center justify-center text-[10px]">💸</span>
                 Withdrawal Processed Email
               </p>
               <div className="space-y-3">
@@ -1374,12 +1374,12 @@ export default function AdminSettingsPage() {
             </div>
 
             {/* Test Email */}
-            <div className="bg-[#0D0D0D] border border-[#1A1A1A] rounded-xl p-5">
+            <div className="bg-[#050507] border border-[#12131A] rounded-xl p-5">
               <p className={sectionTitleClass}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888" strokeWidth="2" aria-hidden="true"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg>
                 Test Email Delivery
               </p>
-              <p className="text-xs text-[#555555] mb-4">Send a test email to verify your Resend integration and sender configuration are working correctly.</p>
+              <p className="text-xs text-[#6B7280] mb-4">Send a test email to verify your Resend integration and sender configuration are working correctly.</p>
               <div className="flex gap-3">
                 <input
                   type="email"
@@ -1391,10 +1391,10 @@ export default function AdminSettingsPage() {
                 <button
                   onClick={sendTestEmail}
                   disabled={testEmailSending || !testEmailAddr}
-                  className="px-5 py-2.5 rounded-lg text-xs font-bold uppercase tracking-widest transition-all bg-blue-400/10 hover:bg-blue-400/20 border border-blue-400/20 hover:border-blue-400/40 text-blue-400 disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2 whitespace-nowrap"
+                  className="px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all bg-zinc-300/10 hover:bg-zinc-300/20 border border-zinc-300/20 hover:border-zinc-300/40 text-zinc-300 disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2 whitespace-nowrap"
                 >
                   {testEmailSending ? (
-                    <><div className="w-3 h-3 border-2 border-blue-400 border-t-transparent rounded-full animate-spin" />Sending…</>
+                    <><div className="w-3 h-3 border-2 border-zinc-300 border-t-transparent rounded-full animate-spin" />Sending…</>
                   ) : 'Send Test'}
                 </button>
               </div>
@@ -1407,7 +1407,7 @@ export default function AdminSettingsPage() {
             </div>
 
             <div className="flex justify-end">
-              <button onClick={() => saveSettings('email')} className="px-8 py-3 tesla-btn-primary rounded-lg text-sm font-semibold flex items-center gap-2">
+              <button onClick={() => saveSettings('email')} className="px-8 py-3 tesla-btn-primary rounded-xl text-sm font-semibold flex items-center gap-2">
                 {saved === 'email' ? (
                   <><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg>Saved!</>
                 ) : 'Save Email Templates'}
@@ -1419,18 +1419,18 @@ export default function AdminSettingsPage() {
         {/* ── POP-UPS TAB ── */}
         {activeTab === 'popups' && (
           <div className="space-y-6">
-            <div className="bg-[#0D0D0D] border border-[#1A1A1A] rounded-xl p-5 flex items-start gap-3">
-              <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E31937" strokeWidth="2" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+            <div className="bg-[#050507] border border-[#12131A] rounded-xl p-5 flex items-start gap-3">
+              <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E82127" strokeWidth="2" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
               </div>
               <div>
                 <p className="text-sm font-bold text-white mb-0.5">Pop-ups & Live Ticker</p>
-                <p className="text-xs text-[#555555]">Control every on-site pop-up and the live withdrawal ticker. Changes apply to visitors immediately after saving.</p>
+                <p className="text-xs text-[#6B7280]">Control every on-site pop-up and the live withdrawal ticker. Changes apply to visitors immediately after saving.</p>
               </div>
             </div>
 
             {popupsError && (
-              <div className="px-4 py-3 rounded-lg bg-primary/10 border border-primary/30 text-sm text-primary">{popupsError}</div>
+              <div className="px-4 py-3 rounded-xl bg-primary/10 border border-primary/30 text-sm text-primary">{popupsError}</div>
             )}
 
             {/* Welcome offer modal */}
@@ -1438,8 +1438,8 @@ export default function AdminSettingsPage() {
               <div className="flex items-center justify-between">
                 <p className={sectionTitleClass}>Welcome / Offer Modal</p>
                 <label className="flex items-center gap-2 cursor-pointer">
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-[#555555]">{popups.welcome.enabled ? 'On' : 'Off'}</span>
-                  <input type="checkbox" checked={popups.welcome.enabled} onChange={e => setPopups(p => ({ ...p, welcome: { ...p.welcome, enabled: e.target.checked } }))} className="accent-[#E31937] w-4 h-4" />
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-[#6B7280]">{popups.welcome.enabled ? 'On' : 'Off'}</span>
+                  <input type="checkbox" checked={popups.welcome.enabled} onChange={e => setPopups(p => ({ ...p, welcome: { ...p.welcome, enabled: e.target.checked } }))} className="accent-[#E82127] w-4 h-4" />
                 </label>
               </div>
               <div><label className={labelClass}>Title</label><input value={popups.welcome.title} onChange={e => setPopups(p => ({ ...p, welcome: { ...p.welcome, title: e.target.value } }))} className={inputClass} /></div>
@@ -1457,8 +1457,8 @@ export default function AdminSettingsPage() {
               <div className="flex items-center justify-between">
                 <p className={sectionTitleClass}>Lead Capture Modal</p>
                 <label className="flex items-center gap-2 cursor-pointer">
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-[#555555]">{popups.lead.enabled ? 'On' : 'Off'}</span>
-                  <input type="checkbox" checked={popups.lead.enabled} onChange={e => setPopups(p => ({ ...p, lead: { ...p.lead, enabled: e.target.checked } }))} className="accent-[#E31937] w-4 h-4" />
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-[#6B7280]">{popups.lead.enabled ? 'On' : 'Off'}</span>
+                  <input type="checkbox" checked={popups.lead.enabled} onChange={e => setPopups(p => ({ ...p, lead: { ...p.lead, enabled: e.target.checked } }))} className="accent-[#E82127] w-4 h-4" />
                 </label>
               </div>
               <div><label className={labelClass}>Title</label><input value={popups.lead.title} onChange={e => setPopups(p => ({ ...p, lead: { ...p.lead, title: e.target.value } }))} className={inputClass} /></div>
@@ -1467,8 +1467,8 @@ export default function AdminSettingsPage() {
                 <div><label className={labelClass}>Button label</label><input value={popups.lead.ctaLabel} onChange={e => setPopups(p => ({ ...p, lead: { ...p.lead, ctaLabel: e.target.value } }))} className={inputClass} /></div>
                 <div className="flex items-end pb-2">
                   <label className="flex items-center gap-2 cursor-pointer">
-                    <input type="checkbox" checked={popups.lead.exitIntent} onChange={e => setPopups(p => ({ ...p, lead: { ...p.lead, exitIntent: e.target.checked } }))} className="accent-[#E31937] w-4 h-4" />
-                    <span className="text-xs text-[#999999]">Also show on exit intent</span>
+                    <input type="checkbox" checked={popups.lead.exitIntent} onChange={e => setPopups(p => ({ ...p, lead: { ...p.lead, exitIntent: e.target.checked } }))} className="accent-[#E82127] w-4 h-4" />
+                    <span className="text-xs text-[#A1A1AA]">Also show on exit intent</span>
                   </label>
                 </div>
                 <div><label className={labelClass}>Show after (seconds)</label><input type="number" min={10} value={popups.lead.delaySeconds} onChange={e => setPopups(p => ({ ...p, lead: { ...p.lead, delaySeconds: Number(e.target.value) } }))} className={inputClass} /></div>
@@ -1481,11 +1481,11 @@ export default function AdminSettingsPage() {
               <div className="flex items-center justify-between">
                 <p className={sectionTitleClass}>Live Withdrawal Ticker</p>
                 <label className="flex items-center gap-2 cursor-pointer">
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-[#555555]">{popups.ticker.enabled ? 'On' : 'Off'}</span>
-                  <input type="checkbox" checked={popups.ticker.enabled} onChange={e => setPopups(p => ({ ...p, ticker: { ...p.ticker, enabled: e.target.checked } }))} className="accent-[#E31937] w-4 h-4" />
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-[#6B7280]">{popups.ticker.enabled ? 'On' : 'Off'}</span>
+                  <input type="checkbox" checked={popups.ticker.enabled} onChange={e => setPopups(p => ({ ...p, ticker: { ...p.ticker, enabled: e.target.checked } }))} className="accent-[#E82127] w-4 h-4" />
                 </label>
               </div>
-              <p className="text-[11px] text-[#555555]">Randomized client-side from a pool of names, cities and amounts — never a fixed repeating script.</p>
+              <p className="text-[11px] text-[#6B7280]">Randomized client-side from a pool of names, cities and amounts — never a fixed repeating script.</p>
               <div className="grid sm:grid-cols-3 gap-4">
                 <div><label className={labelClass}>Interval (seconds)</label><input type="number" min={8} value={popups.ticker.intervalSeconds} onChange={e => setPopups(p => ({ ...p, ticker: { ...p.ticker, intervalSeconds: Number(e.target.value) } }))} className={inputClass} /></div>
                 <div><label className={labelClass}>Min amount ($)</label><input type="number" min={100} value={popups.ticker.minAmount} onChange={e => setPopups(p => ({ ...p, ticker: { ...p.ticker, minAmount: Number(e.target.value) } }))} className={inputClass} /></div>
@@ -1498,15 +1498,15 @@ export default function AdminSettingsPage() {
               <div className="flex items-center justify-between">
                 <p className={sectionTitleClass}>Cookie Consent Bar</p>
                 <label className="flex items-center gap-2 cursor-pointer">
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-[#555555]">{popups.cookie.enabled ? 'On' : 'Off'}</span>
-                  <input type="checkbox" checked={popups.cookie.enabled} onChange={e => setPopups(p => ({ ...p, cookie: { ...p.cookie, enabled: e.target.checked } }))} className="accent-[#E31937] w-4 h-4" />
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-[#6B7280]">{popups.cookie.enabled ? 'On' : 'Off'}</span>
+                  <input type="checkbox" checked={popups.cookie.enabled} onChange={e => setPopups(p => ({ ...p, cookie: { ...p.cookie, enabled: e.target.checked } }))} className="accent-[#E82127] w-4 h-4" />
                 </label>
               </div>
               <div><label className={labelClass}>Message</label><textarea rows={2} value={popups.cookie.body} onChange={e => setPopups(p => ({ ...p, cookie: { ...p.cookie, body: e.target.value } }))} className={inputClass} /></div>
             </div>
 
             <div className="flex justify-end">
-              <button onClick={savePopups} disabled={popupsLoading} className="px-8 py-3 tesla-btn-primary rounded-lg text-sm font-semibold flex items-center gap-2 disabled:opacity-60">
+              <button onClick={savePopups} disabled={popupsLoading} className="px-8 py-3 tesla-btn-primary rounded-xl text-sm font-semibold flex items-center gap-2 disabled:opacity-60">
                 {popupsLoading ? 'Saving…' : saved === 'popups' ? (
                   <><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg>Saved!</>
                 ) : 'Save Pop-up Settings'}

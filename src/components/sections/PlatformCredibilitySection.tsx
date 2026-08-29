@@ -16,9 +16,9 @@ const chartBarHeights = Array.from({ length: 20 }, (_, i) => Math.round(20 + Mat
 
 const portfolioSlices = [
   { label: 'Vehicles', pct: 45, color: '#00D4FF' },
-  { label: 'Energy Systems', pct: 30, color: '#00FF88' },
+  { label: 'Energy Systems', pct: 30, color: '#00F59B' },
   { label: 'Robotics', pct: 15, color: '#A78BFA' },
-  { label: 'Liquidity', pct: 10, color: '#E31937' },
+  { label: 'Liquidity', pct: 10, color: '#E82127' },
 ];
 
 const paymentMethods = [
@@ -87,7 +87,7 @@ export default function PlatformCredibilitySection() {
                     <div className="text-xs font-bold text-muted-foreground tracking-widest uppercase">{t?.symbol}</div>
                     <div className="text-sm font-semibold text-foreground">{t?.name}</div>
                   </div>
-                  <span className={`px-2.5 py-1 rounded-lg text-xs font-bold ${t?.up ? 'bg-green-400/10 text-green-400 border border-green-400/20' : 'bg-accent/10 text-accent border border-accent/20'}`}>
+                  <span className={`px-2.5 py-1 rounded-xl text-xs font-bold ${t?.up ? 'bg-green-400/10 text-green-400 border border-green-400/20' : 'bg-accent/10 text-accent border border-accent/20'}`}>
                     {t?.change}
                   </span>
                 </div>
@@ -110,7 +110,7 @@ export default function PlatformCredibilitySection() {
         {/* Portfolio Snapshot + Payment Methods */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Portfolio */}
-          <div className="glass-premium rounded-2xl p-8 section-reveal depth-card">
+          <div className="glass-premium rounded-3xl p-8 section-reveal depth-card">
             <h3 className="text-lg font-extrabold text-foreground mb-2">Platform Portfolio Snapshot</h3>
             <p className="text-sm text-muted-foreground mb-8">Illustrative allocation across the Tesla ecosystem</p>
 
@@ -144,7 +144,7 @@ export default function PlatformCredibilitySection() {
           </div>
 
           {/* Payment Methods */}
-          <div className="glass-premium rounded-2xl p-8 section-reveal depth-card">
+          <div className="glass-premium rounded-3xl p-8 section-reveal depth-card">
             <h3 className="text-lg font-extrabold text-foreground mb-2">Accepted Payment Methods</h3>
             <p className="text-sm text-muted-foreground mb-8">Secure and flexible ways to fund your investments</p>
 
