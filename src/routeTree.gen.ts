@@ -10,33 +10,336 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
+import { Route as BookSessionRouteImport } from './routes/book-session'
+import { Route as CryptoPaymentRouteImport } from './routes/crypto-payment'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as InvestRouteImport } from './routes/invest'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as NewsRouteImport } from './routes/news'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as RegisterRouteImport } from './routes/register'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as TermsRouteImport } from './routes/terms'
+import { Route as VerifyPendingRouteImport } from './routes/verify-pending'
+import { Route as AuthenticatedAccountRouteImport } from './routes/_authenticated.account'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated.admin'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated.dashboard'
+import { Route as AuthenticatedKycRouteImport } from './routes/_authenticated.kyc'
+import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated.profile'
+import { Route as AuthenticatedReferralRouteImport } from './routes/_authenticated.referral'
+import { Route as AuthenticatedSupportRouteImport } from './routes/_authenticated.support'
+import { Route as AuthenticatedAccountDepositRouteImport } from './routes/_authenticated.account.deposit'
+import { Route as AuthenticatedAdminDepositsRouteImport } from './routes/_authenticated.admin.deposits'
+import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated.admin.settings'
+import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated.admin.users'
+import { Route as AuthenticatedAdminWithdrawalsRouteImport } from './routes/_authenticated.admin.withdrawals'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRoute = AuthenticatedRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BookSessionRoute = BookSessionRouteImport.update({
+  id: '/book-session',
+  path: '/book-session',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CryptoPaymentRoute = CryptoPaymentRouteImport.update({
+  id: '/crypto-payment',
+  path: '/crypto-payment',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InvestRoute = InvestRouteImport.update({
+  id: '/invest',
+  path: '/invest',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewsRoute = NewsRouteImport.update({
+  id: '/news',
+  path: '/news',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VerifyPendingRoute = VerifyPendingRouteImport.update({
+  id: '/verify-pending',
+  path: '/verify-pending',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAccountRoute = AuthenticatedAccountRouteImport.update({
+  id: '/account',
+  path: '/account',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedKycRoute = AuthenticatedKycRouteImport.update({
+  id: '/kyc',
+  path: '/kyc',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedReferralRoute = AuthenticatedReferralRouteImport.update({
+  id: '/referral',
+  path: '/referral',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedSupportRoute = AuthenticatedSupportRouteImport.update({
+  id: '/support',
+  path: '/support',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedAccountDepositRoute =
+  AuthenticatedAccountDepositRouteImport.update({
+    id: '/deposit',
+    path: '/deposit',
+    getParentRoute: () => AuthenticatedAccountRoute,
+  } as any)
+const AuthenticatedAdminDepositsRoute =
+  AuthenticatedAdminDepositsRouteImport.update({
+    id: '/deposits',
+    path: '/deposits',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminSettingsRoute =
+  AuthenticatedAdminSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminUsersRoute = AuthenticatedAdminUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
+const AuthenticatedAdminWithdrawalsRoute =
+  AuthenticatedAdminWithdrawalsRouteImport.update({
+    id: '/withdrawals',
+    path: '/withdrawals',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/book-session': typeof BookSessionRoute
+  '/crypto-payment': typeof CryptoPaymentRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/invest': typeof InvestRoute
+  '/login': typeof LoginRoute
+  '/news': typeof NewsRoute
+  '/privacy': typeof PrivacyRoute
+  '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/terms': typeof TermsRoute
+  '/verify-pending': typeof VerifyPendingRoute
+  '/account': typeof AuthenticatedAccountRouteWithChildren
+  '/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/kyc': typeof AuthenticatedKycRoute
+  '/profile': typeof AuthenticatedProfileRoute
+  '/referral': typeof AuthenticatedReferralRoute
+  '/support': typeof AuthenticatedSupportRoute
+  '/account/deposit': typeof AuthenticatedAccountDepositRoute
+  '/admin/deposits': typeof AuthenticatedAdminDepositsRoute
+  '/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/admin/users': typeof AuthenticatedAdminUsersRoute
+  '/admin/withdrawals': typeof AuthenticatedAdminWithdrawalsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/book-session': typeof BookSessionRoute
+  '/crypto-payment': typeof CryptoPaymentRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/invest': typeof InvestRoute
+  '/login': typeof LoginRoute
+  '/news': typeof NewsRoute
+  '/privacy': typeof PrivacyRoute
+  '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/terms': typeof TermsRoute
+  '/verify-pending': typeof VerifyPendingRoute
+  '/account': typeof AuthenticatedAccountRouteWithChildren
+  '/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/kyc': typeof AuthenticatedKycRoute
+  '/profile': typeof AuthenticatedProfileRoute
+  '/referral': typeof AuthenticatedReferralRoute
+  '/support': typeof AuthenticatedSupportRoute
+  '/account/deposit': typeof AuthenticatedAccountDepositRoute
+  '/admin/deposits': typeof AuthenticatedAdminDepositsRoute
+  '/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/admin/users': typeof AuthenticatedAdminUsersRoute
+  '/admin/withdrawals': typeof AuthenticatedAdminWithdrawalsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteWithChildren
+  '/book-session': typeof BookSessionRoute
+  '/crypto-payment': typeof CryptoPaymentRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/invest': typeof InvestRoute
+  '/login': typeof LoginRoute
+  '/news': typeof NewsRoute
+  '/privacy': typeof PrivacyRoute
+  '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/terms': typeof TermsRoute
+  '/verify-pending': typeof VerifyPendingRoute
+  '/_authenticated/account': typeof AuthenticatedAccountRouteWithChildren
+  '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/kyc': typeof AuthenticatedKycRoute
+  '/_authenticated/profile': typeof AuthenticatedProfileRoute
+  '/_authenticated/referral': typeof AuthenticatedReferralRoute
+  '/_authenticated/support': typeof AuthenticatedSupportRoute
+  '/_authenticated/account/deposit': typeof AuthenticatedAccountDepositRoute
+  '/_authenticated/admin/deposits': typeof AuthenticatedAdminDepositsRoute
+  '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
+  '/_authenticated/admin/withdrawals': typeof AuthenticatedAdminWithdrawalsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/book-session'
+    | '/crypto-payment'
+    | '/forgot-password'
+    | '/invest'
+    | '/login'
+    | '/news'
+    | '/privacy'
+    | '/register'
+    | '/reset-password'
+    | '/terms'
+    | '/verify-pending'
+    | '/account'
+    | '/admin'
+    | '/dashboard'
+    | '/kyc'
+    | '/profile'
+    | '/referral'
+    | '/support'
+    | '/account/deposit'
+    | '/admin/deposits'
+    | '/admin/settings'
+    | '/admin/users'
+    | '/admin/withdrawals'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/book-session'
+    | '/crypto-payment'
+    | '/forgot-password'
+    | '/invest'
+    | '/login'
+    | '/news'
+    | '/privacy'
+    | '/register'
+    | '/reset-password'
+    | '/terms'
+    | '/verify-pending'
+    | '/account'
+    | '/admin'
+    | '/dashboard'
+    | '/kyc'
+    | '/profile'
+    | '/referral'
+    | '/support'
+    | '/account/deposit'
+    | '/admin/deposits'
+    | '/admin/settings'
+    | '/admin/users'
+    | '/admin/withdrawals'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/book-session'
+    | '/crypto-payment'
+    | '/forgot-password'
+    | '/invest'
+    | '/login'
+    | '/news'
+    | '/privacy'
+    | '/register'
+    | '/reset-password'
+    | '/terms'
+    | '/verify-pending'
+    | '/_authenticated/account'
+    | '/_authenticated/admin'
+    | '/_authenticated/dashboard'
+    | '/_authenticated/kyc'
+    | '/_authenticated/profile'
+    | '/_authenticated/referral'
+    | '/_authenticated/support'
+    | '/_authenticated/account/deposit'
+    | '/_authenticated/admin/deposits'
+    | '/_authenticated/admin/settings'
+    | '/_authenticated/admin/users'
+    | '/_authenticated/admin/withdrawals'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
+  BookSessionRoute: typeof BookSessionRoute
+  CryptoPaymentRoute: typeof CryptoPaymentRoute
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
+  InvestRoute: typeof InvestRoute
+  LoginRoute: typeof LoginRoute
+  NewsRoute: typeof NewsRoute
+  PrivacyRoute: typeof PrivacyRoute
+  RegisterRoute: typeof RegisterRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
+  TermsRoute: typeof TermsRoute
+  VerifyPendingRoute: typeof VerifyPendingRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +351,243 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/book-session': {
+      id: '/book-session'
+      path: '/book-session'
+      fullPath: '/book-session'
+      preLoaderRoute: typeof BookSessionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/crypto-payment': {
+      id: '/crypto-payment'
+      path: '/crypto-payment'
+      fullPath: '/crypto-payment'
+      preLoaderRoute: typeof CryptoPaymentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/invest': {
+      id: '/invest'
+      path: '/invest'
+      fullPath: '/invest'
+      preLoaderRoute: typeof InvestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/news': {
+      id: '/news'
+      path: '/news'
+      fullPath: '/news'
+      preLoaderRoute: typeof NewsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/verify-pending': {
+      id: '/verify-pending'
+      path: '/verify-pending'
+      fullPath: '/verify-pending'
+      preLoaderRoute: typeof VerifyPendingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/account': {
+      id: '/_authenticated/account'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof AuthenticatedAccountRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/kyc': {
+      id: '/_authenticated/kyc'
+      path: '/kyc'
+      fullPath: '/kyc'
+      preLoaderRoute: typeof AuthenticatedKycRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/profile': {
+      id: '/_authenticated/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AuthenticatedProfileRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/referral': {
+      id: '/_authenticated/referral'
+      path: '/referral'
+      fullPath: '/referral'
+      preLoaderRoute: typeof AuthenticatedReferralRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/support': {
+      id: '/_authenticated/support'
+      path: '/support'
+      fullPath: '/support'
+      preLoaderRoute: typeof AuthenticatedSupportRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/account/deposit': {
+      id: '/_authenticated/account/deposit'
+      path: '/deposit'
+      fullPath: '/account/deposit'
+      preLoaderRoute: typeof AuthenticatedAccountDepositRouteImport
+      parentRoute: typeof AuthenticatedAccountRoute
+    }
+    '/_authenticated/admin/deposits': {
+      id: '/_authenticated/admin/deposits'
+      path: '/deposits'
+      fullPath: '/admin/deposits'
+      preLoaderRoute: typeof AuthenticatedAdminDepositsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/settings': {
+      id: '/_authenticated/admin/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AuthenticatedAdminSettingsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/users': {
+      id: '/_authenticated/admin/users'
+      path: '/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AuthenticatedAdminUsersRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/withdrawals': {
+      id: '/_authenticated/admin/withdrawals'
+      path: '/withdrawals'
+      fullPath: '/admin/withdrawals'
+      preLoaderRoute: typeof AuthenticatedAdminWithdrawalsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
   }
 }
 
+interface AuthenticatedAccountRouteChildren {
+  AuthenticatedAccountDepositRoute: typeof AuthenticatedAccountDepositRoute
+}
+
+const AuthenticatedAccountRouteChildren: AuthenticatedAccountRouteChildren = {
+  AuthenticatedAccountDepositRoute: AuthenticatedAccountDepositRoute,
+}
+
+const AuthenticatedAccountRouteWithChildren =
+  AuthenticatedAccountRoute._addFileChildren(AuthenticatedAccountRouteChildren)
+
+interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminDepositsRoute: typeof AuthenticatedAdminDepositsRoute
+  AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
+  AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
+  AuthenticatedAdminWithdrawalsRoute: typeof AuthenticatedAdminWithdrawalsRoute
+}
+
+const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminDepositsRoute: AuthenticatedAdminDepositsRoute,
+  AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
+  AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
+  AuthenticatedAdminWithdrawalsRoute: AuthenticatedAdminWithdrawalsRoute,
+}
+
+const AuthenticatedAdminRouteWithChildren =
+  AuthenticatedAdminRoute._addFileChildren(AuthenticatedAdminRouteChildren)
+
+interface AuthenticatedRouteChildren {
+  AuthenticatedAccountRoute: typeof AuthenticatedAccountRouteWithChildren
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRouteWithChildren
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedKycRoute: typeof AuthenticatedKycRoute
+  AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+  AuthenticatedReferralRoute: typeof AuthenticatedReferralRoute
+  AuthenticatedSupportRoute: typeof AuthenticatedSupportRoute
+}
+
+const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedAccountRoute: AuthenticatedAccountRouteWithChildren,
+  AuthenticatedAdminRoute: AuthenticatedAdminRouteWithChildren,
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedKycRoute: AuthenticatedKycRoute,
+  AuthenticatedProfileRoute: AuthenticatedProfileRoute,
+  AuthenticatedReferralRoute: AuthenticatedReferralRoute,
+  AuthenticatedSupportRoute: AuthenticatedSupportRoute,
+}
+
+const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
+  AuthenticatedRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRoute: AuthenticatedRouteWithChildren,
+  BookSessionRoute: BookSessionRoute,
+  CryptoPaymentRoute: CryptoPaymentRoute,
+  ForgotPasswordRoute: ForgotPasswordRoute,
+  InvestRoute: InvestRoute,
+  LoginRoute: LoginRoute,
+  NewsRoute: NewsRoute,
+  PrivacyRoute: PrivacyRoute,
+  RegisterRoute: RegisterRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
+  TermsRoute: TermsRoute,
+  VerifyPendingRoute: VerifyPendingRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

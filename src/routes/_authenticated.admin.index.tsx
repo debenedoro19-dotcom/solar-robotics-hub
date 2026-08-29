@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import Page from "@/pages/admin-overview";
 
-export const Route = createFileRoute("/_authenticated/admin")({
+export const Route = createFileRoute("/_authenticated/admin/")({
   head: () => ({
     meta: [
       { title: "Admin Overview — Tesla Trade" },
