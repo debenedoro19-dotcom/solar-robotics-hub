@@ -247,10 +247,10 @@ export default function InvestorDashboard() {
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.12)" vertical={false} />
-                <XAxis dataKey="label" tick={{ fill: '#7D8898', fontSize: 11 }} axisLine={false} tickLine={false} minTickGap={24} />
-                <YAxis tick={{ fill: '#7D8898', fontSize: 11 }} axisLine={false} tickLine={false} width={70} tickFormatter={(v) => `$${Number(v).toLocaleString()}`} />
+                <XAxis dataKey="label" tick={{ fill: '#A1A1AA', fontSize: 11 }} axisLine={false} tickLine={false} minTickGap={24} />
+                <YAxis tick={{ fill: '#A1A1AA', fontSize: 11 }} axisLine={false} tickLine={false} width={70} tickFormatter={(v) => `$${Number(v).toLocaleString()}`} />
                 <Tooltip
-                  contentStyle={{ background: '#0D0E12', border: '1px solid rgba(30,41,59,0.8)', borderRadius: 12, color: '#fff' }}
+                  contentStyle={{ background: '#0D0E12', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, color: '#fff' }}
                   formatter={(v: number | string) => [money(Number(v)), 'Portfolio']} />
                 <Area type="monotone" dataKey="value" stroke="#00F59B" strokeWidth={2} fill="url(#finEmerald)" />
               </AreaChart>
