@@ -23,6 +23,7 @@
 
 - Set up your sender domain (you own `tradeenergy.app`) through the email setup dialog; Lovable manages the DNS records and delivery.
 - **Auth / OTP emails**: branded templates for sign-up verification (OTP code + link), magic link, password reset, email change, invite and re-authentication — sent from your own domain in the app's Obsidian/Crimson style. This covers the registration Verify step and password recovery.
+- Template: The template and email theme should be generated from the website, or have a similar conceptual imagery.
 - **Activity-triggered emails**: replace the dead `/api/send-email` with the managed sender and wire real triggers so clients get email automatically on:
   - welcome / account created,
   - deposit received (pending) and deposit approved,
@@ -39,4 +40,5 @@
 - Migration: `GRANT EXECUTE` restore + policy rewrite to `is_admin()`; `site_settings` rows seeded for each settings group with admin-only write, anon read only for public-safe keys (wallet addresses stay signed-in/admin-scoped as today).
 - Settings reads go through a small typed module (`src/lib/siteSettings.ts` extended) with a TanStack Query cache keyed per group.
 - Email uses Lovable's managed sending: scaffolded auth webhook + React Email templates under `src/lib/email-templates/`, and sends fired from server functions/routes at each trigger point (never from the browser). `emailService.ts` is rewritten to call those server paths.
-- Work order: permission migration → settings persistence + wiring → admin audit sweep → email domain → auth/OTP templates → activity email triggers → admin email tab.
+- Work order: permission migration → settings persistence + wiring → admin audit sweep → email domain → auth/OTP templates sourced from the webssite → activity email triggers → admin email tab.
+- &nbsp;
