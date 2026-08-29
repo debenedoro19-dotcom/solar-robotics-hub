@@ -29,7 +29,7 @@ import { Route as AuthenticatedKycRouteImport } from './routes/_authenticated.ky
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated.profile'
 import { Route as AuthenticatedReferralRouteImport } from './routes/_authenticated.referral'
 import { Route as AuthenticatedSupportRouteImport } from './routes/_authenticated.support'
-import { Route as CareersSlugRouteImport } from './routes/careers.$slug'
+import { Route as CareersSlugRouteImport } from './routes/careers_.$slug'
 import { Route as AuthenticatedAccountIndexRouteImport } from './routes/_authenticated.account.index'
 import { Route as AuthenticatedAccountDepositRouteImport } from './routes/_authenticated.account.deposit'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated.admin.index'
@@ -139,9 +139,9 @@ const AuthenticatedSupportRoute = AuthenticatedSupportRouteImport.update({
   getParentRoute: () => AuthenticatedRoute,
 } as any)
 const CareersSlugRoute = CareersSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => CareersRoute,
+  id: '/careers_/$slug',
+  path: '/careers/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAccountIndexRoute =
   AuthenticatedAccountIndexRouteImport.update({
@@ -193,7 +193,7 @@ const AuthenticatedAdminWithdrawalsRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/book-session': typeof BookSessionRoute
-  '/careers': typeof CareersRouteWithChildren
+  '/careers': typeof CareersRoute
   '/crypto-payment': typeof CryptoPaymentRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/invest': typeof InvestRoute
@@ -223,7 +223,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/book-session': typeof BookSessionRoute
-  '/careers': typeof CareersRouteWithChildren
+  '/careers': typeof CareersRoute
   '/crypto-payment': typeof CryptoPaymentRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/invest': typeof InvestRoute
@@ -254,7 +254,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/book-session': typeof BookSessionRoute
-  '/careers': typeof CareersRouteWithChildren
+  '/careers': typeof CareersRoute
   '/crypto-payment': typeof CryptoPaymentRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/invest': typeof InvestRoute
@@ -271,7 +271,7 @@ export interface FileRoutesById {
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/referral': typeof AuthenticatedReferralRoute
   '/_authenticated/support': typeof AuthenticatedSupportRoute
-  '/careers/$slug': typeof CareersSlugRoute
+  '/careers_/$slug': typeof CareersSlugRoute
   '/_authenticated/account/deposit': typeof AuthenticatedAccountDepositRoute
   '/_authenticated/admin/careers': typeof AuthenticatedAdminCareersRoute
   '/_authenticated/admin/deposits': typeof AuthenticatedAdminDepositsRoute
@@ -363,7 +363,7 @@ export interface FileRouteTypes {
     | '/_authenticated/profile'
     | '/_authenticated/referral'
     | '/_authenticated/support'
-    | '/careers/$slug'
+    | '/careers_/$slug'
     | '/_authenticated/account/deposit'
     | '/_authenticated/admin/careers'
     | '/_authenticated/admin/deposits'
@@ -378,7 +378,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   BookSessionRoute: typeof BookSessionRoute
-  CareersRoute: typeof CareersRouteWithChildren
+  CareersRoute: typeof CareersRoute
   CryptoPaymentRoute: typeof CryptoPaymentRoute
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   InvestRoute: typeof InvestRoute
@@ -389,6 +389,7 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   TermsRoute: typeof TermsRoute
   VerifyPendingRoute: typeof VerifyPendingRoute
+  CareersSlugRoute: typeof CareersSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -533,12 +534,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSupportRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
-    '/careers/$slug': {
-      id: '/careers/$slug'
-      path: '/$slug'
+    '/careers_/$slug': {
+      id: '/careers_/$slug'
+      path: '/careers/$slug'
       fullPath: '/careers/$slug'
       preLoaderRoute: typeof CareersSlugRouteImport
-      parentRoute: typeof CareersRoute
+      parentRoute: typeof rootRouteImport
     }
     '/_authenticated/account/': {
       id: '/_authenticated/account/'
@@ -646,22 +647,11 @@ const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
   AuthenticatedRouteChildren,
 )
 
-interface CareersRouteChildren {
-  CareersSlugRoute: typeof CareersSlugRoute
-}
-
-const CareersRouteChildren: CareersRouteChildren = {
-  CareersSlugRoute: CareersSlugRoute,
-}
-
-const CareersRouteWithChildren =
-  CareersRoute._addFileChildren(CareersRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
   BookSessionRoute: BookSessionRoute,
-  CareersRoute: CareersRouteWithChildren,
+  CareersRoute: CareersRoute,
   CryptoPaymentRoute: CryptoPaymentRoute,
   ForgotPasswordRoute: ForgotPasswordRoute,
   InvestRoute: InvestRoute,
@@ -672,6 +662,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   TermsRoute: TermsRoute,
   VerifyPendingRoute: VerifyPendingRoute,
+  CareersSlugRoute: CareersSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
