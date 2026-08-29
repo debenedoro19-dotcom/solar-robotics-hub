@@ -2,6 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from '@/components/SmartLink';
 import {  useRouter  } from '@/lib/next-shims';
 import { createClient } from '@/lib/supabase/client';
+import InvestorShell from '@/components/investor/InvestorShell';
+import { MetricCard, DepositModal, WithdrawModal } from '@/components/investor/modals';
+import { money } from '@/components/investor/wallet';
 
 type Tab = 'overview' | 'kyc' | 'portfolio' | 'balance' | 'withdrawals' | 'transactions' | 'referrals';
 
@@ -50,6 +53,8 @@ interface PortfolioData {
 
 interface BalanceData {
   available_balance: number;
+  total_invested: number;
+  total_profit: number;
   total_deposited: number;
   total_withdrawn: number;
   total_returns: number;
@@ -111,6 +116,8 @@ export default function AccountPage() {
   const [portfolio, setPortfolio] = useState<PortfolioData | null>(null);
   const [withdrawals, setWithdrawals] = useState<WithdrawalRequest[]>([]);
   const [balance, setBalance] = useState<BalanceData | null>(null);
+  const [depositOpen, setDepositOpen] = useState(false);
+  const [withdrawOpen, setWithdrawOpen] = useState(false);
   const [balanceTxs, setBalanceTxs] = useState<BalanceTx[]>([]);
   const [balanceLoading, setBalanceLoading] = useState(false);
   const [depositAmount, setDepositAmount] = useState('');
