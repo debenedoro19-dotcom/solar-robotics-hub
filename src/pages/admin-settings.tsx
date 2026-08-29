@@ -4,7 +4,21 @@ import { getCurrentUser, isAdmin } from '@/lib/portfolioStore';
 import { checkIsAdmin } from '@/lib/adminAuth';
 import { createClient } from '@/lib/supabase/client';
 
-type SettingsTab = 'platform' | 'security' | 'customercare' | 'email' | 'payments' | 'giveaways';
+type SettingsTab = 'platform' | 'security' | 'customercare' | 'email' | 'payments' | 'giveaways' | 'popups';
+
+interface PopupSettings {
+  welcome: { enabled: boolean; title: string; body: string; ctaLabel: string; ctaHref: string; delaySeconds: number; cooldownHours: number };
+  lead: { enabled: boolean; title: string; body: string; ctaLabel: string; exitIntent: boolean; delaySeconds: number; cooldownHours: number };
+  cookie: { enabled: boolean; body: string };
+  ticker: { enabled: boolean; intervalSeconds: number; minAmount: number; maxAmount: number };
+}
+
+const DEFAULT_POPUPS: PopupSettings = {
+  welcome: { enabled: true, title: 'Welcome to Tesla Trade', body: 'Explore vehicles, energy, solar and robotics — plus investor packages with daily yield.', ctaLabel: 'Explore Inventory', ctaHref: '/#inventory', delaySeconds: 8, cooldownHours: 24 },
+  lead: { enabled: true, title: 'Get Tesla Trade Updates', body: 'Join our list for new inventory, plan launches and giveaways.', ctaLabel: 'Subscribe', exitIntent: true, delaySeconds: 30, cooldownHours: 72 },
+  cookie: { enabled: true, body: 'We use cookies to improve your experience and analyze traffic.' },
+  ticker: { enabled: true, intervalSeconds: 22, minAmount: 1200, maxAmount: 48000 },
+};
 
 interface PlatformSettings {
   withdrawalMinAmount: string;
@@ -181,6 +195,54 @@ export default function AdminSettingsPage() {
   const [giveawaysError, setGiveawaysError] = useState('');
   const [editingGiveaway, setEditingGiveaway] = useState<GiveawayEntry | null>(null);
   const [addingGiveaway, setAddingGiveaway] = useState(false);
+
+  const [popups, setPopups] = useState<PopupSettings>(DEFAULT_POPUPS);
+  const [popupsLoading, setPopupsLoading] = useState(false);
+  const [popupsError, setPopupsError] = useState('');
+
+  async function loadPopups() {
+    try {
+      const supabase = createClient();
+      const { data } = await supabase
+        .from('site_settings')
+        .select('key, value')
+        .in('key', ['popup_welcome', 'popup_lead', 'popup_cookie', 'withdrawal_ticker']);
+      if (data) {
+        const map = Object.fromEntries(data.map((r: { key: string; value: unknown }) => [r.key, r.value]));
+        setPopups({
+          welcome: { ...DEFAULT_POPUPS.welcome, ...(map.popup_welcome as object | undefined) },
+          lead: { ...DEFAULT_POPUPS.lead, ...(map.popup_lead as object | undefined) },
+          cookie: { ...DEFAULT_POPUPS.cookie, ...(map.popup_cookie as object | undefined) },
+          ticker: { ...DEFAULT_POPUPS.ticker, ...(map.withdrawal_ticker as object | undefined) },
+        });
+      }
+    } catch {}
+  }
+
+  async function savePopups() {
+    setPopupsLoading(true);
+    setPopupsError('');
+    try {
+      const supabase = createClient();
+      const rows = [
+        { key: 'popup_welcome', value: popups.welcome },
+        { key: 'popup_lead', value: popups.lead },
+        { key: 'popup_cookie', value: popups.cookie },
+        { key: 'withdrawal_ticker', value: popups.ticker },
+      ];
+      for (const row of rows) {
+        const { error } = await supabase
+          .from('site_settings')
+          .upsert({ ...row, updated_at: new Date().toISOString() }, { onConflict: 'key' });
+        if (error) throw error;
+      }
+      setSaved('popups');
+      setTimeout(() => setSaved(null), 2500);
+    } catch (err: unknown) {
+      setPopupsError(err instanceof Error ? err.message : 'Failed to save popup settings.');
+    }
+    setPopupsLoading(false);
+  }
 
   // Password change state
   const [pwForm, setPwForm] = useState({ current: '', newPw: '', confirm: '' });
