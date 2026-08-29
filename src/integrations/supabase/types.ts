@@ -132,6 +132,51 @@ export type Database = {
           },
         ]
       }
+      inventory_items: {
+        Row: {
+          alt: string
+          badge: string
+          badge_type: string
+          category: string
+          created_at: string
+          id: string
+          image_url: string
+          is_active: boolean
+          name: string
+          price: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          alt?: string
+          badge?: string
+          badge_type?: string
+          category?: string
+          created_at?: string
+          id?: string
+          image_url?: string
+          is_active?: boolean
+          name: string
+          price?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          alt?: string
+          badge?: string
+          badge_type?: string
+          category?: string
+          created_at?: string
+          id?: string
+          image_url?: string
+          is_active?: boolean
+          name?: string
+          price?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       investment_plans: {
         Row: {
           category: string
