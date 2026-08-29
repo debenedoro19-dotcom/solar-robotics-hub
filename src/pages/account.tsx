@@ -2,6 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from '@/components/SmartLink';
 import {  useRouter  } from '@/lib/next-shims';
 import { createClient } from '@/lib/supabase/client';
+import InvestorShell from '@/components/investor/InvestorShell';
+import { MetricCard, DepositModal, WithdrawModal } from '@/components/investor/modals';
+import { money } from '@/components/investor/wallet';
 
 type Tab = 'overview' | 'kyc' | 'portfolio' | 'balance' | 'withdrawals' | 'transactions' | 'referrals';
 
@@ -50,6 +53,8 @@ interface PortfolioData {
 
 interface BalanceData {
   available_balance: number;
+  total_invested: number;
+  total_profit: number;
   total_deposited: number;
   total_withdrawn: number;
   total_returns: number;
@@ -111,6 +116,8 @@ export default function AccountPage() {
   const [portfolio, setPortfolio] = useState<PortfolioData | null>(null);
   const [withdrawals, setWithdrawals] = useState<WithdrawalRequest[]>([]);
   const [balance, setBalance] = useState<BalanceData | null>(null);
+  const [depositOpen, setDepositOpen] = useState(false);
+  const [withdrawOpen, setWithdrawOpen] = useState(false);
   const [balanceTxs, setBalanceTxs] = useState<BalanceTx[]>([]);
   const [balanceLoading, setBalanceLoading] = useState(false);
   const [depositAmount, setDepositAmount] = useState('');
@@ -196,7 +203,30 @@ export default function AccountPage() {
             .order('requested_at', { ascending: false })
             .then(({ data }) => { if (data) setWithdrawals(data); });
         })
+        .on('postgres_changes', {
+          event: '*',
+          schema: 'public',
+          table: 'user_balance',
+          filter: `user_id=eq.${user.id}`,
+        }, (payload) => {
+          setBalance(payload.new as unknown as BalanceData);
+        })
+        .on('postgres_changes', {
+          event: '*',
+          schema: 'public',
+          table: 'balance_transactions',
+          filter: `user_id=eq.${user.id}`,
+        }, () => {
+          supabase
+            .from('balance_transactions')
+            .select('*')
+            .eq('user_id', user.id)
+            .order('created_at', { ascending: false })
+            .limit(50)
+            .then(({ data }) => { if (data) setBalanceTxs(data); });
+        })
         .subscribe();
+
       channelRef.current = channel;
     });
 
@@ -309,7 +339,7 @@ export default function AccountPage() {
       const { error } = await supabase.from('balance_transactions').insert({
         user_id: userId,
         type: 'withdrawal',
-        amount: Number(withdrawAmount),
+        amount: -Number(withdrawAmount),
         status: 'pending',
         description: 'Balance withdrawal',
         payment_method: withdrawMethod,
@@ -350,29 +380,24 @@ export default function AccountPage() {
   if (!mounted) return null;
 
   return (
-    <main className="min-h-screen bg-[#0A0A0A] text-white">
-      {/* Top bar */}
-      <div className="border-b border-[#1A1A1A] bg-[#0A0A0A]/95 backdrop-blur-xl sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
-          <div className="flex items-center gap-6">
-            <Link href="/" className="flex items-center gap-2.5">
-              <svg width="20" height="20" viewBox="0 0 342 512" fill="currentColor" className="text-primary" aria-hidden="true">
-                <path d="M0 57.3C0 57.3 57.3 0 171 0s171 57.3 171 57.3L285 85.5s-28.5-28.5-114-28.5S57 85.5 57 85.5L0 57.3zM171 512L57 85.5s28.5 28.5 114 28.5 114-28.5 114-28.5L171 512z" />
-              </svg>
-              <span className="text-white font-bold text-sm tracking-widest uppercase">Tesla Trade</span>
-            </Link>
-            <span className="text-[#2A2A2A]">|</span>
-            <span className="text-xs text-[#666666] tracking-widest uppercase">My Account</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <Link href="/account/deposit" className="px-4 py-1.5 text-xs font-bold tracking-widest uppercase rounded text-white transition-all duration-300" style={{ background: '#E31937', boxShadow: '0 0 16px rgba(227,25,55,0.35)' }}>+ Deposit</Link>
-            <Link href="/dashboard" className="text-xs text-[#666666] hover:text-white transition-colors tracking-widest uppercase">Dashboard</Link>
-            <Link href="/profile" className="text-xs text-[#666666] hover:text-white transition-colors tracking-widest uppercase">Settings</Link>
-          </div>
-        </div>
-      </div>
-
+    <InvestorShell
+      balance={balance?.available_balance || 0}
+      onDeposit={() => setDepositOpen(true)}
+      onWithdraw={() => setWithdrawOpen(true)}>
+    <main className="bg-fin-bg text-white">
       <div className="max-w-7xl mx-auto px-6 py-8">
+        {/* Synced wallet strip — same source of truth as the investor dashboard */}
+        <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-8">
+          <div className="fin-card-elevated rounded-2xl p-5">
+            <p className="text-[11px] uppercase tracking-[0.22em] text-fin-muted mb-2">Available Wallet Balance</p>
+            <p className="text-3xl font-extrabold tabular-nums text-fin-emerald">{money(balance?.available_balance || 0)}</p>
+          </div>
+          <MetricCard label="Total Active Capital" value={money(balance?.total_invested || 0)} />
+          <MetricCard label="Net Profit Accrued" value={money(balance?.total_profit || 0)} accent />
+          <MetricCard label="Total Deposited" value={money(balance?.total_deposited || 0)} sub={`${money(balance?.total_withdrawn || 0)} withdrawn`} />
+        </section>
+
+
         {/* Profile header */}
         <div className="flex items-start gap-5 mb-8">
           <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary/30 to-primary/10 border border-primary/30 flex items-center justify-center text-lg font-bold text-primary shrink-0">
@@ -380,7 +405,7 @@ export default function AccountPage() {
           </div>
           <div className="flex-1 min-w-0">
             <h1 className="text-xl font-bold text-white truncate">{userName}</h1>
-            <p className="text-sm text-[#666666] truncate">{userEmail}</p>
+            <p className="text-sm text-fin-muted truncate">{userEmail}</p>
             <div className="flex items-center gap-2 mt-2">
               <span
                 className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-semibold"
@@ -401,7 +426,7 @@ export default function AccountPage() {
               onClick={() => setActiveTab(tab.id)}
               className={`px-4 py-2 text-xs font-semibold tracking-widest uppercase rounded transition-all whitespace-nowrap ${
                 activeTab === tab.id
-                  ? 'bg-primary text-white' :'text-[#666666] hover:text-white hover:bg-[#1A1A1A]'
+                  ? 'bg-primary text-white' :'text-fin-muted hover:text-white hover:bg-fin-elevated'
               }`}
             >
               {tab.label}
@@ -426,8 +451,8 @@ export default function AccountPage() {
                     { label: 'Active Investments', value: String(portfolio?.stats?.activeInvestments ?? 0), sub: 'positions', color: '#facc15' },
                     { label: 'Referral Earnings', value: portfolio?.stats?.referralEarnings || '$0', sub: `${portfolio?.referrals?.total ?? 0} referrals`, color: '#c084fc' },
                   ].map((stat) => (
-                    <div key={stat.label} className="bg-[#111111] border border-[#1A1A1A] rounded-xl p-5">
-                      <p className="text-[11px] text-[#555555] tracking-widest uppercase mb-2">{stat.label}</p>
+                    <div key={stat.label} className="bg-fin-card border border-fin-border rounded-xl p-5">
+                      <p className="text-[11px] text-fin-muted tracking-widest uppercase mb-2">{stat.label}</p>
                       <p className="text-2xl font-bold text-white">{stat.value}</p>
                       <p className="text-xs mt-1" style={{ color: stat.color }}>{stat.sub}</p>
                     </div>
@@ -437,9 +462,9 @@ export default function AccountPage() {
                 {/* Quick status cards */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   {/* KYC quick */}
-                  <div className="bg-[#111111] border border-[#1A1A1A] rounded-xl p-5">
+                  <div className="bg-fin-card border border-fin-border rounded-xl p-5">
                     <div className="flex items-center justify-between mb-3">
-                      <p className="text-xs text-[#555555] tracking-widest uppercase">KYC Status</p>
+                      <p className="text-xs text-fin-muted tracking-widest uppercase">KYC Status</p>
                       <button onClick={() => setActiveTab('kyc')} className="text-[10px] text-primary hover:underline tracking-widest uppercase">View</button>
                     </div>
                     <div className="flex items-center gap-2">
@@ -447,7 +472,7 @@ export default function AccountPage() {
                       <span className="text-sm font-semibold" style={{ color: kycConfig.color }}>{kycConfig.label}</span>
                     </div>
                     {kyc?.submitted_at && (
-                      <p className="text-[11px] text-[#555555] mt-2">Submitted {new Date(kyc.submitted_at).toLocaleDateString()}</p>
+                      <p className="text-[11px] text-fin-muted mt-2">Submitted {new Date(kyc.submitted_at).toLocaleDateString()}</p>
                     )}
                     {!kyc && (
                       <Link href="/kyc" className="mt-3 inline-block text-[11px] text-primary hover:underline">Complete KYC →</Link>
@@ -455,47 +480,47 @@ export default function AccountPage() {
                   </div>
 
                   {/* Pending withdrawals quick */}
-                  <div className="bg-[#111111] border border-[#1A1A1A] rounded-xl p-5">
+                  <div className="bg-fin-card border border-fin-border rounded-xl p-5">
                     <div className="flex items-center justify-between mb-3">
-                      <p className="text-xs text-[#555555] tracking-widest uppercase">Pending Withdrawals</p>
+                      <p className="text-xs text-fin-muted tracking-widest uppercase">Pending Withdrawals</p>
                       <button onClick={() => setActiveTab('withdrawals')} className="text-[10px] text-primary hover:underline tracking-widest uppercase">View</button>
                     </div>
                     <p className="text-2xl font-bold text-white">
                       {withdrawals.filter(w => w.payout_status === 'pending' || w.payout_status === 'processing').length}
                     </p>
-                    <p className="text-xs text-[#555555] mt-1">
+                    <p className="text-xs text-fin-muted mt-1">
                       ${withdrawals.filter(w => w.payout_status === 'pending' || w.payout_status === 'processing').reduce((s, w) => s + Number(w.amount), 0).toLocaleString()} pending
                     </p>
                   </div>
 
                   {/* Recent transactions quick */}
-                  <div className="bg-[#111111] border border-[#1A1A1A] rounded-xl p-5">
+                  <div className="bg-fin-card border border-fin-border rounded-xl p-5">
                     <div className="flex items-center justify-between mb-3">
-                      <p className="text-xs text-[#555555] tracking-widest uppercase">Transactions</p>
+                      <p className="text-xs text-fin-muted tracking-widest uppercase">Transactions</p>
                       <button onClick={() => setActiveTab('transactions')} className="text-[10px] text-primary hover:underline tracking-widest uppercase">View All</button>
                     </div>
                     <p className="text-2xl font-bold text-white">{portfolio?.transactions?.length ?? 0}</p>
-                    <p className="text-xs text-[#555555] mt-1">total records</p>
+                    <p className="text-xs text-fin-muted mt-1">total records</p>
                   </div>
                 </div>
 
                 {/* Recent holdings */}
                 {portfolio?.investments && portfolio.investments.length > 0 && (
-                  <div className="bg-[#111111] border border-[#1A1A1A] rounded-xl overflow-hidden">
-                    <div className="flex items-center justify-between px-5 py-4 border-b border-[#1A1A1A]">
+                  <div className="bg-fin-card border border-fin-border rounded-xl overflow-hidden">
+                    <div className="flex items-center justify-between px-5 py-4 border-b border-fin-border">
                       <p className="text-xs font-semibold text-white tracking-widest uppercase">Portfolio Holdings</p>
                       <button onClick={() => setActiveTab('portfolio')} className="text-[10px] text-primary hover:underline tracking-widest uppercase">View All</button>
                     </div>
-                    <div className="divide-y divide-[#1A1A1A]">
+                    <div className="divide-y divide-fin-border">
                       {portfolio.investments.slice(0, 3).map((inv, i) => (
                         <div key={i} className="flex items-center justify-between px-5 py-3.5">
                           <div>
                             <p className="text-sm font-medium text-white">{inv.name}</p>
-                            <p className="text-[11px] text-[#555555] mt-0.5">{inv.type || 'Investment'}</p>
+                            <p className="text-[11px] text-fin-muted mt-0.5">{inv.type || 'Investment'}</p>
                           </div>
                           <div className="text-right">
                             <p className="text-sm font-semibold text-white">{inv.current}</p>
-                            <p className={`text-[11px] mt-0.5 ${inv.return?.startsWith('-') ? 'text-[#f87171]' : 'text-[#4ade80]'}`}>{inv.return}</p>
+                            <p className={`text-[11px] mt-0.5 ${inv.return?.startsWith('-') ? 'text-fin-danger' : 'text-fin-emerald'}`}>{inv.return}</p>
                           </div>
                         </div>
                       ))}
@@ -508,7 +533,7 @@ export default function AccountPage() {
             {/* KYC TAB */}
             {activeTab === 'kyc' && (
               <div className="space-y-5">
-                <div className="bg-[#111111] border border-[#1A1A1A] rounded-xl p-6">
+                <div className="bg-fin-card border border-fin-border rounded-xl p-6">
                   <h2 className="text-sm font-semibold text-white tracking-widest uppercase mb-5">KYC Verification Status</h2>
 
                   {/* Status banner */}
@@ -521,7 +546,7 @@ export default function AccountPage() {
                     </div>
                     <div>
                       <p className="text-sm font-bold" style={{ color: kycConfig.color }}>{kycConfig.label}</p>
-                      <p className="text-xs text-[#888888] mt-0.5">
+                      <p className="text-xs text-fin-muted mt-0.5">
                         {kycStatus === 'approved' && 'Your identity has been verified. You have full access to all platform features.'}
                         {kycStatus === 'pending' && 'Your documents are queued for review. This typically takes 1–3 business days.'}
                         {kycStatus === 'under_review' && 'Our compliance team is actively reviewing your submission.'}
@@ -540,8 +565,8 @@ export default function AccountPage() {
                         { label: 'Country', value: kyc.country || '—' },
                         { label: 'ID Type', value: kyc.id_type ? kyc.id_type.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()) : '—' },
                       ].map((item) => (
-                        <div key={item.label} className="bg-[#0D0D0D] border border-[#1A1A1A] rounded-lg p-4">
-                          <p className="text-[10px] text-[#555555] tracking-widest uppercase mb-1">{item.label}</p>
+                        <div key={item.label} className="bg-fin-elevated border border-fin-border rounded-lg p-4">
+                          <p className="text-[10px] text-fin-muted tracking-widest uppercase mb-1">{item.label}</p>
                           <p className="text-sm text-white font-medium">{item.value}</p>
                         </div>
                       ))}
@@ -550,9 +575,9 @@ export default function AccountPage() {
 
                   {/* Admin notes */}
                   {kyc?.admin_notes && (
-                    <div className="bg-[#0D0D0D] border border-[#2A2A2A] rounded-lg p-4 mb-5">
-                      <p className="text-[10px] text-[#555555] tracking-widest uppercase mb-2">Admin Notes</p>
-                      <p className="text-sm text-[#CCCCCC] leading-relaxed">{kyc.admin_notes}</p>
+                    <div className="bg-fin-elevated border border-fin-border rounded-lg p-4 mb-5">
+                      <p className="text-[10px] text-fin-muted tracking-widest uppercase mb-2">Admin Notes</p>
+                      <p className="text-sm text-slate-200 leading-relaxed">{kyc.admin_notes}</p>
                     </div>
                   )}
 
@@ -570,8 +595,8 @@ export default function AccountPage() {
                 </div>
 
                 {/* KYC steps */}
-                <div className="bg-[#111111] border border-[#1A1A1A] rounded-xl p-6">
-                  <h3 className="text-xs font-semibold text-[#555555] tracking-widest uppercase mb-4">Verification Steps</h3>
+                <div className="bg-fin-card border border-fin-border rounded-xl p-6">
+                  <h3 className="text-xs font-semibold text-fin-muted tracking-widest uppercase mb-4">Verification Steps</h3>
                   <div className="space-y-3">
                     {[
                       { step: 'Personal Information', done: !!kyc },
@@ -581,10 +606,10 @@ export default function AccountPage() {
                       { step: 'Account Verified', done: kycStatus === 'approved' },
                     ].map((item, i) => (
                       <div key={i} className="flex items-center gap-3">
-                        <div className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${item.done ? 'bg-[#4ade80]/20 text-[#4ade80] border border-[#4ade80]/30' : 'bg-[#1A1A1A] text-[#555555] border border-[#2A2A2A]'}`}>
+                        <div className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${item.done ? 'bg-[#4ade80]/20 text-fin-emerald border border-[#4ade80]/30' : 'bg-fin-elevated text-fin-muted border border-fin-border'}`}>
                           {item.done ? '✓' : i + 1}
                         </div>
-                        <p className={`text-sm ${item.done ? 'text-white' : 'text-[#555555]'}`}>{item.step}</p>
+                        <p className={`text-sm ${item.done ? 'text-white' : 'text-fin-muted'}`}>{item.step}</p>
                       </div>
                     ))}
                   </div>
@@ -603,42 +628,42 @@ export default function AccountPage() {
                     { label: 'Active Positions', value: String(portfolio?.stats?.activeInvestments ?? 0) },
                     { label: 'Change', value: portfolio?.stats?.portfolioChange || '—' },
                   ].map((s) => (
-                    <div key={s.label} className="bg-[#111111] border border-[#1A1A1A] rounded-xl p-4">
-                      <p className="text-[10px] text-[#555555] tracking-widest uppercase mb-1.5">{s.label}</p>
+                    <div key={s.label} className="bg-fin-card border border-fin-border rounded-xl p-4">
+                      <p className="text-[10px] text-fin-muted tracking-widest uppercase mb-1.5">{s.label}</p>
                       <p className="text-lg font-bold text-white">{s.value}</p>
                     </div>
                   ))}
                 </div>
 
                 {/* Holdings table */}
-                <div className="bg-[#111111] border border-[#1A1A1A] rounded-xl overflow-hidden">
-                  <div className="px-5 py-4 border-b border-[#1A1A1A]">
+                <div className="bg-fin-card border border-fin-border rounded-xl overflow-hidden">
+                  <div className="px-5 py-4 border-b border-fin-border">
                     <p className="text-xs font-semibold text-white tracking-widest uppercase">Holdings</p>
                   </div>
                   {portfolio?.investments && portfolio.investments.length > 0 ? (
                     <div className="overflow-x-auto">
                       <table className="w-full">
                         <thead>
-                          <tr className="border-b border-[#1A1A1A]">
+                          <tr className="border-b border-fin-border">
                             {['Asset', 'Invested', 'Current Value', 'Return', 'Status'].map((h) => (
-                              <th key={h} className="px-5 py-3 text-left text-[10px] text-[#555555] tracking-widest uppercase font-medium">{h}</th>
+                              <th key={h} className="px-5 py-3 text-left text-[10px] text-fin-muted tracking-widest uppercase font-medium">{h}</th>
                             ))}
                           </tr>
                         </thead>
-                        <tbody className="divide-y divide-[#1A1A1A]">
+                        <tbody className="divide-y divide-fin-border">
                           {portfolio.investments.map((inv, i) => (
-                            <tr key={i} className="hover:bg-[#0D0D0D] transition-colors">
+                            <tr key={i} className="hover:bg-fin-elevated transition-colors">
                               <td className="px-5 py-4">
                                 <p className="text-sm font-medium text-white">{inv.name}</p>
-                                {inv.type && <p className="text-[11px] text-[#555555] mt-0.5">{inv.type}</p>}
+                                {inv.type && <p className="text-[11px] text-fin-muted mt-0.5">{inv.type}</p>}
                               </td>
-                              <td className="px-5 py-4 text-sm text-[#AAAAAA]">{inv.invested}</td>
+                              <td className="px-5 py-4 text-sm text-slate-300">{inv.invested}</td>
                               <td className="px-5 py-4 text-sm font-semibold text-white">{inv.current}</td>
                               <td className="px-5 py-4">
-                                <span className={`text-sm font-semibold ${inv.return?.startsWith('-') ? 'text-[#f87171]' : 'text-[#4ade80]'}`}>{inv.return}</span>
+                                <span className={`text-sm font-semibold ${inv.return?.startsWith('-') ? 'text-fin-danger' : 'text-fin-emerald'}`}>{inv.return}</span>
                               </td>
                               <td className="px-5 py-4">
-                                <span className={`px-2 py-1 rounded text-[10px] font-semibold tracking-wide ${inv.status === 'active' ? 'bg-[#4ade80]/10 text-[#4ade80]' : 'bg-[#555555]/10 text-[#888888]'}`}>
+                                <span className={`px-2 py-1 rounded text-[10px] font-semibold tracking-wide ${inv.status === 'active' ? 'bg-[#4ade80]/10 text-fin-emerald' : 'bg-[#555555]/10 text-fin-muted'}`}>
                                   {inv.status || 'Active'}
                                 </span>
                               </td>
@@ -649,24 +674,24 @@ export default function AccountPage() {
                     </div>
                   ) : (
                     <div className="py-16 text-center">
-                      <p className="text-[#555555] text-sm">No portfolio holdings yet.</p>
-                      <p className="text-[#444444] text-xs mt-1">Your investments will appear here once assigned by the admin.</p>
+                      <p className="text-fin-muted text-sm">No portfolio holdings yet.</p>
+                      <p className="text-fin-muted text-xs mt-1">Your investments will appear here once assigned by the admin.</p>
                     </div>
                   )}
                 </div>
 
                 {/* Allocation */}
                 {portfolio?.allocation && portfolio.allocation.length > 0 && (
-                  <div className="bg-[#111111] border border-[#1A1A1A] rounded-xl p-5">
+                  <div className="bg-fin-card border border-fin-border rounded-xl p-5">
                     <p className="text-xs font-semibold text-white tracking-widest uppercase mb-4">Allocation Breakdown</p>
                     <div className="space-y-3">
                       {portfolio.allocation.map((item, i) => (
                         <div key={i}>
                           <div className="flex items-center justify-between mb-1">
-                            <span className="text-xs text-[#AAAAAA]">{item.name}</span>
+                            <span className="text-xs text-slate-300">{item.name}</span>
                             <span className="text-xs font-semibold text-white">{item.value}%</span>
                           </div>
-                          <div className="h-1.5 bg-[#1A1A1A] rounded-full overflow-hidden">
+                          <div className="h-1.5 bg-fin-elevated rounded-full overflow-hidden">
                             <div
                               className="h-full rounded-full transition-all duration-700"
                               style={{ width: `${item.value}%`, background: item.color || '#E31937' }}
@@ -683,8 +708,8 @@ export default function AccountPage() {
             {/* WITHDRAWALS TAB */}
             {activeTab === 'withdrawals' && (
               <div className="space-y-5">
-                <div className="bg-[#111111] border border-[#1A1A1A] rounded-xl overflow-hidden">
-                  <div className="flex items-center justify-between px-5 py-4 border-b border-[#1A1A1A]">
+                <div className="bg-fin-card border border-fin-border rounded-xl overflow-hidden">
+                  <div className="flex items-center justify-between px-5 py-4 border-b border-fin-border">
                     <p className="text-xs font-semibold text-white tracking-widest uppercase">Withdrawal Requests</p>
                     <Link href="/profile" className="text-[10px] text-primary hover:underline tracking-widest uppercase">Request Withdrawal</Link>
                   </div>
@@ -692,27 +717,27 @@ export default function AccountPage() {
                     <div className="overflow-x-auto">
                       <table className="w-full">
                         <thead>
-                          <tr className="border-b border-[#1A1A1A]">
+                          <tr className="border-b border-fin-border">
                             {['Date', 'Amount', 'Bank', 'Account', 'Status', 'Processed'].map((h) => (
-                              <th key={h} className="px-5 py-3 text-left text-[10px] text-[#555555] tracking-widest uppercase font-medium">{h}</th>
+                              <th key={h} className="px-5 py-3 text-left text-[10px] text-fin-muted tracking-widest uppercase font-medium">{h}</th>
                             ))}
                           </tr>
                         </thead>
-                        <tbody className="divide-y divide-[#1A1A1A]">
+                        <tbody className="divide-y divide-fin-border">
                           {withdrawals.map((w) => {
                             const sc = PAYOUT_STATUS_CONFIG[w.payout_status] || { label: w.payout_status, color: '#888888' };
                             return (
-                              <tr key={w.id} className="hover:bg-[#0D0D0D] transition-colors">
-                                <td className="px-5 py-4 text-sm text-[#AAAAAA]">{new Date(w.requested_at).toLocaleDateString()}</td>
+                              <tr key={w.id} className="hover:bg-fin-elevated transition-colors">
+                                <td className="px-5 py-4 text-sm text-slate-300">{new Date(w.requested_at).toLocaleDateString()}</td>
                                 <td className="px-5 py-4 text-sm font-semibold text-white">${Number(w.amount).toLocaleString()}</td>
-                                <td className="px-5 py-4 text-sm text-[#AAAAAA]">{w.bank_name}</td>
-                                <td className="px-5 py-4 text-sm text-[#AAAAAA]">****{w.account_number?.slice(-4)}</td>
+                                <td className="px-5 py-4 text-sm text-slate-300">{w.bank_name}</td>
+                                <td className="px-5 py-4 text-sm text-slate-300">****{w.account_number?.slice(-4)}</td>
                                 <td className="px-5 py-4">
                                   <span className="px-2 py-1 rounded text-[10px] font-semibold" style={{ color: sc.color, background: `${sc.color}18` }}>
                                     {sc.label}
                                   </span>
                                 </td>
-                                <td className="px-5 py-4 text-sm text-[#555555]">
+                                <td className="px-5 py-4 text-sm text-fin-muted">
                                   {w.processed_at ? new Date(w.processed_at).toLocaleDateString() : '—'}
                                 </td>
                               </tr>
@@ -723,20 +748,20 @@ export default function AccountPage() {
                     </div>
                   ) : (
                     <div className="py-16 text-center">
-                      <p className="text-[#555555] text-sm">No withdrawal requests found.</p>
-                      <p className="text-[#444444] text-xs mt-1">Withdrawal requests submitted through the platform will appear here.</p>
+                      <p className="text-fin-muted text-sm">No withdrawal requests found.</p>
+                      <p className="text-fin-muted text-xs mt-1">Withdrawal requests submitted through the platform will appear here.</p>
                     </div>
                   )}
                 </div>
 
                 {/* Withdrawal status legend */}
-                <div className="bg-[#111111] border border-[#1A1A1A] rounded-xl p-5">
-                  <p className="text-[10px] text-[#555555] tracking-widest uppercase mb-3">Status Guide</p>
+                <div className="bg-fin-card border border-fin-border rounded-xl p-5">
+                  <p className="text-[10px] text-fin-muted tracking-widest uppercase mb-3">Status Guide</p>
                   <div className="flex flex-wrap gap-4">
                     {Object.entries(PAYOUT_STATUS_CONFIG).map(([key, val]) => (
                       <div key={key} className="flex items-center gap-2">
                         <div className="w-2 h-2 rounded-full" style={{ background: val.color }} />
-                        <span className="text-xs text-[#888888]">{val.label}</span>
+                        <span className="text-xs text-fin-muted">{val.label}</span>
                       </div>
                     ))}
                   </div>
@@ -746,39 +771,39 @@ export default function AccountPage() {
 
             {/* TRANSACTIONS TAB */}
             {activeTab === 'transactions' && (
-              <div className="bg-[#111111] border border-[#1A1A1A] rounded-xl overflow-hidden">
-                <div className="px-5 py-4 border-b border-[#1A1A1A]">
+              <div className="bg-fin-card border border-fin-border rounded-xl overflow-hidden">
+                <div className="px-5 py-4 border-b border-fin-border">
                   <p className="text-xs font-semibold text-white tracking-widest uppercase">Transaction History</p>
                 </div>
                 {portfolio?.transactions && portfolio.transactions.length > 0 ? (
                   <div className="overflow-x-auto">
                     <table className="w-full">
                       <thead>
-                        <tr className="border-b border-[#1A1A1A]">
+                        <tr className="border-b border-fin-border">
                           {['Date', 'Type', 'Description', 'Amount', 'Status'].map((h) => (
-                            <th key={h} className="px-5 py-3 text-left text-[10px] text-[#555555] tracking-widest uppercase font-medium">{h}</th>
+                            <th key={h} className="px-5 py-3 text-left text-[10px] text-fin-muted tracking-widest uppercase font-medium">{h}</th>
                           ))}
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-[#1A1A1A]">
+                      <tbody className="divide-y divide-fin-border">
                         {portfolio.transactions.map((tx, i) => {
                           const isCredit = tx.type === 'credit' || tx.type === 'deposit' || tx.type === 'return';
                           return (
-                            <tr key={tx.id || i} className="hover:bg-[#0D0D0D] transition-colors">
-                              <td className="px-5 py-4 text-sm text-[#AAAAAA] whitespace-nowrap">{tx.date}</td>
+                            <tr key={tx.id || i} className="hover:bg-fin-elevated transition-colors">
+                              <td className="px-5 py-4 text-sm text-slate-300 whitespace-nowrap">{tx.date}</td>
                               <td className="px-5 py-4">
-                                <span className={`px-2 py-1 rounded text-[10px] font-semibold capitalize ${isCredit ? 'bg-[#4ade80]/10 text-[#4ade80]' : 'bg-[#f87171]/10 text-[#f87171]'}`}>
+                                <span className={`px-2 py-1 rounded text-[10px] font-semibold capitalize ${isCredit ? 'bg-[#4ade80]/10 text-fin-emerald' : 'bg-[#f87171]/10 text-fin-danger'}`}>
                                   {tx.type}
                                 </span>
                               </td>
-                              <td className="px-5 py-4 text-sm text-[#AAAAAA]">{tx.description || '—'}</td>
+                              <td className="px-5 py-4 text-sm text-slate-300">{tx.description || '—'}</td>
                               <td className="px-5 py-4">
-                                <span className={`text-sm font-semibold ${isCredit ? 'text-[#4ade80]' : 'text-[#f87171]'}`}>
+                                <span className={`text-sm font-semibold ${isCredit ? 'text-fin-emerald' : 'text-fin-danger'}`}>
                                   {isCredit ? '+' : '-'}{tx.amount}
                                 </span>
                               </td>
                               <td className="px-5 py-4">
-                                <span className={`px-2 py-1 rounded text-[10px] font-semibold ${tx.status === 'completed' ? 'bg-[#4ade80]/10 text-[#4ade80]' : tx.status === 'pending' ? 'bg-[#facc15]/10 text-[#facc15]' : 'bg-[#555555]/10 text-[#888888]'}`}>
+                                <span className={`px-2 py-1 rounded text-[10px] font-semibold ${tx.status === 'completed' ? 'bg-[#4ade80]/10 text-fin-emerald' : tx.status === 'pending' ? 'bg-[#facc15]/10 text-[#facc15]' : 'bg-[#555555]/10 text-fin-muted'}`}>
                                   {tx.status}
                                 </span>
                               </td>
@@ -790,8 +815,8 @@ export default function AccountPage() {
                   </div>
                 ) : (
                   <div className="py-16 text-center">
-                    <p className="text-[#555555] text-sm">No transactions recorded yet.</p>
-                    <p className="text-[#444444] text-xs mt-1">Your transaction history will appear here once activity is recorded.</p>
+                    <p className="text-fin-muted text-sm">No transactions recorded yet.</p>
+                    <p className="text-fin-muted text-xs mt-1">Your transaction history will appear here once activity is recorded.</p>
                   </div>
                 )}
               </div>
@@ -808,8 +833,8 @@ export default function AccountPage() {
                     { label: 'Investment Returns', value: `$${(balance?.total_returns || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, color: '#facc15' },
                     { label: 'Total Withdrawn', value: `$${(balance?.total_withdrawn || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, color: '#f87171' },
                   ].map((s) => (
-                    <div key={s.label} className="bg-[#111111] border border-[#1A1A1A] rounded-xl p-5">
-                      <p className="text-[11px] text-[#555555] tracking-widest uppercase mb-2">{s.label}</p>
+                    <div key={s.label} className="bg-fin-card border border-fin-border rounded-xl p-5">
+                      <p className="text-[11px] text-fin-muted tracking-widest uppercase mb-2">{s.label}</p>
                       <p className="text-xl font-bold" style={{ color: s.color }}>{s.value}</p>
                     </div>
                   ))}
@@ -824,15 +849,15 @@ export default function AccountPage() {
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   {/* Deposit */}
-                  <div className="bg-[#111111] border border-[#1A1A1A] rounded-xl p-6 space-y-4">
+                  <div className="bg-fin-card border border-fin-border rounded-xl p-6 space-y-4">
                     <div>
                       <h3 className="text-sm font-bold text-white tracking-widest uppercase mb-1">Deposit Funds</h3>
-                      <p className="text-xs text-[#555555]">Add funds to your balance freely — no plan required</p>
+                      <p className="text-xs text-fin-muted">Add funds to your balance freely — no plan required</p>
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-[#888888] uppercase tracking-widest mb-2">Amount (USD)</label>
+                      <label className="block text-xs font-semibold text-fin-muted uppercase tracking-widest mb-2">Amount (USD)</label>
                       <div className="relative">
-                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#555555] font-bold text-sm">$</span>
+                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-fin-muted font-bold text-sm">$</span>
                         <input
                           type="number"
                           value={depositAmount}
@@ -844,7 +869,7 @@ export default function AccountPage() {
                       </div>
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-[#888888] uppercase tracking-widest mb-2">Payment Method</label>
+                      <label className="block text-xs font-semibold text-fin-muted uppercase tracking-widest mb-2">Payment Method</label>
                       <div className="space-y-2">
                         {[
                           { id: 'crypto', label: 'Cryptocurrency', icon: '₿' },
@@ -854,7 +879,7 @@ export default function AccountPage() {
                           <button
                             key={m.id}
                             onClick={() => setDepositMethod(m.id)}
-                            className={`w-full flex items-center gap-3 p-3 rounded-lg border text-left transition-all text-xs ${depositMethod === m.id ? 'border-primary bg-primary/5 text-white' : 'border-[#1A1A1A] text-[#888888] hover:border-[#2A2A2A]'}`}
+                            className={`w-full flex items-center gap-3 p-3 rounded-lg border text-left transition-all text-xs ${depositMethod === m.id ? 'border-primary bg-primary/5 text-white' : 'border-fin-border text-fin-muted hover:border-fin-border'}`}
                           >
                             <span>{m.icon}</span>
                             <span className="font-semibold">{m.label}</span>
@@ -873,15 +898,15 @@ export default function AccountPage() {
                   </div>
 
                   {/* Withdraw */}
-                  <div className="bg-[#111111] border border-[#1A1A1A] rounded-xl p-6 space-y-4">
+                  <div className="bg-fin-card border border-fin-border rounded-xl p-6 space-y-4">
                     <div>
                       <h3 className="text-sm font-bold text-white tracking-widest uppercase mb-1">Withdraw Funds</h3>
-                      <p className="text-xs text-[#555555]">Withdraw from your available balance to wallet or bank</p>
+                      <p className="text-xs text-fin-muted">Withdraw from your available balance to wallet or bank</p>
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-[#888888] uppercase tracking-widest mb-2">Amount (USD)</label>
+                      <label className="block text-xs font-semibold text-fin-muted uppercase tracking-widest mb-2">Amount (USD)</label>
                       <div className="relative">
-                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#555555] font-bold text-sm">$</span>
+                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-fin-muted font-bold text-sm">$</span>
                         <input
                           type="number"
                           value={withdrawAmount}
@@ -892,10 +917,10 @@ export default function AccountPage() {
                           className="w-full pl-8 pr-4 py-3 rounded text-sm input-tesla"
                         />
                       </div>
-                      <p className="text-[11px] text-[#555555] mt-1">Available: <span className="text-white font-semibold">${(balance?.available_balance || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}</span></p>
+                      <p className="text-[11px] text-fin-muted mt-1">Available: <span className="text-white font-semibold">${(balance?.available_balance || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}</span></p>
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-[#888888] uppercase tracking-widest mb-2">Withdrawal Method</label>
+                      <label className="block text-xs font-semibold text-fin-muted uppercase tracking-widest mb-2">Withdrawal Method</label>
                       <div className="space-y-2">
                         {[
                           { id: 'crypto', label: 'Crypto Wallet', icon: '₿' },
@@ -904,7 +929,7 @@ export default function AccountPage() {
                           <button
                             key={m.id}
                             onClick={() => setWithdrawMethod(m.id)}
-                            className={`w-full flex items-center gap-3 p-3 rounded-lg border text-left transition-all text-xs ${withdrawMethod === m.id ? 'border-primary bg-primary/5 text-white' : 'border-[#1A1A1A] text-[#888888] hover:border-[#2A2A2A]'}`}
+                            className={`w-full flex items-center gap-3 p-3 rounded-lg border text-left transition-all text-xs ${withdrawMethod === m.id ? 'border-primary bg-primary/5 text-white' : 'border-fin-border text-fin-muted hover:border-fin-border'}`}
                           >
                             <span>{m.icon}</span>
                             <span className="font-semibold">{m.label}</span>
@@ -915,7 +940,7 @@ export default function AccountPage() {
                     </div>
                     {withdrawMethod === 'crypto' && (
                       <div>
-                        <label className="block text-xs font-semibold text-[#888888] uppercase tracking-widest mb-2">Wallet Address</label>
+                        <label className="block text-xs font-semibold text-fin-muted uppercase tracking-widest mb-2">Wallet Address</label>
                         <input
                           type="text"
                           value={withdrawWallet}
@@ -928,15 +953,15 @@ export default function AccountPage() {
                     {withdrawMethod === 'bank' && (
                       <div className="space-y-3">
                         <div>
-                          <label className="block text-xs font-semibold text-[#888888] uppercase tracking-widest mb-2">Bank Name</label>
+                          <label className="block text-xs font-semibold text-fin-muted uppercase tracking-widest mb-2">Bank Name</label>
                           <input type="text" value={withdrawBank} onChange={(e) => setWithdrawBank(e.target.value)} placeholder="Bank name" className="w-full px-4 py-3 rounded text-sm input-tesla" />
                         </div>
                         <div>
-                          <label className="block text-xs font-semibold text-[#888888] uppercase tracking-widest mb-2">Account Number</label>
+                          <label className="block text-xs font-semibold text-fin-muted uppercase tracking-widest mb-2">Account Number</label>
                           <input type="text" value={withdrawAccount} onChange={(e) => setWithdrawAccount(e.target.value)} placeholder="Account number" className="w-full px-4 py-3 rounded text-sm input-tesla" />
                         </div>
                         <div>
-                          <label className="block text-xs font-semibold text-[#888888] uppercase tracking-widest mb-2">Account Name</label>
+                          <label className="block text-xs font-semibold text-fin-muted uppercase tracking-widest mb-2">Account Name</label>
                           <input type="text" value={withdrawAccountName} onChange={(e) => setWithdrawAccountName(e.target.value)} placeholder="Account holder name" className="w-full px-4 py-3 rounded text-sm input-tesla" />
                         </div>
                       </div>
@@ -944,7 +969,7 @@ export default function AccountPage() {
                     <button
                       onClick={handleWithdraw}
                       disabled={balanceLoading || !withdrawAmount || Number(withdrawAmount) <= 0 || !withdrawMethod}
-                      className="w-full py-3 rounded text-xs font-bold tracking-widest uppercase disabled:opacity-40 disabled:cursor-not-allowed border border-[#2A2A2A] text-white hover:border-primary/50 hover:bg-primary/5 transition-all"
+                      className="w-full py-3 rounded text-xs font-bold tracking-widest uppercase disabled:opacity-40 disabled:cursor-not-allowed border border-fin-border text-white hover:border-primary/50 hover:bg-primary/5 transition-all"
                     >
                       {balanceLoading ? 'Processing...' : 'Submit Withdrawal Request'}
                     </button>
@@ -952,21 +977,21 @@ export default function AccountPage() {
                 </div>
 
                 {/* Balance transaction history */}
-                <div className="bg-[#111111] border border-[#1A1A1A] rounded-xl overflow-hidden">
-                  <div className="px-5 py-4 border-b border-[#1A1A1A]">
+                <div className="bg-fin-card border border-fin-border rounded-xl overflow-hidden">
+                  <div className="px-5 py-4 border-b border-fin-border">
                     <p className="text-xs font-semibold text-white tracking-widest uppercase">Balance History</p>
                   </div>
                   {balanceTxs.length > 0 ? (
                     <div className="overflow-x-auto">
                       <table className="w-full">
                         <thead>
-                          <tr className="border-b border-[#1A1A1A]">
+                          <tr className="border-b border-fin-border">
                             {['Date', 'Type', 'Description', 'Amount', 'Status'].map((h) => (
-                              <th key={h} className="px-5 py-3 text-left text-[10px] text-[#555555] tracking-widest uppercase font-medium">{h}</th>
+                              <th key={h} className="px-5 py-3 text-left text-[10px] text-fin-muted tracking-widest uppercase font-medium">{h}</th>
                             ))}
                           </tr>
                         </thead>
-                        <tbody className="divide-y divide-[#1A1A1A]">
+                        <tbody className="divide-y divide-fin-border">
                           {balanceTxs.map((tx) => {
                             const isCredit = tx.type === 'deposit' || tx.type === 'investment_return';
                             const typeLabels: Record<string, string> = {
@@ -982,16 +1007,16 @@ export default function AccountPage() {
                               rejected: '#f87171',
                             };
                             return (
-                              <tr key={tx.id} className="hover:bg-[#0D0D0D] transition-colors">
-                                <td className="px-5 py-4 text-sm text-[#AAAAAA] whitespace-nowrap">{new Date(tx.created_at).toLocaleDateString()}</td>
+                              <tr key={tx.id} className="hover:bg-fin-elevated transition-colors">
+                                <td className="px-5 py-4 text-sm text-slate-300 whitespace-nowrap">{new Date(tx.created_at).toLocaleDateString()}</td>
                                 <td className="px-5 py-4">
-                                  <span className={`px-2 py-1 rounded text-[10px] font-semibold ${isCredit ? 'bg-[#4ade80]/10 text-[#4ade80]' : 'bg-[#f87171]/10 text-[#f87171]'}`}>
+                                  <span className={`px-2 py-1 rounded text-[10px] font-semibold ${isCredit ? 'bg-[#4ade80]/10 text-fin-emerald' : 'bg-[#f87171]/10 text-fin-danger'}`}>
                                     {typeLabels[tx.type] || tx.type}
                                   </span>
                                 </td>
-                                <td className="px-5 py-4 text-sm text-[#AAAAAA]">{tx.description || '—'}</td>
+                                <td className="px-5 py-4 text-sm text-slate-300">{tx.description || '—'}</td>
                                 <td className="px-5 py-4">
-                                  <span className={`text-sm font-semibold ${isCredit ? 'text-[#4ade80]' : 'text-[#f87171]'}`}>
+                                  <span className={`text-sm font-semibold ${isCredit ? 'text-fin-emerald' : 'text-fin-danger'}`}>
                                     {isCredit ? '+' : '-'}${Number(tx.amount).toLocaleString('en-US', { minimumFractionDigits: 2 })}
                                   </span>
                                 </td>
@@ -1008,8 +1033,8 @@ export default function AccountPage() {
                     </div>
                   ) : (
                     <div className="py-16 text-center">
-                      <p className="text-[#555555] text-sm">No balance transactions yet.</p>
-                      <p className="text-[#444444] text-xs mt-1">Deposits, withdrawals, and investment returns will appear here.</p>
+                      <p className="text-fin-muted text-sm">No balance transactions yet.</p>
+                      <p className="text-fin-muted text-xs mt-1">Deposits, withdrawals, and investment returns will appear here.</p>
                     </div>
                   )}
                 </div>
@@ -1026,18 +1051,18 @@ export default function AccountPage() {
                     { label: 'Pending Rewards', value: String(portfolio?.referrals?.pending ?? 0), color: '#facc15' },
                     { label: 'Total Earnings', value: portfolio?.referrals?.earnings || '$0', color: '#4ade80' },
                   ].map((s) => (
-                    <div key={s.label} className="bg-[#111111] border border-[#1A1A1A] rounded-xl p-5">
-                      <p className="text-[10px] text-[#555555] tracking-widest uppercase mb-2">{s.label}</p>
+                    <div key={s.label} className="bg-fin-card border border-fin-border rounded-xl p-5">
+                      <p className="text-[10px] text-fin-muted tracking-widest uppercase mb-2">{s.label}</p>
                       <p className="text-2xl font-bold" style={{ color: s.color }}>{s.value}</p>
                     </div>
                   ))}
                 </div>
 
                 {/* Referral link */}
-                <div className="bg-[#111111] border border-[#1A1A1A] rounded-xl p-5">
+                <div className="bg-fin-card border border-fin-border rounded-xl p-5">
                   <p className="text-xs font-semibold text-white tracking-widest uppercase mb-3">Your Referral Link</p>
                   <div className="flex items-center gap-3">
-                    <div className="flex-1 bg-[#0D0D0D] border border-[#2A2A2A] rounded px-4 py-2.5 text-sm text-[#888888] font-mono truncate">
+                    <div className="flex-1 bg-fin-elevated border border-fin-border rounded px-4 py-2.5 text-sm text-fin-muted font-mono truncate">
                       {`https://teslaenerg6773.builtwithrocket.new/register?ref=${userId.slice(0, 8)}`}
                     </div>
                     <Link href="/referral" className="px-4 py-2.5 bg-primary text-white text-xs font-bold rounded tracking-widest uppercase hover:bg-accent transition-colors whitespace-nowrap">
@@ -1047,21 +1072,21 @@ export default function AccountPage() {
                 </div>
 
                 {/* Referral history */}
-                <div className="bg-[#111111] border border-[#1A1A1A] rounded-xl overflow-hidden">
-                  <div className="px-5 py-4 border-b border-[#1A1A1A]">
+                <div className="bg-fin-card border border-fin-border rounded-xl overflow-hidden">
+                  <div className="px-5 py-4 border-b border-fin-border">
                     <p className="text-xs font-semibold text-white tracking-widest uppercase">Referral History</p>
                   </div>
                   {portfolio?.referrals?.history && portfolio.referrals.history.length > 0 ? (
-                    <div className="divide-y divide-[#1A1A1A]">
+                    <div className="divide-y divide-fin-border">
                       {portfolio.referrals.history.map((ref, i) => (
                         <div key={i} className="flex items-center justify-between px-5 py-4">
                           <div>
                             <p className="text-sm font-medium text-white">{ref.name}</p>
-                            <p className="text-[11px] text-[#555555] mt-0.5">{ref.date}</p>
+                            <p className="text-[11px] text-fin-muted mt-0.5">{ref.date}</p>
                           </div>
                           <div className="text-right">
-                            <p className="text-sm font-semibold text-[#4ade80]">{ref.reward}</p>
-                            <span className={`text-[10px] font-semibold ${ref.status === 'paid' ? 'text-[#4ade80]' : 'text-[#facc15]'}`}>
+                            <p className="text-sm font-semibold text-fin-emerald">{ref.reward}</p>
+                            <span className={`text-[10px] font-semibold ${ref.status === 'paid' ? 'text-fin-emerald' : 'text-[#facc15]'}`}>
                               {ref.status}
                             </span>
                           </div>
@@ -1070,8 +1095,8 @@ export default function AccountPage() {
                     </div>
                   ) : (
                     <div className="py-16 text-center">
-                      <p className="text-[#555555] text-sm">No referral history yet.</p>
-                      <p className="text-[#444444] text-xs mt-1">Share your referral link to start earning rewards.</p>
+                      <p className="text-fin-muted text-sm">No referral history yet.</p>
+                      <p className="text-fin-muted text-xs mt-1">Share your referral link to start earning rewards.</p>
                     </div>
                   )}
                 </div>
@@ -1080,6 +1105,21 @@ export default function AccountPage() {
           </>
         )}
       </div>
+
+      {depositOpen && userId && (
+        <DepositModal userId={userId} userEmail={userEmail}
+          onClose={() => setDepositOpen(false)}
+          onDone={(m) => { setBalanceActionMsg({ type: 'success', text: m }); void loadAllData(userId, userEmail); }}
+          onError={(m) => setBalanceActionMsg({ type: 'error', text: m })} />
+      )}
+      {withdrawOpen && userId && (
+        <WithdrawModal balance={balance?.available_balance || 0} userId={userId} userEmail={userEmail}
+          onClose={() => setWithdrawOpen(false)}
+          onDone={(m) => { setBalanceActionMsg({ type: 'success', text: m }); void loadAllData(userId, userEmail); }}
+          onError={(m) => setBalanceActionMsg({ type: 'error', text: m })} />
+      )}
     </main>
+    </InvestorShell>
   );
 }
+
