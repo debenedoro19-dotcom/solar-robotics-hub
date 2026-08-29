@@ -97,7 +97,7 @@ const bioTimeline = [
 export default function ElonMuskSection() {
   const [activeCompany, setActiveCompany] = useState(companies?.[0]);
 
-  const handleCompanySelect = useCallback((c) => {
+  const handleCompanySelect = useCallback((c: (typeof companies)[number]) => {
     setActiveCompany(c);
   }, []);
 
