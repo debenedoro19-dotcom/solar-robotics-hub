@@ -209,9 +209,8 @@ export default function InvestorDashboard() {
               <button onClick={() => setWithdrawOpen(true)} className="px-5 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] backdrop-blur-xl text-sm font-bold hover:border-white/25 transition-all duration-300">↑ Withdraw</button>
               <button onClick={() => { setTab('browse'); document.getElementById('marketplace')?.scrollIntoView({ behavior: 'smooth' }); }} className="px-5 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] backdrop-blur-xl text-sm font-bold hover:border-white/25 transition-all duration-300">⚡ Buy Plan</button>
             </div>
-
-            </div>
           </div>
+
 
           <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
             <MetricCard label="Total Active Capital" value={money(totalActiveCapital)} />
