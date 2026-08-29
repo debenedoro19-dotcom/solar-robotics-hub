@@ -297,8 +297,9 @@ export default function InvestorDashboard() {
                         <div><dt className="text-xs text-fin-muted">Yield Earned</dt><dd className="font-bold text-fin-emerald tabular-nums">{money(Number(c.yield_earned))}</dd></div>
                         <div><dt className="text-xs text-fin-muted">Matures</dt><dd className="font-bold">{new Date(c.matures_at).toLocaleDateString()}</dd></div>
                       </dl>
-                      <div className="h-2 rounded-full bg-fin-elevated overflow-hidden">
-                        <div className="h-full rounded-full bg-fin-emerald" style={{ width: `${progress}%` }} />
+                      <div className="h-2 ts-progress">
+                        <div className="ts-progress-fill" style={{ width: `${progress}%` }} />
+
                       </div>
                       <p className="text-[11px] text-fin-muted mt-2">{progress.toFixed(0)}% of {c.duration_days}-day term complete</p>
                     </article>
