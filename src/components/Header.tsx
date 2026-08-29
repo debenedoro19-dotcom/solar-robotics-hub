@@ -97,10 +97,14 @@ export default function Header() {
 
           {/* Actions */}
           <div className="hidden lg:flex items-center gap-3">
+            <span className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-[10px] font-semibold tracking-widest uppercase text-zinc-300">
+              <span className="ts-pulse" aria-hidden="true" />
+              Live Tracking
+            </span>
             {!isLoggedIn && (
               <Link
                 href="/login"
-                className="px-5 py-2 text-xs font-semibold text-white border border-[#1E2027] rounded hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 tracking-widest uppercase"
+                className="px-5 py-2 text-xs font-semibold text-white bg-white/[0.04] border border-white/[0.08] rounded-xl hover:border-white/25 transition-all duration-300 tracking-widest uppercase"
               >
                 Sign In
               </Link>
@@ -108,21 +112,20 @@ export default function Header() {
             {isLoggedIn ? (
               <Link
                 href="/dashboard"
-                className="px-5 py-2 text-xs font-bold bg-primary text-white rounded btn-shimmer hover:bg-accent transition-all duration-300 tracking-widest uppercase"
-                style={{ boxShadow: '0 0 20px rgba(227,25,55,0.4), 0 2px 8px rgba(0,0,0,0.4)' }}
+                className="px-5 py-2 text-xs font-bold bg-primary text-white rounded-xl btn-shimmer hover:bg-[#B3181D] transition-all duration-300 tracking-widest uppercase shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]"
               >
                 Dashboard
               </Link>
             ) : (
               <Link
                 href="/register"
-                className="px-5 py-2 text-xs font-bold bg-primary text-white rounded btn-shimmer hover:bg-accent transition-all duration-300 tracking-widest uppercase"
-                style={{ boxShadow: '0 0 20px rgba(227,25,55,0.4), 0 2px 8px rgba(0,0,0,0.4)' }}
+                className="px-5 py-2 text-xs font-bold bg-primary text-white rounded-xl btn-shimmer hover:bg-[#B3181D] transition-all duration-300 tracking-widest uppercase shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]"
               >
                 Get Started
               </Link>
             )}
           </div>
+
 
           {/* Mobile Hamburger */}
           <button
