@@ -791,6 +791,14 @@ export default function AdminPage() {
                 <p className="text-[10px] text-[#555555] leading-relaxed">Job postings & applicant pipeline</p>
               </Link>
               <Link
+                href="/admin/inventory"
+                className="bg-[#111111] border border-[#1A1A1A] hover:border-[#2A2A2A] rounded-xl p-5 text-left transition-all hover:bg-[#141414]"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-amber-400 mb-3" aria-hidden="true"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 12l9 4 9-4"/><path d="M3 17l9 4 9-4"/></svg>
+                <p className="text-sm font-bold text-white mb-1">Inventory</p>
+                <p className="text-[10px] text-[#555555] leading-relaxed">Add, edit, reorder & recategorize listings</p>
+              </Link>
+              <Link
                 href="/admin/settings"
                 className="bg-[#111111] border border-[#1A1A1A] hover:border-[#2A2A2A] rounded-xl p-5 text-left transition-all hover:bg-[#141414]"
               >
