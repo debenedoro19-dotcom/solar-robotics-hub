@@ -939,6 +939,11 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_approve_deposit: { Args: { _deposit_id: string }; Returns: Json }
+      admin_set_wallet_balance: {
+        Args: { _available: number; _note?: string; _user_id: string }
+        Returns: Json
+      }
       enter_giveaway: { Args: { _giveaway_id: string }; Returns: Json }
       has_role: {
         Args: {
