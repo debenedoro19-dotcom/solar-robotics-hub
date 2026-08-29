@@ -1,0 +1,1 @@
+REVOKE EXECUTE ON FUNCTION public.purchase_investment_plan(uuid, numeric) FROM anon;
