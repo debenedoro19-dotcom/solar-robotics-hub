@@ -9,6 +9,7 @@ const navLinks = [
   { label: 'Giveaways', href: '#giveaways' },
   { label: 'VIP', href: '#vip' },
   { label: 'News', href: '/news' },
+  { label: 'Careers', href: '/careers' },
   { label: 'Account', href: '/account' },
   { label: 'Deposit', href: '/account/deposit' },
 ];

@@ -783,6 +783,14 @@ export default function AdminPage() {
                 <p className="text-[10px] text-[#555555] leading-relaxed">Track & confirm user deposit requests</p>
               </Link>
               <Link
+                href="/admin/careers"
+                className="bg-[#111111] border border-[#1A1A1A] hover:border-[#2A2A2A] rounded-xl p-5 text-left transition-all hover:bg-[#141414]"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-sky-400 mb-3" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2" ry="2" /><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" /></svg>
+                <p className="text-sm font-bold text-white mb-1">Careers</p>
+                <p className="text-[10px] text-[#555555] leading-relaxed">Job postings & applicant pipeline</p>
+              </Link>
+              <Link
                 href="/admin/settings"
                 className="bg-[#111111] border border-[#1A1A1A] hover:border-[#2A2A2A] rounded-xl p-5 text-left transition-all hover:bg-[#141414]"
               >

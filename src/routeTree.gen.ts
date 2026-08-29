@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as BookSessionRouteImport } from './routes/book-session'
+import { Route as CareersRouteImport } from './routes/careers'
 import { Route as CryptoPaymentRouteImport } from './routes/crypto-payment'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as InvestRouteImport } from './routes/invest'
@@ -28,9 +29,11 @@ import { Route as AuthenticatedKycRouteImport } from './routes/_authenticated.ky
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated.profile'
 import { Route as AuthenticatedReferralRouteImport } from './routes/_authenticated.referral'
 import { Route as AuthenticatedSupportRouteImport } from './routes/_authenticated.support'
+import { Route as CareersSlugRouteImport } from './routes/careers.$slug'
 import { Route as AuthenticatedAccountIndexRouteImport } from './routes/_authenticated.account.index'
 import { Route as AuthenticatedAccountDepositRouteImport } from './routes/_authenticated.account.deposit'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated.admin.index'
+import { Route as AuthenticatedAdminCareersRouteImport } from './routes/_authenticated.admin.careers'
 import { Route as AuthenticatedAdminDepositsRouteImport } from './routes/_authenticated.admin.deposits'
 import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated.admin.settings'
 import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated.admin.users'
@@ -48,6 +51,11 @@ const AuthenticatedRoute = AuthenticatedRouteImport.update({
 const BookSessionRoute = BookSessionRouteImport.update({
   id: '/book-session',
   path: '/book-session',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CareersRoute = CareersRouteImport.update({
+  id: '/careers',
+  path: '/careers',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CryptoPaymentRoute = CryptoPaymentRouteImport.update({
@@ -130,6 +138,11 @@ const AuthenticatedSupportRoute = AuthenticatedSupportRouteImport.update({
   path: '/support',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const CareersSlugRoute = CareersSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => CareersRoute,
+} as any)
 const AuthenticatedAccountIndexRoute =
   AuthenticatedAccountIndexRouteImport.update({
     id: '/account/',
@@ -147,6 +160,12 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminCareersRoute =
+  AuthenticatedAdminCareersRouteImport.update({
+    id: '/careers',
+    path: '/careers',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminDepositsRoute =
   AuthenticatedAdminDepositsRouteImport.update({
     id: '/deposits',
@@ -174,6 +193,7 @@ const AuthenticatedAdminWithdrawalsRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/book-session': typeof BookSessionRoute
+  '/careers': typeof CareersRouteWithChildren
   '/crypto-payment': typeof CryptoPaymentRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/invest': typeof InvestRoute
@@ -190,7 +210,9 @@ export interface FileRoutesByFullPath {
   '/profile': typeof AuthenticatedProfileRoute
   '/referral': typeof AuthenticatedReferralRoute
   '/support': typeof AuthenticatedSupportRoute
+  '/careers/$slug': typeof CareersSlugRoute
   '/account/deposit': typeof AuthenticatedAccountDepositRoute
+  '/admin/careers': typeof AuthenticatedAdminCareersRoute
   '/admin/deposits': typeof AuthenticatedAdminDepositsRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
@@ -201,6 +223,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/book-session': typeof BookSessionRoute
+  '/careers': typeof CareersRouteWithChildren
   '/crypto-payment': typeof CryptoPaymentRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/invest': typeof InvestRoute
@@ -216,7 +239,9 @@ export interface FileRoutesByTo {
   '/profile': typeof AuthenticatedProfileRoute
   '/referral': typeof AuthenticatedReferralRoute
   '/support': typeof AuthenticatedSupportRoute
+  '/careers/$slug': typeof CareersSlugRoute
   '/account/deposit': typeof AuthenticatedAccountDepositRoute
+  '/admin/careers': typeof AuthenticatedAdminCareersRoute
   '/admin/deposits': typeof AuthenticatedAdminDepositsRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
@@ -229,6 +254,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/book-session': typeof BookSessionRoute
+  '/careers': typeof CareersRouteWithChildren
   '/crypto-payment': typeof CryptoPaymentRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/invest': typeof InvestRoute
@@ -245,7 +271,9 @@ export interface FileRoutesById {
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/referral': typeof AuthenticatedReferralRoute
   '/_authenticated/support': typeof AuthenticatedSupportRoute
+  '/careers/$slug': typeof CareersSlugRoute
   '/_authenticated/account/deposit': typeof AuthenticatedAccountDepositRoute
+  '/_authenticated/admin/careers': typeof AuthenticatedAdminCareersRoute
   '/_authenticated/admin/deposits': typeof AuthenticatedAdminDepositsRoute
   '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
@@ -258,6 +286,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/book-session'
+    | '/careers'
     | '/crypto-payment'
     | '/forgot-password'
     | '/invest'
@@ -274,7 +303,9 @@ export interface FileRouteTypes {
     | '/profile'
     | '/referral'
     | '/support'
+    | '/careers/$slug'
     | '/account/deposit'
+    | '/admin/careers'
     | '/admin/deposits'
     | '/admin/settings'
     | '/admin/users'
@@ -285,6 +316,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/book-session'
+    | '/careers'
     | '/crypto-payment'
     | '/forgot-password'
     | '/invest'
@@ -300,7 +332,9 @@ export interface FileRouteTypes {
     | '/profile'
     | '/referral'
     | '/support'
+    | '/careers/$slug'
     | '/account/deposit'
+    | '/admin/careers'
     | '/admin/deposits'
     | '/admin/settings'
     | '/admin/users'
@@ -312,6 +346,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/book-session'
+    | '/careers'
     | '/crypto-payment'
     | '/forgot-password'
     | '/invest'
@@ -328,7 +363,9 @@ export interface FileRouteTypes {
     | '/_authenticated/profile'
     | '/_authenticated/referral'
     | '/_authenticated/support'
+    | '/careers/$slug'
     | '/_authenticated/account/deposit'
+    | '/_authenticated/admin/careers'
     | '/_authenticated/admin/deposits'
     | '/_authenticated/admin/settings'
     | '/_authenticated/admin/users'
@@ -341,6 +378,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   BookSessionRoute: typeof BookSessionRoute
+  CareersRoute: typeof CareersRouteWithChildren
   CryptoPaymentRoute: typeof CryptoPaymentRoute
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   InvestRoute: typeof InvestRoute
@@ -374,6 +412,13 @@ declare module '@tanstack/react-router' {
       path: '/book-session'
       fullPath: '/book-session'
       preLoaderRoute: typeof BookSessionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/careers': {
+      id: '/careers'
+      path: '/careers'
+      fullPath: '/careers'
+      preLoaderRoute: typeof CareersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/crypto-payment': {
@@ -488,6 +533,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSupportRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/careers/$slug': {
+      id: '/careers/$slug'
+      path: '/$slug'
+      fullPath: '/careers/$slug'
+      preLoaderRoute: typeof CareersSlugRouteImport
+      parentRoute: typeof CareersRoute
+    }
     '/_authenticated/account/': {
       id: '/_authenticated/account/'
       path: '/account'
@@ -507,6 +559,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/admin/'
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/careers': {
+      id: '/_authenticated/admin/careers'
+      path: '/careers'
+      fullPath: '/admin/careers'
+      preLoaderRoute: typeof AuthenticatedAdminCareersRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/admin/deposits': {
@@ -541,6 +600,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminCareersRoute: typeof AuthenticatedAdminCareersRoute
   AuthenticatedAdminDepositsRoute: typeof AuthenticatedAdminDepositsRoute
   AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
   AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
@@ -549,6 +609,7 @@ interface AuthenticatedAdminRouteChildren {
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminCareersRoute: AuthenticatedAdminCareersRoute,
   AuthenticatedAdminDepositsRoute: AuthenticatedAdminDepositsRoute,
   AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
   AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
@@ -585,10 +646,22 @@ const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
   AuthenticatedRouteChildren,
 )
 
+interface CareersRouteChildren {
+  CareersSlugRoute: typeof CareersSlugRoute
+}
+
+const CareersRouteChildren: CareersRouteChildren = {
+  CareersSlugRoute: CareersSlugRoute,
+}
+
+const CareersRouteWithChildren =
+  CareersRoute._addFileChildren(CareersRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
   BookSessionRoute: BookSessionRoute,
+  CareersRoute: CareersRouteWithChildren,
   CryptoPaymentRoute: CryptoPaymentRoute,
   ForgotPasswordRoute: ForgotPasswordRoute,
   InvestRoute: InvestRoute,
