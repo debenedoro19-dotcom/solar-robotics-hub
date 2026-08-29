@@ -327,11 +327,50 @@ export default function InvestorDashboard() {
           )}
         </section>
 
+        {/* Giveaway entries */}
+        <section className="fin-card rounded-2xl overflow-hidden">
+          <div className="p-5 border-b border-fin-border flex items-center justify-between gap-4">
+            <div>
+              <h2 className="text-lg font-bold">Giveaway Entries</h2>
+              <p className="text-xs text-fin-muted">Entries paid from your wallet balance</p>
+            </div>
+            <a href="/#giveaways" className="px-4 py-2 rounded-lg bg-fin-emerald text-black text-xs font-bold whitespace-nowrap">Enter a Giveaway</a>
+          </div>
+          {giveawayEntries.length === 0 ? (
+            <p className="p-8 text-center text-sm text-fin-muted">No giveaway entries yet.</p>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="text-left text-xs uppercase tracking-wider text-fin-muted">
+                    <th className="px-5 py-3 font-semibold">Campaign</th>
+                    <th className="px-5 py-3 font-semibold text-right">Entry Fee</th>
+                    <th className="px-5 py-3 font-semibold">Status</th>
+                    <th className="px-5 py-3 font-semibold">Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {giveawayEntries.map((e) => (
+                    <tr key={e.id} className="border-t border-fin-border">
+                      <td className="px-5 py-3">{e.giveaway_title}</td>
+                      <td className="px-5 py-3 text-right font-bold tabular-nums">{money(Number(e.amount_paid))}</td>
+                      <td className="px-5 py-3">
+                        <span className={`px-2.5 py-1 rounded-md text-[10px] font-bold uppercase border ${STATUS_STYLES[e.status] ?? 'bg-white/5 text-fin-muted border-fin-border'}`}>{e.status}</span>
+                      </td>
+                      <td className="px-5 py-3 text-fin-muted whitespace-nowrap">{new Date(e.created_at).toLocaleString()}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </section>
+
         {/* Ledger */}
         <section className="fin-card rounded-2xl overflow-hidden">
           <div className="p-5 border-b border-fin-border">
             <h2 className="text-lg font-bold">Transaction Ledger</h2>
-            <p className="text-xs text-fin-muted">Deposits, plan purchases, yield payouts and withdrawals</p>
+            <p className="text-xs text-fin-muted">Deposits, plan purchases, giveaway entries, yield payouts and withdrawals</p>
           </div>
           {ledger.length === 0 ? (
             <p className="p-8 text-center text-sm text-fin-muted">No transactions yet.</p>
