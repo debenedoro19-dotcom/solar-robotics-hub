@@ -48,7 +48,19 @@ export default function LoginPage() {
         });
       }
 
-      window.location.href = '/dashboard';
+      // Route by role: admins land on the admin console, everyone else on the dashboard.
+      let isAdmin = false;
+      if (user) {
+        const { data: roleRow } = await supabase
+          .from('user_roles')
+          .select('role')
+          .eq('user_id', user.id)
+          .eq('role', 'admin')
+          .maybeSingle();
+        isAdmin = !!roleRow;
+      }
+
+      window.location.href = isAdmin ? '/admin' : '/dashboard';
     } catch (err: any) {
       setLoading(false);
       // Fallback: localStorage-based login for legacy accounts
