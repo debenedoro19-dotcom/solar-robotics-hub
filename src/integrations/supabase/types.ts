@@ -132,6 +132,51 @@ export type Database = {
           },
         ]
       }
+      investment_plans: {
+        Row: {
+          category: string
+          created_at: string
+          daily_roi: number
+          description: string
+          duration_days: number
+          id: string
+          is_active: boolean
+          max_deposit: number
+          min_deposit: number
+          name: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          daily_roi?: number
+          description?: string
+          duration_days?: number
+          id?: string
+          is_active?: boolean
+          max_deposit?: number
+          min_deposit?: number
+          name: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          daily_roi?: number
+          description?: string
+          duration_days?: number
+          id?: string
+          is_active?: boolean
+          max_deposit?: number
+          min_deposit?: number
+          name?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       kyc_submissions: {
         Row: {
           address_proof_url: string | null
@@ -301,12 +346,76 @@ export type Database = {
         }
         Relationships: []
       }
+      support_tickets: {
+        Row: {
+          admin_notes: string | null
+          admin_reply: string | null
+          category: string
+          created_at: string
+          description: string
+          id: string
+          priority: string
+          resolved_at: string | null
+          subject: string
+          ticket_number: string
+          ticket_status: string
+          updated_at: string
+          user_email: string
+          user_id: string
+          user_name: string | null
+        }
+        Insert: {
+          admin_notes?: string | null
+          admin_reply?: string | null
+          category?: string
+          created_at?: string
+          description?: string
+          id?: string
+          priority?: string
+          resolved_at?: string | null
+          subject?: string
+          ticket_number?: string
+          ticket_status?: string
+          updated_at?: string
+          user_email?: string
+          user_id: string
+          user_name?: string | null
+        }
+        Update: {
+          admin_notes?: string | null
+          admin_reply?: string | null
+          category?: string
+          created_at?: string
+          description?: string
+          id?: string
+          priority?: string
+          resolved_at?: string | null
+          subject?: string
+          ticket_number?: string
+          ticket_status?: string
+          updated_at?: string
+          user_email?: string
+          user_id?: string
+          user_name?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "support_tickets_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_balance: {
         Row: {
           available_balance: number
           created_at: string | null
           id: string
           total_deposited: number
+          total_invested: number
+          total_profit: number
           total_returns: number
           total_withdrawn: number
           updated_at: string | null
@@ -317,6 +426,8 @@ export type Database = {
           created_at?: string | null
           id?: string
           total_deposited?: number
+          total_invested?: number
+          total_profit?: number
           total_returns?: number
           total_withdrawn?: number
           updated_at?: string | null
@@ -327,6 +438,8 @@ export type Database = {
           created_at?: string | null
           id?: string
           total_deposited?: number
+          total_invested?: number
+          total_profit?: number
           total_returns?: number
           total_withdrawn?: number
           updated_at?: string | null
@@ -337,6 +450,72 @@ export type Database = {
             foreignKeyName: "user_balance_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: true
+            referencedRelation: "user_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_investments: {
+        Row: {
+          created_at: string
+          daily_roi: number
+          duration_days: number
+          id: string
+          matures_at: string
+          plan_category: string
+          plan_id: string | null
+          plan_name: string
+          principal: number
+          started_at: string
+          status: string
+          updated_at: string
+          user_id: string
+          yield_earned: number
+        }
+        Insert: {
+          created_at?: string
+          daily_roi?: number
+          duration_days?: number
+          id?: string
+          matures_at?: string
+          plan_category?: string
+          plan_id?: string | null
+          plan_name?: string
+          principal?: number
+          started_at?: string
+          status?: string
+          updated_at?: string
+          user_id: string
+          yield_earned?: number
+        }
+        Update: {
+          created_at?: string
+          daily_roi?: number
+          duration_days?: number
+          id?: string
+          matures_at?: string
+          plan_category?: string
+          plan_id?: string | null
+          plan_name?: string
+          principal?: number
+          started_at?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+          yield_earned?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_investments_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "investment_plans"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_investments_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
             referencedRelation: "user_profiles"
             referencedColumns: ["id"]
           },
@@ -425,6 +604,27 @@ export type Database = {
         }
         Relationships: []
       }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
       withdrawal_requests: {
         Row: {
           account_name: string
@@ -492,11 +692,24 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      is_admin: { Args: never; Returns: boolean }
       is_admin_from_auth: { Args: never; Returns: boolean }
       is_admin_user: { Args: never; Returns: boolean }
       is_portfolio_admin: { Args: never; Returns: boolean }
+      purchase_investment_plan: {
+        Args: { _amount: number; _plan_id: string }
+        Returns: Json
+      }
     }
     Enums: {
+      app_role: "admin" | "moderator" | "user"
       kyc_id_type: "passport" | "drivers_license" | "national_id"
       kyc_status: "pending" | "under_review" | "approved" | "rejected"
     }
@@ -626,6 +839,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      app_role: ["admin", "moderator", "user"],
       kyc_id_type: ["passport", "drivers_license", "national_id"],
       kyc_status: ["pending", "under_review", "approved", "rejected"],
     },
