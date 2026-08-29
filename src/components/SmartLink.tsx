@@ -1,3 +1,4 @@
+import type * as React from "react";
 import { Link } from "@tanstack/react-router";
 import type { AnchorHTMLAttributes, ReactNode } from "react";
 
@@ -49,7 +50,7 @@ export default function SmartLink({
 
   const AnyLink = Link as unknown as (
     props: Record<string, unknown>,
-  ) => JSX.Element;
+  ) => React.ReactElement;
 
   return <AnyLink {...linkProps}>{children}</AnyLink>;
 }
