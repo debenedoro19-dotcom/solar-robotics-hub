@@ -60,7 +60,16 @@ const TYPE_LABELS: Record<string, string> = {
   yield: 'Yield Payout',
   return: 'Yield Payout',
   withdrawal: 'Withdrawal',
+  giveaway: 'Giveaway Entry',
 };
+
+interface GiveawayEntry {
+  id: string;
+  giveaway_title: string;
+  amount_paid: number;
+  status: string;
+  created_at: string;
+}
 
 type Range = '7d' | '1m' | '1y' | 'all';
 
@@ -72,6 +81,7 @@ export default function InvestorDashboard() {
   const [plans, setPlans] = useState<Plan[]>([]);
   const [contracts, setContracts] = useState<Contract[]>([]);
   const [ledger, setLedger] = useState<LedgerRow[]>([]);
+  const [giveawayEntries, setGiveawayEntries] = useState<GiveawayEntry[]>([]);
   const [tab, setTab] = useState<'active' | 'browse'>('active');
   const [range, setRange] = useState<Range>('1m');
 
@@ -96,11 +106,12 @@ export default function InvestorDashboard() {
     setUserId(user.id);
     setUserEmail(user.email ?? '');
 
-    const [balanceRes, plansRes, investmentsRes, ledgerRes] = await Promise.all([
+    const [balanceRes, plansRes, investmentsRes, ledgerRes, entriesRes] = await Promise.all([
       supabase.from('user_balance').select('*').eq('user_id', user.id).maybeSingle(),
       supabase.from('investment_plans').select('*').eq('is_active', true).order('sort_order'),
       supabase.from('user_investments').select('*').eq('user_id', user.id).order('created_at', { ascending: false }),
       supabase.from('balance_transactions').select('*').eq('user_id', user.id).order('created_at', { ascending: false }).limit(100),
+      supabase.from('giveaway_entries').select('*').eq('user_id', user.id).order('created_at', { ascending: false }),
     ]);
 
     if (balanceRes.data) {
@@ -114,6 +125,7 @@ export default function InvestorDashboard() {
     setPlans((plansRes.data ?? []) as Plan[]);
     setContracts((investmentsRes.data ?? []) as Contract[]);
     setLedger((ledgerRes.data ?? []) as LedgerRow[]);
+    setGiveawayEntries((entriesRes.data ?? []) as GiveawayEntry[]);
     setLoading(false);
   }, []);
 
@@ -315,11 +327,50 @@ export default function InvestorDashboard() {
           )}
         </section>
 
+        {/* Giveaway entries */}
+        <section className="fin-card rounded-2xl overflow-hidden">
+          <div className="p-5 border-b border-fin-border flex items-center justify-between gap-4">
+            <div>
+              <h2 className="text-lg font-bold">Giveaway Entries</h2>
+              <p className="text-xs text-fin-muted">Entries paid from your wallet balance</p>
+            </div>
+            <a href="/#giveaways" className="px-4 py-2 rounded-lg bg-fin-emerald text-black text-xs font-bold whitespace-nowrap">Enter a Giveaway</a>
+          </div>
+          {giveawayEntries.length === 0 ? (
+            <p className="p-8 text-center text-sm text-fin-muted">No giveaway entries yet.</p>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="text-left text-xs uppercase tracking-wider text-fin-muted">
+                    <th className="px-5 py-3 font-semibold">Campaign</th>
+                    <th className="px-5 py-3 font-semibold text-right">Entry Fee</th>
+                    <th className="px-5 py-3 font-semibold">Status</th>
+                    <th className="px-5 py-3 font-semibold">Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {giveawayEntries.map((e) => (
+                    <tr key={e.id} className="border-t border-fin-border">
+                      <td className="px-5 py-3">{e.giveaway_title}</td>
+                      <td className="px-5 py-3 text-right font-bold tabular-nums">{money(Number(e.amount_paid))}</td>
+                      <td className="px-5 py-3">
+                        <span className={`px-2.5 py-1 rounded-md text-[10px] font-bold uppercase border ${STATUS_STYLES[e.status] ?? 'bg-white/5 text-fin-muted border-fin-border'}`}>{e.status}</span>
+                      </td>
+                      <td className="px-5 py-3 text-fin-muted whitespace-nowrap">{new Date(e.created_at).toLocaleString()}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </section>
+
         {/* Ledger */}
         <section className="fin-card rounded-2xl overflow-hidden">
           <div className="p-5 border-b border-fin-border">
             <h2 className="text-lg font-bold">Transaction Ledger</h2>
-            <p className="text-xs text-fin-muted">Deposits, plan purchases, yield payouts and withdrawals</p>
+            <p className="text-xs text-fin-muted">Deposits, plan purchases, giveaway entries, yield payouts and withdrawals</p>
           </div>
           {ledger.length === 0 ? (
             <p className="p-8 text-center text-sm text-fin-muted">No transactions yet.</p>

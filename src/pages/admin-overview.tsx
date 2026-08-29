@@ -814,6 +814,16 @@ export default function AdminPage() {
                 <p className="text-sm font-bold text-white mb-1">Session Bookings</p>
                 <p className="text-[10px] text-[#555555] leading-relaxed">Reschedule, update payment status & notes</p>
               </Link>
+              <Link
+                href="/admin/giveaways"
+                className="bg-[#111111] border border-[#1A1A1A] hover:border-[#2A2A2A] rounded-xl p-5 text-left transition-all hover:bg-[#141414]"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-pink-400 mb-3" aria-hidden="true"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M12 8v13M3 12h18"/></svg>
+                <p className="text-sm font-bold text-white mb-1">Giveaways</p>
+                <p className="text-[10px] text-[#555555] leading-relaxed">Create wallet-funded campaigns & view entrants</p>
+              </Link>
+
+
 
               <Link
                 href="/admin/settings"
