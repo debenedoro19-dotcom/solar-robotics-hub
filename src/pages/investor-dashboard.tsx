@@ -106,11 +106,12 @@ export default function InvestorDashboard() {
     setUserId(user.id);
     setUserEmail(user.email ?? '');
 
-    const [balanceRes, plansRes, investmentsRes, ledgerRes] = await Promise.all([
+    const [balanceRes, plansRes, investmentsRes, ledgerRes, entriesRes] = await Promise.all([
       supabase.from('user_balance').select('*').eq('user_id', user.id).maybeSingle(),
       supabase.from('investment_plans').select('*').eq('is_active', true).order('sort_order'),
       supabase.from('user_investments').select('*').eq('user_id', user.id).order('created_at', { ascending: false }),
       supabase.from('balance_transactions').select('*').eq('user_id', user.id).order('created_at', { ascending: false }).limit(100),
+      supabase.from('giveaway_entries').select('*').eq('user_id', user.id).order('created_at', { ascending: false }),
     ]);
 
     if (balanceRes.data) {
@@ -124,6 +125,7 @@ export default function InvestorDashboard() {
     setPlans((plansRes.data ?? []) as Plan[]);
     setContracts((investmentsRes.data ?? []) as Contract[]);
     setLedger((ledgerRes.data ?? []) as LedgerRow[]);
+    setGiveawayEntries((entriesRes.data ?? []) as GiveawayEntry[]);
     setLoading(false);
   }, []);
 
