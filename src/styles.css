@@ -77,6 +77,16 @@
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
+  /* Institutional fintech dashboard surfaces */
+  --color-fin-bg: var(--fin-bg);
+  --color-fin-card: var(--fin-card);
+  --color-fin-elevated: var(--fin-elevated);
+  --color-fin-border: var(--fin-border);
+  --color-fin-emerald: var(--fin-emerald);
+  --color-fin-emerald-soft: var(--fin-emerald-soft);
+  --color-fin-amber: var(--fin-amber);
+  --color-fin-danger: var(--fin-danger);
+  --color-fin-muted: var(--fin-muted);
 }
 
 .dark {
