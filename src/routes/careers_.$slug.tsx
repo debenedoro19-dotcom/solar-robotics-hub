@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import Page from "@/pages/career-detail";
 
-export const Route = createFileRoute("/careers/$slug")({
+export const Route = createFileRoute("/careers_/$slug")({
   head: () => ({
     meta: [
       { title: "Apply — Careers at Tesla Trade" },
