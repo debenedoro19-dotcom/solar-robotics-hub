@@ -177,6 +177,98 @@ export type Database = {
         }
         Relationships: []
       }
+      job_applications: {
+        Row: {
+          cover_note: string | null
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          job_id: string
+          notes: string
+          phone: string | null
+          resume_path: string | null
+          stage: string
+          updated_at: string
+        }
+        Insert: {
+          cover_note?: string | null
+          created_at?: string
+          email: string
+          full_name: string
+          id?: string
+          job_id: string
+          notes?: string
+          phone?: string | null
+          resume_path?: string | null
+          stage?: string
+          updated_at?: string
+        }
+        Update: {
+          cover_note?: string | null
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          job_id?: string
+          notes?: string
+          phone?: string | null
+          resume_path?: string | null
+          stage?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "job_applications_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: false
+            referencedRelation: "job_postings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      job_postings: {
+        Row: {
+          created_at: string
+          department: string
+          description: string
+          id: string
+          job_type: string
+          location: string
+          requirements: string
+          slug: string
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          department?: string
+          description?: string
+          id?: string
+          job_type?: string
+          location?: string
+          requirements?: string
+          slug: string
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          department?: string
+          description?: string
+          id?: string
+          job_type?: string
+          location?: string
+          requirements?: string
+          slug?: string
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       kyc_submissions: {
         Row: {
           address_proof_url: string | null
@@ -262,6 +354,27 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      newsletter_leads: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          source: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          source?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          source?: string
+        }
+        Relationships: []
       }
       session_bookings: {
         Row: {
