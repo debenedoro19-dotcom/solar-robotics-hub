@@ -799,6 +799,23 @@ export default function AdminPage() {
                 <p className="text-[10px] text-[#555555] leading-relaxed">Add, edit, reorder & recategorize listings</p>
               </Link>
               <Link
+                href="/admin/plans"
+                className="bg-[#111111] border border-[#1A1A1A] hover:border-[#2A2A2A] rounded-xl p-5 text-left transition-all hover:bg-[#141414]"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-emerald-400 mb-3" aria-hidden="true"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg>
+                <p className="text-sm font-bold text-white mb-1">Investment Packages</p>
+                <p className="text-[10px] text-[#555555] leading-relaxed">Edit ROI, terms, limits & visibility of every plan</p>
+              </Link>
+              <Link
+                href="/admin/sessions"
+                className="bg-[#111111] border border-[#1A1A1A] hover:border-[#2A2A2A] rounded-xl p-5 text-left transition-all hover:bg-[#141414]"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-indigo-400 mb-3" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                <p className="text-sm font-bold text-white mb-1">Session Bookings</p>
+                <p className="text-[10px] text-[#555555] leading-relaxed">Reschedule, update payment status & notes</p>
+              </Link>
+
+              <Link
                 href="/admin/settings"
                 className="bg-[#111111] border border-[#1A1A1A] hover:border-[#2A2A2A] rounded-xl p-5 text-left transition-all hover:bg-[#141414]"
               >
