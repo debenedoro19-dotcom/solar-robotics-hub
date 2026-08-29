@@ -182,16 +182,6 @@ export default function RegisterPage() {
             <div className="w-6 h-6 rounded-full step-pending flex items-center justify-center text-xs font-bold">2</div>
             <span className="text-xs text-[#6B7280] tracking-wider uppercase">Verify</span>
           </div>
-          <div className="flex-1 h-px bg-[#1E2027]" />
-          <div className="flex items-center gap-2 flex-1">
-            <div className="w-6 h-6 rounded-full step-pending flex items-center justify-center text-xs font-bold">3</div>
-            <span className="text-xs text-[#6B7280] tracking-wider uppercase">KYC</span>
-          </div>
-          <div className="flex-1 h-px bg-[#1E2027]" />
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-full step-pending flex items-center justify-center text-xs font-bold">4</div>
-            <span className="text-xs text-[#6B7280] tracking-wider uppercase">Invest</span>
-          </div>
         </div>
 
         {/* Form */}
