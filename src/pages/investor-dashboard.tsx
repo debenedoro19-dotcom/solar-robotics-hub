@@ -60,7 +60,16 @@ const TYPE_LABELS: Record<string, string> = {
   yield: 'Yield Payout',
   return: 'Yield Payout',
   withdrawal: 'Withdrawal',
+  giveaway: 'Giveaway Entry',
 };
+
+interface GiveawayEntry {
+  id: string;
+  giveaway_title: string;
+  amount_paid: number;
+  status: string;
+  created_at: string;
+}
 
 type Range = '7d' | '1m' | '1y' | 'all';
 
