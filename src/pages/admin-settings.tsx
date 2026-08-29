@@ -1415,6 +1415,105 @@ export default function AdminSettingsPage() {
             </div>
           </div>
         )}
+
+        {/* ── POP-UPS TAB ── */}
+        {activeTab === 'popups' && (
+          <div className="space-y-6">
+            <div className="bg-[#0D0D0D] border border-[#1A1A1A] rounded-xl p-5 flex items-start gap-3">
+              <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E31937" strokeWidth="2" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+              </div>
+              <div>
+                <p className="text-sm font-bold text-white mb-0.5">Pop-ups & Live Ticker</p>
+                <p className="text-xs text-[#555555]">Control every on-site pop-up and the live withdrawal ticker. Changes apply to visitors immediately after saving.</p>
+              </div>
+            </div>
+
+            {popupsError && (
+              <div className="px-4 py-3 rounded-lg bg-primary/10 border border-primary/30 text-sm text-primary">{popupsError}</div>
+            )}
+
+            {/* Welcome offer modal */}
+            <div className={sectionClass}>
+              <div className="flex items-center justify-between">
+                <p className={sectionTitleClass}>Welcome / Offer Modal</p>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-[#555555]">{popups.welcome.enabled ? 'On' : 'Off'}</span>
+                  <input type="checkbox" checked={popups.welcome.enabled} onChange={e => setPopups(p => ({ ...p, welcome: { ...p.welcome, enabled: e.target.checked } }))} className="accent-[#E31937] w-4 h-4" />
+                </label>
+              </div>
+              <div><label className={labelClass}>Title</label><input value={popups.welcome.title} onChange={e => setPopups(p => ({ ...p, welcome: { ...p.welcome, title: e.target.value } }))} className={inputClass} /></div>
+              <div><label className={labelClass}>Body</label><textarea rows={2} value={popups.welcome.body} onChange={e => setPopups(p => ({ ...p, welcome: { ...p.welcome, body: e.target.value } }))} className={inputClass} /></div>
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div><label className={labelClass}>Button label</label><input value={popups.welcome.ctaLabel} onChange={e => setPopups(p => ({ ...p, welcome: { ...p.welcome, ctaLabel: e.target.value } }))} className={inputClass} /></div>
+                <div><label className={labelClass}>Button link</label><input value={popups.welcome.ctaHref} onChange={e => setPopups(p => ({ ...p, welcome: { ...p.welcome, ctaHref: e.target.value } }))} className={inputClass} /></div>
+                <div><label className={labelClass}>Show after (seconds)</label><input type="number" min={2} value={popups.welcome.delaySeconds} onChange={e => setPopups(p => ({ ...p, welcome: { ...p.welcome, delaySeconds: Number(e.target.value) } }))} className={inputClass} /></div>
+                <div><label className={labelClass}>Hide again for (hours)</label><input type="number" min={1} value={popups.welcome.cooldownHours} onChange={e => setPopups(p => ({ ...p, welcome: { ...p.welcome, cooldownHours: Number(e.target.value) } }))} className={inputClass} /></div>
+              </div>
+            </div>
+
+            {/* Lead capture modal */}
+            <div className={sectionClass}>
+              <div className="flex items-center justify-between">
+                <p className={sectionTitleClass}>Lead Capture Modal</p>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-[#555555]">{popups.lead.enabled ? 'On' : 'Off'}</span>
+                  <input type="checkbox" checked={popups.lead.enabled} onChange={e => setPopups(p => ({ ...p, lead: { ...p.lead, enabled: e.target.checked } }))} className="accent-[#E31937] w-4 h-4" />
+                </label>
+              </div>
+              <div><label className={labelClass}>Title</label><input value={popups.lead.title} onChange={e => setPopups(p => ({ ...p, lead: { ...p.lead, title: e.target.value } }))} className={inputClass} /></div>
+              <div><label className={labelClass}>Body</label><textarea rows={2} value={popups.lead.body} onChange={e => setPopups(p => ({ ...p, lead: { ...p.lead, body: e.target.value } }))} className={inputClass} /></div>
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div><label className={labelClass}>Button label</label><input value={popups.lead.ctaLabel} onChange={e => setPopups(p => ({ ...p, lead: { ...p.lead, ctaLabel: e.target.value } }))} className={inputClass} /></div>
+                <div className="flex items-end pb-2">
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input type="checkbox" checked={popups.lead.exitIntent} onChange={e => setPopups(p => ({ ...p, lead: { ...p.lead, exitIntent: e.target.checked } }))} className="accent-[#E31937] w-4 h-4" />
+                    <span className="text-xs text-[#999999]">Also show on exit intent</span>
+                  </label>
+                </div>
+                <div><label className={labelClass}>Show after (seconds)</label><input type="number" min={10} value={popups.lead.delaySeconds} onChange={e => setPopups(p => ({ ...p, lead: { ...p.lead, delaySeconds: Number(e.target.value) } }))} className={inputClass} /></div>
+                <div><label className={labelClass}>Hide again for (hours)</label><input type="number" min={1} value={popups.lead.cooldownHours} onChange={e => setPopups(p => ({ ...p, lead: { ...p.lead, cooldownHours: Number(e.target.value) } }))} className={inputClass} /></div>
+              </div>
+            </div>
+
+            {/* Withdrawal ticker */}
+            <div className={sectionClass}>
+              <div className="flex items-center justify-between">
+                <p className={sectionTitleClass}>Live Withdrawal Ticker</p>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-[#555555]">{popups.ticker.enabled ? 'On' : 'Off'}</span>
+                  <input type="checkbox" checked={popups.ticker.enabled} onChange={e => setPopups(p => ({ ...p, ticker: { ...p.ticker, enabled: e.target.checked } }))} className="accent-[#E31937] w-4 h-4" />
+                </label>
+              </div>
+              <p className="text-[11px] text-[#555555]">Randomized client-side from a pool of names, cities and amounts — never a fixed repeating script.</p>
+              <div className="grid sm:grid-cols-3 gap-4">
+                <div><label className={labelClass}>Interval (seconds)</label><input type="number" min={8} value={popups.ticker.intervalSeconds} onChange={e => setPopups(p => ({ ...p, ticker: { ...p.ticker, intervalSeconds: Number(e.target.value) } }))} className={inputClass} /></div>
+                <div><label className={labelClass}>Min amount ($)</label><input type="number" min={100} value={popups.ticker.minAmount} onChange={e => setPopups(p => ({ ...p, ticker: { ...p.ticker, minAmount: Number(e.target.value) } }))} className={inputClass} /></div>
+                <div><label className={labelClass}>Max amount ($)</label><input type="number" min={100} value={popups.ticker.maxAmount} onChange={e => setPopups(p => ({ ...p, ticker: { ...p.ticker, maxAmount: Number(e.target.value) } }))} className={inputClass} /></div>
+              </div>
+            </div>
+
+            {/* Cookie bar */}
+            <div className={sectionClass}>
+              <div className="flex items-center justify-between">
+                <p className={sectionTitleClass}>Cookie Consent Bar</p>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-[#555555]">{popups.cookie.enabled ? 'On' : 'Off'}</span>
+                  <input type="checkbox" checked={popups.cookie.enabled} onChange={e => setPopups(p => ({ ...p, cookie: { ...p.cookie, enabled: e.target.checked } }))} className="accent-[#E31937] w-4 h-4" />
+                </label>
+              </div>
+              <div><label className={labelClass}>Message</label><textarea rows={2} value={popups.cookie.body} onChange={e => setPopups(p => ({ ...p, cookie: { ...p.cookie, body: e.target.value } }))} className={inputClass} /></div>
+            </div>
+
+            <div className="flex justify-end">
+              <button onClick={savePopups} disabled={popupsLoading} className="px-8 py-3 tesla-btn-primary rounded-lg text-sm font-semibold flex items-center gap-2 disabled:opacity-60">
+                {popupsLoading ? 'Saving…' : saved === 'popups' ? (
+                  <><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg>Saved!</>
+                ) : 'Save Pop-up Settings'}
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </main>
   );
