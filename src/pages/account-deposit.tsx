@@ -4,6 +4,8 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { createClient } from '@/lib/supabase/client';
 import { useWallet, money, NETWORKS } from '@/components/investor/wallet';
+import { sendAccountNotificationEmail } from '@/lib/emailService';
+
 
 const PAYMENT_METHODS = [
   { id: 'crypto', label: 'Cryptocurrency', icon: '₿', desc: 'USDT (TRC-20 / ERC-20) or BTC' },
