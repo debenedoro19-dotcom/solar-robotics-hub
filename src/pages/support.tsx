@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from '@/components/SmartLink';
 import { createClient } from '@/lib/supabase/client';
+import { sendSupportTicketReceivedEmail } from '@/lib/emailService';
 import { useAuth } from '@/contexts/AuthContext';
 
 type TicketStatus = 'open' | 'in_progress' | 'resolved' | 'closed';
