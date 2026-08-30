@@ -7,6 +7,7 @@ import { createClient } from '@/lib/supabase/client';
 import InvestorShell from '@/components/investor/InvestorShell';
 import { MetricCard, Modal, DepositModal, WithdrawModal } from '@/components/investor/modals';
 import { EMPTY_WALLET, money, toWallet, type Wallet } from '@/components/investor/wallet';
+import PlanCard, { type InvestmentPlan as SharedPlan } from '@/components/investment/planCard';
 
 interface Plan {
   id: string;
@@ -310,20 +311,13 @@ export default function InvestorDashboard() {
           ) : (
             <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
               {plans.map((p) => (
-                <article key={p.id} className="fin-card rounded-3xl p-5 flex flex-col">
-                  <span className={`self-start px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider border mb-3 ${CATEGORY_STYLES[p.category] ?? 'bg-white/5 text-fin-muted border-fin-border'}`}>
-                    {p.category}
-                  </span>
-                  <h3 className="font-bold text-lg">{p.name}</h3>
-                  <p className="text-sm text-fin-muted mt-1 mb-4 flex-1">{p.description}</p>
-                  <dl className="grid grid-cols-2 gap-3 text-sm mb-4">
-                    <div><dt className="text-xs text-fin-muted">Daily ROI</dt><dd className="font-bold text-fin-emerald tabular-nums">{Number(p.daily_roi).toFixed(2)}%</dd></div>
-                    <div><dt className="text-xs text-fin-muted">Term</dt><dd className="font-bold">{p.duration_days} days</dd></div>
-                    <div><dt className="text-xs text-fin-muted">Minimum</dt><dd className="font-bold tabular-nums">{money(Number(p.min_deposit))}</dd></div>
-                    <div><dt className="text-xs text-fin-muted">Maximum</dt><dd className="font-bold tabular-nums">{money(Number(p.max_deposit))}</dd></div>
-                  </dl>
-                  <button onClick={() => setInvestPlan(p)} className="w-full py-2.5 rounded-xl bg-fin-emerald text-black text-sm font-bold hover:opacity-90 transition-opacity">Invest</button>
-                </article>
+                <PlanCard
+                  key={p.id}
+                  plan={p as unknown as SharedPlan}
+                  action={
+                    <button onClick={() => setInvestPlan(p)} className="w-full py-2.5 rounded-xl bg-fin-emerald text-black text-sm font-bold hover:opacity-90 transition-opacity">Invest</button>
+                  }
+                />
               ))}
             </div>
           )}
