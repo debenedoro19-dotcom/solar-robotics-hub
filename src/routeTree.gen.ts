@@ -29,6 +29,7 @@ import { Route as AuthenticatedKycRouteImport } from './routes/_authenticated.ky
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated.profile'
 import { Route as AuthenticatedReferralRouteImport } from './routes/_authenticated.referral'
 import { Route as AuthenticatedSupportRouteImport } from './routes/_authenticated.support'
+import { Route as ApiSendEmailRouteImport } from './routes/api/send-email'
 import { Route as CareersSlugRouteImport } from './routes/careers_.$slug'
 import { Route as AuthenticatedAccountIndexRouteImport } from './routes/_authenticated.account.index'
 import { Route as AuthenticatedAccountDepositRouteImport } from './routes/_authenticated.account.deposit'
@@ -142,6 +143,11 @@ const AuthenticatedSupportRoute = AuthenticatedSupportRouteImport.update({
   path: '/support',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const ApiSendEmailRoute = ApiSendEmailRouteImport.update({
+  id: '/api/send-email',
+  path: '/api/send-email',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CareersSlugRoute = CareersSlugRouteImport.update({
   id: '/careers_/$slug',
   path: '/careers/$slug',
@@ -237,6 +243,7 @@ export interface FileRoutesByFullPath {
   '/profile': typeof AuthenticatedProfileRoute
   '/referral': typeof AuthenticatedReferralRoute
   '/support': typeof AuthenticatedSupportRoute
+  '/api/send-email': typeof ApiSendEmailRoute
   '/careers/$slug': typeof CareersSlugRoute
   '/account/deposit': typeof AuthenticatedAccountDepositRoute
   '/admin/careers': typeof AuthenticatedAdminCareersRoute
@@ -270,6 +277,7 @@ export interface FileRoutesByTo {
   '/profile': typeof AuthenticatedProfileRoute
   '/referral': typeof AuthenticatedReferralRoute
   '/support': typeof AuthenticatedSupportRoute
+  '/api/send-email': typeof ApiSendEmailRoute
   '/careers/$slug': typeof CareersSlugRoute
   '/account/deposit': typeof AuthenticatedAccountDepositRoute
   '/admin/careers': typeof AuthenticatedAdminCareersRoute
@@ -306,6 +314,7 @@ export interface FileRoutesById {
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/referral': typeof AuthenticatedReferralRoute
   '/_authenticated/support': typeof AuthenticatedSupportRoute
+  '/api/send-email': typeof ApiSendEmailRoute
   '/careers_/$slug': typeof CareersSlugRoute
   '/_authenticated/account/deposit': typeof AuthenticatedAccountDepositRoute
   '/_authenticated/admin/careers': typeof AuthenticatedAdminCareersRoute
@@ -342,6 +351,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/referral'
     | '/support'
+    | '/api/send-email'
     | '/careers/$slug'
     | '/account/deposit'
     | '/admin/careers'
@@ -375,6 +385,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/referral'
     | '/support'
+    | '/api/send-email'
     | '/careers/$slug'
     | '/account/deposit'
     | '/admin/careers'
@@ -410,6 +421,7 @@ export interface FileRouteTypes {
     | '/_authenticated/profile'
     | '/_authenticated/referral'
     | '/_authenticated/support'
+    | '/api/send-email'
     | '/careers_/$slug'
     | '/_authenticated/account/deposit'
     | '/_authenticated/admin/careers'
@@ -440,6 +452,7 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   TermsRoute: typeof TermsRoute
   VerifyPendingRoute: typeof VerifyPendingRoute
+  ApiSendEmailRoute: typeof ApiSendEmailRoute
   CareersSlugRoute: typeof CareersSlugRoute
 }
 
@@ -584,6 +597,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/support'
       preLoaderRoute: typeof AuthenticatedSupportRouteImport
       parentRoute: typeof AuthenticatedRoute
+    }
+    '/api/send-email': {
+      id: '/api/send-email'
+      path: '/api/send-email'
+      fullPath: '/api/send-email'
+      preLoaderRoute: typeof ApiSendEmailRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/careers_/$slug': {
       id: '/careers_/$slug'
@@ -749,6 +769,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   TermsRoute: TermsRoute,
   VerifyPendingRoute: VerifyPendingRoute,
+  ApiSendEmailRoute: ApiSendEmailRoute,
   CareersSlugRoute: CareersSlugRoute,
 }
 export const routeTree = rootRouteImport
