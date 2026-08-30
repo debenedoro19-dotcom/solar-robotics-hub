@@ -10,10 +10,18 @@ import { useCryptoWallets, walletUri } from '@/components/payments/cryptoWallets
 
 
 const PAYMENT_METHODS = [
-  { id: 'crypto', label: 'Cryptocurrency', icon: '₿', desc: 'USDT (TRC-20 / ERC-20) or BTC' },
-  { id: 'bank_transfer', label: 'Bank Transfer', icon: '🏦', desc: 'Wire transfer from your bank account' },
-  { id: 'card', label: 'Debit / Credit Card', icon: '💳', desc: 'Visa, Mastercard, Amex' },
+  { id: 'crypto', label: 'Cryptocurrency', icon: '₿', desc: 'USDT (TRC-20 / ERC-20), ETH or BTC — instant verification' },
+  { id: 'bank_transfer', label: 'Bank Transfer', icon: '🏦', desc: 'Wire transfer — currently unavailable' },
+  { id: 'card', label: 'Debit / Credit Card', icon: '💳', desc: 'Visa, Mastercard, Amex — currently unavailable' },
 ];
+
+const CRYPTO_NUDGE: Record<string, string> = {
+  bank_transfer:
+    'Bank wires can take 3–7 business days to clear and cannot be verified by our settlement desk in real time, so wire funding is paused. Cryptocurrency deposits confirm on-chain within minutes, are credited by an administrator the same day, and carry zero intermediary fees — switch to Cryptocurrency to fund instantly.',
+  card:
+    'Card processors hold clean-tech investment funding for manual review and frequently reverse or decline it, which we cannot verify or credit reliably. Cryptocurrency is our fully supported rail: minutes to confirm, fully traceable on-chain, no chargeback risk and no processing fees — switch to Cryptocurrency to fund instantly.',
+};
+
 
 const QUICK_AMOUNTS = [250, 500, 1000, 5000, 10000];
 
@@ -41,6 +49,7 @@ export default function AccountDepositPage() {
 
   async function submitDeposit() {
     setError('');
+    if (method !== 'crypto') { setError('Only cryptocurrency deposits can be verified and credited right now. Please switch to Cryptocurrency.'); return; }
     if (!userId) { setError('You must be signed in to fund your wallet.'); return; }
     if (value < 50) { setError('Minimum deposit is $50.'); return; }
 
@@ -154,6 +163,21 @@ export default function AccountDepositPage() {
                 </div>
               </div>
 
+              {method !== 'crypto' && (
+                <div className="rounded-xl border border-primary/40 bg-primary/10 p-4">
+                  <p className="text-sm font-bold text-primary mb-1">Fund with Cryptocurrency instead</p>
+                  <p className="text-[12px] text-fin-muted leading-relaxed">{CRYPTO_NUDGE[method]}</p>
+                  <button
+                    onClick={() => { setMethod('crypto'); setError(''); }}
+                    className="mt-3 px-4 py-2 rounded-xl bg-primary text-primary-foreground text-xs font-bold"
+                  >
+                    Switch to Cryptocurrency
+                  </button>
+                </div>
+              )}
+
+
+
               {method === 'crypto' && (
                 <div className="rounded-xl bg-fin-elevated border border-fin-border p-4">
                   <p className="text-xs uppercase tracking-wider text-fin-muted mb-2">Network</p>
@@ -221,11 +245,12 @@ export default function AccountDepositPage() {
 
               <button
                 onClick={submitDeposit}
-                disabled={busy || !userId}
+                disabled={busy || !userId || method !== 'crypto'}
                 className="w-full py-3.5 rounded-xl bg-fin-emerald text-black font-bold text-sm disabled:opacity-40"
               >
-                {busy ? 'Submitting…' : !userId ? 'Sign in to deposit' : `Submit deposit request${value > 0 ? ` · ${money(value)}` : ''}`}
+                {busy ? 'Submitting…' : !userId ? 'Sign in to deposit' : method !== 'crypto' ? 'Select Cryptocurrency to continue' : `Submit deposit request${value > 0 ? ` · ${money(value)}` : ''}`}
               </button>
+
 
               <p className="text-[11px] text-fin-muted text-center">
                 Funds are credited to your wallet after admin confirmation. Minimum deposit $50.
