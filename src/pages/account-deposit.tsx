@@ -22,7 +22,7 @@ export default function AccountDepositPage() {
 
   const [amount, setAmount] = useState('');
   const [method, setMethod] = useState(PAYMENT_METHODS[0]!.id);
-  const [network, setNetwork] = useState(NETWORKS[0]!.id);
+  const [network, setNetwork] = useState('usdt');
   const [txRef, setTxRef] = useState('');
   const [note, setNote] = useState('');
   const [busy, setBusy] = useState(false);
