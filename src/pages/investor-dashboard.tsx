@@ -43,9 +43,9 @@ interface LedgerRow {
 }
 
 const CATEGORY_STYLES: Record<string, string> = {
-  'Solar Megapack': 'bg-fin-emerald/10 text-fin-emerald border-fin-emerald/30',
-  'Optimus Robotics': 'bg-sky-400/10 text-sky-300 border-sky-400/30',
-  'Space Infrastructure': 'bg-violet-400/10 text-violet-300 border-violet-400/30',
+  'Solar Megapack': 'bg-primary/10 text-primary border-primary/30',
+  'Optimus Robotics': 'bg-primary/10 text-primary border-primary/30',
+  'Space Infrastructure': 'bg-primary/10 text-primary border-primary/30',
 };
 
 const STATUS_STYLES: Record<string, string> = {
@@ -232,7 +232,7 @@ export default function InvestorDashboard() {
                 <button
                   key={r}
                   onClick={() => setRange(r)}
-                  className={`px-3 py-1.5 rounded-md text-xs font-bold uppercase transition-colors ${range === r ? 'bg-fin-emerald text-black' : 'text-fin-muted hover:text-white'}`}>
+                  className={`px-3 py-1.5 rounded-md text-xs font-bold uppercase transition-colors ${range === r ? 'bg-primary text-primary-foreground' : 'text-fin-muted hover:text-white'}`}>
                   {r === 'all' ? 'All' : r.toUpperCase()}
                 </button>
               ))}
@@ -266,7 +266,7 @@ export default function InvestorDashboard() {
               <button
                 key={t}
                 onClick={() => setTab(t)}
-                className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-colors ${tab === t ? 'bg-fin-emerald text-black' : 'fin-card text-fin-muted hover:text-white'}`}>
+                className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-colors ${tab === t ? 'bg-primary text-primary-foreground' : 'fin-card text-fin-muted hover:text-white'}`}>
                 {t === 'active' ? `Active Investments (${activeContracts.length})` : 'Browse & Deploy Capital'}
               </button>
             ))}
@@ -276,7 +276,7 @@ export default function InvestorDashboard() {
             activeContracts.length === 0 ? (
               <div className="fin-card rounded-3xl p-10 text-center">
                 <p className="text-sm text-fin-muted mb-4">No active contracts yet.</p>
-                <button onClick={() => setTab('browse')} className="px-5 py-2.5 rounded-xl bg-fin-emerald text-black text-sm font-bold">Browse Plans</button>
+                <button onClick={() => setTab('browse')} className="px-5 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-bold">Browse Plans</button>
               </div>
             ) : (
               <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
