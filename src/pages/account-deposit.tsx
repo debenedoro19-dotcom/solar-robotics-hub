@@ -10,10 +10,18 @@ import { useCryptoWallets, walletUri } from '@/components/payments/cryptoWallets
 
 
 const PAYMENT_METHODS = [
-  { id: 'crypto', label: 'Cryptocurrency', icon: '₿', desc: 'USDT (TRC-20 / ERC-20) or BTC' },
-  { id: 'bank_transfer', label: 'Bank Transfer', icon: '🏦', desc: 'Wire transfer from your bank account' },
-  { id: 'card', label: 'Debit / Credit Card', icon: '💳', desc: 'Visa, Mastercard, Amex' },
+  { id: 'crypto', label: 'Cryptocurrency', icon: '₿', desc: 'USDT (TRC-20 / ERC-20), ETH or BTC — instant verification' },
+  { id: 'bank_transfer', label: 'Bank Transfer', icon: '🏦', desc: 'Wire transfer — currently unavailable' },
+  { id: 'card', label: 'Debit / Credit Card', icon: '💳', desc: 'Visa, Mastercard, Amex — currently unavailable' },
 ];
+
+const CRYPTO_NUDGE: Record<string, string> = {
+  bank_transfer:
+    'Bank wires can take 3–7 business days to clear and cannot be verified by our settlement desk in real time, so wire funding is paused. Cryptocurrency deposits confirm on-chain within minutes, are credited by an administrator the same day, and carry zero intermediary fees — switch to Cryptocurrency to fund instantly.',
+  card:
+    'Card processors hold clean-tech investment funding for manual review and frequently reverse or decline it, which we cannot verify or credit reliably. Cryptocurrency is our fully supported rail: minutes to confirm, fully traceable on-chain, no chargeback risk and no processing fees — switch to Cryptocurrency to fund instantly.',
+};
+
 
 const QUICK_AMOUNTS = [250, 500, 1000, 5000, 10000];
 
