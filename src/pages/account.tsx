@@ -3,7 +3,8 @@ import Link from '@/components/SmartLink';
 import {  useRouter  } from '@/lib/next-shims';
 import { createClient } from '@/lib/supabase/client';
 import InvestorShell from '@/components/investor/InvestorShell';
-import { MetricCard, DepositModal, WithdrawModal } from '@/components/investor/modals';
+import { MetricCard, WithdrawModal } from '@/components/investor/modals';
+import { useNavigate } from '@tanstack/react-router';
 import { money } from '@/components/investor/wallet';
 
 type Tab = 'overview' | 'kyc' | 'portfolio' | 'balance' | 'withdrawals' | 'transactions' | 'referrals';
@@ -116,7 +117,7 @@ export default function AccountPage() {
   const [portfolio, setPortfolio] = useState<PortfolioData | null>(null);
   const [withdrawals, setWithdrawals] = useState<WithdrawalRequest[]>([]);
   const [balance, setBalance] = useState<BalanceData | null>(null);
-  const [depositOpen, setDepositOpen] = useState(false);
+  const navigate = useNavigate();
   const [withdrawOpen, setWithdrawOpen] = useState(false);
   const [balanceTxs, setBalanceTxs] = useState<BalanceTx[]>([]);
   const [balanceLoading, setBalanceLoading] = useState(false);
@@ -382,7 +383,7 @@ export default function AccountPage() {
   return (
     <InvestorShell
       balance={balance?.available_balance || 0}
-      onDeposit={() => setDepositOpen(true)}
+      onDeposit={() => { void navigate({ to: '/account/deposit' }); }}
       onWithdraw={() => setWithdrawOpen(true)}>
     <main className="bg-fin-bg text-white">
       <div className="max-w-7xl mx-auto px-6 py-8">
@@ -1106,12 +1107,6 @@ export default function AccountPage() {
         )}
       </div>
 
-      {depositOpen && userId && (
-        <DepositModal userId={userId} userEmail={userEmail}
-          onClose={() => setDepositOpen(false)}
-          onDone={(m) => { setBalanceActionMsg({ type: 'success', text: m }); void loadAllData(userId, userEmail); }}
-          onError={(m) => setBalanceActionMsg({ type: 'error', text: m })} />
-      )}
       {withdrawOpen && userId && (
         <WithdrawModal balance={balance?.available_balance || 0} userId={userId} userEmail={userEmail}
           onClose={() => setWithdrawOpen(false)}

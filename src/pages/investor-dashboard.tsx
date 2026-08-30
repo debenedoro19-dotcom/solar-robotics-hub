@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from '@/components/SmartLink';
+import { useNavigate } from '@tanstack/react-router';
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
 } from 'recharts';
 import { createClient } from '@/lib/supabase/client';
 import InvestorShell from '@/components/investor/InvestorShell';
-import { MetricCard, Modal, DepositModal, WithdrawModal } from '@/components/investor/modals';
+import { MetricCard, Modal, WithdrawModal } from '@/components/investor/modals';
 import { EMPTY_WALLET, money, toWallet, type Wallet } from '@/components/investor/wallet';
 import PlanCard, { type InvestmentPlan as SharedPlan } from '@/components/investment/planCard';
 
@@ -86,7 +87,8 @@ export default function InvestorDashboard() {
   const [tab, setTab] = useState<'active' | 'browse'>('active');
   const [range, setRange] = useState<Range>('1m');
 
-  const [depositOpen, setDepositOpen] = useState(false);
+  const navigate = useNavigate();
+  const goDeposit = useCallback(() => { void navigate({ to: '/account/deposit' }); }, [navigate]);
   const [withdrawOpen, setWithdrawOpen] = useState(false);
   const [investPlan, setInvestPlan] = useState<Plan | null>(null);
   const [toast, setToast] = useState<{ kind: 'ok' | 'err'; msg: string } | null>(null);
@@ -181,7 +183,7 @@ export default function InvestorDashboard() {
   }
 
   return (
-    <InvestorShell balance={wallet.available_balance} onDeposit={() => setDepositOpen(true)} onWithdraw={() => setWithdrawOpen(true)}>
+    <InvestorShell balance={wallet.available_balance} onDeposit={() => goDeposit()} onWithdraw={() => setWithdrawOpen(true)}>
     <main className="bg-fin-bg text-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         {/* Header */}
@@ -206,7 +208,7 @@ export default function InvestorDashboard() {
               Deposit-first platform — fund your wallet before deploying capital into a plan.
             </p>
             <div className="flex flex-wrap gap-3 mt-6">
-              <button onClick={() => setDepositOpen(true)} className="px-5 py-2.5 rounded-xl bg-[#E82127] text-white text-sm font-bold shadow-[inset_0_1px_0_rgba(255,255,255,0.18)] hover:bg-[#B3181D] transition-all duration-300">+ Deposit</button>
+              <button onClick={() => goDeposit()} className="px-5 py-2.5 rounded-xl bg-[#E82127] text-white text-sm font-bold shadow-[inset_0_1px_0_rgba(255,255,255,0.18)] hover:bg-[#B3181D] transition-all duration-300">+ Deposit</button>
               <button onClick={() => setWithdrawOpen(true)} className="px-5 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] backdrop-blur-xl text-sm font-bold hover:border-white/25 transition-all duration-300">↑ Withdraw</button>
               <button onClick={() => { setTab('browse'); document.getElementById('marketplace')?.scrollIntoView({ behavior: 'smooth' }); }} className="px-5 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] backdrop-blur-xl text-sm font-bold hover:border-white/25 transition-all duration-300">⚡ Buy Plan</button>
             </div>
@@ -403,9 +405,6 @@ export default function InvestorDashboard() {
         </section>
       </div>
 
-      {depositOpen && (
-        <DepositModal userId={userId} userEmail={userEmail} onClose={() => setDepositOpen(false)} onDone={(msg) => { notify('ok', msg); void load(); }} onError={(m) => notify('err', m)} />
-      )}
       {withdrawOpen && (
         <WithdrawModal balance={wallet.available_balance} userId={userId} userEmail={userEmail} onClose={() => setWithdrawOpen(false)} onDone={(msg) => { notify('ok', msg); void load(); }} onError={(m) => notify('err', m)} />
       )}
@@ -414,7 +413,7 @@ export default function InvestorDashboard() {
           plan={investPlan}
           balance={wallet.available_balance}
           onClose={() => setInvestPlan(null)}
-          onDeposit={() => { setInvestPlan(null); setDepositOpen(true); }}
+          onDeposit={() => { setInvestPlan(null); goDeposit(); }}
           onDone={(msg) => { notify('ok', msg); void load(); }}
           onError={(m) => notify('err', m)} />
       )}
