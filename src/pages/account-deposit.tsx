@@ -3,8 +3,10 @@ import Link from '@/components/SmartLink';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { createClient } from '@/lib/supabase/client';
-import { useWallet, money, NETWORKS } from '@/components/investor/wallet';
+import { useWallet, money } from '@/components/investor/wallet';
 import { sendDepositSubmittedEmail } from '@/lib/emailService';
+import QrCode from '@/components/payments/QrCode';
+import { useCryptoWallets, walletUri } from '@/components/payments/cryptoWallets';
 
 
 const PAYMENT_METHODS = [
