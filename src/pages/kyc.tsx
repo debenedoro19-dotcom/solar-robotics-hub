@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from '@/components/SmartLink';
 import {  useRouter  } from '@/lib/next-shims';
 import { createClient } from '@/lib/supabase/client';
+import { sendKYCSubmittedEmail } from '@/lib/emailService';
 
 type Step = 1 | 2 | 3 | 4;
 
@@ -260,6 +261,7 @@ export default function KYCPage() {
         return;
       }
 
+      void sendKYCSubmittedEmail().catch(() => {});
       router.push('/dashboard?kyc=submitted');
     } catch (err: any) {
       setError(err.message || 'Submission failed. Please try again.');
