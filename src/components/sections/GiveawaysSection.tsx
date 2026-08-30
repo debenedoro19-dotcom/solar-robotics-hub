@@ -119,7 +119,7 @@ const GiveawayCard = memo(function GiveawayCard({ g, idx, onEnter }: { g: Giveaw
         <p className="text-sm text-muted-foreground leading-relaxed mb-6">{g.description}</p>
         <div className="mb-6">
           <div className="text-[10px] font-bold text-muted-foreground tracking-widest uppercase mb-2">
-            Ends {new Date(g.ends_at).toLocaleDateString()}
+            Ends {new Date(g.ends_at).toLocaleDateString('en-US', { timeZone: 'UTC', year: 'numeric', month: 'short', day: 'numeric' })}
           </div>
           <CountdownTimer endDate={g.ends_at} />
         </div>
