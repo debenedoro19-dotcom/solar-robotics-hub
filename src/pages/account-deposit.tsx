@@ -173,7 +173,7 @@ export default function AccountDepositPage() {
                   <p className="text-xs uppercase tracking-wider text-fin-muted mb-2">Send funds to</p>
                   <div className="flex flex-col sm:flex-row gap-4 items-start">
                     <QrCode
-                      value={walletUri(network, activeNetwork.address, value > 0 && network === 'btc' ? undefined : undefined)}
+                      value={walletUri(network, activeNetwork.address)}
                       size={140}
                       label={`${activeNetwork.label} deposit QR code`}
                     />
