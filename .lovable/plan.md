@@ -1,13 +1,21 @@
-# Fix "Your connection is not private" Warning
+# Fix Giveaway Entry & Plan Purchase Ledger Errors
 
-## Diagnosis (confirmed)
-The screenshot shows Chrome's `NET::ERR_CERT_AUTHORITY_INVALID` on **https://tradeenergy.com**.
-Your website is published and live on **tradeenergy.app** and **www.tradeenergy.app** — both are active with valid SSL. The `.com` domain is a different domain that you do not own, so Chrome correctly refuses it. There is no bug in the app and nothing to repair in code.
+## Diagnosis (confirmed in database)
+The wallet ledger (`balance_transactions`) only allows these transaction types: `deposit`, `withdrawal`, `investment_return`, `investment_debit`.
 
-## Plan
-1. **No code changes.** Verify nothing in the app links to `tradeenergy.com` (all internal links, emails, and SEO metadata use `tradeenergy.app`).
-2. **Use the correct address:** always visit/share `https://www.tradeenergy.app`.
-3. **Optional (requires your action, not possible from the editor):** if you want `tradeenergy.com` to also work, you must buy that domain from a registrar, then add it as a custom domain in Project Settings → Domains. Lovable will then issue a certificate for it. Until you own it, the warning cannot be removed.
+Two wallet functions write types that are not allowed, so the database rejects them:
+- **Giveaway entry** (`enter_giveaway`) writes type `giveaway` → the exact error in your screenshot.
+- **Investment plan purchase** (`purchase_investment_plan`) writes type `investment` → same crash, would hit any user buying a plan.
 
-## Notes
-- Buying/pointing `tradeenergy.com` requires a paid Lovable plan for custom domains (you already have custom domains working, so your plan covers it) — no extra credits needed.
+## Fix (one small database migration)
+1. Expand the ledger's allowed types to include `giveaway`, `investment`, and `admin_adjustment` (so future wallet operations like admin balance corrections never hit this wall).
+2. No code changes needed — the functions, modals, and balances already work; only the database rule is too narrow.
+
+## Result
+- "Pay & Enter" on giveaways deducts the wallet balance and records the entry.
+- Buying investment plans works end-to-end again.
+- All future giveaways remain automatically connected to the wallet as you requested.
+
+## Technical details
+- Single migration: drop and recreate the `balance_transactions_type_check` constraint with the widened type list (`deposit`, `withdrawal`, `investment`, `investment_debit`, `investment_return`, `giveaway`, `admin_adjustment`).
+- No tables, policies, or app code change; existing rows are untouched.
