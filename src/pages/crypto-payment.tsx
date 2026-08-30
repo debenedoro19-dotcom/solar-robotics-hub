@@ -4,6 +4,8 @@ import {  useSearchParams  } from '@/lib/next-shims';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { createClient } from '@/lib/supabase/client';
+import QrCode from '@/components/payments/QrCode';
+import { walletUri } from '@/components/payments/cryptoWallets';
 
 const DEFAULT_CRYPTO_OPTIONS = [
   {
