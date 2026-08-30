@@ -643,7 +643,10 @@ export default function AdminSettingsPage() {
               </div>
               {cryptoWallets.eth && (
                 <div className="p-3 bg-[#627EEA]/5 border border-[#627EEA]/20 rounded-xl">
-                  <p className="text-[11px] text-[#A1A1AA]">Live address: <span className="text-[#627EEA] font-mono text-[10px] break-all">{cryptoWallets.eth}</span></p>
+                  <div className="flex items-center gap-4">
+                    <QrCode value={walletUri('eth', cryptoWallets.eth.trim())} size={104} label="Ethereum wallet QR preview" />
+                    <p className="text-[11px] text-[#A1A1AA]">Live address: <span className="text-[#627EEA] font-mono text-[10px] break-all">{cryptoWallets.eth}</span></p>
+                  </div>
                 </div>
               )}
             </div>
