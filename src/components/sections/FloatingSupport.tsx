@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import Link from '@/components/SmartLink';
+import { useCustomerCare } from '@/lib/siteSettings';
 
 export default function FloatingSupport() {
   const [chatOpen, setChatOpen] = useState(false);
+  const care = useCustomerCare();
+
 
   return (
     <div className="fixed bottom-6 right-4 sm:right-6 z-50 flex flex-col items-end gap-3">
