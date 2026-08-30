@@ -54,14 +54,8 @@ export default function AccountDepositPage() {
     setBusy(false);
 
     if (insertError) { setError(insertError.message); return; }
-    if (userEmail) {
-      void sendAccountNotificationEmail(
-        userEmail,
-        userName || 'Investor',
-        'Deposit received — pending confirmation',
-        `We received your deposit request of $${value.toLocaleString()} (reference ${reference}).\n\nYour wallet balance is credited as soon as our team confirms the payment.`,
-      ).catch(() => {});
-    }
+    void sendDepositSubmittedEmail(value.toLocaleString(), reference).catch(() => {});
+
     setDone(true);
 
   }
