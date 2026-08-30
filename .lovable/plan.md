@@ -1,23 +1,21 @@
-# Fix "Send Test" email in Admin Settings
+# Domain warning: no code change needed
 
-## What's wrong
+## What happened
+The browser warning came from visiting `tradeenergy.com`, which is not your domain. Your live site runs on `tradeenergy.app`.
 
-The Test Email Delivery button still calls the old Resend endpoint (`/api/send-email`), which was removed when the site moved to Lovable's managed email system. The request 404s, so the panel always shows "Failed to send. Check your RESEND_API_KEY environment variable." — a message that no longer applies since Resend isn't used anymore.
+## Current state (verified)
+- `tradeenergy.app` — active, connected, primary
+- `www.tradeenergy.app` — active, connected
+- Project is published
 
-## The fix
+Both serve over valid HTTPS. The `.com` address belongs to someone else, so its certificate cannot match your site — hence "Your connection is not private".
 
-1. Add an admin-only test-send server function that sends a branded test email through the managed email system, using the sender name/address from the saved email settings.
-2. Point the Send Test button at that function instead of the removed endpoint.
-3. Replace the failure text with an accurate message that surfaces the real reason (e.g. domain not yet verified, recipient suppressed, rate limited) instead of mentioning Resend.
-4. Show a clear success state confirming which address the test went to.
+## Recommendation
+Keep using `tradeenergy.app` and share only that address (and `www.tradeenergy.app`). No changes to the app are required.
 
-## Technical notes
+## Optional, only if you want the .com
+1. Purchase `tradeenergy.com` at a registrar (or through Lovable's domain purchase flow).
+2. Connect it to this project in Project Settings > Domains.
+3. Set `tradeenergy.app` as primary so the `.com` redirects to it, keeping one canonical URL for SEO.
 
-- New `sendAdminTestEmail` in `src/lib/email.functions.ts`, guarded by `requireSupabaseAuth` + the `is_admin` RPC, rendering the existing `account-notification` template via `sendTemplateEmail`.
-- The handler returns `{ sent, reason }` so the UI can display the actual failure cause.
-- `sendTestEmail()` in `src/pages/admin-settings.tsx` calls the server function; the hardcoded RESEND_API_KEY error string is removed.
-- No database or schema changes.
-
-## Note on delivery
-
-Test emails only deliver once `notify.tradeenergy.app` DNS verification completes. Until then the function will report "domain not verified" rather than a generic failure.
+Say the word and I'll walk through the connection steps once the `.com` is purchased.
