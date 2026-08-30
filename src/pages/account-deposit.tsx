@@ -245,11 +245,12 @@ export default function AccountDepositPage() {
 
               <button
                 onClick={submitDeposit}
-                disabled={busy || !userId}
+                disabled={busy || !userId || method !== 'crypto'}
                 className="w-full py-3.5 rounded-xl bg-fin-emerald text-black font-bold text-sm disabled:opacity-40"
               >
-                {busy ? 'Submitting…' : !userId ? 'Sign in to deposit' : `Submit deposit request${value > 0 ? ` · ${money(value)}` : ''}`}
+                {busy ? 'Submitting…' : !userId ? 'Sign in to deposit' : method !== 'crypto' ? 'Select Cryptocurrency to continue' : `Submit deposit request${value > 0 ? ` · ${money(value)}` : ''}`}
               </button>
+
 
               <p className="text-[11px] text-fin-muted text-center">
                 Funds are credited to your wallet after admin confirmation. Minimum deposit $50.
