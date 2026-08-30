@@ -325,6 +325,18 @@ export default function AdminSettingsPage() {
   async function saveCryptoWallets() {
     setWalletsLoading(true);
     setWalletsError('');
+    const btc = cryptoWallets.btc.trim();
+    const eth = cryptoWallets.eth.trim();
+    const usdt = cryptoWallets.usdt.trim();
+    const invalid =
+      (btc && !/^(bc1[a-z0-9]{20,80}|[13][a-km-zA-HJ-NP-Z1-9]{25,39})$/.test(btc) && 'Bitcoin address looks invalid.') ||
+      (eth && !/^0x[a-fA-F0-9]{40}$/.test(eth) && 'Ethereum address must be 0x followed by 40 hex characters.') ||
+      (usdt && !/^T[1-9A-HJ-NP-Za-km-z]{33}$/.test(usdt) && 'USDT (TRC-20) address must start with T and be 34 characters.');
+    if (invalid) {
+      setWalletsError(invalid as string);
+      setWalletsLoading(false);
+      return;
+    }
     try {
       const supabase = createClient();
       const { error } = await supabase
