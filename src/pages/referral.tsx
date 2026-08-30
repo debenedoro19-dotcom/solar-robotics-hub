@@ -3,6 +3,7 @@ import Link from '@/components/SmartLink';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { createClient } from '@/lib/supabase/client';
+import { sendWithdrawalRequestedEmail } from '@/lib/emailService';
 import { getCurrentUser } from '@/lib/portfolioStore';
 
 const TIERS = [
@@ -279,6 +280,7 @@ export default function ReferralPage() {
       if (error) {
         setWithdrawError('Failed to submit request. Please try again.');
       } else {
+        void sendWithdrawalRequestedEmail(amount.toLocaleString()).catch(() => {});
         setWithdrawSuccess(true);
         setWithdrawForm({ amount: '', bank_name: '', account_number: '', account_name: '', routing_number: '' });
         setShowWithdrawForm(false);
