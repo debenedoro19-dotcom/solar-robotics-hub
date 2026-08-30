@@ -158,12 +158,12 @@ export default function AccountDepositPage() {
                 <div className="rounded-xl bg-fin-elevated border border-fin-border p-4">
                   <p className="text-xs uppercase tracking-wider text-fin-muted mb-2">Network</p>
                   <div className="grid gap-2 mb-4">
-                    {NETWORKS.map((n) => (
+                    {networks.map((n) => (
                       <button
                         key={n.id}
                         onClick={() => setNetwork(n.id)}
                         className={`px-4 py-2.5 rounded-xl text-sm font-semibold text-left border transition-colors ${
-                          network === n.id ? 'border-fin-emerald bg-fin-emerald-soft text-fin-emerald' : 'border-fin-border text-fin-muted hover:text-white'
+                          network === n.id ? 'border-primary bg-primary/10 text-primary' : 'border-fin-border text-fin-muted hover:text-white'
                         }`}
                       >
                         {n.label}
@@ -171,14 +171,26 @@ export default function AccountDepositPage() {
                     ))}
                   </div>
                   <p className="text-xs uppercase tracking-wider text-fin-muted mb-2">Send funds to</p>
-                  <div className="flex items-center gap-2">
-                    <code className="flex-1 text-xs break-all text-white">{activeNetwork.address}</code>
-                    <button
-                      onClick={() => { void navigator.clipboard?.writeText(activeNetwork.address); setCopied(true); setTimeout(() => setCopied(false), 2000); }}
-                      className="px-3 py-1.5 rounded-md text-xs font-bold bg-fin-emerald text-black shrink-0"
-                    >
-                      {copied ? 'Copied' : 'Copy'}
-                    </button>
+                  <div className="flex flex-col sm:flex-row gap-4 items-start">
+                    <QrCode
+                      value={walletUri(network, activeNetwork.address, value > 0 && network === 'btc' ? undefined : undefined)}
+                      size={140}
+                      label={`${activeNetwork.label} deposit QR code`}
+                    />
+                    <div className="flex-1 w-full">
+                      <div className="flex items-center gap-2">
+                        <code className="flex-1 text-xs break-all text-white">{activeNetwork.address || '—'}</code>
+                        <button
+                          onClick={() => { void navigator.clipboard?.writeText(activeNetwork.address); setCopied(true); setTimeout(() => setCopied(false), 2000); }}
+                          className="px-3 py-1.5 rounded-md text-xs font-bold bg-primary text-primary-foreground shrink-0"
+                        >
+                          {copied ? 'Copied' : 'Copy'}
+                        </button>
+                      </div>
+                      <p className="text-[11px] text-fin-muted mt-2 leading-relaxed">
+                        {walletsLoaded ? 'Scan the QR with your wallet app or copy the address.' : 'Loading live address…'} Send only on the selected network — wrong-network transfers are unrecoverable.
+                      </p>
+                    </div>
                   </div>
                 </div>
               )}
