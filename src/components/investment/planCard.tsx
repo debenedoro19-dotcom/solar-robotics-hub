@@ -13,14 +13,17 @@ export interface InvestmentPlan {
   sort_order?: number;
 }
 
-export const CATEGORY_STYLES: Record<string, string> = {
-  'Solar Megapack': 'bg-fin-emerald/10 text-fin-emerald border-fin-emerald/30',
-  'Optimus Robotics': 'bg-sky-400/10 text-sky-300 border-sky-400/30',
-  'Space Infrastructure': 'bg-violet-400/10 text-violet-300 border-violet-400/30',
-  'Vehicle Fleet': 'bg-primary/10 text-primary border-primary/30',
-  'Powerwall Energy': 'bg-amber-400/10 text-amber-300 border-amber-400/30',
-  'Supercharger Network': 'bg-cyan-400/10 text-cyan-300 border-cyan-400/30',
-};
+// Uniform site theme: every category badge uses the primary (Cyber Crimson) treatment.
+export const CATEGORY_STYLES: Record<string, string> = Object.fromEntries(
+  [
+    'Solar Megapack',
+    'Optimus Robotics',
+    'Space Infrastructure',
+    'Vehicle Fleet',
+    'Powerwall Energy',
+    'Supercharger Network',
+  ].map((c) => [c, 'bg-primary/10 text-primary border-primary/30']),
+);
 
 export const money = (n: number) =>
   n.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2 });

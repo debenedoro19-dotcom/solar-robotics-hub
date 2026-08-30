@@ -315,7 +315,7 @@ export default function InvestorDashboard() {
                   key={p.id}
                   plan={p as unknown as SharedPlan}
                   action={
-                    <button onClick={() => setInvestPlan(p)} className="w-full py-2.5 rounded-xl bg-fin-emerald text-black text-sm font-bold hover:opacity-90 transition-opacity">Invest</button>
+                    <button onClick={() => setInvestPlan(p)} className="w-full py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-bold hover:opacity-90 transition-opacity">Invest</button>
                   }
                 />
               ))}
