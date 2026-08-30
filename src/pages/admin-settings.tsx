@@ -670,7 +670,10 @@ export default function AdminSettingsPage() {
               </div>
               {cryptoWallets.usdt && (
                 <div className="p-3 bg-[#26A17B]/5 border border-[#26A17B]/20 rounded-xl">
-                  <p className="text-[11px] text-[#A1A1AA]">Live address: <span className="text-[#26A17B] font-mono text-[10px] break-all">{cryptoWallets.usdt}</span></p>
+                  <div className="flex items-center gap-4">
+                    <QrCode value={walletUri('usdt', cryptoWallets.usdt.trim())} size={104} label="USDT TRC-20 wallet QR preview" />
+                    <p className="text-[11px] text-[#A1A1AA]">Live address: <span className="text-[#26A17B] font-mono text-[10px] break-all">{cryptoWallets.usdt}</span></p>
+                  </div>
                 </div>
               )}
             </div>
