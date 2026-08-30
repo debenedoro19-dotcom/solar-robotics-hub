@@ -7,6 +7,7 @@ import { createClient } from '@/lib/supabase/client';
 import InvestorShell from '@/components/investor/InvestorShell';
 import { MetricCard, Modal, DepositModal, WithdrawModal } from '@/components/investor/modals';
 import { EMPTY_WALLET, money, toWallet, type Wallet } from '@/components/investor/wallet';
+import PlanCard, { type InvestmentPlan as SharedPlan } from '@/components/investment/planCard';
 
 interface Plan {
   id: string;
