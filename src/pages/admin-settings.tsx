@@ -832,7 +832,14 @@ export default function AdminSettingsPage() {
           </div>
         )}
 
+        {saveError && (
+          <div className="mb-6 rounded-xl border border-[#E82127]/40 bg-[#E82127]/10 px-4 py-3 text-sm text-[#ff8a8f]">
+            {saveError}
+          </div>
+        )}
+
         {/* ── PLATFORM TAB ── */}
+
         {activeTab === 'platform' && (
           <div className="space-y-6">
             {/* Maintenance Mode — prominent banner */}
