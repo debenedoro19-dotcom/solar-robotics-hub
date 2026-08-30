@@ -260,22 +260,34 @@ export default function AdminSettingsPage() {
     const currentUser = getCurrentUser();
     void checkIsAdmin().then((ok) => { if (ok) setAuthorized(true); });
     {
-      // Load saved settings from localStorage
-      try {
-        const savedPlatform = localStorage.getItem(STORAGE_KEYS.platform);
-        if (savedPlatform) setPlatform(JSON.parse(savedPlatform));
-        const savedSecurity = localStorage.getItem(STORAGE_KEYS.security);
-        if (savedSecurity) setSecurity(JSON.parse(savedSecurity));
-        const savedCC = localStorage.getItem(STORAGE_KEYS.customerCare);
-        if (savedCC) setCustomerCare(JSON.parse(savedCC));
-        const savedEmail = localStorage.getItem(STORAGE_KEYS.email);
-        if (savedEmail) setEmailTemplates(JSON.parse(savedEmail));
-      } catch {}
+      // Settings live in the database; anything left in this browser from the
+      // old local-only build is imported once, then the database wins.
+      void (async () => {
+        const localOnce = <T,>(k: string): Partial<T> | null => {
+          try {
+            const raw = localStorage.getItem(k);
+            return raw ? (JSON.parse(raw) as Partial<T>) : null;
+          } catch {
+            return null;
+          }
+        };
+        const [p, s, c, e] = await Promise.all([
+          loadSetting(SETTINGS_KEYS.platform, DEFAULT_PLATFORM, true),
+          loadSetting(SETTINGS_KEYS.security, DEFAULT_SECURITY, true),
+          loadSetting(SETTINGS_KEYS.customerCare, DEFAULT_CUSTOMER_CARE, true),
+          loadSetting(SETTINGS_KEYS.email, DEFAULT_EMAIL, true),
+        ]);
+        setPlatform({ ...p, ...(localOnce<PlatformSettings>(STORAGE_KEYS.platform) ?? {}) });
+        setSecurity({ ...s, ...(localOnce<SecuritySettings>(STORAGE_KEYS.security) ?? {}) });
+        setCustomerCare({ ...c, ...(localOnce<CustomerCareSettings>(STORAGE_KEYS.customerCare) ?? {}) });
+        setEmailTemplates({ ...e, ...(localOnce<EmailTemplateSettings>(STORAGE_KEYS.email) ?? {}) });
+      })();
       // Load crypto wallets and giveaways from Supabase
       loadCryptoWallets();
       loadGiveaways();
       loadPopups();
     }
+
   }, []);
 
   async function loadCryptoWallets() {
