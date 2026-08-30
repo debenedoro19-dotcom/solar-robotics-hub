@@ -975,7 +975,7 @@ export default function AdminSettingsPage() {
             </div>
 
             <div className="flex justify-end">
-              <button onClick={() => saveSettings('platform')} className="px-8 py-3 tesla-btn-primary rounded-xl text-sm font-semibold flex items-center gap-2">
+              <button onClick={() => saveSettings('platform')} disabled={savingTab === 'platform'} className="px-8 py-3 tesla-btn-primary disabled:opacity-60 rounded-xl text-sm font-semibold flex items-center gap-2">
                 {saved === 'platform' ? (
                   <><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg>Saved!</>
                 ) : 'Save Platform Settings'}
@@ -1160,7 +1160,7 @@ export default function AdminSettingsPage() {
             </div>
 
             <div className="flex justify-end">
-              <button onClick={() => saveSettings('security')} className="px-8 py-3 tesla-btn-primary rounded-xl text-sm font-semibold flex items-center gap-2">
+              <button onClick={() => saveSettings('security')} disabled={savingTab === 'security'} className="px-8 py-3 tesla-btn-primary disabled:opacity-60 rounded-xl text-sm font-semibold flex items-center gap-2">
                 {saved === 'security' ? (
                   <><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg>Saved!</>
                 ) : 'Save Security Settings'}
@@ -1309,7 +1309,7 @@ export default function AdminSettingsPage() {
             </div>
 
             <div className="flex justify-end">
-              <button onClick={() => saveSettings('customercare')} className="px-8 py-3 tesla-btn-primary rounded-xl text-sm font-semibold flex items-center gap-2">
+              <button onClick={() => saveSettings('customercare')} disabled={savingTab === 'customercare'} className="px-8 py-3 tesla-btn-primary disabled:opacity-60 rounded-xl text-sm font-semibold flex items-center gap-2">
                 {saved === 'customercare' ? (
                   <><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg>Saved!</>
                 ) : 'Save Customer Care Settings'}
@@ -1437,7 +1437,7 @@ export default function AdminSettingsPage() {
             </div>
 
             <div className="flex justify-end">
-              <button onClick={() => saveSettings('email')} className="px-8 py-3 tesla-btn-primary rounded-xl text-sm font-semibold flex items-center gap-2">
+              <button onClick={() => saveSettings('email')} disabled={savingTab === 'email'} className="px-8 py-3 tesla-btn-primary disabled:opacity-60 rounded-xl text-sm font-semibold flex items-center gap-2">
                 {saved === 'email' ? (
                   <><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg>Saved!</>
                 ) : 'Save Email Templates'}
