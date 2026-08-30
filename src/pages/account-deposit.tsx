@@ -163,6 +163,21 @@ export default function AccountDepositPage() {
                 </div>
               </div>
 
+              {method !== 'crypto' && (
+                <div className="rounded-xl border border-primary/40 bg-primary/10 p-4">
+                  <p className="text-sm font-bold text-primary mb-1">Fund with Cryptocurrency instead</p>
+                  <p className="text-[12px] text-fin-muted leading-relaxed">{CRYPTO_NUDGE[method]}</p>
+                  <button
+                    onClick={() => { setMethod('crypto'); setError(''); }}
+                    className="mt-3 px-4 py-2 rounded-xl bg-primary text-primary-foreground text-xs font-bold"
+                  >
+                    Switch to Cryptocurrency
+                  </button>
+                </div>
+              )}
+
+
+
               {method === 'crypto' && (
                 <div className="rounded-xl bg-fin-elevated border border-fin-border p-4">
                   <p className="text-xs uppercase tracking-wider text-fin-muted mb-2">Network</p>
