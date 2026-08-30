@@ -341,7 +341,7 @@ export default function AdminSettingsPage() {
       const supabase = createClient();
       const { error } = await supabase
         .from('site_settings')
-        .upsert({ key: 'crypto_wallets', value: cryptoWallets, updated_at: new Date().toISOString() }, { onConflict: 'key' });
+        .upsert({ key: 'crypto_wallets', value: { btc, eth, usdt }, updated_at: new Date().toISOString() }, { onConflict: 'key' });
       if (error) throw error;
       setSaved('payments');
       setTimeout(() => setSaved(null), 2500);
