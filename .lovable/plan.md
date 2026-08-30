@@ -1,21 +1,13 @@
-# Domain warning: no code change needed
+# Fix "Your connection is not private" Warning
 
-## What happened
-The browser warning came from visiting `tradeenergy.com`, which is not your domain. Your live site runs on `tradeenergy.app`.
+## Diagnosis (confirmed)
+The screenshot shows Chrome's `NET::ERR_CERT_AUTHORITY_INVALID` on **https://tradeenergy.com**.
+Your website is published and live on **tradeenergy.app** and **www.tradeenergy.app** — both are active with valid SSL. The `.com` domain is a different domain that you do not own, so Chrome correctly refuses it. There is no bug in the app and nothing to repair in code.
 
-## Current state (verified)
-- `tradeenergy.app` — active, connected, primary
-- `www.tradeenergy.app` — active, connected
-- Project is published
+## Plan
+1. **No code changes.** Verify nothing in the app links to `tradeenergy.com` (all internal links, emails, and SEO metadata use `tradeenergy.app`).
+2. **Use the correct address:** always visit/share `https://www.tradeenergy.app`.
+3. **Optional (requires your action, not possible from the editor):** if you want `tradeenergy.com` to also work, you must buy that domain from a registrar, then add it as a custom domain in Project Settings → Domains. Lovable will then issue a certificate for it. Until you own it, the warning cannot be removed.
 
-Both serve over valid HTTPS. The `.com` address belongs to someone else, so its certificate cannot match your site — hence "Your connection is not private".
-
-## Recommendation
-Keep using `tradeenergy.app` and share only that address (and `www.tradeenergy.app`). No changes to the app are required.
-
-## Optional, only if you want the .com
-1. Purchase `tradeenergy.com` at a registrar (or through Lovable's domain purchase flow).
-2. Connect it to this project in Project Settings > Domains.
-3. Set `tradeenergy.app` as primary so the `.com` redirects to it, keeping one canonical URL for SEO.
-
-Say the word and I'll walk through the connection steps once the `.com` is purchased.
+## Notes
+- Buying/pointing `tradeenergy.com` requires a paid Lovable plan for custom domains (you already have custom domains working, so your plan covers it) — no extra credits needed.
