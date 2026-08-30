@@ -614,7 +614,10 @@ export default function AdminSettingsPage() {
               </div>
               {cryptoWallets.btc && (
                 <div className="p-3 bg-[#F7931A]/5 border border-[#F7931A]/20 rounded-xl">
-                  <p className="text-[11px] text-[#A1A1AA]">Live address: <span className="text-[#F7931A] font-mono text-[10px] break-all">{cryptoWallets.btc}</span></p>
+                  <div className="flex items-center gap-4">
+                    <QrCode value={walletUri('btc', cryptoWallets.btc.trim())} size={104} label="Bitcoin wallet QR preview" />
+                    <p className="text-[11px] text-[#A1A1AA]">Live address: <span className="text-[#F7931A] font-mono text-[10px] break-all">{cryptoWallets.btc}</span></p>
+                  </div>
                 </div>
               )}
             </div>
