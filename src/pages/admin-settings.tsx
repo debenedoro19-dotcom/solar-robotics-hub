@@ -177,6 +177,9 @@ export default function AdminSettingsPage() {
   const [authorized, setAuthorized] = useState(false);
   const [activeTab, setActiveTab] = useState<SettingsTab>('platform');
   const [saved, setSaved] = useState<SettingsTab | null>(null);
+  const [savingTab, setSavingTab] = useState<SettingsTab | null>(null);
+  const [saveError, setSaveError] = useState('');
+
   const [testEmailAddr, setTestEmailAddr] = useState('');
   const [testEmailSending, setTestEmailSending] = useState(false);
   const [testEmailResult, setTestEmailResult] = useState<'success' | 'error' | null>(null);
