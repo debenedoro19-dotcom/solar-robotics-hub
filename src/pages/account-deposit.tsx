@@ -31,7 +31,13 @@ export default function AccountDepositPage() {
   const [copied, setCopied] = useState(false);
 
   const value = Number(amount) || 0;
-  const activeNetwork = NETWORKS.find((n) => n.id === network) ?? NETWORKS[0]!;
+  const { wallets, loaded: walletsLoaded } = useCryptoWallets();
+  const networks = [
+    { id: 'usdt', label: 'USDT (TRC-20)', address: wallets.usdt },
+    { id: 'eth', label: 'Ethereum / USDT (ERC-20)', address: wallets.eth },
+    { id: 'btc', label: 'Bitcoin (BTC)', address: wallets.btc },
+  ];
+  const activeNetwork = networks.find((n) => n.id === network) ?? networks[0]!;
 
   async function submitDeposit() {
     setError('');
