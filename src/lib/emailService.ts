@@ -1,200 +1,113 @@
-// Email service — routes through /api/send-email (server-side provider call).
-// Templates configured in /admin/settings → Email are stored in the database
-// (site_settings.email) so every device and every send uses the same copy.
+// Activity emails.
+//
+// The browser never sends email directly and never chooses a recipient: these
+// helpers call authenticated server functions, which resolve the recipient from
+// the signed-in session (user events) or from `user_profiles` after an admin
+// role check (admin events), then send through Lovable's managed email API.
 
-import { SETTINGS_KEYS, loadSetting } from '@/lib/siteSettings';
+import { sendMyActivityEmail, sendUserActivityEmail } from '@/lib/email.functions';
 
-const EMAIL_API = '/api/send-email';
+type Result = boolean;
 
-interface AdminEmailTemplates {
-  welcomeSubject?: string;
-  welcomeBody?: string;
-  kycApprovedSubject?: string;
-  kycApprovedBody?: string;
-  withdrawalSubject?: string;
-  withdrawalBody?: string;
-  senderName?: string;
-  senderEmail?: string;
-}
-
-async function getAdminTemplates(): Promise<AdminEmailTemplates> {
+async function mine(
+  event: Parameters<typeof sendMyActivityEmail>[0] extends { data: infer D }
+    ? D extends { event: infer E }
+      ? E
+      : never
+    : never,
+  input?: { amount?: string; reference?: string; note?: string; title?: string; message?: string },
+): Promise<Result> {
   try {
-    return await loadSetting<AdminEmailTemplates>(SETTINGS_KEYS.email, {});
-  } catch {
-    return {};
-  }
-}
-
-
-interface SendEmailPayload {
-  type: string;
-  to: string;
-  name?: string;
-  amount?: string;
-  message?: string;
-  subject?: string;
-  templateSubject?: string;
-  templateBody?: string;
-  senderName?: string;
-  senderEmail?: string;
-  portfolioData?: object;
-  returnsData?: object;
-}
-
-async function callEmailAPI(payload: SendEmailPayload): Promise<boolean> {
-  try {
-    const res = await fetch(EMAIL_API, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
-    if (!res.ok) {
-      const data = await res.json().catch(() => ({}));
-      console.error('Email send failed:', data?.error);
-      return false;
-    }
-    return true;
+    const res = await sendMyActivityEmail({ data: { event, input } });
+    return res.sent;
   } catch (err) {
-    console.error('Email service error:', err);
+    console.error('Email send failed', err);
     return false;
   }
 }
 
-// ── Public helpers ────────────────────────────────────────────────────────────
-
-export async function sendKYCApprovedEmail(
-  to: string,
-  name: string,
-  adminNote?: string
-): Promise<boolean> {
-  const t = await getAdminTemplates();
-  return callEmailAPI({
-    type: 'kyc_approved',
-    to,
-    name,
-    message: adminNote,
-    templateSubject: t.kycApprovedSubject,
-    templateBody: t.kycApprovedBody,
-    senderName: t.senderName,
-    senderEmail: t.senderEmail,
-  });
+async function toUser(
+  event: 'deposit_approved' | 'withdrawal_processed' | 'kyc_approved' | 'kyc_rejected' | 'support_ticket_updated' | 'notice',
+  target: { userId?: string; email?: string },
+  input?: { amount?: string; reference?: string; note?: string; title?: string; message?: string },
+): Promise<Result> {
+  try {
+    const res = await sendUserActivityEmail({ data: { ...target, event, input } });
+    return res.sent;
+  } catch (err) {
+    console.error('Email send failed', err);
+    return false;
+  }
 }
 
-export async function sendWithdrawalConfirmedEmail(
-  to: string,
-  name: string,
-  amount: string,
-  notes?: string
-): Promise<boolean> {
-  const t = await getAdminTemplates();
-  return callEmailAPI({
-    type: 'withdrawal_confirmed',
-    to,
-    name,
-    amount,
-    message: notes,
-    templateSubject: t.withdrawalSubject,
-    templateBody: t.withdrawalBody,
-    senderName: t.senderName,
-    senderEmail: t.senderEmail,
-  });
-}
+// ── Signed-in user events ─────────────────────────────────────────────────────
 
-export async function sendPasswordResetEmail(
-  to: string,
-  name: string,
-  resetCode: string
-): Promise<boolean> {
-  const t = await getAdminTemplates();
-  return callEmailAPI({
-    type: 'password_reset',
-    to,
-    name,
-    message: resetCode,
-    senderName: t.senderName,
-    senderEmail: t.senderEmail,
-  });
-}
+export const sendWelcomeEmail = (_to?: string, _name?: string) => mine('welcome');
 
-export async function sendWelcomeEmail(
-  to: string,
-  name: string
-): Promise<boolean> {
-  const t = await getAdminTemplates();
-  return callEmailAPI({
-    type: 'welcome',
-    to,
-    name,
-    templateSubject: t.welcomeSubject,
-    templateBody: t.welcomeBody,
-    senderName: t.senderName,
-    senderEmail: t.senderEmail,
-  });
-}
+export const sendDepositSubmittedEmail = (amount: string, reference?: string) =>
+  mine('deposit_submitted', { amount, reference });
 
-export async function sendAccountNotificationEmail(
-  to: string,
-  name: string,
-  subject: string,
-  message: string
-): Promise<boolean> {
-  const t = await getAdminTemplates();
-  return callEmailAPI({
-    type: 'notification',
-    to,
-    name,
-    subject,
-    message,
-    senderName: t.senderName,
-    senderEmail: t.senderEmail,
-  });
-}
+export const sendWithdrawalRequestedEmail = (amount: string) =>
+  mine('withdrawal_requested', { amount });
 
-// ── Legacy helpers (kept for backward compatibility) ──────────────────────────
-
-export async function sendPortfolioModifiedEmail(
-  to: string,
-  name: string,
-  stats?: object
-): Promise<boolean> {
-  return callEmailAPI({ type: 'portfolio_modified', to, name, portfolioData: stats });
-}
-
-export async function sendReturnsUpdatedEmail(
-  to: string,
-  name: string,
-  returnsData?: object
-): Promise<boolean> {
-  return callEmailAPI({ type: 'returns_updated', to, name, returnsData });
-}
-
-export async function sendSupportTicketReceivedEmail(
-  to: string,
-  name: string,
+export const sendSupportTicketReceivedEmail = (
+  _to: string,
+  _name: string,
   ticketNumber: string,
-  description: string
-): Promise<boolean> {
-  return callEmailAPI({ type: 'support_ticket_received', to, name, subject: ticketNumber, message: description });
-}
+  _description?: string,
+) => mine('support_ticket_created', { reference: ticketNumber });
 
-export async function sendSupportTicketUpdatedEmail(
+export const sendKYCSubmittedEmail = () => mine('kyc_submitted');
+
+export const sendSessionBookedEmail = () => mine('session_booked');
+
+// ── Admin-triggered events ────────────────────────────────────────────────────
+
+export const sendDepositApprovedEmail = (
+  target: { userId?: string; email?: string },
+  amount: string,
+  note?: string,
+) => toUser('deposit_approved', target, { amount, note });
+
+export const sendWithdrawalConfirmedEmail = (
   to: string,
-  name: string,
-  newStatus: string,
-  adminReply?: string
-): Promise<boolean> {
-  return callEmailAPI({ type: 'support_ticket_updated', to, name, subject: newStatus, message: adminReply });
-}
+  _name: string,
+  amount: string,
+  notes?: string,
+) => toUser('withdrawal_processed', { email: to }, { amount, note: notes });
 
-// Keep old sendAutomatedEmail for any direct callers
-export async function sendAutomatedEmail(options: {
-  type: string;
-  to: string;
-  name?: string;
-  message?: string;
-  subject?: string;
-  portfolioData?: object;
-  returnsData?: object;
-}): Promise<boolean> {
-  return callEmailAPI(options);
+export const sendKYCApprovedEmail = (to: string, _name: string, adminNote?: string) =>
+  toUser('kyc_approved', { email: to }, { note: adminNote });
+
+export const sendKYCRejectedEmail = (to: string, adminNote?: string) =>
+  toUser('kyc_rejected', { email: to }, { note: adminNote });
+
+export const sendSupportTicketUpdatedEmail = (
+  to: string,
+  _name: string,
+  newStatus: string,
+  adminReply?: string,
+) =>
+  toUser('support_ticket_updated', { email: to }, {
+    message: adminReply || `Your ticket status is now: ${newStatus}.`,
+  });
+
+export const sendAccountNotificationEmail = (
+  to: string,
+  _name: string,
+  subject: string,
+  message: string,
+) => toUser('notice', { email: to }, { title: subject, message });
+
+// ── Legacy no-op-safe helpers kept for existing call sites ────────────────────
+
+export const sendPortfolioModifiedEmail = (to: string, name: string) =>
+  sendAccountNotificationEmail(to, name, 'Portfolio updated', 'Your portfolio has been updated by our team.');
+
+export const sendReturnsUpdatedEmail = (to: string, name: string) =>
+  sendAccountNotificationEmail(to, name, 'Returns updated', 'New returns have been credited to your portfolio.');
+
+export async function sendPasswordResetEmail(): Promise<Result> {
+  // Password reset mail is delivered by Supabase Auth, not this helper.
+  return true;
 }
