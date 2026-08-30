@@ -67,7 +67,7 @@ export async function sendKYCApprovedEmail(
   name: string,
   adminNote?: string
 ): Promise<boolean> {
-  const t = getAdminTemplates();
+  const t = await getAdminTemplates();
   return callEmailAPI({
     type: 'kyc_approved',
     to,
@@ -86,7 +86,7 @@ export async function sendWithdrawalConfirmedEmail(
   amount: string,
   notes?: string
 ): Promise<boolean> {
-  const t = getAdminTemplates();
+  const t = await getAdminTemplates();
   return callEmailAPI({
     type: 'withdrawal_confirmed',
     to,
@@ -105,7 +105,7 @@ export async function sendPasswordResetEmail(
   name: string,
   resetCode: string
 ): Promise<boolean> {
-  const t = getAdminTemplates();
+  const t = await getAdminTemplates();
   return callEmailAPI({
     type: 'password_reset',
     to,
@@ -120,7 +120,7 @@ export async function sendWelcomeEmail(
   to: string,
   name: string
 ): Promise<boolean> {
-  const t = getAdminTemplates();
+  const t = await getAdminTemplates();
   return callEmailAPI({
     type: 'welcome',
     to,
@@ -138,7 +138,7 @@ export async function sendAccountNotificationEmail(
   subject: string,
   message: string
 ): Promise<boolean> {
-  const t = getAdminTemplates();
+  const t = await getAdminTemplates();
   return callEmailAPI({
     type: 'notification',
     to,
