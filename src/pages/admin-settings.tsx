@@ -3,6 +3,8 @@ import Link from '@/components/SmartLink';
 import { getCurrentUser, isAdmin } from '@/lib/portfolioStore';
 import { checkIsAdmin } from '@/lib/adminAuth';
 import { createClient } from '@/lib/supabase/client';
+import { SETTINGS_KEYS, loadSetting, saveSetting } from '@/lib/siteSettings';
+
 
 type SettingsTab = 'platform' | 'security' | 'customercare' | 'email' | 'payments' | 'giveaways' | 'popups';
 
