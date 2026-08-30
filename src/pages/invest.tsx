@@ -48,7 +48,7 @@ export default function InvestPage() {
                 key={c}
                 onClick={() => setCategory(c)}
                 className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors ${
-                  category === c ? 'bg-fin-emerald text-black' : 'fin-card text-fin-muted hover:text-white'
+                  category === c ? 'bg-primary text-primary-foreground' : 'fin-card text-fin-muted hover:text-white'
                 }`}
               >
                 {c}
@@ -66,7 +66,7 @@ export default function InvestPage() {
                     action={
                       <Link
                         href={isLoggedIn ? '/dashboard' : '/login'}
-                        className="w-full py-2.5 rounded-xl bg-fin-emerald text-black text-sm font-bold text-center hover:opacity-90 transition-opacity"
+                        className="w-full py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-bold text-center hover:opacity-90 transition-opacity"
                       >
                         {isLoggedIn ? 'Invest' : 'Sign in to Invest'}
                       </Link>
