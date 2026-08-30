@@ -44,8 +44,41 @@ export default function FloatingSupport() {
               Track My Tickets
             </Link>
           </div>
+            {care.whatsappEnabled && care.whatsappNumber && (
+              <a
+                href={`https://wa.me/${care.whatsappNumber.replace(/[^\d]/g, '')}?text=${encodeURIComponent(care.whatsappMessage)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 w-full py-2 px-4 bg-card border border-border text-muted-foreground font-medium rounded-xl text-sm hover:text-foreground hover:border-muted transition-colors justify-center min-h-[40px]"
+              >
+                WhatsApp Support
+              </a>
+            )}
+            {care.telegramEnabled && care.telegramUsername && (
+              <a
+                href={`https://t.me/${care.telegramUsername.replace(/^@/, '')}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 w-full py-2 px-4 bg-card border border-border text-muted-foreground font-medium rounded-xl text-sm hover:text-foreground hover:border-muted transition-colors justify-center min-h-[40px]"
+              >
+                Telegram Support
+              </a>
+            )}
+            {care.supportEmail && (
+              <a
+                href={`mailto:${care.supportEmail}`}
+                className="flex items-center gap-2 w-full py-2 px-4 text-muted-foreground font-medium rounded-xl text-xs hover:text-foreground transition-colors justify-center"
+              >
+                {care.supportEmail}
+              </a>
+            )}
+          </div>
+          {care.supportHours && (
+            <p className="mt-3 text-[10px] uppercase tracking-widest text-muted-foreground text-center">{care.supportHours}</p>
+          )}
         </div>
       )}
+
 
       {/* Live chat button */}
       <button
