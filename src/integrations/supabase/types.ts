@@ -954,7 +954,6 @@ export type Database = {
       }
       is_admin: { Args: never; Returns: boolean }
       is_admin_from_auth: { Args: never; Returns: boolean }
-      is_admin_user: { Args: never; Returns: boolean }
       is_portfolio_admin: { Args: never; Returns: boolean }
       purchase_investment_plan: {
         Args: { _amount: number; _plan_id: string }
