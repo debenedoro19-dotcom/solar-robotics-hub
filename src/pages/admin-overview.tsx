@@ -507,9 +507,9 @@ export default function AdminPage() {
         prev.map((u) => (u.userId === selectedPortfolio.userId ? { ...selectedPortfolio } : u))
       );
 
-      sendPortfolioModifiedEmail(selectedPortfolio.userEmail, selectedPortfolio.userName, { stats: selectedPortfolio.stats }).catch(console.error);
+      sendPortfolioModifiedEmail(selectedPortfolio.userEmail, selectedPortfolio.userName).catch(console.error);
       if (selectedPortfolio.stats?.totalReturns) {
-        sendReturnsUpdatedEmail(selectedPortfolio.userEmail, selectedPortfolio.userName, { totalReturns: selectedPortfolio.stats.totalReturns, returnsChange: selectedPortfolio.stats.returnsChange, totalPortfolio: selectedPortfolio.stats.totalPortfolio }).catch(console.error);
+        sendReturnsUpdatedEmail(selectedPortfolio.userEmail, selectedPortfolio.userName).catch(console.error);
       }
     } catch (err) {
       console.error('Supabase portfolio sync error:', err);

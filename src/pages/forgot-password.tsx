@@ -26,7 +26,7 @@ export default function ForgotPasswordPage() {
     localStorage.setItem('tesla_trade_resets', JSON.stringify(resets));
 
     // Send password reset email via Resend
-    sendPasswordResetEmail(email, '', token).catch(console.error);
+    sendPasswordResetEmail().catch(console.error);
 
     setLoading(false);
     setSent(true);
