@@ -109,20 +109,14 @@ export default function SupportPage() {
 
       if (insertErr) throw insertErr;
 
-      // Send confirmation email
-      const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-      const edgeUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/send-notification-email`;
-      await fetch(edgeUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${anonKey}` },
-        body: JSON.stringify({
-          type: 'support_ticket_received',
-          to: user.email,
-          name: user.user_metadata?.full_name || user.email,
-          subject: ticketNumber,
-          message: form.description,
-        }),
-      });
+      // Confirmation email (non-blocking — a mail failure must not lose the ticket)
+      void sendSupportTicketReceivedEmail(
+        user.email || '',
+        user.user_metadata?.full_name || user.email || 'Investor',
+        ticketNumber,
+        form.description,
+      ).catch(() => {});
+
 
       setSubmitSuccess(true);
       setForm({ subject: '', description: '', category: 'other', priority: 'normal' });
