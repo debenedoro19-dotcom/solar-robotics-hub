@@ -49,6 +49,7 @@ export default function AccountDepositPage() {
 
   async function submitDeposit() {
     setError('');
+    if (method !== 'crypto') { setError('Only cryptocurrency deposits can be verified and credited right now. Please switch to Cryptocurrency.'); return; }
     if (!userId) { setError('You must be signed in to fund your wallet.'); return; }
     if (value < 50) { setError('Minimum deposit is $50.'); return; }
 
