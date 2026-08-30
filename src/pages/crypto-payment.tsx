@@ -4,6 +4,8 @@ import {  useSearchParams  } from '@/lib/next-shims';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { createClient } from '@/lib/supabase/client';
+import QrCode from '@/components/payments/QrCode';
+import { walletUri } from '@/components/payments/cryptoWallets';
 
 const DEFAULT_CRYPTO_OPTIONS = [
   {
@@ -298,27 +300,13 @@ export default function CryptoPaymentClient() {
                 </div>
               </div>
 
-              {/* QR Visual */}
+              {/* QR Code */}
               <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-5 mb-4 flex items-center gap-5">
-                <div
-                  className="w-20 h-20 rounded-xl shrink-0 flex items-center justify-center"
-                  style={{ background: crypto.bgColor, border: `1px solid ${crypto.borderColor}` }}
-                  aria-label={`QR code visual for ${crypto.name} wallet`}
-                >
-                  <svg viewBox="0 0 24 24" className="w-10 h-10" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ color: crypto.color }} aria-hidden="true">
-                    <rect x="3" y="3" width="7" height="7" rx="1"/>
-                    <rect x="14" y="3" width="7" height="7" rx="1"/>
-                    <rect x="3" y="14" width="7" height="7" rx="1"/>
-                    <rect x="5" y="5" width="3" height="3" fill="currentColor"/>
-                    <rect x="16" y="5" width="3" height="3" fill="currentColor"/>
-                    <rect x="5" y="16" width="3" height="3" fill="currentColor"/>
-                    <path d="M14 14h2v2h-2zM16 16h2v2h-2zM18 14h2v2h-2zM14 18h2v2h-2zM18 18h2v2h-2z"/>
-                  </svg>
-                </div>
+                <QrCode value={walletUri(crypto.id, crypto.address)} size={140} label={`${crypto.name} wallet QR code`} />
                 <div>
                   <div className="text-xs font-bold text-white mb-1">Scan QR Code</div>
                   <div className="text-xs text-[#6B7280] leading-relaxed">
-                    Scan with your crypto wallet app to auto-fill the address. Always verify the address before sending.
+                    Scan with your crypto wallet app to auto-fill the {crypto.symbol} address on the {crypto.network}. Always verify the address before sending.
                   </div>
                 </div>
               </div>

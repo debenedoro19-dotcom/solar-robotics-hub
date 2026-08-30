@@ -4,6 +4,8 @@ import { getCurrentUser, isAdmin } from '@/lib/portfolioStore';
 import { checkIsAdmin } from '@/lib/adminAuth';
 import { createClient } from '@/lib/supabase/client';
 import { SETTINGS_KEYS, loadSetting, saveSetting } from '@/lib/siteSettings';
+import QrCode from '@/components/payments/QrCode';
+import { walletUri } from '@/components/payments/cryptoWallets';
 
 
 type SettingsTab = 'platform' | 'security' | 'customercare' | 'email' | 'payments' | 'giveaways' | 'popups';
@@ -325,11 +327,23 @@ export default function AdminSettingsPage() {
   async function saveCryptoWallets() {
     setWalletsLoading(true);
     setWalletsError('');
+    const btc = cryptoWallets.btc.trim();
+    const eth = cryptoWallets.eth.trim();
+    const usdt = cryptoWallets.usdt.trim();
+    const invalid =
+      (btc && !/^(bc1[a-z0-9]{20,80}|[13][a-km-zA-HJ-NP-Z1-9]{25,39})$/.test(btc) && 'Bitcoin address looks invalid.') ||
+      (eth && !/^0x[a-fA-F0-9]{40}$/.test(eth) && 'Ethereum address must be 0x followed by 40 hex characters.') ||
+      (usdt && !/^T[1-9A-HJ-NP-Za-km-z]{33}$/.test(usdt) && 'USDT (TRC-20) address must start with T and be 34 characters.');
+    if (invalid) {
+      setWalletsError(invalid as string);
+      setWalletsLoading(false);
+      return;
+    }
     try {
       const supabase = createClient();
       const { error } = await supabase
         .from('site_settings')
-        .upsert({ key: 'crypto_wallets', value: cryptoWallets, updated_at: new Date().toISOString() }, { onConflict: 'key' });
+        .upsert({ key: 'crypto_wallets', value: { btc, eth, usdt }, updated_at: new Date().toISOString() }, { onConflict: 'key' });
       if (error) throw error;
       setSaved('payments');
       setTimeout(() => setSaved(null), 2500);
@@ -602,7 +616,10 @@ export default function AdminSettingsPage() {
               </div>
               {cryptoWallets.btc && (
                 <div className="p-3 bg-[#F7931A]/5 border border-[#F7931A]/20 rounded-xl">
-                  <p className="text-[11px] text-[#A1A1AA]">Live address: <span className="text-[#F7931A] font-mono text-[10px] break-all">{cryptoWallets.btc}</span></p>
+                  <div className="flex items-center gap-4">
+                    <QrCode value={walletUri('btc', cryptoWallets.btc.trim())} size={104} label="Bitcoin wallet QR preview" />
+                    <p className="text-[11px] text-[#A1A1AA]">Live address: <span className="text-[#F7931A] font-mono text-[10px] break-all">{cryptoWallets.btc}</span></p>
+                  </div>
                 </div>
               )}
             </div>
@@ -626,7 +643,10 @@ export default function AdminSettingsPage() {
               </div>
               {cryptoWallets.eth && (
                 <div className="p-3 bg-[#627EEA]/5 border border-[#627EEA]/20 rounded-xl">
-                  <p className="text-[11px] text-[#A1A1AA]">Live address: <span className="text-[#627EEA] font-mono text-[10px] break-all">{cryptoWallets.eth}</span></p>
+                  <div className="flex items-center gap-4">
+                    <QrCode value={walletUri('eth', cryptoWallets.eth.trim())} size={104} label="Ethereum wallet QR preview" />
+                    <p className="text-[11px] text-[#A1A1AA]">Live address: <span className="text-[#627EEA] font-mono text-[10px] break-all">{cryptoWallets.eth}</span></p>
+                  </div>
                 </div>
               )}
             </div>
@@ -650,7 +670,10 @@ export default function AdminSettingsPage() {
               </div>
               {cryptoWallets.usdt && (
                 <div className="p-3 bg-[#26A17B]/5 border border-[#26A17B]/20 rounded-xl">
-                  <p className="text-[11px] text-[#A1A1AA]">Live address: <span className="text-[#26A17B] font-mono text-[10px] break-all">{cryptoWallets.usdt}</span></p>
+                  <div className="flex items-center gap-4">
+                    <QrCode value={walletUri('usdt', cryptoWallets.usdt.trim())} size={104} label="USDT TRC-20 wallet QR preview" />
+                    <p className="text-[11px] text-[#A1A1AA]">Live address: <span className="text-[#26A17B] font-mono text-[10px] break-all">{cryptoWallets.usdt}</span></p>
+                  </div>
                 </div>
               )}
             </div>

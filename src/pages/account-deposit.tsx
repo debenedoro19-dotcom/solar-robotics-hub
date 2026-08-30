@@ -3,8 +3,10 @@ import Link from '@/components/SmartLink';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { createClient } from '@/lib/supabase/client';
-import { useWallet, money, NETWORKS } from '@/components/investor/wallet';
+import { useWallet, money } from '@/components/investor/wallet';
 import { sendDepositSubmittedEmail } from '@/lib/emailService';
+import QrCode from '@/components/payments/QrCode';
+import { useCryptoWallets, walletUri } from '@/components/payments/cryptoWallets';
 
 
 const PAYMENT_METHODS = [
@@ -20,7 +22,7 @@ export default function AccountDepositPage() {
 
   const [amount, setAmount] = useState('');
   const [method, setMethod] = useState(PAYMENT_METHODS[0]!.id);
-  const [network, setNetwork] = useState(NETWORKS[0]!.id);
+  const [network, setNetwork] = useState('usdt');
   const [txRef, setTxRef] = useState('');
   const [note, setNote] = useState('');
   const [busy, setBusy] = useState(false);
@@ -29,7 +31,13 @@ export default function AccountDepositPage() {
   const [copied, setCopied] = useState(false);
 
   const value = Number(amount) || 0;
-  const activeNetwork = NETWORKS.find((n) => n.id === network) ?? NETWORKS[0]!;
+  const { wallets, loaded: walletsLoaded } = useCryptoWallets();
+  const networks = [
+    { id: 'usdt', label: 'USDT (TRC-20)', address: wallets.usdt },
+    { id: 'eth', label: 'Ethereum / USDT (ERC-20)', address: wallets.eth },
+    { id: 'btc', label: 'Bitcoin (BTC)', address: wallets.btc },
+  ];
+  const activeNetwork = networks.find((n) => n.id === network) ?? networks[0]!;
 
   async function submitDeposit() {
     setError('');
@@ -150,12 +158,12 @@ export default function AccountDepositPage() {
                 <div className="rounded-xl bg-fin-elevated border border-fin-border p-4">
                   <p className="text-xs uppercase tracking-wider text-fin-muted mb-2">Network</p>
                   <div className="grid gap-2 mb-4">
-                    {NETWORKS.map((n) => (
+                    {networks.map((n) => (
                       <button
                         key={n.id}
                         onClick={() => setNetwork(n.id)}
                         className={`px-4 py-2.5 rounded-xl text-sm font-semibold text-left border transition-colors ${
-                          network === n.id ? 'border-fin-emerald bg-fin-emerald-soft text-fin-emerald' : 'border-fin-border text-fin-muted hover:text-white'
+                          network === n.id ? 'border-primary bg-primary/10 text-primary' : 'border-fin-border text-fin-muted hover:text-white'
                         }`}
                       >
                         {n.label}
@@ -163,14 +171,26 @@ export default function AccountDepositPage() {
                     ))}
                   </div>
                   <p className="text-xs uppercase tracking-wider text-fin-muted mb-2">Send funds to</p>
-                  <div className="flex items-center gap-2">
-                    <code className="flex-1 text-xs break-all text-white">{activeNetwork.address}</code>
-                    <button
-                      onClick={() => { void navigator.clipboard?.writeText(activeNetwork.address); setCopied(true); setTimeout(() => setCopied(false), 2000); }}
-                      className="px-3 py-1.5 rounded-md text-xs font-bold bg-fin-emerald text-black shrink-0"
-                    >
-                      {copied ? 'Copied' : 'Copy'}
-                    </button>
+                  <div className="flex flex-col sm:flex-row gap-4 items-start">
+                    <QrCode
+                      value={walletUri(network, activeNetwork.address)}
+                      size={140}
+                      label={`${activeNetwork.label} deposit QR code`}
+                    />
+                    <div className="flex-1 w-full">
+                      <div className="flex items-center gap-2">
+                        <code className="flex-1 text-xs break-all text-white">{activeNetwork.address || '—'}</code>
+                        <button
+                          onClick={() => { void navigator.clipboard?.writeText(activeNetwork.address); setCopied(true); setTimeout(() => setCopied(false), 2000); }}
+                          className="px-3 py-1.5 rounded-md text-xs font-bold bg-primary text-primary-foreground shrink-0"
+                        >
+                          {copied ? 'Copied' : 'Copy'}
+                        </button>
+                      </div>
+                      <p className="text-[11px] text-fin-muted mt-2 leading-relaxed">
+                        {walletsLoaded ? 'Scan the QR with your wallet app or copy the address.' : 'Loading live address…'} Send only on the selected network — wrong-network transfers are unrecoverable.
+                      </p>
+                    </div>
                   </div>
                 </div>
               )}
