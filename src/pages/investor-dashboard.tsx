@@ -174,7 +174,7 @@ export default function InvestorDashboard() {
         <div className="text-center">
           <h1 className="text-xl font-bold text-white mb-2">Sign in required</h1>
           <p className="text-sm text-fin-muted mb-6">Access your investor dashboard to view your wallet.</p>
-          <Link href="/login" className="px-6 py-2.5 rounded-xl bg-fin-emerald text-black text-sm font-semibold">Sign In</Link>
+          <Link href="/login" className="px-6 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-semibold">Sign In</Link>
         </div>
       </main>
     );
