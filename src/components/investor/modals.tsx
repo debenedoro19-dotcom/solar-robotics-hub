@@ -26,78 +26,8 @@ export function Modal({ title, onClose, children }: { title: string; onClose: ()
   );
 }
 
-export function DepositModal({ userId, userEmail, onClose, onDone, onError }: {
-  userId: string; userEmail: string; onClose: () => void; onDone: (m: string) => void; onError: (m: string) => void;
-}) {
-  const [network, setNetwork] = useState(NETWORKS[0]!);
-  const [amount, setAmount] = useState('');
-  const [busy, setBusy] = useState(false);
-  const [copied, setCopied] = useState(false);
 
-  async function submit() {
-    const value = Number(amount) || 0;
-    if (value <= 0) { onError('Enter a deposit amount'); return; }
-    setBusy(true);
-    const supabase = createClient();
-    const { error } = await supabase.from('balance_transactions').insert({
-      user_id: userId,
-      type: 'deposit',
-      amount: value,
-      status: 'pending',
-      payment_method: network.label,
-      wallet_address: network.address,
-      description: `Crypto deposit via ${network.label}`,
-      reference: userEmail,
-    });
-    setBusy(false);
-    if (error) { onError(error.message); return; }
-    onDone('Deposit request submitted — pending confirmation');
-    onClose();
-  }
 
-  return (
-    <Modal title="Deposit Funds" onClose={onClose}>
-      <div className="space-y-5">
-        <div>
-          <p className="text-xs uppercase tracking-wider text-fin-muted mb-2">Network</p>
-          <div className="grid gap-2">
-            {NETWORKS.map((n) => (
-              <button key={n.id} onClick={() => setNetwork(n)}
-                className={`px-4 py-2.5 rounded-xl text-sm font-semibold text-left border transition-colors ${network.id === n.id ? 'border-fin-emerald bg-fin-emerald-soft text-fin-emerald' : 'border-fin-border bg-fin-elevated text-fin-muted hover:text-white'}`}>
-                {n.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className="rounded-xl bg-fin-elevated border border-fin-border p-4">
-          <p className="text-xs uppercase tracking-wider text-fin-muted mb-2">Deposit Address</p>
-          <div className="flex items-center gap-2">
-            <code className="flex-1 text-xs break-all text-white">{network.address}</code>
-            <button
-              onClick={() => { void navigator.clipboard?.writeText(network.address); setCopied(true); setTimeout(() => setCopied(false), 2000); }}
-              className="px-3 py-1.5 rounded-md text-xs font-bold bg-fin-emerald text-black shrink-0">
-              {copied ? 'Copied' : 'Copy'}
-            </button>
-          </div>
-          <div className="mt-4 h-32 rounded-xl border border-dashed border-fin-border flex items-center justify-center text-xs text-fin-muted">
-            QR code
-          </div>
-        </div>
-
-        <div>
-          <label htmlFor="deposit-amount" className="block text-xs uppercase tracking-wider text-fin-muted mb-2">Amount (USD)</label>
-          <input id="deposit-amount" type="number" value={amount} onChange={(e) => setAmount(e.target.value)}
-            className="w-full rounded-xl bg-fin-bg border border-fin-border px-4 py-3 text-white tabular-nums focus:border-fin-emerald outline-none" />
-        </div>
-
-        <button onClick={submit} disabled={busy} className="w-full py-3 rounded-xl bg-fin-emerald text-black font-bold text-sm disabled:opacity-40">
-          {busy ? 'Submitting…' : 'Submit Deposit Request'}
-        </button>
-      </div>
-    </Modal>
-  );
-}
 
 export function WithdrawModal({ balance, userId, userEmail, onClose, onDone, onError }: {
   balance: number; userId: string; userEmail: string; onClose: () => void; onDone: (m: string) => void; onError: (m: string) => void;
