@@ -3,6 +3,8 @@ import Link from '@/components/SmartLink';
 import { getCurrentUser, isAdmin } from '@/lib/portfolioStore';
 import { checkIsAdmin } from '@/lib/adminAuth';
 import { createClient } from '@/lib/supabase/client';
+import { SETTINGS_KEYS, loadSetting, saveSetting } from '@/lib/siteSettings';
+
 
 type SettingsTab = 'platform' | 'security' | 'customercare' | 'email' | 'payments' | 'giveaways' | 'popups';
 
@@ -177,6 +179,9 @@ export default function AdminSettingsPage() {
   const [authorized, setAuthorized] = useState(false);
   const [activeTab, setActiveTab] = useState<SettingsTab>('platform');
   const [saved, setSaved] = useState<SettingsTab | null>(null);
+  const [savingTab, setSavingTab] = useState<SettingsTab | null>(null);
+  const [saveError, setSaveError] = useState('');
+
   const [testEmailAddr, setTestEmailAddr] = useState('');
   const [testEmailSending, setTestEmailSending] = useState(false);
   const [testEmailResult, setTestEmailResult] = useState<'success' | 'error' | null>(null);
@@ -255,22 +260,34 @@ export default function AdminSettingsPage() {
     const currentUser = getCurrentUser();
     void checkIsAdmin().then((ok) => { if (ok) setAuthorized(true); });
     {
-      // Load saved settings from localStorage
-      try {
-        const savedPlatform = localStorage.getItem(STORAGE_KEYS.platform);
-        if (savedPlatform) setPlatform(JSON.parse(savedPlatform));
-        const savedSecurity = localStorage.getItem(STORAGE_KEYS.security);
-        if (savedSecurity) setSecurity(JSON.parse(savedSecurity));
-        const savedCC = localStorage.getItem(STORAGE_KEYS.customerCare);
-        if (savedCC) setCustomerCare(JSON.parse(savedCC));
-        const savedEmail = localStorage.getItem(STORAGE_KEYS.email);
-        if (savedEmail) setEmailTemplates(JSON.parse(savedEmail));
-      } catch {}
+      // Settings live in the database; anything left in this browser from the
+      // old local-only build is imported once, then the database wins.
+      void (async () => {
+        const localOnce = <T,>(k: string): Partial<T> | null => {
+          try {
+            const raw = localStorage.getItem(k);
+            return raw ? (JSON.parse(raw) as Partial<T>) : null;
+          } catch {
+            return null;
+          }
+        };
+        const [p, s, c, e] = await Promise.all([
+          loadSetting(SETTINGS_KEYS.platform, DEFAULT_PLATFORM, true),
+          loadSetting(SETTINGS_KEYS.security, DEFAULT_SECURITY, true),
+          loadSetting(SETTINGS_KEYS.customerCare, DEFAULT_CUSTOMER_CARE, true),
+          loadSetting(SETTINGS_KEYS.email, DEFAULT_EMAIL, true),
+        ]);
+        setPlatform({ ...p, ...(localOnce<PlatformSettings>(STORAGE_KEYS.platform) ?? {}) });
+        setSecurity({ ...s, ...(localOnce<SecuritySettings>(STORAGE_KEYS.security) ?? {}) });
+        setCustomerCare({ ...c, ...(localOnce<CustomerCareSettings>(STORAGE_KEYS.customerCare) ?? {}) });
+        setEmailTemplates({ ...e, ...(localOnce<EmailTemplateSettings>(STORAGE_KEYS.email) ?? {}) });
+      })();
       // Load crypto wallets and giveaways from Supabase
       loadCryptoWallets();
       loadGiveaways();
       loadPopups();
     }
+
   }, []);
 
   async function loadCryptoWallets() {
@@ -815,7 +832,14 @@ export default function AdminSettingsPage() {
           </div>
         )}
 
+        {saveError && (
+          <div className="mb-6 rounded-xl border border-[#E82127]/40 bg-[#E82127]/10 px-4 py-3 text-sm text-[#ff8a8f]">
+            {saveError}
+          </div>
+        )}
+
         {/* ── PLATFORM TAB ── */}
+
         {activeTab === 'platform' && (
           <div className="space-y-6">
             {/* Maintenance Mode — prominent banner */}
@@ -951,7 +975,7 @@ export default function AdminSettingsPage() {
             </div>
 
             <div className="flex justify-end">
-              <button onClick={() => saveSettings('platform')} className="px-8 py-3 tesla-btn-primary rounded-xl text-sm font-semibold flex items-center gap-2">
+              <button onClick={() => saveSettings('platform')} disabled={savingTab === 'platform'} className="px-8 py-3 tesla-btn-primary disabled:opacity-60 rounded-xl text-sm font-semibold flex items-center gap-2">
                 {saved === 'platform' ? (
                   <><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg>Saved!</>
                 ) : 'Save Platform Settings'}
@@ -1136,7 +1160,7 @@ export default function AdminSettingsPage() {
             </div>
 
             <div className="flex justify-end">
-              <button onClick={() => saveSettings('security')} className="px-8 py-3 tesla-btn-primary rounded-xl text-sm font-semibold flex items-center gap-2">
+              <button onClick={() => saveSettings('security')} disabled={savingTab === 'security'} className="px-8 py-3 tesla-btn-primary disabled:opacity-60 rounded-xl text-sm font-semibold flex items-center gap-2">
                 {saved === 'security' ? (
                   <><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg>Saved!</>
                 ) : 'Save Security Settings'}
@@ -1285,7 +1309,7 @@ export default function AdminSettingsPage() {
             </div>
 
             <div className="flex justify-end">
-              <button onClick={() => saveSettings('customercare')} className="px-8 py-3 tesla-btn-primary rounded-xl text-sm font-semibold flex items-center gap-2">
+              <button onClick={() => saveSettings('customercare')} disabled={savingTab === 'customercare'} className="px-8 py-3 tesla-btn-primary disabled:opacity-60 rounded-xl text-sm font-semibold flex items-center gap-2">
                 {saved === 'customercare' ? (
                   <><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg>Saved!</>
                 ) : 'Save Customer Care Settings'}
@@ -1413,7 +1437,7 @@ export default function AdminSettingsPage() {
             </div>
 
             <div className="flex justify-end">
-              <button onClick={() => saveSettings('email')} className="px-8 py-3 tesla-btn-primary rounded-xl text-sm font-semibold flex items-center gap-2">
+              <button onClick={() => saveSettings('email')} disabled={savingTab === 'email'} className="px-8 py-3 tesla-btn-primary disabled:opacity-60 rounded-xl text-sm font-semibold flex items-center gap-2">
                 {saved === 'email' ? (
                   <><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg>Saved!</>
                 ) : 'Save Email Templates'}

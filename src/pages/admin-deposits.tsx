@@ -3,6 +3,7 @@ import Link from '@/components/SmartLink';
 import { createClient } from '@/lib/supabase/client';
 import { getCurrentUser, isAdmin } from '@/lib/portfolioStore';
 import { checkIsAdmin } from '@/lib/adminAuth';
+import { sendAccountNotificationEmail } from '@/lib/emailService';
 
 interface DepositRecord {
   id: string;
@@ -167,6 +168,16 @@ export default function AdminDepositsPage() {
         if (actionNotes) {
           await supabase.from('deposit_records').update({ notes: actionNotes }).eq('id', selected.id);
         }
+
+        if (selected.user_email) {
+          void sendAccountNotificationEmail(
+            selected.user_email,
+            selected.user_name || 'Investor',
+            'Deposit approved — funds credited',
+            `Your deposit of $${Number(selected.amount).toLocaleString()} has been confirmed and credited to your wallet balance.${actionNotes ? `\n\nNote from our team: ${actionNotes}` : ''}`,
+          ).catch(() => {});
+        }
+
       } else {
         const updateData: Record<string, any> = {
           deposit_status: actionStatus,

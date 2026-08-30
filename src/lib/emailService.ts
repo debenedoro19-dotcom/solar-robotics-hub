@@ -1,9 +1,10 @@
-// Email service — routes through /api/send-email which calls Resend directly.
-// Admin-configured templates (from /admin/settings Email tab) are read from
-// localStorage and forwarded so the API can apply them.
+// Email service — routes through /api/send-email (server-side provider call).
+// Templates configured in /admin/settings → Email are stored in the database
+// (site_settings.email) so every device and every send uses the same copy.
+
+import { SETTINGS_KEYS, loadSetting } from '@/lib/siteSettings';
 
 const EMAIL_API = '/api/send-email';
-const SETTINGS_KEY = 'admin_settings_email';
 
 interface AdminEmailTemplates {
   welcomeSubject?: string;
@@ -16,15 +17,14 @@ interface AdminEmailTemplates {
   senderEmail?: string;
 }
 
-function getAdminTemplates(): AdminEmailTemplates {
-  if (typeof window === 'undefined') return {};
+async function getAdminTemplates(): Promise<AdminEmailTemplates> {
   try {
-    const raw = localStorage.getItem(SETTINGS_KEY);
-    return raw ? JSON.parse(raw) : {};
+    return await loadSetting<AdminEmailTemplates>(SETTINGS_KEYS.email, {});
   } catch {
     return {};
   }
 }
+
 
 interface SendEmailPayload {
   type: string;
@@ -67,7 +67,7 @@ export async function sendKYCApprovedEmail(
   name: string,
   adminNote?: string
 ): Promise<boolean> {
-  const t = getAdminTemplates();
+  const t = await getAdminTemplates();
   return callEmailAPI({
     type: 'kyc_approved',
     to,
@@ -86,7 +86,7 @@ export async function sendWithdrawalConfirmedEmail(
   amount: string,
   notes?: string
 ): Promise<boolean> {
-  const t = getAdminTemplates();
+  const t = await getAdminTemplates();
   return callEmailAPI({
     type: 'withdrawal_confirmed',
     to,
@@ -105,7 +105,7 @@ export async function sendPasswordResetEmail(
   name: string,
   resetCode: string
 ): Promise<boolean> {
-  const t = getAdminTemplates();
+  const t = await getAdminTemplates();
   return callEmailAPI({
     type: 'password_reset',
     to,
@@ -120,7 +120,7 @@ export async function sendWelcomeEmail(
   to: string,
   name: string
 ): Promise<boolean> {
-  const t = getAdminTemplates();
+  const t = await getAdminTemplates();
   return callEmailAPI({
     type: 'welcome',
     to,
@@ -138,7 +138,7 @@ export async function sendAccountNotificationEmail(
   subject: string,
   message: string
 ): Promise<boolean> {
-  const t = getAdminTemplates();
+  const t = await getAdminTemplates();
   return callEmailAPI({
     type: 'notification',
     to,

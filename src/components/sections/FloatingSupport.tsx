@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import Link from '@/components/SmartLink';
+import { useCustomerCare } from '@/lib/siteSettings';
 
 export default function FloatingSupport() {
   const [chatOpen, setChatOpen] = useState(false);
+  const care = useCustomerCare();
+
 
   return (
     <div className="fixed bottom-6 right-4 sm:right-6 z-50 flex flex-col items-end gap-3">
@@ -40,9 +43,41 @@ export default function FloatingSupport() {
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
               Track My Tickets
             </Link>
+            {care.whatsappEnabled && care.whatsappNumber && (
+              <a
+                href={`https://wa.me/${care.whatsappNumber.replace(/[^\d]/g, '')}?text=${encodeURIComponent(care.whatsappMessage)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 w-full py-2 px-4 bg-card border border-border text-muted-foreground font-medium rounded-xl text-sm hover:text-foreground hover:border-muted transition-colors justify-center min-h-[40px]"
+              >
+                WhatsApp Support
+              </a>
+            )}
+            {care.telegramEnabled && care.telegramUsername && (
+              <a
+                href={`https://t.me/${care.telegramUsername.replace(/^@/, '')}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 w-full py-2 px-4 bg-card border border-border text-muted-foreground font-medium rounded-xl text-sm hover:text-foreground hover:border-muted transition-colors justify-center min-h-[40px]"
+              >
+                Telegram Support
+              </a>
+            )}
+            {care.supportEmail && (
+              <a
+                href={`mailto:${care.supportEmail}`}
+                className="flex items-center gap-2 w-full py-2 px-4 text-muted-foreground font-medium rounded-xl text-xs hover:text-foreground transition-colors justify-center"
+              >
+                {care.supportEmail}
+              </a>
+            )}
           </div>
+          {care.supportHours && (
+            <p className="mt-3 text-[10px] uppercase tracking-widest text-muted-foreground text-center">{care.supportHours}</p>
+          )}
         </div>
       )}
+
 
       {/* Live chat button */}
       <button
