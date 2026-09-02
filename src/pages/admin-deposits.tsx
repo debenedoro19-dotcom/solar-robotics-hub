@@ -195,7 +195,6 @@ export default function AdminDepositsPage() {
           .update(updateData)
           .eq('id', selected.id);
         if (updateError) throw updateError;
-      }
 
       const updated = { ...selected, deposit_status: actionStatus, notes: actionNotes || null };
       setSelected(updated);
