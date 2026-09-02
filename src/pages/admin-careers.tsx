@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import Link from '@/components/SmartLink';
 import { supabase } from '@/lib/supabase/client';
+import { sendJobApplicationStageChangedEmail } from '@/lib/emailService';
 
 type Stage = 'new' | 'screening' | 'interview' | 'offer' | 'hired' | 'rejected';
 const STAGES: Stage[] = ['new', 'screening', 'interview', 'offer', 'hired', 'rejected'];

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { WITHDRAWAL_FEE_RATE, money } from './wallet';
+import { sendWithdrawalRequestedEmail } from '@/lib/emailService';
 
 export function MetricCard({ label, value, accent, sub }: { label: string; value: string; accent?: boolean; sub?: string }) {
   return (

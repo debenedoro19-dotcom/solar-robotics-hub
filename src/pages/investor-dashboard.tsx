@@ -9,6 +9,7 @@ import InvestorShell from '@/components/investor/InvestorShell';
 import { MetricCard, Modal, WithdrawModal } from '@/components/investor/modals';
 import { EMPTY_WALLET, money, toWallet, type Wallet } from '@/components/investor/wallet';
 import PlanCard, { type InvestmentPlan as SharedPlan } from '@/components/investment/planCard';
+import { sendInvestmentPurchasedEmail } from '@/lib/emailService';
 
 interface Plan {
   id: string;

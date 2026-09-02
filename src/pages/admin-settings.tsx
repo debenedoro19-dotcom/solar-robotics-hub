@@ -4,6 +4,7 @@ import { getCurrentUser, isAdmin } from '@/lib/portfolioStore';
 import { checkIsAdmin } from '@/lib/adminAuth';
 import { createClient } from '@/lib/supabase/client';
 import { SETTINGS_KEYS, loadSetting, saveSetting } from '@/lib/siteSettings';
+import { sendAdminTestEmailTo } from '@/lib/emailService';
 import QrCode from '@/components/payments/QrCode';
 import { walletUri } from '@/components/payments/cryptoWallets';
 

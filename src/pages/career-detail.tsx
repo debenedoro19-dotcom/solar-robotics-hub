@@ -3,6 +3,7 @@ import Link from '@/components/SmartLink';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { supabase } from '@/lib/supabase/client';
+import { sendJobApplicationReceivedEmail } from '@/lib/emailService';
 import type { JobPosting } from './careers';
 
 const inputClass =
