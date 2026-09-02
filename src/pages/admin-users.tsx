@@ -192,6 +192,12 @@ export default function AdminUsersPage() {
           selectedUser.profile.full_name || 'Investor',
           kycNotes || undefined
         ).catch(console.error);
+      } else if (status === 'rejected' && selectedUser.profile.email) {
+        sendKYCRejectedEmail(
+          selectedUser.profile.email,
+          selectedUser.profile.full_name || 'Investor',
+          kycNotes || undefined
+        ).catch(console.error);
       }
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Failed to update KYC');

@@ -447,6 +447,8 @@ export default function AdminPage() {
         setTimeout(() => setKycSaved(false), 2500);
         if (status === 'approved' && selectedKyc.user_profiles?.email) {
           sendKYCApprovedEmail(selectedKyc.user_profiles.email, selectedKyc.user_profiles.full_name || 'Investor', kycNotes || undefined).catch(console.error);
+        } else if (status === 'rejected' && selectedKyc.user_profiles?.email) {
+          sendKYCRejectedEmail(selectedKyc.user_profiles.email, selectedKyc.user_profiles.full_name || 'Investor', kycNotes || undefined).catch(console.error);
         }
       }
     } catch (err) { console.error('Failed to update KYC:', err); }

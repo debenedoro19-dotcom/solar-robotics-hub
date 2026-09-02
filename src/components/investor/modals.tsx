@@ -58,6 +58,7 @@ export function WithdrawModal({ balance, userId, userEmail, onClose, onDone, onE
     });
     setBusy(false);
     if (error) { onError(error.message); return; }
+    void sendWithdrawalRequestedEmail(value.toString()).catch(() => {});
     onDone('Withdrawal request submitted for review');
     onClose();
   }
