@@ -185,8 +185,7 @@ export default function AdminDepositsPage() {
         ).catch(() => {});
       }
 
-      {
-        const updateData: Record<string, any> = {
+      const updateData: Record<string, any> = {
           deposit_status: actionStatus,
           notes: actionNotes || null,
           updated_at: new Date().toISOString(),
