@@ -5,7 +5,11 @@
 // the signed-in session (user events) or from `user_profiles` after an admin
 // role check (admin events), then send through Lovable's managed email API.
 
-import { sendMyActivityEmail, sendUserActivityEmail } from '@/lib/email.functions';
+import {
+  sendMyActivityEmail,
+  sendUserActivityEmail,
+  sendAdminTestEmail,
+} from '@/lib/email.functions';
 
 type Result = boolean;
 
@@ -27,7 +31,7 @@ async function mine(
 }
 
 async function toUser(
-  event: 'deposit_approved' | 'withdrawal_processed' | 'kyc_approved' | 'kyc_rejected' | 'support_ticket_updated' | 'notice',
+  event: 'deposit_approved' | 'deposit_rejected' | 'withdrawal_processed' | 'kyc_approved' | 'kyc_rejected' | 'support_ticket_updated' | 'job_application_stage_changed' | 'notice',
   target: { userId?: string; email?: string },
   input?: { amount?: string; reference?: string; note?: string; title?: string; message?: string },
 ): Promise<Result> {
@@ -61,6 +65,14 @@ export const sendKYCSubmittedEmail = () => mine('kyc_submitted');
 
 export const sendSessionBookedEmail = () => mine('session_booked');
 
+export const sendInvestmentPurchasedEmail = (amount: string, reference?: string) =>
+  mine('investment_purchased', { amount, reference });
+
+export const sendGiveawayEntryConfirmedEmail = (amount: string, reference?: string) =>
+  mine('giveaway_entry_confirmed', { amount, reference });
+
+export const sendJobApplicationReceivedEmail = () => mine('job_application_received');
+
 // ── Admin-triggered events ────────────────────────────────────────────────────
 
 export const sendDepositApprovedEmail = (
@@ -68,6 +80,12 @@ export const sendDepositApprovedEmail = (
   amount: string,
   note?: string,
 ) => toUser('deposit_approved', target, { amount, note });
+
+export const sendDepositRejectedEmail = (
+  target: { userId?: string; email?: string },
+  amount: string,
+  note?: string,
+) => toUser('deposit_rejected', target, { amount, note });
 
 export const sendWithdrawalConfirmedEmail = (
   to: string,
@@ -79,7 +97,7 @@ export const sendWithdrawalConfirmedEmail = (
 export const sendKYCApprovedEmail = (to: string, _name: string, adminNote?: string) =>
   toUser('kyc_approved', { email: to }, { note: adminNote });
 
-export const sendKYCRejectedEmail = (to: string, adminNote?: string) =>
+export const sendKYCRejectedEmail = (to: string, _name: string, adminNote?: string) =>
   toUser('kyc_rejected', { email: to }, { note: adminNote });
 
 export const sendSupportTicketUpdatedEmail = (
@@ -90,6 +108,16 @@ export const sendSupportTicketUpdatedEmail = (
 ) =>
   toUser('support_ticket_updated', { email: to }, {
     message: adminReply || `Your ticket status is now: ${newStatus}.`,
+  });
+
+export const sendJobApplicationStageChangedEmail = (
+  to: string,
+  _name: string,
+  stage: string,
+  jobTitle: string,
+) =>
+  toUser('job_application_stage_changed', { email: to }, {
+    message: `Your application for ${jobTitle} has moved to the ${stage} stage.`,
   });
 
 export const sendAccountNotificationEmail = (
@@ -110,4 +138,14 @@ export const sendReturnsUpdatedEmail = (to: string, name: string) =>
 export async function sendPasswordResetEmail(): Promise<Result> {
   // Password reset mail is delivered by Supabase Auth, not this helper.
   return true;
+}
+
+export async function sendAdminTestEmailTo(to: string): Promise<Result> {
+  try {
+    const res = await sendAdminTestEmail({ data: { to } });
+    return res.sent;
+  } catch (err) {
+    console.error('Admin test email failed', err);
+    return false;
+  }
 }
