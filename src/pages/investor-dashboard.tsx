@@ -452,6 +452,7 @@ function InvestModal({ plan, balance, onClose, onDone, onError, onDeposit }: {
     if (error) { onError(error.message); return; }
     const result = data as { ok: boolean; error?: string } | null;
     if (!result?.ok) { onError(result?.error ?? 'Purchase failed'); return; }
+    void sendInvestmentPurchasedEmail(value.toString()).catch(() => {});
     onDone(`${plan.name} activated with ${money(value)}`);
     onClose();
   }

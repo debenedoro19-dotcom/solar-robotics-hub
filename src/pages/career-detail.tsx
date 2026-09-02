@@ -58,6 +58,7 @@ export default function CareerDetailPage({ slug }: { slug: string }) {
         resume_path,
       });
       if (error) throw error;
+      void sendJobApplicationReceivedEmail().catch(() => {});
       setStatus('done');
     } catch (err) {
       setErrorMsg(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
