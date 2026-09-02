@@ -170,15 +170,22 @@ export default function AdminDepositsPage() {
         }
 
         if (selected.user_email) {
-          void sendAccountNotificationEmail(
-            selected.user_email,
-            selected.user_name || 'Investor',
-            'Deposit approved — funds credited',
-            `Your deposit of $${Number(selected.amount).toLocaleString()} has been confirmed and credited to your wallet balance.${actionNotes ? `\n\nNote from our team: ${actionNotes}` : ''}`,
+          void sendDepositApprovedEmail(
+            { email: selected.user_email },
+            Number(selected.amount).toLocaleString(),
+            actionNotes || undefined,
           ).catch(() => {});
         }
 
-      } else {
+      } else if (actionStatus === 'rejected' && selected.user_email) {
+        void sendDepositRejectedEmail(
+          { email: selected.user_email },
+          Number(selected.amount).toLocaleString(),
+          actionNotes || undefined,
+        ).catch(() => {});
+      }
+
+      {
         const updateData: Record<string, any> = {
           deposit_status: actionStatus,
           notes: actionNotes || null,

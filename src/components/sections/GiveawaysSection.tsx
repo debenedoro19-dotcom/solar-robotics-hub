@@ -1,6 +1,7 @@
 import React, { useState, useEffect, memo, useCallback } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import SmartLink from '@/components/SmartLink';
+import { sendGiveawayEntryConfirmedEmail } from '@/lib/emailService';
 import model3Img from '@/assets/giveaways/model_3.jpg';
 import cybertruckImg from '@/assets/giveaways/cybertruck.jpg';
 
