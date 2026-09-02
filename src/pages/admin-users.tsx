@@ -3,7 +3,7 @@ import Link from '@/components/SmartLink';
 import { createClient } from '@/lib/supabase/client';
 import { getCurrentUser, isAdmin } from '@/lib/portfolioStore';
 import { checkIsAdmin } from '@/lib/adminAuth';
-import { sendKYCApprovedEmail } from '@/lib/emailService';
+import { sendKYCApprovedEmail, sendKYCRejectedEmail } from '@/lib/emailService';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -188,6 +188,12 @@ export default function AdminUsersPage() {
 
       if (status === 'approved' && selectedUser.profile.email) {
         sendKYCApprovedEmail(
+          selectedUser.profile.email,
+          selectedUser.profile.full_name || 'Investor',
+          kycNotes || undefined
+        ).catch(console.error);
+      } else if (status === 'rejected' && selectedUser.profile.email) {
+        sendKYCRejectedEmail(
           selectedUser.profile.email,
           selectedUser.profile.full_name || 'Investor',
           kycNotes || undefined

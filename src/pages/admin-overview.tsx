@@ -3,7 +3,7 @@ import Link from '@/components/SmartLink';
 import { createClient } from '@/lib/supabase/client';
 import { createEmptyPortfolio, getCurrentUser, isAdmin, type UserPortfolio, type Investment, type Transaction, type Alert, type ChartPoint, type AllocationItem,  } from '@/lib/portfolioStore';
 import { checkIsAdmin } from '@/lib/adminAuth';
-import { sendKYCApprovedEmail, sendPortfolioModifiedEmail, sendReturnsUpdatedEmail, sendSupportTicketUpdatedEmail } from '@/lib/emailService';
+import { sendKYCApprovedEmail, sendKYCRejectedEmail, sendPortfolioModifiedEmail, sendReturnsUpdatedEmail, sendSupportTicketUpdatedEmail } from '@/lib/emailService';
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
   PieChart, Pie, Cell, LineChart, Line, CartesianGrid,
@@ -447,6 +447,8 @@ export default function AdminPage() {
         setTimeout(() => setKycSaved(false), 2500);
         if (status === 'approved' && selectedKyc.user_profiles?.email) {
           sendKYCApprovedEmail(selectedKyc.user_profiles.email, selectedKyc.user_profiles.full_name || 'Investor', kycNotes || undefined).catch(console.error);
+        } else if (status === 'rejected' && selectedKyc.user_profiles?.email) {
+          sendKYCRejectedEmail(selectedKyc.user_profiles.email, selectedKyc.user_profiles.full_name || 'Investor', kycNotes || undefined).catch(console.error);
         }
       }
     } catch (err) { console.error('Failed to update KYC:', err); }

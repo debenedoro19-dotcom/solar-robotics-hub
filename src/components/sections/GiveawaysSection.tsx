@@ -1,6 +1,7 @@
 import React, { useState, useEffect, memo, useCallback } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import SmartLink from '@/components/SmartLink';
+import { sendGiveawayEntryConfirmedEmail } from '@/lib/emailService';
 import model3Img from '@/assets/giveaways/model_3.jpg';
 import cybertruckImg from '@/assets/giveaways/cybertruck.jpg';
 
@@ -189,6 +190,7 @@ function EntryModal({ giveaway, onClose, onEntered }: { giveaway: Giveaway; onCl
     if (rpcError) { setError(rpcError.message); return; }
     const result = data as { ok?: boolean; error?: string } | null;
     if (!result?.ok) { setError(result?.error || 'Could not complete your entry'); return; }
+    void sendGiveawayEntryConfirmedEmail(giveaway.entry_fee.toString(), giveaway.title).catch(() => {});
     setBalance((b) => b - giveaway.entry_fee);
     setDone(true);
     onEntered(giveaway.id);

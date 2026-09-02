@@ -3,7 +3,7 @@ import Link from '@/components/SmartLink';
 import { createClient } from '@/lib/supabase/client';
 import { getCurrentUser, isAdmin } from '@/lib/portfolioStore';
 import { checkIsAdmin } from '@/lib/adminAuth';
-import { sendAccountNotificationEmail } from '@/lib/emailService';
+import { sendDepositApprovedEmail, sendDepositRejectedEmail } from '@/lib/emailService';
 
 interface DepositRecord {
   id: string;
@@ -170,16 +170,22 @@ export default function AdminDepositsPage() {
         }
 
         if (selected.user_email) {
-          void sendAccountNotificationEmail(
-            selected.user_email,
-            selected.user_name || 'Investor',
-            'Deposit approved — funds credited',
-            `Your deposit of $${Number(selected.amount).toLocaleString()} has been confirmed and credited to your wallet balance.${actionNotes ? `\n\nNote from our team: ${actionNotes}` : ''}`,
+          void sendDepositApprovedEmail(
+            { email: selected.user_email },
+            Number(selected.amount).toLocaleString(),
+            actionNotes || undefined,
           ).catch(() => {});
         }
 
-      } else {
-        const updateData: Record<string, any> = {
+      } else if (actionStatus === 'rejected' && selected.user_email) {
+        void sendDepositRejectedEmail(
+          { email: selected.user_email },
+          Number(selected.amount).toLocaleString(),
+          actionNotes || undefined,
+        ).catch(() => {});
+      }
+
+      const updateData: Record<string, any> = {
           deposit_status: actionStatus,
           notes: actionNotes || null,
           updated_at: new Date().toISOString(),
@@ -189,7 +195,6 @@ export default function AdminDepositsPage() {
           .update(updateData)
           .eq('id', selected.id);
         if (updateError) throw updateError;
-      }
 
       const updated = { ...selected, deposit_status: actionStatus, notes: actionNotes || null };
       setSelected(updated);

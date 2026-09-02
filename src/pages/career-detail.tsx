@@ -3,6 +3,7 @@ import Link from '@/components/SmartLink';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { supabase } from '@/lib/supabase/client';
+import { sendJobApplicationReceivedEmail } from '@/lib/emailService';
 import type { JobPosting } from './careers';
 
 const inputClass =
@@ -57,6 +58,7 @@ export default function CareerDetailPage({ slug }: { slug: string }) {
         resume_path,
       });
       if (error) throw error;
+      void sendJobApplicationReceivedEmail().catch(() => {});
       setStatus('done');
     } catch (err) {
       setErrorMsg(err instanceof Error ? err.message : 'Something went wrong. Please try again.');

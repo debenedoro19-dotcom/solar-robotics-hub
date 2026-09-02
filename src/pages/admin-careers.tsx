@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import Link from '@/components/SmartLink';
 import { supabase } from '@/lib/supabase/client';
+import { sendJobApplicationStageChangedEmail } from '@/lib/emailService';
 
 type Stage = 'new' | 'screening' | 'interview' | 'offer' | 'hired' | 'rejected';
 const STAGES: Stage[] = ['new', 'screening', 'interview', 'offer', 'hired', 'rejected'];
@@ -80,6 +81,8 @@ export default function AdminCareersPage() {
   async function setStage(app: Application, stage: Stage) {
     setApps((prev) => prev.map((x) => (x.id === app.id ? { ...x, stage } : x)));
     await supabase.from('job_applications').update({ stage }).eq('id', app.id);
+    const job = jobsById[app.job_id];
+    void sendJobApplicationStageChangedEmail(app.email, app.full_name, stage, job?.title ?? 'this role').catch(() => {});
   }
 
   async function saveNotes(app: Application) {

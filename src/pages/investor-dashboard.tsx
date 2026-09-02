@@ -9,6 +9,7 @@ import InvestorShell from '@/components/investor/InvestorShell';
 import { MetricCard, Modal, WithdrawModal } from '@/components/investor/modals';
 import { EMPTY_WALLET, money, toWallet, type Wallet } from '@/components/investor/wallet';
 import PlanCard, { type InvestmentPlan as SharedPlan } from '@/components/investment/planCard';
+import { sendInvestmentPurchasedEmail } from '@/lib/emailService';
 
 interface Plan {
   id: string;
@@ -451,6 +452,7 @@ function InvestModal({ plan, balance, onClose, onDone, onError, onDeposit }: {
     if (error) { onError(error.message); return; }
     const result = data as { ok: boolean; error?: string } | null;
     if (!result?.ok) { onError(result?.error ?? 'Purchase failed'); return; }
+    void sendInvestmentPurchasedEmail(value.toString()).catch(() => {});
     onDone(`${plan.name} activated with ${money(value)}`);
     onClose();
   }

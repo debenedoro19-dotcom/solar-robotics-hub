@@ -4,6 +4,7 @@ import { getCurrentUser, isAdmin } from '@/lib/portfolioStore';
 import { checkIsAdmin } from '@/lib/adminAuth';
 import { createClient } from '@/lib/supabase/client';
 import { SETTINGS_KEYS, loadSetting, saveSetting } from '@/lib/siteSettings';
+import { sendAdminTestEmailTo } from '@/lib/emailService';
 import QrCode from '@/components/payments/QrCode';
 import { walletUri } from '@/components/payments/cryptoWallets';
 
@@ -451,20 +452,8 @@ export default function AdminSettingsPage() {
     setTestEmailSending(true);
     setTestEmailResult(null);
     try {
-      const res = await fetch('/api/send-email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          type: 'notification',
-          to: testEmailAddr,
-          name: 'Admin',
-          subject: '✅ Test Email — Tesla Trade Email Service',
-          message: 'This is a test email from your Tesla Trade admin panel. Your Resend integration is working correctly.\n\nEmail templates configured in admin settings will be applied to all transactional emails.',
-          senderName: emailTemplates.senderName,
-          senderEmail: emailTemplates.senderEmail,
-        }),
-      });
-      setTestEmailResult(res.ok ? 'success' : 'error');
+      const sent = await sendAdminTestEmailTo(testEmailAddr);
+      setTestEmailResult(sent ? 'success' : 'error');
     } catch {
       setTestEmailResult('error');
     }

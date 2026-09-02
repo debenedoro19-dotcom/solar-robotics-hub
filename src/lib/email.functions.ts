@@ -19,6 +19,9 @@ type UserEvent =
   | 'kyc_submitted'
   | 'withdrawal_requested'
   | 'session_booked'
+  | 'investment_purchased'
+  | 'giveaway_entry_confirmed'
+  | 'job_application_received'
 
 type AdminEvent =
   | 'deposit_approved'
@@ -27,6 +30,8 @@ type AdminEvent =
   | 'kyc_rejected'
   | 'support_ticket_updated'
   | 'notice'
+  | 'job_application_stage_changed'
+  | 'deposit_rejected'
 
 interface EventInput {
   amount?: string
@@ -76,6 +81,24 @@ function userCopy(event: UserEvent, name: string, input: EventInput) {
         message:
           'Your session request is confirmed. An advisor will contact you with the final schedule.',
       }
+    case 'investment_purchased':
+      return {
+        template: 'account-notification' as const,
+        title: 'Investment plan activated',
+        message: `Your investment of ${money(input.amount)} has been activated. You will begin earning daily yield immediately.`,
+      }
+    case 'giveaway_entry_confirmed':
+      return {
+        template: 'account-notification' as const,
+        title: 'Giveaway entry confirmed',
+        message: `You are now entered into the giveaway. Good luck! Entry fee: ${money(input.amount)}.`,
+      }
+    case 'job_application_received':
+      return {
+        template: 'account-notification' as const,
+        title: 'We received your application',
+        message: 'Thank you for applying. Our hiring team will review your materials and respond within 5 business days.',
+      }
   }
 }
 
@@ -85,6 +108,13 @@ function adminCopy(event: AdminEvent, input: EventInput) {
       return {
         title: 'Deposit approved — funds credited',
         message: `Your deposit of ${money(input.amount)} has been confirmed and credited to your wallet balance.`,
+      }
+    case 'deposit_rejected':
+      return {
+        title: 'Deposit could not be confirmed',
+        message: input.note
+          ? `We could not confirm your deposit. ${input.note}\n\nPlease resubmit or contact support.`
+          : 'We could not confirm your deposit. Please review your transaction and resubmit, or contact support.',
       }
     case 'withdrawal_processed':
       return {
@@ -106,6 +136,11 @@ function adminCopy(event: AdminEvent, input: EventInput) {
       return {
         title: 'Update on your support ticket',
         message: input.message || 'Your support ticket has been updated.',
+      }
+    case 'job_application_stage_changed':
+      return {
+        title: 'Your application status has changed',
+        message: input.message || 'Your job application has been updated.',
       }
     case 'notice':
       return {
@@ -172,6 +207,39 @@ export const sendUserActivityEmail = createServerFn({ method: 'POST' })
       return { sent: result.sent }
     } catch (err) {
       console.error('[email] admin send failed', data.event, err)
+      return { sent: false as const }
+    }
+  })
+
+/**
+ * Admin test email — sends a branded test message to the supplied address.
+ * Requires an admin session.
+ */
+export const sendAdminTestEmail = createServerFn({ method: 'POST' })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data: { to: string }) => data)
+  .handler(async ({ data, context }) => {
+    const { data: isAdmin } = await context.supabase.rpc('is_admin')
+    if (isAdmin !== true) throw new Error('Forbidden')
+
+    const to = data.to.trim()
+    if (!to) return { sent: false as const }
+
+    const { sendTemplateEmail } = await import('@/lib/email-templates/send-email')
+
+    try {
+      const result = await sendTemplateEmail('account-notification', to, {
+        templateData: {
+          name: 'Admin',
+          title: 'Test email — Tesla Trade',
+          message:
+            'This is a test email from your Tesla Trade admin panel. If you received this, your managed email delivery is working correctly.',
+        },
+        idempotencyKey: `admin-test-${to}-${Date.now()}`,
+      })
+      return { sent: result.sent }
+    } catch (err) {
+      console.error('[email] admin test send failed', err)
       return { sent: false as const }
     }
   })
