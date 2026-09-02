@@ -60,7 +60,13 @@ export default function LoginPage() {
         isAdmin = !!roleRow;
       }
 
-      window.location.href = isAdmin ? '/admin' : '/dashboard';
+      // Honour ?redirect=/path when it is a safe same-site path.
+      let target = isAdmin ? '/admin' : '/dashboard';
+      if (typeof window !== 'undefined') {
+        const wanted = new URLSearchParams(window.location.search).get('redirect');
+        if (wanted && wanted.startsWith('/') && !wanted.startsWith('//')) target = wanted;
+      }
+      window.location.href = target;
     } catch (err: any) {
       setLoading(false);
       // Fallback: localStorage-based login for legacy accounts
