@@ -5,15 +5,80 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Tesla Clean-Tech design system — Stealth Obsidian */
+  /* ── Tesla Classic (light) — default theme ───────────────────────────── */
   --radius: 0.75rem;
+  --background: oklch(0.9750 0.0015 285);   /* #F5F5F7 */
+  --foreground: oklch(0.2400 0.0080 274);   /* #171A20 */
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.2400 0.0080 274);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.2400 0.0080 274);
+  --primary: oklch(0.5880 0.2320 26.5);     /* #E82127 Tesla Red */
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.9450 0.0020 285);
+  --secondary-foreground: oklch(0.2400 0.0080 274);
+  --muted: oklch(0.9450 0.0020 285);
+  --muted-foreground: oklch(0.5250 0.0060 285);
+  --accent: oklch(0.5880 0.2320 26.5);
+  --accent-foreground: oklch(1 0 0);
+  --destructive: oklch(0.5880 0.2320 26.5);
+  --destructive-foreground: oklch(1 0 0);
+  --success: oklch(0.6300 0.1500 162);      /* #00875A */
+  --warning: oklch(0.6500 0.1600 62);       /* #B45309 */
+  --robotics: oklch(0.5400 0.2000 293.54);
+  --solar: oklch(0.6800 0.1500 74);
+  --border: oklch(0 0 0 / 0.10);
+  --input: oklch(0 0 0 / 0.12);
+  --ring: oklch(0.5880 0.2320 26.5);
+  --sidebar: oklch(1 0 0);
+  --sidebar-foreground: oklch(0.2400 0.0080 274);
+  --sidebar-border: oklch(0 0 0 / 0.08);
+  --chart-1: oklch(0.5880 0.2320 26.5);
+  --chart-2: oklch(0.6300 0.1500 162);
+  --chart-3: oklch(0.5400 0.2000 293.54);
+  --chart-4: oklch(0.6800 0.1500 74);
+  --chart-5: oklch(0.5800 0.1500 250.96);
+
+  /* Surface + accent palette (raw values for gradients / charts) */
+  --fin-bg: #F5F5F7;
+  --fin-card: rgba(255, 255, 255, 0.92);
+  --fin-elevated: rgba(255, 255, 255, 1);
+  --fin-border: rgba(0, 0, 0, 0.10);
+  --fin-emerald: #00875A;
+  --fin-emerald-soft: rgba(0, 135, 90, 0.10);
+  --fin-amber: #B45309;
+  --fin-danger: #E82127;
+  --fin-crimson: #E82127;
+  --fin-muted: #5C5E62;
+  --ts-hairline: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+
+  /* Theme-aware helpers used by the utility layer */
+  --surface-1: #FFFFFF;               /* cards */
+  --surface-2: #F0F0F3;               /* elevated / subtle fills */
+  --surface-3: #E4E4E7;               /* inputs, tracks */
+  --text-1: #171A20;                  /* headings */
+  --text-2: #3E4148;                  /* body */
+  --text-3: #5C5E62;                  /* muted */
+  --text-4: #86888C;                  /* faint */
+  --hairline: rgba(0, 0, 0, 0.10);
+  --hairline-strong: rgba(0, 0, 0, 0.22);
+  --glass-bg: rgba(255, 255, 255, 0.82);
+  --glass-hover-bg: rgba(255, 255, 255, 0.95);
+  --grid-line: rgba(0, 0, 0, 0.035);
+  --noise-opacity: 0.015;
+  --elevation: 0 1px 2px rgba(16, 24, 40, 0.06), 0 12px 32px -18px rgba(16, 24, 40, 0.25);
+  --chart-emerald: #00875A;
+}
+
+.dark {
+  /* ── Tesla Stealth Obsidian (dark) ───────────────────────────────────── */
   --background: oklch(0.0700 0.0030 285);   /* #050507 */
   --foreground: oklch(1.0000 0.0000 89.88);
   --card: oklch(0.1450 0.0060 285);         /* #0D0E12 */
   --card-foreground: oklch(1.0000 0.0000 89.88);
   --popover: oklch(0.1450 0.0060 285);
   --popover-foreground: oklch(1.0000 0.0000 89.88);
-  --primary: oklch(0.5880 0.2320 26.5);     /* #E82127 Cyber Crimson */
+  --primary: oklch(0.5880 0.2320 26.5);
   --primary-foreground: oklch(1.0000 0.0000 89.88);
   --secondary: oklch(0.1750 0.0050 285);
   --secondary-foreground: oklch(1.0000 0.0000 89.88);
@@ -24,7 +89,7 @@
   --destructive: oklch(0.5880 0.2320 26.5);
   --destructive-foreground: oklch(1.0000 0.0000 89.88);
   --success: oklch(0.8600 0.2100 162);      /* #00F59B */
-  --warning: oklch(0.8131 0.1650 75.04);    /* #F59E0B */
+  --warning: oklch(0.8131 0.1650 75.04);
   --robotics: oklch(0.7090 0.1592 293.54);
   --solar: oklch(0.8625 0.1494 84.65);
   --border: oklch(1 0 0 / 0.08);
@@ -38,10 +103,7 @@
   --chart-3: oklch(0.7090 0.1592 293.54);
   --chart-4: oklch(0.8625 0.1494 84.65);
   --chart-5: oklch(0.7112 0.1559 250.96);
-}
 
-:root {
-  /* Surface + accent palette (raw hex for gradients / charts) */
   --fin-bg: #050507;
   --fin-card: rgba(13, 14, 18, 0.8);
   --fin-elevated: rgba(18, 19, 25, 0.85);
@@ -53,7 +115,24 @@
   --fin-crimson: #E82127;
   --fin-muted: #A1A1AA;
   --ts-hairline: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+  --surface-1: #0D0E12;
+  --surface-2: #12131A;
+  --surface-3: #1E2027;
+  --text-1: #FFFFFF;
+  --text-2: #D4D4D8;
+  --text-3: #A1A1AA;
+  --text-4: #71717A;
+  --hairline: rgba(255, 255, 255, 0.08);
+  --hairline-strong: rgba(255, 255, 255, 0.25);
+  --glass-bg: rgba(13, 14, 18, 0.8);
+  --glass-hover-bg: rgba(16, 17, 22, 0.9);
+  --grid-line: rgba(255, 255, 255, 0.015);
+  --noise-opacity: 0.025;
+  --elevation: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --chart-emerald: #00F59B;
 }
+
 
 .fin-card,
 .ts-card {
@@ -68,7 +147,7 @@
 
 .fin-card:hover,
 .ts-card:hover {
-  border-color: rgba(255, 255, 255, 0.25);
+  border-color: var(--hairline-strong);
 }
 
 .fin-card-elevated {
@@ -77,7 +156,7 @@
   border-radius: 1.5rem;
   backdrop-filter: blur(40px);
   -webkit-backdrop-filter: blur(40px);
-  box-shadow: var(--ts-hairline), 0 24px 60px -30px rgba(0, 245, 155, 0.25);
+  box-shadow: var(--ts-hairline), var(--elevation);
 }
 
 /* Section eyebrow label */
@@ -86,7 +165,7 @@
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #A1A1AA;
+  color: var(--text-3);
 }
 
 /* Status badges */
@@ -101,22 +180,22 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
-.ts-status-completed { background: rgba(0, 245, 155, 0.12); color: #00F59B; border: 1px solid rgba(0, 245, 155, 0.3); }
-.ts-status-pending { background: rgba(245, 158, 11, 0.12); color: #F59E0B; border: 1px solid rgba(245, 158, 11, 0.3); }
+.ts-status-completed { background: var(--fin-emerald-soft); color: var(--fin-emerald); border: 1px solid color-mix(in srgb, var(--fin-emerald) 35%, transparent); }
+.ts-status-pending { background: color-mix(in srgb, var(--fin-amber) 12%, transparent); color: var(--fin-amber); border: 1px solid color-mix(in srgb, var(--fin-amber) 35%, transparent); }
 .ts-status-failed { background: rgba(232, 33, 39, 0.12); color: #E82127; border: 1px solid rgba(232, 33, 39, 0.3); }
 
 /* Progress track + neon emerald fill */
 .ts-progress {
-  background: linear-gradient(180deg, #17181E, #0B0C10);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: var(--surface-3);
+  border: 1px solid var(--hairline);
   border-radius: 9999px;
   overflow: hidden;
 }
 .ts-progress-fill {
   height: 100%;
   border-radius: 9999px;
-  background: linear-gradient(90deg, #00B978, #00F59B);
-  box-shadow: 0 0 12px rgba(0, 245, 155, 0.5);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--fin-emerald) 75%, #000), var(--fin-emerald));
+  box-shadow: 0 0 12px color-mix(in srgb, var(--fin-emerald) 45%, transparent);
 }
 
 /* Live pulse indicator */
@@ -124,8 +203,8 @@
   width: 0.5rem;
   height: 0.5rem;
   border-radius: 9999px;
-  background: #00F59B;
-  box-shadow: 0 0 0 0 rgba(0, 245, 155, 0.6);
+  background: var(--fin-emerald);
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--fin-emerald) 60%, transparent);
   animation: ts-pulse-anim 2s infinite;
 }
 @keyframes ts-pulse-anim {
@@ -220,7 +299,7 @@
   }
   input, select, textarea {
     border-radius: 0.75rem;
-    color: #FFFFFF;
+    color: var(--text-1);
   }
   input:focus-visible, select:focus-visible, textarea:focus-visible {
     outline: none;
@@ -228,8 +307,8 @@
     box-shadow: 0 0 0 2px rgba(232, 33, 39, 0.15);
   }
   ::selection {
-    background: rgba(232, 33, 39, 0.35);
-    color: #FFFFFF;
+    background: rgba(232, 33, 39, 0.25);
+    color: var(--text-1);
   }
 
 }
@@ -243,7 +322,7 @@
     background-clip: text;
   }
   .gradient-text-accent {
-    background: linear-gradient(135deg, #FFFFFF 0%, #AAAAAA 100%);
+    background: linear-gradient(135deg, var(--text-1) 0%, var(--text-3) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -255,20 +334,20 @@
     font-size: clamp(2rem, 5vw, 3.5rem);
   }
   .glass-card {
-    background: rgba(13, 14, 18, 0.8);
+    background: var(--glass-bg);
     backdrop-filter: blur(40px);
     -webkit-backdrop-filter: blur(40px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--hairline);
     border-radius: 1.5rem;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    box-shadow: var(--ts-hairline), var(--elevation);
   }
   .glass-card-hover {
     transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
   }
   .glass-card-hover:hover {
-    border-color: rgba(255, 255, 255, 0.25);
-    background: rgba(16, 17, 22, 0.9);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 0 30px rgba(0, 0, 0, 0.5);
+    border-color: var(--hairline-strong);
+    background: var(--glass-hover-bg);
+    box-shadow: var(--ts-hairline), var(--elevation);
   }
 
   .hud-line {
@@ -283,8 +362,8 @@
     position: fixed;
     inset: 0;
     background-image:
-      linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
     background-size: 60px 60px;
     pointer-events: none;
     z-index: 0;
@@ -294,7 +373,7 @@
     inset: 0;
     pointer-events: none;
     z-index: 1;
-    opacity: 0.025;
+    opacity: var(--noise-opacity);
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
   .blob-primary {
@@ -317,7 +396,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(255, 255, 255, 0.08);
+    background: color-mix(in srgb, var(--text-1) 8%, transparent);
     transform: translateX(-100%) skewX(-12deg);
     transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
   }
@@ -420,9 +499,9 @@
     box-shadow: 0 8px 30px rgba(232, 33, 39,0.35);
   }
   .tesla-btn-outline {
-    background: rgba(255, 255, 255, 0.04);
-    color: #FFFFFF;
-    border: 1px solid rgba(255,255,255,0.08);
+    background: var(--surface-2);
+    color: var(--text-1);
+    border: 1px solid var(--hairline);
     border-radius: 0.75rem;
     font-weight: 600;
     letter-spacing: 0.05em;
@@ -433,14 +512,14 @@
     transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
   }
   .tesla-btn-outline:hover {
-    border-color: rgba(255,255,255,0.25);
-    background: rgba(255,255,255,0.08);
+    border-color: var(--hairline-strong);
+    background: var(--surface-3);
   }
   .input-tesla {
-    background: rgba(13, 14, 18, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--surface-1);
+    border: 1px solid var(--hairline);
     border-radius: 0.75rem;
-    color: #FFFFFF;
+    color: var(--text-1);
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
   }
   .input-tesla:focus {
@@ -449,7 +528,7 @@
     box-shadow: 0 0 0 2px rgba(232, 33, 39,0.15);
   }
   .input-tesla::placeholder {
-    color: #6B7280;
+    color: var(--text-4);
   }
 
   .step-active {
@@ -457,14 +536,14 @@
     color: #FFFFFF;
   }
   .step-done {
-    background: #1A1A1A;
+    background: var(--surface-2);
     border: 1px solid #E82127;
     color: #E82127;
   }
   .step-pending {
-    background: #1A1A1A;
-    border: 1px solid #2A2A2A;
-    color: #555555;
+    background: var(--surface-2);
+    border: 1px solid var(--hairline);
+    color: var(--text-4);
   }
 
 /* ============================================
@@ -489,7 +568,7 @@
 
 /* Premium Glass Card — elevated */
 .glass-premium {
-  background: linear-gradient(135deg, rgba(18,19,25,0.85) 0%, rgba(13,14,18,0.8) 100%);
+  background: linear-gradient(135deg, var(--fin-elevated) 0%, var(--fin-card) 100%);
   backdrop-filter: blur(40px);
   -webkit-backdrop-filter: blur(40px);
   border: 1px solid rgba(255,255,255,0.08);
@@ -498,8 +577,8 @@
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 .glass-premium:hover {
-  border-color: rgba(255,255,255,0.25);
-  box-shadow: 0 16px 48px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.12);
+  border-color: var(--hairline-strong);
+  box-shadow: var(--elevation), var(--ts-hairline);
 }
 
 
@@ -700,3 +779,74 @@
   from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* ============================================================
+   LIGHT THEME COMPATIBILITY LAYER
+   Components across the app use fixed Obsidian palette values.
+   In the default light ("Tesla Classic") theme these are remapped
+   to the light surface/text scale so both themes stay coherent.
+   Dark theme keeps the original values untouched.
+   ============================================================ */
+
+html:not(.dark) .text-white { color: var(--text-1); }
+html:not(.dark) .text-white\/70 { color: var(--text-3); }
+html:not(.dark) .text-white\/60 { color: var(--text-3); }
+html:not(.dark) .text-white\/50 { color: var(--text-4); }
+
+/* text scale */
+html:not(.dark) .text-\[\#E4E4E7\],
+html:not(.dark) .text-\[\#D4D4D8\] { color: var(--text-2); }
+html:not(.dark) .text-\[\#A1A1AA\] { color: var(--text-3); }
+html:not(.dark) .text-\[\#71717A\],
+html:not(.dark) .text-\[\#6B7280\],
+html:not(.dark) .text-\[\#888\] { color: var(--text-3); }
+html:not(.dark) .text-\[\#52525B\],
+html:not(.dark) .text-\[\#666\],
+html:not(.dark) .text-\[\#555\],
+html:not(.dark) .text-\[\#444\],
+html:not(.dark) .text-\[\#333333\],
+html:not(.dark) .text-\[\#2A2D35\],
+html:not(.dark) .text-\[\#1E2027\] { color: var(--text-4); }
+
+/* surfaces */
+html:not(.dark) .bg-\[\#050507\],
+html:not(.dark) .bg-\[\#080808\] { background-color: var(--fin-bg); }
+html:not(.dark) .bg-\[\#0D0E12\],
+html:not(.dark) .bg-\[\#161616\] { background-color: var(--surface-1); }
+html:not(.dark) .bg-\[\#12131A\] { background-color: var(--surface-2); }
+html:not(.dark) .bg-\[\#1E2027\] { background-color: var(--surface-3); }
+html:not(.dark) .bg-black\/80,
+html:not(.dark) .bg-black\/70 { background-color: rgba(23, 26, 32, 0.45); }
+html:not(.dark) .bg-white\/5 { background-color: rgba(23, 26, 32, 0.04); }
+html:not(.dark) .bg-white\/10 { background-color: rgba(23, 26, 32, 0.06); }
+
+/* hairlines */
+html:not(.dark) .border-white\/25 { border-color: var(--hairline-strong); }
+html:not(.dark) .border-white\/10,
+html:not(.dark) .border-white\/5 { border-color: var(--hairline); }
+html:not(.dark) .border-\[\#1E2027\],
+html:not(.dark) .border-\[\#2A2D35\],
+html:not(.dark) .border-\[\#12131A\] { border-color: var(--hairline); }
+
+/* accents that need more contrast on white */
+html:not(.dark) .text-\[\#00F59B\] { color: var(--fin-emerald); }
+html:not(.dark) .text-\[\#F59E0B\] { color: var(--fin-amber); }
+
+/* soft-glow blobs are too heavy on a light canvas */
+html:not(.dark) .blob-primary { background: radial-gradient(circle, rgba(232, 33, 39, 0.10) 0%, transparent 70%); }
+html:not(.dark) .blob-accent { background: radial-gradient(circle, rgba(23, 26, 32, 0.05) 0%, transparent 70%); }
+html:not(.dark) .glow-primary { box-shadow: 0 12px 40px -12px rgba(232, 33, 39, 0.35); }
+html:not(.dark) .depth-card,
+html:not(.dark) .card-3d:hover { box-shadow: var(--elevation); }
+
+/* theme transition */
+html { transition: background-color 0.25s ease, color 0.25s ease; }
+
+/* translucent surface + gradient variants of the obsidian palette */
+html:not(.dark) .bg-\[\#050507\]\/80,
+html:not(.dark) .bg-\[\#050507\]\/95 { background-color: color-mix(in srgb, var(--fin-bg) 85%, transparent); }
+html:not(.dark) [class*="from-[#050507]"] { --tw-gradient-from: color-mix(in srgb, var(--fin-bg) 85%, transparent); }
+html:not(.dark) [class*="via-[#050507]"] { --tw-gradient-via: color-mix(in srgb, var(--fin-bg) 60%, transparent); }
+html:not(.dark) [class*="to-[#050507]"] { --tw-gradient-to: color-mix(in srgb, var(--fin-bg) 60%, transparent); }
+html:not(.dark) [class*="to-[#0D0E12]"] { --tw-gradient-to: color-mix(in srgb, var(--surface-1) 85%, transparent); }
+html:not(.dark) [class*="from-[#0D0E12]"] { --tw-gradient-from: color-mix(in srgb, var(--surface-1) 85%, transparent); }

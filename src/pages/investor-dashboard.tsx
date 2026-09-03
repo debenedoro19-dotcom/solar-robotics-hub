@@ -144,6 +144,40 @@ export default function InvestorDashboard() {
     void load();
   }, [load]);
 
+  // Keep the wallet figure live: admin adjustments, deposits and payouts all
+  // land in `user_balance`, so we subscribe to that row, and also re-read it
+  // when the tab regains focus (in case the socket was asleep).
+  const refreshWallet = useCallback(async (uid: string) => {
+    const supabase = createClient();
+    const { data } = await supabase.from('user_balance').select('*').eq('user_id', uid).maybeSingle();
+    if (data) setWallet(toWallet(data as Record<string, unknown>));
+  }, []);
+
+  useEffect(() => {
+    if (!userId) return;
+    const supabase = createClient();
+    const channel = supabase
+      .channel(`wallet_${userId}`)
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'user_balance', filter: `user_id=eq.${userId}` },
+        () => { void refreshWallet(userId); },
+      )
+      .subscribe();
+
+    const onFocus = () => { if (document.visibilityState === 'visible') void refreshWallet(userId); };
+    document.addEventListener('visibilitychange', onFocus);
+    window.addEventListener('focus', onFocus);
+    const poll = window.setInterval(() => { void refreshWallet(userId); }, 30000);
+
+    return () => {
+      supabase.removeChannel(channel);
+      document.removeEventListener('visibilitychange', onFocus);
+      window.removeEventListener('focus', onFocus);
+      window.clearInterval(poll);
+    };
+  }, [userId, refreshWallet]);
+
   const activeContracts = contracts.filter((c) => c.status === 'active');
   const totalActiveCapital = activeContracts.reduce((sum, c) => sum + Number(c.principal), 0);
   const totalYield = contracts.reduce((sum, c) => sum + Number(c.yield_earned), 0) + wallet.total_profit;

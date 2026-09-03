@@ -3,6 +3,7 @@ import Link from '@/components/SmartLink';
 import { usePathname } from '@/lib/next-shims';
 import { createClient } from '@/lib/supabase/client';
 import { money } from './wallet';
+import { ThemeToggle } from '@/lib/theme';
 
 const NAV = [
   { href: '/dashboard', label: 'Dashboard' },
@@ -35,7 +36,7 @@ export default function InvestorShell({
   }
 
   return (
-    <div className="min-h-screen bg-fin-bg text-white">
+    <div className="min-h-screen bg-fin-bg text-foreground">
       <header className="sticky top-0 z-50 border-b border-fin-border bg-fin-bg/90 backdrop-blur-xl">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="h-16 flex items-center justify-between gap-4">
@@ -64,6 +65,7 @@ export default function InvestorShell({
             </div>
 
             <div className="flex items-center gap-2 sm:gap-3">
+              <ThemeToggle />
               {typeof balance === 'number' && (
                 <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl border border-fin-emerald/30 bg-fin-emerald-soft">
                   <span className="h-1.5 w-1.5 rounded-full bg-fin-emerald animate-pulse" />
