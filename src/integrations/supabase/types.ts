@@ -86,6 +86,7 @@ export type Database = {
           notes: string | null
           package_name: string
           payment_method: string
+          proof_url: string | null
           tx_ref: string
           updated_at: string | null
           user_email: string
@@ -101,6 +102,7 @@ export type Database = {
           notes?: string | null
           package_name?: string
           payment_method?: string
+          proof_url?: string | null
           tx_ref?: string
           updated_at?: string | null
           user_email?: string
@@ -116,6 +118,7 @@ export type Database = {
           notes?: string | null
           package_name?: string
           payment_method?: string
+          proof_url?: string | null
           tx_ref?: string
           updated_at?: string | null
           user_email?: string
