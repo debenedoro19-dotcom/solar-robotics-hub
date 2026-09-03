@@ -101,7 +101,7 @@ const PAYOUT_STATUS_CONFIG: Record<string, { label: string; color: string }> = {
   rejected: { label: 'Rejected', color: '#E82127' },
 };
 
-export default function AccountPage() {
+export default function AccountPage({ embedded = false }: { embedded?: boolean } = {}) {
   const router = useRouter();
   const supabase = createClient();
 
