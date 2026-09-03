@@ -850,3 +850,14 @@ html:not(.dark) [class*="via-[#050507]"] { --tw-gradient-via: color-mix(in srgb,
 html:not(.dark) [class*="to-[#050507]"] { --tw-gradient-to: color-mix(in srgb, var(--fin-bg) 60%, transparent); }
 html:not(.dark) [class*="to-[#0D0E12]"] { --tw-gradient-to: color-mix(in srgb, var(--surface-1) 85%, transparent); }
 html:not(.dark) [class*="from-[#0D0E12]"] { --tw-gradient-from: color-mix(in srgb, var(--surface-1) 85%, transparent); }
+
+/* light-theme refinements for the glow / metal effects */
+html:not(.dark) .neon-red { text-shadow: none; }
+html:not(.dark) .badge-3d { text-shadow: none; box-shadow: 0 1px 3px rgba(232, 33, 39, 0.12); }
+html:not(.dark) .metallic {
+  background: linear-gradient(135deg, #FFFFFF 0%, #F2F2F5 50%, #E9E9ED 100%);
+  border: 1px solid var(--hairline);
+}
+html:not(.dark) .gradient-border-animated { background: var(--surface-1); }
+html:not(.dark) .shimmer { background: linear-gradient(90deg, rgba(23,26,32,0) 0%, rgba(23,26,32,0.06) 50%, rgba(23,26,32,0) 100%); background-size: 200% 100%; }
+html:not(.dark) .scanline, html:not(.dark) .dot-grid { opacity: 0.5; }
