@@ -6,7 +6,6 @@ import { money } from './wallet';
 
 const NAV = [
   { href: '/dashboard', label: 'Dashboard' },
-  { href: '/account', label: 'Account' },
   { href: '/kyc', label: 'Verification' },
   { href: '/support', label: 'Support' },
 ];
