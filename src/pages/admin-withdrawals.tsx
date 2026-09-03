@@ -296,14 +296,8 @@ export default function AdminWithdrawalsPage() {
         return prev;
       });
 
-      // Send email when paid
-      if (targetStatus === 'paid' && withdrawal.user_email) {
-        sendWithdrawalConfirmedEmail(
-          withdrawal.user_email,
-          withdrawal.user_name || 'Investor',
-          formatAmount(withdrawal.amount),
-          notes || undefined
-        ).catch(console.error);
+      if ((targetStatus === 'paid' || targetStatus === 'rejected') && !res.emailed) {
+        setError(res.recipient ? 'Status saved, but the notification email failed to send.' : 'Status saved — no email address on file for this investor.');
       }
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Failed to update status');
