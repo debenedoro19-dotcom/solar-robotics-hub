@@ -3,7 +3,7 @@ import Link from '@/components/SmartLink';
 import { createClient } from '@/lib/supabase/client';
 import { getCurrentUser, isAdmin } from '@/lib/portfolioStore';
 import { checkIsAdmin } from '@/lib/adminAuth';
-import { sendWithdrawalConfirmedEmail } from '@/lib/emailService';
+import { adminSetWithdrawalStatus } from '@/lib/admin-transactions.functions';
 
 interface WithdrawalRequest {
   id: string;
@@ -258,24 +258,18 @@ export default function AdminWithdrawalsPage() {
     setSaving(true);
     setConfirmModal((prev) => ({ ...prev, open: false }));
     try {
-      const supabase = createClient();
-      const { error: updateError } = await supabase
-        .from('withdrawal_requests')
-        .update({
-          payout_status: targetStatus,
-          notes,
-          processed_at: ['paid', 'rejected'].includes(targetStatus) ? new Date().toISOString() : null,
-        })
-        .eq('id', withdrawal.id);
-
-      if (updateError) throw updateError;
+      // Server-side: updates the payout status AND emails the investor on
+      // paid/rejected in the same call, so the notification can't be skipped.
+      const res = await adminSetWithdrawalStatus({
+        data: { withdrawalId: withdrawal.id, status: targetStatus, notes: notes || undefined },
+      });
 
       // Update local state
       const updatedWithdrawal = {
         ...withdrawal,
         payout_status: targetStatus,
         notes,
-        processed_at: ['paid', 'rejected'].includes(targetStatus) ? new Date().toISOString() : withdrawal.processed_at,
+        processed_at: res.processedAt ?? withdrawal.processed_at,
       };
       setWithdrawals((prev) => prev.map((w) => (w.id === withdrawal.id ? updatedWithdrawal : w)));
       setSelected(updatedWithdrawal);
@@ -302,14 +296,8 @@ export default function AdminWithdrawalsPage() {
         return prev;
       });
 
-      // Send email when paid
-      if (targetStatus === 'paid' && withdrawal.user_email) {
-        sendWithdrawalConfirmedEmail(
-          withdrawal.user_email,
-          withdrawal.user_name || 'Investor',
-          formatAmount(withdrawal.amount),
-          notes || undefined
-        ).catch(console.error);
+      if ((targetStatus === 'paid' || targetStatus === 'rejected') && !res.emailed) {
+        setError(res.recipient ? 'Status saved, but the notification email failed to send.' : 'Status saved — no email address on file for this investor.');
       }
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Failed to update status');

@@ -3,7 +3,7 @@ import Link from '@/components/SmartLink';
 import { createClient } from '@/lib/supabase/client';
 import { getCurrentUser, isAdmin } from '@/lib/portfolioStore';
 import { checkIsAdmin } from '@/lib/adminAuth';
-import { sendDepositApprovedEmail, sendDepositRejectedEmail } from '@/lib/emailService';
+import { adminConfirmDeposit, adminRejectDeposit } from '@/lib/admin-transactions.functions';
 
 interface DepositRecord {
   id: string;
@@ -155,52 +155,37 @@ export default function AdminDepositsPage() {
     try {
       const supabase = createClient();
 
-      if (actionStatus === 'confirmed' && selected.deposit_status !== 'confirmed') {
-        // Atomic: marks the deposit confirmed, credits the user's wallet balance
-        // and writes the ledger entry in a single admin-guarded transaction.
-        const { data, error: rpcError } = await supabase.rpc('admin_approve_deposit', {
-          _deposit_id: selected.id,
+      let emailNote = '';
+
+      if (actionStatus === 'confirmed') {
+        // Server-side: confirms the deposit, credits the wallet AND emails the
+        // investor in one call, so the notification can't be skipped.
+        const res = await adminConfirmDeposit({
+          data: { depositId: selected.id, notes: actionNotes || undefined },
         });
-        if (rpcError) throw rpcError;
-        const res = data as { ok: boolean; error?: string } | null;
-        if (!res?.ok) throw new Error(res?.error ?? 'Approval failed');
-
-        if (actionNotes) {
-          await supabase.from('deposit_records').update({ notes: actionNotes }).eq('id', selected.id);
-        }
-
-        if (selected.user_email) {
-          void sendDepositApprovedEmail(
-            { email: selected.user_email },
-            Number(selected.amount).toLocaleString(),
-            actionNotes || undefined,
-          ).catch(() => {});
-        }
-
-      } else if (actionStatus === 'rejected' && selected.user_email) {
-        void sendDepositRejectedEmail(
-          { email: selected.user_email },
-          Number(selected.amount).toLocaleString(),
-          actionNotes || undefined,
-        ).catch(() => {});
-      }
-
-      const updateData: Record<string, any> = {
-          deposit_status: actionStatus,
-          notes: actionNotes || null,
-          updated_at: new Date().toISOString(),
-        };
+        emailNote = res.emailed ? ' · email sent' : res.recipient ? ' · email failed' : ' · no email on file';
+      } else if (actionStatus === 'rejected') {
+        const res = await adminRejectDeposit({
+          data: { depositId: selected.id, notes: actionNotes || undefined },
+        });
+        emailNote = res.emailed ? ' · email sent' : res.recipient ? ' · email failed' : ' · no email on file';
+      } else {
         const { error: updateError } = await supabase
           .from('deposit_records')
-          .update(updateData)
+          .update({
+            deposit_status: actionStatus,
+            notes: actionNotes || null,
+            updated_at: new Date().toISOString(),
+          })
           .eq('id', selected.id);
         if (updateError) throw updateError;
+      }
 
       const updated = { ...selected, deposit_status: actionStatus, notes: actionNotes || null };
       setSelected(updated);
       setDeposits((prev) => prev.map((d) => (d.id === selected.id ? updated : d)));
       setStats(recomputeStats(deposits.map((d) => (d.id === selected.id ? updated : d))));
-      setSavedMsg(actionStatus === 'confirmed' ? 'Approved — wallet credited' : 'Saved successfully');
+      setSavedMsg((actionStatus === 'confirmed' ? 'Approved — wallet credited' : 'Saved successfully') + emailNote);
       setTimeout(() => setSavedMsg(''), 2500);
     } catch (err) {
       setSavedMsg(err instanceof Error ? err.message : 'Failed to save');
