@@ -1,13 +1,34 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from '@/components/SmartLink';
 import {  useRouter  } from '@/lib/next-shims';
+import { supabase } from '@/integrations/supabase/client';
 
 export default function ResetPasswordPage() {
   const router = useRouter();
-  const [form, setForm] = useState({ email: '', token: '', password: '', confirm: '' });
+  const [form, setForm] = useState({ password: '', confirm: '' });
   const [loading, setLoading] = useState(false);
+  const [checkingLink, setCheckingLink] = useState(true);
+  const [hasRecoverySession, setHasRecoverySession] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    let active = true;
+    supabase.auth.getSession().then(({ data }) => {
+      if (!active) return;
+      setHasRecoverySession(Boolean(data.session));
+      setCheckingLink(false);
+    });
+    const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
+      if (!active || (event !== 'PASSWORD_RECOVERY' && event !== 'SIGNED_IN')) return;
+      setHasRecoverySession(Boolean(session));
+      setCheckingLink(false);
+    });
+    return () => {
+      active = false;
+      listener.subscription.unsubscribe();
+    };
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -17,7 +38,7 @@ export default function ResetPasswordPage() {
     e.preventDefault();
     setError('');
 
-    if (!form.email || !form.token || !form.password || !form.confirm) {
+    if (!form.password || !form.confirm) {
       setError('Please fill in all fields.');
       return;
     }
@@ -31,33 +52,12 @@ export default function ResetPasswordPage() {
     }
 
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 1000));
-
-    // Validate token
-    const resets = JSON.parse(localStorage.getItem('tesla_trade_resets') || '{}');
-    const entry = resets[form.email.toLowerCase()];
-
-    if (!entry || entry.token !== form.token.trim()) {
+    const { error: updateError } = await supabase.auth.updateUser({ password: form.password });
+    if (updateError) {
       setLoading(false);
-      setError('Invalid or expired reset code. Please request a new one.');
+      setError(updateError.message);
       return;
     }
-    if (Date.now() > entry.expires) {
-      setLoading(false);
-      setError('Reset code has expired. Please request a new one.');
-      return;
-    }
-
-    // Update password in stored users
-    const storedUsers = JSON.parse(localStorage.getItem('tesla_trade_users') || '[]');
-    const updated = storedUsers.map((u: { email: string; password?: string }) =>
-      u.email === form.email.toLowerCase() ? { ...u, password: form.password } : u
-    );
-    localStorage.setItem('tesla_trade_users', JSON.stringify(updated));
-
-    // Remove used token
-    delete resets[form.email.toLowerCase()];
-    localStorage.setItem('tesla_trade_resets', JSON.stringify(resets));
 
     setLoading(false);
     setSuccess(true);
@@ -92,7 +92,7 @@ export default function ResetPasswordPage() {
             {success ? 'Password Updated' : 'Set New Password'}
           </h1>
           <p className="text-sm text-[#71717A]">
-            {success ? 'Redirecting you to sign in…' : 'Enter your reset code and new password.'}
+             {success ? 'Redirecting you to sign in…' : 'Choose a new password for your account.'}
           </p>
         </div>
 
@@ -107,49 +107,20 @@ export default function ResetPasswordPage() {
               Your password has been reset successfully. You&apos;ll be redirected to sign in shortly.
             </p>
           </div>
+        ) : checkingLink ? (
+          <p className="py-8 text-center text-sm text-[#A1A1AA]">Checking your recovery link…</p>
+        ) : !hasRecoverySession ? (
+          <div className="space-y-5 py-4 text-center">
+            <p className="text-sm text-[#A1A1AA]">This recovery link is invalid or has expired.</p>
+            <Link href="/forgot-password" className="tesla-btn-primary flex min-h-[48px] items-center justify-center rounded-xl text-sm font-bold uppercase tracking-widest">
+              Request a new link
+            </Link>
+          </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
               <div className="px-4 py-3 rounded-xl bg-primary/10 border border-primary/30 text-sm text-primary">{error}</div>
             )}
-
-            <div>
-              <label htmlFor="email" className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">
-                Email Address
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                value={form.email}
-                onChange={handleChange}
-                placeholder="you@example.com"
-                className="w-full px-4 py-3 rounded-xl text-sm input-tesla"
-                autoComplete="email"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="token" className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">
-                Reset Code
-              </label>
-              <input
-                id="token"
-                name="token"
-                type="text"
-                value={form.token}
-                onChange={handleChange}
-                placeholder="Paste your reset code"
-                className="w-full px-4 py-3 rounded-xl text-sm input-tesla font-mono"
-              />
-              <p className="text-xs text-[#6B7280] mt-1.5">
-                Find the code in your reset email or{' '}
-                <Link href="/forgot-password" className="text-primary hover:underline">
-                  request a new one
-                </Link>
-                .
-              </p>
-            </div>
 
             <div>
               <label htmlFor="password" className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">
