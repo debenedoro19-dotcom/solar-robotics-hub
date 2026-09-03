@@ -10,7 +10,7 @@ const navLinks = [
   { label: 'VIP', href: '#vip' },
   { label: 'News', href: '/news' },
   { label: 'Careers', href: '/careers' },
-  { label: 'Account', href: '/account' },
+  { label: 'Account', href: '/dashboard' },
   { label: 'Deposit', href: '/account/deposit' },
 ];
 
