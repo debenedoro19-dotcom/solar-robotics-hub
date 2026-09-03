@@ -59,6 +59,15 @@ export default function AccountDepositPage() {
     const supabase = createClient();
     const reference = txRef.trim() || `TT-${Date.now().toString(36).toUpperCase()}`;
 
+    let proofUrl: string | null = null;
+    if (proof) {
+      const ext = proof.name.split('.').pop()?.toLowerCase() || 'png';
+      const path = `${userId}/${Date.now()}.${ext}`;
+      const { error: upErr } = await supabase.storage.from('deposit-proofs').upload(path, proof, { cacheControl: '3600' });
+      if (upErr) { setBusy(false); setError(`Could not upload payment proof: ${upErr.message}`); return; }
+      proofUrl = path;
+    }
+
     const { error: insertError } = await supabase.from('deposit_records').insert({
       user_id: userId,
       user_email: userEmail,
@@ -69,6 +78,7 @@ export default function AccountDepositPage() {
       tx_ref: reference,
       deposit_status: 'pending',
       notes: note.trim() || null,
+      proof_url: proofUrl,
     });
     setBusy(false);
 
