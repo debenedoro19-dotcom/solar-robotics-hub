@@ -9,6 +9,7 @@ import PlanCard, { type InvestmentPlan as SharedPlan } from '@/components/invest
 import { sendInvestmentPurchasedEmail } from '@/lib/emailService';
 
 const PortfolioChart = lazy(() => import('@/components/investor/PortfolioChart'));
+const AccountPanel = lazy(() => import('@/pages/account'));
 
 interface Plan {
   id: string;
@@ -86,6 +87,7 @@ export default function InvestorDashboard() {
   const [giveawayEntries, setGiveawayEntries] = useState<GiveawayEntry[]>([]);
   const [tab, setTab] = useState<'active' | 'browse'>('active');
   const [range, setRange] = useState<Range>('1m');
+  const [view, setView] = useState<'portfolio' | 'account'>('portfolio');
 
   const navigate = useNavigate();
   const goDeposit = useCallback(() => { void navigate({ to: '/account/deposit' }); }, [navigate]);
