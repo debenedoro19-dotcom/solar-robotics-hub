@@ -8,8 +8,10 @@ import {
   Heading,
   Html,
   Preview,
+  Section,
   Text,
 } from '@react-email/components'
+import { EmailHeader } from './email-brand'
 
 interface MagicLinkEmailProps {
   siteName: string
@@ -27,17 +29,20 @@ export const MagicLinkEmail = ({
     <Preview>Your login link for {siteName}</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Heading style={h1}>Your login link</Heading>
-        <Text style={text}>
-          Click the button below to log in to {siteName}. This link will expire
-          shortly.
-        </Text>
-        <Button className="dm-btn" style={button} href={confirmationUrl}>
-          Log In
-        </Button>
-        <Text style={footer}>
-          If you didn't request this link, you can safely ignore this email.
-        </Text>
+        <EmailHeader siteName={siteName} />
+        <Section style={card}>
+          <Heading style={h1}>Your login link</Heading>
+          <Text style={text}>
+            Click the button below to log in to {siteName}. This link will expire
+            shortly.
+          </Text>
+          <Button className="dm-btn" style={button} href={confirmationUrl}>
+            Log In
+          </Button>
+          <Text style={footer}>
+            If you didn't request this link, you can safely ignore this email.
+          </Text>
+        </Section>
       </Container>
     </Body>
   </Html>
@@ -46,7 +51,13 @@ export const MagicLinkEmail = ({
 export default MagicLinkEmail
 
 const main = { backgroundColor: '#ffffff', fontFamily: 'Arial, sans-serif' }
-const container = { padding: '20px 25px' }
+const container = { maxWidth: '560px', margin: '0 auto', padding: '32px 24px' }
+const card = {
+  border: '1px solid #e6e7eb',
+  borderTop: 'none',
+  borderRadius: '0 0 20px 20px',
+  padding: '28px',
+}
 const h1 = {
   fontSize: '22px',
   fontWeight: 'bold' as const,

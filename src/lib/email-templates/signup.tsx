@@ -9,8 +9,10 @@ import {
   Html,
   Link,
   Preview,
+  Section,
   Text,
 } from '@react-email/components'
+import { EmailHeader } from './email-brand'
 
 interface SignupEmailProps {
   siteName: string
@@ -32,27 +34,30 @@ export const SignupEmail = ({
     <Preview>Confirm your email for {siteName}</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Heading style={h1}>Confirm your email</Heading>
-        <Text style={text}>
-          Thanks for signing up for{' '}
-          <Link href={siteUrl} style={link}>
-            <strong>{siteName}</strong>
-          </Link>
-          !
-        </Text>
-        <Text style={text}>
-          Please confirm your email address (
-          <Link href={`mailto:${recipient}`} style={link}>
-            {recipient}
-          </Link>
-          ) by clicking the button below:
-        </Text>
-        <Button className="dm-btn" style={button} href={confirmationUrl}>
-          Verify Email
-        </Button>
-        <Text style={footer}>
-          If you didn't create an account, you can safely ignore this email.
-        </Text>
+        <EmailHeader siteName={siteName} />
+        <Section style={card}>
+          <Heading style={h1}>Confirm your email</Heading>
+          <Text style={text}>
+            Thanks for signing up for{' '}
+            <Link href={siteUrl} style={link}>
+              <strong>{siteName}</strong>
+            </Link>
+            !
+          </Text>
+          <Text style={text}>
+            Please confirm your email address (
+            <Link href={`mailto:${recipient}`} style={link}>
+              {recipient}
+            </Link>
+            ) by clicking the button below:
+          </Text>
+          <Button className="dm-btn" style={button} href={confirmationUrl}>
+            Verify Email
+          </Button>
+          <Text style={footer}>
+            If you didn't create an account, you can safely ignore this email.
+          </Text>
+        </Section>
       </Container>
     </Body>
   </Html>
@@ -61,7 +66,13 @@ export const SignupEmail = ({
 export default SignupEmail
 
 const main = { backgroundColor: '#ffffff', fontFamily: 'Arial, sans-serif' }
-const container = { padding: '20px 25px' }
+const container = { maxWidth: '560px', margin: '0 auto', padding: '32px 24px' }
+const card = {
+  border: '1px solid #e6e7eb',
+  borderTop: 'none',
+  borderRadius: '0 0 20px 20px',
+  padding: '28px',
+}
 const h1 = {
   fontSize: '22px',
   fontWeight: 'bold' as const,

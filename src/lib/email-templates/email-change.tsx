@@ -9,8 +9,10 @@ import {
   Html,
   Link,
   Preview,
+  Section,
   Text,
 } from '@react-email/components'
+import { EmailHeader } from './email-brand'
 
 interface EmailChangeEmailProps {
   siteName: string
@@ -37,28 +39,31 @@ export const EmailChangeEmail = ({
     <Preview>Confirm your email change for {siteName}</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Heading style={h1}>Confirm your email change</Heading>
-        <Text style={text}>
-          You requested to change your email address for {siteName} from{' '}
-          <Link href={`mailto:${oldEmail}`} style={link}>
-            {oldEmail}
-          </Link>{' '}
-          to{' '}
-          <Link href={`mailto:${newEmail}`} style={link}>
-            {newEmail}
-          </Link>
-          .
-        </Text>
-        <Text style={text}>
-          Click the button below to confirm this change:
-        </Text>
-        <Button className="dm-btn" style={button} href={confirmationUrl}>
-          Confirm Email Change
-        </Button>
-        <Text style={footer}>
-          If you didn't request this change, please secure your account
-          immediately.
-        </Text>
+        <EmailHeader siteName={siteName} />
+        <Section style={card}>
+          <Heading style={h1}>Confirm your email change</Heading>
+          <Text style={text}>
+            You requested to change your email address for {siteName} from{' '}
+            <Link href={`mailto:${oldEmail}`} style={link}>
+              {oldEmail}
+            </Link>{' '}
+            to{' '}
+            <Link href={`mailto:${newEmail}`} style={link}>
+              {newEmail}
+            </Link>
+            .
+          </Text>
+          <Text style={text}>
+            Click the button below to confirm this change:
+          </Text>
+          <Button className="dm-btn" style={button} href={confirmationUrl}>
+            Confirm Email Change
+          </Button>
+          <Text style={footer}>
+            If you didn't request this change, please secure your account
+            immediately.
+          </Text>
+        </Section>
       </Container>
     </Body>
   </Html>
@@ -67,7 +72,13 @@ export const EmailChangeEmail = ({
 export default EmailChangeEmail
 
 const main = { backgroundColor: '#ffffff', fontFamily: 'Arial, sans-serif' }
-const container = { padding: '20px 25px' }
+const container = { maxWidth: '560px', margin: '0 auto', padding: '32px 24px' }
+const card = {
+  border: '1px solid #e6e7eb',
+  borderTop: 'none',
+  borderRadius: '0 0 20px 20px',
+  padding: '28px',
+}
 const h1 = {
   fontSize: '22px',
   fontWeight: 'bold' as const,

@@ -7,26 +7,35 @@ import {
   Heading,
   Html,
   Preview,
+  Section,
   Text,
 } from '@react-email/components'
+import { EmailHeader } from './email-brand'
 
 interface ReauthenticationEmailProps {
   token: string
+  siteName?: string
 }
 
-export const ReauthenticationEmail = ({ token }: ReauthenticationEmailProps) => (
+export const ReauthenticationEmail = ({
+  token,
+  siteName = 'Tesla Energy Hub',
+}: ReauthenticationEmailProps) => (
   <Html lang="en" dir="ltr">
     <Head />
     <Preview>Your verification code</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Heading style={h1}>Confirm reauthentication</Heading>
-        <Text style={text}>Use the code below to confirm your identity:</Text>
-        <Text style={codeStyle}>{token}</Text>
-        <Text style={footer}>
-          This code will expire shortly. If you didn't request this, you can
-          safely ignore this email.
-        </Text>
+        <EmailHeader siteName={siteName} tagline="Secure your account" />
+        <Section style={card}>
+          <Heading style={h1}>Confirm reauthentication</Heading>
+          <Text style={text}>Use the code below to confirm your identity:</Text>
+          <Text style={codeStyle}>{token}</Text>
+          <Text style={footer}>
+            This code will expire shortly. If you didn't request this, you can
+            safely ignore this email.
+          </Text>
+        </Section>
       </Container>
     </Body>
   </Html>
@@ -35,7 +44,13 @@ export const ReauthenticationEmail = ({ token }: ReauthenticationEmailProps) => 
 export default ReauthenticationEmail
 
 const main = { backgroundColor: '#ffffff', fontFamily: 'Arial, sans-serif' }
-const container = { padding: '20px 25px' }
+const container = { maxWidth: '560px', margin: '0 auto', padding: '32px 24px' }
+const card = {
+  border: '1px solid #e6e7eb',
+  borderTop: 'none',
+  borderRadius: '0 0 20px 20px',
+  padding: '28px',
+}
 const h1 = {
   fontSize: '22px',
   fontWeight: 'bold' as const,
