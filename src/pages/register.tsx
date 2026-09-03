@@ -84,6 +84,34 @@ export default function RegisterPage() {
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-primary/3 rounded-full blur-[100px]" />
       </div>
 
+      {/* Verification popup — shown right after sign up */}
+      {emailSent && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/80 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="verify-title">
+          <div className="w-full max-w-sm rounded-2xl bg-[#0D0E12] border border-[#1E2027] p-6 text-center shadow-2xl">
+            <div className="w-14 h-14 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center mx-auto mb-4">
+              <svg className="w-7 h-7 text-primary" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+              </svg>
+            </div>
+            <h2 id="verify-title" className="text-lg font-extrabold text-white tracking-tight mb-2">Verify your email</h2>
+            <p className="text-sm text-[#A1A1AA] leading-relaxed mb-1">
+              A verification link was sent to
+            </p>
+            <p className="text-sm font-semibold text-white mb-3 break-all">{registeredEmail}</p>
+            <p className="text-xs text-[#71717A] leading-relaxed mb-5">
+              Open your inbox and click the link to activate your account. Check spam if you don&apos;t see it.
+            </p>
+            <Link
+              href="/login"
+              className="block w-full py-3 tesla-btn-primary rounded-xl text-sm font-bold tracking-widest uppercase text-center"
+            >
+              Got it
+            </Link>
+          </div>
+        </div>
+      )}
+
+
       <div className="relative z-10 w-full max-w-sm">
         {/* Logo */}
         <div className="text-center mb-8">
