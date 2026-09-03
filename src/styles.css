@@ -779,3 +779,65 @@
   from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* ============================================================
+   LIGHT THEME COMPATIBILITY LAYER
+   Components across the app use fixed Obsidian palette values.
+   In the default light ("Tesla Classic") theme these are remapped
+   to the light surface/text scale so both themes stay coherent.
+   Dark theme keeps the original values untouched.
+   ============================================================ */
+
+html:not(.dark) .text-white { color: var(--text-1); }
+html:not(.dark) .text-white\/70 { color: var(--text-3); }
+html:not(.dark) .text-white\/60 { color: var(--text-3); }
+html:not(.dark) .text-white\/50 { color: var(--text-4); }
+
+/* text scale */
+html:not(.dark) .text-\[\#E4E4E7\],
+html:not(.dark) .text-\[\#D4D4D8\] { color: var(--text-2); }
+html:not(.dark) .text-\[\#A1A1AA\] { color: var(--text-3); }
+html:not(.dark) .text-\[\#71717A\],
+html:not(.dark) .text-\[\#6B7280\],
+html:not(.dark) .text-\[\#888\] { color: var(--text-3); }
+html:not(.dark) .text-\[\#52525B\],
+html:not(.dark) .text-\[\#666\],
+html:not(.dark) .text-\[\#555\],
+html:not(.dark) .text-\[\#444\],
+html:not(.dark) .text-\[\#333333\],
+html:not(.dark) .text-\[\#2A2D35\],
+html:not(.dark) .text-\[\#1E2027\] { color: var(--text-4); }
+
+/* surfaces */
+html:not(.dark) .bg-\[\#050507\],
+html:not(.dark) .bg-\[\#080808\] { background-color: var(--fin-bg); }
+html:not(.dark) .bg-\[\#0D0E12\],
+html:not(.dark) .bg-\[\#161616\] { background-color: var(--surface-1); }
+html:not(.dark) .bg-\[\#12131A\] { background-color: var(--surface-2); }
+html:not(.dark) .bg-\[\#1E2027\] { background-color: var(--surface-3); }
+html:not(.dark) .bg-black\/80,
+html:not(.dark) .bg-black\/70 { background-color: rgba(23, 26, 32, 0.45); }
+html:not(.dark) .bg-white\/5 { background-color: rgba(23, 26, 32, 0.04); }
+html:not(.dark) .bg-white\/10 { background-color: rgba(23, 26, 32, 0.06); }
+
+/* hairlines */
+html:not(.dark) .border-white\/25 { border-color: var(--hairline-strong); }
+html:not(.dark) .border-white\/10,
+html:not(.dark) .border-white\/5 { border-color: var(--hairline); }
+html:not(.dark) .border-\[\#1E2027\],
+html:not(.dark) .border-\[\#2A2D35\],
+html:not(.dark) .border-\[\#12131A\] { border-color: var(--hairline); }
+
+/* accents that need more contrast on white */
+html:not(.dark) .text-\[\#00F59B\] { color: var(--fin-emerald); }
+html:not(.dark) .text-\[\#F59E0B\] { color: var(--fin-amber); }
+
+/* soft-glow blobs are too heavy on a light canvas */
+html:not(.dark) .blob-primary { background: radial-gradient(circle, rgba(232, 33, 39, 0.10) 0%, transparent 70%); }
+html:not(.dark) .blob-accent { background: radial-gradient(circle, rgba(23, 26, 32, 0.05) 0%, transparent 70%); }
+html:not(.dark) .glow-primary { box-shadow: 0 12px 40px -12px rgba(232, 33, 39, 0.35); }
+html:not(.dark) .depth-card,
+html:not(.dark) .card-3d:hover { box-shadow: var(--elevation); }
+
+/* theme transition */
+html { transition: background-color 0.25s ease, color 0.25s ease; }
