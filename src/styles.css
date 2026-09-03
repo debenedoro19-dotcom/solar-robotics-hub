@@ -5,15 +5,80 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Tesla Clean-Tech design system — Stealth Obsidian */
+  /* ── Tesla Classic (light) — default theme ───────────────────────────── */
   --radius: 0.75rem;
+  --background: oklch(0.9750 0.0015 285);   /* #F5F5F7 */
+  --foreground: oklch(0.2400 0.0080 274);   /* #171A20 */
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.2400 0.0080 274);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.2400 0.0080 274);
+  --primary: oklch(0.5880 0.2320 26.5);     /* #E82127 Tesla Red */
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.9450 0.0020 285);
+  --secondary-foreground: oklch(0.2400 0.0080 274);
+  --muted: oklch(0.9450 0.0020 285);
+  --muted-foreground: oklch(0.5250 0.0060 285);
+  --accent: oklch(0.5880 0.2320 26.5);
+  --accent-foreground: oklch(1 0 0);
+  --destructive: oklch(0.5880 0.2320 26.5);
+  --destructive-foreground: oklch(1 0 0);
+  --success: oklch(0.6300 0.1500 162);      /* #00875A */
+  --warning: oklch(0.6500 0.1600 62);       /* #B45309 */
+  --robotics: oklch(0.5400 0.2000 293.54);
+  --solar: oklch(0.6800 0.1500 74);
+  --border: oklch(0 0 0 / 0.10);
+  --input: oklch(0 0 0 / 0.12);
+  --ring: oklch(0.5880 0.2320 26.5);
+  --sidebar: oklch(1 0 0);
+  --sidebar-foreground: oklch(0.2400 0.0080 274);
+  --sidebar-border: oklch(0 0 0 / 0.08);
+  --chart-1: oklch(0.5880 0.2320 26.5);
+  --chart-2: oklch(0.6300 0.1500 162);
+  --chart-3: oklch(0.5400 0.2000 293.54);
+  --chart-4: oklch(0.6800 0.1500 74);
+  --chart-5: oklch(0.5800 0.1500 250.96);
+
+  /* Surface + accent palette (raw values for gradients / charts) */
+  --fin-bg: #F5F5F7;
+  --fin-card: rgba(255, 255, 255, 0.92);
+  --fin-elevated: rgba(255, 255, 255, 1);
+  --fin-border: rgba(0, 0, 0, 0.10);
+  --fin-emerald: #00875A;
+  --fin-emerald-soft: rgba(0, 135, 90, 0.10);
+  --fin-amber: #B45309;
+  --fin-danger: #E82127;
+  --fin-crimson: #E82127;
+  --fin-muted: #5C5E62;
+  --ts-hairline: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+
+  /* Theme-aware helpers used by the utility layer */
+  --surface-1: #FFFFFF;               /* cards */
+  --surface-2: #F0F0F3;               /* elevated / subtle fills */
+  --surface-3: #E4E4E7;               /* inputs, tracks */
+  --text-1: #171A20;                  /* headings */
+  --text-2: #3E4148;                  /* body */
+  --text-3: #5C5E62;                  /* muted */
+  --text-4: #86888C;                  /* faint */
+  --hairline: rgba(0, 0, 0, 0.10);
+  --hairline-strong: rgba(0, 0, 0, 0.22);
+  --glass-bg: rgba(255, 255, 255, 0.82);
+  --glass-hover-bg: rgba(255, 255, 255, 0.95);
+  --grid-line: rgba(0, 0, 0, 0.035);
+  --noise-opacity: 0.015;
+  --elevation: 0 1px 2px rgba(16, 24, 40, 0.06), 0 12px 32px -18px rgba(16, 24, 40, 0.25);
+  --chart-emerald: #00875A;
+}
+
+.dark {
+  /* ── Tesla Stealth Obsidian (dark) ───────────────────────────────────── */
   --background: oklch(0.0700 0.0030 285);   /* #050507 */
   --foreground: oklch(1.0000 0.0000 89.88);
   --card: oklch(0.1450 0.0060 285);         /* #0D0E12 */
   --card-foreground: oklch(1.0000 0.0000 89.88);
   --popover: oklch(0.1450 0.0060 285);
   --popover-foreground: oklch(1.0000 0.0000 89.88);
-  --primary: oklch(0.5880 0.2320 26.5);     /* #E82127 Cyber Crimson */
+  --primary: oklch(0.5880 0.2320 26.5);
   --primary-foreground: oklch(1.0000 0.0000 89.88);
   --secondary: oklch(0.1750 0.0050 285);
   --secondary-foreground: oklch(1.0000 0.0000 89.88);
@@ -24,7 +89,7 @@
   --destructive: oklch(0.5880 0.2320 26.5);
   --destructive-foreground: oklch(1.0000 0.0000 89.88);
   --success: oklch(0.8600 0.2100 162);      /* #00F59B */
-  --warning: oklch(0.8131 0.1650 75.04);    /* #F59E0B */
+  --warning: oklch(0.8131 0.1650 75.04);
   --robotics: oklch(0.7090 0.1592 293.54);
   --solar: oklch(0.8625 0.1494 84.65);
   --border: oklch(1 0 0 / 0.08);
@@ -38,10 +103,7 @@
   --chart-3: oklch(0.7090 0.1592 293.54);
   --chart-4: oklch(0.8625 0.1494 84.65);
   --chart-5: oklch(0.7112 0.1559 250.96);
-}
 
-:root {
-  /* Surface + accent palette (raw hex for gradients / charts) */
   --fin-bg: #050507;
   --fin-card: rgba(13, 14, 18, 0.8);
   --fin-elevated: rgba(18, 19, 25, 0.85);
@@ -53,7 +115,24 @@
   --fin-crimson: #E82127;
   --fin-muted: #A1A1AA;
   --ts-hairline: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+  --surface-1: #0D0E12;
+  --surface-2: #12131A;
+  --surface-3: #1E2027;
+  --text-1: #FFFFFF;
+  --text-2: #D4D4D8;
+  --text-3: #A1A1AA;
+  --text-4: #71717A;
+  --hairline: rgba(255, 255, 255, 0.08);
+  --hairline-strong: rgba(255, 255, 255, 0.25);
+  --glass-bg: rgba(13, 14, 18, 0.8);
+  --glass-hover-bg: rgba(16, 17, 22, 0.9);
+  --grid-line: rgba(255, 255, 255, 0.015);
+  --noise-opacity: 0.025;
+  --elevation: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --chart-emerald: #00F59B;
 }
+
 
 .fin-card,
 .ts-card {
