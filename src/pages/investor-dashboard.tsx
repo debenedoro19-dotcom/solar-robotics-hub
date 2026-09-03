@@ -414,7 +414,10 @@ export default function InvestorDashboard() {
             </div>
           )}
         </section>
+        </>
+        )}
       </div>
+
 
       {withdrawOpen && (
         <WithdrawModal balance={wallet.available_balance} userId={userId} userEmail={userEmail} onClose={() => setWithdrawOpen(false)} onDone={(msg) => { notify('ok', msg); void load(); }} onError={(m) => notify('err', m)} />
