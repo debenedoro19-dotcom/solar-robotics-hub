@@ -1,15 +1,14 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { lazy, useCallback, useEffect, useMemo, useState } from 'react';
 import Link from '@/components/SmartLink';
 import { useNavigate } from '@tanstack/react-router';
-import {
-  AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-} from 'recharts';
 import { createClient } from '@/lib/supabase/client';
 import InvestorShell from '@/components/investor/InvestorShell';
 import { MetricCard, Modal, WithdrawModal } from '@/components/investor/modals';
 import { EMPTY_WALLET, money, toWallet, type Wallet } from '@/components/investor/wallet';
 import PlanCard, { type InvestmentPlan as SharedPlan } from '@/components/investment/planCard';
 import { sendInvestmentPurchasedEmail } from '@/lib/emailService';
+
+const PortfolioChart = lazy(() => import('@/components/investor/PortfolioChart'));
 
 interface Plan {
   id: string;
