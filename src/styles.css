@@ -841,3 +841,12 @@ html:not(.dark) .card-3d:hover { box-shadow: var(--elevation); }
 
 /* theme transition */
 html { transition: background-color 0.25s ease, color 0.25s ease; }
+
+/* translucent surface + gradient variants of the obsidian palette */
+html:not(.dark) .bg-\[\#050507\]\/80,
+html:not(.dark) .bg-\[\#050507\]\/95 { background-color: color-mix(in srgb, var(--fin-bg) 85%, transparent); }
+html:not(.dark) [class*="from-[#050507]"] { --tw-gradient-from: color-mix(in srgb, var(--fin-bg) 85%, transparent); }
+html:not(.dark) [class*="via-[#050507]"] { --tw-gradient-via: color-mix(in srgb, var(--fin-bg) 60%, transparent); }
+html:not(.dark) [class*="to-[#050507]"] { --tw-gradient-to: color-mix(in srgb, var(--fin-bg) 60%, transparent); }
+html:not(.dark) [class*="to-[#0D0E12]"] { --tw-gradient-to: color-mix(in srgb, var(--surface-1) 85%, transparent); }
+html:not(.dark) [class*="from-[#0D0E12]"] { --tw-gradient-from: color-mix(in srgb, var(--surface-1) 85%, transparent); }

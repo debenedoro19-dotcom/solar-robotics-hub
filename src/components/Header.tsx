@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from '@/components/SmartLink';
 import { createClient } from '@/lib/supabase/client';
+import { ThemeToggle } from '@/lib/theme';
 
 const navLinks = [
   { label: 'Vehicles', href: '#inventory' },
@@ -97,6 +98,7 @@ export default function Header() {
 
           {/* Actions */}
           <div className="hidden lg:flex items-center gap-3">
+            <ThemeToggle />
             <span className="hidden 2xl:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-[10px] font-semibold tracking-widest uppercase text-zinc-300 whitespace-nowrap">
               <span className="ts-pulse" aria-hidden="true" />
               Live Tracking
@@ -128,16 +130,19 @@ export default function Header() {
 
 
           {/* Mobile Hamburger */}
+          <div className="lg:hidden flex items-center gap-1">
+          <ThemeToggle />
           <button
             className="lg:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={menuOpen}
           >
-            <span className={`w-5 h-0.5 bg-white transition-all duration-300 ${menuOpen ? 'rotate-45 translate-y-2' : ''}`} />
-            <span className={`w-5 h-0.5 bg-white transition-all duration-300 ${menuOpen ? 'opacity-0' : ''}`} />
-            <span className={`w-5 h-0.5 bg-white transition-all duration-300 ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+            <span className={`w-5 h-0.5 bg-foreground transition-all duration-300 ${menuOpen ? 'rotate-45 translate-y-2' : ''}`} />
+            <span className={`w-5 h-0.5 bg-foreground transition-all duration-300 ${menuOpen ? 'opacity-0' : ''}`} />
+            <span className={`w-5 h-0.5 bg-foreground transition-all duration-300 ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
           </button>
+          </div>
         </div>
       </nav>
       {/* Mobile Menu */}
