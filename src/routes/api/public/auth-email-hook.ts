@@ -151,7 +151,10 @@ function buildEmail(payload: HookPayload): { subject: string; element: React.Rea
     case 'reauthentication':
       return {
         subject: 'Your verification code',
-        element: React.createElement(ReauthenticationEmail, { token: d.token }),
+        element: React.createElement(ReauthenticationEmail, {
+          siteName: SITE_NAME,
+          token: d.token,
+        }),
       }
     case 'signup':
     default:

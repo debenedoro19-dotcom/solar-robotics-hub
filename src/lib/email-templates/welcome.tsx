@@ -10,6 +10,7 @@ import {
   Section,
   Text,
 } from '@react-email/components'
+import { EmailHeader } from './email-brand'
 import type { TemplateEntry } from './registry'
 
 interface Props {
@@ -23,12 +24,7 @@ const Email = ({ name, dashboardUrl }: Props) => (
     <Preview>Your Tesla Trade account is ready</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Section style={header}>
-          <Text style={brand}>
-            TESLA<span style={{ color: '#E82127' }}>TRADE</span>
-          </Text>
-          <Text style={kicker}>Clean-Tech Investment Platform</Text>
-        </Section>
+        <EmailHeader />
         <Section style={card}>
           <Heading style={h1}>Welcome{name ? `, ${name}` : ''}</Heading>
           <Text style={p}>
@@ -59,15 +55,6 @@ export const template = {
 
 const main = { backgroundColor: '#ffffff', fontFamily: 'Helvetica, Arial, sans-serif' }
 const container = { maxWidth: '560px', margin: '0 auto', padding: '32px 24px' }
-const header = { backgroundColor: '#050507', borderRadius: '20px 20px 0 0', padding: '28px' }
-const brand = { color: '#ffffff', fontSize: '18px', fontWeight: 700, margin: '0' }
-const kicker = {
-  color: '#8b8d94',
-  fontSize: '11px',
-  letterSpacing: '0.18em',
-  textTransform: 'uppercase' as const,
-  margin: '6px 0 0',
-}
 const card = {
   border: '1px solid #e6e7eb',
   borderTop: 'none',
