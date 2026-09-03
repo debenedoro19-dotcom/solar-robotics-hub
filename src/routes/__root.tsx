@@ -87,6 +87,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Buy, sell and invest in Tesla vehicles, energy systems, solar and robotics on a secure, high-tech marketplace.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "Tesla Trade" },
+      { name: "application-name", content: "Tesla Trade" },
+      { name: "apple-mobile-web-app-title", content: "Tesla Trade" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
@@ -104,12 +107,34 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap",
       },
-      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
       { rel: "icon", href: "/favicon.png", type: "image/png", sizes: "64x64" },
       { rel: "shortcut icon", href: "/favicon.ico", sizes: "any" },
       { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
     ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "Tesla Trade",
+          alternateName: ["Tesla Trade Energy Hub", "TeslaTrade"],
+          url: "https://tradeenergyhub.com",
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "Tesla Trade",
+          url: "https://tradeenergyhub.com",
+          logo: "https://tradeenergyhub.com/apple-touch-icon.png",
+        }),
+      },
+    ],
   }),
+
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
