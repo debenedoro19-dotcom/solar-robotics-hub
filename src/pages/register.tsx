@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Link from '@/components/SmartLink';
 import { createClient } from '@/lib/supabase/client';
 import { sanitizeText, sanitizeEmail, sanitizePhone, validatePassword } from '@/lib/sanitize';
-import { sendWelcomeEmail } from '@/lib/emailService';
 
 export default function RegisterPage() {
   const [form, setForm] = useState({ name: '', email: '', phone: '', password: '', confirm: '' });
