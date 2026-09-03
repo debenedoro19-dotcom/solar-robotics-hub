@@ -298,6 +298,9 @@ export default function InvestorDashboard() {
 
                       </div>
                       <p className="text-[11px] text-fin-muted mt-2">{progress.toFixed(0)}% of {c.duration_days}-day term complete</p>
+                      <p className="text-[11px] text-fin-muted mt-1">
+                        🔒 Principal + yield unlock for withdrawal on {new Date(c.matures_at).toLocaleDateString()}
+                      </p>
                     </article>
                   );
                 })}
