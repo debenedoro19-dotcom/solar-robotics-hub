@@ -37,6 +37,8 @@ export default function AccountDepositPage() {
   const [error, setError] = useState('');
   const [done, setDone] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [proof, setProof] = useState<File | null>(null);
+  const [proofPreview, setProofPreview] = useState('');
 
   const value = Number(amount) || 0;
   const { wallets, loaded: walletsLoaded } = useCryptoWallets();
@@ -57,6 +59,15 @@ export default function AccountDepositPage() {
     const supabase = createClient();
     const reference = txRef.trim() || `TT-${Date.now().toString(36).toUpperCase()}`;
 
+    let proofUrl: string | null = null;
+    if (proof) {
+      const ext = proof.name.split('.').pop()?.toLowerCase() || 'png';
+      const path = `${userId}/${Date.now()}.${ext}`;
+      const { error: upErr } = await supabase.storage.from('deposit-proofs').upload(path, proof, { cacheControl: '3600' });
+      if (upErr) { setBusy(false); setError(`Could not upload payment proof: ${upErr.message}`); return; }
+      proofUrl = path;
+    }
+
     const { error: insertError } = await supabase.from('deposit_records').insert({
       user_id: userId,
       user_email: userEmail,
@@ -67,6 +78,7 @@ export default function AccountDepositPage() {
       tx_ref: reference,
       deposit_status: 'pending',
       notes: note.trim() || null,
+      proof_url: proofUrl,
     });
     setBusy(false);
 
@@ -109,7 +121,7 @@ export default function AccountDepositPage() {
               <div className="flex gap-3 justify-center">
                 <Link href="/dashboard" className="px-5 py-2.5 rounded-xl btn-emerald text-sm">Go to Dashboard</Link>
                 <button
-                  onClick={() => { setDone(false); setAmount(''); setTxRef(''); setNote(''); }}
+                  onClick={() => { setDone(false); setAmount(''); setTxRef(''); setNote(''); setProof(null); setProofPreview(''); }}
                   className="px-5 py-2.5 rounded-xl border border-fin-border text-sm font-semibold text-fin-muted hover:text-white"
                 >
                   New deposit
@@ -239,6 +251,54 @@ export default function AccountDepositPage() {
                     className="w-full rounded-xl bg-fin-bg border border-fin-border px-4 py-3 text-white text-sm focus:border-fin-emerald outline-none"
                   />
                 </div>
+              </div>
+
+              {/* Payment proof upload */}
+              <div className="rounded-xl border border-dashed border-fin-border bg-fin-elevated p-4">
+                <p className="text-xs uppercase tracking-wider text-fin-muted mb-1">Proof of Payment</p>
+                <p className="text-[12px] text-fin-muted mb-3 leading-relaxed">
+                  Upload a screenshot of your payment confirmation so our settlement desk can verify and credit your deposit faster.
+                </p>
+                {proofPreview ? (
+                  <div className="flex items-start gap-4">
+                    <img src={proofPreview} alt="Payment proof preview" className="h-28 w-28 rounded-lg object-cover border border-fin-border" />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm text-foreground font-semibold truncate">{proof?.name}</p>
+                      <p className="text-[11px] text-fin-muted mt-0.5">{proof ? `${(proof.size / 1024).toFixed(0)} KB` : ''}</p>
+                      <button
+                        type="button"
+                        onClick={() => { setProof(null); setProofPreview(''); }}
+                        className="mt-2 px-3 py-1.5 rounded-lg text-[11px] font-bold border border-fin-border text-fin-muted hover:text-foreground transition-colors"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <label
+                    htmlFor="dep-proof"
+                    className="flex flex-col items-center justify-center gap-2 py-6 rounded-lg cursor-pointer hover:bg-fin-bg/60 transition-colors"
+                  >
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-fin-muted" aria-hidden="true">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" />
+                    </svg>
+                    <span className="text-sm font-semibold text-foreground">Click to upload screenshot</span>
+                    <span className="text-[11px] text-fin-muted">PNG, JPG or WEBP · max 10 MB</span>
+                  </label>
+                )}
+                <input
+                  id="dep-proof"
+                  type="file"
+                  accept="image/png,image/jpeg,image/webp"
+                  className="hidden"
+                  onChange={(e) => {
+                    const f = e.target.files?.[0] ?? null;
+                    if (f && f.size > 10 * 1024 * 1024) { setError('Screenshot must be under 10 MB.'); return; }
+                    setError('');
+                    setProof(f);
+                    setProofPreview(f ? URL.createObjectURL(f) : '');
+                  }}
+                />
               </div>
 
               {error && <p className="text-sm text-fin-danger">{error}</p>}
