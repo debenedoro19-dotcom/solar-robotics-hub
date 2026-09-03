@@ -120,6 +120,7 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
   const navigate = useNavigate();
   const [withdrawOpen, setWithdrawOpen] = useState(false);
   const [balanceTxs, setBalanceTxs] = useState<BalanceTx[]>([]);
+  const [contracts, setContracts] = useState<InvestmentContract[]>([]);
   const [balanceLoading, setBalanceLoading] = useState(false);
   const [depositAmount, setDepositAmount] = useState('');
   const [depositMethod, setDepositMethod] = useState('');
