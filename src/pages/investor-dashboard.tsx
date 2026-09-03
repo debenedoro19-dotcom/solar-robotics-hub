@@ -110,6 +110,12 @@ export default function InvestorDashboard() {
     setUserId(user.id);
     setUserEmail(user.email ?? '');
 
+    // Grow active contracts (daily ROI) and release matured ones into the wallet
+    // before reading balances, so the numbers on screen are always current.
+    await supabase.rpc('accrue_investments', { _user_id: user.id });
+
+
+
     const [balanceRes, plansRes, investmentsRes, ledgerRes, entriesRes] = await Promise.all([
       supabase.from('user_balance').select('*').eq('user_id', user.id).maybeSingle(),
       supabase.from('investment_plans').select('*').eq('is_active', true).order('sort_order'),
