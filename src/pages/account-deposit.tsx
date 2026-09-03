@@ -37,6 +37,8 @@ export default function AccountDepositPage() {
   const [error, setError] = useState('');
   const [done, setDone] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [proof, setProof] = useState<File | null>(null);
+  const [proofPreview, setProofPreview] = useState('');
 
   const value = Number(amount) || 0;
   const { wallets, loaded: walletsLoaded } = useCryptoWallets();
