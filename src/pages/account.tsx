@@ -7,7 +7,7 @@ import { MetricCard, WithdrawModal } from '@/components/investor/modals';
 import { useNavigate } from '@tanstack/react-router';
 import { money } from '@/components/investor/wallet';
 
-type Tab = 'overview' | 'kyc' | 'portfolio' | 'balance' | 'withdrawals' | 'transactions' | 'referrals';
+type Tab = 'overview' | 'kyc' | 'balance' | 'withdrawals' | 'transactions' | 'referrals';
 
 interface KYCData {
   kyc_status: 'pending' | 'under_review' | 'approved' | 'rejected' | null;
@@ -371,7 +371,7 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
   const tabs: { id: Tab; label: string }[] = [
     { id: 'overview', label: 'Overview' },
     { id: 'kyc', label: 'KYC Status' },
-    { id: 'portfolio', label: 'Portfolio' },
+    
     { id: 'balance', label: 'Balance' },
     { id: 'withdrawals', label: 'Withdrawals' },
     { id: 'transactions', label: 'Transactions' },
