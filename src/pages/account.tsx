@@ -298,6 +298,13 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
         .order('created_at', { ascending: false })
         .limit(50);
       setBalanceTxs(balanceTxData || []);
+
+      // Live investment contracts (same source the dashboard chart uses)
+      const { data: contractRows } = await supabase
+        .from('user_investments')
+        .select('principal, yield_earned, status')
+        .eq('user_id', uid);
+      setContracts((contractRows as InvestmentContract[]) || []);
     } catch (err) {
       console.error('Account data load error:', err);
     }
