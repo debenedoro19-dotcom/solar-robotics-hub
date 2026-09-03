@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Link from '@/components/SmartLink';
-import { sendPasswordResetEmail } from '@/lib/emailService';
+import { supabase } from '@/integrations/supabase/client';
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
@@ -17,18 +17,16 @@ export default function ForgotPasswordPage() {
     }
     setLoading(true);
 
-    await new Promise((r) => setTimeout(r, 800));
-
-    // Generate reset token and store locally
-    const token = Math.random().toString(36).slice(2) + Date.now().toString(36);
-    const resets = JSON.parse(localStorage.getItem('tesla_trade_resets') || '{}');
-    resets[email.toLowerCase()] = { token, expires: Date.now() + 1000 * 60 * 30 };
-    localStorage.setItem('tesla_trade_resets', JSON.stringify(resets));
-
-    // Send password reset email via Resend
-    sendPasswordResetEmail().catch(console.error);
+    const { error: resetError } = await supabase.auth.resetPasswordForEmail(
+      email.trim().toLowerCase(),
+      { redirectTo: `${window.location.origin}/reset-password` },
+    );
 
     setLoading(false);
+    if (resetError) {
+      setError(resetError.message);
+      return;
+    }
     setSent(true);
   };
 
@@ -85,13 +83,6 @@ export default function ForgotPasswordPage() {
                 </p>
               </div>
             </div>
-
-            <Link
-              href="/reset-password"
-              className="w-full py-3.5 tesla-btn-primary rounded-xl min-h-[48px] flex items-center justify-center text-sm font-bold tracking-widest uppercase"
-            >
-              Enter Reset Code →
-            </Link>
 
             <button
               onClick={() => { setSent(false); setEmail(''); }}
