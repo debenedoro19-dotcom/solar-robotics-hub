@@ -380,14 +380,11 @@ export default function AccountPage() {
 
   if (!mounted) return null;
 
-  return (
-    <InvestorShell
-      balance={balance?.available_balance || 0}
-      onDeposit={() => { void navigate({ to: '/account/deposit' }); }}
-      onWithdraw={() => setWithdrawOpen(true)}>
+  const body = (
     <main className="bg-fin-bg text-white">
       <div className="max-w-7xl mx-auto px-6 py-8">
         {/* Synced wallet strip — same source of truth as the investor dashboard */}
+        {!embedded && (
         <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-8">
           <div className="fin-card-elevated rounded-3xl p-5">
             <p className="text-[11px] uppercase tracking-[0.22em] text-fin-muted mb-2">Available Wallet Balance</p>
@@ -397,6 +394,8 @@ export default function AccountPage() {
           <MetricCard label="Net Profit Accrued" value={money(balance?.total_profit || 0)} accent />
           <MetricCard label="Total Deposited" value={money(balance?.total_deposited || 0)} sub={`${money(balance?.total_withdrawn || 0)} withdrawn`} />
         </section>
+        )}
+
 
 
         {/* Profile header */}
