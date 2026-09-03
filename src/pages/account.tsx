@@ -52,6 +52,12 @@ interface PortfolioData {
   };
 }
 
+interface InvestmentContract {
+  principal: number;
+  yield_earned: number;
+  status: string;
+}
+
 interface BalanceData {
   available_balance: number;
   total_invested: number;
