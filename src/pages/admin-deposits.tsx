@@ -3,7 +3,7 @@ import Link from '@/components/SmartLink';
 import { createClient } from '@/lib/supabase/client';
 import { getCurrentUser, isAdmin } from '@/lib/portfolioStore';
 import { checkIsAdmin } from '@/lib/adminAuth';
-import { sendDepositApprovedEmail, sendDepositRejectedEmail } from '@/lib/emailService';
+import { adminConfirmDeposit, adminRejectDeposit } from '@/lib/admin-transactions.functions';
 
 interface DepositRecord {
   id: string;
