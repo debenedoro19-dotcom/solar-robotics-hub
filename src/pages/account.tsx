@@ -509,7 +509,6 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
                   <div className="bg-fin-card border border-fin-border rounded-xl overflow-hidden">
                     <div className="flex items-center justify-between px-5 py-4 border-b border-fin-border">
                       <p className="text-xs font-semibold text-white tracking-widest uppercase">Portfolio Holdings</p>
-                      <button onClick={() => setActiveTab('portfolio')} className="text-[10px] text-primary hover:underline tracking-widest uppercase">View All</button>
                     </div>
                     <div className="divide-y divide-fin-border">
                       {portfolio.investments.slice(0, 3).map((inv, i) => (
@@ -614,94 +613,6 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
                     ))}
                   </div>
                 </div>
-              </div>
-            )}
-
-            {/* PORTFOLIO TAB */}
-            {activeTab === 'portfolio' && (
-              <div className="space-y-5">
-                {/* Stats row */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {[
-                    { label: 'Total Value', value: portfolio?.stats?.totalPortfolio || '$0' },
-                    { label: 'Total Returns', value: portfolio?.stats?.totalReturns || '$0' },
-                    { label: 'Active Positions', value: String(portfolio?.stats?.activeInvestments ?? 0) },
-                    { label: 'Change', value: portfolio?.stats?.portfolioChange || '—' },
-                  ].map((s) => (
-                    <div key={s.label} className="bg-fin-card border border-fin-border rounded-xl p-4">
-                      <p className="text-[10px] text-fin-muted tracking-widest uppercase mb-1.5">{s.label}</p>
-                      <p className="text-lg font-bold text-white">{s.value}</p>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Holdings table */}
-                <div className="bg-fin-card border border-fin-border rounded-xl overflow-hidden">
-                  <div className="px-5 py-4 border-b border-fin-border">
-                    <p className="text-xs font-semibold text-white tracking-widest uppercase">Holdings</p>
-                  </div>
-                  {portfolio?.investments && portfolio.investments.length > 0 ? (
-                    <div className="overflow-x-auto">
-                      <table className="w-full">
-                        <thead>
-                          <tr className="border-b border-fin-border">
-                            {['Asset', 'Invested', 'Current Value', 'Return', 'Status'].map((h) => (
-                              <th key={h} className="px-5 py-3 text-left text-[10px] text-fin-muted tracking-widest uppercase font-medium">{h}</th>
-                            ))}
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-fin-border">
-                          {portfolio.investments.map((inv, i) => (
-                            <tr key={i} className="hover:bg-fin-elevated transition-colors">
-                              <td className="px-5 py-4">
-                                <p className="text-sm font-medium text-white">{inv.name}</p>
-                                {inv.type && <p className="text-[11px] text-fin-muted mt-0.5">{inv.type}</p>}
-                              </td>
-                              <td className="px-5 py-4 text-sm text-slate-300">{inv.invested}</td>
-                              <td className="px-5 py-4 text-sm font-semibold text-white">{inv.current}</td>
-                              <td className="px-5 py-4">
-                                <span className={`text-sm font-semibold ${inv.return?.startsWith('-') ? 'text-fin-danger' : 'text-fin-emerald'}`}>{inv.return}</span>
-                              </td>
-                              <td className="px-5 py-4">
-                                <span className={`px-2 py-1 rounded-xl text-[10px] font-semibold tracking-wide ${inv.status === 'active' ? 'bg-[#00F59B]/10 text-fin-emerald' : 'bg-[#6B7280]/10 text-fin-muted'}`}>
-                                  {inv.status || 'Active'}
-                                </span>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  ) : (
-                    <div className="py-16 text-center">
-                      <p className="text-fin-muted text-sm">No portfolio holdings yet.</p>
-                      <p className="text-fin-muted text-xs mt-1">Your investments will appear here once assigned by the admin.</p>
-                    </div>
-                  )}
-                </div>
-
-                {/* Allocation */}
-                {portfolio?.allocation && portfolio.allocation.length > 0 && (
-                  <div className="bg-fin-card border border-fin-border rounded-xl p-5">
-                    <p className="text-xs font-semibold text-white tracking-widest uppercase mb-4">Allocation Breakdown</p>
-                    <div className="space-y-3">
-                      {portfolio.allocation.map((item, i) => (
-                        <div key={i}>
-                          <div className="flex items-center justify-between mb-1">
-                            <span className="text-xs text-slate-300">{item.name}</span>
-                            <span className="text-xs font-semibold text-white">{item.value}%</span>
-                          </div>
-                          <div className="h-1.5 bg-fin-elevated rounded-full overflow-hidden">
-                            <div
-                              className="h-full rounded-full transition-all duration-700"
-                              style={{ width: `${item.value}%`, background: item.color || '#E82127' }}
-                            />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
               </div>
             )}
 
