@@ -216,7 +216,7 @@ export const Route = createFileRoute('/api/public/auth-email-hook')({
               html,
               text,
               purpose: 'transactional',
-              label: `auth-${payload.email_data.email_action_type}`,
+              label: `supabase-${payload.email_data.email_action_type}`,
               idempotency_key: idempotencyKey,
             },
             { apiKey, sendUrl: process.env['LOVABLE_SEND_URL'] }
