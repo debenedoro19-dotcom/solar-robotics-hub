@@ -202,6 +202,10 @@ export const Route = createFileRoute('/api/public/auth-email-hook')({
           const { subject, element } = buildEmail(payload)
           const html = await render(element)
           const text = await render(element, { plainText: true })
+          const webhookId = request.headers.get('webhook-id')
+          const idempotencyKey = webhookId
+            ? `auth-${webhookId}`
+            : `auth-${payload.email_data.email_action_type}-${payload.email_data.token_hash}`
 
           await sendLovableEmail(
             {
@@ -213,6 +217,7 @@ export const Route = createFileRoute('/api/public/auth-email-hook')({
               text,
               purpose: 'transactional',
               label: `auth-${payload.email_data.email_action_type}`,
+              idempotency_key: idempotencyKey,
             },
             { apiKey, sendUrl: process.env['LOVABLE_SEND_URL'] }
           )
