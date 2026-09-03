@@ -392,6 +392,13 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
     { id: 'referrals', label: 'Referrals' },
   ];
 
+  // ── Live stats: identical source/maths to the dashboard chart ──────────────
+  const activeContracts = contracts.filter((c) => c.status === 'active');
+  const activeCapital = activeContracts.reduce((s, c) => s + Number(c.principal || 0), 0);
+  const liveReturns =
+    contracts.reduce((s, c) => s + Number(c.yield_earned || 0), 0) + Number(balance?.total_profit || 0);
+  const livePortfolio = Number(balance?.available_balance || 0) + activeCapital;
+
   if (!mounted) return null;
 
   const body = (
