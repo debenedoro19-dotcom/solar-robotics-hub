@@ -861,3 +861,116 @@ html:not(.dark) .metallic {
 html:not(.dark) .gradient-border-animated { background: var(--surface-1); }
 html:not(.dark) .shimmer { background: linear-gradient(90deg, rgba(23,26,32,0) 0%, rgba(23,26,32,0.06) 50%, rgba(23,26,32,0) 100%); background-size: 200% 100%; }
 html:not(.dark) .scanline, html:not(.dark) .dot-grid { opacity: 0.5; }
+
+/* ============================================================
+   TESLA THEME — DIALOGS, TOASTS, BUTTONS, TYPOGRAPHY
+   Dual-mode tokens so overlays and popups stay legible in both
+   the light "Tesla Classic" and dark "Stealth Obsidian" themes.
+   ============================================================ */
+
+:root {
+  --fin-emerald-fg: #FFFFFF;
+  --fin-overlay: rgba(23, 26, 32, 0.42);
+  --fin-modal-shadow: 0 2px 6px rgba(16, 24, 40, 0.06), 0 40px 90px -30px rgba(16, 24, 40, 0.45);
+}
+.dark {
+  --fin-emerald-fg: #04120C;
+  --fin-overlay: rgba(2, 3, 5, 0.74);
+  --fin-modal-shadow: 0 40px 90px -20px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* Overlay behind any dialog */
+.fin-overlay {
+  background: var(--fin-overlay);
+  backdrop-filter: blur(10px) saturate(120%);
+  -webkit-backdrop-filter: blur(10px) saturate(120%);
+}
+
+/* Dialog panel — solid, never translucent, so text always reads */
+.fin-modal {
+  background: var(--surface-1);
+  border: 1px solid var(--hairline);
+  border-radius: 1.5rem;
+  box-shadow: var(--fin-modal-shadow);
+  color: var(--text-1);
+}
+.fin-modal h1, .fin-modal h2, .fin-modal h3 { color: var(--text-1); letter-spacing: -0.015em; }
+
+/* Toast / inline notification */
+.fin-toast {
+  position: relative;
+  background: var(--surface-1);
+  border: 1px solid var(--hairline);
+  border-radius: 0.875rem;
+  box-shadow: var(--fin-modal-shadow);
+  color: var(--text-1);
+  padding-left: 1.125rem;
+  overflow: hidden;
+}
+.fin-toast::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: currentColor;
+}
+.fin-toast-ok { color: var(--fin-emerald); border-color: color-mix(in srgb, var(--fin-emerald) 40%, transparent); }
+.fin-toast-err { color: var(--fin-danger); border-color: color-mix(in srgb, var(--fin-danger) 40%, transparent); }
+.fin-toast-ok .fin-toast-msg,
+.fin-toast-err .fin-toast-msg { color: var(--text-1); }
+
+/* Buttons */
+.btn-emerald {
+  background: var(--fin-emerald);
+  color: var(--fin-emerald-fg);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border: 1px solid color-mix(in srgb, var(--fin-emerald) 70%, #000);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, #FFFFFF 22%, transparent);
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+.btn-emerald:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--fin-emerald) 88%, #000);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 26px -12px color-mix(in srgb, var(--fin-emerald) 70%, transparent);
+}
+.btn-red {
+  background: #E82127;
+  color: #FFFFFF;
+  font-weight: 700;
+  border: 1px solid #C51B21;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+.btn-red:hover:not(:disabled) {
+  background: #B3181D;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 26px -12px rgba(232, 33, 39, 0.6);
+}
+
+/* Form fields inside dashboard surfaces */
+.field-fin {
+  width: 100%;
+  background: var(--surface-2);
+  border: 1px solid var(--hairline);
+  border-radius: 0.75rem;
+  color: var(--text-1);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.field-fin::placeholder { color: var(--text-4); }
+.field-fin:focus {
+  outline: none;
+  border-color: var(--fin-emerald);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--fin-emerald) 22%, transparent);
+}
+
+/* Numeric + heading typography — classic Tesla precision */
+.tabular-nums { font-variant-numeric: tabular-nums; }
+.fin-figure { letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.fin-label {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
