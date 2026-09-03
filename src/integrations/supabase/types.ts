@@ -708,6 +708,7 @@ export type Database = {
           daily_roi: number
           duration_days: number
           id: string
+          last_accrued_at: string
           matures_at: string
           plan_category: string
           plan_id: string | null
@@ -724,6 +725,7 @@ export type Database = {
           daily_roi?: number
           duration_days?: number
           id?: string
+          last_accrued_at?: string
           matures_at?: string
           plan_category?: string
           plan_id?: string | null
@@ -740,6 +742,7 @@ export type Database = {
           daily_roi?: number
           duration_days?: number
           id?: string
+          last_accrued_at?: string
           matures_at?: string
           plan_category?: string
           plan_id?: string | null
@@ -939,6 +942,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      accrue_investments: { Args: { _user_id?: string }; Returns: Json }
       admin_approve_deposit: { Args: { _deposit_id: string }; Returns: Json }
       admin_set_wallet_balance: {
         Args: { _available: number; _note?: string; _user_id: string }

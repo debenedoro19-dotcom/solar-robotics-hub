@@ -74,65 +74,6 @@ export default function RegisterPage() {
     }
   };
 
-  // ── Email sent confirmation screen ──────────────────────────────────────────
-  if (emailSent) {
-    return (
-      <main className="min-h-screen bg-[#050507] flex items-center justify-center px-4 py-16 relative overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px]" />
-          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-primary/3 rounded-full blur-[100px]" />
-        </div>
-        <div className="relative z-10 w-full max-w-sm text-center">
-          <Link href="/" className="inline-flex items-center gap-3 mb-8 justify-center">
-            <svg width="28" height="28" viewBox="0 0 342 512" fill="currentColor" className="text-primary" aria-hidden="true">
-              <path d="M0 57.3C0 57.3 57.3 0 171 0s171 57.3 171 57.3L285 85.5s-28.5-28.5-114-28.5S57 85.5 57 85.5L0 57.3zM171 512L57 85.5s28.5 28.5 114 28.5 114-28.5 114-28.5L171 512z" />
-            </svg>
-            <span className="text-white font-bold text-base tracking-widest uppercase">Tesla Trade</span>
-          </Link>
-
-          <div className="w-16 h-16 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center mx-auto mb-6">
-            <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" aria-hidden="true">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
-            </svg>
-          </div>
-
-          <h1 className="text-2xl font-extrabold text-white tracking-tight mb-3">Check Your Email</h1>
-          <p className="text-sm text-[#A1A1AA] leading-relaxed mb-2">
-            We sent a verification link to
-          </p>
-          <p className="text-sm font-semibold text-white mb-6">{registeredEmail}</p>
-          <p className="text-sm text-[#71717A] leading-relaxed mb-8">
-            Click the link in the email to verify your account and access your dashboard. The link expires in 24 hours.
-          </p>
-
-          <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-4 mb-8 text-left">
-            <p className="text-xs text-[#6B7280] uppercase tracking-widest font-semibold mb-2">Didn't receive it?</p>
-            <ul className="text-xs text-[#71717A] space-y-1 list-disc list-inside">
-              <li>Check your spam or junk folder</li>
-              <li>Make sure you entered the correct email</li>
-              <li>Wait a few minutes and refresh</li>
-            </ul>
-          </div>
-
-          <Link
-            href="/login"
-            className="block w-full py-3.5 tesla-btn-primary rounded-xl text-sm font-bold tracking-widest uppercase text-center"
-          >
-            Go to Sign In
-          </Link>
-          <p className="text-xs text-[#52525B] mt-4">
-            Wrong email?{' '}
-            <button
-              onClick={() => { setEmailSent(false); setForm({ name: '', email: '', phone: '', password: '', confirm: '' }); }}
-              className="text-primary hover:underline"
-            >
-              Register again
-            </button>
-          </p>
-        </div>
-      </main>
-    );
-  }
 
   // ── Registration form ────────────────────────────────────────────────────────
   return (
@@ -142,6 +83,34 @@ export default function RegisterPage() {
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px]" />
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-primary/3 rounded-full blur-[100px]" />
       </div>
+
+      {/* Verification popup — shown right after sign up */}
+      {emailSent && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/80 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="verify-title">
+          <div className="w-full max-w-sm rounded-2xl bg-[#0D0E12] border border-[#1E2027] p-6 text-center shadow-2xl">
+            <div className="w-14 h-14 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center mx-auto mb-4">
+              <svg className="w-7 h-7 text-primary" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+              </svg>
+            </div>
+            <h2 id="verify-title" className="text-lg font-extrabold text-white tracking-tight mb-2">Verify your email</h2>
+            <p className="text-sm text-[#A1A1AA] leading-relaxed mb-1">
+              A verification link was sent to
+            </p>
+            <p className="text-sm font-semibold text-white mb-3 break-all">{registeredEmail}</p>
+            <p className="text-xs text-[#71717A] leading-relaxed mb-5">
+              Open your inbox and click the link to activate your account. Check spam if you don&apos;t see it.
+            </p>
+            <Link
+              href="/login"
+              className="block w-full py-3 tesla-btn-primary rounded-xl text-sm font-bold tracking-widest uppercase text-center"
+            >
+              Got it
+            </Link>
+          </div>
+        </div>
+      )}
+
 
       <div className="relative z-10 w-full max-w-sm">
         {/* Logo */}

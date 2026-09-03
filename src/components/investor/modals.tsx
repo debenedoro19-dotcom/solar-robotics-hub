@@ -69,6 +69,10 @@ export function WithdrawModal({ balance, userId, userEmail, onClose, onDone, onE
         <div className="rounded-xl bg-fin-elevated border border-fin-border p-4">
           <p className="text-[11px] uppercase text-fin-muted">Available Balance</p>
           <p className={`text-2xl font-extrabold tabular-nums ${insufficient ? 'text-fin-danger' : 'text-fin-emerald'}`}>{money(balance)}</p>
+          <p className="text-[11px] text-fin-muted mt-2">
+            Capital locked in active contracts is not withdrawable — it unlocks automatically, with its yield, when the
+            contract term completes.
+          </p>
         </div>
 
         <div>
