@@ -66,7 +66,7 @@ export default function HeroSection() {
           src="https://img.rocket.new/generatedImages/rocket_gen_img_195615429-1772068664371.png"
           alt="Tesla Cybertruck angular stainless steel body in dramatic dark studio lighting"
           fill
-          className="object-cover object-center opacity-20"
+          className="object-cover object-center opacity-45 dark:opacity-20"
           priority
         />
         {/* Scrim */}
