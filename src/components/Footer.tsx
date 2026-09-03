@@ -81,22 +81,6 @@ export default function Footer() {
             </span>
           </Link>
 
-          {/* Links */}
-          <div className="flex flex-wrap gap-x-6 gap-y-2">
-            {footerLinks?.map((link) => (
-              link?.href?.startsWith('/') ? (
-                <Link key={link?.label} href={link?.href} className="text-xs font-medium text-[#6B7280] hover:text-white transition-colors tracking-wider uppercase">
-                  {link?.label}
-                </Link>
-              ) : (
-                <a key={link?.label} href={link?.href} className="text-xs font-medium text-[#6B7280] hover:text-white transition-colors tracking-wider uppercase">
-                  {link?.label}
-                </a>
-              )
-            ))}
-          </div>
-        </div>
-
         <div className="tesla-divider mb-6" />
 
         <div className="flex flex-col sm:flex-row items-center justify-between gap-5">
