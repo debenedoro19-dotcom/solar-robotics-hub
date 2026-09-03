@@ -3,7 +3,7 @@ import Link from '@/components/SmartLink';
 import { createClient } from '@/lib/supabase/client';
 import { getCurrentUser, isAdmin } from '@/lib/portfolioStore';
 import { checkIsAdmin } from '@/lib/adminAuth';
-import { sendWithdrawalConfirmedEmail } from '@/lib/emailService';
+import { adminSetWithdrawalStatus } from '@/lib/admin-transactions.functions';
 
 interface WithdrawalRequest {
   id: string;
