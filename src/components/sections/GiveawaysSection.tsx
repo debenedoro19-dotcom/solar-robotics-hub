@@ -197,7 +197,7 @@ function EntryModal({ giveaway, onClose, onEntered }: { giveaway: Giveaway; onCl
   }
 
   return (
-    <div className="fixed inset-0 z-[95] flex items-center justify-center px-4 bg-black/70 backdrop-blur-sm" role="dialog" aria-modal="true">
+    <div className="fixed inset-0 z-[95] flex items-center justify-center px-4 fin-overlay" role="dialog" aria-modal="true">
       <div className="w-full max-w-md rounded-3xl bg-card border border-border p-6 max-h-[90vh] overflow-y-auto">
         <div className="flex items-start justify-between mb-5 gap-4">
           <h2 className="text-lg font-bold text-foreground">{done ? 'Entry confirmed' : 'Confirm Giveaway Entry'}</h2>
