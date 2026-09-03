@@ -216,7 +216,7 @@ export default function InvestorDashboard() {
     return (
       <main className="min-h-screen bg-fin-bg flex items-center justify-center px-4">
         <div className="text-center">
-          <h1 className="text-xl font-bold text-white mb-2">Sign in required</h1>
+          <h1 className="text-xl font-bold text-foreground mb-2">Sign in required</h1>
           <p className="text-sm text-fin-muted mb-6">Access your investor dashboard to view your wallet.</p>
           <Link href="/login" className="px-6 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-semibold">Sign In</Link>
         </div>
@@ -226,7 +226,7 @@ export default function InvestorDashboard() {
 
   return (
     <InvestorShell balance={wallet.available_balance} onDeposit={() => goDeposit()} onWithdraw={() => setWithdrawOpen(true)}>
-    <main className="bg-fin-bg text-white">
+    <main className="bg-fin-bg text-foreground">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         {/* Header */}
         <header className="flex flex-wrap items-center justify-between gap-4">
@@ -240,7 +240,7 @@ export default function InvestorDashboard() {
               <button
                 key={v}
                 onClick={() => setView(v)}
-                className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-widest transition-colors ${view === v ? 'bg-primary text-primary-foreground' : 'text-fin-muted hover:text-white'}`}>
+                className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-widest transition-colors ${view === v ? 'bg-primary text-primary-foreground' : 'text-fin-muted hover:text-foreground'}`}>
                 {v === 'portfolio' ? 'Portfolio' : 'Account & Verification'}
               </button>
             ))}
@@ -258,14 +258,14 @@ export default function InvestorDashboard() {
         <section className="grid gap-5 lg:grid-cols-[1.4fr_1fr]">
           <div className="fin-card-elevated rounded-3xl p-6 sm:p-8">
             <p className="ts-label mb-3">Available Wallet Balance</p>
-            <p className="text-3xl sm:text-5xl font-bold tracking-tight text-white tabular-nums">
+            <p className="text-3xl sm:text-5xl font-bold text-foreground fin-figure">
               {money(wallet.available_balance)}
             </p>
             <p className="text-sm text-fin-muted mt-2">
               Deposit-first platform — fund your wallet before deploying capital into a plan.
             </p>
             <div className="flex flex-wrap gap-3 mt-6">
-              <button onClick={() => goDeposit()} className="px-5 py-2.5 rounded-xl bg-[#E82127] text-white text-sm font-bold shadow-[inset_0_1px_0_rgba(255,255,255,0.18)] hover:bg-[#B3181D] transition-all duration-300">+ Deposit</button>
+              <button onClick={() => goDeposit()} className="px-5 py-2.5 rounded-xl btn-red text-sm">+ Deposit</button>
               <button onClick={() => setWithdrawOpen(true)} className="px-5 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] backdrop-blur-xl text-sm font-bold hover:border-white/25 transition-all duration-300">↑ Withdraw</button>
               <button onClick={() => { setTab('browse'); document.getElementById('marketplace')?.scrollIntoView({ behavior: 'smooth' }); }} className="px-5 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] backdrop-blur-xl text-sm font-bold hover:border-white/25 transition-all duration-300">⚡ Buy Plan</button>
             </div>
@@ -291,7 +291,7 @@ export default function InvestorDashboard() {
                 <button
                   key={r}
                   onClick={() => setRange(r)}
-                  className={`px-3 py-1.5 rounded-md text-xs font-bold uppercase transition-colors ${range === r ? 'bg-primary text-primary-foreground' : 'text-fin-muted hover:text-white'}`}>
+                  className={`px-3 py-1.5 rounded-md text-xs font-bold uppercase transition-colors ${range === r ? 'bg-primary text-primary-foreground' : 'text-fin-muted hover:text-foreground'}`}>
                   {r === 'all' ? 'All' : r.toUpperCase()}
                 </button>
               ))}
@@ -312,7 +312,7 @@ export default function InvestorDashboard() {
               <button
                 key={t}
                 onClick={() => setTab(t)}
-                className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-colors ${tab === t ? 'bg-primary text-primary-foreground' : 'fin-card text-fin-muted hover:text-white'}`}>
+                className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-colors ${tab === t ? 'bg-primary text-primary-foreground' : 'fin-card text-fin-muted hover:text-foreground'}`}>
                 {t === 'active' ? `Active Investments (${activeContracts.length})` : 'Browse & Deploy Capital'}
               </button>
             ))}
@@ -379,7 +379,7 @@ export default function InvestorDashboard() {
               <h2 className="text-lg font-bold">Giveaway Entries</h2>
               <p className="text-xs text-fin-muted">Entries paid from your wallet balance</p>
             </div>
-            <a href="/#giveaways" className="px-4 py-2 rounded-xl bg-fin-emerald text-black text-xs font-bold whitespace-nowrap">Enter a Giveaway</a>
+            <a href="/#giveaways" className="px-4 py-2 rounded-xl btn-emerald text-xs whitespace-nowrap">Enter a Giveaway</a>
           </div>
           {giveawayEntries.length === 0 ? (
             <p className="p-8 text-center text-sm text-fin-muted">No giveaway entries yet.</p>
@@ -435,7 +435,7 @@ export default function InvestorDashboard() {
                     <tr key={row.id} className="border-t border-fin-border">
                       <td className="px-5 py-3 text-fin-muted whitespace-nowrap">{new Date(row.created_at).toLocaleString()}</td>
                       <td className="px-5 py-3">{TYPE_LABELS[row.type] ?? row.type}</td>
-                      <td className={`px-5 py-3 text-right font-bold tabular-nums ${Number(row.amount) < 0 ? 'text-white' : 'text-fin-emerald'}`}>
+                      <td className={`px-5 py-3 text-right font-bold tabular-nums ${Number(row.amount) < 0 ? 'text-foreground' : 'text-fin-emerald'}`}>
                         {Number(row.amount) < 0 ? '-' : '+'}{money(Math.abs(Number(row.amount)))}
                       </td>
                       <td className="px-5 py-3">
@@ -469,8 +469,8 @@ export default function InvestorDashboard() {
       )}
 
       {toast && (
-        <div className={`fixed bottom-6 right-6 z-[100] px-5 py-3 rounded-xl border text-sm font-semibold ${toast.kind === 'ok' ? 'bg-fin-emerald/10 border-fin-emerald/40 text-fin-emerald' : 'bg-fin-danger/10 border-fin-danger/40 text-fin-danger'}`}>
-          {toast.msg}
+        <div className={`fixed bottom-6 right-6 z-[100] px-5 py-3 text-sm font-semibold fin-toast ${toast.kind === 'ok' ? 'fin-toast-ok' : 'fin-toast-err'}`}>
+          <span className="fin-toast-msg">{toast.msg}</span>
         </div>
       )}
       </main>
@@ -527,7 +527,7 @@ function InvestModal({ plan, balance, onClose, onDone, onError, onDeposit }: {
             type="number"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
-            className="w-full rounded-xl bg-fin-bg border border-fin-border px-4 py-3 text-white tabular-nums focus:border-fin-emerald outline-none" />
+            className="field-fin px-4 py-3 fin-figure" />
           <div className="flex gap-2 mt-2">
             {[25, 50, 75, 100].map((pct) => (
               <button key={pct} onClick={() => setAmount(String(Math.floor(balance * (pct / 100) * 100) / 100))}
@@ -550,13 +550,13 @@ function InvestModal({ plan, balance, onClose, onDone, onError, onDeposit }: {
         {insufficient ? (
           <div className="space-y-3">
             <p className="text-sm text-fin-danger font-semibold">Insufficient wallet balance for this allocation.</p>
-            <button onClick={onDeposit} className="w-full py-3 rounded-xl bg-fin-emerald text-black font-bold text-sm">Deposit Funds</button>
+            <button onClick={onDeposit} className="w-full py-3 rounded-xl btn-emerald text-sm">Deposit Funds</button>
           </div>
         ) : (
           <button
             onClick={confirm}
             disabled={busy || outOfBounds || value <= 0}
-            className="w-full py-3 rounded-xl bg-fin-emerald text-black font-bold text-sm disabled:opacity-40">
+            className="w-full py-3 rounded-xl btn-emerald text-sm disabled:opacity-40">
             {busy ? 'Processing…' : outOfBounds ? 'Amount outside plan limits' : 'Confirm Investment'}
           </button>
         )}
