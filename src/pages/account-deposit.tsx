@@ -121,7 +121,7 @@ export default function AccountDepositPage() {
               <div className="flex gap-3 justify-center">
                 <Link href="/dashboard" className="px-5 py-2.5 rounded-xl btn-emerald text-sm">Go to Dashboard</Link>
                 <button
-                  onClick={() => { setDone(false); setAmount(''); setTxRef(''); setNote(''); }}
+                  onClick={() => { setDone(false); setAmount(''); setTxRef(''); setNote(''); setProof(null); setProofPreview(''); }}
                   className="px-5 py-2.5 rounded-xl border border-fin-border text-sm font-semibold text-fin-muted hover:text-white"
                 >
                   New deposit
