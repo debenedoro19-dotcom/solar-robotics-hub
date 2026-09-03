@@ -199,11 +199,26 @@ export default function InvestorDashboard() {
             <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">Portfolio Overview</h1>
             <p className="text-sm text-fin-muted mt-1">{userEmail}</p>
           </div>
-          <Link href="/account" className="px-4 py-2 rounded-xl fin-card text-sm font-semibold hover:border-fin-emerald/40 transition-colors">Account & Verification →</Link>
+          <div className="flex gap-1 p-1 rounded-xl bg-fin-elevated border border-fin-border">
+            {(['portfolio', 'account'] as const).map((v) => (
+              <button
+                key={v}
+                onClick={() => setView(v)}
+                className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-widest transition-colors ${view === v ? 'bg-primary text-primary-foreground' : 'text-fin-muted hover:text-white'}`}>
+                {v === 'portfolio' ? 'Portfolio' : 'Account & Verification'}
+              </button>
+            ))}
+          </div>
         </header>
 
+        {view === 'account' ? (
+          <React.Suspense fallback={<div className="h-64 rounded-3xl bg-fin-elevated animate-pulse" />}>
+            <AccountPanel embedded />
+          </React.Suspense>
+        ) : (
+        <>
 
-        {/* Hero balance */}
+
         <section className="grid gap-5 lg:grid-cols-[1.4fr_1fr]">
           <div className="fin-card-elevated rounded-3xl p-6 sm:p-8">
             <p className="ts-label mb-3">Available Wallet Balance</p>
