@@ -43,7 +43,7 @@ export default function RegisterPage() {
 
     try {
       const supabase = createClient();
-      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin;
+      const siteUrl = window.location.origin;
 
       // Sign up via Supabase Auth — triggers built-in confirmation email
       const { data, error: signUpError } = await supabase.auth.signUp({
@@ -56,14 +56,22 @@ export default function RegisterPage() {
       });
 
       if (signUpError) {
-        setError(signUpError.message);
+        if (signUpError.status === 429 || signUpError.message.toLowerCase().includes('rate limit')) {
+          setError('Account creation is temporarily busy. Please wait a few minutes before trying again.');
+        } else if (signUpError.message.toLowerCase().includes('already registered')) {
+          setError('An account already exists for this email. Sign in or reset your password instead.');
+        } else {
+          setError(signUpError.message);
+        }
         setLoading(false);
         return;
       }
 
-      // Supabase Auth sends the branded confirmation email through the managed
-      // auth email webhook — no extra send here.
-      void data;
+      // Projects with immediate confirmation return a session and need no email.
+      if (data.session) {
+        window.location.href = '/dashboard';
+        return;
+      }
 
       setRegisteredEmail(form.email);
       setEmailSent(true);

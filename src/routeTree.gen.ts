@@ -29,6 +29,7 @@ import { Route as AuthenticatedKycRouteImport } from './routes/_authenticated.ky
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated.profile'
 import { Route as AuthenticatedReferralRouteImport } from './routes/_authenticated.referral'
 import { Route as AuthenticatedSupportRouteImport } from './routes/_authenticated.support'
+import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as CareersSlugRouteImport } from './routes/careers_.$slug'
 import { Route as AuthenticatedAccountIndexRouteImport } from './routes/_authenticated.account.index'
 import { Route as AuthenticatedAccountDepositRouteImport } from './routes/_authenticated.account.deposit'
@@ -146,6 +147,11 @@ const AuthenticatedSupportRoute = AuthenticatedSupportRouteImport.update({
   path: '/support',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthCallbackRoute = AuthCallbackRouteImport.update({
+  id: '/auth/callback',
+  path: '/auth/callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CareersSlugRoute = CareersSlugRouteImport.update({
   id: '/careers_/$slug',
   path: '/careers/$slug',
@@ -262,6 +268,7 @@ export interface FileRoutesByFullPath {
   '/profile': typeof AuthenticatedProfileRoute
   '/referral': typeof AuthenticatedReferralRoute
   '/support': typeof AuthenticatedSupportRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/careers/$slug': typeof CareersSlugRoute
   '/account/deposit': typeof AuthenticatedAccountDepositRoute
   '/admin/careers': typeof AuthenticatedAdminCareersRoute
@@ -299,6 +306,7 @@ export interface FileRoutesByTo {
   '/profile': typeof AuthenticatedProfileRoute
   '/referral': typeof AuthenticatedReferralRoute
   '/support': typeof AuthenticatedSupportRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/careers/$slug': typeof CareersSlugRoute
   '/account/deposit': typeof AuthenticatedAccountDepositRoute
   '/admin/careers': typeof AuthenticatedAdminCareersRoute
@@ -339,6 +347,7 @@ export interface FileRoutesById {
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/referral': typeof AuthenticatedReferralRoute
   '/_authenticated/support': typeof AuthenticatedSupportRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/careers_/$slug': typeof CareersSlugRoute
   '/_authenticated/account/deposit': typeof AuthenticatedAccountDepositRoute
   '/_authenticated/admin/careers': typeof AuthenticatedAdminCareersRoute
@@ -379,6 +388,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/referral'
     | '/support'
+    | '/auth/callback'
     | '/careers/$slug'
     | '/account/deposit'
     | '/admin/careers'
@@ -416,6 +426,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/referral'
     | '/support'
+    | '/auth/callback'
     | '/careers/$slug'
     | '/account/deposit'
     | '/admin/careers'
@@ -455,6 +466,7 @@ export interface FileRouteTypes {
     | '/_authenticated/profile'
     | '/_authenticated/referral'
     | '/_authenticated/support'
+    | '/auth/callback'
     | '/careers_/$slug'
     | '/_authenticated/account/deposit'
     | '/_authenticated/admin/careers'
@@ -489,6 +501,7 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   TermsRoute: typeof TermsRoute
   VerifyPendingRoute: typeof VerifyPendingRoute
+  AuthCallbackRoute: typeof AuthCallbackRoute
   CareersSlugRoute: typeof CareersSlugRoute
   ApiPublicAuthEmailHookRoute: typeof ApiPublicAuthEmailHookRoute
   LovableEmailAuthPreviewRoute: typeof LovableEmailAuthPreviewRoute
@@ -637,6 +650,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/support'
       preLoaderRoute: typeof AuthenticatedSupportRouteImport
       parentRoute: typeof AuthenticatedRoute
+    }
+    '/auth/callback': {
+      id: '/auth/callback'
+      path: '/auth/callback'
+      fullPath: '/auth/callback'
+      preLoaderRoute: typeof AuthCallbackRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/careers_/$slug': {
       id: '/careers_/$slug'
@@ -830,6 +850,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   TermsRoute: TermsRoute,
   VerifyPendingRoute: VerifyPendingRoute,
+  AuthCallbackRoute: AuthCallbackRoute,
   CareersSlugRoute: CareersSlugRoute,
   ApiPublicAuthEmailHookRoute: ApiPublicAuthEmailHookRoute,
   LovableEmailAuthPreviewRoute: LovableEmailAuthPreviewRoute,
