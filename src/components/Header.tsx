@@ -62,10 +62,16 @@ export default function Header() {
           <Link href="/" className="flex items-center gap-3 shrink-0 group" aria-label="Trade Tesla home">
             <div className="relative">
               <div className="absolute inset-0 bg-primary/20 rounded-full blur-md group-hover:bg-primary/35 transition-all duration-300" />
-              <svg width="28" height="28" viewBox="0 0 342 512" fill="currentColor" className="text-primary relative z-10 drop-shadow-[0_0_8px_rgba(227,25,55,0.6)]" aria-hidden="true">
-                <path d="M0 57.3C0 57.3 57.3 0 171 0s171 57.3 171 57.3L285 85.5s-28.5-28.5-114-28.5S57 85.5 57 85.5L0 57.3zM171 512L57 85.5s28.5 28.5 114 28.5 114-28.5 114-28.5L171 512z"/>
-              </svg>
+              <img
+                src="/tesla-mark.png"
+                width={30}
+                height={30}
+                alt=""
+                aria-hidden="true"
+                className="relative z-10 w-[30px] h-[30px] object-contain drop-shadow-[0_0_8px_rgba(227,25,55,0.6)]"
+              />
             </div>
+
             <span className="text-white font-bold text-base tracking-widest uppercase">
               Trade <span className="text-primary" style={{ textShadow: '0 0 12px rgba(227,25,55,0.5)' }}>Tesla</span>
             </span>
