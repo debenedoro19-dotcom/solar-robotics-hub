@@ -94,7 +94,7 @@ export default function RegisterPage() {
 
       {/* Verification popup — shown right after sign up */}
       {emailSent && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/80 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="verify-title">
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-4 fin-overlay" role="dialog" aria-modal="true" aria-labelledby="verify-title">
           <div className="w-full max-w-sm rounded-2xl bg-[#0D0E12] border border-[#1E2027] p-6 text-center shadow-2xl">
             <div className="w-14 h-14 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center mx-auto mb-4">
               <svg className="w-7 h-7 text-primary" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" aria-hidden="true">

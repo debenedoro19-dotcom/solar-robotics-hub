@@ -107,7 +107,7 @@ export default function AccountDepositPage() {
                 the moment an administrator confirms the payment.
               </p>
               <div className="flex gap-3 justify-center">
-                <Link href="/dashboard" className="px-5 py-2.5 rounded-xl bg-fin-emerald text-black text-sm font-bold">Go to Dashboard</Link>
+                <Link href="/dashboard" className="px-5 py-2.5 rounded-xl btn-emerald text-sm">Go to Dashboard</Link>
                 <button
                   onClick={() => { setDone(false); setAmount(''); setTxRef(''); setNote(''); }}
                   className="px-5 py-2.5 rounded-xl border border-fin-border text-sm font-semibold text-fin-muted hover:text-white"
@@ -246,7 +246,7 @@ export default function AccountDepositPage() {
               <button
                 onClick={submitDeposit}
                 disabled={busy || !userId || method !== 'crypto'}
-                className="w-full py-3.5 rounded-xl bg-fin-emerald text-black font-bold text-sm disabled:opacity-40"
+                className="w-full py-3.5 rounded-xl btn-emerald text-sm disabled:opacity-40"
               >
                 {busy ? 'Submitting…' : !userId ? 'Sign in to deposit' : method !== 'crypto' ? 'Select Cryptocurrency to continue' : `Submit deposit request${value > 0 ? ` · ${money(value)}` : ''}`}
               </button>

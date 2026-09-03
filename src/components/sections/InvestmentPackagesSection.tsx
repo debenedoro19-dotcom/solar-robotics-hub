@@ -38,7 +38,7 @@ export default function InvestmentPackagesSection() {
                   action={
                     <Link
                       href="/dashboard"
-                      className="w-full py-2.5 rounded-xl bg-fin-emerald text-black text-sm font-bold text-center hover:opacity-90 transition-opacity"
+                      className="w-full py-2.5 rounded-xl btn-emerald text-sm text-center hover:opacity-90 transition-opacity"
                     >
                       Invest
                     </Link>

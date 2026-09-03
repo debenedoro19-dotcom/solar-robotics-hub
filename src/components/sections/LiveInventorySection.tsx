@@ -306,7 +306,7 @@ function InquiryModal({ item, onClose }: { item: InventoryItem; onClose: () => v
   }
 
   return (
-    <div className="fixed inset-0 z-[90] flex items-center justify-center bg-black/70 backdrop-blur-sm px-4" role="dialog" aria-modal="true">
+    <div className="fixed inset-0 z-[90] flex items-center justify-center fin-overlay px-4" role="dialog" aria-modal="true">
       <div className="relative w-full max-w-md rounded-3xl border border-border bg-card p-7 shadow-2xl">
         <button onClick={onClose} aria-label="Close" className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6 6 18M6 6l12 12" /></svg>
