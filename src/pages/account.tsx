@@ -467,9 +467,9 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
                 {/* Stats grid */}
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                   {[
-                    { label: 'Total Portfolio', value: portfolio?.stats?.totalPortfolio || '$0', sub: portfolio?.stats?.portfolioChange || '—', color: '#00F59B' },
-                    { label: 'Total Returns', value: portfolio?.stats?.totalReturns || '$0', sub: portfolio?.stats?.returnsChange || '—', color: '#A1A1AA' },
-                    { label: 'Active Investments', value: String(portfolio?.stats?.activeInvestments ?? 0), sub: 'positions', color: '#F59E0B' },
+                    { label: 'Total Portfolio', value: money(livePortfolio), sub: `${money(balance?.available_balance || 0)} available`, color: '#00F59B' },
+                    { label: 'Total Returns', value: money(liveReturns), sub: `${money(activeCapital)} deployed`, color: '#A1A1AA' },
+                    { label: 'Active Investments', value: String(activeContracts.length), sub: 'positions', color: '#F59E0B' },
                     { label: 'Referral Earnings', value: portfolio?.stats?.referralEarnings || '$0', sub: `${portfolio?.referrals?.total ?? 0} referrals`, color: '#c084fc' },
                   ].map((stat) => (
                     <div key={stat.label} className="bg-fin-card border border-fin-border rounded-xl p-5">
