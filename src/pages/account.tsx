@@ -1113,7 +1113,18 @@ export default function AccountPage() {
           onError={(m) => setBalanceActionMsg({ type: 'error', text: m })} />
       )}
     </main>
+  );
+
+  if (embedded) return body;
+
+  return (
+    <InvestorShell
+      balance={balance?.available_balance || 0}
+      onDeposit={() => { void navigate({ to: '/account/deposit' }); }}
+      onWithdraw={() => setWithdrawOpen(true)}>
+      {body}
     </InvestorShell>
+
   );
 }
 
