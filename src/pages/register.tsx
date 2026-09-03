@@ -62,23 +62,9 @@ export default function RegisterPage() {
         return;
       }
 
-      // Send branded verification email via edge function (non-blocking)
-      // The Supabase signUp above already sends a confirmation email;
-      // this sends our custom branded version in addition.
-      if (data?.user) {
-        const confirmationUrl = `${siteUrl}/auth/callback?next=/kyc`;
-        supabase.functions.invoke('send-notification-email', {
-          body: {
-            type: 'email_verification',
-            to: form.email,
-            name: form.name,
-            message: confirmationUrl,
-          },
-        }).catch(() => {/* silent fail */});
-
-        // Send welcome email via Resend using admin-configured template
-        sendWelcomeEmail(form.email, form.name).catch(() => {/* silent fail */});
-      }
+      // Supabase Auth sends the branded confirmation email through the managed
+      // auth email webhook — no extra send here.
+      void data;
 
       setRegisteredEmail(form.email);
       setEmailSent(true);
