@@ -52,6 +52,12 @@ interface PortfolioData {
   };
 }
 
+interface InvestmentContract {
+  principal: number;
+  yield_earned: number;
+  status: string;
+}
+
 interface BalanceData {
   available_balance: number;
   total_invested: number;
@@ -120,6 +126,7 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
   const navigate = useNavigate();
   const [withdrawOpen, setWithdrawOpen] = useState(false);
   const [balanceTxs, setBalanceTxs] = useState<BalanceTx[]>([]);
+  const [contracts, setContracts] = useState<InvestmentContract[]>([]);
   const [balanceLoading, setBalanceLoading] = useState(false);
   const [depositAmount, setDepositAmount] = useState('');
   const [depositMethod, setDepositMethod] = useState('');
@@ -291,6 +298,13 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
         .order('created_at', { ascending: false })
         .limit(50);
       setBalanceTxs(balanceTxData || []);
+
+      // Live investment contracts (same source the dashboard chart uses)
+      const { data: contractRows } = await supabase
+        .from('user_investments')
+        .select('principal, yield_earned, status')
+        .eq('user_id', uid);
+      setContracts((contractRows as InvestmentContract[]) || []);
     } catch (err) {
       console.error('Account data load error:', err);
     }
@@ -378,6 +392,13 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
     { id: 'referrals', label: 'Referrals' },
   ];
 
+  // ── Live stats: identical source/maths to the dashboard chart ──────────────
+  const activeContracts = contracts.filter((c) => c.status === 'active');
+  const activeCapital = activeContracts.reduce((s, c) => s + Number(c.principal || 0), 0);
+  const liveReturns =
+    contracts.reduce((s, c) => s + Number(c.yield_earned || 0), 0) + Number(balance?.total_profit || 0);
+  const livePortfolio = Number(balance?.available_balance || 0) + activeCapital;
+
   if (!mounted) return null;
 
   const body = (
@@ -446,9 +467,9 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
                 {/* Stats grid */}
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                   {[
-                    { label: 'Total Portfolio', value: portfolio?.stats?.totalPortfolio || '$0', sub: portfolio?.stats?.portfolioChange || '—', color: '#00F59B' },
-                    { label: 'Total Returns', value: portfolio?.stats?.totalReturns || '$0', sub: portfolio?.stats?.returnsChange || '—', color: '#A1A1AA' },
-                    { label: 'Active Investments', value: String(portfolio?.stats?.activeInvestments ?? 0), sub: 'positions', color: '#F59E0B' },
+                    { label: 'Total Portfolio', value: money(livePortfolio), sub: `${money(balance?.available_balance || 0)} available`, color: '#00F59B' },
+                    { label: 'Total Returns', value: money(liveReturns), sub: `${money(activeCapital)} deployed`, color: '#A1A1AA' },
+                    { label: 'Active Investments', value: String(activeContracts.length), sub: 'positions', color: '#F59E0B' },
                     { label: 'Referral Earnings', value: portfolio?.stats?.referralEarnings || '$0', sub: `${portfolio?.referrals?.total ?? 0} referrals`, color: '#c084fc' },
                   ].map((stat) => (
                     <div key={stat.label} className="bg-fin-card border border-fin-border rounded-xl p-5">
