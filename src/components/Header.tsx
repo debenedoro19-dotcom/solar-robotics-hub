@@ -9,11 +9,14 @@ const ecosystemLinks = [
   { label: 'Robotics', href: '#ecosystem' },
 ];
 
-const navLinks = [
-  { label: 'Invest', href: '#invest' },
+const primaryLinks = [{ label: 'Invest', href: '#invest' }];
+
+const secondaryLinks = [
   { label: 'Insights', href: '/news' },
   { label: 'About', href: '#elon-musk' },
 ];
+
+const navLinks = [...primaryLinks, ...secondaryLinks];
 
 
 export default function Header() {
