@@ -160,7 +160,40 @@ export default function LoginPage() {
           <p className="text-sm text-[#71717A]">Access your investment dashboard</p>
         </div>
 
-        {/* Form */}
+        {/* Two-factor step */}
+        {needs2FA ? (
+          <form onSubmit={submitTwoFactor} className="space-y-4">
+            {error && (
+              <div className="px-4 py-3 rounded-xl bg-primary/10 border border-primary/30 text-sm text-primary">{error}</div>
+            )}
+            <p className="text-sm text-[#A1A1AA]">
+              Enter the 6-digit code from your authenticator app, or one of your backup codes.
+            </p>
+            <input
+              id="twofa"
+              value={twoFactorCode}
+              onChange={(e) => setTwoFactorCode(e.target.value)}
+              placeholder="123456"
+              autoComplete="one-time-code"
+              className="w-full px-4 py-3 rounded-xl text-center text-lg tracking-[0.4em] input-tesla"
+            />
+            <button
+              type="submit"
+              disabled={loading || twoFactorCode.trim().length < 6}
+              className="w-full py-3.5 rounded-xl bg-primary text-primary-foreground text-sm font-bold disabled:opacity-40"
+            >
+              {loading ? 'Verifying…' : 'Verify & continue'}
+            </button>
+            <button
+              type="button"
+              onClick={cancelTwoFactor}
+              className="w-full py-3 rounded-xl border border-white/10 text-xs font-semibold text-[#A1A1AA] hover:text-white"
+            >
+              Use a different account
+            </button>
+          </form>
+        ) : (
+        /* Form */
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
             <div className="px-4 py-3 rounded-xl bg-primary/10 border border-primary/30 text-sm text-primary">{error}</div>
