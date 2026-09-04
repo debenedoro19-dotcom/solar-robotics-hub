@@ -1,10 +1,9 @@
 import * as React from 'react'
 import { Img, Section, Text } from '@react-email/components'
 
-// Publicly-hosted Tesla mark used in all email templates.
-// This image is served from the primary custom domain so it loads
-// reliably inside every email client.
-const LOGO_URL = 'https://tradeenergyhub.com/tesla-mark-email.png'
+// Small, light-background Tesla mark (under 2 KB) served from the primary
+// custom domain so it renders instantly in every email client.
+const LOGO_URL = 'https://tradeenergyhub.com/tesla-logo-light.png'
 
 interface EmailHeaderProps {
   siteName?: string
@@ -12,15 +11,15 @@ interface EmailHeaderProps {
 }
 
 export const EmailHeader = ({
-  siteName = 'Tesla Energy Hub',
+  siteName = 'Tesla Trade',
   tagline = 'Clean-Tech Investment Platform',
 }: EmailHeaderProps) => (
   <Section style={header}>
     <Img
       src={LOGO_URL}
       alt={`${siteName} logo`}
-      width={48}
-      height={48}
+      width={44}
+      height={44}
       style={logo}
     />
     <Text style={brand}>
@@ -31,15 +30,16 @@ export const EmailHeader = ({
 )
 
 const header = {
-  backgroundColor: '#050507',
+  backgroundColor: '#ffffff',
   borderRadius: '20px 20px 0 0',
+  borderBottom: '1px solid #ececef',
   padding: '28px',
   textAlign: 'center' as const,
 }
 const logo = { margin: '0 auto 12px', display: 'block' }
-const brand = { color: '#ffffff', fontSize: '18px', fontWeight: 700, margin: '0' }
+const brand = { color: '#111114', fontSize: '18px', fontWeight: 700, margin: '0' }
 const kicker = {
-  color: '#8b8d94',
+  color: '#71717a',
   fontSize: '11px',
   letterSpacing: '0.18em',
   textTransform: 'uppercase' as const,

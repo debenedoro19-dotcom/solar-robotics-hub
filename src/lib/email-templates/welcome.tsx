@@ -34,7 +34,7 @@ const Email = ({ name, dashboardUrl }: Props) => (
           <Text style={p}>
             Every plan purchase draws from your wallet balance, so deposits are the first step.
           </Text>
-          <Button style={button} href={dashboardUrl || 'https://tradeenergy.app/dashboard'}>
+          <Button style={button} href={dashboardUrl || 'https://tradeenergyhub.com/dashboard'}>
             Open your dashboard
           </Button>
           <Text style={muted}>

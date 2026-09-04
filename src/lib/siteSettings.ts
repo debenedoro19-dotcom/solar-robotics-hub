@@ -162,7 +162,7 @@ export const DEFAULT_CUSTOMER_CARE: CustomerCareConfig = {
   telegramEnabled: false,
   telegramUsername: '',
   telegramMessage: 'Hello! I need support with Tesla Trade.',
-  supportEmail: 'support@tradeenergy.app',
+  supportEmail: 'support@tradeenergyhub.com',
   supportHours: 'Mon–Fri, 9am–6pm UTC',
 };
 
