@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Link from '@/components/SmartLink';
 import { createClient } from '@/lib/supabase/client';
 import { sanitizeText, sanitizeEmail, sanitizePhone, validatePassword } from '@/lib/sanitize';
+import { emailSafeOrigin } from '@/lib/site-url';
 
 export default function RegisterPage() {
   const [form, setForm] = useState({ name: '', email: '', phone: '', password: '', confirm: '' });
@@ -43,7 +44,7 @@ export default function RegisterPage() {
 
     try {
       const supabase = createClient();
-      const siteUrl = window.location.origin;
+      const siteUrl = emailSafeOrigin();
 
       // Sign up via Supabase Auth — triggers built-in confirmation email
       const { data, error: signUpError } = await supabase.auth.signUp({

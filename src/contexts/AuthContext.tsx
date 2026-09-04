@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
+import { emailSafeOrigin } from '@/lib/site-url';
 
 const AuthContext = createContext<any>({});
 
@@ -49,7 +50,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           full_name: metadata?.fullName || '',
           avatar_url: metadata?.avatarUrl || ''
         },
-        emailRedirectTo: `${window.location.origin}/auth/callback`
+        emailRedirectTo: `${emailSafeOrigin()}/auth/callback`
       }
     });
     if (error) throw error;

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Link from '@/components/SmartLink';
 import { supabase } from '@/integrations/supabase/client';
+import { emailSafeOrigin } from '@/lib/site-url';
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
@@ -19,7 +20,7 @@ export default function ForgotPasswordPage() {
 
     const { error: resetError } = await supabase.auth.resetPasswordForEmail(
       email.trim().toLowerCase(),
-      { redirectTo: `${window.location.origin}/reset-password` },
+      { redirectTo: `${emailSafeOrigin()}/reset-password` },
     );
 
     setLoading(false);

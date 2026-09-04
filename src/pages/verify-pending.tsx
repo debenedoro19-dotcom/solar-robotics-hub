@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from '@/components/SmartLink';
 import { createClient } from '@/lib/supabase/client';
+import { emailSafeOrigin } from '@/lib/site-url';
 
 export default function VerifyPendingPage() {
   const [resending, setResending] = useState(false);
@@ -21,7 +22,7 @@ export default function VerifyPendingPage() {
     setError('');
     try {
       const supabase = createClient();
-      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin;
+      const siteUrl = emailSafeOrigin();
       const { error: resendError } = await supabase.auth.resend({
         type: 'signup',
         email: userEmail,
