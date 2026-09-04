@@ -5,6 +5,8 @@ import { ThemeToggle } from '@/lib/theme';
 
 const navLinks = [
   { label: 'Inventory', href: '/inventory' },
+  { label: 'Ecosystem', href: '/ecosystem' },
+  { label: 'Payments', href: '/payments' },
   { label: 'Invest', href: '#invest' },
   { label: 'Giveaways', href: '#giveaways' },
   { label: 'Elon Musk', href: '/elon-musk' },

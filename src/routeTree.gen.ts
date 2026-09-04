@@ -14,12 +14,14 @@ import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as BookSessionRouteImport } from './routes/book-session'
 import { Route as CareersRouteImport } from './routes/careers'
 import { Route as CryptoPaymentRouteImport } from './routes/crypto-payment'
+import { Route as EcosystemRouteImport } from './routes/ecosystem'
 import { Route as ElonMuskRouteImport } from './routes/elon-musk'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as InventoryRouteImport } from './routes/inventory'
 import { Route as InvestRouteImport } from './routes/invest'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as NewsRouteImport } from './routes/news'
+import { Route as PaymentsRouteImport } from './routes/payments'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
@@ -77,6 +79,11 @@ const CryptoPaymentRoute = CryptoPaymentRouteImport.update({
   path: '/crypto-payment',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EcosystemRoute = EcosystemRouteImport.update({
+  id: '/ecosystem',
+  path: '/ecosystem',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ElonMuskRoute = ElonMuskRouteImport.update({
   id: '/elon-musk',
   path: '/elon-musk',
@@ -105,6 +112,11 @@ const LoginRoute = LoginRouteImport.update({
 const NewsRoute = NewsRouteImport.update({
   id: '/news',
   path: '/news',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PaymentsRoute = PaymentsRouteImport.update({
+  id: '/payments',
+  path: '/payments',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyRoute = PrivacyRouteImport.update({
@@ -284,12 +296,14 @@ export interface FileRoutesByFullPath {
   '/book-session': typeof BookSessionRoute
   '/careers': typeof CareersRoute
   '/crypto-payment': typeof CryptoPaymentRoute
+  '/ecosystem': typeof EcosystemRoute
   '/elon-musk': typeof ElonMuskRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/inventory': typeof InventoryRoute
   '/invest': typeof InvestRoute
   '/login': typeof LoginRoute
   '/news': typeof NewsRoute
+  '/payments': typeof PaymentsRoute
   '/privacy': typeof PrivacyRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -328,12 +342,14 @@ export interface FileRoutesByTo {
   '/book-session': typeof BookSessionRoute
   '/careers': typeof CareersRoute
   '/crypto-payment': typeof CryptoPaymentRoute
+  '/ecosystem': typeof EcosystemRoute
   '/elon-musk': typeof ElonMuskRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/inventory': typeof InventoryRoute
   '/invest': typeof InvestRoute
   '/login': typeof LoginRoute
   '/news': typeof NewsRoute
+  '/payments': typeof PaymentsRoute
   '/privacy': typeof PrivacyRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -373,12 +389,14 @@ export interface FileRoutesById {
   '/book-session': typeof BookSessionRoute
   '/careers': typeof CareersRoute
   '/crypto-payment': typeof CryptoPaymentRoute
+  '/ecosystem': typeof EcosystemRoute
   '/elon-musk': typeof ElonMuskRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/inventory': typeof InventoryRoute
   '/invest': typeof InvestRoute
   '/login': typeof LoginRoute
   '/news': typeof NewsRoute
+  '/payments': typeof PaymentsRoute
   '/privacy': typeof PrivacyRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -419,12 +437,14 @@ export interface FileRouteTypes {
     | '/book-session'
     | '/careers'
     | '/crypto-payment'
+    | '/ecosystem'
     | '/elon-musk'
     | '/forgot-password'
     | '/inventory'
     | '/invest'
     | '/login'
     | '/news'
+    | '/payments'
     | '/privacy'
     | '/register'
     | '/reset-password'
@@ -463,12 +483,14 @@ export interface FileRouteTypes {
     | '/book-session'
     | '/careers'
     | '/crypto-payment'
+    | '/ecosystem'
     | '/elon-musk'
     | '/forgot-password'
     | '/inventory'
     | '/invest'
     | '/login'
     | '/news'
+    | '/payments'
     | '/privacy'
     | '/register'
     | '/reset-password'
@@ -507,12 +529,14 @@ export interface FileRouteTypes {
     | '/book-session'
     | '/careers'
     | '/crypto-payment'
+    | '/ecosystem'
     | '/elon-musk'
     | '/forgot-password'
     | '/inventory'
     | '/invest'
     | '/login'
     | '/news'
+    | '/payments'
     | '/privacy'
     | '/register'
     | '/reset-password'
@@ -553,12 +577,14 @@ export interface RootRouteChildren {
   BookSessionRoute: typeof BookSessionRoute
   CareersRoute: typeof CareersRoute
   CryptoPaymentRoute: typeof CryptoPaymentRoute
+  EcosystemRoute: typeof EcosystemRoute
   ElonMuskRoute: typeof ElonMuskRoute
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   InventoryRoute: typeof InventoryRoute
   InvestRoute: typeof InvestRoute
   LoginRoute: typeof LoginRoute
   NewsRoute: typeof NewsRoute
+  PaymentsRoute: typeof PaymentsRoute
   PrivacyRoute: typeof PrivacyRoute
   RegisterRoute: typeof RegisterRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
@@ -611,6 +637,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CryptoPaymentRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ecosystem': {
+      id: '/ecosystem'
+      path: '/ecosystem'
+      fullPath: '/ecosystem'
+      preLoaderRoute: typeof EcosystemRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/elon-musk': {
       id: '/elon-musk'
       path: '/elon-musk'
@@ -651,6 +684,13 @@ declare module '@tanstack/react-router' {
       path: '/news'
       fullPath: '/news'
       preLoaderRoute: typeof NewsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/payments': {
+      id: '/payments'
+      path: '/payments'
+      fullPath: '/payments'
+      preLoaderRoute: typeof PaymentsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy': {
@@ -943,12 +983,14 @@ const rootRouteChildren: RootRouteChildren = {
   BookSessionRoute: BookSessionRoute,
   CareersRoute: CareersRoute,
   CryptoPaymentRoute: CryptoPaymentRoute,
+  EcosystemRoute: EcosystemRoute,
   ElonMuskRoute: ElonMuskRoute,
   ForgotPasswordRoute: ForgotPasswordRoute,
   InventoryRoute: InventoryRoute,
   InvestRoute: InvestRoute,
   LoginRoute: LoginRoute,
   NewsRoute: NewsRoute,
+  PaymentsRoute: PaymentsRoute,
   PrivacyRoute: PrivacyRoute,
   RegisterRoute: RegisterRoute,
   ResetPasswordRoute: ResetPasswordRoute,

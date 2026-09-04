@@ -4,7 +4,6 @@ import HeroSection from "@/components/sections/HeroSection";
 import GiveawaysSection from "@/components/sections/GiveawaysSection";
 import InvestmentPackagesSection from "@/components/sections/InvestmentPackagesSection";
 import PlatformCredibilitySection from "@/components/sections/PlatformCredibilitySection";
-import EcosystemSection from "@/components/sections/EcosystemSection";
 import TestimonialsSection from "@/components/sections/TestimonialsSection";
 import FinalCTASection from "@/components/sections/FinalCTASection";
 import FloatingSupport from "@/components/sections/FloatingSupport";
@@ -20,7 +19,6 @@ export default function HomePage() {
       <div className="defer-paint"><GiveawaysSection /></div>
       <div className="defer-paint"><InvestmentPackagesSection /></div>
       <div className="defer-paint"><PlatformCredibilitySection /></div>
-      <div className="defer-paint"><EcosystemSection /></div>
       <div className="defer-paint"><TestimonialsSection /></div>
       <div className="defer-paint"><FinalCTASection /></div>
       <Footer />
