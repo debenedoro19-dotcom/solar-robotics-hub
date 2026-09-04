@@ -38,26 +38,42 @@ export default function CareerDetailPage({ slug }: { slug: string }) {
     setStatus('saving');
     setErrorMsg('');
     try {
-      let resume_path: string | null = null;
-      if (resume) {
+      // 1) Create the application first — its id owns the resume path.
+      const { data: appRow, error } = await supabase
+        .from('job_applications')
+        .insert({
+          job_id: job.id,
+          full_name: form.full_name,
+          email: form.email,
+          phone: form.phone || null,
+          cover_note: form.cover_note || null,
+          resume_path: null,
+        })
+        .select('id')
+        .single();
+      if (error) throw error;
+
+      // 2) Upload the resume under applications/<application_id>.<ext> — the
+      //    storage policy only allows a path matching a pending application.
+      if (resume && appRow?.id) {
         const rawExt = (resume.name.split('.').pop() ?? 'pdf').toLowerCase();
         const ext = ['pdf', 'doc', 'docx', 'rtf', 'txt'].includes(rawExt) ? rawExt : 'pdf';
         if (resume.size > 10 * 1024 * 1024) throw new Error('Resume must be under 10MB.');
-        resume_path = `applications/${crypto.randomUUID()}.${ext}`;
+        const resume_path = `applications/${appRow.id}.${ext}`;
         const { error: upErr } = await supabase.storage
           .from('resumes')
           .upload(resume_path, resume, { upsert: false, contentType: resume.type || undefined });
         if (upErr) throw upErr;
+        // 3) Attach the path to the application (one-time, validated server-side).
+        const { data: attachRes, error: attachErr } = await supabase.rpc('attach_resume_path', {
+          _application_id: appRow.id,
+          _path: resume_path,
+        });
+        if (attachErr) throw attachErr;
+        if (!(attachRes as { ok?: boolean } | null)?.ok) {
+          throw new Error((attachRes as { error?: string } | null)?.error ?? 'Could not attach resume.');
+        }
       }
-      const { error } = await supabase.from('job_applications').insert({
-        job_id: job.id,
-        full_name: form.full_name,
-        email: form.email,
-        phone: form.phone || null,
-        cover_note: form.cover_note || null,
-        resume_path,
-      });
-      if (error) throw error;
       void sendJobApplicationReceivedEmail().catch(() => {});
       setStatus('done');
     } catch (err) {
