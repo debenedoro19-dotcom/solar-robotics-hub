@@ -79,6 +79,8 @@ export default function AccountDepositPage() {
       deposit_status: 'pending',
       notes: note.trim() || null,
       proof_url: proofUrl,
+      // Duplicate-submission guard (unique per user in the database).
+      idempotency_key: `dep-${reference}`,
     });
     setBusy(false);
 
