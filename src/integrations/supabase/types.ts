@@ -966,6 +966,19 @@ export type Database = {
         Args: { _amount: number; _plan_id: string }
         Returns: Json
       }
+      submit_withdrawal_request: {
+        Args: {
+          _account_name?: string
+          _account_number?: string
+          _amount: number
+          _bank_name?: string
+          _description?: string
+          _method: string
+          _routing_number?: string
+          _wallet_address?: string
+        }
+        Returns: Json
+      }
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
