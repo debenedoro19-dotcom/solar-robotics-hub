@@ -97,8 +97,15 @@ export default function ProfilePage() {
   const [twoFAEnabled, setTwoFAEnabled] = useState(false);
   const [twoFAStep, setTwoFAStep] = useState<'idle' | 'setup' | 'verify' | 'enabled'>('idle');
   const [twoFACode, setTwoFACode] = useState('');
-  const [twoFASecret] = useState('JBSWY3DPEHPK3PXP');
-  const [backupCodes] = useState(['8f2k-9x1m', 'p3n7-4q2w', 'r5t8-6y3e', 'u9i2-0o4p', 'a1s4-7d5f', 'g6h9-2j0k']);
+  const [twoFASecret, setTwoFASecret] = useState('');
+  const [twoFAUri, setTwoFAUri] = useState('');
+  const [twoFABusy, setTwoFABusy] = useState(false);
+  const [twoFAError, setTwoFAError] = useState('');
+  const [backupCodes, setBackupCodes] = useState<string[]>([]);
+  const [securityEvents, setSecurityEvents] = useState<SecurityEvent[]>([]);
+  const [securityPage, setSecurityPage] = useState(0);
+  const [securityTotal, setSecurityTotal] = useState(0);
+  const [knownDevices, setKnownDevices] = useState<KnownDevice[]>([]);
 
   useEffect(() => {
     setMounted(true);
