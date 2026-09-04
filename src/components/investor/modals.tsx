@@ -42,7 +42,7 @@ function LockedModal({ title, children }: { title: string; children: React.React
   );
 }
 
-type Stage = 'form' | 'confirm' | 'processing' | 'success' | 'failed';
+type Stage = 'form' | 'confirm' | 'processing' | 'code' | 'success' | 'failed';
 
 export function WithdrawModal({ balance, userId, userEmail, onClose, onDone, onError }: {
   balance: number; userId: string; userEmail: string; onClose: () => void; onDone: (m: string) => void; onError: (m: string) => void;
