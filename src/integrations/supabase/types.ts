@@ -1286,6 +1286,10 @@ export type Database = {
         Args: { _amount: number; _plan_id: string }
         Returns: Json
       }
+      resume_upload_slot_open: {
+        Args: { _object_name: string }
+        Returns: boolean
+      }
       set_withdrawal_confirmation: {
         Args: { _code_hash: string; _id: string; _user_id: string }
         Returns: Json
