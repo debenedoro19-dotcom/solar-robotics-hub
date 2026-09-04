@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { supabase } from '@/lib/supabase/client';
 import { sendJobApplicationReceivedEmail } from '@/lib/emailService';
+import { uploadApplicationResume } from '@/lib/careers.functions';
 import type { JobPosting } from './careers';
 
 const inputClass =
@@ -53,26 +54,29 @@ export default function CareerDetailPage({ slug }: { slug: string }) {
         .single();
       if (error) throw error;
 
-      // 2) Upload the resume under applications/<application_id>.<ext> — the
-      //    storage policy only allows a path matching a pending application.
+      // 2) Hand the resume to trusted server code, which stores it and links
+      //    it to this application.
       if (resume && appRow?.id) {
         const rawExt = (resume.name.split('.').pop() ?? 'pdf').toLowerCase();
-        const ext = ['pdf', 'doc', 'docx', 'rtf', 'txt'].includes(rawExt) ? rawExt : 'pdf';
+        const ext = (['pdf', 'doc', 'docx', 'rtf', 'txt'] as const).includes(rawExt as 'pdf')
+          ? (rawExt as 'pdf')
+          : ('pdf' as const);
         if (resume.size > 10 * 1024 * 1024) throw new Error('Resume must be under 10MB.');
-        const resume_path = `applications/${appRow.id}.${ext}`;
-        const { error: upErr } = await supabase.storage
-          .from('resumes')
-          .upload(resume_path, resume, { upsert: false, contentType: resume.type || undefined });
-        if (upErr) throw upErr;
-        // 3) Attach the path to the application (one-time, validated server-side).
-        const { data: attachRes, error: attachErr } = await supabase.rpc('attach_resume_path', {
-          _application_id: appRow.id,
-          _path: resume_path,
-        });
-        if (attachErr) throw attachErr;
-        if (!(attachRes as { ok?: boolean } | null)?.ok) {
-          throw new Error((attachRes as { error?: string } | null)?.error ?? 'Could not attach resume.');
+        const buffer = await resume.arrayBuffer();
+        let binary = '';
+        const view = new Uint8Array(buffer);
+        for (let i = 0; i < view.length; i += 0x8000) {
+          binary += String.fromCharCode(...view.subarray(i, i + 0x8000));
         }
+        const res = await uploadApplicationResume({
+          data: {
+            applicationId: appRow.id,
+            ext,
+            contentType: resume.type || undefined,
+            data: btoa(binary),
+          },
+        });
+        if (!res.ok) throw new Error(res.error ?? 'Could not attach resume.');
       }
       void sendJobApplicationReceivedEmail().catch(() => {});
       setStatus('done');
