@@ -101,38 +101,45 @@ export default function Header() {
                 </a>
               )
             ))}
+
+            {/* Ecosystem dropdown */}
+            <div className="relative group">
+              <button
+                type="button"
+                className="px-4 py-2 text-xs font-semibold text-fin-muted hover:text-foreground transition-colors tracking-widest uppercase inline-flex items-center gap-1.5"
+                aria-haspopup="true"
+              >
+                Ecosystem
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
+              </button>
+              <div className="absolute left-0 top-full pt-2 opacity-0 invisible translate-y-1 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-200">
+                <div className="min-w-[180px] rounded-2xl border border-fin-border bg-[var(--surface-1)] p-2 shadow-[var(--fin-modal-shadow)]">
+                  {ecosystemLinks.map((l) => (
+                    <a key={l.label} href={l.href} className="block px-3 py-2 rounded-xl text-xs font-semibold tracking-widest uppercase text-fin-muted hover:text-foreground hover:bg-[var(--surface-2)] transition-colors">
+                      {l.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Actions */}
           <div className="hidden lg:flex items-center gap-3">
             <ThemeToggle />
-            <span className="hidden 2xl:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-[10px] font-semibold tracking-widest uppercase text-zinc-300 whitespace-nowrap">
-              <span className="ts-pulse" aria-hidden="true" />
-              Live Tracking
-            </span>
-            {!isLoggedIn && (
-              <Link
-                href="/login"
-                className="px-5 py-2 text-xs font-semibold text-white bg-white/[0.04] border border-white/[0.08] rounded-xl hover:border-white/25 transition-all duration-300 tracking-widest uppercase whitespace-nowrap"
-              >
-                Sign In
-              </Link>
-            )}
-            {isLoggedIn ? (
-              <Link
-                href="/dashboard"
-                className="px-5 py-2 text-xs font-bold bg-primary text-white rounded-xl btn-shimmer hover:bg-[#B3181D] transition-all duration-300 tracking-widest uppercase shadow-[inset_0_1px_0_rgba(255,255,255,0.18)] whitespace-nowrap"
-              >
-                Dashboard
-              </Link>
-            ) : (
-              <Link
-                href="/register"
-                className="px-5 py-2 text-xs font-bold bg-primary text-white rounded-xl btn-shimmer hover:bg-[#B3181D] transition-all duration-300 tracking-widest uppercase shadow-[inset_0_1px_0_rgba(255,255,255,0.18)] whitespace-nowrap"
-              >
-                Get Started
-              </Link>
-            )}
+            <Link
+              href={isLoggedIn ? '/dashboard' : '/login'}
+              className="px-5 py-2 text-xs font-semibold text-foreground border border-fin-border rounded-xl hover:border-primary/50 transition-all duration-300 tracking-widest uppercase whitespace-nowrap"
+            >
+              {isLoggedIn ? 'Account' : 'Sign In'}
+            </Link>
+            <Link
+              href={isLoggedIn ? '/invest' : '/register'}
+              className="px-5 py-2 text-xs font-bold bg-primary text-white rounded-xl btn-shimmer hover:bg-[#B3181D] transition-all duration-300 tracking-widest uppercase shadow-[inset_0_1px_0_rgba(255,255,255,0.18)] whitespace-nowrap"
+            >
+              Start Investing
+            </Link>
+
           </div>
 
 
