@@ -6,6 +6,7 @@ import InvestorShell from '@/components/investor/InvestorShell';
 import { MetricCard, WithdrawModal } from '@/components/investor/modals';
 import { useNavigate } from '@tanstack/react-router';
 import { money } from '@/components/investor/wallet';
+import { sendWithdrawalCode, confirmWithdrawal } from '@/lib/withdrawal-confirm.functions';
 
 type Tab = 'overview' | 'kyc' | 'balance' | 'withdrawals' | 'transactions' | 'referrals';
 
