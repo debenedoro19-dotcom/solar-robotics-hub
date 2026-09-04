@@ -3,17 +3,18 @@ import Link from '@/components/SmartLink';
 import { createClient } from '@/lib/supabase/client';
 import { ThemeToggle } from '@/lib/theme';
 
-const navLinks = [
+const ecosystemLinks = [
   { label: 'Vehicles', href: '#inventory' },
   { label: 'Energy', href: '#market' },
-  { label: 'Invest', href: '#invest' },
-  { label: 'Giveaways', href: '#giveaways' },
-  { label: 'VIP', href: '#vip' },
-  { label: 'News', href: '/news' },
-  { label: 'Careers', href: '/careers' },
-  { label: 'Account', href: '/dashboard' },
-  { label: 'Deposit', href: '/account/deposit' },
+  { label: 'Robotics', href: '#ecosystem' },
 ];
+
+const navLinks = [
+  { label: 'Invest', href: '#invest' },
+  { label: 'Insights', href: '/news' },
+  { label: 'About', href: '#elon-musk' },
+];
+
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
