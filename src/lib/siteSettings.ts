@@ -38,7 +38,7 @@ export const DEFAULT_WELCOME: WelcomePopupConfig = {
   title: 'Welcome to Tesla Trade',
   body: 'Explore vehicles, energy, solar and robotics — plus investor packages with daily yield.',
   ctaLabel: 'Explore Inventory',
-  ctaHref: '/#inventory',
+  ctaHref: '/inventory',
   delaySeconds: 8,
   cooldownHours: 24,
 };

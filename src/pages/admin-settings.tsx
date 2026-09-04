@@ -19,7 +19,7 @@ interface PopupSettings {
 }
 
 const DEFAULT_POPUPS: PopupSettings = {
-  welcome: { enabled: true, title: 'Welcome to Tesla Trade', body: 'Explore vehicles, energy, solar and robotics — plus investor packages with daily yield.', ctaLabel: 'Explore Inventory', ctaHref: '/#inventory', delaySeconds: 8, cooldownHours: 24 },
+  welcome: { enabled: true, title: 'Welcome to Tesla Trade', body: 'Explore vehicles, energy, solar and robotics — plus investor packages with daily yield.', ctaLabel: 'Explore Inventory', ctaHref: '/inventory', delaySeconds: 8, cooldownHours: 24 },
   lead: { enabled: true, title: 'Get Tesla Trade Updates', body: 'Join our list for new inventory, plan launches and giveaways.', ctaLabel: 'Subscribe', exitIntent: true, delaySeconds: 30, cooldownHours: 72 },
   cookie: { enabled: true, body: 'We use cookies to improve your experience and analyze traffic.' },
   ticker: { enabled: true, intervalSeconds: 22, minAmount: 1200, maxAmount: 48000 },
