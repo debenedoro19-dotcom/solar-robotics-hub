@@ -137,6 +137,56 @@ export function WithdrawModal({ balance, userId, userEmail, onClose, onDone, onE
     onDone(`Withdrawal confirmed${txCode ? ` · ${txCode}` : ''}`);
   }
 
+  if (stage === 'code') {
+    return (
+      <LockedModal title="Confirm your withdrawal">
+        <p className="text-sm text-fin-muted mb-4">
+          We emailed a 6-digit confirmation code to {maskedEmail || 'your registered address'}. The code expires in
+          15 minutes — the payout is not queued until it is confirmed.
+        </p>
+        {txCode && (
+          <div className="rounded-xl border border-fin-border bg-[var(--surface-2)] p-3 mb-4">
+            <p className="fin-label mb-1">Transaction ID</p>
+            <code className="text-sm font-bold text-foreground break-all">{txCode}</code>
+          </div>
+        )}
+        <input
+          value={emailCode}
+          onChange={(e) => setEmailCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+          placeholder="000000"
+          inputMode="numeric"
+          autoComplete="one-time-code"
+          className="field-fin px-4 py-3 text-center text-lg tracking-[0.4em] fin-figure mb-3"
+        />
+        {needsTotp && (
+          <input
+            value={totpCode}
+            onChange={(e) => setTotpCode(e.target.value.slice(0, 12))}
+            placeholder="Authenticator code"
+            className="field-fin px-4 py-3 text-center text-sm tracking-[0.3em] mb-3"
+          />
+        )}
+        {codeError && <p className="text-xs text-fin-danger mb-3">{codeError}</p>}
+        <div className="flex gap-3">
+          <button
+            onClick={() => sendWithdrawalCode({ data: { requestId } }).catch(() => {})}
+            className="flex-1 py-3 rounded-xl border border-fin-border text-sm font-semibold text-fin-muted hover:text-foreground"
+          >
+            Resend code
+          </button>
+          <button
+            onClick={submitCode}
+            disabled={codeBusy || emailCode.length !== 6}
+            className="flex-1 py-3 rounded-xl btn-emerald text-sm disabled:opacity-40"
+          >
+            {codeBusy ? 'Confirming…' : 'Confirm withdrawal'}
+          </button>
+        </div>
+      </LockedModal>
+    );
+  }
+
+
   if (stage === 'processing') {
     return (
       <LockedModal title="Processing withdrawal">
