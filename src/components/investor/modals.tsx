@@ -92,10 +92,24 @@ export function WithdrawModal({ balance, userId, userEmail, onClose, onDone, onE
         _idempotency_key: idemKey,
       });
       if (error) throw new Error(error.message);
-      const res = data as { ok: boolean; error?: string; tx_code?: string } | null;
+      const res = data as
+        | { ok: boolean; error?: string; tx_code?: string; request_id?: string; requires_confirmation?: boolean }
+        | null;
       if (!res?.ok) throw new Error(res?.error ?? 'Withdrawal could not be submitted');
 
       setTxCode(res.tx_code ?? '');
+
+      if (res.requires_confirmation && res.request_id) {
+        setRequestId(res.request_id);
+        const sent = await sendWithdrawalCode({ data: { requestId: res.request_id } }).catch(() => null);
+        if (!sent?.ok) throw new Error((sent && 'error' in sent ? sent.error : '') || 'Could not send your confirmation code');
+        setMaskedEmail(sent.maskedEmail);
+        setEmailCode('');
+        setCodeError('');
+        setStage('code');
+        return;
+      }
+
       setStage('success');
       void sendWithdrawalRequestedEmail(value.toString()).catch(() => {});
       onDone(`Withdrawal request submitted${res.tx_code ? ` · ${res.tx_code}` : ''}`);
@@ -103,6 +117,23 @@ export function WithdrawModal({ balance, userId, userEmail, onClose, onDone, onE
       setFailure(err instanceof Error ? err.message : 'Withdrawal could not be submitted');
       setStage('failed');
     }
+  }
+
+  async function submitCode() {
+    setCodeError('');
+    setCodeBusy(true);
+    const res = await confirmWithdrawal({
+      data: { requestId, code: emailCode, totp: totpCode || undefined },
+    }).catch(() => null);
+    setCodeBusy(false);
+    if (!res?.ok) {
+      if (res && 'needsTotp' in res && res.needsTotp) setNeedsTotp(true);
+      setCodeError((res && 'error' in res ? res.error : '') || 'Could not confirm this withdrawal');
+      return;
+    }
+    setStage('success');
+    void sendWithdrawalRequestedEmail(value.toString()).catch(() => {});
+    onDone(`Withdrawal confirmed${txCode ? ` · ${txCode}` : ''}`);
   }
 
   if (stage === 'processing') {
