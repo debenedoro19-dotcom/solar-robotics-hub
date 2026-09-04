@@ -19,4 +19,5 @@ export interface TemplateEntry {
 export const TEMPLATES: Record<string, TemplateEntry> = {
   'welcome': welcomeTemplate,
   'account-notification': accountNotificationTemplate,
+  'investor-update': investorUpdateTemplate,
 }
