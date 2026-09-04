@@ -351,20 +351,25 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
     setBalanceLoading(true);
     setBalanceActionMsg(null);
     try {
-      const { error } = await supabase.from('balance_transactions').insert({
-        user_id: userId,
-        type: 'withdrawal',
-        amount: -Number(withdrawAmount),
-        status: 'pending',
-        description: 'Balance withdrawal',
-        payment_method: withdrawMethod,
-        wallet_address: withdrawMethod === 'crypto' ? withdrawWallet : null,
-        bank_name: withdrawMethod === 'bank' ? withdrawBank : null,
-        account_number: withdrawMethod === 'bank' ? withdrawAccount : null,
-        account_name: withdrawMethod === 'bank' ? withdrawAccountName : null,
+      // Server-side validated + balance-locked + idempotent.
+      const { data, error } = await supabase.rpc('submit_withdrawal_request', {
+        _amount: Number(withdrawAmount),
+        _method: withdrawMethod,
+        _wallet_address: withdrawMethod === 'crypto' ? withdrawWallet : undefined,
+        _bank_name: withdrawMethod === 'bank' ? withdrawBank : undefined,
+        _account_number: withdrawMethod === 'bank' ? withdrawAccount : undefined,
+        _account_name: withdrawMethod === 'bank' ? withdrawAccountName : undefined,
+        _description: 'Balance withdrawal',
+        _idempotency_key:
+          globalThis.crypto?.randomUUID?.() ?? `wd-${Date.now()}-${Math.random().toString(36).slice(2)}`,
       });
       if (error) throw error;
-      setBalanceActionMsg({ type: 'success', text: 'Withdrawal request submitted. Processing within 1–3 business days.' });
+      const res = data as { ok: boolean; error?: string; tx_code?: string } | null;
+      if (!res?.ok) throw new Error(res?.error ?? 'Failed to submit withdrawal.');
+      setBalanceActionMsg({
+        type: 'success',
+        text: `Withdrawal request submitted${res.tx_code ? ` · Transaction ID ${res.tx_code}` : ''}. Processing within 1–3 business days.`,
+      });
       setWithdrawAmount('');
       setWithdrawWallet('');
       setWithdrawBank('');
