@@ -41,6 +41,7 @@ import { Route as AuthenticatedAdminInventoryRouteImport } from './routes/_authe
 import { Route as AuthenticatedAdminPlansRouteImport } from './routes/_authenticated.admin.plans'
 import { Route as AuthenticatedAdminSessionsRouteImport } from './routes/_authenticated.admin.sessions'
 import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated.admin.settings'
+import { Route as AuthenticatedAdminTransactionsRouteImport } from './routes/_authenticated.admin.transactions'
 import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated.admin.users'
 import { Route as AuthenticatedAdminWithdrawalsRouteImport } from './routes/_authenticated.admin.withdrawals'
 import { Route as ApiPublicAuthEmailHookRouteImport } from './routes/api/public/auth-email-hook'
@@ -215,6 +216,12 @@ const AuthenticatedAdminSettingsRoute =
     path: '/settings',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminTransactionsRoute =
+  AuthenticatedAdminTransactionsRouteImport.update({
+    id: '/transactions',
+    path: '/transactions',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminUsersRoute = AuthenticatedAdminUsersRouteImport.update({
   id: '/users',
   path: '/users',
@@ -278,6 +285,7 @@ export interface FileRoutesByFullPath {
   '/admin/plans': typeof AuthenticatedAdminPlansRoute
   '/admin/sessions': typeof AuthenticatedAdminSessionsRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/admin/transactions': typeof AuthenticatedAdminTransactionsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/admin/withdrawals': typeof AuthenticatedAdminWithdrawalsRoute
   '/api/public/auth-email-hook': typeof ApiPublicAuthEmailHookRoute
@@ -316,6 +324,7 @@ export interface FileRoutesByTo {
   '/admin/plans': typeof AuthenticatedAdminPlansRoute
   '/admin/sessions': typeof AuthenticatedAdminSessionsRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/admin/transactions': typeof AuthenticatedAdminTransactionsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/admin/withdrawals': typeof AuthenticatedAdminWithdrawalsRoute
   '/api/public/auth-email-hook': typeof ApiPublicAuthEmailHookRoute
@@ -357,6 +366,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/plans': typeof AuthenticatedAdminPlansRoute
   '/_authenticated/admin/sessions': typeof AuthenticatedAdminSessionsRoute
   '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/_authenticated/admin/transactions': typeof AuthenticatedAdminTransactionsRoute
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/_authenticated/admin/withdrawals': typeof AuthenticatedAdminWithdrawalsRoute
   '/api/public/auth-email-hook': typeof ApiPublicAuthEmailHookRoute
@@ -398,6 +408,7 @@ export interface FileRouteTypes {
     | '/admin/plans'
     | '/admin/sessions'
     | '/admin/settings'
+    | '/admin/transactions'
     | '/admin/users'
     | '/admin/withdrawals'
     | '/api/public/auth-email-hook'
@@ -436,6 +447,7 @@ export interface FileRouteTypes {
     | '/admin/plans'
     | '/admin/sessions'
     | '/admin/settings'
+    | '/admin/transactions'
     | '/admin/users'
     | '/admin/withdrawals'
     | '/api/public/auth-email-hook'
@@ -476,6 +488,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/plans'
     | '/_authenticated/admin/sessions'
     | '/_authenticated/admin/settings'
+    | '/_authenticated/admin/transactions'
     | '/_authenticated/admin/users'
     | '/_authenticated/admin/withdrawals'
     | '/api/public/auth-email-hook'
@@ -735,6 +748,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminSettingsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/transactions': {
+      id: '/_authenticated/admin/transactions'
+      path: '/transactions'
+      fullPath: '/admin/transactions'
+      preLoaderRoute: typeof AuthenticatedAdminTransactionsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/users': {
       id: '/_authenticated/admin/users'
       path: '/users'
@@ -788,6 +808,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminPlansRoute: typeof AuthenticatedAdminPlansRoute
   AuthenticatedAdminSessionsRoute: typeof AuthenticatedAdminSessionsRoute
   AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
+  AuthenticatedAdminTransactionsRoute: typeof AuthenticatedAdminTransactionsRoute
   AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
   AuthenticatedAdminWithdrawalsRoute: typeof AuthenticatedAdminWithdrawalsRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
@@ -801,6 +822,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminPlansRoute: AuthenticatedAdminPlansRoute,
   AuthenticatedAdminSessionsRoute: AuthenticatedAdminSessionsRoute,
   AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
+  AuthenticatedAdminTransactionsRoute: AuthenticatedAdminTransactionsRoute,
   AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
   AuthenticatedAdminWithdrawalsRoute: AuthenticatedAdminWithdrawalsRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
