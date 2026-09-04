@@ -52,6 +52,13 @@ export function WithdrawModal({ balance, userId, userEmail, onClose, onDone, onE
   const [stage, setStage] = useState<Stage>('form');
   const [txCode, setTxCode] = useState('');
   const [failure, setFailure] = useState('');
+  const [requestId, setRequestId] = useState('');
+  const [emailCode, setEmailCode] = useState('');
+  const [totpCode, setTotpCode] = useState('');
+  const [needsTotp, setNeedsTotp] = useState(false);
+  const [maskedEmail, setMaskedEmail] = useState('');
+  const [codeError, setCodeError] = useState('');
+  const [codeBusy, setCodeBusy] = useState(false);
   // Stable per-attempt key: retrying the same request can never double-spend.
   const [idemKey] = useState(() =>
     (globalThis.crypto?.randomUUID?.() ?? `wd-${Date.now()}-${Math.random().toString(36).slice(2)}`),
