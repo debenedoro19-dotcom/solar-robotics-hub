@@ -1,5 +1,6 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
+import AdminShell from "@/components/admin/AdminShell";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   ssr: false,
@@ -11,5 +12,9 @@ export const Route = createFileRoute("/_authenticated/admin")({
     const { data, error } = await supabase.rpc("is_admin");
     if (error || data !== true) throw redirect({ to: "/dashboard" });
   },
-  component: () => <Outlet />,
+  component: () => (
+    <AdminShell>
+      <Outlet />
+    </AdminShell>
+  ),
 });

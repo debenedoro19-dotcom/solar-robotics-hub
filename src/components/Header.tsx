@@ -9,11 +9,14 @@ const ecosystemLinks = [
   { label: 'Robotics', href: '#ecosystem' },
 ];
 
-const navLinks = [
-  { label: 'Invest', href: '#invest' },
+const primaryLinks = [{ label: 'Invest', href: '#invest' }];
+
+const secondaryLinks = [
   { label: 'Insights', href: '/news' },
   { label: 'About', href: '#elon-musk' },
 ];
+
+const navLinks = [...primaryLinks, ...secondaryLinks];
 
 
 export default function Header() {
@@ -80,7 +83,7 @@ export default function Header() {
 
           {/* Desktop Nav */}
           <div className="hidden lg:flex items-center gap-0 xl:gap-1">
-            {navLinks?.map((link) => (
+            {primaryLinks?.map((link) => (
               link?.href?.startsWith('/') ? (
                 <Link
                   key={link?.label}
@@ -122,6 +125,28 @@ export default function Header() {
                 </div>
               </div>
             </div>
+
+            {secondaryLinks?.map((link) => (
+              link?.href?.startsWith('/') ? (
+                <Link
+                  key={link?.label}
+                  href={link?.href}
+                  className="px-4 py-2 text-xs font-semibold text-fin-muted hover:text-foreground transition-colors tracking-widest uppercase relative group"
+                >
+                  {link?.label}
+                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[1px] bg-primary group-hover:w-4 transition-all duration-300" />
+                </Link>
+              ) : (
+                <a
+                  key={link?.label}
+                  href={link?.href}
+                  className="px-4 py-2 text-xs font-semibold text-fin-muted hover:text-foreground transition-colors tracking-widest uppercase relative group"
+                >
+                  {link?.label}
+                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[1px] bg-primary group-hover:w-4 transition-all duration-300" />
+                </a>
+              )
+            ))}
           </div>
 
           {/* Actions */}

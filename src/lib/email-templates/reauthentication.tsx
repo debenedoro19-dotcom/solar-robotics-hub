@@ -19,7 +19,7 @@ interface ReauthenticationEmailProps {
 
 export const ReauthenticationEmail = ({
   token,
-  siteName = 'Tesla Energy Hub',
+  siteName = 'Trade Tesla',
 }: ReauthenticationEmailProps) => (
   <Html lang="en" dir="ltr">
     <Head />

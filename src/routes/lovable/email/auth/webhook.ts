@@ -9,7 +9,7 @@ import { EmailChangeEmail } from '@/lib/email-templates/email-change'
 import { ReauthenticationEmail } from '@/lib/email-templates/reauthentication'
 
 // Configuration
-const SITE_NAME = "Tesla Energy Hub"
+const SITE_NAME = "Trade Tesla"
 const SENDER_DOMAIN = "notify.tradeenergy.app"
 const ROOT_DOMAIN = "tradeenergy.app"
 const FROM_DOMAIN = "tradeenergy.app"
