@@ -1,83 +1,5 @@
 import { createServerFn } from '@tanstack/react-start'
-import { getRequest } from '@tanstack/react-start/server'
 import { requireSupabaseAuth } from '@/integrations/supabase/auth-middleware'
-
-const ISSUER = 'Tesla Energy Hub'
-
-// ── helpers ───────────────────────────────────────────────────────────────
-async function sha256(value: string): Promise<string> {
-  const bytes = new TextEncoder().encode(value)
-  const digest = await crypto.subtle.digest('SHA-256', bytes)
-  return Array.from(new Uint8Array(digest))
-    .map((b) => b.toString(16).padStart(2, '0'))
-    .join('')
-}
-
-function clientIp(): string {
-  try {
-    const req = getRequest()
-    const fwd = req.headers.get('x-forwarded-for') ?? ''
-    return (
-      fwd.split(',')[0]?.trim() ||
-      req.headers.get('cf-connecting-ip') ||
-      req.headers.get('x-real-ip') ||
-      'unknown'
-    )
-  } catch {
-    return 'unknown'
-  }
-}
-
-function requestUserAgent(): string {
-  try {
-    return getRequest().headers.get('user-agent') ?? ''
-  } catch {
-    return ''
-  }
-}
-
-/** Human label like "Chrome on Windows" from a user-agent string. */
-export function describeDevice(ua: string): { label: string; browser: string; os: string } {
-  const browser = /Edg\//.test(ua)
-    ? 'Edge'
-    : /OPR\//.test(ua)
-      ? 'Opera'
-      : /Chrome\//.test(ua)
-        ? 'Chrome'
-        : /Safari\//.test(ua)
-          ? 'Safari'
-          : /Firefox\//.test(ua)
-            ? 'Firefox'
-            : 'Browser'
-  const os = /Windows/.test(ua)
-    ? 'Windows'
-    : /Android/.test(ua)
-      ? 'Android'
-      : /iPhone|iPad|iOS/.test(ua)
-        ? 'iOS'
-        : /Mac OS X|Macintosh/.test(ua)
-          ? 'macOS'
-          : /Linux/.test(ua)
-            ? 'Linux'
-            : 'Unknown OS'
-  return { label: `${browser} on ${os}`, browser, os }
-}
-
-function randomDigits(length: number): string {
-  const buf = new Uint32Array(length)
-  crypto.getRandomValues(buf)
-  return Array.from(buf, (n) => String(n % 10)).join('')
-}
-
-function randomBackupCode(): string {
-  const alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
-  const buf = new Uint32Array(10)
-  crypto.getRandomValues(buf)
-  const raw = Array.from(buf, (n) => alphabet[n % alphabet.length]).join('')
-  return `${raw.slice(0, 5)}-${raw.slice(5)}`
-}
-
-// ── device + activity logging ─────────────────────────────────────────────
 
 /**
  * Records a security event, upserts the device fingerprint and emails the
@@ -91,6 +13,8 @@ export const recordSecurityEvent = createServerFn({ method: 'POST' })
   }))
   .handler(async ({ data, context }) => {
     const { supabaseAdmin } = await import('@/integrations/supabase/client.server')
+    const { sha256, clientIp, requestUserAgent, describeDevice } = await import('./security.server')
+
     const userId = context.userId
     const ua = requestUserAgent()
     const ip = clientIp()
@@ -99,7 +23,7 @@ export const recordSecurityEvent = createServerFn({ method: 'POST' })
 
     const { data: existing } = await supabaseAdmin
       .from('user_devices')
-      .select('id, first_seen_at')
+      .select('id')
       .eq('user_id', userId)
       .eq('device_hash', deviceHash)
       .maybeSingle()
@@ -130,7 +54,6 @@ export const recordSecurityEvent = createServerFn({ method: 'POST' })
       metadata: data.metadata as never,
     })
 
-    // New-login alert: only for genuinely unrecognised devices.
     if (isNewDevice && data.eventType === 'login') {
       const { data: profile } = await supabaseAdmin
         .from('user_profiles')
@@ -168,7 +91,7 @@ export const listSecurityActivity = createServerFn({ method: 'POST' })
     const [events, devices] = await Promise.all([
       context.supabase
         .from('auth_events')
-        .select('id, event_type, ip, device_label, new_device, success, created_at', { count: 'exact' })
+        .select('id, event_type, ip, device_label, new_device, created_at', { count: 'exact' })
         .eq('user_id', context.userId)
         .order('created_at', { ascending: false })
         .range(from, from + data.pageSize - 1),
@@ -188,8 +111,6 @@ export const listSecurityActivity = createServerFn({ method: 'POST' })
     }
   })
 
-// ── two-factor authentication (TOTP) ──────────────────────────────────────
-
 export const get2FAStatus = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
@@ -207,6 +128,7 @@ export const start2FAEnrollment = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     const { supabaseAdmin } = await import('@/integrations/supabase/client.server')
+    const { ISSUER } = await import('./security.server')
     const OTPAuth = await import('otpauth')
 
     const { data: existing } = await supabaseAdmin
@@ -241,6 +163,7 @@ export const confirm2FAEnrollment = createServerFn({ method: 'POST' })
   .inputValidator((data: { code: string }) => ({ code: String(data.code ?? '').replace(/\D/g, '').slice(0, 6) }))
   .handler(async ({ data, context }) => {
     const { supabaseAdmin } = await import('@/integrations/supabase/client.server')
+    const { ISSUER, sha256, randomBackupCode, clientIp, requestUserAgent, describeDevice } = await import('./security.server')
     const OTPAuth = await import('otpauth')
 
     const { data: row } = await supabaseAdmin
@@ -290,7 +213,18 @@ export const verify2FACode = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: { code: string }) => ({ code: String(data.code ?? '').trim().toUpperCase().slice(0, 12) }))
   .handler(async ({ data, context }) => {
+    const { verifyTotpForUser, clientIp, requestUserAgent, describeDevice } = await import('./security.server')
     const result = await verifyTotpForUser(context.userId, context.claims?.email ?? 'investor', data.code)
+    if (result.ok) {
+      const { supabaseAdmin } = await import('@/integrations/supabase/client.server')
+      await supabaseAdmin.from('auth_events').insert({
+        user_id: context.userId,
+        email: context.claims?.email ?? null,
+        event_type: '2fa_verified',
+        ip: clientIp(),
+        device_label: describeDevice(requestUserAgent()).label,
+      })
+    }
     return result
   })
 
@@ -298,6 +232,7 @@ export const disable2FA = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: { code: string }) => ({ code: String(data.code ?? '').trim().toUpperCase().slice(0, 12) }))
   .handler(async ({ data, context }) => {
+    const { verifyTotpForUser, clientIp, requestUserAgent, describeDevice } = await import('./security.server')
     const check = await verifyTotpForUser(context.userId, context.claims?.email ?? 'investor', data.code)
     if (!check.ok) return check
 
@@ -333,64 +268,3 @@ export const disable2FA = createServerFn({ method: 'POST' })
 
     return { ok: true as const }
   })
-
-/**
- * Shared TOTP/backup-code check. Exported for other server modules
- * (withdrawal confirmation) — never import this from client code.
- */
-export async function verifyTotpForUser(
-  userId: string,
-  label: string,
-  code: string,
-): Promise<{ ok: true; usedBackupCode: boolean } | { ok: false; error: string }> {
-  const { supabaseAdmin } = await import('@/integrations/supabase/client.server')
-  const OTPAuth = await import('otpauth')
-
-  const { data: row } = await supabaseAdmin
-    .from('user_2fa')
-    .select('secret, enabled, backup_codes, failed_attempts, locked_until')
-    .eq('user_id', userId)
-    .maybeSingle()
-
-  if (!row?.enabled) return { ok: false, error: 'Two-factor authentication is not enabled' }
-  if (row.locked_until && new Date(row.locked_until).getTime() > Date.now()) {
-    return { ok: false, error: 'Too many incorrect codes. Try again in a few minutes.' }
-  }
-
-  const cleaned = code.trim().toUpperCase()
-  const totp = new OTPAuth.TOTP({ issuer: ISSUER, label, secret: OTPAuth.Secret.fromBase32(row.secret) })
-  const totpOk = totp.validate({ token: cleaned.replace(/\D/g, ''), window: 1 }) !== null
-
-  let usedBackupCode = false
-  if (!totpOk) {
-    const hash = await sha256(cleaned)
-    const remaining = (row.backup_codes ?? []).filter((c: string) => c !== hash)
-    if (remaining.length === (row.backup_codes ?? []).length) {
-      const attempts = (row.failed_attempts ?? 0) + 1
-      await supabaseAdmin
-        .from('user_2fa')
-        .update({
-          failed_attempts: attempts,
-          locked_until: attempts >= 5 ? new Date(Date.now() + 10 * 60_000).toISOString() : null,
-        })
-        .eq('user_id', userId)
-      return { ok: false, error: 'Incorrect authentication code' }
-    }
-    usedBackupCode = true
-    await supabaseAdmin.from('user_2fa').update({ backup_codes: remaining }).eq('user_id', userId)
-  }
-
-  await supabaseAdmin
-    .from('user_2fa')
-    .update({ failed_attempts: 0, locked_until: null, last_used_at: new Date().toISOString() })
-    .eq('user_id', userId)
-
-  return { ok: true, usedBackupCode }
-}
-
-/** Emailed 6-digit code generator shared with withdrawal confirmation. */
-export function generateEmailCode(): string {
-  return randomDigits(6)
-}
-
-export { sha256 as hashToken, clientIp as currentClientIp, requestUserAgent as currentUserAgent }
