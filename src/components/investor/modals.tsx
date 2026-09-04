@@ -57,6 +57,8 @@ export function WithdrawModal({ balance, userId, userEmail, onClose, onDone, onE
     (globalThis.crypto?.randomUUID?.() ?? `wd-${Date.now()}-${Math.random().toString(36).slice(2)}`),
   );
 
+  void userId; void userEmail; // identity comes from the session server-side
+
   const value = Number(amount) || 0;
   const fee = value * WITHDRAWAL_FEE_RATE;
   const net = value - fee;
