@@ -1,6 +1,5 @@
 import { createServerFn } from '@tanstack/react-start'
 import { requireSupabaseAuth } from '@/integrations/supabase/auth-middleware'
-import { generateEmailCode, hashToken, currentClientIp, currentUserAgent, describeDevice, verifyTotpForUser } from './security.functions'
 
 const money = (v: number) =>
   `$${Number(v || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
@@ -14,6 +13,7 @@ export const sendWithdrawalCode = createServerFn({ method: 'POST' })
   .inputValidator((data: { requestId: string }) => ({ requestId: String(data.requestId) }))
   .handler(async ({ data, context }) => {
     const { supabaseAdmin } = await import('@/integrations/supabase/client.server')
+    const { generateEmailCode, sha256: hashToken, clientIp: currentClientIp, requestUserAgent: currentUserAgent, describeDevice } = await import('./security.server')
 
     const { data: row } = await supabaseAdmin
       .from('withdrawal_requests')
@@ -82,6 +82,7 @@ export const confirmWithdrawal = createServerFn({ method: 'POST' })
   }))
   .handler(async ({ data, context }) => {
     const { supabaseAdmin } = await import('@/integrations/supabase/client.server')
+    const { sha256: hashToken, clientIp: currentClientIp, requestUserAgent: currentUserAgent, describeDevice, verifyTotpForUser } = await import('./security.server')
 
     // Step-up: when the investor has 2FA on, a withdrawal also needs a TOTP code.
     const { data: twoFa } = await supabaseAdmin
