@@ -83,6 +83,7 @@ export type Database = {
           created_at: string | null
           deposit_status: string
           id: string
+          idempotency_key: string | null
           notes: string | null
           package_name: string
           payment_method: string
@@ -99,6 +100,7 @@ export type Database = {
           created_at?: string | null
           deposit_status?: string
           id?: string
+          idempotency_key?: string | null
           notes?: string | null
           package_name?: string
           payment_method?: string
@@ -115,6 +117,7 @@ export type Database = {
           created_at?: string | null
           deposit_status?: string
           id?: string
+          idempotency_key?: string | null
           notes?: string | null
           package_name?: string
           payment_method?: string
@@ -406,6 +409,39 @@ export type Database = {
         }
         Relationships: []
       }
+      job_state: {
+        Row: {
+          consecutive_failures: number
+          key: string
+          last_error: string | null
+          last_run_at: string | null
+          lease_until: string | null
+          pause_reason: string | null
+          paused: boolean
+          updated_at: string
+        }
+        Insert: {
+          consecutive_failures?: number
+          key: string
+          last_error?: string | null
+          last_run_at?: string | null
+          lease_until?: string | null
+          pause_reason?: string | null
+          paused?: boolean
+          updated_at?: string
+        }
+        Update: {
+          consecutive_failures?: number
+          key?: string
+          last_error?: string | null
+          last_run_at?: string | null
+          lease_until?: string | null
+          pause_reason?: string | null
+          paused?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
       kyc_submissions: {
         Row: {
           address_proof_url: string | null
@@ -658,6 +694,45 @@ export type Database = {
           },
         ]
       }
+      transaction_audit_log: {
+        Row: {
+          action: string
+          actor_id: string | null
+          amount: number | null
+          created_at: string
+          entity_id: string | null
+          entity_type: string
+          id: string
+          metadata: Json
+          status: string | null
+          user_id: string | null
+        }
+        Insert: {
+          action: string
+          actor_id?: string | null
+          amount?: number | null
+          created_at?: string
+          entity_id?: string | null
+          entity_type: string
+          id?: string
+          metadata?: Json
+          status?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          action?: string
+          actor_id?: string | null
+          amount?: number | null
+          created_at?: string
+          entity_id?: string | null
+          entity_type?: string
+          id?: string
+          metadata?: Json
+          status?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       user_balance: {
         Row: {
           available_balance: number
@@ -886,11 +961,17 @@ export type Database = {
           bank_name: string
           created_at: string | null
           id: string
+          idempotency_key: string | null
           notes: string | null
           payout_status: string
           processed_at: string | null
+          queue_attempts: number
+          queue_last_error: string | null
+          queue_lease_until: string | null
+          queue_status: string
           requested_at: string | null
           routing_number: string
+          tx_code: string | null
           updated_at: string | null
           user_email: string
           user_id: string
@@ -903,11 +984,17 @@ export type Database = {
           bank_name?: string
           created_at?: string | null
           id?: string
+          idempotency_key?: string | null
           notes?: string | null
           payout_status?: string
           processed_at?: string | null
+          queue_attempts?: number
+          queue_last_error?: string | null
+          queue_lease_until?: string | null
+          queue_status?: string
           requested_at?: string | null
           routing_number?: string
+          tx_code?: string | null
           updated_at?: string | null
           user_email: string
           user_id: string
@@ -920,11 +1007,17 @@ export type Database = {
           bank_name?: string
           created_at?: string | null
           id?: string
+          idempotency_key?: string | null
           notes?: string | null
           payout_status?: string
           processed_at?: string | null
+          queue_attempts?: number
+          queue_last_error?: string | null
+          queue_lease_until?: string | null
+          queue_status?: string
           requested_at?: string | null
           routing_number?: string
+          tx_code?: string | null
           updated_at?: string | null
           user_email?: string
           user_id?: string
@@ -947,9 +1040,42 @@ export type Database = {
     Functions: {
       accrue_investments: { Args: { _user_id?: string }; Returns: Json }
       admin_approve_deposit: { Args: { _deposit_id: string }; Returns: Json }
+      admin_queue_withdrawal: { Args: { _id: string }; Returns: Json }
       admin_set_wallet_balance: {
         Args: { _available: number; _note?: string; _user_id: string }
         Returns: Json
+      }
+      claim_withdrawal_batch: {
+        Args: { _limit?: number }
+        Returns: {
+          account_name: string
+          account_number: string
+          amount: number
+          bank_name: string
+          created_at: string | null
+          id: string
+          idempotency_key: string | null
+          notes: string | null
+          payout_status: string
+          processed_at: string | null
+          queue_attempts: number
+          queue_last_error: string | null
+          queue_lease_until: string | null
+          queue_status: string
+          requested_at: string | null
+          routing_number: string
+          tx_code: string | null
+          updated_at: string | null
+          user_email: string
+          user_id: string
+          user_name: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "withdrawal_requests"
+          isOneToOne: false
+          isSetofReturn: true
+        }
       }
       enter_giveaway: { Args: { _giveaway_id: string }; Returns: Json }
       has_role: {
@@ -962,23 +1088,54 @@ export type Database = {
       is_admin: { Args: never; Returns: boolean }
       is_admin_from_auth: { Args: never; Returns: boolean }
       is_portfolio_admin: { Args: never; Returns: boolean }
+      log_txn_audit: {
+        Args: {
+          _action: string
+          _amount?: number
+          _entity_id: string
+          _entity_type: string
+          _metadata?: Json
+          _status?: string
+          _user_id: string
+        }
+        Returns: undefined
+      }
       purchase_investment_plan: {
         Args: { _amount: number; _plan_id: string }
         Returns: Json
       }
-      submit_withdrawal_request: {
-        Args: {
-          _account_name?: string
-          _account_number?: string
-          _amount: number
-          _bank_name?: string
-          _description?: string
-          _method: string
-          _routing_number?: string
-          _wallet_address?: string
-        }
+      settle_withdrawal: {
+        Args: { _id: string; _notes?: string; _status: string }
         Returns: Json
       }
+      submit_withdrawal_request:
+        | {
+            Args: {
+              _account_name?: string
+              _account_number?: string
+              _amount: number
+              _bank_name?: string
+              _description?: string
+              _method: string
+              _routing_number?: string
+              _wallet_address?: string
+            }
+            Returns: Json
+          }
+        | {
+            Args: {
+              _account_name?: string
+              _account_number?: string
+              _amount: number
+              _bank_name?: string
+              _description?: string
+              _idempotency_key?: string
+              _method: string
+              _routing_number?: string
+              _wallet_address?: string
+            }
+            Returns: Json
+          }
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
