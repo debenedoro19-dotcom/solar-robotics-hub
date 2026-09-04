@@ -253,32 +253,23 @@ export default function ReferralPage() {
     setWithdrawSubmitting(true);
     try {
       const supabase = createClient();
-      const { data: profileRow } = await supabase
-        .from('user_profiles')
-        .select('id')
-        .eq('email', user.email)
-        .maybeSingle();
 
-      if (!profileRow?.id) {
-        setWithdrawError('User profile not found. Please try again.');
-        setWithdrawSubmitting(false);
-        return;
-      }
-
-      const { error } = await supabase.from('withdrawal_requests').insert({
-        user_id: profileRow.id,
-        user_email: user.email,
-        user_name: user.name,
-        amount,
-        bank_name: withdrawForm.bank_name.trim(),
-        account_number: withdrawForm.account_number.trim(),
-        account_name: withdrawForm.account_name.trim(),
-        routing_number: withdrawForm.routing_number.trim(),
-        payout_status: 'pending',
+      // Balance-checked, funds-reserving, rate-limited server routine.
+      const { data, error } = await supabase.rpc('submit_withdrawal_request', {
+        _amount: amount,
+        _method: 'bank',
+        _bank_name: withdrawForm.bank_name.trim(),
+        _account_number: withdrawForm.account_number.trim(),
+        _account_name: withdrawForm.account_name.trim(),
+        _routing_number: withdrawForm.routing_number.trim(),
+        _description: 'Referral earnings withdrawal',
+        _idempotency_key:
+          globalThis.crypto?.randomUUID?.() ?? `ref-wd-${Date.now()}-${Math.random().toString(36).slice(2)}`,
       });
 
-      if (error) {
-        setWithdrawError('Failed to submit request. Please try again.');
+      const res = data as { ok: boolean; error?: string } | null;
+      if (error || !res?.ok) {
+        setWithdrawError(res?.error ?? 'Failed to submit request. Please try again.');
       } else {
         void sendWithdrawalRequestedEmail(amount.toLocaleString()).catch(() => {});
         setWithdrawSuccess(true);
@@ -286,6 +277,7 @@ export default function ReferralPage() {
         setShowWithdrawForm(false);
         setTimeout(() => setWithdrawSuccess(false), 4000);
       }
+
     } catch {
       setWithdrawError('An unexpected error occurred. Please try again.');
     }
