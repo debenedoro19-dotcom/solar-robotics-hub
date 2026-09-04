@@ -790,21 +790,22 @@ export default function ProfilePage() {
                   </div>
                 )}
 
+                {twoFAError && (
+                  <div className="mb-4 px-4 py-3 rounded-xl bg-[#E82127]/10 border border-[#E82127]/30 text-xs text-[#E82127]">
+                    {twoFAError}
+                  </div>
+                )}
+
                 {/* Setup step */}
                 {twoFAStep === 'setup' && (
                   <div className="max-w-sm">
                     <p className="text-xs text-[#A1A1AA] mb-4">Scan this QR code with your authenticator app, or enter the secret key manually.</p>
-                    {/* QR placeholder */}
-                    <div className="w-40 h-40 bg-white rounded-xl flex items-center justify-center mb-4 mx-auto">
-                      <div className="grid grid-cols-7 gap-0.5 p-2">
-                        {Array.from({ length: 49 }).map((_, i) => (
-                          <div key={i} className={`w-3 h-3 ${Math.random() > 0.5 ? 'bg-black' : 'bg-white'}`} />
-                        ))}
-                      </div>
+                    <div className="flex justify-center mb-4">
+                      <QrCode value={twoFAUri} size={160} label="Two-factor authentication setup QR code" />
                     </div>
                     <div className="bg-[#050507] border border-[#1E2027] rounded-xl px-4 py-2.5 mb-4 text-center">
                       <p className="text-[10px] text-[#6B7280] uppercase tracking-widest mb-1">Manual Entry Key</p>
-                      <p className="text-sm font-mono text-white tracking-widest">{twoFASecret}</p>
+                      <p className="text-sm font-mono text-white tracking-widest break-all">{twoFASecret}</p>
                     </div>
                     <label className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">Enter 6-Digit Code</label>
                     <input
@@ -818,13 +819,13 @@ export default function ProfilePage() {
                     <div className="flex gap-3">
                       <button
                         onClick={handle2FAVerify}
-                        disabled={twoFACode.length !== 6}
+                        disabled={twoFACode.length !== 6 || twoFABusy}
                         className="flex-1 py-2.5 bg-[#E82127] text-white text-xs font-bold rounded-xl tracking-widest uppercase hover:bg-[#B3181D] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                       >
-                        Verify & Enable
+                        {twoFABusy ? 'Verifying…' : 'Verify & Enable'}
                       </button>
                       <button
-                        onClick={() => { setTwoFAStep('idle'); setTwoFACode(''); }}
+                        onClick={() => { setTwoFAStep('idle'); setTwoFACode(''); setTwoFAError(''); }}
                         className="px-4 py-2.5 border border-[#1E2027] text-[#A1A1AA] text-xs font-semibold rounded-xl tracking-widest uppercase hover:text-white hover:border-[#52525B] transition-colors"
                       >
                         Cancel
@@ -834,27 +835,104 @@ export default function ProfilePage() {
                 )}
 
                 {/* Enabled state */}
-                {(twoFAStep === 'enabled' || twoFAEnabled) && twoFAStep !== 'idle' && (
+                {twoFAStep === 'enabled' && twoFAEnabled && (
                   <div>
-                    <div className="mb-6">
-                      <p className="text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-3">Backup Codes</p>
-                      <p className="text-xs text-[#6B7280] mb-3">Save these backup codes in a secure location. Each code can only be used once.</p>
-                      <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-3">
-                        {backupCodes.map(code => (
-                          <div key={code} className="bg-[#050507] border border-[#12131A] rounded-xl px-3 py-2 text-center font-mono text-xs text-white tracking-widest">
-                            {code}
-                          </div>
-                        ))}
+                    {backupCodes.length > 0 && (
+                      <div className="mb-6">
+                        <p className="text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-3">Backup Codes</p>
+                        <p className="text-xs text-[#6B7280] mb-3">Save these codes now — they are shown once and each works a single time.</p>
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-3">
+                          {backupCodes.map(code => (
+                            <div key={code} className="bg-[#050507] border border-[#12131A] rounded-xl px-3 py-2 text-center font-mono text-xs text-white tracking-widest">
+                              {code}
+                            </div>
+                          ))}
+                        </div>
                       </div>
+                    )}
+                    <div className="max-w-sm">
+                      <label htmlFor="twofa-off" className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">
+                        Authenticator or backup code
+                      </label>
+                      <input
+                        id="twofa-off"
+                        value={twoFACode}
+                        onChange={e => setTwoFACode(e.target.value)}
+                        placeholder="000000"
+                        className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-4 py-2.5 text-sm text-white text-center tracking-[0.4em] font-mono placeholder-[#52525B] focus:outline-none focus:border-[#E82127]/50 transition-colors mb-3"
+                      />
+                      <button
+                        onClick={handle2FADisable}
+                        disabled={twoFABusy}
+                        className="px-6 py-2.5 border border-[#E82127]/40 text-[#E82127] text-xs font-bold rounded-xl tracking-widest uppercase hover:bg-[#E82127]/10 transition-colors disabled:opacity-40"
+                      >
+                        {twoFABusy ? 'Working…' : 'Disable 2FA'}
+                      </button>
                     </div>
-                    <button
-                      onClick={handle2FADisable}
-                      className="px-6 py-2.5 border border-[#E82127]/40 text-[#E82127] text-xs font-bold rounded-xl tracking-widest uppercase hover:bg-[#E82127]/10 transition-colors"
-                    >
-                      Disable 2FA
-                    </button>
                   </div>
                 )}
+
+                {/* Devices + security activity */}
+                <div className="mt-8 pt-6 border-t border-[#12131A]">
+                  <h3 className="text-sm font-bold text-white tracking-wide mb-1">Devices & Security Activity</h3>
+                  <p className="text-xs text-[#6B7280] mb-4">Every sign-in, device and withdrawal confirmation on your account.</p>
+
+                  {knownDevices.length > 0 && (
+                    <div className="grid sm:grid-cols-2 gap-2 mb-5">
+                      {knownDevices.map(d => (
+                        <div key={d.id} className="bg-[#050507] border border-[#12131A] rounded-xl px-4 py-3">
+                          <p className="text-xs font-bold text-white">{d.label}</p>
+                          <p className="text-[11px] text-[#6B7280]">
+                            {d.last_ip || 'IP unavailable'} · last seen {new Date(d.last_seen_at).toLocaleString()}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  <div className="border border-[#12131A] rounded-xl overflow-hidden">
+                    {securityEvents.length === 0 ? (
+                      <p className="px-4 py-5 text-xs text-[#6B7280]">No security activity recorded yet.</p>
+                    ) : (
+                      securityEvents.map(ev => (
+                        <div key={ev.id} className="flex items-center justify-between gap-3 px-4 py-3 border-b border-[#12131A] last:border-0">
+                          <div className="min-w-0">
+                            <p className="text-xs font-bold text-white capitalize">
+                              {ev.event_type.replace(/_/g, ' ')}
+                              {ev.new_device && <span className="ml-2 text-[10px] text-[#E82127] uppercase tracking-widest">new device</span>}
+                            </p>
+                            <p className="text-[11px] text-[#6B7280] truncate">
+                              {ev.device_label || 'Unknown device'} · {ev.ip || 'IP unavailable'}
+                            </p>
+                          </div>
+                          <p className="text-[11px] text-[#6B7280] whitespace-nowrap">{new Date(ev.created_at).toLocaleString()}</p>
+                        </div>
+                      ))
+                    )}
+                  </div>
+
+                  {securityTotal > 8 && (
+                    <div className="flex items-center justify-between mt-3">
+                      <button
+                        onClick={() => setSecurityPage(p => Math.max(0, p - 1))}
+                        disabled={securityPage === 0}
+                        className="px-3 py-1.5 rounded-lg border border-[#1E2027] text-[11px] font-semibold text-[#A1A1AA] disabled:opacity-30"
+                      >
+                        Previous
+                      </button>
+                      <span className="text-[11px] text-[#6B7280]">
+                        Page {securityPage + 1} of {Math.max(1, Math.ceil(securityTotal / 8))}
+                      </span>
+                      <button
+                        onClick={() => setSecurityPage(p => ((p + 1) * 8 < securityTotal ? p + 1 : p))}
+                        disabled={(securityPage + 1) * 8 >= securityTotal}
+                        className="px-3 py-1.5 rounded-lg border border-[#1E2027] text-[11px] font-semibold text-[#A1A1AA] disabled:opacity-30"
+                      >
+                        Next
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             )}
 
