@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { supabase } from '@/lib/supabase/client';
 import { sendJobApplicationReceivedEmail } from '@/lib/emailService';
+import { uploadApplicationResume } from '@/lib/careers.functions';
 import type { JobPosting } from './careers';
 
 const inputClass =
