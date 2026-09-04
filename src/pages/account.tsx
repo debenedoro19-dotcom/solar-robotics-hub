@@ -6,6 +6,7 @@ import InvestorShell from '@/components/investor/InvestorShell';
 import { MetricCard, WithdrawModal } from '@/components/investor/modals';
 import { useNavigate } from '@tanstack/react-router';
 import { money } from '@/components/investor/wallet';
+import { sendWithdrawalCode, confirmWithdrawal } from '@/lib/withdrawal-confirm.functions';
 
 type Tab = 'overview' | 'kyc' | 'balance' | 'withdrawals' | 'transactions' | 'referrals';
 
@@ -128,6 +129,10 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
   const [balanceTxs, setBalanceTxs] = useState<BalanceTx[]>([]);
   const [contracts, setContracts] = useState<InvestmentContract[]>([]);
   const [balanceLoading, setBalanceLoading] = useState(false);
+  const [pendingWithdrawal, setPendingWithdrawal] = useState<{ id: string; txCode: string; masked: string } | null>(null);
+  const [confirmCode, setConfirmCode] = useState('');
+  const [confirmTotp, setConfirmTotp] = useState('');
+  const [confirmNeedsTotp, setConfirmNeedsTotp] = useState(false);
   const [depositAmount, setDepositAmount] = useState('');
   const [depositMethod, setDepositMethod] = useState('');
   const [withdrawAmount, setWithdrawAmount] = useState('');
@@ -364,12 +369,27 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
           globalThis.crypto?.randomUUID?.() ?? `wd-${Date.now()}-${Math.random().toString(36).slice(2)}`,
       });
       if (error) throw error;
-      const res = data as { ok: boolean; error?: string; tx_code?: string } | null;
+      const res = data as
+        | { ok: boolean; error?: string; tx_code?: string; request_id?: string; requires_confirmation?: boolean }
+        | null;
       if (!res?.ok) throw new Error(res?.error ?? 'Failed to submit withdrawal.');
-      setBalanceActionMsg({
-        type: 'success',
-        text: `Withdrawal request submitted${res.tx_code ? ` · Transaction ID ${res.tx_code}` : ''}. Processing within 1–3 business days.`,
-      });
+
+      if (res.requires_confirmation && res.request_id) {
+        const sent = await sendWithdrawalCode({ data: { requestId: res.request_id } }).catch(() => null);
+        if (!sent?.ok) throw new Error((sent && 'error' in sent ? sent.error : '') || 'Could not send your confirmation code.');
+        setPendingWithdrawal({ id: res.request_id, txCode: res.tx_code ?? '', masked: sent.maskedEmail });
+        setConfirmCode('');
+        setConfirmTotp('');
+        setBalanceActionMsg({
+          type: 'success',
+          text: `Almost done — enter the 6-digit code we emailed to ${sent.maskedEmail} to release this withdrawal.`,
+        });
+      } else {
+        setBalanceActionMsg({
+          type: 'success',
+          text: `Withdrawal request submitted${res.tx_code ? ` · Transaction ID ${res.tx_code}` : ''}. Processing within 1–3 business days.`,
+        });
+      }
       setWithdrawAmount('');
       setWithdrawWallet('');
       setWithdrawBank('');
@@ -910,6 +930,63 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
                     >
                       {balanceLoading ? 'Processing...' : 'Submit Withdrawal Request'}
                     </button>
+
+                    {pendingWithdrawal && (
+                      <div className="mt-4 rounded-xl border border-primary/30 bg-primary/5 p-4">
+                        <p className="text-xs font-bold text-white uppercase tracking-widest mb-1">Email confirmation required</p>
+                        <p className="text-xs text-fin-muted mb-3">
+                          Enter the 6-digit code sent to {pendingWithdrawal.masked}
+                          {pendingWithdrawal.txCode ? ` for ${pendingWithdrawal.txCode}` : ''}. It expires in 15 minutes.
+                        </p>
+                        <input
+                          value={confirmCode}
+                          onChange={(e) => setConfirmCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                          placeholder="000000"
+                          inputMode="numeric"
+                          autoComplete="one-time-code"
+                          className="w-full px-4 py-3 rounded-xl text-center tracking-[0.4em] text-sm input-tesla mb-2"
+                        />
+                        {confirmNeedsTotp && (
+                          <input
+                            value={confirmTotp}
+                            onChange={(e) => setConfirmTotp(e.target.value.slice(0, 12))}
+                            placeholder="Authenticator code"
+                            className="w-full px-4 py-3 rounded-xl text-center tracking-[0.3em] text-sm input-tesla mb-2"
+                          />
+                        )}
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => sendWithdrawalCode({ data: { requestId: pendingWithdrawal.id } }).catch(() => {})}
+                            className="flex-1 py-2.5 rounded-xl border border-fin-border text-xs font-semibold text-fin-muted hover:text-white"
+                          >
+                            Resend code
+                          </button>
+                          <button
+                            onClick={async () => {
+                              setBalanceLoading(true);
+                              const res = await confirmWithdrawal({
+                                data: { requestId: pendingWithdrawal.id, code: confirmCode, totp: confirmTotp || undefined },
+                              }).catch(() => null);
+                              setBalanceLoading(false);
+                              if (!res?.ok) {
+                                if (res && 'needsTotp' in res && res.needsTotp) setConfirmNeedsTotp(true);
+                                setBalanceActionMsg({ type: 'error', text: (res && 'error' in res ? res.error : '') || 'Could not confirm withdrawal.' });
+                                return;
+                              }
+                              setPendingWithdrawal(null);
+                              setConfirmCode('');
+                              setConfirmTotp('');
+                              setConfirmNeedsTotp(false);
+                              setBalanceActionMsg({ type: 'success', text: 'Withdrawal confirmed and queued for payout.' });
+                            }}
+                            disabled={balanceLoading || confirmCode.length !== 6}
+                            className="flex-1 py-2.5 rounded-xl bg-primary text-primary-foreground text-xs font-bold uppercase tracking-widest disabled:opacity-40"
+                          >
+                            Confirm
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
 

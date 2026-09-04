@@ -3,12 +3,65 @@ import Link from '@/components/SmartLink';
 import { setCurrentUser } from '@/lib/portfolioStore';
 import { createClient } from '@/lib/supabase/client';
 import { sanitizeEmail } from '@/lib/sanitize';
+import { get2FAStatus, verify2FACode, recordSecurityEvent } from '@/lib/security.functions';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [needs2FA, setNeeds2FA] = useState(false);
+  const [twoFactorCode, setTwoFactorCode] = useState('');
+
+  /** Logs the device/IP, then routes by role. */
+  async function finishLogin() {
+    const supabase = createClient();
+    await recordSecurityEvent({ data: { eventType: 'login' } }).catch(() => {});
+
+    const { data: userData } = await supabase.auth.getUser();
+    const user = userData?.user;
+    let isAdmin = false;
+    if (user) {
+      const { data: roleRow } = await supabase
+        .from('user_roles')
+        .select('role')
+        .eq('user_id', user.id)
+        .eq('role', 'admin')
+        .maybeSingle();
+      isAdmin = !!roleRow;
+    }
+
+    // Honour ?redirect=/path when it is a safe same-site path.
+    let target = isAdmin ? '/admin' : '/dashboard';
+    if (typeof window !== 'undefined') {
+      const wanted = new URLSearchParams(window.location.search).get('redirect');
+      if (wanted && wanted.startsWith('/') && !wanted.startsWith('//')) target = wanted;
+    }
+    window.location.href = target;
+  }
+
+  async function submitTwoFactor(e: React.FormEvent) {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+    const res = await verify2FACode({ data: { code: twoFactorCode } }).catch(() => null);
+    if (!res?.ok) {
+      setLoading(false);
+      setError(res && 'error' in res ? res.error : 'Could not verify that code.');
+      return;
+    }
+    await finishLogin();
+  }
+
+  async function cancelTwoFactor() {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    setNeeds2FA(false);
+    setTwoFactorCode('');
+    setPassword('');
+  }
+
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,25 +101,16 @@ export default function LoginPage() {
         });
       }
 
-      // Route by role: admins land on the admin console, everyone else on the dashboard.
-      let isAdmin = false;
-      if (user) {
-        const { data: roleRow } = await supabase
-          .from('user_roles')
-          .select('role')
-          .eq('user_id', user.id)
-          .eq('role', 'admin')
-          .maybeSingle();
-        isAdmin = !!roleRow;
+      // Two-factor gate: signed in, but the session is not usable until the
+      // authenticator code checks out.
+      const status = await get2FAStatus().catch(() => null);
+      if (status?.enabled) {
+        setLoading(false);
+        setNeeds2FA(true);
+        return;
       }
 
-      // Honour ?redirect=/path when it is a safe same-site path.
-      let target = isAdmin ? '/admin' : '/dashboard';
-      if (typeof window !== 'undefined') {
-        const wanted = new URLSearchParams(window.location.search).get('redirect');
-        if (wanted && wanted.startsWith('/') && !wanted.startsWith('//')) target = wanted;
-      }
-      window.location.href = target;
+      await finishLogin();
     } catch (err: any) {
       setLoading(false);
       // Fallback: localStorage-based login for legacy accounts
@@ -116,7 +160,40 @@ export default function LoginPage() {
           <p className="text-sm text-[#71717A]">Access your investment dashboard</p>
         </div>
 
-        {/* Form */}
+        {/* Two-factor step */}
+        {needs2FA ? (
+          <form onSubmit={submitTwoFactor} className="space-y-4">
+            {error && (
+              <div className="px-4 py-3 rounded-xl bg-primary/10 border border-primary/30 text-sm text-primary">{error}</div>
+            )}
+            <p className="text-sm text-[#A1A1AA]">
+              Enter the 6-digit code from your authenticator app, or one of your backup codes.
+            </p>
+            <input
+              id="twofa"
+              value={twoFactorCode}
+              onChange={(e) => setTwoFactorCode(e.target.value)}
+              placeholder="123456"
+              autoComplete="one-time-code"
+              className="w-full px-4 py-3 rounded-xl text-center text-lg tracking-[0.4em] input-tesla"
+            />
+            <button
+              type="submit"
+              disabled={loading || twoFactorCode.trim().length < 6}
+              className="w-full py-3.5 rounded-xl bg-primary text-primary-foreground text-sm font-bold disabled:opacity-40"
+            >
+              {loading ? 'Verifying…' : 'Verify & continue'}
+            </button>
+            <button
+              type="button"
+              onClick={cancelTwoFactor}
+              className="w-full py-3 rounded-xl border border-white/10 text-xs font-semibold text-[#A1A1AA] hover:text-white"
+            >
+              Use a different account
+            </button>
+          </form>
+        ) : (
+        /* Form */
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
             <div className="px-4 py-3 rounded-xl bg-primary/10 border border-primary/30 text-sm text-primary">{error}</div>
@@ -174,6 +251,9 @@ export default function LoginPage() {
             )}
           </button>
         </form>
+        )}
+
+
 
         <div className="mt-6 text-center">
           <p className="text-sm text-[#6B7280]">

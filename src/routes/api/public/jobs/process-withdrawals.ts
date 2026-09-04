@@ -19,9 +19,13 @@ export const Route = createFileRoute('/api/public/jobs/process-withdrawals')({
           return new Response('Unauthorized', { status: 401 });
         }
 
+        // Housekeeping: refund withdrawals whose email confirmation expired.
+        const { supabaseAdmin } = await import('@/integrations/supabase/client.server');
+        const { data: expired } = await supabaseAdmin.rpc('expire_unconfirmed_withdrawals');
+
         const { drainWithdrawalQueue } = await import('@/lib/withdrawal-queue.server');
         const result = await drainWithdrawalQueue(10);
-        return Response.json(result, { status: result.ok ? 200 : 202 });
+        return Response.json({ ...result, expired }, { status: result.ok ? 200 : 202 });
       },
     },
   },

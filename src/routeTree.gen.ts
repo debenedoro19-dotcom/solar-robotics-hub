@@ -34,6 +34,7 @@ import { Route as CareersSlugRouteImport } from './routes/careers_.$slug'
 import { Route as AuthenticatedAccountIndexRouteImport } from './routes/_authenticated.account.index'
 import { Route as AuthenticatedAccountDepositRouteImport } from './routes/_authenticated.account.deposit'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated.admin.index'
+import { Route as AuthenticatedAdminAuditRouteImport } from './routes/_authenticated.admin.audit'
 import { Route as AuthenticatedAdminCareersRouteImport } from './routes/_authenticated.admin.careers'
 import { Route as AuthenticatedAdminDepositsRouteImport } from './routes/_authenticated.admin.deposits'
 import { Route as AuthenticatedAdminGiveawaysRouteImport } from './routes/_authenticated.admin.giveaways'
@@ -175,6 +176,11 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminAuditRoute = AuthenticatedAdminAuditRouteImport.update({
+  id: '/audit',
+  path: '/audit',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
 const AuthenticatedAdminCareersRoute =
   AuthenticatedAdminCareersRouteImport.update({
     id: '/careers',
@@ -278,6 +284,7 @@ export interface FileRoutesByFullPath {
   '/auth/callback': typeof AuthCallbackRoute
   '/careers/$slug': typeof CareersSlugRoute
   '/account/deposit': typeof AuthenticatedAccountDepositRoute
+  '/admin/audit': typeof AuthenticatedAdminAuditRoute
   '/admin/careers': typeof AuthenticatedAdminCareersRoute
   '/admin/deposits': typeof AuthenticatedAdminDepositsRoute
   '/admin/giveaways': typeof AuthenticatedAdminGiveawaysRoute
@@ -317,6 +324,7 @@ export interface FileRoutesByTo {
   '/auth/callback': typeof AuthCallbackRoute
   '/careers/$slug': typeof CareersSlugRoute
   '/account/deposit': typeof AuthenticatedAccountDepositRoute
+  '/admin/audit': typeof AuthenticatedAdminAuditRoute
   '/admin/careers': typeof AuthenticatedAdminCareersRoute
   '/admin/deposits': typeof AuthenticatedAdminDepositsRoute
   '/admin/giveaways': typeof AuthenticatedAdminGiveawaysRoute
@@ -359,6 +367,7 @@ export interface FileRoutesById {
   '/auth/callback': typeof AuthCallbackRoute
   '/careers_/$slug': typeof CareersSlugRoute
   '/_authenticated/account/deposit': typeof AuthenticatedAccountDepositRoute
+  '/_authenticated/admin/audit': typeof AuthenticatedAdminAuditRoute
   '/_authenticated/admin/careers': typeof AuthenticatedAdminCareersRoute
   '/_authenticated/admin/deposits': typeof AuthenticatedAdminDepositsRoute
   '/_authenticated/admin/giveaways': typeof AuthenticatedAdminGiveawaysRoute
@@ -401,6 +410,7 @@ export interface FileRouteTypes {
     | '/auth/callback'
     | '/careers/$slug'
     | '/account/deposit'
+    | '/admin/audit'
     | '/admin/careers'
     | '/admin/deposits'
     | '/admin/giveaways'
@@ -440,6 +450,7 @@ export interface FileRouteTypes {
     | '/auth/callback'
     | '/careers/$slug'
     | '/account/deposit'
+    | '/admin/audit'
     | '/admin/careers'
     | '/admin/deposits'
     | '/admin/giveaways'
@@ -481,6 +492,7 @@ export interface FileRouteTypes {
     | '/auth/callback'
     | '/careers_/$slug'
     | '/_authenticated/account/deposit'
+    | '/_authenticated/admin/audit'
     | '/_authenticated/admin/careers'
     | '/_authenticated/admin/deposits'
     | '/_authenticated/admin/giveaways'
@@ -700,6 +712,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/audit': {
+      id: '/_authenticated/admin/audit'
+      path: '/audit'
+      fullPath: '/admin/audit'
+      preLoaderRoute: typeof AuthenticatedAdminAuditRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/careers': {
       id: '/_authenticated/admin/careers'
       path: '/careers'
@@ -802,6 +821,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminAuditRoute: typeof AuthenticatedAdminAuditRoute
   AuthenticatedAdminCareersRoute: typeof AuthenticatedAdminCareersRoute
   AuthenticatedAdminDepositsRoute: typeof AuthenticatedAdminDepositsRoute
   AuthenticatedAdminGiveawaysRoute: typeof AuthenticatedAdminGiveawaysRoute
@@ -815,6 +835,7 @@ interface AuthenticatedAdminRouteChildren {
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminAuditRoute: AuthenticatedAdminAuditRoute,
   AuthenticatedAdminCareersRoute: AuthenticatedAdminCareersRoute,
   AuthenticatedAdminDepositsRoute: AuthenticatedAdminDepositsRoute,
   AuthenticatedAdminGiveawaysRoute: AuthenticatedAdminGiveawaysRoute,

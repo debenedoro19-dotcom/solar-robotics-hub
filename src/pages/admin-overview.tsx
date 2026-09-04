@@ -777,6 +777,14 @@ export default function AdminPage() {
                 <p className="text-[10px] text-[#6B7280] leading-relaxed">Review & approve withdrawal requests</p>
               </Link>
               <Link
+                href="/admin/audit"
+                className="bg-[#0D0E12] border border-[#12131A] hover:border-[#1E2027] rounded-xl p-5 text-left transition-all hover:bg-[#0D0E12]"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-emerald-400 mb-3" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><path d="M14 2v6h6M9 15h6M9 11h6" /></svg>
+                <p className="text-sm font-bold text-white mb-1">Audit Trail</p>
+                <p className="text-[10px] text-[#6B7280] leading-relaxed">Full history of every money movement</p>
+              </Link>
+              <Link
                 href="/admin/deposits"
                 className="bg-[#0D0E12] border border-[#12131A] hover:border-green-400/20 rounded-xl p-5 text-left transition-all hover:bg-[#0D0E12] group"
               >

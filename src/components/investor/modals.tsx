@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { WITHDRAWAL_FEE_RATE, money } from './wallet';
 import { sendWithdrawalRequestedEmail } from '@/lib/emailService';
+import { sendWithdrawalCode, confirmWithdrawal } from '@/lib/withdrawal-confirm.functions';
 
 export function MetricCard({ label, value, accent, sub }: { label: string; value: string; accent?: boolean; sub?: string }) {
   return (
@@ -42,7 +43,7 @@ function LockedModal({ title, children }: { title: string; children: React.React
   );
 }
 
-type Stage = 'form' | 'confirm' | 'processing' | 'success' | 'failed';
+type Stage = 'form' | 'confirm' | 'processing' | 'code' | 'success' | 'failed';
 
 export function WithdrawModal({ balance, userId, userEmail, onClose, onDone, onError }: {
   balance: number; userId: string; userEmail: string; onClose: () => void; onDone: (m: string) => void; onError: (m: string) => void;
@@ -52,6 +53,13 @@ export function WithdrawModal({ balance, userId, userEmail, onClose, onDone, onE
   const [stage, setStage] = useState<Stage>('form');
   const [txCode, setTxCode] = useState('');
   const [failure, setFailure] = useState('');
+  const [requestId, setRequestId] = useState('');
+  const [emailCode, setEmailCode] = useState('');
+  const [totpCode, setTotpCode] = useState('');
+  const [needsTotp, setNeedsTotp] = useState(false);
+  const [maskedEmail, setMaskedEmail] = useState('');
+  const [codeError, setCodeError] = useState('');
+  const [codeBusy, setCodeBusy] = useState(false);
   // Stable per-attempt key: retrying the same request can never double-spend.
   const [idemKey] = useState(() =>
     (globalThis.crypto?.randomUUID?.() ?? `wd-${Date.now()}-${Math.random().toString(36).slice(2)}`),
@@ -85,10 +93,24 @@ export function WithdrawModal({ balance, userId, userEmail, onClose, onDone, onE
         _idempotency_key: idemKey,
       });
       if (error) throw new Error(error.message);
-      const res = data as { ok: boolean; error?: string; tx_code?: string } | null;
+      const res = data as
+        | { ok: boolean; error?: string; tx_code?: string; request_id?: string; requires_confirmation?: boolean }
+        | null;
       if (!res?.ok) throw new Error(res?.error ?? 'Withdrawal could not be submitted');
 
       setTxCode(res.tx_code ?? '');
+
+      if (res.requires_confirmation && res.request_id) {
+        setRequestId(res.request_id);
+        const sent = await sendWithdrawalCode({ data: { requestId: res.request_id } }).catch(() => null);
+        if (!sent?.ok) throw new Error((sent && 'error' in sent ? sent.error : '') || 'Could not send your confirmation code');
+        setMaskedEmail(sent.maskedEmail);
+        setEmailCode('');
+        setCodeError('');
+        setStage('code');
+        return;
+      }
+
       setStage('success');
       void sendWithdrawalRequestedEmail(value.toString()).catch(() => {});
       onDone(`Withdrawal request submitted${res.tx_code ? ` · ${res.tx_code}` : ''}`);
@@ -97,6 +119,73 @@ export function WithdrawModal({ balance, userId, userEmail, onClose, onDone, onE
       setStage('failed');
     }
   }
+
+  async function submitCode() {
+    setCodeError('');
+    setCodeBusy(true);
+    const res = await confirmWithdrawal({
+      data: { requestId, code: emailCode, totp: totpCode || undefined },
+    }).catch(() => null);
+    setCodeBusy(false);
+    if (!res?.ok) {
+      if (res && 'needsTotp' in res && res.needsTotp) setNeedsTotp(true);
+      setCodeError((res && 'error' in res ? res.error : '') || 'Could not confirm this withdrawal');
+      return;
+    }
+    setStage('success');
+    void sendWithdrawalRequestedEmail(value.toString()).catch(() => {});
+    onDone(`Withdrawal confirmed${txCode ? ` · ${txCode}` : ''}`);
+  }
+
+  if (stage === 'code') {
+    return (
+      <LockedModal title="Confirm your withdrawal">
+        <p className="text-sm text-fin-muted mb-4">
+          We emailed a 6-digit confirmation code to {maskedEmail || 'your registered address'}. The code expires in
+          15 minutes — the payout is not queued until it is confirmed.
+        </p>
+        {txCode && (
+          <div className="rounded-xl border border-fin-border bg-[var(--surface-2)] p-3 mb-4">
+            <p className="fin-label mb-1">Transaction ID</p>
+            <code className="text-sm font-bold text-foreground break-all">{txCode}</code>
+          </div>
+        )}
+        <input
+          value={emailCode}
+          onChange={(e) => setEmailCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+          placeholder="000000"
+          inputMode="numeric"
+          autoComplete="one-time-code"
+          className="field-fin px-4 py-3 text-center text-lg tracking-[0.4em] fin-figure mb-3"
+        />
+        {needsTotp && (
+          <input
+            value={totpCode}
+            onChange={(e) => setTotpCode(e.target.value.slice(0, 12))}
+            placeholder="Authenticator code"
+            className="field-fin px-4 py-3 text-center text-sm tracking-[0.3em] mb-3"
+          />
+        )}
+        {codeError && <p className="text-xs text-fin-danger mb-3">{codeError}</p>}
+        <div className="flex gap-3">
+          <button
+            onClick={() => sendWithdrawalCode({ data: { requestId } }).catch(() => {})}
+            className="flex-1 py-3 rounded-xl border border-fin-border text-sm font-semibold text-fin-muted hover:text-foreground"
+          >
+            Resend code
+          </button>
+          <button
+            onClick={submitCode}
+            disabled={codeBusy || emailCode.length !== 6}
+            className="flex-1 py-3 rounded-xl btn-emerald text-sm disabled:opacity-40"
+          >
+            {codeBusy ? 'Confirming…' : 'Confirm withdrawal'}
+          </button>
+        </div>
+      </LockedModal>
+    );
+  }
+
 
   if (stage === 'processing') {
     return (

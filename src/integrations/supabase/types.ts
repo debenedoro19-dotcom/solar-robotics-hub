@@ -14,6 +14,59 @@ export type Database = {
   }
   public: {
     Tables: {
+      auth_events: {
+        Row: {
+          created_at: string
+          device_label: string | null
+          email: string | null
+          event_type: string
+          id: string
+          ip: string | null
+          location: string | null
+          metadata: Json
+          new_device: boolean
+          success: boolean
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          device_label?: string | null
+          email?: string | null
+          event_type: string
+          id?: string
+          ip?: string | null
+          location?: string | null
+          metadata?: Json
+          new_device?: boolean
+          success?: boolean
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          device_label?: string | null
+          email?: string | null
+          event_type?: string
+          id?: string
+          ip?: string | null
+          location?: string | null
+          metadata?: Json
+          new_device?: boolean
+          success?: boolean
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "auth_events_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       balance_transactions: {
         Row: {
           account_name: string | null
@@ -733,6 +786,53 @@ export type Database = {
         }
         Relationships: []
       }
+      user_2fa: {
+        Row: {
+          backup_codes: string[]
+          confirmed_at: string | null
+          created_at: string
+          enabled: boolean
+          failed_attempts: number
+          last_used_at: string | null
+          locked_until: string | null
+          secret: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          backup_codes?: string[]
+          confirmed_at?: string | null
+          created_at?: string
+          enabled?: boolean
+          failed_attempts?: number
+          last_used_at?: string | null
+          locked_until?: string | null
+          secret: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          backup_codes?: string[]
+          confirmed_at?: string | null
+          created_at?: string
+          enabled?: boolean
+          failed_attempts?: number
+          last_used_at?: string | null
+          locked_until?: string | null
+          secret?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_2fa_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "user_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_balance: {
         Row: {
           available_balance: number
@@ -775,6 +875,59 @@ export type Database = {
             foreignKeyName: "user_balance_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: true
+            referencedRelation: "user_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_devices: {
+        Row: {
+          browser: string | null
+          created_at: string
+          device_hash: string
+          first_seen_at: string
+          id: string
+          label: string
+          last_ip: string | null
+          last_seen_at: string
+          os: string | null
+          trusted: boolean
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          browser?: string | null
+          created_at?: string
+          device_hash: string
+          first_seen_at?: string
+          id?: string
+          label?: string
+          last_ip?: string | null
+          last_seen_at?: string
+          os?: string | null
+          trusted?: boolean
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          browser?: string | null
+          created_at?: string
+          device_hash?: string
+          first_seen_at?: string
+          id?: string
+          label?: string
+          last_ip?: string | null
+          last_seen_at?: string
+          os?: string | null
+          trusted?: boolean
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_devices_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
             referencedRelation: "user_profiles"
             referencedColumns: ["id"]
           },
@@ -959,6 +1112,10 @@ export type Database = {
           account_number: string
           amount: number
           bank_name: string
+          confirmation_attempts: number
+          confirmation_code_hash: string | null
+          confirmation_expires_at: string | null
+          confirmed_at: string | null
           created_at: string | null
           id: string
           idempotency_key: string | null
@@ -982,6 +1139,10 @@ export type Database = {
           account_number?: string
           amount?: number
           bank_name?: string
+          confirmation_attempts?: number
+          confirmation_code_hash?: string | null
+          confirmation_expires_at?: string | null
+          confirmed_at?: string | null
           created_at?: string | null
           id?: string
           idempotency_key?: string | null
@@ -1005,6 +1166,10 @@ export type Database = {
           account_number?: string
           amount?: number
           bank_name?: string
+          confirmation_attempts?: number
+          confirmation_code_hash?: string | null
+          confirmation_expires_at?: string | null
+          confirmed_at?: string | null
           created_at?: string | null
           id?: string
           idempotency_key?: string | null
@@ -1052,6 +1217,10 @@ export type Database = {
           account_number: string
           amount: number
           bank_name: string
+          confirmation_attempts: number
+          confirmation_code_hash: string | null
+          confirmation_expires_at: string | null
+          confirmed_at: string | null
           created_at: string | null
           id: string
           idempotency_key: string | null
@@ -1077,7 +1246,16 @@ export type Database = {
           isSetofReturn: true
         }
       }
+      confirm_withdrawal_request: {
+        Args: { _code_hash: string; _id: string; _user_id: string }
+        Returns: Json
+      }
       enter_giveaway: { Args: { _giveaway_id: string }; Returns: Json }
+      expire_unconfirmed_withdrawals: {
+        Args: { _limit?: number }
+        Returns: Json
+      }
+      get_2fa_status: { Args: never; Returns: Json }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -1104,38 +1282,28 @@ export type Database = {
         Args: { _amount: number; _plan_id: string }
         Returns: Json
       }
+      set_withdrawal_confirmation: {
+        Args: { _code_hash: string; _id: string; _user_id: string }
+        Returns: Json
+      }
       settle_withdrawal: {
         Args: { _id: string; _notes?: string; _status: string }
         Returns: Json
       }
-      submit_withdrawal_request:
-        | {
-            Args: {
-              _account_name?: string
-              _account_number?: string
-              _amount: number
-              _bank_name?: string
-              _description?: string
-              _method: string
-              _routing_number?: string
-              _wallet_address?: string
-            }
-            Returns: Json
-          }
-        | {
-            Args: {
-              _account_name?: string
-              _account_number?: string
-              _amount: number
-              _bank_name?: string
-              _description?: string
-              _idempotency_key?: string
-              _method: string
-              _routing_number?: string
-              _wallet_address?: string
-            }
-            Returns: Json
-          }
+      submit_withdrawal_request: {
+        Args: {
+          _account_name?: string
+          _account_number?: string
+          _amount: number
+          _bank_name?: string
+          _description?: string
+          _idempotency_key?: string
+          _method: string
+          _routing_number?: string
+          _wallet_address?: string
+        }
+        Returns: Json
+      }
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
