@@ -9,7 +9,7 @@ import {
   Section,
   Text,
 } from '@react-email/components'
-import { EmailHeader } from './email-brand'
+import { EmailFooter, EmailHeader } from './email-brand'
 import type { TemplateEntry } from './registry'
 
 interface Props {
@@ -41,6 +41,7 @@ const Email = ({ name, title, message, detail }: Props) => (
             You are receiving this because of activity on your Trade Tesla account.
           </Text>
         </Section>
+        <EmailFooter />
       </Container>
     </Body>
   </Html>
