@@ -24,7 +24,7 @@ export const EmailHeader = ({
       style={logo}
     />
     <Text style={brand}>
-      TESLA<span style={{ color: '#E82127' }}>TRADE</span>
+      TRADE<span style={{ color: '#E82127' }}> TESLA</span>
     </Text>
     <Text style={kicker}>{tagline}</Text>
   </Section>

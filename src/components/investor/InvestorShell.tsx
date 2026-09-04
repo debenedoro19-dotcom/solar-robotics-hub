@@ -45,7 +45,7 @@ export default function InvestorShell({
                 <svg width="18" height="18" viewBox="0 0 342 512" fill="currentColor" className="text-primary" aria-hidden="true">
                   <path d="M0 57.3C0 57.3 57.3 0 171 0s171 57.3 171 57.3L285 85.5s-28.5-28.5-114-28.5S57 85.5 57 85.5L0 57.3zM171 512L57 85.5s28.5 28.5 114 28.5 114-28.5 114-28.5L171 512z" />
                 </svg>
-                <span className="font-bold text-sm tracking-[0.25em] uppercase">Tesla Trade</span>
+                <span className="font-bold text-sm tracking-[0.25em] uppercase">Trade Tesla</span>
               </Link>
               <nav className="hidden md:flex items-center gap-1">
                 {NAV.map((item) => {
