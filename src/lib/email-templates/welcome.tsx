@@ -10,7 +10,7 @@ import {
   Section,
   Text,
 } from '@react-email/components'
-import { EmailFooter, EmailHeader } from './email-brand'
+import { EmailHeader } from './email-brand'
 import type { TemplateEntry } from './registry'
 
 interface Props {
@@ -21,28 +21,26 @@ interface Props {
 const Email = ({ name, dashboardUrl }: Props) => (
   <Html lang="en" dir="ltr">
     <Head />
-    <Preview>Your Trade Tesla account is ready</Preview>
+    <Preview>Your Tesla Trade account is ready</Preview>
     <Body style={main}>
       <Container style={container}>
         <EmailHeader />
         <Section style={card}>
           <Heading style={h1}>Welcome{name ? `, ${name}` : ''}</Heading>
           <Text style={p}>
-            Your Trade Tesla account is live. Fund your wallet to unlock investment plans across
+            Your Tesla Trade account is live. Fund your wallet to unlock investment plans across
             vehicles, energy storage, solar and robotics.
           </Text>
           <Text style={p}>
             Every plan purchase draws from your wallet balance, so deposits are the first step.
           </Text>
-          <Button style={button} href={dashboardUrl || 'https://tradeenergyhub.com/dashboard'}>
+          <Button style={button} href={dashboardUrl || 'https://tradeenergy.app/dashboard'}>
             Open your dashboard
           </Button>
           <Text style={muted}>
-            Need a hand? Write to support@tradeenergyhub.com or open a support ticket from your
-            dashboard.
+            Need a hand? Reply to this email or open a support ticket from your dashboard.
           </Text>
         </Section>
-        <EmailFooter />
       </Container>
     </Body>
   </Html>
@@ -50,7 +48,7 @@ const Email = ({ name, dashboardUrl }: Props) => (
 
 export const template = {
   component: Email,
-  subject: 'Welcome to Trade Tesla',
+  subject: 'Welcome to Tesla Trade',
   displayName: 'Welcome email',
   previewData: { name: 'Jane' },
 } satisfies TemplateEntry

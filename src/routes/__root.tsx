@@ -80,16 +80,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Trade Tesla — Premium Tesla Ecosystem Marketplace" },
+      { title: "Tesla Trade — Premium Tesla Ecosystem Marketplace" },
       {
         name: "description",
         content:
           "Buy, sell and invest in Tesla vehicles, energy systems, solar and robotics on a secure, high-tech marketplace.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:site_name", content: "Trade Tesla" },
-      { name: "application-name", content: "Trade Tesla" },
-      { name: "apple-mobile-web-app-title", content: "Trade Tesla" },
+      { property: "og:site_name", content: "Tesla Trade" },
+      { name: "application-name", content: "Tesla Trade" },
+      { name: "apple-mobile-web-app-title", content: "Tesla Trade" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
@@ -117,8 +117,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "WebSite",
-          name: "Trade Tesla",
-          alternateName: ["Trade Tesla Energy Hub", "TradeTesla"],
+          name: "Tesla Trade",
+          alternateName: ["Tesla Trade Energy Hub", "TeslaTrade"],
           url: "https://tradeenergyhub.com",
         }),
       },
@@ -127,7 +127,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "Organization",
-          name: "Trade Tesla",
+          name: "Tesla Trade",
           url: "https://tradeenergyhub.com",
           logo: "https://tradeenergyhub.com/apple-touch-icon.png",
         }),

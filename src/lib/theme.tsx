@@ -10,10 +10,10 @@ interface ThemeCtx {
   toggleTheme: () => void;
 }
 
-const Ctx = createContext<ThemeCtx>({ theme: 'dark', setTheme: () => {}, toggleTheme: () => {} });
+const Ctx = createContext<ThemeCtx>({ theme: 'light', setTheme: () => {}, toggleTheme: () => {} });
 
 /** Inline script that applies the stored theme before first paint (no flash). */
-export const THEME_INIT_SCRIPT = `(function(){try{var t=localStorage.getItem('${STORAGE_KEY}');if(t==='light'){document.documentElement.classList.remove('dark');}else{document.documentElement.classList.add('dark');}}catch(e){}})();`;
+export const THEME_INIT_SCRIPT = `(function(){try{var t=localStorage.getItem('${STORAGE_KEY}');if(t==='dark'){document.documentElement.classList.add('dark');}else{document.documentElement.classList.remove('dark');}}catch(e){}})();`;
 
 function apply(theme: Theme) {
   const root = document.documentElement;
@@ -22,7 +22,7 @@ function apply(theme: Theme) {
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>('dark');
+  const [theme, setThemeState] = useState<Theme>('light');
 
   useEffect(() => {
     let stored: Theme | null = null;
@@ -30,7 +30,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       const v = localStorage.getItem(STORAGE_KEY);
       if (v === 'dark' || v === 'light') stored = v;
     } catch {}
-    const next = stored ?? 'dark';
+    const next = stored ?? 'light';
     setThemeState(next);
     apply(next);
   }, []);

@@ -46,7 +46,7 @@ const articles = [
 {
   id: 4,
   category: 'Investment',
-  title: 'Trade Tesla Platform Reaches $2.4T AUM Milestone',
+  title: 'Tesla Trade Platform Reaches $2.4T AUM Milestone',
   excerpt: 'The platform celebrates a landmark achievement as total assets under management cross the $2.4 trillion threshold.',
   time: '2 days ago',
   readTime: '2 min read',

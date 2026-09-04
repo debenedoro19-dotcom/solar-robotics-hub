@@ -54,7 +54,7 @@ export default function CareersPage() {
       <section className="pt-28 pb-16 px-6 border-b border-[#12131A] relative overflow-hidden">
         <div className="absolute inset-0 grid-bg opacity-40" aria-hidden="true" />
         <div className="max-w-5xl mx-auto relative">
-          <p className="text-[11px] font-bold tracking-[0.3em] uppercase text-primary mb-3">Careers at Trade Tesla</p>
+          <p className="text-[11px] font-bold tracking-[0.3em] uppercase text-primary mb-3">Careers at Tesla Trade</p>
           <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
             Build the future of <span className="gradient-text-primary">clean energy</span>
           </h1>

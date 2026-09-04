@@ -4,9 +4,9 @@ import Page from "@/pages/referral";
 export const Route = createFileRoute("/_authenticated/referral")({
   head: () => ({
     meta: [
-      { title: "Referrals — Trade Tesla" },
+      { title: "Referrals — Tesla Trade" },
       { name: "description", content: "Invite investors and earn referral rewards." },
-      { property: "og:title", content: "Referrals — Trade Tesla" },
+      { property: "og:title", content: "Referrals — Tesla Trade" },
       { property: "og:description", content: "Invite investors and earn referral rewards." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

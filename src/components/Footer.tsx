@@ -63,59 +63,30 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer className="relative z-10 border-t border-fin-border bg-background py-16 px-6 lg:px-8">
+    <footer className="relative z-10 border-t border-[#12131A] py-14 px-6 lg:px-8" style={{ background: 'linear-gradient(to bottom, #050507, #060606)' }}>
       {/* Top accent */}
       <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
       <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row items-start justify-between gap-10 mb-10">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 mb-8">
           {/* Logo */}
-          <div className="max-w-xs">
-            <Link href="/" className="flex items-center gap-3 group shrink-0" aria-label="Trade Tesla home">
-              <img src="/tesla-mark.png" width={24} height={24} alt="" aria-hidden="true" className="w-6 h-6 object-contain" />
-              <span className="text-foreground font-bold text-sm tracking-widest uppercase">
-                Trade <span className="text-primary">Tesla</span>
-              </span>
-            </Link>
-            <p className="mt-4 text-xs leading-relaxed text-fin-muted">
-              Trade Tesla — Tesla Ecosystem Investment Platform. Institutional-grade exposure to vehicles, energy
-              systems and robotics.
-            </p>
-          </div>
-
-          {/* Navigation */}
-          <nav aria-label="Footer" className="grid grid-cols-2 gap-x-10 gap-y-2">
-            {footerLinks?.map((l) => (
-              <Link key={l.label} href={l.href} className="text-xs tracking-wide text-fin-muted hover:text-primary transition-colors">
-                {l.label}
-              </Link>
-            ))}
-          </nav>
-
-          {/* Contact */}
-          <div className="space-y-2">
-            <p className="fin-label text-fin-muted">Contact</p>
-            {[
-              ['Support', 'support@tradeenergyhub.com'],
-              ['General', 'hello@tradeenergyhub.com'],
-              ['Admin', 'admin@tradeenergyhub.com'],
-            ].map(([label, email]) => (
-              <p key={email} className="text-xs text-fin-muted">
-                {label}:{' '}
-                <a href={`mailto:${email}`} className="text-foreground hover:text-primary transition-colors">{email}</a>
-              </p>
-            ))}
-            <p className="text-[11px] text-fin-muted pt-1">
-              Automated notices are sent from noreply@tradeenergyhub.com
-            </p>
-          </div>
-        </div>
+          <Link href="/" className="flex items-center gap-3 group shrink-0" aria-label="Trade Tesla home">
+            <div className="relative">
+              <div className="absolute inset-0 bg-primary/15 rounded-full blur-sm group-hover:bg-primary/25 transition-all duration-300" />
+              <svg width="22" height="22" viewBox="0 0 342 512" fill="currentColor" className="text-primary relative z-10 drop-shadow-[0_0_6px_rgba(227,25,55,0.5)]" aria-hidden="true">
+                <path d="M0 57.3C0 57.3 57.3 0 171 0s171 57.3 171 57.3L285 85.5s-28.5-28.5-114-28.5S57 85.5 57 85.5L0 57.3zM171 512L57 85.5s28.5 28.5 114 28.5 114-28.5 114-28.5L171 512z"/>
+              </svg>
+            </div>
+            <span className="text-white font-bold text-sm tracking-widest uppercase">
+              Trade <span className="text-primary" style={{ textShadow: '0 0 10px rgba(227,25,55,0.4)' }}>Tesla</span>
+            </span>
+          </Link>
 
         <div className="tesla-divider mb-6" />
 
         <div className="flex flex-col sm:flex-row items-center justify-between gap-5">
           {/* Copyright */}
-          <p className="text-xs text-fin-muted tracking-wide">
-            © 2026 Trade Tesla. All rights reserved.
+          <p className="text-xs text-[#52525B] tracking-wide">
+            © 2026 Trade Tesla. All Rights Reserved.
           </p>
 
           {/* Social Icons */}
@@ -125,7 +96,7 @@ export default function Footer() {
                 key={social?.label}
                 aria-label={social?.label}
                 role="img"
-                className="w-8 h-8 flex items-center justify-center rounded-xl border border-fin-border text-fin-muted hover:text-primary hover:border-primary/40 transition-all duration-300 cursor-default select-none"
+                className="w-8 h-8 flex items-center justify-center rounded-xl border border-[#222222] text-[#6B7280] hover:text-white hover:border-primary/40 hover:bg-primary/8 transition-all duration-300 cursor-default select-none"
               >
                 {social?.icon}
               </span>
@@ -133,7 +104,6 @@ export default function Footer() {
           </div>
         </div>
       </div>
-
     </footer>
   );
 }

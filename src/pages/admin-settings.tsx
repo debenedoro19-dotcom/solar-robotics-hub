@@ -19,8 +19,8 @@ interface PopupSettings {
 }
 
 const DEFAULT_POPUPS: PopupSettings = {
-  welcome: { enabled: true, title: 'Welcome to Trade Tesla', body: 'Explore vehicles, energy, solar and robotics — plus investor packages with daily yield.', ctaLabel: 'Explore Inventory', ctaHref: '/#inventory', delaySeconds: 8, cooldownHours: 24 },
-  lead: { enabled: true, title: 'Get Trade Tesla Updates', body: 'Join our list for new inventory, plan launches and giveaways.', ctaLabel: 'Subscribe', exitIntent: true, delaySeconds: 30, cooldownHours: 72 },
+  welcome: { enabled: true, title: 'Welcome to Tesla Trade', body: 'Explore vehicles, energy, solar and robotics — plus investor packages with daily yield.', ctaLabel: 'Explore Inventory', ctaHref: '/#inventory', delaySeconds: 8, cooldownHours: 24 },
+  lead: { enabled: true, title: 'Get Tesla Trade Updates', body: 'Join our list for new inventory, plan launches and giveaways.', ctaLabel: 'Subscribe', exitIntent: true, delaySeconds: 30, cooldownHours: 72 },
   cookie: { enabled: true, body: 'We use cookies to improve your experience and analyze traffic.' },
   ticker: { enabled: true, intervalSeconds: 22, minAmount: 1200, maxAmount: 48000 },
 };
@@ -120,22 +120,22 @@ const DEFAULT_SECURITY: SecuritySettings = {
 const DEFAULT_CUSTOMER_CARE: CustomerCareSettings = {
   whatsappEnabled: false,
   whatsappNumber: '',
-  whatsappMessage: 'Hello! I need help with my Trade Tesla account.',
+  whatsappMessage: 'Hello! I need help with my Tesla Trade account.',
   telegramEnabled: false,
   telegramUsername: '',
-  telegramMessage: 'Hello! I need support with Trade Tesla.',
+  telegramMessage: 'Hello! I need support with Tesla Trade.',
   supportEmail: 'support@teslatrade.com',
   supportHours: 'Mon–Fri, 9am–6pm UTC',
 };
 
 const DEFAULT_EMAIL: EmailTemplateSettings = {
-  welcomeSubject: 'Welcome to Trade Tesla Energy — Your Account is Ready',
-  welcomeBody: 'Dear {{name}},\n\nWelcome to Trade Tesla Energy! Your account has been successfully created.\n\nYou can now log in and start exploring our investment packages.\n\nBest regards,\nThe Trade Tesla Team',
-  kycApprovedSubject: 'KYC Verification Approved — Trade Tesla',
-  kycApprovedBody: 'Dear {{name}},\n\nYour KYC verification has been approved. You now have full access to all platform features including withdrawals.\n\nBest regards,\nThe Trade Tesla Team',
-  withdrawalSubject: 'Withdrawal Request Processed — Trade Tesla',
-  withdrawalBody: 'Dear {{name}},\n\nYour withdrawal request of {{amount}} has been processed and is on its way.\n\nExpected arrival: 3–5 business days.\n\nBest regards,\nThe Trade Tesla Team',
-  senderName: 'Trade Tesla Energy',
+  welcomeSubject: 'Welcome to Tesla Trade Energy — Your Account is Ready',
+  welcomeBody: 'Dear {{name}},\n\nWelcome to Tesla Trade Energy! Your account has been successfully created.\n\nYou can now log in and start exploring our investment packages.\n\nBest regards,\nThe Tesla Trade Team',
+  kycApprovedSubject: 'KYC Verification Approved — Tesla Trade',
+  kycApprovedBody: 'Dear {{name}},\n\nYour KYC verification has been approved. You now have full access to all platform features including withdrawals.\n\nBest regards,\nThe Tesla Trade Team',
+  withdrawalSubject: 'Withdrawal Request Processed — Tesla Trade',
+  withdrawalBody: 'Dear {{name}},\n\nYour withdrawal request of {{amount}} has been processed and is on its way.\n\nExpected arrival: 3–5 business days.\n\nBest regards,\nThe Tesla Trade Team',
+  senderName: 'Tesla Trade Energy',
   senderEmail: 'noreply@teslatrade.com',
 };
 
@@ -516,7 +516,7 @@ export default function AdminSettingsPage() {
               <svg width="18" height="18" viewBox="0 0 342 512" fill="currentColor" className="text-primary" aria-hidden="true">
                 <path d="M0 57.3C0 57.3 57.3 0 171 0s171 57.3 171 57.3L285 85.5s-28.5-28.5-114-28.5S57 85.5 57 85.5L0 57.3zM171 512L57 85.5s28.5 28.5 114 28.5 114-28.5 114-28.5L171 512z" />
               </svg>
-              <span className="text-white font-bold text-sm tracking-widest uppercase">Trade Tesla</span>
+              <span className="text-white font-bold text-sm tracking-widest uppercase">Tesla Trade</span>
             </Link>
             <span className="text-[#1E2027]">|</span>
             <span className="text-xs text-primary tracking-widest uppercase font-semibold">Admin Settings</span>
@@ -1230,7 +1230,7 @@ export default function AdminSettingsPage() {
                     onChange={e => setCustomerCare(c => ({ ...c, whatsappMessage: e.target.value }))}
                     rows={2}
                     className={inputClass + ' resize-none'}
-                    placeholder="Hello! I need help with my Trade Tesla account."
+                    placeholder="Hello! I need help with my Tesla Trade account."
                     disabled={!customerCare.whatsappEnabled}
                   />
                 </div>
@@ -1285,7 +1285,7 @@ export default function AdminSettingsPage() {
                     onChange={e => setCustomerCare(c => ({ ...c, telegramMessage: e.target.value }))}
                     rows={2}
                     className={inputClass + ' resize-none'}
-                    placeholder="Hello! I need support with Trade Tesla."
+                    placeholder="Hello! I need support with Tesla Trade."
                     disabled={!customerCare.telegramEnabled}
                   />
                 </div>
@@ -1352,7 +1352,7 @@ export default function AdminSettingsPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className={labelClass}>Sender Name</label>
-                  <input type="text" value={emailTemplates.senderName} onChange={e => setEmailTemplates(t => ({ ...t, senderName: e.target.value }))} className={inputClass} placeholder="Trade Tesla Energy" />
+                  <input type="text" value={emailTemplates.senderName} onChange={e => setEmailTemplates(t => ({ ...t, senderName: e.target.value }))} className={inputClass} placeholder="Tesla Trade Energy" />
                 </div>
                 <div>
                   <label className={labelClass}>Sender Email</label>

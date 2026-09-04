@@ -15,7 +15,7 @@ export default function FloatingSupport() {
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-              <span className="text-sm font-bold text-foreground">Trade Tesla Support</span>
+              <span className="text-sm font-bold text-foreground">Tesla Trade Support</span>
             </div>
             <button
               onClick={() => setChatOpen(false)}

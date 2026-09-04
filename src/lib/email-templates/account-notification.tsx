@@ -9,7 +9,7 @@ import {
   Section,
   Text,
 } from '@react-email/components'
-import { EmailFooter, EmailHeader } from './email-brand'
+import { EmailHeader } from './email-brand'
 import type { TemplateEntry } from './registry'
 
 interface Props {
@@ -38,10 +38,9 @@ const Email = ({ name, title, message, detail }: Props) => (
             ))}
           {detail ? <Text style={detailBox}>{detail}</Text> : null}
           <Text style={muted}>
-            You are receiving this because of activity on your Trade Tesla account.
+            You are receiving this because of activity on your Tesla Trade account.
           </Text>
         </Section>
-        <EmailFooter />
       </Container>
     </Body>
   </Html>
@@ -50,7 +49,7 @@ const Email = ({ name, title, message, detail }: Props) => (
 export const template = {
   component: Email,
   subject: (data: Record<string, any>) =>
-    (data['title'] as string) || 'Trade Tesla account update',
+    (data['title'] as string) || 'Tesla Trade account update',
   displayName: 'Account notification',
   previewData: {
     name: 'Jane',

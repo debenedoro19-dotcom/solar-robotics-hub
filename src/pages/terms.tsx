@@ -3,7 +3,7 @@ import Link from '@/components/SmartLink';
 
 const LAST_UPDATED = 'August 14, 2026';
 const EFFECTIVE_DATE = 'August 14, 2026';
-const COMPANY_NAME = 'Trade Tesla Energy';
+const COMPANY_NAME = 'Tesla Trade Energy';
 const SITE_URL = 'https://teslaenerg6773.builtwithrocket.new';
 
 const sections = [
@@ -101,7 +101,7 @@ export default function TermsPage() {
             <svg width="22" height="22" viewBox="0 0 342 512" fill="currentColor" className="text-primary" aria-hidden="true">
               <path d="M0 57.3C0 57.3 57.3 0 171 0s171 57.3 171 57.3L285 85.5s-28.5-28.5-114-28.5S57 85.5 57 85.5L0 57.3zM171 512L57 85.5s28.5 28.5 114 28.5 114-28.5 114-28.5L171 512z" />
             </svg>
-            <span className="text-white font-bold text-sm tracking-widest uppercase group-hover:text-primary transition-colors">Trade Tesla</span>
+            <span className="text-white font-bold text-sm tracking-widest uppercase group-hover:text-primary transition-colors">Tesla Trade</span>
           </Link>
 
           <div className="flex items-center gap-3 mb-4">

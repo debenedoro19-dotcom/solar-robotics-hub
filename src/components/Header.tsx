@@ -3,21 +3,17 @@ import Link from '@/components/SmartLink';
 import { createClient } from '@/lib/supabase/client';
 import { ThemeToggle } from '@/lib/theme';
 
-const ecosystemLinks = [
+const navLinks = [
   { label: 'Vehicles', href: '#inventory' },
   { label: 'Energy', href: '#market' },
-  { label: 'Robotics', href: '#ecosystem' },
+  { label: 'Invest', href: '#invest' },
+  { label: 'Giveaways', href: '#giveaways' },
+  { label: 'VIP', href: '#vip' },
+  { label: 'News', href: '/news' },
+  { label: 'Careers', href: '/careers' },
+  { label: 'Account', href: '/dashboard' },
+  { label: 'Deposit', href: '/account/deposit' },
 ];
-
-const primaryLinks = [{ label: 'Invest', href: '#invest' }];
-
-const secondaryLinks = [
-  { label: 'Insights', href: '/news' },
-  { label: 'About', href: '#elon-musk' },
-];
-
-const navLinks = [...primaryLinks, ...secondaryLinks];
-
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -53,7 +49,7 @@ export default function Header() {
   return (
     <>
       <nav
-        className="fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-background/80 backdrop-blur-xl border-b border-fin-border"
+        className="fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-[#050507]/80 backdrop-blur-xl border-b border-white/[0.06]"
         role="navigation"
         aria-label="Main navigation"
       >
@@ -76,19 +72,19 @@ export default function Header() {
               />
             </div>
 
-            <span className="text-foreground font-bold text-base tracking-widest uppercase">
+            <span className="text-white font-bold text-base tracking-widest uppercase">
               Trade <span className="text-primary" style={{ textShadow: '0 0 12px rgba(227,25,55,0.5)' }}>Tesla</span>
             </span>
           </Link>
 
           {/* Desktop Nav */}
           <div className="hidden lg:flex items-center gap-0 xl:gap-1">
-            {primaryLinks?.map((link) => (
+            {navLinks?.map((link) => (
               link?.href?.startsWith('/') ? (
                 <Link
                   key={link?.label}
                   href={link?.href}
-                  className="px-4 py-2 text-xs font-semibold text-fin-muted hover:text-foreground transition-colors tracking-widest uppercase relative group"
+                  className="px-4 py-2 text-xs font-semibold text-[#A1A1AA] hover:text-white transition-colors tracking-widest uppercase relative group"
                 >
                   {link?.label}
                   <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[1px] bg-primary group-hover:w-4 transition-all duration-300" />
@@ -97,50 +93,7 @@ export default function Header() {
                 <a
                   key={link?.label}
                   href={link?.href}
-                  className="px-4 py-2 text-xs font-semibold text-fin-muted hover:text-foreground transition-colors tracking-widest uppercase relative group"
-                >
-                  {link?.label}
-                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[1px] bg-primary group-hover:w-4 transition-all duration-300" />
-                </a>
-              )
-            ))}
-
-            {/* Ecosystem dropdown */}
-            <div className="relative group">
-              <button
-                type="button"
-                className="px-4 py-2 text-xs font-semibold text-fin-muted hover:text-foreground transition-colors tracking-widest uppercase inline-flex items-center gap-1.5"
-                aria-haspopup="true"
-              >
-                Ecosystem
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
-              </button>
-              <div className="absolute left-0 top-full pt-2 opacity-0 invisible translate-y-1 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-200">
-                <div className="min-w-[180px] rounded-2xl border border-fin-border bg-[var(--surface-1)] p-2 shadow-[var(--fin-modal-shadow)]">
-                  {ecosystemLinks.map((l) => (
-                    <a key={l.label} href={l.href} className="block px-3 py-2 rounded-xl text-xs font-semibold tracking-widest uppercase text-fin-muted hover:text-foreground hover:bg-[var(--surface-2)] transition-colors">
-                      {l.label}
-                    </a>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {secondaryLinks?.map((link) => (
-              link?.href?.startsWith('/') ? (
-                <Link
-                  key={link?.label}
-                  href={link?.href}
-                  className="px-4 py-2 text-xs font-semibold text-fin-muted hover:text-foreground transition-colors tracking-widest uppercase relative group"
-                >
-                  {link?.label}
-                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[1px] bg-primary group-hover:w-4 transition-all duration-300" />
-                </Link>
-              ) : (
-                <a
-                  key={link?.label}
-                  href={link?.href}
-                  className="px-4 py-2 text-xs font-semibold text-fin-muted hover:text-foreground transition-colors tracking-widest uppercase relative group"
+                  className="px-4 py-2 text-xs font-semibold text-[#A1A1AA] hover:text-white transition-colors tracking-widest uppercase relative group"
                 >
                   {link?.label}
                   <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[1px] bg-primary group-hover:w-4 transition-all duration-300" />
@@ -152,19 +105,33 @@ export default function Header() {
           {/* Actions */}
           <div className="hidden lg:flex items-center gap-3">
             <ThemeToggle />
-            <Link
-              href={isLoggedIn ? '/dashboard' : '/login'}
-              className="px-5 py-2 text-xs font-semibold text-foreground border border-fin-border rounded-xl hover:border-primary/50 transition-all duration-300 tracking-widest uppercase whitespace-nowrap"
-            >
-              {isLoggedIn ? 'Account' : 'Sign In'}
-            </Link>
-            <Link
-              href={isLoggedIn ? '/invest' : '/register'}
-              className="px-5 py-2 text-xs font-bold bg-primary text-white rounded-xl btn-shimmer hover:bg-[#B3181D] transition-all duration-300 tracking-widest uppercase shadow-[inset_0_1px_0_rgba(255,255,255,0.18)] whitespace-nowrap"
-            >
-              Start Investing
-            </Link>
-
+            <span className="hidden 2xl:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-[10px] font-semibold tracking-widest uppercase text-zinc-300 whitespace-nowrap">
+              <span className="ts-pulse" aria-hidden="true" />
+              Live Tracking
+            </span>
+            {!isLoggedIn && (
+              <Link
+                href="/login"
+                className="px-5 py-2 text-xs font-semibold text-white bg-white/[0.04] border border-white/[0.08] rounded-xl hover:border-white/25 transition-all duration-300 tracking-widest uppercase whitespace-nowrap"
+              >
+                Sign In
+              </Link>
+            )}
+            {isLoggedIn ? (
+              <Link
+                href="/dashboard"
+                className="px-5 py-2 text-xs font-bold bg-primary text-white rounded-xl btn-shimmer hover:bg-[#B3181D] transition-all duration-300 tracking-widest uppercase shadow-[inset_0_1px_0_rgba(255,255,255,0.18)] whitespace-nowrap"
+              >
+                Dashboard
+              </Link>
+            ) : (
+              <Link
+                href="/register"
+                className="px-5 py-2 text-xs font-bold bg-primary text-white rounded-xl btn-shimmer hover:bg-[#B3181D] transition-all duration-300 tracking-widest uppercase shadow-[inset_0_1px_0_rgba(255,255,255,0.18)] whitespace-nowrap"
+              >
+                Get Started
+              </Link>
+            )}
           </div>
 
 
@@ -188,15 +155,15 @@ export default function Header() {
       <div
         className={`fixed inset-0 z-40 lg:hidden transition-all duration-300 ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
       >
-        <div className="absolute inset-0 bg-background/95 backdrop-blur-xl" onClick={() => setMenuOpen(false)} />
-        <div className={`absolute top-16 left-0 right-0 bg-[var(--surface-1)] border-b border-fin-border p-6 transition-transform duration-300 shadow-[0_8px_40px_rgba(0,0,0,0.8)] ${menuOpen ? 'translate-y-0' : '-translate-y-4'}`}>
+        <div className="absolute inset-0 bg-[#050507]/98 backdrop-blur-xl" onClick={() => setMenuOpen(false)} />
+        <div className={`absolute top-16 left-0 right-0 bg-[#080808] border-b border-[#12131A] p-6 transition-transform duration-300 shadow-[0_8px_40px_rgba(0,0,0,0.8)] ${menuOpen ? 'translate-y-0' : '-translate-y-4'}`}>
           <div className="flex flex-col gap-1 mb-6">
             {navLinks?.map((link) => (
               link?.href?.startsWith('/') ? (
                 <Link
                   key={link?.label}
                   href={link?.href}
-                  className="px-4 py-3 text-sm font-semibold text-fin-muted hover:text-foreground hover:bg-[var(--surface-2)] rounded-xl transition-colors tracking-widest uppercase min-h-[44px] flex items-center"
+                  className="px-4 py-3 text-sm font-semibold text-[#A1A1AA] hover:text-white hover:bg-[#0D0E12] rounded-xl transition-colors tracking-widest uppercase min-h-[44px] flex items-center"
                   onClick={() => setMenuOpen(false)}
                 >
                   {link?.label}
@@ -205,7 +172,7 @@ export default function Header() {
                 <a
                   key={link?.label}
                   href={link?.href}
-                  className="px-4 py-3 text-sm font-semibold text-fin-muted hover:text-foreground hover:bg-[var(--surface-2)] rounded-xl transition-colors tracking-widest uppercase min-h-[44px] flex items-center"
+                  className="px-4 py-3 text-sm font-semibold text-[#A1A1AA] hover:text-white hover:bg-[#0D0E12] rounded-xl transition-colors tracking-widest uppercase min-h-[44px] flex items-center"
                   onClick={() => setMenuOpen(false)}
                 >
                   {link?.label}
@@ -213,9 +180,9 @@ export default function Header() {
               )
             ))}
           </div>
-          <div className="flex flex-col gap-3 pt-4 border-t border-fin-border">
+          <div className="flex flex-col gap-3 pt-4 border-t border-[#12131A]">
             {!isLoggedIn && (
-              <Link href="/login" className="w-full py-3 text-center text-xs font-semibold text-white border border-fin-border rounded-xl tracking-widest uppercase min-h-[44px] flex items-center justify-center" onClick={() => setMenuOpen(false)}>
+              <Link href="/login" className="w-full py-3 text-center text-xs font-semibold text-white border border-[#1E2027] rounded-xl tracking-widest uppercase min-h-[44px] flex items-center justify-center" onClick={() => setMenuOpen(false)}>
                 Sign In
               </Link>
             )}
