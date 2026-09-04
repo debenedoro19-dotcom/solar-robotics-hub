@@ -122,7 +122,16 @@ export const adminRejectDeposit = createServerFn({ method: 'POST' })
     return { ok: true as const, emailed: sent, recipient: Boolean(to.email) }
   })
 
-/** Updates a withdrawal's payout status and emails the investor on paid/rejected. */
+/**
+ * Updates a withdrawal's payout status.
+ *
+ * - `paid`      → enqueued on the background payout queue, then the queue is
+ *                 drained once (bounded). The queue settles the request with
+ *                 proper balance locking and sends the investor email.
+ * - `rejected`  → settled immediately (reserved funds are refunded) + email.
+ * - `processing`→ enqueued, left for the background worker.
+ * - `pending`   → plain status change.
+ */
 export const adminSetWithdrawalStatus = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator(
@@ -132,34 +141,90 @@ export const adminSetWithdrawalStatus = createServerFn({ method: 'POST' })
     const supabase = context.supabase
     await assertAdmin(supabase)
 
-    const terminal = data.status === 'paid' || data.status === 'rejected'
-    const processedAt = terminal ? new Date().toISOString() : null
-
-    const { data: updated, error } = await supabase
+    const { data: row } = await supabase
       .from('withdrawal_requests')
-      .update({ payout_status: data.status, notes: data.notes ?? null, processed_at: processedAt })
+      .select('id, user_id, user_email, user_name, amount, bank_name, tx_code, payout_status')
       .eq('id', data.withdrawalId)
-      .select('id, user_id, user_email, user_name, amount, bank_name')
       .maybeSingle()
-    if (error) throw error
-    if (!updated) throw new Error('Withdrawal not found')
+    if (!row) throw new Error('Withdrawal not found')
 
-    let sent = false
-    let hasRecipient = false
-    if (terminal) {
-      const to = await recipientFor(supabase, updated.user_id, updated.user_email)
-      hasRecipient = Boolean(to.email)
-      sent = await notify(
-        to.email,
-        to.name || updated.user_name,
-        data.status === 'paid' ? 'Withdrawal processed' : 'Withdrawal request declined',
-        data.status === 'paid'
-          ? `Your withdrawal of ${money(Number(updated.amount))} has been processed and is on its way to ${updated.bank_name || 'your account'}.`
-          : `Your withdrawal request for ${money(Number(updated.amount))} was declined.${data.notes ? ` ${data.notes}` : ' Please contact support for details.'}`,
-        `withdrawal-${data.status}-${updated.id}`,
-        data.notes,
-      )
+    if (data.notes !== undefined) {
+      await supabase.from('withdrawal_requests').update({ notes: data.notes || null }).eq('id', data.withdrawalId)
     }
 
-    return { ok: true as const, processedAt, emailed: sent, recipient: hasRecipient }
+    // ── Rejected: settle now (refunds the reserved balance) ────────────────
+    if (data.status === 'rejected') {
+      const { data: rpc, error } = await supabase.rpc('settle_withdrawal', {
+        _id: data.withdrawalId,
+        _status: 'rejected',
+        _notes: data.notes ?? undefined,
+      })
+      if (error) throw error
+      const res = rpc as { ok: boolean; error?: string } | null
+      if (!res?.ok) throw new Error(res?.error ?? 'Settlement failed')
+
+      const to = await recipientFor(supabase, row.user_id, row.user_email)
+      const sent = await notify(
+        to.email,
+        to.name || row.user_name,
+        'Withdrawal request declined',
+        `Your withdrawal request for ${money(Number(row.amount))} was declined and the amount has been returned to your wallet.${data.notes ? ` ${data.notes}` : ''}`,
+        `withdrawal-rejected-${row.id}`,
+        row.tx_code ? `Transaction ID: ${row.tx_code}` : undefined,
+      )
+      return {
+        ok: true as const,
+        processedAt: new Date().toISOString(),
+        emailed: sent,
+        recipient: Boolean(to.email),
+        txCode: row.tx_code ?? null,
+        queued: false,
+      }
+    }
+
+    // ── Paid / processing: run through the payout queue ────────────────────
+    if (data.status === 'paid' || data.status === 'processing') {
+      const { data: rpc, error } = await supabase.rpc('admin_queue_withdrawal', { _id: data.withdrawalId })
+      if (error) throw error
+      const res = rpc as { ok: boolean; error?: string } | null
+      if (!res?.ok) throw new Error(res?.error ?? 'Could not queue withdrawal')
+
+      if (data.status === 'paid') {
+        const { drainWithdrawalQueue } = await import('@/lib/withdrawal-queue.server')
+        const drain = await drainWithdrawalQueue(10)
+        return {
+          ok: true as const,
+          processedAt: new Date().toISOString(),
+          emailed: drain.processed > 0,
+          recipient: Boolean(row.user_email),
+          txCode: row.tx_code ?? null,
+          queued: true,
+        }
+      }
+
+      return {
+        ok: true as const,
+        processedAt: null,
+        emailed: false,
+        recipient: Boolean(row.user_email),
+        txCode: row.tx_code ?? null,
+        queued: true,
+      }
+    }
+
+    // ── Back to pending ────────────────────────────────────────────────────
+    const { error } = await supabase
+      .from('withdrawal_requests')
+      .update({ payout_status: 'pending', queue_status: 'none', processed_at: null })
+      .eq('id', data.withdrawalId)
+    if (error) throw error
+
+    return {
+      ok: true as const,
+      processedAt: null,
+      emailed: false,
+      recipient: Boolean(row.user_email),
+      txCode: row.tx_code ?? null,
+      queued: false,
+    }
   })

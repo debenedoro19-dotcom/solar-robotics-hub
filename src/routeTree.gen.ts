@@ -44,6 +44,7 @@ import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authen
 import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated.admin.users'
 import { Route as AuthenticatedAdminWithdrawalsRouteImport } from './routes/_authenticated.admin.withdrawals'
 import { Route as ApiPublicAuthEmailHookRouteImport } from './routes/api/public/auth-email-hook'
+import { Route as ApiPublicJobsProcessWithdrawalsRouteImport } from './routes/api/public/jobs/process-withdrawals'
 import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
 import { Route as LovableEmailAuthWebhookRouteImport } from './routes/lovable/email/auth/webhook'
 import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
@@ -231,6 +232,12 @@ const ApiPublicAuthEmailHookRoute = ApiPublicAuthEmailHookRouteImport.update({
   path: '/api/public/auth-email-hook',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicJobsProcessWithdrawalsRoute =
+  ApiPublicJobsProcessWithdrawalsRouteImport.update({
+    id: '/api/public/jobs/process-withdrawals',
+    path: '/api/public/jobs/process-withdrawals',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const LovableEmailAuthPreviewRoute = LovableEmailAuthPreviewRouteImport.update({
   id: '/lovable/email/auth/preview',
   path: '/lovable/email/auth/preview',
@@ -283,6 +290,7 @@ export interface FileRoutesByFullPath {
   '/api/public/auth-email-hook': typeof ApiPublicAuthEmailHookRoute
   '/account/': typeof AuthenticatedAccountIndexRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
+  '/api/public/jobs/process-withdrawals': typeof ApiPublicJobsProcessWithdrawalsRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
@@ -321,6 +329,7 @@ export interface FileRoutesByTo {
   '/api/public/auth-email-hook': typeof ApiPublicAuthEmailHookRoute
   '/account': typeof AuthenticatedAccountIndexRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
+  '/api/public/jobs/process-withdrawals': typeof ApiPublicJobsProcessWithdrawalsRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
@@ -362,6 +371,7 @@ export interface FileRoutesById {
   '/api/public/auth-email-hook': typeof ApiPublicAuthEmailHookRoute
   '/_authenticated/account/': typeof AuthenticatedAccountIndexRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
+  '/api/public/jobs/process-withdrawals': typeof ApiPublicJobsProcessWithdrawalsRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
@@ -403,6 +413,7 @@ export interface FileRouteTypes {
     | '/api/public/auth-email-hook'
     | '/account/'
     | '/admin/'
+    | '/api/public/jobs/process-withdrawals'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
     | '/lovable/email/transactional/preview'
@@ -441,6 +452,7 @@ export interface FileRouteTypes {
     | '/api/public/auth-email-hook'
     | '/account'
     | '/admin'
+    | '/api/public/jobs/process-withdrawals'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
     | '/lovable/email/transactional/preview'
@@ -481,6 +493,7 @@ export interface FileRouteTypes {
     | '/api/public/auth-email-hook'
     | '/_authenticated/account/'
     | '/_authenticated/admin/'
+    | '/api/public/jobs/process-withdrawals'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
     | '/lovable/email/transactional/preview'
@@ -504,6 +517,7 @@ export interface RootRouteChildren {
   AuthCallbackRoute: typeof AuthCallbackRoute
   CareersSlugRoute: typeof CareersSlugRoute
   ApiPublicAuthEmailHookRoute: typeof ApiPublicAuthEmailHookRoute
+  ApiPublicJobsProcessWithdrawalsRoute: typeof ApiPublicJobsProcessWithdrawalsRoute
   LovableEmailAuthPreviewRoute: typeof LovableEmailAuthPreviewRoute
   LovableEmailAuthWebhookRoute: typeof LovableEmailAuthWebhookRoute
   LovableEmailTransactionalPreviewRoute: typeof LovableEmailTransactionalPreviewRoute
@@ -756,6 +770,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicAuthEmailHookRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/jobs/process-withdrawals': {
+      id: '/api/public/jobs/process-withdrawals'
+      path: '/api/public/jobs/process-withdrawals'
+      fullPath: '/api/public/jobs/process-withdrawals'
+      preLoaderRoute: typeof ApiPublicJobsProcessWithdrawalsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/lovable/email/auth/preview': {
       id: '/lovable/email/auth/preview'
       path: '/lovable/email/auth/preview'
@@ -853,6 +874,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthCallbackRoute: AuthCallbackRoute,
   CareersSlugRoute: CareersSlugRoute,
   ApiPublicAuthEmailHookRoute: ApiPublicAuthEmailHookRoute,
+  ApiPublicJobsProcessWithdrawalsRoute: ApiPublicJobsProcessWithdrawalsRoute,
   LovableEmailAuthPreviewRoute: LovableEmailAuthPreviewRoute,
   LovableEmailAuthWebhookRoute: LovableEmailAuthWebhookRoute,
   LovableEmailTransactionalPreviewRoute: LovableEmailTransactionalPreviewRoute,
