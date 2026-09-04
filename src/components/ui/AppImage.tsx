@@ -60,6 +60,7 @@ const AppImage = memo(function AppImage({
   return (
     <img
       {...shared}
+      sizes={sizes ?? "(max-width: 768px) 100vw, 50vw"}
       width={width ?? 400}
       height={height ?? 300}
       className={className}
