@@ -375,8 +375,8 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
       setWithdrawBank('');
       setWithdrawAccount('');
       setWithdrawAccountName('');
-      const { data } = await supabase.from('balance_transactions').select('*').eq('user_id', userId).order('created_at', { ascending: false }).limit(50);
-      setBalanceTxs(data || []);
+      const { data: txs } = await supabase.from('balance_transactions').select('*').eq('user_id', userId).order('created_at', { ascending: false }).limit(50);
+      setBalanceTxs(txs || []);
     } catch (err: any) {
       setBalanceActionMsg({ type: 'error', text: err.message || 'Failed to submit withdrawal.' });
     } finally {
