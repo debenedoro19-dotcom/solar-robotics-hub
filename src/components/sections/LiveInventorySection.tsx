@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import AppImage from '@/components/ui/AppImage';
-import modelYImg from '@/assets/inventory/model_y.jpg';
-import megapackImg from '@/assets/inventory/megapack.jpg';
-import solarRoofImg from '@/assets/inventory/solar_roof.jpg';
-import cybercabImg from '@/assets/inventory/cybercab.jpg';
+import modelYImg from '@/assets/inventory/model_y.webp';
+import megapackImg from '@/assets/inventory/megapack.webp';
+import solarRoofImg from '@/assets/inventory/solar_roof.webp';
+import cybercabImg from '@/assets/inventory/cybercab.webp';
 
 type Category = 'All' | 'Vehicles' | 'Energy' | 'Solar' | 'Robotics';
 

@@ -42,16 +42,16 @@ const AppImage = memo(function AppImage({
     alt,
     onError: handleError,
     ...(onClick ? { onClick } : {}),
-    ...(sizes ? { sizes } : {}),
     ...(priority
-      ? { loading: "eager" as const, fetchPriority: "high" as const }
-      : { loading }),
+      ? { loading: "eager" as const, fetchPriority: "high" as const, decoding: "sync" as const }
+      : { loading, decoding: "async" as const }),
   };
 
   if (fill) {
     return (
       <img
         {...shared}
+        sizes={sizes ?? "100vw"}
         className={`absolute inset-0 h-full w-full object-cover ${className}`}
       />
     );
@@ -60,6 +60,7 @@ const AppImage = memo(function AppImage({
   return (
     <img
       {...shared}
+      sizes={sizes ?? "(max-width: 768px) 100vw, 50vw"}
       width={width ?? 400}
       height={height ?? 300}
       className={className}
