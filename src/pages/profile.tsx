@@ -200,21 +200,41 @@ export default function ProfilePage() {
     setTimeout(showSaved, 600);
   };
 
-  const handle2FASetup = () => {
+  const handle2FASetup = async () => {
+    setTwoFAError('');
+    setTwoFABusy(true);
+    const res = await start2FAEnrollment().catch(() => null);
+    setTwoFABusy(false);
+    if (!res?.ok) { setTwoFAError((res && 'error' in res ? res.error : '') || 'Could not start setup.'); return; }
+    setTwoFAUri(res.uri);
+    setTwoFASecret(res.secret);
     setTwoFAStep('setup');
   };
 
-  const handle2FAVerify = () => {
-    if (twoFACode.length === 6) {
-      setTwoFAEnabled(true);
-      setTwoFAStep('enabled');
-    }
+  const handle2FAVerify = async () => {
+    if (twoFACode.length !== 6) return;
+    setTwoFAError('');
+    setTwoFABusy(true);
+    const res = await confirm2FAEnrollment({ data: { code: twoFACode } }).catch(() => null);
+    setTwoFABusy(false);
+    if (!res?.ok) { setTwoFAError((res && 'error' in res ? res.error : '') || 'Could not verify that code.'); return; }
+    setBackupCodes(res.backupCodes);
+    setTwoFAEnabled(true);
+    setTwoFAStep('enabled');
+    setTwoFACode('');
   };
 
-  const handle2FADisable = () => {
+  const handle2FADisable = async () => {
+    setTwoFAError('');
+    if (!twoFACode) { setTwoFAError('Enter a current authenticator or backup code to turn 2FA off.'); return; }
+    setTwoFABusy(true);
+    const res = await disable2FA({ data: { code: twoFACode } }).catch(() => null);
+    setTwoFABusy(false);
+    if (!res?.ok) { setTwoFAError((res && 'error' in res ? res.error : '') || 'Could not disable 2FA.'); return; }
     setTwoFAEnabled(false);
     setTwoFAStep('idle');
     setTwoFACode('');
+    setBackupCodes([]);
   };
 
   const navItems: { id: Section; label: string; icon: React.ReactNode }[] = [
