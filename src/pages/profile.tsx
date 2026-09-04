@@ -269,6 +269,25 @@ export default function ProfilePage() {
     setBackupCodes([]);
   };
 
+  // Live 2FA status + security activity (paginated).
+  const loadSecurity = useCallback(async (page: number) => {
+    const [status, activity] = await Promise.all([
+      get2FAStatus().catch(() => null),
+      listSecurityActivity({ data: { page, pageSize: 8 } }).catch(() => null),
+    ]);
+    if (status) {
+      setTwoFAEnabled(status.enabled);
+      setTwoFAStep(status.enabled ? 'enabled' : 'idle');
+    }
+    if (activity) {
+      setSecurityEvents(activity.events as SecurityEvent[]);
+      setSecurityTotal(activity.total);
+      setKnownDevices(activity.devices as KnownDevice[]);
+    }
+  }, []);
+
+  useEffect(() => { void loadSecurity(securityPage); }, [loadSecurity, securityPage]);
+
   const navItems: { id: Section; label: string; icon: React.ReactNode }[] = [
     {
       id: 'personal',
