@@ -48,25 +48,16 @@ export default function LoginPage() {
         });
       }
 
-      // Route by role: admins land on the admin console, everyone else on the dashboard.
-      let isAdmin = false;
-      if (user) {
-        const { data: roleRow } = await supabase
-          .from('user_roles')
-          .select('role')
-          .eq('user_id', user.id)
-          .eq('role', 'admin')
-          .maybeSingle();
-        isAdmin = !!roleRow;
+      // Two-factor gate: signed in, but the session is not usable until the
+      // authenticator code checks out.
+      const status = await get2FAStatus().catch(() => null);
+      if (status?.enabled) {
+        setLoading(false);
+        setNeeds2FA(true);
+        return;
       }
 
-      // Honour ?redirect=/path when it is a safe same-site path.
-      let target = isAdmin ? '/admin' : '/dashboard';
-      if (typeof window !== 'undefined') {
-        const wanted = new URLSearchParams(window.location.search).get('redirect');
-        if (wanted && wanted.startsWith('/') && !wanted.startsWith('//')) target = wanted;
-      }
-      window.location.href = target;
+      await finishLogin();
     } catch (err: any) {
       setLoading(false);
       // Fallback: localStorage-based login for legacy accounts
