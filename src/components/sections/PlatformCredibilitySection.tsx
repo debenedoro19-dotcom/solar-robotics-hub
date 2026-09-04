@@ -14,33 +14,6 @@ const tickerItems = [
 // Pre-computed chart bar heights to avoid Math.sin() in render (prevents hydration mismatch)
 const chartBarHeights = Array.from({ length: 20 }, (_, i) => Math.round(20 + Math.sin(i * 0.8) * 15));
 
-const portfolioSlices = [
-  { label: 'Vehicles', pct: 45, color: '#00D4FF' },
-  { label: 'Energy Systems', pct: 30, color: '#00F59B' },
-  { label: 'Robotics', pct: 15, color: '#A78BFA' },
-  { label: 'Liquidity', pct: 10, color: '#E82127' },
-];
-
-const paymentMethods = [
-  {
-    icon: '🏦',
-    name: 'Bank Wire Transfer',
-    detail: 'USD · SWIFT available',
-    note: 'Contact support after selecting. Full banking details provided securely.',
-  },
-  {
-    icon: '₿',
-    name: 'Cryptocurrency',
-    detail: 'USDT (TRC20 / ERC20) · BTC',
-    note: 'Send only to the wallet address provided after application approval. Always verify.',
-  },
-  {
-    icon: '💳',
-    name: 'Credit / Debit Card',
-    detail: 'Visa · Mastercard',
-    note: 'Processed through a secure payment partner. Fees may apply.',
-  },
-];
 
 export default function PlatformCredibilitySection() {
   const tickerRef = useRef<HTMLDivElement>(null);
