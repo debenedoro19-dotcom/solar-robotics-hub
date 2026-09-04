@@ -1210,6 +1210,10 @@ export type Database = {
         Args: { _available: number; _note?: string; _user_id: string }
         Returns: Json
       }
+      attach_resume_path: {
+        Args: { _application_id: string; _path: string }
+        Returns: Json
+      }
       claim_withdrawal_batch: {
         Args: { _limit?: number }
         Returns: {
