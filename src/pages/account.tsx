@@ -364,12 +364,27 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
           globalThis.crypto?.randomUUID?.() ?? `wd-${Date.now()}-${Math.random().toString(36).slice(2)}`,
       });
       if (error) throw error;
-      const res = data as { ok: boolean; error?: string; tx_code?: string } | null;
+      const res = data as
+        | { ok: boolean; error?: string; tx_code?: string; request_id?: string; requires_confirmation?: boolean }
+        | null;
       if (!res?.ok) throw new Error(res?.error ?? 'Failed to submit withdrawal.');
-      setBalanceActionMsg({
-        type: 'success',
-        text: `Withdrawal request submitted${res.tx_code ? ` · Transaction ID ${res.tx_code}` : ''}. Processing within 1–3 business days.`,
-      });
+
+      if (res.requires_confirmation && res.request_id) {
+        const sent = await sendWithdrawalCode({ data: { requestId: res.request_id } }).catch(() => null);
+        if (!sent?.ok) throw new Error((sent && 'error' in sent ? sent.error : '') || 'Could not send your confirmation code.');
+        setPendingWithdrawal({ id: res.request_id, txCode: res.tx_code ?? '', masked: sent.maskedEmail });
+        setConfirmCode('');
+        setConfirmTotp('');
+        setBalanceActionMsg({
+          type: 'success',
+          text: `Almost done — enter the 6-digit code we emailed to ${sent.maskedEmail} to release this withdrawal.`,
+        });
+      } else {
+        setBalanceActionMsg({
+          type: 'success',
+          text: `Withdrawal request submitted${res.tx_code ? ` · Transaction ID ${res.tx_code}` : ''}. Processing within 1–3 business days.`,
+        });
+      }
       setWithdrawAmount('');
       setWithdrawWallet('');
       setWithdrawBank('');
