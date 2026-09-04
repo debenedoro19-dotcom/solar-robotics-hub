@@ -14,7 +14,9 @@ import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as BookSessionRouteImport } from './routes/book-session'
 import { Route as CareersRouteImport } from './routes/careers'
 import { Route as CryptoPaymentRouteImport } from './routes/crypto-payment'
+import { Route as ElonMuskRouteImport } from './routes/elon-musk'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as InventoryRouteImport } from './routes/inventory'
 import { Route as InvestRouteImport } from './routes/invest'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as NewsRouteImport } from './routes/news'
@@ -23,6 +25,7 @@ import { Route as RegisterRouteImport } from './routes/register'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as VerifyPendingRouteImport } from './routes/verify-pending'
+import { Route as VipSessionRouteImport } from './routes/vip-session'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated.admin'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated.dashboard'
 import { Route as AuthenticatedKycRouteImport } from './routes/_authenticated.kyc'
@@ -74,9 +77,19 @@ const CryptoPaymentRoute = CryptoPaymentRouteImport.update({
   path: '/crypto-payment',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ElonMuskRoute = ElonMuskRouteImport.update({
+  id: '/elon-musk',
+  path: '/elon-musk',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
   id: '/forgot-password',
   path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InventoryRoute = InventoryRouteImport.update({
+  id: '/inventory',
+  path: '/inventory',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InvestRoute = InvestRouteImport.update({
@@ -117,6 +130,11 @@ const TermsRoute = TermsRouteImport.update({
 const VerifyPendingRoute = VerifyPendingRouteImport.update({
   id: '/verify-pending',
   path: '/verify-pending',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VipSessionRoute = VipSessionRouteImport.update({
+  id: '/vip-session',
+  path: '/vip-session',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
@@ -266,7 +284,9 @@ export interface FileRoutesByFullPath {
   '/book-session': typeof BookSessionRoute
   '/careers': typeof CareersRoute
   '/crypto-payment': typeof CryptoPaymentRoute
+  '/elon-musk': typeof ElonMuskRoute
   '/forgot-password': typeof ForgotPasswordRoute
+  '/inventory': typeof InventoryRoute
   '/invest': typeof InvestRoute
   '/login': typeof LoginRoute
   '/news': typeof NewsRoute
@@ -275,6 +295,7 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/terms': typeof TermsRoute
   '/verify-pending': typeof VerifyPendingRoute
+  '/vip-session': typeof VipSessionRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/kyc': typeof AuthenticatedKycRoute
@@ -307,7 +328,9 @@ export interface FileRoutesByTo {
   '/book-session': typeof BookSessionRoute
   '/careers': typeof CareersRoute
   '/crypto-payment': typeof CryptoPaymentRoute
+  '/elon-musk': typeof ElonMuskRoute
   '/forgot-password': typeof ForgotPasswordRoute
+  '/inventory': typeof InventoryRoute
   '/invest': typeof InvestRoute
   '/login': typeof LoginRoute
   '/news': typeof NewsRoute
@@ -316,6 +339,7 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/terms': typeof TermsRoute
   '/verify-pending': typeof VerifyPendingRoute
+  '/vip-session': typeof VipSessionRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/kyc': typeof AuthenticatedKycRoute
   '/profile': typeof AuthenticatedProfileRoute
@@ -349,7 +373,9 @@ export interface FileRoutesById {
   '/book-session': typeof BookSessionRoute
   '/careers': typeof CareersRoute
   '/crypto-payment': typeof CryptoPaymentRoute
+  '/elon-musk': typeof ElonMuskRoute
   '/forgot-password': typeof ForgotPasswordRoute
+  '/inventory': typeof InventoryRoute
   '/invest': typeof InvestRoute
   '/login': typeof LoginRoute
   '/news': typeof NewsRoute
@@ -358,6 +384,7 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/terms': typeof TermsRoute
   '/verify-pending': typeof VerifyPendingRoute
+  '/vip-session': typeof VipSessionRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/kyc': typeof AuthenticatedKycRoute
@@ -392,7 +419,9 @@ export interface FileRouteTypes {
     | '/book-session'
     | '/careers'
     | '/crypto-payment'
+    | '/elon-musk'
     | '/forgot-password'
+    | '/inventory'
     | '/invest'
     | '/login'
     | '/news'
@@ -401,6 +430,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/terms'
     | '/verify-pending'
+    | '/vip-session'
     | '/admin'
     | '/dashboard'
     | '/kyc'
@@ -433,7 +463,9 @@ export interface FileRouteTypes {
     | '/book-session'
     | '/careers'
     | '/crypto-payment'
+    | '/elon-musk'
     | '/forgot-password'
+    | '/inventory'
     | '/invest'
     | '/login'
     | '/news'
@@ -442,6 +474,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/terms'
     | '/verify-pending'
+    | '/vip-session'
     | '/dashboard'
     | '/kyc'
     | '/profile'
@@ -474,7 +507,9 @@ export interface FileRouteTypes {
     | '/book-session'
     | '/careers'
     | '/crypto-payment'
+    | '/elon-musk'
     | '/forgot-password'
+    | '/inventory'
     | '/invest'
     | '/login'
     | '/news'
@@ -483,6 +518,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/terms'
     | '/verify-pending'
+    | '/vip-session'
     | '/_authenticated/admin'
     | '/_authenticated/dashboard'
     | '/_authenticated/kyc'
@@ -517,7 +553,9 @@ export interface RootRouteChildren {
   BookSessionRoute: typeof BookSessionRoute
   CareersRoute: typeof CareersRoute
   CryptoPaymentRoute: typeof CryptoPaymentRoute
+  ElonMuskRoute: typeof ElonMuskRoute
   ForgotPasswordRoute: typeof ForgotPasswordRoute
+  InventoryRoute: typeof InventoryRoute
   InvestRoute: typeof InvestRoute
   LoginRoute: typeof LoginRoute
   NewsRoute: typeof NewsRoute
@@ -526,6 +564,7 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   TermsRoute: typeof TermsRoute
   VerifyPendingRoute: typeof VerifyPendingRoute
+  VipSessionRoute: typeof VipSessionRoute
   AuthCallbackRoute: typeof AuthCallbackRoute
   CareersSlugRoute: typeof CareersSlugRoute
   ApiPublicAuthEmailHookRoute: typeof ApiPublicAuthEmailHookRoute
@@ -572,11 +611,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CryptoPaymentRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/elon-musk': {
+      id: '/elon-musk'
+      path: '/elon-musk'
+      fullPath: '/elon-musk'
+      preLoaderRoute: typeof ElonMuskRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/forgot-password': {
       id: '/forgot-password'
       path: '/forgot-password'
       fullPath: '/forgot-password'
       preLoaderRoute: typeof ForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/inventory': {
+      id: '/inventory'
+      path: '/inventory'
+      fullPath: '/inventory'
+      preLoaderRoute: typeof InventoryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/invest': {
@@ -633,6 +686,13 @@ declare module '@tanstack/react-router' {
       path: '/verify-pending'
       fullPath: '/verify-pending'
       preLoaderRoute: typeof VerifyPendingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vip-session': {
+      id: '/vip-session'
+      path: '/vip-session'
+      fullPath: '/vip-session'
+      preLoaderRoute: typeof VipSessionRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/admin': {
@@ -883,7 +943,9 @@ const rootRouteChildren: RootRouteChildren = {
   BookSessionRoute: BookSessionRoute,
   CareersRoute: CareersRoute,
   CryptoPaymentRoute: CryptoPaymentRoute,
+  ElonMuskRoute: ElonMuskRoute,
   ForgotPasswordRoute: ForgotPasswordRoute,
+  InventoryRoute: InventoryRoute,
   InvestRoute: InvestRoute,
   LoginRoute: LoginRoute,
   NewsRoute: NewsRoute,
@@ -892,6 +954,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   TermsRoute: TermsRoute,
   VerifyPendingRoute: VerifyPendingRoute,
+  VipSessionRoute: VipSessionRoute,
   AuthCallbackRoute: AuthCallbackRoute,
   CareersSlugRoute: CareersSlugRoute,
   ApiPublicAuthEmailHookRoute: ApiPublicAuthEmailHookRoute,

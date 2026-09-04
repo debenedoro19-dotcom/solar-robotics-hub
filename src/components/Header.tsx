@@ -4,11 +4,11 @@ import { createClient } from '@/lib/supabase/client';
 import { ThemeToggle } from '@/lib/theme';
 
 const navLinks = [
-  { label: 'Vehicles', href: '#inventory' },
-  { label: 'Energy', href: '#market' },
+  { label: 'Inventory', href: '/inventory' },
   { label: 'Invest', href: '#invest' },
   { label: 'Giveaways', href: '#giveaways' },
-  { label: 'VIP', href: '#vip' },
+  { label: 'Elon Musk', href: '/elon-musk' },
+  { label: 'VIP Session', href: '/vip-session' },
   { label: 'News', href: '/news' },
   { label: 'Careers', href: '/careers' },
   { label: 'Account', href: '/dashboard' },
