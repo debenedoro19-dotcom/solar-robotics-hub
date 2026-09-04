@@ -48,7 +48,7 @@ function money(v?: string) {
 function userCopy(event: UserEvent, name: string, input: EventInput) {
   switch (event) {
     case 'welcome':
-      return { template: 'welcome' as const, title: 'Welcome to Tesla Trade', message: '' }
+      return { template: 'welcome' as const, title: 'Welcome to Trade Tesla', message: '' }
     case 'deposit_submitted':
       return {
         template: 'account-notification' as const,
@@ -231,9 +231,9 @@ export const sendAdminTestEmail = createServerFn({ method: 'POST' })
       const result = await sendTemplateEmail('account-notification', to, {
         templateData: {
           name: 'Admin',
-          title: 'Test email — Tesla Trade',
+          title: 'Test email — Trade Tesla',
           message:
-            'This is a test email from your Tesla Trade admin panel. If you received this, your managed email delivery is working correctly.',
+            'This is a test email from your Trade Tesla admin panel. If you received this, your managed email delivery is working correctly.',
         },
         idempotencyKey: `admin-test-${to}-${Date.now()}`,
       })

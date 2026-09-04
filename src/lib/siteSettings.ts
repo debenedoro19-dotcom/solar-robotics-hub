@@ -35,7 +35,7 @@ export interface TickerConfig {
 
 export const DEFAULT_WELCOME: WelcomePopupConfig = {
   enabled: true,
-  title: 'Welcome to Tesla Trade',
+  title: 'Welcome to Trade Tesla',
   body: 'Explore vehicles, energy, solar and robotics — plus investor packages with daily yield.',
   ctaLabel: 'Explore Inventory',
   ctaHref: '/#inventory',
@@ -45,7 +45,7 @@ export const DEFAULT_WELCOME: WelcomePopupConfig = {
 
 export const DEFAULT_LEAD: LeadPopupConfig = {
   enabled: true,
-  title: 'Get Tesla Trade Updates',
+  title: 'Get Trade Tesla Updates',
   body: 'Join our list for new inventory, plan launches and giveaways.',
   ctaLabel: 'Subscribe',
   exitIntent: true,
@@ -158,10 +158,10 @@ export interface CustomerCareConfig {
 export const DEFAULT_CUSTOMER_CARE: CustomerCareConfig = {
   whatsappEnabled: false,
   whatsappNumber: '',
-  whatsappMessage: 'Hello! I need help with my Tesla Trade account.',
+  whatsappMessage: 'Hello! I need help with my Trade Tesla account.',
   telegramEnabled: false,
   telegramUsername: '',
-  telegramMessage: 'Hello! I need support with Tesla Trade.',
+  telegramMessage: 'Hello! I need support with Trade Tesla.',
   supportEmail: 'support@tradeenergy.app',
   supportHours: 'Mon–Fri, 9am–6pm UTC',
 };

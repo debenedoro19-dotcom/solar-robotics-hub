@@ -4,9 +4,9 @@ import Page from "@/pages/admin-withdrawals";
 export const Route = createFileRoute("/_authenticated/admin/withdrawals")({
   head: () => ({
     meta: [
-      { title: "Admin · Withdrawals — Tesla Trade" },
+      { title: "Admin · Withdrawals — Trade Tesla" },
       { name: "description", content: "Review and process withdrawal requests." },
-      { property: "og:title", content: "Admin · Withdrawals — Tesla Trade" },
+      { property: "og:title", content: "Admin · Withdrawals — Trade Tesla" },
       { property: "og:description", content: "Review and process withdrawal requests." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

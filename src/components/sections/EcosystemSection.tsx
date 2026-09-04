@@ -48,7 +48,7 @@ const categories = [
 
 export default function EcosystemSection() {
   return (
-    <section className="relative z-10 py-20 px-4 sm:px-6 lg:px-8">
+    <section id="ecosystem" className="relative z-10 py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16 section-reveal">
