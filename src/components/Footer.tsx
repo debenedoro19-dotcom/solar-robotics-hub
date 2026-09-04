@@ -81,6 +81,21 @@ export default function Footer() {
             </span>
           </Link>
 
+          {/* Links */}
+          <nav className="flex flex-wrap items-center gap-x-6 gap-y-2">
+            {footerLinks?.map((link) => (
+              <Link
+                key={link?.label}
+                href={link?.href}
+                className="text-xs text-[#6B7280] hover:text-white transition-colors duration-300 tracking-wide"
+              >
+                {link?.label}
+              </Link>
+            ))}
+          </nav>
+        </div>
+
+
         <div className="tesla-divider mb-6" />
 
         <div className="flex flex-col sm:flex-row items-center justify-between gap-5">
