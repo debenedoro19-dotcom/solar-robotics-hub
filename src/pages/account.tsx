@@ -930,6 +930,63 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
                     >
                       {balanceLoading ? 'Processing...' : 'Submit Withdrawal Request'}
                     </button>
+
+                    {pendingWithdrawal && (
+                      <div className="mt-4 rounded-xl border border-primary/30 bg-primary/5 p-4">
+                        <p className="text-xs font-bold text-white uppercase tracking-widest mb-1">Email confirmation required</p>
+                        <p className="text-xs text-fin-muted mb-3">
+                          Enter the 6-digit code sent to {pendingWithdrawal.masked}
+                          {pendingWithdrawal.txCode ? ` for ${pendingWithdrawal.txCode}` : ''}. It expires in 15 minutes.
+                        </p>
+                        <input
+                          value={confirmCode}
+                          onChange={(e) => setConfirmCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                          placeholder="000000"
+                          inputMode="numeric"
+                          autoComplete="one-time-code"
+                          className="w-full px-4 py-3 rounded-xl text-center tracking-[0.4em] text-sm input-tesla mb-2"
+                        />
+                        {confirmNeedsTotp && (
+                          <input
+                            value={confirmTotp}
+                            onChange={(e) => setConfirmTotp(e.target.value.slice(0, 12))}
+                            placeholder="Authenticator code"
+                            className="w-full px-4 py-3 rounded-xl text-center tracking-[0.3em] text-sm input-tesla mb-2"
+                          />
+                        )}
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => sendWithdrawalCode({ data: { requestId: pendingWithdrawal.id } }).catch(() => {})}
+                            className="flex-1 py-2.5 rounded-xl border border-fin-border text-xs font-semibold text-fin-muted hover:text-white"
+                          >
+                            Resend code
+                          </button>
+                          <button
+                            onClick={async () => {
+                              setBalanceLoading(true);
+                              const res = await confirmWithdrawal({
+                                data: { requestId: pendingWithdrawal.id, code: confirmCode, totp: confirmTotp || undefined },
+                              }).catch(() => null);
+                              setBalanceLoading(false);
+                              if (!res?.ok) {
+                                if (res && 'needsTotp' in res && res.needsTotp) setConfirmNeedsTotp(true);
+                                setBalanceActionMsg({ type: 'error', text: (res && 'error' in res ? res.error : '') || 'Could not confirm withdrawal.' });
+                                return;
+                              }
+                              setPendingWithdrawal(null);
+                              setConfirmCode('');
+                              setConfirmTotp('');
+                              setConfirmNeedsTotp(false);
+                              setBalanceActionMsg({ type: 'success', text: 'Withdrawal confirmed and queued for payout.' });
+                            }}
+                            disabled={balanceLoading || confirmCode.length !== 6}
+                            className="flex-1 py-2.5 rounded-xl bg-primary text-primary-foreground text-xs font-bold uppercase tracking-widest disabled:opacity-40"
+                          >
+                            Confirm
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
 
