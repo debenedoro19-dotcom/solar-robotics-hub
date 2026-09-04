@@ -125,6 +125,28 @@ export default function Header() {
                 </div>
               </div>
             </div>
+
+            {secondaryLinks?.map((link) => (
+              link?.href?.startsWith('/') ? (
+                <Link
+                  key={link?.label}
+                  href={link?.href}
+                  className="px-4 py-2 text-xs font-semibold text-fin-muted hover:text-foreground transition-colors tracking-widest uppercase relative group"
+                >
+                  {link?.label}
+                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[1px] bg-primary group-hover:w-4 transition-all duration-300" />
+                </Link>
+              ) : (
+                <a
+                  key={link?.label}
+                  href={link?.href}
+                  className="px-4 py-2 text-xs font-semibold text-fin-muted hover:text-foreground transition-colors tracking-widest uppercase relative group"
+                >
+                  {link?.label}
+                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[1px] bg-primary group-hover:w-4 transition-all duration-300" />
+                </a>
+              )
+            ))}
           </div>
 
           {/* Actions */}
