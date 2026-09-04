@@ -13,7 +13,7 @@ import { ReauthenticationEmail } from '@/lib/email-templates/reauthentication'
 // This project uses an external Supabase project, so the hook is pointed here
 // directly and verified with the standard-webhooks signature GoTrue sends.
 
-const SITE_NAME = 'Tesla Energy Hub'
+const SITE_NAME = 'Trade Tesla'
 const SENDER_DOMAIN = 'notify.tradeenergy.app'
 const FROM_DOMAIN = 'tradeenergy.app'
 const SITE_URL = `https://${FROM_DOMAIN}`
