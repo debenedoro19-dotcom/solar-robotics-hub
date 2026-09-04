@@ -1210,10 +1210,6 @@ export type Database = {
         Args: { _available: number; _note?: string; _user_id: string }
         Returns: Json
       }
-      attach_resume_path: {
-        Args: { _application_id: string; _path: string }
-        Returns: Json
-      }
       claim_withdrawal_batch: {
         Args: { _limit?: number }
         Returns: {
@@ -1285,10 +1281,6 @@ export type Database = {
       purchase_investment_plan: {
         Args: { _amount: number; _plan_id: string }
         Returns: Json
-      }
-      resume_upload_slot_open: {
-        Args: { _object_name: string }
-        Returns: boolean
       }
       set_withdrawal_confirmation: {
         Args: { _code_hash: string; _id: string; _user_id: string }
