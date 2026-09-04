@@ -1,5 +1,6 @@
 import type { ComponentType } from 'react'
 import { template as accountNotificationTemplate } from './account-notification'
+import { template as investorUpdateTemplate } from './investor-update'
 import { template as welcomeTemplate } from './welcome'
 
 export interface TemplateEntry {
