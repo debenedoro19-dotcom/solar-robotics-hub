@@ -1,9 +1,34 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Link from '@/components/SmartLink';
 import {  useRouter  } from '@/lib/next-shims';
 import { createClient } from '@/lib/supabase/client';
+import QrCode from '@/components/payments/QrCode';
+import {
+  get2FAStatus,
+  start2FAEnrollment,
+  confirm2FAEnrollment,
+  disable2FA,
+  listSecurityActivity,
+} from '@/lib/security.functions';
 
 type Section = 'personal' | 'bank' | 'password' | 'notifications' | 'twofa';
+
+interface SecurityEvent {
+  id: string;
+  event_type: string;
+  ip: string | null;
+  device_label: string | null;
+  new_device: boolean;
+  created_at: string;
+}
+
+interface KnownDevice {
+  id: string;
+  label: string;
+  last_ip: string | null;
+  last_seen_at: string;
+  first_seen_at: string;
+}
 
 interface PersonalInfo {
   fullName: string;
