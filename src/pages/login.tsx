@@ -3,12 +3,65 @@ import Link from '@/components/SmartLink';
 import { setCurrentUser } from '@/lib/portfolioStore';
 import { createClient } from '@/lib/supabase/client';
 import { sanitizeEmail } from '@/lib/sanitize';
+import { get2FAStatus, verify2FACode, recordSecurityEvent } from '@/lib/security.functions';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [needs2FA, setNeeds2FA] = useState(false);
+  const [twoFactorCode, setTwoFactorCode] = useState('');
+
+  /** Logs the device/IP, then routes by role. */
+  async function finishLogin() {
+    const supabase = createClient();
+    await recordSecurityEvent({ data: { eventType: 'login' } }).catch(() => {});
+
+    const { data: userData } = await supabase.auth.getUser();
+    const user = userData?.user;
+    let isAdmin = false;
+    if (user) {
+      const { data: roleRow } = await supabase
+        .from('user_roles')
+        .select('role')
+        .eq('user_id', user.id)
+        .eq('role', 'admin')
+        .maybeSingle();
+      isAdmin = !!roleRow;
+    }
+
+    // Honour ?redirect=/path when it is a safe same-site path.
+    let target = isAdmin ? '/admin' : '/dashboard';
+    if (typeof window !== 'undefined') {
+      const wanted = new URLSearchParams(window.location.search).get('redirect');
+      if (wanted && wanted.startsWith('/') && !wanted.startsWith('//')) target = wanted;
+    }
+    window.location.href = target;
+  }
+
+  async function submitTwoFactor(e: React.FormEvent) {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+    const res = await verify2FACode({ data: { code: twoFactorCode } }).catch(() => null);
+    if (!res?.ok) {
+      setLoading(false);
+      setError(res && 'error' in res ? res.error : 'Could not verify that code.');
+      return;
+    }
+    await finishLogin();
+  }
+
+  async function cancelTwoFactor() {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    setNeeds2FA(false);
+    setTwoFactorCode('');
+    setPassword('');
+  }
+
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
