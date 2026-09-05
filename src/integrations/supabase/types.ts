@@ -1002,6 +1002,60 @@ export type Database = {
           },
         ]
       }
+      user_payout_methods: {
+        Row: {
+          account_name: string | null
+          account_number: string | null
+          address: string | null
+          bank_name: string | null
+          created_at: string
+          id: string
+          is_default: boolean
+          is_verified: boolean
+          label: string
+          network: string | null
+          region: string | null
+          routing_number: string | null
+          type: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          account_name?: string | null
+          account_number?: string | null
+          address?: string | null
+          bank_name?: string | null
+          created_at?: string
+          id?: string
+          is_default?: boolean
+          is_verified?: boolean
+          label?: string
+          network?: string | null
+          region?: string | null
+          routing_number?: string | null
+          type?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          account_name?: string | null
+          account_number?: string | null
+          address?: string | null
+          bank_name?: string | null
+          created_at?: string
+          id?: string
+          is_default?: boolean
+          is_verified?: boolean
+          label?: string
+          network?: string | null
+          region?: string | null
+          routing_number?: string | null
+          type?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_portfolios: {
         Row: {
           alerts: Json
@@ -1282,6 +1336,7 @@ export type Database = {
         Args: { _amount: number; _plan_id: string }
         Returns: Json
       }
+      set_default_payout_method: { Args: { _id: string }; Returns: Json }
       set_withdrawal_confirmation: {
         Args: { _code_hash: string; _id: string; _user_id: string }
         Returns: Json
