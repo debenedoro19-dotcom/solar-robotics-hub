@@ -124,7 +124,7 @@ const DEFAULT_CUSTOMER_CARE: CustomerCareSettings = {
   telegramEnabled: false,
   telegramUsername: '',
   telegramMessage: 'Hello! I need support with Tesla Trade.',
-  supportEmail: 'support@teslatrade.com',
+  supportEmail: 'support@tradeenergyhub.com',
   supportHours: 'Mon–Fri, 9am–6pm UTC',
 };
 
@@ -135,8 +135,8 @@ const DEFAULT_EMAIL: EmailTemplateSettings = {
   kycApprovedBody: 'Dear {{name}},\n\nYour KYC verification has been approved. You now have full access to all platform features including withdrawals.\n\nBest regards,\nThe Tesla Trade Team',
   withdrawalSubject: 'Withdrawal Request Processed — Tesla Trade',
   withdrawalBody: 'Dear {{name}},\n\nYour withdrawal request of {{amount}} has been processed and is on its way.\n\nExpected arrival: 3–5 business days.\n\nBest regards,\nThe Tesla Trade Team',
-  senderName: 'Tesla Trade Energy',
-  senderEmail: 'noreply@teslatrade.com',
+  senderName: 'Tesla Trade',
+  senderEmail: 'noreply@tradeenergy.app',
 };
 
 const DEFAULT_CRYPTO_WALLETS: CryptoWallets = {
@@ -1311,7 +1311,7 @@ export default function AdminSettingsPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className={labelClass}>Support Email</label>
-                  <input type="email" value={customerCare.supportEmail} onChange={e => setCustomerCare(c => ({ ...c, supportEmail: e.target.value }))} className={inputClass} placeholder="support@teslatrade.com" />
+                  <input type="email" value={customerCare.supportEmail} onChange={e => setCustomerCare(c => ({ ...c, supportEmail: e.target.value }))} className={inputClass} placeholder="support@tradeenergyhub.com" />
                 </div>
                 <div>
                   <label className={labelClass}>Support Hours</label>
@@ -1356,7 +1356,7 @@ export default function AdminSettingsPage() {
                 </div>
                 <div>
                   <label className={labelClass}>Sender Email</label>
-                  <input type="email" value={emailTemplates.senderEmail} onChange={e => setEmailTemplates(t => ({ ...t, senderEmail: e.target.value }))} className={inputClass} placeholder="noreply@teslatrade.com" />
+                  <input type="email" value={emailTemplates.senderEmail} onChange={e => setEmailTemplates(t => ({ ...t, senderEmail: e.target.value }))} className={inputClass} placeholder="noreply@tradeenergy.app" />
                 </div>
               </div>
             </div>
