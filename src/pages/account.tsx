@@ -3,7 +3,9 @@ import Link from '@/components/SmartLink';
 import {  useRouter  } from '@/lib/next-shims';
 import { createClient } from '@/lib/supabase/client';
 import InvestorShell from '@/components/investor/InvestorShell';
-import { MetricCard, WithdrawModal } from '@/components/investor/modals';
+import { MetricCard } from '@/components/investor/modals';
+import { WithdrawModal } from '@/components/investor/WithdrawModal';
+import { PayoutMethodsPanel } from '@/components/investor/PayoutMethodsPanel';
 import { useNavigate } from '@tanstack/react-router';
 import { money } from '@/components/investor/wallet';
 import { sendWithdrawalCode, confirmWithdrawal } from '@/lib/withdrawal-confirm.functions';
@@ -665,7 +667,10 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
             {/* WITHDRAWALS TAB */}
             {activeTab === 'withdrawals' && (
               <div className="space-y-5">
-                <div className="bg-fin-card border border-fin-border rounded-xl overflow-hidden">
+                 <div className="bg-fin-card border border-fin-border rounded-xl p-5">
+                   <PayoutMethodsPanel />
+                 </div>
+                 <div className="bg-fin-card border border-fin-border rounded-xl overflow-hidden">
                   <div className="flex items-center justify-between px-5 py-4 border-b border-fin-border">
                     <p className="text-xs font-semibold text-white tracking-widest uppercase">Withdrawal Requests</p>
                     <Link href="/profile" className="text-[10px] text-primary hover:underline tracking-widest uppercase">Request Withdrawal</Link>
