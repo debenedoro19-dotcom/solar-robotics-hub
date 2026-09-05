@@ -1,12 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import {
-  Outlet,
-  Link,
-  createRootRouteWithContext,
-  useRouter,
-  HeadContent,
-  Scripts,
-} from "@tanstack/react-router";
+import { Outlet, Link, createRootRouteWithContext, useRouter, HeadContent, Scripts } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
@@ -47,9 +40,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
-        <h1 className="text-xl font-semibold tracking-tight text-foreground">
-          This page didn't load
-        </h1>
+        <h1 className="text-xl font-semibold tracking-tight text-foreground">This page didn't load</h1>
         <p className="mt-2 text-sm text-muted-foreground">
           Something went wrong on our end. You can try refreshing or head back home.
         </p>
@@ -80,16 +71,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Tesla Trade — Premium Tesla Ecosystem Marketplace" },
+      { title: "Trade Tesla — Premium Tesla Ecosystem Marketplace" },
       {
         name: "description",
         content:
           "Buy, sell and invest in Tesla vehicles, energy systems, solar and robotics on a secure, high-tech marketplace.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:site_name", content: "Tesla Trade" },
-      { name: "application-name", content: "Tesla Trade" },
-      { name: "apple-mobile-web-app-title", content: "Tesla Trade" },
+      { property: "og:site_name", content: "Trade Tesla" },
+      { name: "application-name", content: "Trade Tesla" },
+      { name: "apple-mobile-web-app-title", content: "Trade Tesla" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
@@ -117,8 +108,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "WebSite",
-          name: "Tesla Trade",
-          alternateName: ["Tesla Trade Energy Hub", "TeslaTrade"],
+          name: "Trade Tesla",
+          alternateName: ["Trade Tesla Energy", "Trade Tesla"],
           url: "https://tradeenergyhub.com",
         }),
       },
@@ -162,11 +153,11 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
-      <AuthProvider>
-        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-        <Outlet />
-        <PopupManager />
-      </AuthProvider>
+        <AuthProvider>
+          {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+          <Outlet />
+          <PopupManager />
+        </AuthProvider>
       </ThemeProvider>
     </QueryClientProvider>
   );
