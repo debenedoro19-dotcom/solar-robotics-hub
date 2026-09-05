@@ -396,7 +396,7 @@ export default function GiveawaysSection() {
         <div className="mb-12 section-reveal">
           <span className="text-xs font-bold text-accent tracking-[0.25em] uppercase mb-3 block">Tesla Giveaways</span>
           <h2 className="text-section-title font-extrabold tracking-tighter text-foreground">
-            Win Vehicles & <span className="gradient-text-accent">Exclusive Experiences</span>
+            Win Vehicles, Bitcoin & <span className="gradient-text-accent">Exclusive Experiences</span>
           </h2>
           <p className="text-sm text-muted-foreground mt-3 max-w-2xl">
             Entries are paid instantly from your wallet balance — the same balance used for deposits, plans and
