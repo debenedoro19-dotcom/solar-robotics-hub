@@ -68,9 +68,11 @@ function imageFor(g: Giveaway): string {
   if (g.image_url) return g.image_url;
   const text = `${g.title} ${g.prize}`.toLowerCase();
   if (text.includes("cybertruck") || text.includes("cyber")) return cybertruckImg;
+  if (text.includes("bitcoin") || text.includes("btc") || text.includes("stock pool") || text.includes("$1.3")) {
+    return "https://tradeenergyhub.com/assets/giveaways/bitcoin_pool.webp";
+  }
   return model3Img;
 }
-
 interface TimeLeft {
   d: number;
   h: number;
