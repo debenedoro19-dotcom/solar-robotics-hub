@@ -403,7 +403,7 @@ export default function GiveawaysSection() {
             withdrawals.
           </p>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {giveaways.map((g, idx) => (
             <GiveawayCard key={g.id} g={g} idx={idx} onEnter={setActive} />
           ))}
