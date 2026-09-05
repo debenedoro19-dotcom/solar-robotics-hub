@@ -16,6 +16,7 @@ export interface Giveaway {
   entries_count: number;
   max_entries: number;
   badge: string;
+  created_at?: string;
 }
 
 // Instant-paint fallback that mirrors the seeded campaigns.
@@ -52,7 +53,7 @@ const FALLBACK_GIVEAWAYS: Giveaway[] = [
     description:
       "In celebration of crypto's growth: enter the Trade Tesla Bitcoin distribution. Commit $1,200 from your wallet (Tesla stock–aligned entry). When every entry slot is filled this cycle, rewards are released to participants from the pool. Paid from your available balance and logged in your ledger — same as all other giveaways. Invest today. Win tomorrow. Power the future.",
     prize: "$1.3 Billion Bitcoin pool — rewards when entries are full",
-    image_url: "https://tradeenergyhub.com/assets/giveaways/bitcoin_pool.webp",
+    image_url: null,
     entry_fee: 1200,
     ends_at: "2026-09-30",
     entries_count: 0,
@@ -60,19 +61,59 @@ const FALLBACK_GIVEAWAYS: Giveaway[] = [
     badge: "$1,200 ENTRY",
   },
 ];
+
 const money = (n: number) =>
   `$${Number(n || 0).toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 2 })}`;
 
-// Pick a legitimate vehicle image based on what the campaign is about.
+// Card image: DB image_url first, then keyword match, then Model 3 default.
 function imageFor(g: Giveaway): string {
   if (g.image_url) return g.image_url;
   const text = `${g.title} ${g.prize}`.toLowerCase();
   if (text.includes("cybertruck") || text.includes("cyber")) return cybertruckImg;
   if (text.includes("bitcoin") || text.includes("btc") || text.includes("stock pool") || text.includes("$1.3")) {
-    return "https://tradeenergyhub.com/assets/giveaways/bitcoin_pool.webp";
+    // Prefer hosted URL if you set image_url on the row; this is last-resort fallback only
+    return model3Img;
   }
   return model3Img;
 }
+
+/** Campaign start: created_at if present, otherwise 60 days before end. */
+function campaignStartMs(g: Giveaway): number {
+  const end = new Date(g.ends_at).getTime();
+  if (g.created_at) {
+    const s = new Date(g.created_at).getTime();
+    if (Number.isFinite(s) && s < end) return s;
+  }
+  return end - 60 * 86400000;
+}
+
+/**
+ * Asymmetric fill: slow at the start, accelerates toward the deadline.
+ * At/after ends_at → max_entries. Never below real paid entries_count.
+ */
+function asymmetricDisplayEntries(g: Giveaway, now = Date.now()): number {
+  const max = Math.max(1, Number(g.max_entries) || 1);
+  const real = Math.max(0, Number(g.entries_count) || 0);
+  const end = new Date(g.ends_at).getTime();
+  const start = campaignStartMs(g);
+
+  if (!Number.isFinite(end)) return Math.min(max, real);
+  if (now >= end) return max;
+
+  const duration = Math.max(end - start, 1);
+  const t = Math.min(1, Math.max(0, (now - start) / duration));
+
+  // Ease-in cubic (asymmetric): flat early, steep near the end
+  const eased = t * t * t;
+
+  let hash = 0;
+  for (let i = 0; i < g.id.length; i++) hash = (hash * 31 + g.id.charCodeAt(i)) | 0;
+  const wobble = 1 + ((Math.abs(hash) % 7) - 3) * 0.01;
+
+  const synthetic = Math.floor(max * eased * wobble);
+  return Math.min(max, Math.max(real, synthetic));
+}
+
 interface TimeLeft {
   d: number;
   h: number;
@@ -128,7 +169,17 @@ const GiveawayCard = memo(function GiveawayCard({
   idx: number;
   onEnter: (g: Giveaway) => void;
 }) {
-  const pct = Math.min(100, Math.round((g.entries_count / Math.max(1, g.max_entries)) * 100));
+  const [displayEntries, setDisplayEntries] = useState(() => asymmetricDisplayEntries(g));
+
+  useEffect(() => {
+    const tick = () => setDisplayEntries(asymmetricDisplayEntries(g));
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, [g]);
+
+  const pct = Math.min(100, Math.round((displayEntries / Math.max(1, g.max_entries)) * 100));
+
   return (
     <article
       className="glass-card glass-card-hover rounded-3xl overflow-hidden relative animate-[fadeSlideUp_0.5s_ease-out_both]"
@@ -164,15 +215,15 @@ const GiveawayCard = memo(function GiveawayCard({
         </div>
         <div className="mb-6">
           <div className="flex justify-between text-xs font-medium text-muted-foreground mb-2">
-            <span>{g.entries_count.toLocaleString()} entries</span>
+            <span>{displayEntries.toLocaleString()} entries</span>
             <span>{g.max_entries.toLocaleString()} max</span>
           </div>
           <div className="h-2 rounded-full bg-muted overflow-hidden">
             <div
-              className="h-full rounded-full bg-gradient-to-r from-primary to-primary/60"
+              className="h-full rounded-full bg-gradient-to-r from-primary to-primary/60 transition-[width] duration-1000 ease-out"
               style={{ width: `${pct}%` }}
               role="progressbar"
-              aria-valuenow={g.entries_count}
+              aria-valuenow={displayEntries}
               aria-valuemin={0}
               aria-valuemax={g.max_entries}
             />
