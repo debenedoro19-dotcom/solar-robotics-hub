@@ -11,6 +11,7 @@ import {
   Text,
 } from '@react-email/components'
 import { EmailHeader } from './email-brand'
+import { emailCard, emailContainer, emailDetailBox, emailHeading, emailMain, emailMuted, emailText } from './email-styles'
 
 interface ReauthenticationEmailProps {
   token: string
@@ -43,31 +44,18 @@ export const ReauthenticationEmail = ({
 
 export default ReauthenticationEmail
 
-const main = { backgroundColor: '#ffffff', fontFamily: 'Arial, sans-serif' }
-const container = { maxWidth: '560px', margin: '0 auto', padding: '32px 24px' }
-const card = {
-  border: '1px solid #e6e7eb',
-  borderTop: 'none',
-  borderRadius: '0 0 20px 20px',
-  padding: '28px',
-}
-const h1 = {
-  fontSize: '22px',
-  fontWeight: 'bold' as const,
-  color: '#0d0e12',
-  margin: '0 0 20px',
-}
-const text = {
-  fontSize: '14px',
-  color: '#55575d',
-  lineHeight: '1.5',
-  margin: '0 0 25px',
-}
+const main = emailMain
+const container = emailContainer
+const card = emailCard
+const h1 = emailHeading
+const text = emailText
 const codeStyle = {
+  ...emailDetailBox,
   fontFamily: 'Courier, monospace',
-  fontSize: '22px',
+  fontSize: '28px',
   fontWeight: 'bold' as const,
-  color: '#0d0e12',
-  margin: '0 0 30px',
+  color: '#ffffff',
+  letterSpacing: '6px',
+  textAlign: 'center' as const,
 }
-const footer = { fontSize: '12px', color: '#999999', margin: '30px 0 0' }
+const footer = emailMuted

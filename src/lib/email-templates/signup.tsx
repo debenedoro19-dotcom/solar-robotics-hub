@@ -13,6 +13,7 @@ import {
   Text,
 } from '@react-email/components'
 import { EmailHeader } from './email-brand'
+import { emailButton, emailCard, emailContainer, emailHeading, emailLink, emailMain, emailMuted, emailText } from './email-styles'
 
 interface SignupEmailProps {
   siteName: string
@@ -65,42 +66,19 @@ export const SignupEmail = ({
 
 export default SignupEmail
 
-const main = { backgroundColor: '#ffffff', fontFamily: 'Arial, sans-serif' }
-const container = { maxWidth: '560px', margin: '0 auto', padding: '32px 24px' }
-const card = {
-  border: '1px solid #e6e7eb',
-  borderTop: 'none',
-  borderRadius: '0 0 20px 20px',
-  padding: '28px',
-}
-const h1 = {
-  fontSize: '22px',
-  fontWeight: 'bold' as const,
-  color: '#0d0e12',
-  margin: '0 0 20px',
-}
-const text = {
-  fontSize: '14px',
-  color: '#55575d',
-  lineHeight: '1.5',
-  margin: '0 0 25px',
-}
-const link = { color: 'inherit', textDecoration: 'underline' }
-const button = {
-  backgroundColor: '#E82127',
-  color: '#ffffff',
-  fontSize: '14px',
-  border: '1px solid #000000',
-  borderRadius: '8px',
-  padding: '12px 20px',
-  textDecoration: 'none',
-}
-const footer = { fontSize: '12px', color: '#999999', margin: '30px 0 0' }
+const main = emailMain
+const container = emailContainer
+const card = emailCard
+const h1 = emailHeading
+const text = emailText
+const link = emailLink
+const button = emailButton
+const footer = emailMuted
 // Rendered as a text child, which React may HTML-escape: keep this CSS free of >, &, and quotes.
 const darkModeCss = `
   @media (prefers-color-scheme: dark) {
-    .dm-btn { background-color: #ffffff !important; color: #000000 !important; }
+    .dm-btn { background-color: #e82127 !important; color: #ffffff !important; }
   }
-  [data-ogsc] .dm-btn { background-color: #ffffff !important; color: #000000 !important; }
-  [data-ogsb] .dm-btn { background-color: #ffffff !important; color: #000000 !important; }
+  [data-ogsc] .dm-btn { background-color: #e82127 !important; color: #ffffff !important; }
+  [data-ogsb] .dm-btn { background-color: #e82127 !important; color: #ffffff !important; }
 `
