@@ -30,18 +30,19 @@ export const EmailHeader = ({
 )
 
 const header = {
-  backgroundColor: '#ffffff',
-  borderRadius: '20px 20px 0 0',
-  borderBottom: '1px solid #ececef',
-  padding: '28px',
+  backgroundColor: '#0d0e12',
+  border: '1px solid #25262c',
+  borderBottom: '1px solid #1c1d22',
+  borderRadius: '16px 16px 0 0',
+  padding: '30px 28px 24px',
   textAlign: 'center' as const,
 }
 const logo = { margin: '0 auto 12px', display: 'block' }
-const brand = { color: '#111114', fontSize: '18px', fontWeight: 700, margin: '0' }
+const brand = { color: '#ffffff', fontSize: '19px', fontWeight: 800, letterSpacing: '0.12em', margin: '0' }
 const kicker = {
   color: '#71717a',
-  fontSize: '11px',
-  letterSpacing: '0.18em',
+  fontSize: '10px',
+  letterSpacing: '0.16em',
   textTransform: 'uppercase' as const,
   margin: '6px 0 0',
 }

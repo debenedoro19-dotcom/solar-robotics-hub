@@ -11,6 +11,7 @@ import {
   Text,
 } from '@react-email/components'
 import { EmailHeader } from './email-brand'
+import { emailButton, emailCard, emailContainer, emailHeading, emailMain, emailMuted, emailText } from './email-styles'
 import type { TemplateEntry } from './registry'
 
 interface Props {
@@ -53,24 +54,10 @@ export const template = {
   previewData: { name: 'Jane' },
 } satisfies TemplateEntry
 
-const main = { backgroundColor: '#ffffff', fontFamily: 'Helvetica, Arial, sans-serif' }
-const container = { maxWidth: '560px', margin: '0 auto', padding: '32px 24px' }
-const card = {
-  border: '1px solid #e6e7eb',
-  borderTop: 'none',
-  borderRadius: '0 0 20px 20px',
-  padding: '28px',
-}
-const h1 = { fontSize: '22px', color: '#0d0e12', margin: '0 0 18px' }
-const p = { fontSize: '15px', lineHeight: '1.65', color: '#3f4147', margin: '0 0 16px' }
-const button = {
-  display: 'inline-block',
-  background: '#E82127',
-  color: '#ffffff',
-  fontSize: '15px',
-  fontWeight: 600,
-  padding: '12px 22px',
-  borderRadius: '12px',
-  textDecoration: 'none',
-}
-const muted = { fontSize: '12px', color: '#8b8d94', margin: '22px 0 0' }
+const main = emailMain
+const container = emailContainer
+const card = emailCard
+const h1 = emailHeading
+const p = emailText
+const button = emailButton
+const muted = emailMuted

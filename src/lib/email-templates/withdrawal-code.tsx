@@ -1,6 +1,7 @@
 import React from 'react'
 import { Body, Container, Head, Heading, Html, Preview, Section, Text } from '@react-email/components'
 import { EmailHeader } from './email-brand'
+import { emailCard, emailContainer, emailDetailBox, emailHeading, emailMain, emailMuted, emailText } from './email-styles'
 import type { TemplateEntry } from './registry'
 
 interface Props {
@@ -48,25 +49,22 @@ export const template = {
   previewData: { name: 'Jane', code: '481902', amount: '$1,250.00', destination: 'Crypto wallet', txCode: 'TXW-9F2A1B' },
 } satisfies TemplateEntry
 
-const main = { backgroundColor: '#ffffff', fontFamily: 'Arial, Helvetica, sans-serif' }
-const container = { padding: '24px 20px', maxWidth: '560px' }
-const card = { border: '1px solid #e6e8eb', borderRadius: '14px', padding: '26px 24px', backgroundColor: '#ffffff' }
-const h1 = { fontSize: '20px', margin: '0 0 14px', color: '#171a20' }
-const p = { fontSize: '14px', lineHeight: '22px', color: '#3b3f46', margin: '0 0 12px' }
+const main = emailMain
+const container = emailContainer
+const card = emailCard
+const h1 = emailHeading
+const p = emailText
 const codeBox = {
-  backgroundColor: '#f6f7f9',
-  border: '1px solid #e6e8eb',
-  borderRadius: '10px',
-  padding: '16px',
+  ...emailDetailBox,
+  padding: '18px',
   textAlign: 'center' as const,
-  margin: '0 0 14px',
 }
 const codeText = {
   fontSize: '30px',
   letterSpacing: '8px',
   fontWeight: 'bold' as const,
-  color: '#171a20',
+  color: '#ffffff',
   margin: '0',
 }
-const row = { fontSize: '12px', color: '#8a9099', margin: '0 0 12px' }
-const muted = { fontSize: '11px', color: '#8a9099', margin: '18px 0 0' }
+const row = { fontSize: '12px', color: '#71717a', margin: '0 0 14px' }
+const muted = emailMuted

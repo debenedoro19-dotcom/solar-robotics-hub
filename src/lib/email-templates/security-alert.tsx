@@ -1,6 +1,7 @@
 import React from 'react'
 import { Body, Container, Head, Heading, Html, Preview, Section, Text } from '@react-email/components'
 import { EmailHeader } from './email-brand'
+import { emailCard, emailContainer, emailDetailBox, emailHeading, emailMain, emailMuted, emailText } from './email-styles'
 import type { TemplateEntry } from './registry'
 
 interface Props {
@@ -60,22 +61,11 @@ export const template = {
   },
 } satisfies TemplateEntry
 
-const main = { backgroundColor: '#ffffff', fontFamily: 'Arial, Helvetica, sans-serif' }
-const container = { padding: '24px 20px', maxWidth: '560px' }
-const card = {
-  border: '1px solid #e6e8eb',
-  borderRadius: '14px',
-  padding: '26px 24px',
-  backgroundColor: '#ffffff',
-}
-const h1 = { fontSize: '20px', margin: '0 0 14px', color: '#171a20' }
-const p = { fontSize: '14px', lineHeight: '22px', color: '#3b3f46', margin: '0 0 12px' }
-const detailBox = {
-  backgroundColor: '#f6f7f9',
-  border: '1px solid #e6e8eb',
-  borderRadius: '10px',
-  padding: '12px 14px',
-  margin: '0 0 14px',
-}
-const row = { fontSize: '13px', lineHeight: '20px', color: '#171a20', margin: '0 0 4px' }
-const muted = { fontSize: '11px', color: '#8a9099', margin: '18px 0 0' }
+const main = emailMain
+const container = emailContainer
+const card = emailCard
+const h1 = emailHeading
+const p = emailText
+const detailBox = emailDetailBox
+const row = { fontSize: '13px', lineHeight: '20px', color: '#ffffff', margin: '0 0 4px' }
+const muted = emailMuted
