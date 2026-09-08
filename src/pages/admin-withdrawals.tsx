@@ -197,7 +197,11 @@ export default function AdminWithdrawalsPage() {
             setSelected((prev) => (prev?.id === updated.id ? updated : prev));
           } else if (payload.eventType === 'DELETE') {
             const deleted = payload.old as { id: string };
-            setWithdrawals((prev) => prev.filter((w) => w.id !== deleted.id));
+            setWithdrawals((prev) => {
+              const next = prev.filter((w) => w.id !== deleted.id);
+              setStats(recomputeStats(next));
+              return next;
+            });
           }
         }
       )
