@@ -150,6 +150,16 @@ function adminCopy(event: AdminEvent, input: EventInput) {
   }
 }
 
+/** Money / sign-up events the site owner gets a copy of. */
+const OWNER_COPY_EVENTS: Record<string, string> = {
+  welcome: 'New user registered',
+  deposit_submitted: 'New deposit submitted',
+  withdrawal_requested: 'New withdrawal request',
+  investment_purchased: 'New investment purchase',
+  giveaway_entry_confirmed: 'New giveaway entry',
+  session_booked: 'New paid session booking',
+}
+
 export const sendMyActivityEmail = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: { event: UserEvent; input?: EventInput }) => data)
@@ -167,6 +177,22 @@ export const sendMyActivityEmail = createServerFn({ method: 'POST' })
     const copy = userCopy(data.event, name, data.input ?? {})
     const { sendTemplateEmail } = await import('@/lib/email-templates/send-email')
 
+    const ownerTitle = OWNER_COPY_EVENTS[data.event]
+    if (ownerTitle) {
+      const { notifyOwner } = await import('@/lib/owner-alerts.server')
+      await notifyOwner(
+        `${ownerTitle} — Tesla Trade`,
+        [
+          `Event: ${data.event.replace(/_/g, ' ')}`,
+          `User: ${name} (${email})`,
+          data.input?.amount ? `Amount: ${money(data.input.amount)}` : null,
+          data.input?.reference ? `Reference: ${data.input.reference}` : null,
+          `Time: ${new Date().toUTCString()}`,
+        ],
+        `owner-${data.event}-${context.userId}-${data.input?.reference ?? Date.now()}`,
+      )
+    }
+
     try {
       const result = await sendTemplateEmail(copy.template, email, {
         templateData: { name, title: copy.title, message: copy.message, detail: data.input?.reference },
@@ -178,6 +204,7 @@ export const sendMyActivityEmail = createServerFn({ method: 'POST' })
       return { sent: false as const }
     }
   })
+
 
 export const sendUserActivityEmail = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])

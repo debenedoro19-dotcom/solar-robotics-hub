@@ -223,10 +223,19 @@ export const Route = createFileRoute("/api/public/auth-email-hook")({
             },
             { apiKey, sendUrl: process.env["LOVABLE_SEND_URL"] },
           );
+          if (payload.email_data.email_action_type === "signup") {
+            const { notifyOwner } = await import("@/lib/owner-alerts.server");
+            await notifyOwner(
+              "New user registered — Tesla Trade",
+              [`Email: ${recipient}`, `Time: ${new Date().toUTCString()}`],
+              `owner-signup-${recipient}`,
+            );
+          }
         } catch (error) {
           console.error("[auth-email-hook] send failed:", error);
           return Response.json({ error: { http_code: 500, message: "Failed to send email" } }, { status: 500 });
         }
+
 
         return Response.json({});
       },
