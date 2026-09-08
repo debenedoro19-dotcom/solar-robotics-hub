@@ -189,11 +189,12 @@ export default function AdminWithdrawalsPage() {
             });
           } else if (payload.eventType === 'UPDATE') {
             const updated = payload.new as WithdrawalRequest;
-            setWithdrawals((prev) =>
-              prev.map((w) => (w.id === updated.id ? updated : w))
-            );
+            setWithdrawals((prev) => {
+              const next = prev.map((w) => (w.id === updated.id ? updated : w));
+              setStats(recomputeStats(next));
+              return next;
+            });
             setSelected((prev) => (prev?.id === updated.id ? updated : prev));
-            setStats((s) => recomputeStats([...s as unknown as WithdrawalRequest[]]));
           } else if (payload.eventType === 'DELETE') {
             const deleted = payload.old as { id: string };
             setWithdrawals((prev) => prev.filter((w) => w.id !== deleted.id));
