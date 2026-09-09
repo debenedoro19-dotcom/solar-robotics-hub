@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" version="1.2" baseProfile="tiny-ps" viewBox="0 0 512 512" width="512" height="512">
-  <title>Tesla Trade</title>
+  <title>Trade Tesla</title>
   <rect width="512" height="512" fill="#ffffff"/>
   <g fill="#e82127">
     <path d="M256 128c-58 0-112 9-160 26l22 44c37-12 78-19 122-20l16 30 16-30c44 1 85 8 122 20l22-44c-48-17-102-26-160-26z"/>

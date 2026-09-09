@@ -102,10 +102,10 @@ function AuthCallbackPage() {
 export const Route = createFileRoute('/auth/callback')({
   head: () => ({
     meta: [
-      { title: 'Verify Account — Tesla Trade' },
-      { name: 'description', content: 'Complete your Tesla Trade account verification.' },
-      { property: 'og:title', content: 'Verify Account — Tesla Trade' },
-      { property: 'og:description', content: 'Complete your Tesla Trade account verification.' },
+      { title: 'Verify Account — Trade Tesla' },
+      { name: 'description', content: 'Complete your Trade Tesla account verification.' },
+      { property: 'og:title', content: 'Verify Account — Trade Tesla' },
+      { property: 'og:description', content: 'Complete your Trade Tesla account verification.' },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary' },
     ],

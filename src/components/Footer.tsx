@@ -73,16 +73,7 @@ export default function Footer() {
           <Link href="/" className="flex items-center gap-3 group shrink-0" aria-label="Trade Tesla home">
             <div className="relative">
               <div className="absolute inset-0 bg-primary/15 rounded-full blur-sm group-hover:bg-primary/25 transition-all duration-300" />
-              <svg
-                width="22"
-                height="22"
-                viewBox="0 0 342 512"
-                fill="currentColor"
-                className="text-primary relative z-10 drop-shadow-[0_0_6px_rgba(227,25,55,0.5)]"
-                aria-hidden="true"
-              >
-                <path d="M0 57.3C0 57.3 57.3 0 171 0s171 57.3 171 57.3L285 85.5s-28.5-28.5-114-28.5S57 85.5 57 85.5L0 57.3zM171 512L57 85.5s28.5 28.5 114 28.5 114-28.5 114-28.5L171 512z" />
-              </svg>
+              <img src="/tesla-mark.png" width={22} height={22} alt="" aria-hidden="true" className="text-primary relative z-10 drop-shadow-[0_0_6px_rgba(227,25,55,0.5)] object-contain" />
             </div>
             <span className="text-white font-bold text-sm tracking-widest uppercase">
               Trade{" "}

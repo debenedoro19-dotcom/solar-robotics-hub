@@ -258,7 +258,7 @@ export const disable2FA = createServerFn({ method: 'POST' })
           name: profile.full_name ?? 'there',
           title: 'Two-factor authentication turned off',
           message:
-            'Two-factor authentication was just disabled on your Tesla Trade account. If this was not you, re-enable it and change your password immediately.',
+            'Two-factor authentication was just disabled on your Trade Tesla account. If this was not you, re-enable it and change your password immediately.',
           device: describeDevice(requestUserAgent()).label,
           ip: clientIp(),
         },

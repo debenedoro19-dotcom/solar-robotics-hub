@@ -35,7 +35,7 @@ const Email = ({ name, code, amount, destination, txCode }: Props) => (
             If you did not request this withdrawal, do not enter the code — the request expires on its own and the
             funds are returned to your wallet. Change your password and contact support immediately.
           </Text>
-          <Text style={muted}>Tesla Trade · Never share this code with anyone, including our staff.</Text>
+          <Text style={muted}>Trade Tesla · Never share this code with anyone, including our staff.</Text>
         </Section>
       </Container>
     </Body>

@@ -4,7 +4,7 @@ import HomePage from "@/pages/home";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Tesla Trade — Premium Tesla Ecosystem Marketplace" },
+      { title: "Trade Tesla — Premium Tesla Ecosystem Marketplace" },
       {
         name: "description",
         content:
@@ -12,7 +12,7 @@ export const Route = createFileRoute("/")({
       },
       {
         property: "og:title",
-        content: "Tesla Trade — Premium Tesla Ecosystem Marketplace",
+        content: "Trade Tesla — Premium Tesla Ecosystem Marketplace",
       },
       {
         property: "og:description",
