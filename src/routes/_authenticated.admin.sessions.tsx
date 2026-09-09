@@ -4,7 +4,7 @@ import Page from "@/pages/admin-sessions";
 export const Route = createFileRoute("/_authenticated/admin/sessions")({
   head: () => ({
     meta: [
-      { title: "Session Bookings — Tesla Trade Admin" },
+      { title: "Session Bookings — Trade Tesla Admin" },
       { name: "description", content: "Review and edit advisory session bookings." },
       { name: "robots", content: "noindex, nofollow" },
     ],

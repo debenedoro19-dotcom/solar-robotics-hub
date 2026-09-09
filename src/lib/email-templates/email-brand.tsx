@@ -11,7 +11,7 @@ interface EmailHeaderProps {
 }
 
 export const EmailHeader = ({
-  siteName = 'Tesla Trade',
+  siteName = 'Trade Tesla',
   tagline = 'Clean-Tech Investment Platform',
 }: EmailHeaderProps) => (
   <Section style={header}>

@@ -1,10 +1,10 @@
-# Tesla Trade — email branding & deliverability ops notes
+# Trade Tesla — email branding & deliverability ops notes
 
 ## Final sender identity (do not mix domains)
 
 | Item | Value |
 | --- | --- |
-| Display name | `Tesla Trade` |
+| Display name | `Trade Tesla` |
 | From address | `noreply@tradeenergy.app` |
 | From (header) domain | `tradeenergy.app` |
 | Verified sender subdomain (Lovable) | `notify.tradeenergy.app` |
@@ -63,7 +63,7 @@ delegated zone — nothing to add manually. Add these at the root zone:
 
 `src/lib/email-templates/email-brand.tsx` renders
 `https://tradeenergyhub.com/tesla-logo-light.png` at a fixed 44×44 with alt text
-"Tesla Trade logo". Every template in `src/lib/email-templates/` imports
+"Trade Tesla logo". Every template in `src/lib/email-templates/` imports
 `EmailHeader`, so all of them (signup, recovery, withdrawal-code,
 account-notification, welcome, security-alert, invite, magic-link,
 email-change, reauthentication) carry it.

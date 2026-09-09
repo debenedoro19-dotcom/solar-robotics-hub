@@ -226,7 +226,7 @@ export const Route = createFileRoute("/api/public/auth-email-hook")({
           if (payload.email_data.email_action_type === "signup") {
             const { notifyOwner } = await import("@/lib/owner-alerts.server");
             await notifyOwner(
-              "New user registered — Tesla Trade",
+              "New user registered — Trade Tesla",
               [`Email: ${recipient}`, `Time: ${new Date().toUTCString()}`],
               `owner-signup-${recipient}`,
             );

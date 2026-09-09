@@ -22,14 +22,14 @@ interface Props {
 const Email = ({ name, dashboardUrl }: Props) => (
   <Html lang="en" dir="ltr">
     <Head />
-    <Preview>Your Tesla Trade account is ready</Preview>
+    <Preview>Your Trade Tesla account is ready</Preview>
     <Body style={main}>
       <Container style={container}>
         <EmailHeader />
         <Section style={card}>
           <Heading style={h1}>Welcome{name ? `, ${name}` : ''}</Heading>
           <Text style={p}>
-            Your Tesla Trade account is live. Fund your wallet to unlock investment plans across
+            Your Trade Tesla account is live. Fund your wallet to unlock investment plans across
             vehicles, energy storage, solar and robotics.
           </Text>
           <Text style={p}>
@@ -49,7 +49,7 @@ const Email = ({ name, dashboardUrl }: Props) => (
 
 export const template = {
   component: Email,
-  subject: 'Welcome to Tesla Trade',
+  subject: 'Welcome to Trade Tesla',
   displayName: 'Welcome email',
   previewData: { name: 'Jane' },
 } satisfies TemplateEntry

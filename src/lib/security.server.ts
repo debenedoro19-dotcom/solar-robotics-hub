@@ -1,6 +1,6 @@
 import { getRequest } from '@tanstack/react-start/server'
 
-export const ISSUER = 'Tesla Trade'
+export const ISSUER = 'Trade Tesla'
 
 export async function sha256(value: string): Promise<string> {
   const bytes = new TextEncoder().encode(value)

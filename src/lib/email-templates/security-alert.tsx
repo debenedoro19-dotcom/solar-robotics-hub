@@ -25,7 +25,7 @@ const Email = ({ name, title, message, device, ip, when }: Props) => (
           <Text style={p}>Hi {name || 'there'},</Text>
           <Text style={p}>
             {message ||
-              'We noticed a sign-in to your Tesla Trade account from a device we have not seen before.'}
+              'We noticed a sign-in to your Trade Tesla account from a device we have not seen before.'}
           </Text>
           <Section style={detailBox}>
             <Text style={row}>
@@ -42,7 +42,7 @@ const Email = ({ name, title, message, device, ip, when }: Props) => (
             If this was you, no action is needed. If you do not recognise this activity, change your password
             immediately and turn on two-factor authentication from your account security settings.
           </Text>
-          <Text style={muted}>Tesla Trade · Security notification</Text>
+          <Text style={muted}>Trade Tesla · Security notification</Text>
         </Section>
       </Container>
     </Body>
