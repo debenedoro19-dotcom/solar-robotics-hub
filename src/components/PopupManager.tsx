@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "@tanstack/react-router";
 import { supabase } from "@/lib/supabase/client";
 import { useSiteSetting, DEFAULT_WELCOME, DEFAULT_LEAD, DEFAULT_COOKIE, DEFAULT_TICKER } from "@/lib/siteSettings";
-import { getPublicActivity, type ActivityEvent, type ActivityKind } from "@/lib/activity.functions";
+import { US_STATES, type ActivityEvent, type ActivityKind } from "@/lib/activity.functions";
 
 /**
  * Popup theming via CSS variables.
