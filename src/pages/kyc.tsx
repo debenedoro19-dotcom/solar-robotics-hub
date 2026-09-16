@@ -3,6 +3,7 @@ import Link from "@/components/SmartLink";
 import { useRouter } from "@/lib/next-shims";
 import { createClient } from "@/lib/supabase/client";
 import { sendKYCSubmittedEmail } from "@/lib/emailService";
+import { US_STATES } from "@/lib/activity.functions";
 
 type Step = 1 | 2 | 3 | 4;
 
@@ -15,6 +16,7 @@ interface UploadedFile {
 interface KYCForm {
   dob: string;
   country: string;
+  state: string;
   address: string;
   city: string;
   zip: string;
@@ -113,6 +115,7 @@ export default function KYCPage() {
   const [form, setForm] = useState<KYCForm>({
     dob: "",
     country: "",
+    state: "",
     address: "",
     city: "",
     zip: "",
@@ -167,6 +170,7 @@ export default function KYCPage() {
         setForm({
           dob: kyc.date_of_birth || "",
           country: kyc.country || "",
+          state: (kyc as { state?: string | null }).state || "",
           address: kyc.street_address || "",
           city: kyc.city || "",
           zip: kyc.zip_code || "",
@@ -243,6 +247,7 @@ export default function KYCPage() {
         user_id: userId,
         date_of_birth: form.dob || null,
         country: form.country,
+        state: form.country === "US" && US_STATES.includes(form.state as (typeof US_STATES)[number]) ? form.state : null,
         street_address: form.address,
         city: form.city,
         zip_code: form.zip,
@@ -408,6 +413,26 @@ export default function KYCPage() {
                 <option value="other">Other</option>
               </select>
             </div>
+            {form.country === "US" && (
+              <div>
+                <label className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">
+                  State
+                </label>
+                <select
+                  name="state"
+                  value={form.state}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 rounded-xl text-sm input-tesla bg-[#0D0E12]"
+                >
+                  <option value="">Select state</option>
+                  {US_STATES.map((s) => (
+                    <option key={s} value={s}>
+                      {s}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
             <div>
               <label className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">
                 Street Address
@@ -463,7 +488,7 @@ export default function KYCPage() {
 
             <button
               onClick={() => setStep(2)}
-              disabled={!form.country || !form.address}
+              disabled={!form.country || !form.address || (form.country === "US" && !form.state)}
               className="w-full py-3.5 tesla-btn-primary rounded-xl mt-2 min-h-[48px] disabled:opacity-40 disabled:cursor-not-allowed"
             >
               Continue →

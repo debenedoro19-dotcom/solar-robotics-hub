@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "@tanstack/react-router";
 import { supabase } from "@/lib/supabase/client";
 import { useSiteSetting, DEFAULT_WELCOME, DEFAULT_LEAD, DEFAULT_COOKIE, DEFAULT_TICKER } from "@/lib/siteSettings";
+import { getPublicActivity, type ActivityEvent, type ActivityKind } from "@/lib/activity.functions";
 
 /**
  * Popup theming via CSS variables.
@@ -336,75 +337,61 @@ function CookieBar() {
   );
 }
 
-/* ---------------- Live withdrawal ticker ---------------- */
-const NAMES = [
-  "James M.",
-  "Sofia R.",
-  "Daniel K.",
-  "Aisha T.",
-  "Michael B.",
-  "Elena V.",
-  "Chris P.",
-  "Priya S.",
-  "Marcus L.",
-  "Hana Y.",
-  "David O.",
-  "Laura G.",
-  "Tunde A.",
-  "Ingrid H.",
-  "Rafael C.",
-  "Nina W.",
-  "Omar F.",
-  "Grace N.",
-];
-const CITIES = [
-  "Austin",
-  "Phoenix",
-  "Miami",
-  "Denver",
-  "Seattle",
-  "Toronto",
-  "London",
-  "Berlin",
-  "Dubai",
-  "Singapore",
-  "Sydney",
-  "Lagos",
-  "São Paulo",
-  "Tokyo",
-  "Amsterdam",
-  "Cape Town",
-  "New York",
-  "Los Angeles",
-];
-const TIMES = ["just now", "1 min ago", "2 min ago", "4 min ago", "6 min ago", "9 min ago"];
+/* ---------------- Live activity feed (real, anonymized U.S. activity) ---------------- */
+const KIND_META: Record<ActivityKind, { verb: string; label: string; color: string; path: string }> = {
+  deposit: { verb: "deposited", label: "Deposit confirmed", color: "#10B981", path: "M12 5v14M5 12l7 7 7-7" },
+  investment: { verb: "invested", label: "Investment active", color: "#3B82F6", path: "M4 18 10 12l4 4 6-8M14 6h6v6" },
+  withdrawal: { verb: "withdrew", label: "Withdrawal paid", color: "#E31937", path: "M7 17 17 7M9 7h8v8" },
+};
 
-function WithdrawalTicker() {
+function relativeTime(iso: string): string {
+  const t = Date.parse(iso);
+  if (!Number.isFinite(t)) return "recently";
+  const mins = Math.max(0, Math.round((Date.now() - t) / 60000));
+  if (mins < 1) return "just now";
+  if (mins < 60) return `${mins} min ago`;
+  const hrs = Math.round(mins / 60);
+  if (hrs < 24) return `${hrs} hr${hrs === 1 ? "" : "s"} ago`;
+  const days = Math.round(hrs / 24);
+  return `${days} day${days === 1 ? "" : "s"} ago`;
+}
+
+function ActivityTicker() {
   const cfg = useSiteSetting("withdrawal_ticker", DEFAULT_TICKER);
-  const [toast, setToast] = useState<string | null>(null);
+  const [events, setEvents] = useState<ActivityEvent[]>([]);
+  const [current, setCurrent] = useState<ActivityEvent | null>(null);
   const [leaving, setLeaving] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const idx = useRef(0);
 
   useEffect(() => {
     if (!cfg.enabled) return;
     let alive = true;
+    getPublicActivity({ data: { minAmount: cfg.minAmount, maxAmount: cfg.maxAmount, limit: 12 } })
+      .then((rows) => {
+        if (alive) setEvents(rows ?? []);
+      })
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, [cfg.enabled, cfg.minAmount, cfg.maxAmount]);
+
+  useEffect(() => {
+    if (!cfg.enabled || events.length === 0) return;
+    let alive = true;
 
     const tick = () => {
       if (!alive) return;
-      const name = NAMES[Math.floor(Math.random() * NAMES.length)];
-      const city = CITIES[Math.floor(Math.random() * CITIES.length)];
-      const min = Math.max(100, cfg.minAmount);
-      const max = Math.max(min, cfg.maxAmount);
-      const amount = Math.round((min + Math.random() * (max - min)) / 10) * 10;
-      const time = TIMES[Math.floor(Math.random() * TIMES.length)];
-
+      const next = events[idx.current % events.length];
+      idx.current += 1;
       setLeaving(false);
-      setToast(`${name} from ${city} withdrew $${amount.toLocaleString()} · ${time}`);
+      setCurrent(next);
 
       timer.current = setTimeout(() => {
         setLeaving(true);
         timer.current = setTimeout(() => {
-          setToast(null);
+          setCurrent(null);
           timer.current = setTimeout(tick, Math.max(8, cfg.intervalSeconds) * 1000);
         }, 320);
       }, 5500);
@@ -415,42 +402,52 @@ function WithdrawalTicker() {
       alive = false;
       if (timer.current) clearTimeout(timer.current);
     };
-  }, [cfg.enabled, cfg.intervalSeconds, cfg.minAmount, cfg.maxAmount]);
+  }, [cfg.enabled, cfg.intervalSeconds, events]);
 
-  if (!toast) return null;
+  if (!current) return null;
+
+  const meta = KIND_META[current.kind];
 
   return (
     <div
-      className={`fixed bottom-5 left-4 sm:left-5 z-[70] max-w-[280px] transition-all duration-300 ease-out ${
-        leaving ? "opacity-0 translate-y-2" : "opacity-100 translate-y-0 animate-[fadeSlideUp_0.4s_ease-out]"
+      className={`fixed bottom-5 left-4 sm:left-5 z-[70] max-w-[280px] transition-all duration-300 ease-out motion-reduce:transition-none ${
+        leaving ? "opacity-0 translate-y-2" : "opacity-100 translate-y-0 animate-[fadeSlideUp_0.4s_ease-out] motion-reduce:animate-none"
       }`}
     >
       <div className="flex items-center gap-3 rounded-xl border border-[var(--popup-ticker-border)] bg-[var(--popup-ticker-bg)] backdrop-blur-xl px-3.5 py-2.5 shadow-[0_8px_30px_var(--popup-ticker-glow)]">
-        <div className="w-7 h-7 rounded-full bg-emerald-500/12 border border-emerald-500/25 flex items-center justify-center shrink-0">
+        <div
+          className="w-7 h-7 rounded-full flex items-center justify-center shrink-0"
+          style={{ backgroundColor: `${meta.color}1F`, border: `1px solid ${meta.color}40` }}
+        >
           <svg
             width="12"
             height="12"
             viewBox="0 0 24 24"
             fill="none"
-            stroke="#10B981"
+            stroke={meta.color}
             strokeWidth="2.25"
             strokeLinecap="round"
             strokeLinejoin="round"
             aria-hidden="true"
           >
-            <path d="M7 17 17 7M9 7h8v8" />
+            <path d={meta.path} />
           </svg>
         </div>
         <div className="min-w-0 flex-1">
-          <p className="text-[11px] font-medium text-[var(--popup-text)] truncate leading-snug">{toast}</p>
-          <p className="text-[10px] text-emerald-600 dark:text-emerald-400/85 tracking-wide uppercase font-medium mt-0.5">
-            Verified withdrawal
+          <p className="text-[11px] font-medium text-[var(--popup-text)] truncate leading-snug">
+            {`${current.name} from ${current.state} ${meta.verb} $${Math.round(current.amount).toLocaleString()} · ${relativeTime(current.at)}`}
+          </p>
+          <p
+            className="text-[10px] tracking-wide uppercase font-medium mt-0.5"
+            style={{ color: meta.color }}
+          >
+            {meta.label}
           </p>
         </div>
         <button
           onClick={() => {
             setLeaving(true);
-            setTimeout(() => setToast(null), 280);
+            setTimeout(() => setCurrent(null), 280);
           }}
           aria-label="Dismiss"
           className="text-[var(--popup-text-subtle)] hover:text-[var(--popup-text)] shrink-0 p-0.5 rounded transition-colors"
@@ -551,7 +548,7 @@ export default function PopupManager() {
       {showWelcome && <WelcomePopup onClose={() => setShowWelcome(false)} />}
       {showLead && !showWelcome && <LeadPopup onClose={() => setShowLead(false)} />}
       {!isAdminPath && <CookieBar />}
-      {!isAdminPath && <WithdrawalTicker />}
+      {!isAdminPath && <ActivityTicker />}
     </>
   );
 }
