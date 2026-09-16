@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "@tanstack/react-router";
 import { supabase } from "@/lib/supabase/client";
 import { useSiteSetting, DEFAULT_WELCOME, DEFAULT_LEAD, DEFAULT_COOKIE, DEFAULT_TICKER } from "@/lib/siteSettings";
-import { getPublicActivity, type ActivityEvent, type ActivityKind } from "@/lib/activity.functions";
+import { US_STATES, type ActivityEvent, type ActivityKind } from "@/lib/activity.functions";
 
 /**
  * Popup theming via CSS variables.
@@ -337,12 +337,41 @@ function CookieBar() {
   );
 }
 
-/* ---------------- Live activity feed (real, anonymized U.S. activity) ---------------- */
+/* ---------------- Activity feed (illustrative U.S. activity, not live data) ---------------- */
 const KIND_META: Record<ActivityKind, { verb: string; label: string; color: string; path: string }> = {
   deposit: { verb: "deposited", label: "Deposit confirmed", color: "#10B981", path: "M12 5v14M5 12l7 7 7-7" },
   investment: { verb: "invested", label: "Investment active", color: "#3B82F6", path: "M4 18 10 12l4 4 6-8M14 6h6v6" },
   withdrawal: { verb: "withdrew", label: "Withdrawal paid", color: "#E31937", path: "M7 17 17 7M9 7h8v8" },
 };
+
+const FIRST_NAMES = [
+  "James","Olivia","Noah","Emma","Liam","Ava","William","Sophia","Benjamin","Isabella",
+  "Ethan","Mia","Mason","Charlotte","Logan","Amelia","Jacob","Harper","Michael","Evelyn",
+  "Daniel","Abigail","Henry","Grace","Samuel","Chloe","Andrew","Lily","Joseph","Zoe",
+];
+const LAST_INITIALS = ["A","B","C","D","H","J","K","L","M","N","P","R","S","T","W"];
+const KINDS: ActivityKind[] = ["deposit", "investment", "withdrawal"];
+
+function pick<T>(list: readonly T[]): T {
+  return list[Math.floor(Math.random() * list.length)];
+}
+
+function makeEvents(min: number, max: number, count = 14): ActivityEvent[] {
+  const lo = Math.max(100, Math.min(min, max));
+  const hi = Math.max(lo + 100, Math.max(min, max));
+  return Array.from({ length: count }, () => {
+    const raw = lo + Math.random() * (hi - lo);
+    const amount = Math.round(raw / 50) * 50;
+    const minutesAgo = 2 + Math.floor(Math.random() * 600);
+    return {
+      kind: pick(KINDS),
+      name: `${pick(FIRST_NAMES)} ${pick(LAST_INITIALS)}.`,
+      state: pick(US_STATES),
+      amount,
+      at: new Date(Date.now() - minutesAgo * 60000).toISOString(),
+    };
+  });
+}
 
 function relativeTime(iso: string): string {
   const t = Date.parse(iso);
@@ -365,16 +394,11 @@ function ActivityTicker() {
   const idx = useRef(0);
 
   useEffect(() => {
-    if (!cfg.enabled) return;
-    let alive = true;
-    getPublicActivity({ data: { minAmount: cfg.minAmount, maxAmount: cfg.maxAmount, limit: 12 } })
-      .then((rows) => {
-        if (alive) setEvents(rows ?? []);
-      })
-      .catch(() => {});
-    return () => {
-      alive = false;
-    };
+    if (!cfg.enabled) {
+      setEvents([]);
+      return;
+    }
+    setEvents(makeEvents(cfg.minAmount, cfg.maxAmount));
   }, [cfg.enabled, cfg.minAmount, cfg.maxAmount]);
 
   useEffect(() => {
