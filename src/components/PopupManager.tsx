@@ -548,7 +548,7 @@ export default function PopupManager() {
       {showWelcome && <WelcomePopup onClose={() => setShowWelcome(false)} />}
       {showLead && !showWelcome && <LeadPopup onClose={() => setShowLead(false)} />}
       {!isAdminPath && <CookieBar />}
-      {!isAdminPath && <WithdrawalTicker />}
+      {!isAdminPath && <ActivityTicker />}
     </>
   );
 }
