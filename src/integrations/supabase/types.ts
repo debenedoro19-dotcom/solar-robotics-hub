@@ -515,6 +515,7 @@ export type Database = {
           kyc_status: Database["public"]["Enums"]["kyc_status"] | null
           reviewed_at: string | null
           reviewed_by: string | null
+          state: string | null
           street_address: string | null
           submitted_at: string | null
           updated_at: string | null
@@ -540,6 +541,7 @@ export type Database = {
           kyc_status?: Database["public"]["Enums"]["kyc_status"] | null
           reviewed_at?: string | null
           reviewed_by?: string | null
+          state?: string | null
           street_address?: string | null
           submitted_at?: string | null
           updated_at?: string | null
@@ -565,6 +567,7 @@ export type Database = {
           kyc_status?: Database["public"]["Enums"]["kyc_status"] | null
           reviewed_at?: string | null
           reviewed_by?: string | null
+          state?: string | null
           street_address?: string | null
           submitted_at?: string | null
           updated_at?: string | null
