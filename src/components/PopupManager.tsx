@@ -458,8 +458,12 @@ function ActivityTicker() {
           </svg>
         </div>
         <div className="min-w-0 flex-1">
-          <p className="text-[11px] font-medium text-[var(--popup-text)] truncate leading-snug">
-            {`${current.name} from ${current.state} ${meta.verb} $${Math.round(current.amount).toLocaleString()} · ${relativeTime(current.at)}`}
+          <p className="text-[11px] font-semibold text-[var(--popup-text)] leading-snug">
+            {current.name} <span className="font-normal opacity-70">from {current.state}</span>
+          </p>
+          <p className="text-[11px] font-medium text-[var(--popup-text)] leading-snug mt-0.5">
+            {meta.verb} <span className="font-semibold tabular-nums">${Math.round(current.amount).toLocaleString()}</span>
+            <span className="font-normal opacity-70"> · {relativeTime(current.at)}</span>
           </p>
           <p
             className="text-[10px] tracking-wide uppercase font-medium mt-0.5"
