@@ -1525,7 +1525,7 @@ export default function AdminSettingsPage() {
                   <input type="checkbox" checked={popups.ticker.enabled} onChange={e => setPopups(p => ({ ...p, ticker: { ...p.ticker, enabled: e.target.checked } }))} className="accent-[#E82127] w-4 h-4" />
                 </label>
               </div>
-              <p className="text-[11px] text-[#6B7280]">Shows anonymized, verified U.S. account activity only — confirmed deposits, active investments and paid withdrawals from customers with an approved U.S. verification. Names appear as first name plus last initial. If no qualifying activity exists, nothing is shown. The amount range filters which real activity is displayed.</p>
+              <p className="text-[11px] text-[#6B7280]">Shows illustrative U.S. activity pop-ups — deposits, investments and withdrawals with first name plus last initial and a U.S. state. These are generated for display only and are not tied to real customer records. The amount range sets the values shown and the interval controls how often a pop-up appears.</p>
               <div className="grid sm:grid-cols-3 gap-4">
                 <div><label className={labelClass}>Interval (seconds)</label><input type="number" min={8} value={popups.ticker.intervalSeconds} onChange={e => setPopups(p => ({ ...p, ticker: { ...p.ticker, intervalSeconds: Number(e.target.value) } }))} className={inputClass} /></div>
                 <div><label className={labelClass}>Min amount ($)</label><input type="number" min={0} value={popups.ticker.minAmount} onChange={e => setPopups(p => ({ ...p, ticker: { ...p.ticker, minAmount: Number(e.target.value) } }))} className={inputClass} /></div>
