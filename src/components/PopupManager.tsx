@@ -362,7 +362,7 @@ function makeEvents(min: number, max: number, count = 14): ActivityEvent[] {
   return Array.from({ length: count }, () => {
     const raw = lo + Math.random() * (hi - lo);
     const amount = Math.round(raw / 50) * 50;
-    const minutesAgo = 2 + Math.floor(Math.random() * 600);
+    const minutesAgo = 1 + Math.floor(Math.random() * 12);
     return {
       kind: pick(KINDS),
       name: `${pick(FIRST_NAMES)} ${pick(LAST_INITIALS)}.`,
