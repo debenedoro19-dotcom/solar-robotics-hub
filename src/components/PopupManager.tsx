@@ -409,8 +409,11 @@ function ActivityTicker() {
       if (!alive) return;
       const next = events[idx.current % events.length];
       idx.current += 1;
+      // Refresh the timestamp on every display so it always reads as recent.
+      const minsAgo = 1 + Math.floor(Math.random() * 12);
+      const fresh: ActivityEvent = { ...next, at: new Date(Date.now() - minsAgo * 60000).toISOString() };
       setLeaving(false);
-      setCurrent(next);
+      setCurrent(fresh);
 
       timer.current = setTimeout(() => {
         setLeaving(true);
