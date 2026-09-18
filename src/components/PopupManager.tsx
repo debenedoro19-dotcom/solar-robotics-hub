@@ -362,7 +362,7 @@ function makeEvents(min: number, max: number, count = 14): ActivityEvent[] {
   return Array.from({ length: count }, () => {
     const raw = lo + Math.random() * (hi - lo);
     const amount = Math.round(raw / 50) * 50;
-    const minutesAgo = 2 + Math.floor(Math.random() * 600);
+    const minutesAgo = 1 + Math.floor(Math.random() * 12);
     return {
       kind: pick(KINDS),
       name: `${pick(FIRST_NAMES)} ${pick(LAST_INITIALS)}.`,
@@ -409,8 +409,11 @@ function ActivityTicker() {
       if (!alive) return;
       const next = events[idx.current % events.length];
       idx.current += 1;
+      // Refresh the timestamp on every display so it always reads as recent.
+      const minsAgo = 1 + Math.floor(Math.random() * 12);
+      const fresh: ActivityEvent = { ...next, at: new Date(Date.now() - minsAgo * 60000).toISOString() };
       setLeaving(false);
-      setCurrent(next);
+      setCurrent(fresh);
 
       timer.current = setTimeout(() => {
         setLeaving(true);
