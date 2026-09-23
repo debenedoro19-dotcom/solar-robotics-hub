@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AppImage from '@/components/ui/AppImage';
+import CheckoutModal from '@/components/inventory/CheckoutModal';
 import modelYImg from '@/assets/inventory/model_y.webp';
 import megapackImg from '@/assets/inventory/megapack.webp';
 import solarRoofImg from '@/assets/inventory/solar_roof.webp';
@@ -257,7 +258,7 @@ export default function LiveInventorySection() {
                 <button
                   onClick={() => setInquiry(item)}
                   className="px-3 py-1.5 text-xs font-bold text-primary-foreground bg-primary rounded-xl btn-shimmer hover:opacity-90 transition-all min-h-[36px]">
-                  Inquire
+                  Buy Now
                 </button>
               </div>
             </div>
@@ -277,82 +278,7 @@ export default function LiveInventorySection() {
         </div>
       }
 
-      {inquiry && <InquiryModal item={inquiry} onClose={() => setInquiry(null)} />}
+      {inquiry && <CheckoutModal item={inquiry} onClose={() => setInquiry(null)} />}
     </section>);
 
-}
-
-function InquiryModal({ item, onClose }: { item: InventoryItem; onClose: () => void }) {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
-  const [status, setStatus] = useState<'idle' | 'saving' | 'done' | 'error'>('idle');
-
-  async function submit(e: React.FormEvent) {
-    e.preventDefault();
-    setStatus('saving');
-    try {
-      const { supabase } = await import('@/lib/supabase/client');
-      const { error } = await supabase.from('newsletter_leads').insert({
-        email,
-        source: `inventory:${item.name}${message ? ` — ${message.slice(0, 120)}` : ''}${name ? ` (${name})` : ''}`,
-      });
-      if (error) throw error;
-      setStatus('done');
-      setTimeout(onClose, 1800);
-    } catch {
-      setStatus('error');
-    }
-  }
-
-  return (
-    <div className="fixed inset-0 z-[90] flex items-center justify-center fin-overlay px-4" role="dialog" aria-modal="true">
-      <div className="relative w-full max-w-md rounded-3xl border border-border bg-card p-7 shadow-2xl">
-        <button onClick={onClose} aria-label="Close" className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6 6 18M6 6l12 12" /></svg>
-        </button>
-        <span className={`inline-block px-2.5 py-1 rounded-xl text-[10px] font-extrabold tracking-widest uppercase mb-3 ${badgeClasses[item.badgeType]}`}>
-          {item.badge}
-        </span>
-        <h3 className="text-lg font-extrabold text-foreground tracking-tight">{item.name}</h3>
-        <p className="text-primary font-extrabold text-base mb-1">{item.price}</p>
-        <p className="text-xs text-muted-foreground mb-5">Reserve an allocation or ask our team about this {item.category.toLowerCase()} asset.</p>
-
-        {status === 'done' ? (
-          <p className="text-sm font-semibold text-emerald-400 py-4">Inquiry received — our team will reach out shortly.</p>
-        ) : (
-          <form onSubmit={submit} className="space-y-3">
-            <input
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Your name"
-              className="w-full px-3 py-2.5 rounded-xl text-sm bg-muted/40 border border-border text-foreground placeholder-muted-foreground focus:border-primary/50 focus:outline-none transition-colors"
-            />
-            <input
-              required
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@example.com"
-              className="w-full px-3 py-2.5 rounded-xl text-sm bg-muted/40 border border-border text-foreground placeholder-muted-foreground focus:border-primary/50 focus:outline-none transition-colors"
-            />
-            <textarea
-              rows={3}
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="Questions, financing, trade-in…"
-              className="w-full px-3 py-2.5 rounded-xl text-sm bg-muted/40 border border-border text-foreground placeholder-muted-foreground focus:border-primary/50 focus:outline-none transition-colors"
-            />
-            {status === 'error' && <p className="text-xs text-primary">Could not send — please try again.</p>}
-            <button
-              type="submit"
-              disabled={status === 'saving'}
-              className="w-full py-3 rounded-xl text-sm font-bold text-primary-foreground bg-primary btn-shimmer hover:opacity-90 transition-all disabled:opacity-60">
-              {status === 'saving' ? 'Sending…' : 'Reserve Allocation'}
-            </button>
-          </form>
-        )}
-      </div>
-    </div>
-  );
 }
