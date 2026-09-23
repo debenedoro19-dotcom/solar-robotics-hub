@@ -325,6 +325,98 @@ export type Database = {
         }
         Relationships: []
       }
+      inventory_orders: {
+        Row: {
+          address_line: string
+          admin_notes: string | null
+          amount: number
+          city: string
+          country: string
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          item_category: string
+          item_id: string | null
+          item_image: string | null
+          item_name: string
+          notes: string | null
+          order_number: string
+          order_status: string
+          payment_method: string
+          payment_proof_url: string | null
+          phone: string
+          postal_code: string
+          state: string
+          tracking_number: string | null
+          tx_reference: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          address_line: string
+          admin_notes?: string | null
+          amount: number
+          city: string
+          country: string
+          created_at?: string
+          email: string
+          full_name: string
+          id?: string
+          item_category?: string
+          item_id?: string | null
+          item_image?: string | null
+          item_name: string
+          notes?: string | null
+          order_number?: string
+          order_status?: string
+          payment_method: string
+          payment_proof_url?: string | null
+          phone: string
+          postal_code: string
+          state: string
+          tracking_number?: string | null
+          tx_reference?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          address_line?: string
+          admin_notes?: string | null
+          amount?: number
+          city?: string
+          country?: string
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          item_category?: string
+          item_id?: string | null
+          item_image?: string | null
+          item_name?: string
+          notes?: string | null
+          order_number?: string
+          order_status?: string
+          payment_method?: string
+          payment_proof_url?: string | null
+          phone?: string
+          postal_code?: string
+          state?: string
+          tracking_number?: string | null
+          tx_reference?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inventory_orders_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "inventory_items"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       investment_plans: {
         Row: {
           category: string
@@ -1267,6 +1359,15 @@ export type Database = {
         Args: { _available: number; _note?: string; _user_id: string }
         Returns: Json
       }
+      admin_update_inventory_order: {
+        Args: {
+          _id: string
+          _notes: string
+          _status: string
+          _tracking: string
+        }
+        Returns: Json
+      }
       claim_withdrawal_batch: {
         Args: { _limit?: number }
         Returns: {
@@ -1334,6 +1435,20 @@ export type Database = {
           _user_id: string
         }
         Returns: undefined
+      }
+      purchase_inventory_wallet: {
+        Args: {
+          _address_line: string
+          _city: string
+          _country: string
+          _full_name: string
+          _item_id: string
+          _notes: string
+          _phone: string
+          _postal_code: string
+          _state: string
+        }
+        Returns: Json
       }
       purchase_investment_plan: {
         Args: { _amount: number; _plan_id: string }
