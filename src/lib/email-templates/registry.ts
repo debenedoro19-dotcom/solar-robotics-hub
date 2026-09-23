@@ -3,6 +3,7 @@ import { template as accountNotificationTemplate } from './account-notification'
 import { template as welcomeTemplate } from './welcome'
 import { template as securityAlertTemplate } from './security-alert'
 import { template as withdrawalCodeTemplate } from './withdrawal-code'
+import { template as inventoryOrderTemplate } from './inventory-order'
 
 export interface TemplateEntry {
   component: ComponentType<any>
@@ -22,4 +23,5 @@ export const TEMPLATES: Record<string, TemplateEntry> = {
   'account-notification': accountNotificationTemplate,
   'security-alert': securityAlertTemplate,
   'withdrawal-code': withdrawalCodeTemplate,
+  'inventory-order': inventoryOrderTemplate,
 }
