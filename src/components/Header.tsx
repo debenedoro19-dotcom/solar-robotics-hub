@@ -15,6 +15,7 @@ const navLinks = [
   { label: 'Careers', href: '/careers' },
   { label: 'Account', href: '/dashboard' },
   { label: 'Deposit', href: '/account/deposit' },
+  { label: 'My Orders', href: '/account/orders' },
 ];
 
 export default function Header() {

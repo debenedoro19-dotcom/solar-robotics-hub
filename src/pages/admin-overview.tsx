@@ -807,6 +807,14 @@ export default function AdminPage() {
                 <p className="text-[10px] text-[#6B7280] leading-relaxed">Add, edit, reorder & recategorize listings</p>
               </Link>
               <Link
+                href="/admin/orders"
+                className="bg-[#0D0E12] border border-[#12131A] hover:border-[#1E2027] rounded-xl p-5 text-left transition-all hover:bg-[#0D0E12]"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-rose-400 mb-3" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>
+                <p className="text-sm font-bold text-white mb-1">Inventory Orders</p>
+                <p className="text-[10px] text-[#6B7280] leading-relaxed">Confirm payments, ship & track purchases</p>
+              </Link>
+              <Link
                 href="/admin/plans"
                 className="bg-[#0D0E12] border border-[#12131A] hover:border-[#1E2027] rounded-xl p-5 text-left transition-all hover:bg-[#0D0E12]"
               >
