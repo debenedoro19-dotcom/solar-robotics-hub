@@ -256,27 +256,32 @@ export default function InvestorDashboard() {
         <>
 
 
-        <section className="grid gap-5 lg:grid-cols-[1.4fr_1fr]">
-          <div className="fin-card-elevated rounded-md p-6 sm:p-8">
-            <p className="ts-label mb-3">Available Wallet Balance</p>
-            <p className="text-3xl sm:text-5xl font-bold text-foreground fin-figure">
+        <section className="fin-card-elevated overflow-hidden text-center">
+          <div className="px-6 pt-14 pb-10 sm:pt-20 sm:pb-12">
+            <p className="lux-label">Available Wallet Balance</p>
+            <p className="mt-4 text-5xl sm:text-7xl font-light tracking-tight text-foreground tabular-nums">
               {money(wallet.available_balance)}
             </p>
-            <p className="text-sm text-fin-muted mt-2">
-              Deposit-first platform — fund your wallet before deploying capital into a plan.
+            <p className="text-sm text-fin-muted mt-3 max-w-md mx-auto">
+              Fund your wallet, then deploy capital into a plan.
             </p>
-            <div className="flex flex-wrap gap-3 mt-6">
-              <button onClick={() => goDeposit()} className="px-5 py-2.5 rounded btn-red text-sm">+ Deposit</button>
-              <button onClick={() => setWithdrawOpen(true)} className="px-5 py-2.5 rounded bg-secondary border border-border text-sm font-bold hover:border-white/25 transition-all duration-300">↑ Withdraw</button>
-              <button onClick={() => { setTab('browse'); document.getElementById('marketplace')?.scrollIntoView({ behavior: 'smooth' }); }} className="px-5 py-2.5 rounded bg-secondary border border-border text-sm font-bold hover:border-white/25 transition-all duration-300">⚡ Buy Plan</button>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center mt-10">
+              <button onClick={() => goDeposit()} className="tsla-btn tsla-btn-solid lux-pill">Deposit</button>
+              <button onClick={() => setWithdrawOpen(true)} className="tsla-btn lux-pill lux-glass text-foreground">Withdraw</button>
             </div>
+            <button onClick={() => { setTab('browse'); document.getElementById('marketplace')?.scrollIntoView({ behavior: 'smooth' }); }} className="mt-5 text-xs lux-label hover:text-foreground transition-colors underline-offset-4 hover:underline">Browse Plans</button>
           </div>
-
-
-          <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
-            <MetricCard label="Total Active Capital" value={money(totalActiveCapital)} />
-            <MetricCard label="Total Net Profit Accrued" value={money(totalYield)} accent />
-            <MetricCard label="Active Contracts" value={String(activeContracts.length)} />
+          <div className="grid grid-cols-3 border-t border-fin-border">
+            {[
+              { l: 'Active Capital', v: money(totalActiveCapital) },
+              { l: 'Net Profit Accrued', v: money(totalYield) },
+              { l: 'Active Contracts', v: String(activeContracts.length) },
+            ].map((m, i) => (
+              <div key={m.l} className={`py-6 px-2 ${i > 0 ? 'border-l border-fin-border' : ''}`}>
+                <div className="text-lg sm:text-2xl font-medium tabular-nums">{m.v}</div>
+                <div className="lux-label mt-1">{m.l}</div>
+              </div>
+            ))}
           </div>
         </section>
 
