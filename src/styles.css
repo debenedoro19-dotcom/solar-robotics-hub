@@ -974,3 +974,18 @@ html:not(.dark) .scanline, html:not(.dark) .dot-grid { opacity: 0.5; }
   text-transform: uppercase;
   color: var(--text-3);
 }
+
+/* Tesla.com-style full-screen home panels */
+:root { --on-media: oklch(0.99 0 0); --media-scrim: oklch(0.12 0.005 274); }
+.tsla-panel { position: relative; height: 100svh; min-height: 560px; overflow: hidden; scroll-snap-align: start; display: flex; flex-direction: column; align-items: center; justify-content: space-between; text-align: center; color: var(--on-media); }
+.tsla-panel > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
+.tsla-panel::after { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(to bottom, color-mix(in oklab, var(--media-scrim) 55%, transparent) 0%, transparent 35%, transparent 60%, color-mix(in oklab, var(--media-scrim) 65%, transparent) 100%); }
+.tsla-panel > * { position: relative; z-index: 2; }
+.tsla-snap { scroll-snap-type: y proximity; }
+.tsla-btn { display: inline-flex; align-items: center; justify-content: center; min-width: 220px; height: 44px; padding: 0 24px; border-radius: 4px; font-size: 14px; font-weight: 600; transition: background-color .25s, color .25s; }
+.tsla-btn-solid { background: var(--primary); color: var(--primary-foreground); }
+.tsla-btn-solid:hover { background: color-mix(in oklab, var(--primary) 85%, black); }
+.tsla-btn-ghost { background: color-mix(in oklab, var(--on-media) 82%, transparent); color: var(--media-scrim); backdrop-filter: blur(8px); }
+.tsla-btn-ghost:hover { background: var(--on-media); }
+.tsla-fade { animation: tslaFade 1s ease-out both; }
+@keyframes tslaFade { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }

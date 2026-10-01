@@ -23,13 +23,7 @@ export const Route = createFileRoute("/")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
-      {
-        rel: "preload",
-        as: "image",
-        href: "https://img.rocket.new/generatedImages/rocket_gen_img_195615429-1772068664371.png",
-        fetchpriority: "high",
-      },
-      { rel: "preconnect", href: "https://img.rocket.new", crossOrigin: "" },
+      { rel: "preload", as: "image", href: "/assets/images/tesla_vehicles_hero.webp", fetchpriority: "high" },
     ],
   }),
   component: HomePage,
