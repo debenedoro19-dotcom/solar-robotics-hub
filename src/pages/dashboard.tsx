@@ -203,7 +203,7 @@ export default function DashboardPage() {
   return (
     <main className="min-h-screen bg-background text-foreground">
       {/* Top bar */}
-      <div className="border-b border-border bg-background/95 backdrop-blur-xl sticky top-0 z-40">
+      <div className="border-b border-border bg-background/95  sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-6">
             <Link href="/" className="flex items-center gap-2.5">
@@ -216,7 +216,7 @@ export default function DashboardPage() {
           <div className="flex items-center gap-4" ref={notifRef}>
             {/* Real-time indicator */}
             <div className="flex items-center gap-1.5" title={realtimeConnected ? 'Live updates active' : 'Connecting...'}>
-              <div className={`w-1.5 h-1.5 rounded-full ${realtimeConnected ? 'bg-green-400 animate-pulse' : 'bg-muted-foreground'}`} />
+              <div className={`w-1.5 h-1.5 rounded-full ${realtimeConnected ? 'bg-success animate-pulse' : 'bg-muted-foreground'}`} />
               <span className="text-[10px] text-muted-foreground uppercase tracking-widest hidden sm:block">
                 {realtimeConnected ? 'Live' : 'Syncing'}
               </span>
@@ -234,7 +234,7 @@ export default function DashboardPage() {
                   <path d="M13.73 21a2 2 0 0 1-3.46 0" />
                 </svg>
                 {unreadAlerts > 0 && (
-                  <span className="absolute top-0.5 right-0.5 w-4 h-4 bg-primary rounded-full text-[9px] font-bold text-white flex items-center justify-center">
+                  <span className="absolute top-0.5 right-0.5 w-4 h-4 bg-primary rounded-full text-[9px] font-bold text-foreground flex items-center justify-center">
                     {unreadAlerts}
                   </span>
                 )}
@@ -246,13 +246,13 @@ export default function DashboardPage() {
                     <div className="flex items-center gap-2">
                       <span className="text-xs font-bold text-foreground uppercase tracking-widest">Notifications</span>
                       {unreadAlerts > 0 && (
-                        <span className="px-1.5 py-0.5 bg-primary text-white text-[9px] font-bold rounded-full">{unreadAlerts}</span>
+                        <span className="px-1.5 py-0.5 bg-primary text-foreground text-[9px] font-bold rounded-full">{unreadAlerts}</span>
                       )}
                     </div>
                     {unreadAlerts > 0 && (
                       <button
                         onClick={markAllRead}
-                        className="text-[10px] text-primary hover:text-red-400 transition-colors font-semibold tracking-wider uppercase"
+                        className="text-[10px] text-primary hover:text-destructive transition-colors font-semibold tracking-wider uppercase"
                       >
                         Mark all read
                       </button>
@@ -315,7 +315,7 @@ export default function DashboardPage() {
       <div className="max-w-7xl mx-auto px-6 py-8">
         {/* Welcome */}
         <div className="mb-8">
-          <h1 className="text-2xl font-extrabold text-foreground tracking-tight mb-1">
+          <h1 className="text-2xl font-medium text-foreground tracking-tight mb-1">
             Welcome{user ? `, ${user.name.split(' ')[0]}` : ''}
           </h1>
           <p className="text-sm text-muted-foreground">
@@ -377,12 +377,12 @@ export default function DashboardPage() {
                     {stat.icon}
                   </div>
                 </div>
-                <div className="text-2xl font-extrabold text-foreground mb-1.5 tracking-tight">{stat.value}</div>
+                <div className="text-2xl font-medium text-foreground mb-1.5 tracking-tight">{stat.value}</div>
                 <div className="flex items-center gap-1.5">
                   {stat.up === true && (
                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#00F59B" strokeWidth="2.5" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
                   )}
-                  <div className={`text-xs font-medium ${stat.up === true ? 'text-green-400' : stat.up === false ? 'text-primary' : 'text-muted-foreground'}`}>
+                  <div className={`text-xs font-medium ${stat.up === true ? 'text-success' : stat.up === false ? 'text-primary' : 'text-muted-foreground'}`}>
                     {stat.change}
                   </div>
                 </div>
@@ -403,7 +403,7 @@ export default function DashboardPage() {
             >
               {tab}
               {tab === 'alerts' && unreadAlerts > 0 && (
-                <span className="ml-1.5 px-1.5 py-0.5 bg-primary text-white text-[9px] rounded-full">{unreadAlerts}</span>
+                <span className="ml-1.5 px-1.5 py-0.5 bg-primary text-foreground text-[9px] rounded-full">{unreadAlerts}</span>
               )}
             </button>
           ))}
@@ -420,7 +420,7 @@ export default function DashboardPage() {
                   <p className="text-xs text-muted-foreground mt-0.5">Growth trajectory</p>
                 </div>
                 {hasPortfolioData && portfolio?.chartData && portfolio.chartData.length > 0 && (
-                  <span className="px-2.5 py-1 bg-green-400/10 text-green-400 text-xs font-bold rounded border border-green-400/20">
+                  <span className="px-2.5 py-1 bg-success/10 text-success text-xs font-bold rounded border border-success/20">
                     Active
                   </span>
                 )}
@@ -538,7 +538,7 @@ export default function DashboardPage() {
                       <h3 className="text-base font-bold text-foreground">{inv.name}</h3>
                       <span className="text-xs text-muted-foreground">{inv.duration} term</span>
                     </div>
-                    <span className="px-3 py-1 bg-green-400/10 text-green-400 text-xs font-bold rounded border border-green-400/20 self-start sm:self-auto">
+                    <span className="px-3 py-1 bg-success/10 text-success text-xs font-bold rounded border border-success/20 self-start sm:self-auto">
                       {inv.status}
                     </span>
                   </div>
@@ -553,7 +553,7 @@ export default function DashboardPage() {
                     </div>
                     <div>
                       <div className="text-[10px] text-muted-foreground uppercase tracking-widest mb-1">Return</div>
-                      <div className="text-sm font-bold text-green-400">{inv.returnPct}</div>
+                      <div className="text-sm font-bold text-success">{inv.returnPct}</div>
                     </div>
                   </div>
                   <div>
@@ -590,12 +590,12 @@ export default function DashboardPage() {
               {[
                 { label: 'Total Invested', value: totalInvested > 0 ? `$${totalInvested.toLocaleString()}` : '$0', color: 'text-foreground' },
                 { label: 'Current Value', value: totalCurrent > 0 ? `$${totalCurrent.toLocaleString()}` : '$0', color: 'text-foreground' },
-                { label: 'Overall Return', value: `${overallReturn >= 0 ? '+' : ''}${overallReturn.toFixed(2)}%`, color: overallReturn >= 0 ? 'text-green-400' : 'text-primary' },
+                { label: 'Overall Return', value: `${overallReturn >= 0 ? '+' : ''}${overallReturn.toFixed(2)}%`, color: overallReturn >= 0 ? 'text-success' : 'text-primary' },
                 { label: 'Active Packages', value: String(portfolio?.investments.length || 0), color: 'text-foreground' },
               ].map((kpi) => (
                 <div key={kpi.label} className="bg-card border border-border rounded p-5">
                   <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-2">{kpi.label}</div>
-                  <div className={`text-xl font-extrabold ${kpi.color}`}>{kpi.value}</div>
+                  <div className={`text-xl font-medium ${kpi.color}`}>{kpi.value}</div>
                 </div>
               ))}
             </div>
@@ -613,7 +613,7 @@ export default function DashboardPage() {
                       key={r}
                       onClick={() => setAnalyticsRange(r)}
                       className={`px-3 py-1.5 rounded text-[10px] font-bold uppercase tracking-widest transition-all ${
-                        analyticsRange === r ? 'bg-primary text-white' : 'bg-muted text-muted-foreground hover:text-foreground'
+                        analyticsRange === r ? 'bg-primary text-foreground' : 'bg-muted text-muted-foreground hover:text-foreground'
                       }`}
                     >
                       {r}
@@ -795,7 +795,7 @@ export default function DashboardPage() {
               <>
                 {unreadAlerts > 0 && (
                   <div className="flex justify-end mb-2">
-                    <button onClick={markAllRead} className="text-xs text-primary hover:text-red-400 transition-colors font-semibold tracking-wider uppercase">
+                    <button onClick={markAllRead} className="text-xs text-primary hover:text-destructive transition-colors font-semibold tracking-wider uppercase">
                       Mark all as read
                     </button>
                   </div>

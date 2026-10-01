@@ -501,7 +501,7 @@ export default function AdminSettingsPage() {
         ? 'bg-primary/20 border border-primary/40 text-primary' :'bg-card hover:bg-muted border border-border hover:border-border text-muted-foreground hover:text-foreground'
     }`;
 
-  const inputClass = 'w-full px-3 py-2.5 rounded text-sm input-tesla bg-background border border-border text-foreground placeholder-[#52525B] focus:border-primary/40 focus:outline-none transition-colors';
+  const inputClass = 'w-full px-3 py-2.5 rounded text-sm input-tesla bg-background border border-border text-foreground placeholder:text-muted-foreground focus:border-primary/40 focus:outline-none transition-colors';
   const labelClass = 'block text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-1.5';
   const sectionClass = 'bg-background border border-border rounded p-6 space-y-5';
   const sectionTitleClass = 'text-sm font-bold text-foreground mb-4 flex items-center gap-2';
@@ -509,7 +509,7 @@ export default function AdminSettingsPage() {
   return (
     <main className="min-h-screen bg-background text-foreground">
       {/* Top bar */}
-      <div className="border-b border-border bg-background/95 backdrop-blur-xl sticky top-0 z-40">
+      <div className="border-b border-border bg-background/95  sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link href="/" className="flex items-center gap-2.5">
@@ -524,14 +524,14 @@ export default function AdminSettingsPage() {
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
               Dashboard
             </Link>
-            <div className="w-7 h-7 rounded-full bg-primary flex items-center justify-center text-[10px] font-bold text-white">A</div>
+            <div className="w-7 h-7 rounded-full bg-primary flex items-center justify-center text-[10px] font-bold text-foreground">A</div>
           </div>
         </div>
       </div>
 
       <div className="max-w-5xl mx-auto px-6 py-8">
         <div className="mb-8">
-          <h1 className="text-2xl font-extrabold text-foreground tracking-tight mb-1">Platform Settings</h1>
+          <h1 className="text-2xl font-medium text-foreground tracking-tight mb-1">Platform Settings</h1>
           <p className="text-sm text-muted-foreground">Configure withdrawal limits, commissions, KYC rules, security, customer care, payment wallets, and giveaways.</p>
         </div>
 
@@ -571,7 +571,7 @@ export default function AdminSettingsPage() {
         {activeTab === 'payments' && (
           <div className="space-y-6">
             <div className="bg-background border border-border rounded p-5 flex items-start gap-3">
-              <div className="w-9 h-9 rounded bg-[#F7931A]/10 flex items-center justify-center shrink-0">
+              <div className="w-9 h-9 rounded bg-card/10 flex items-center justify-center shrink-0">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F7931A" strokeWidth="2" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
               </div>
               <div>
@@ -602,7 +602,7 @@ export default function AdminSettingsPage() {
                 <p className="text-[10px] text-muted-foreground mt-1.5">Accepts native BTC on the Bitcoin mainnet. Verify address carefully before saving.</p>
               </div>
               {cryptoWallets.btc && (
-                <div className="p-3 bg-[#F7931A]/5 border border-[#F7931A]/20 rounded">
+                <div className="p-3 bg-card/5 border border-border/20 rounded">
                   <div className="flex items-center gap-4">
                     <QrCode value={walletUri('btc', cryptoWallets.btc.trim())} size={104} label="Bitcoin wallet QR preview" />
                     <p className="text-[11px] text-muted-foreground">Live address: <span className="text-[#F7931A] font-mono text-[10px] break-all">{cryptoWallets.btc}</span></p>
@@ -629,7 +629,7 @@ export default function AdminSettingsPage() {
                 <p className="text-[10px] text-muted-foreground mt-1.5">Accepts ETH and ERC-20 tokens on Ethereum mainnet. Must start with 0x.</p>
               </div>
               {cryptoWallets.eth && (
-                <div className="p-3 bg-[#627EEA]/5 border border-[#627EEA]/20 rounded">
+                <div className="p-3 bg-card/5 border border-border/20 rounded">
                   <div className="flex items-center gap-4">
                     <QrCode value={walletUri('eth', cryptoWallets.eth.trim())} size={104} label="Ethereum wallet QR preview" />
                     <p className="text-[11px] text-muted-foreground">Live address: <span className="text-[#627EEA] font-mono text-[10px] break-all">{cryptoWallets.eth}</span></p>
@@ -656,7 +656,7 @@ export default function AdminSettingsPage() {
                 <p className="text-[10px] text-muted-foreground mt-1.5">Accepts USDT on the Tron (TRC-20) network. Tron addresses start with T.</p>
               </div>
               {cryptoWallets.usdt && (
-                <div className="p-3 bg-[#26A17B]/5 border border-[#26A17B]/20 rounded">
+                <div className="p-3 bg-card/5 border border-border/20 rounded">
                   <div className="flex items-center gap-4">
                     <QrCode value={walletUri('usdt', cryptoWallets.usdt.trim())} size={104} label="USDT TRC-20 wallet QR preview" />
                     <p className="text-[11px] text-muted-foreground">Live address: <span className="text-[#26A17B] font-mono text-[10px] break-all">{cryptoWallets.usdt}</span></p>
@@ -665,11 +665,11 @@ export default function AdminSettingsPage() {
               )}
             </div>
 
-            <div className="p-4 bg-amber-500/5 border border-amber-500/20 rounded">
+            <div className="p-4 bg-warning/5 border border-warning/20 rounded">
               <div className="flex items-start gap-3">
-                <svg className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                <p className="text-xs text-amber-300/80 leading-relaxed">
-                  <strong className="text-amber-300">Important:</strong> Double-check all wallet addresses before saving. Incorrect addresses will result in permanent loss of customer funds. Changes take effect immediately on the payment page.
+                <svg className="w-4 h-4 text-warning shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                <p className="text-xs text-warning/80 leading-relaxed">
+                  <strong className="text-warning">Important:</strong> Double-check all wallet addresses before saving. Incorrect addresses will result in permanent loss of customer funds. Changes take effect immediately on the payment page.
                 </p>
               </div>
             </div>
@@ -708,7 +708,7 @@ export default function AdminSettingsPage() {
             )}
 
             {saved === 'giveaways' && (
-              <div className="px-4 py-3 rounded bg-green-500/10 border border-green-500/30 text-sm text-green-400 flex items-center gap-2">
+              <div className="px-4 py-3 rounded bg-success/10 border border-success/30 text-sm text-success flex items-center gap-2">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg>
                 Giveaways updated — changes are live on the homepage!
               </div>
@@ -721,7 +721,7 @@ export default function AdminSettingsPage() {
                   <div className="flex items-start justify-between gap-4 mb-3">
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
-                        <span className="px-2 py-0.5 rounded-full text-[9px] font-extrabold tracking-widest uppercase bg-accent/15 text-accent border border-accent/30">{g.badge}</span>
+                        <span className="px-2 py-0.5 rounded-full text-[9px] font-medium tracking-widest uppercase bg-accent/15 text-accent border border-accent/30">{g.badge}</span>
                       </div>
                       <h3 className="text-sm font-bold text-foreground truncate">{g.title}</h3>
                       <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">{g.description}</p>
@@ -853,13 +853,13 @@ export default function AdminSettingsPage() {
         {activeTab === 'platform' && (
           <div className="space-y-6">
             {/* Maintenance Mode — prominent banner */}
-            <div className={`rounded border p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-all ${platform.maintenanceMode ? 'bg-yellow-400/5 border-yellow-400/30' : 'bg-background border-border'}`}>
+            <div className={`rounded border p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-all ${platform.maintenanceMode ? 'bg-warning/5 border-warning/30' : 'bg-background border-border'}`}>
               <div className="flex items-start gap-3">
-                <div className={`w-9 h-9 rounded flex items-center justify-center shrink-0 ${platform.maintenanceMode ? 'bg-yellow-400/10' : 'bg-card'}`}>
+                <div className={`w-9 h-9 rounded flex items-center justify-center shrink-0 ${platform.maintenanceMode ? 'bg-warning/10' : 'bg-card'}`}>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={platform.maintenanceMode ? '#F59E0B' : '#666'} strokeWidth="2" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
                 </div>
                 <div>
-                  <p className={`text-sm font-bold mb-0.5 ${platform.maintenanceMode ? 'text-yellow-400' : 'text-foreground'}`}>
+                  <p className={`text-sm font-bold mb-0.5 ${platform.maintenanceMode ? 'text-warning' : 'text-foreground'}`}>
                     Maintenance Mode {platform.maintenanceMode ? '— ACTIVE' : '— Disabled'}
                   </p>
                   <p className="text-xs text-muted-foreground">When enabled, users see a maintenance page instead of the platform.</p>
@@ -867,7 +867,7 @@ export default function AdminSettingsPage() {
               </div>
               <button
                 onClick={() => setPlatform(p => ({ ...p, maintenanceMode: !p.maintenanceMode }))}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors shrink-0 ${platform.maintenanceMode ? 'bg-yellow-400' : 'bg-muted'}`}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors shrink-0 ${platform.maintenanceMode ? 'bg-warning' : 'bg-muted'}`}
                 role="switch"
                 aria-checked={platform.maintenanceMode}
               >
@@ -1103,7 +1103,7 @@ export default function AdminSettingsPage() {
                   <div className="px-4 py-3 rounded bg-primary/10 border border-primary/30 text-sm text-primary">{pwError}</div>
                 )}
                 {pwSuccess && (
-                  <div className="px-4 py-3 rounded bg-green-500/10 border border-green-500/30 text-sm text-green-400 flex items-center gap-2">
+                  <div className="px-4 py-3 rounded bg-success/10 border border-success/30 text-sm text-success flex items-center gap-2">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg>
                     Password updated successfully!
                   </div>
@@ -1183,7 +1183,7 @@ export default function AdminSettingsPage() {
         {activeTab === 'customercare' && (
           <div className="space-y-6">
             <div className="bg-background border border-border rounded p-5 flex items-start gap-3">
-              <div className="w-9 h-9 rounded bg-green-400/10 flex items-center justify-center shrink-0">
+              <div className="w-9 h-9 rounded bg-success/10 flex items-center justify-center shrink-0">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00F59B" strokeWidth="2" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
               </div>
               <div>
@@ -1201,7 +1201,7 @@ export default function AdminSettingsPage() {
                 </p>
                 <button
                   onClick={() => setCustomerCare(c => ({ ...c, whatsappEnabled: !c.whatsappEnabled }))}
-                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${customerCare.whatsappEnabled ? 'bg-[#25D366]' : 'bg-muted'}`}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${customerCare.whatsappEnabled ? 'bg-card' : 'bg-muted'}`}
                   role="switch"
                   aria-checked={customerCare.whatsappEnabled}
                 >
@@ -1233,7 +1233,7 @@ export default function AdminSettingsPage() {
                   />
                 </div>
                 {customerCare.whatsappEnabled && customerCare.whatsappNumber && (
-                  <div className="p-3 bg-[#25D366]/5 border border-[#25D366]/20 rounded">
+                  <div className="p-3 bg-card/5 border border-border/20 rounded">
                     <p className="text-[11px] text-muted-foreground">
                       Preview link:{' '}
                       <span className="text-[#25D366] font-mono text-[10px] break-all">
@@ -1254,7 +1254,7 @@ export default function AdminSettingsPage() {
                 </p>
                 <button
                   onClick={() => setCustomerCare(c => ({ ...c, telegramEnabled: !c.telegramEnabled }))}
-                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${customerCare.telegramEnabled ? 'bg-[#229ED9]' : 'bg-muted'}`}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${customerCare.telegramEnabled ? 'bg-card' : 'bg-muted'}`}
                   role="switch"
                   aria-checked={customerCare.telegramEnabled}
                 >
@@ -1288,7 +1288,7 @@ export default function AdminSettingsPage() {
                   />
                 </div>
                 {customerCare.telegramEnabled && customerCare.telegramUsername && (
-                  <div className="p-3 bg-[#229ED9]/5 border border-[#229ED9]/20 rounded">
+                  <div className="p-3 bg-card/5 border border-border/20 rounded">
                     <p className="text-[11px] text-muted-foreground">
                       Preview link:{' '}
                       <span className="text-[#229ED9] font-mono text-[10px]">
@@ -1362,7 +1362,7 @@ export default function AdminSettingsPage() {
             {/* Welcome Email */}
             <div className={sectionClass}>
               <p className={sectionTitleClass}>
-                <span className="w-5 h-5 rounded bg-green-400/10 flex items-center justify-center text-[10px]">👋</span>
+                <span className="w-5 h-5 rounded bg-success/10 flex items-center justify-center text-[10px]">👋</span>
                 Welcome Email
               </p>
               <div className="space-y-3">
@@ -1380,7 +1380,7 @@ export default function AdminSettingsPage() {
             {/* KYC Approved Email */}
             <div className={sectionClass}>
               <p className={sectionTitleClass}>
-                <span className="w-5 h-5 rounded bg-yellow-400/10 flex items-center justify-center text-[10px]">✅</span>
+                <span className="w-5 h-5 rounded bg-warning/10 flex items-center justify-center text-[10px]">✅</span>
                 KYC Approved Email
               </p>
               <div className="space-y-3">
@@ -1439,10 +1439,10 @@ export default function AdminSettingsPage() {
                 </button>
               </div>
               {testEmailResult === 'success' && (
-                <p className="text-xs text-green-400 font-semibold mt-2">✓ Test email sent successfully! Check your inbox.</p>
+                <p className="text-xs text-success font-semibold mt-2">✓ Test email sent successfully! Check your inbox.</p>
               )}
               {testEmailResult === 'error' && (
-                <p className="text-xs text-red-400 font-semibold mt-2">✗ Failed to send. Check your RESEND_API_KEY environment variable.</p>
+                <p className="text-xs text-destructive font-semibold mt-2">✗ Failed to send. Check your RESEND_API_KEY environment variable.</p>
               )}
             </div>
 

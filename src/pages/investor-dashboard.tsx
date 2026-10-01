@@ -233,7 +233,7 @@ export default function InvestorDashboard() {
         <header className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <p className="text-xs uppercase tracking-[0.3em] text-fin-muted">Investor Console</p>
-            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">Portfolio Overview</h1>
+            <h1 className="text-2xl sm:text-3xl font-medium tracking-tight">Portfolio Overview</h1>
             <p className="text-sm text-fin-muted mt-1">{userEmail}</p>
           </div>
           <div className="flex gap-1 p-1 rounded bg-fin-elevated border border-fin-border">
@@ -241,7 +241,7 @@ export default function InvestorDashboard() {
               <button
                 key={v}
                 onClick={() => setView(v)}
-                className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-widest transition-colors ${view === v ? 'bg-primary text-primary-foreground' : 'text-fin-muted hover:text-foreground'}`}>
+                className={`px-4 py-2 rounded text-xs font-bold uppercase tracking-widest transition-colors ${view === v ? 'bg-primary text-primary-foreground' : 'text-fin-muted hover:text-foreground'}`}>
                 {v === 'portfolio' ? 'Portfolio' : 'Account & Verification'}
               </button>
             ))}
@@ -513,11 +513,11 @@ function InvestModal({ plan, balance, onClose, onDone, onError, onDeposit }: {
         <div className="grid grid-cols-2 gap-3">
           <div className="rounded bg-fin-elevated border border-fin-border p-3">
             <p className="text-[11px] uppercase text-fin-muted">Available Balance</p>
-            <p className={`text-lg font-extrabold tabular-nums ${insufficient ? 'text-fin-danger' : 'text-fin-emerald'}`}>{money(balance)}</p>
+            <p className={`text-lg font-medium tabular-nums ${insufficient ? 'text-fin-danger' : 'text-fin-emerald'}`}>{money(balance)}</p>
           </div>
           <div className="rounded bg-fin-elevated border border-fin-border p-3">
             <p className="text-[11px] uppercase text-fin-muted">Required Capital</p>
-            <p className="text-lg font-extrabold tabular-nums">{money(value)}</p>
+            <p className="text-lg font-medium tabular-nums">{money(value)}</p>
           </div>
         </div>
 

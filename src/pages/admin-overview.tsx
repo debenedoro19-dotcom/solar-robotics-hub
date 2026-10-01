@@ -543,7 +543,7 @@ export default function AdminPage() {
 
   function addTransaction() {
     if (!selectedPortfolio) return;
-    const newTx: Transaction = { id: Date.now().toString(), type: 'Investment', asset: 'New Asset', amount: '+$0', date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }), status: 'Active', statusColor: 'text-green-400' };
+    const newTx: Transaction = { id: Date.now().toString(), type: 'Investment', asset: 'New Asset', amount: '+$0', date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }), status: 'Active', statusColor: 'text-success' };
     setSelectedPortfolio((prev) => prev ? { ...prev, transactions: [...prev.transactions, newTx] } : prev);
   }
 
@@ -625,10 +625,10 @@ export default function AdminPage() {
   }
 
   const kycStatusConfig = {
-    pending: { label: 'Pending', color: 'text-yellow-400', bg: 'bg-yellow-400/10 border-yellow-400/20' },
+    pending: { label: 'Pending', color: 'text-warning', bg: 'bg-warning/10 border-warning/20' },
     under_review: { label: 'Under Review', color: 'text-zinc-300', bg: 'bg-zinc-300/10 border-zinc-300/20' },
-    approved: { label: 'Approved', color: 'text-green-400', bg: 'bg-green-400/10 border-green-400/20' },
-    rejected: { label: 'Rejected', color: 'text-red-400', bg: 'bg-red-400/10 border-red-400/20' },
+    approved: { label: 'Approved', color: 'text-success', bg: 'bg-success/10 border-success/20' },
+    rejected: { label: 'Rejected', color: 'text-destructive', bg: 'bg-destructive/10 border-destructive/20' },
   };
 
   const filteredKyc = kycFilter === 'all' ? kycList : kycList.filter((k) => k.kyc_status === kycFilter);
@@ -658,7 +658,7 @@ export default function AdminPage() {
   return (
     <main className="min-h-screen bg-background text-foreground">
       {/* Top bar */}
-      <div className="border-b border-border bg-background/95 backdrop-blur-xl sticky top-0 z-40">
+      <div className="border-b border-border bg-background/95  sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link href="/" className="flex items-center gap-2.5">
@@ -678,7 +678,7 @@ export default function AdminPage() {
                 Dashboard
               </button>
             )}
-            <div className="w-7 h-7 rounded-full bg-primary flex items-center justify-center text-[10px] font-bold text-white">A</div>
+            <div className="w-7 h-7 rounded-full bg-primary flex items-center justify-center text-[10px] font-bold text-foreground">A</div>
           </div>
         </div>
       </div>
@@ -693,13 +693,13 @@ export default function AdminPage() {
                   <div className="w-8 h-8 rounded bg-primary/10 border border-primary/20 flex items-center justify-center">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E82127" strokeWidth="2" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
                   </div>
-                  <h1 className="text-2xl font-extrabold text-foreground tracking-tight">Admin Dashboard</h1>
+                  <h1 className="text-2xl font-medium text-foreground tracking-tight">Admin Dashboard</h1>
                 </div>
                 <p className="text-sm text-muted-foreground">{users.length} registered user{users.length !== 1 ? 's' : ''}. Full platform control below.</p>
               </div>
               <div className="flex items-center gap-2">
                 <div className="flex items-center gap-1.5 px-3 py-1.5 bg-card border border-border rounded">
-                  <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+                  <div className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
                   <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-semibold">Live</span>
                 </div>
               </div>
@@ -721,7 +721,7 @@ export default function AdminPage() {
                       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={kpi.accent} strokeWidth="2" aria-hidden="true">{kpi.icon}</svg>
                     </div>
                   </div>
-                  <div className="text-3xl font-extrabold text-foreground mb-1" style={{ color: kpi.value > 0 && (kpi.label === 'KYC Pending' || kpi.label === 'Open Tickets') ? kpi.accent : undefined }}>{kpi.value}</div>
+                  <div className="text-3xl font-medium text-foreground mb-1" style={{ color: kpi.value > 0 && (kpi.label === 'KYC Pending' || kpi.label === 'Open Tickets') ? kpi.accent : undefined }}>{kpi.value}</div>
                   <div className="text-[10px] text-muted-foreground">{kpi.sub}</div>
                 </div>
               ))}
@@ -731,11 +731,11 @@ export default function AdminPage() {
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 mb-8">
               {[
                 { view: 'analytics' as AdminView, label: 'Analytics', icon: <path d="M18 20V10M12 20V4M6 20v-6" />, color: 'text-zinc-300', desc: 'User demographics & signups' },
-                { view: 'kyc' as AdminView, label: 'KYC Review', icon: <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />, color: 'text-yellow-400', desc: 'Verify identity documents', badge: kycList.filter(k => k.kyc_status === 'pending').length },
-                { view: 'support' as AdminView, label: 'Support', icon: <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>, color: 'text-green-400', desc: 'Manage support tickets', badge: supportTickets.filter(t => t.ticket_status === 'open').length },
+                { view: 'kyc' as AdminView, label: 'KYC Review', icon: <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />, color: 'text-warning', desc: 'Verify identity documents', badge: kycList.filter(k => k.kyc_status === 'pending').length },
+                { view: 'support' as AdminView, label: 'Support', icon: <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>, color: 'text-success', desc: 'Manage support tickets', badge: supportTickets.filter(t => t.ticket_status === 'open').length },
                 { view: 'storage' as AdminView, label: 'Storage Bucket', icon: <><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></>, color: 'text-zinc-300', desc: 'View & manage uploaded files' },
-                { view: 'userdata' as AdminView, label: 'User Data', icon: <><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></>, color: 'text-cyan-400', desc: 'Browse & manage database records' },
-                { view: 'inventory' as AdminView, label: 'Inventory', icon: <><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></>, color: 'text-orange-400', desc: 'Add/edit vehicles, energy, robotics' },
+                { view: 'userdata' as AdminView, label: 'User Data', icon: <><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></>, color: 'text-muted-foreground', desc: 'Browse & manage database records' },
+                { view: 'inventory' as AdminView, label: 'Inventory', icon: <><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></>, color: 'text-warning', desc: 'Add/edit vehicles, energy, robotics' },
                 { view: 'giveaways' as AdminView, label: 'Giveaways', icon: <><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></>, color: 'text-pink-400', desc: 'Manage active giveaway campaigns' },
               ].map(({ view: v, label, icon, color, desc, badge }) => (
                 <button
@@ -751,7 +751,7 @@ export default function AdminPage() {
                   className="relative bg-card border border-border hover:border-border rounded p-5 text-left transition-all hover:bg-card group"
                 >
                   {badge !== undefined && badge > 0 && (
-                    <span className="absolute top-3 right-3 bg-primary text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full">{badge}</span>
+                    <span className="absolute top-3 right-3 bg-primary text-foreground text-[9px] font-bold px-1.5 py-0.5 rounded-full">{badge}</span>
                   )}
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={`${color} mb-3`} aria-hidden="true">{icon}</svg>
                   <p className="text-sm font-bold text-foreground mb-1">{label}</p>
@@ -770,7 +770,7 @@ export default function AdminPage() {
                 href="/admin/withdrawals"
                 className="bg-card border border-border hover:border-border rounded p-5 text-left transition-all hover:bg-card"
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-red-400 mb-3" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-destructive mb-3" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
                 <p className="text-sm font-bold text-foreground mb-1">Withdrawals</p>
                 <p className="text-[10px] text-muted-foreground leading-relaxed">Review & approve withdrawal requests</p>
               </Link>
@@ -778,15 +778,15 @@ export default function AdminPage() {
                 href="/admin/audit"
                 className="bg-card border border-border hover:border-border rounded p-5 text-left transition-all hover:bg-card"
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-emerald-400 mb-3" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><path d="M14 2v6h6M9 15h6M9 11h6" /></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-success mb-3" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><path d="M14 2v6h6M9 15h6M9 11h6" /></svg>
                 <p className="text-sm font-bold text-foreground mb-1">Audit Trail</p>
                 <p className="text-[10px] text-muted-foreground leading-relaxed">Full history of every money movement</p>
               </Link>
               <Link
                 href="/admin/deposits"
-                className="bg-card border border-border hover:border-green-400/20 rounded p-5 text-left transition-all hover:bg-card group"
+                className="bg-card border border-border hover:border-success/20 rounded p-5 text-left transition-all hover:bg-card group"
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-green-400 mb-3" aria-hidden="true"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-success mb-3" aria-hidden="true"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                 <p className="text-sm font-bold text-foreground mb-1">Deposits</p>
                 <p className="text-[10px] text-muted-foreground leading-relaxed">Track & confirm user deposit requests</p>
               </Link>
@@ -794,7 +794,7 @@ export default function AdminPage() {
                 href="/admin/careers"
                 className="bg-card border border-border hover:border-border rounded p-5 text-left transition-all hover:bg-card"
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-sky-400 mb-3" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2" ry="2" /><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" /></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-muted-foreground mb-3" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2" ry="2" /><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" /></svg>
                 <p className="text-sm font-bold text-foreground mb-1">Careers</p>
                 <p className="text-[10px] text-muted-foreground leading-relaxed">Job postings & applicant pipeline</p>
               </Link>
@@ -802,7 +802,7 @@ export default function AdminPage() {
                 href="/admin/inventory"
                 className="bg-card border border-border hover:border-border rounded p-5 text-left transition-all hover:bg-card"
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-amber-400 mb-3" aria-hidden="true"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 12l9 4 9-4"/><path d="M3 17l9 4 9-4"/></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-warning mb-3" aria-hidden="true"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 12l9 4 9-4"/><path d="M3 17l9 4 9-4"/></svg>
                 <p className="text-sm font-bold text-foreground mb-1">Inventory</p>
                 <p className="text-[10px] text-muted-foreground leading-relaxed">Add, edit, reorder & recategorize listings</p>
               </Link>
@@ -810,7 +810,7 @@ export default function AdminPage() {
                 href="/admin/orders"
                 className="bg-card border border-border hover:border-border rounded p-5 text-left transition-all hover:bg-card"
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-rose-400 mb-3" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-destructive mb-3" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>
                 <p className="text-sm font-bold text-foreground mb-1">Inventory Orders</p>
                 <p className="text-[10px] text-muted-foreground leading-relaxed">Confirm payments, ship & track purchases</p>
               </Link>
@@ -818,7 +818,7 @@ export default function AdminPage() {
                 href="/admin/plans"
                 className="bg-card border border-border hover:border-border rounded p-5 text-left transition-all hover:bg-card"
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-emerald-400 mb-3" aria-hidden="true"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-success mb-3" aria-hidden="true"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg>
                 <p className="text-sm font-bold text-foreground mb-1">Investment Packages</p>
                 <p className="text-[10px] text-muted-foreground leading-relaxed">Edit ROI, terms, limits & visibility of every plan</p>
               </Link>
@@ -869,11 +869,11 @@ export default function AdminPage() {
                   const hasData = u.investments.length > 0 || u.transactions.length > 0 || u.stats.totalPortfolio !== '$0';
                   const initials = u.userName.split(' ').map((n) => n[0]).join('').toUpperCase().slice(0, 2);
                   return (
-                    <div key={u.userId} className="bg-card border border-border rounded p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-border hover:bg-[#131313] transition-all duration-200 group">
+                    <div key={u.userId} className="bg-card border border-border rounded p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-border hover:bg-card transition-all duration-200 group">
                       <div className="flex items-center gap-4">
                         <div className="relative">
                           <div className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-sm font-bold text-primary shrink-0">{initials}</div>
-                          {hasData && <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-400 rounded-full border-2 border-border" />}
+                          {hasData && <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-success rounded-full border-2 border-border" />}
                         </div>
                         <div>
                           <p className="text-sm font-bold text-foreground">{u.userName}</p>
@@ -887,7 +887,7 @@ export default function AdminPage() {
                         </div>
                         <div className="text-center">
                           <p className="text-[10px] text-muted-foreground uppercase tracking-widest mb-0.5">Returns</p>
-                          <p className="text-sm font-bold text-green-400">{u.stats.totalReturns || '$0'}</p>
+                          <p className="text-sm font-bold text-success">{u.stats.totalReturns || '$0'}</p>
                         </div>
                         <div className="text-center">
                           <p className="text-[10px] text-muted-foreground uppercase tracking-widest mb-0.5">Packages</p>
@@ -895,7 +895,7 @@ export default function AdminPage() {
                         </div>
                         <div className="text-center">
                           <p className="text-[10px] text-muted-foreground uppercase tracking-widest mb-0.5">Status</p>
-                          <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${hasData ? 'bg-green-400/10 text-green-400 border border-green-400/20' : 'bg-muted text-muted-foreground border border-border'}`}>{hasData ? 'Active' : 'Empty'}</span>
+                          <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${hasData ? 'bg-success/10 text-success border border-success/20' : 'bg-muted text-muted-foreground border border-border'}`}>{hasData ? 'Active' : 'Empty'}</span>
                         </div>
                         <button onClick={() => openEdit(u)} className="px-4 py-2 bg-primary/10 hover:bg-primary/20 border border-primary/20 hover:border-primary/40 text-primary text-xs font-bold rounded transition-all tracking-widest uppercase">Manage</button>
                       </div>
@@ -912,7 +912,7 @@ export default function AdminPage() {
           <>
             <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
               <div>
-                <h1 className="text-2xl font-extrabold text-foreground tracking-tight mb-1">User Analytics</h1>
+                <h1 className="text-2xl font-medium text-foreground tracking-tight mb-1">User Analytics</h1>
                 <p className="text-sm text-muted-foreground">Demographics, geography, and platform activity — live from Supabase.</p>
               </div>
               <button onClick={loadAnalytics} disabled={analyticsLoading} className="flex items-center gap-2 px-4 py-2 bg-card hover:bg-muted border border-border text-muted-foreground hover:text-foreground text-xs font-semibold rounded transition-all disabled:opacity-50 self-start sm:self-auto">
@@ -929,13 +929,13 @@ export default function AdminPage() {
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
                   {[
                     { label: 'Total Users', value: analyticsData.totalUsers, icon: '👥', color: 'text-foreground' },
-                    { label: 'KYC Approved', value: analyticsData.verifiedUsers, icon: '✅', color: 'text-green-400' },
+                    { label: 'KYC Approved', value: analyticsData.verifiedUsers, icon: '✅', color: 'text-success' },
                     { label: 'Active Portfolios', value: analyticsData.activeUsers, icon: '📈', color: 'text-primary' },
                     { label: 'Portfolio Rows', value: analyticsData.portfolioUsers, icon: '🗂️', color: 'text-zinc-300' },
                   ].map((kpi) => (
                     <div key={kpi.label} className="bg-card border border-border rounded p-5">
                       <div className="flex items-center justify-between mb-3"><span className="text-xs text-muted-foreground uppercase tracking-widest font-semibold">{kpi.label}</span><span className="text-lg">{kpi.icon}</span></div>
-                      <p className={`text-3xl font-extrabold ${kpi.color}`}>{kpi.value}</p>
+                      <p className={`text-3xl font-medium ${kpi.color}`}>{kpi.value}</p>
                     </div>
                   ))}
                 </div>
@@ -1032,14 +1032,14 @@ export default function AdminPage() {
                   <h3 className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-5">Platform Activity Summary</h3>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                     {[
-                      { label: 'Verification Rate', value: analyticsData.totalUsers > 0 ? `${Math.round((analyticsData.verifiedUsers / analyticsData.totalUsers) * 100)}%` : '0%', sub: `${analyticsData.verifiedUsers} of ${analyticsData.totalUsers} users`, color: 'text-green-400' },
+                      { label: 'Verification Rate', value: analyticsData.totalUsers > 0 ? `${Math.round((analyticsData.verifiedUsers / analyticsData.totalUsers) * 100)}%` : '0%', sub: `${analyticsData.verifiedUsers} of ${analyticsData.totalUsers} users`, color: 'text-success' },
                       { label: 'Portfolio Adoption', value: analyticsData.totalUsers > 0 ? `${Math.round((analyticsData.portfolioUsers / analyticsData.totalUsers) * 100)}%` : '0%', sub: `${analyticsData.portfolioUsers} have portfolios`, color: 'text-zinc-300' },
                       { label: 'Active Investors', value: analyticsData.totalUsers > 0 ? `${Math.round((analyticsData.activeUsers / analyticsData.totalUsers) * 100)}%` : '0%', sub: `${analyticsData.activeUsers} with funded portfolios`, color: 'text-primary' },
-                      { label: 'Unverified Users', value: analyticsData.unverifiedUsers, sub: 'awaiting KYC approval', color: 'text-yellow-400' },
+                      { label: 'Unverified Users', value: analyticsData.unverifiedUsers, sub: 'awaiting KYC approval', color: 'text-warning' },
                     ].map((stat) => (
                       <div key={stat.label} className="border border-border rounded p-4">
                         <p className="text-[10px] text-muted-foreground uppercase tracking-widest mb-2">{stat.label}</p>
-                        <p className={`text-2xl font-extrabold mb-1 ${stat.color}`}>{stat.value}</p>
+                        <p className={`text-2xl font-medium mb-1 ${stat.color}`}>{stat.value}</p>
                         <p className="text-[10px] text-muted-foreground">{stat.sub}</p>
                       </div>
                     ))}
@@ -1055,7 +1055,7 @@ export default function AdminPage() {
           <>
             <div className="mb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
               <div>
-                <h1 className="text-2xl font-extrabold text-foreground tracking-tight mb-1">Storage Bucket</h1>
+                <h1 className="text-2xl font-medium text-foreground tracking-tight mb-1">Storage Bucket</h1>
                 <p className="text-sm text-muted-foreground">Browse and manage uploaded user documents and files from Supabase Storage.</p>
               </div>
               <button onClick={loadStorageFiles} disabled={storageLoading} className="flex items-center gap-2 px-4 py-2 bg-card hover:bg-muted border border-border text-muted-foreground hover:text-foreground text-xs font-semibold rounded transition-all disabled:opacity-50 self-start sm:self-auto">
@@ -1115,7 +1115,7 @@ export default function AdminPage() {
                       {file.metadata && (
                         <button onClick={() => getStorageUrl(file.name)} className="text-[10px] text-primary hover:underline font-semibold">View</button>
                       )}
-                      <button onClick={() => deleteStorageFile(file.name)} className="text-[10px] text-red-400 hover:underline font-semibold">Delete</button>
+                      <button onClick={() => deleteStorageFile(file.name)} className="text-[10px] text-destructive hover:underline font-semibold">Delete</button>
                     </div>
                   </div>
                 ))}
@@ -1129,7 +1129,7 @@ export default function AdminPage() {
           <>
             <div className="mb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
               <div>
-                <h1 className="text-2xl font-extrabold text-foreground tracking-tight mb-1">User Data</h1>
+                <h1 className="text-2xl font-medium text-foreground tracking-tight mb-1">User Data</h1>
                 <p className="text-sm text-muted-foreground">Browse and manage collected user records from the database.</p>
               </div>
               <button onClick={loadUserData} disabled={userDataLoading} className="flex items-center gap-2 px-4 py-2 bg-card hover:bg-muted border border-border text-muted-foreground hover:text-foreground text-xs font-semibold rounded transition-all disabled:opacity-50 self-start sm:self-auto">
@@ -1184,7 +1184,7 @@ export default function AdminPage() {
                           </span>
                         )}
                         {row.role && <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-primary/10 border border-primary/20 text-primary">{row.role}</span>}
-                        <button onClick={() => deleteUserRow(row.id)} className="text-[10px] text-red-400 hover:text-red-300 font-semibold transition-colors">Delete</button>
+                        <button onClick={() => deleteUserRow(row.id)} className="text-[10px] text-destructive hover:text-destructive font-semibold transition-colors">Delete</button>
                       </div>
                     </div>
                     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
@@ -1210,7 +1210,7 @@ export default function AdminPage() {
           <>
             <div className="mb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
               <div>
-                <h1 className="text-2xl font-extrabold text-foreground tracking-tight mb-1">Inventory Management</h1>
+                <h1 className="text-2xl font-medium text-foreground tracking-tight mb-1">Inventory Management</h1>
                 <p className="text-sm text-muted-foreground">Add, edit, or remove vehicles, energy products, and robotics from the live inventory.</p>
               </div>
               <button onClick={() => setShowAddItem(true)} className="flex items-center gap-2 px-5 py-2.5 bg-primary/10 hover:bg-primary/20 border border-primary/20 hover:border-primary/40 text-primary text-xs font-bold rounded tracking-widest uppercase transition-all self-start sm:self-auto">
@@ -1221,7 +1221,7 @@ export default function AdminPage() {
             {/* Category filter */}
             <div className="flex gap-2 mb-6 flex-wrap">
               {(['All', 'Vehicles', 'Energy', 'Robotics'] as const).map(cat => (
-                <button key={cat} onClick={() => setInventoryFilter(cat)} className={`px-4 py-2 rounded text-xs font-semibold transition-all ${inventoryFilter === cat ? 'bg-primary text-white' : 'bg-card border border-border text-muted-foreground hover:text-foreground'}`}>{cat}</button>
+                <button key={cat} onClick={() => setInventoryFilter(cat)} className={`px-4 py-2 rounded text-xs font-semibold transition-all ${inventoryFilter === cat ? 'bg-primary text-foreground' : 'bg-card border border-border text-muted-foreground hover:text-foreground'}`}>{cat}</button>
               ))}
             </div>
 
@@ -1258,7 +1258,7 @@ export default function AdminPage() {
                   </div>
                 </div>
                 <div className="flex gap-3">
-                  <button onClick={addInventoryItem} className="px-5 py-2.5 bg-primary text-white text-xs font-bold rounded tracking-widest uppercase transition-all hover:bg-primary/90">Add Item</button>
+                  <button onClick={addInventoryItem} className="px-5 py-2.5 bg-primary text-foreground text-xs font-bold rounded tracking-widest uppercase transition-all hover:bg-primary/90">Add Item</button>
                   <button onClick={() => setShowAddItem(false)} className="px-5 py-2.5 bg-muted border border-border text-muted-foreground text-xs font-bold rounded tracking-widest uppercase transition-all hover:text-foreground">Cancel</button>
                 </div>
               </div>
@@ -1297,7 +1297,7 @@ export default function AdminPage() {
                   </div>
                 </div>
                 <div className="flex gap-3">
-                  <button onClick={saveInventoryItem} className="px-5 py-2.5 bg-primary text-white text-xs font-bold rounded tracking-widest uppercase transition-all hover:bg-primary/90">Save Changes</button>
+                  <button onClick={saveInventoryItem} className="px-5 py-2.5 bg-primary text-foreground text-xs font-bold rounded tracking-widest uppercase transition-all hover:bg-primary/90">Save Changes</button>
                   <button onClick={() => setEditingItem(null)} className="px-5 py-2.5 bg-muted border border-border text-muted-foreground text-xs font-bold rounded tracking-widest uppercase transition-all hover:text-foreground">Cancel</button>
                 </div>
               </div>
@@ -1322,11 +1322,11 @@ export default function AdminPage() {
                     <div className="text-center"><p className="text-xs text-muted-foreground uppercase tracking-widest mb-0.5">Badge</p><p className="text-xs font-bold text-muted-foreground">{item.badge}</p></div>
                     <div className="text-center">
                       <p className="text-xs text-muted-foreground uppercase tracking-widest mb-0.5">Status</p>
-                      <span className={`text-xs font-semibold px-2 py-0.5 rounded border ${item.available ? 'bg-green-400/10 text-green-400 border-green-400/20' : 'bg-muted text-muted-foreground border-border'}`}>{item.available ? 'Available' : 'Unavailable'}</span>
+                      <span className={`text-xs font-semibold px-2 py-0.5 rounded border ${item.available ? 'bg-success/10 text-success border-success/20' : 'bg-muted text-muted-foreground border-border'}`}>{item.available ? 'Available' : 'Unavailable'}</span>
                     </div>
                     <div className="flex gap-2">
                       <button onClick={() => setEditingItem({ ...item })} className="px-3 py-1.5 bg-zinc-300/10 hover:bg-zinc-300/20 border border-zinc-300/20 text-zinc-300 text-xs font-semibold rounded transition-all">Edit</button>
-                      <button onClick={() => deleteInventoryItem(item.id)} className="px-3 py-1.5 bg-red-400/10 hover:bg-red-400/20 border border-red-400/20 text-red-400 text-xs font-semibold rounded transition-all">Remove</button>
+                      <button onClick={() => deleteInventoryItem(item.id)} className="px-3 py-1.5 bg-destructive/10 hover:bg-destructive/20 border border-destructive/20 text-destructive text-xs font-semibold rounded transition-all">Remove</button>
                     </div>
                   </div>
                 </div>
@@ -1343,7 +1343,7 @@ export default function AdminPage() {
           <>
             <div className="mb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
               <div>
-                <h1 className="text-2xl font-extrabold text-foreground tracking-tight mb-1">Giveaway Management</h1>
+                <h1 className="text-2xl font-medium text-foreground tracking-tight mb-1">Giveaway Management</h1>
                 <p className="text-sm text-muted-foreground">Create, edit, and manage active giveaway campaigns shown on the website.</p>
               </div>
               <button onClick={() => setShowAddGiveaway(true)} className="flex items-center gap-2 px-5 py-2.5 bg-primary/10 hover:bg-primary/20 border border-primary/20 hover:border-primary/40 text-primary text-xs font-bold rounded tracking-widest uppercase transition-all self-start sm:self-auto">
@@ -1355,13 +1355,13 @@ export default function AdminPage() {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
               {[
                 { label: 'Total Giveaways', value: giveawayItems.length, color: 'text-foreground' },
-                { label: 'Active', value: giveawayItems.filter(g => g.active).length, color: 'text-green-400' },
+                { label: 'Active', value: giveawayItems.filter(g => g.active).length, color: 'text-success' },
                 { label: 'Total Entries', value: giveawayItems.reduce((s, g) => s + g.entries, 0).toLocaleString(), color: 'text-primary' },
                 { label: 'Max Capacity', value: giveawayItems.reduce((s, g) => s + g.maxEntries, 0).toLocaleString(), color: 'text-zinc-300' },
               ].map(kpi => (
                 <div key={kpi.label} className="bg-card border border-border rounded p-4">
                   <p className="text-xs text-muted-foreground uppercase tracking-widest mb-2">{kpi.label}</p>
-                  <p className={`text-2xl font-extrabold ${kpi.color}`}>{kpi.value}</p>
+                  <p className={`text-2xl font-medium ${kpi.color}`}>{kpi.value}</p>
                 </div>
               ))}
             </div>
@@ -1392,7 +1392,7 @@ export default function AdminPage() {
                   </div>
                 </div>
                 <div className="flex gap-3">
-                  <button onClick={addGiveawayItem} className="px-5 py-2.5 bg-primary text-white text-xs font-bold rounded tracking-widest uppercase transition-all hover:bg-primary/90">Create Giveaway</button>
+                  <button onClick={addGiveawayItem} className="px-5 py-2.5 bg-primary text-foreground text-xs font-bold rounded tracking-widest uppercase transition-all hover:bg-primary/90">Create Giveaway</button>
                   <button onClick={() => setShowAddGiveaway(false)} className="px-5 py-2.5 bg-muted border border-border text-muted-foreground text-xs font-bold rounded tracking-widest uppercase transition-all hover:text-foreground">Cancel</button>
                 </div>
               </div>
@@ -1425,7 +1425,7 @@ export default function AdminPage() {
                   </div>
                 </div>
                 <div className="flex gap-3">
-                  <button onClick={saveGiveawayItem} className="px-5 py-2.5 bg-primary text-white text-xs font-bold rounded tracking-widest uppercase transition-all hover:bg-primary/90">Save Changes</button>
+                  <button onClick={saveGiveawayItem} className="px-5 py-2.5 bg-primary text-foreground text-xs font-bold rounded tracking-widest uppercase transition-all hover:bg-primary/90">Save Changes</button>
                   <button onClick={() => setEditingGiveaway(null)} className="px-5 py-2.5 bg-muted border border-border text-muted-foreground text-xs font-bold rounded tracking-widest uppercase transition-all hover:text-foreground">Cancel</button>
                 </div>
               </div>
@@ -1441,14 +1441,14 @@ export default function AdminPage() {
                       <div>
                         <div className="flex items-center gap-3 mb-1">
                           <h3 className="text-sm font-bold text-foreground">{g.title}</h3>
-                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded border ${g.active ? 'bg-green-400/10 text-green-400 border-green-400/20' : 'bg-muted text-muted-foreground border-border'}`}>{g.active ? 'Active' : 'Inactive'}</span>
+                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded border ${g.active ? 'bg-success/10 text-success border-success/20' : 'bg-muted text-muted-foreground border-border'}`}>{g.active ? 'Active' : 'Inactive'}</span>
                         </div>
                         <p className="text-xs text-muted-foreground">Prize: <span className="text-foreground/90">{g.prize}</span></p>
                         <p className="text-xs text-muted-foreground mt-0.5">Ends: <span className="text-foreground/90">{g.ends}</span> · Entry: <span className="text-foreground/90">{g.entryFee}</span></p>
                       </div>
                       <div className="flex gap-2 shrink-0">
                         <button onClick={() => setEditingGiveaway({ ...g })} className="px-3 py-1.5 bg-zinc-300/10 hover:bg-zinc-300/20 border border-zinc-300/20 text-zinc-300 text-xs font-semibold rounded transition-all">Edit</button>
-                        <button onClick={() => deleteGiveawayItem(g.id)} className="px-3 py-1.5 bg-red-400/10 hover:bg-red-400/20 border border-red-400/20 text-red-400 text-xs font-semibold rounded transition-all">Remove</button>
+                        <button onClick={() => deleteGiveawayItem(g.id)} className="px-3 py-1.5 bg-destructive/10 hover:bg-destructive/20 border border-destructive/20 text-destructive text-xs font-semibold rounded transition-all">Remove</button>
                       </div>
                     </div>
                     <div>
@@ -1474,7 +1474,7 @@ export default function AdminPage() {
         {view === 'kyc' && (
           <>
             <div className="mb-8">
-              <h1 className="text-2xl font-extrabold text-foreground tracking-tight mb-1">KYC Review</h1>
+              <h1 className="text-2xl font-medium text-foreground tracking-tight mb-1">KYC Review</h1>
               <p className="text-sm text-muted-foreground">Review and approve identity verification submissions.</p>
             </div>
             {selectedKyc ? (
@@ -1513,12 +1513,12 @@ export default function AdminPage() {
                       <textarea value={kycNotes} onChange={(e) => setKycNotes(e.target.value)} placeholder="Add notes for the applicant (optional)..." rows={3} className="w-full px-3 py-2.5 rounded text-sm input-tesla resize-none" />
                     </div>
                     <div className="space-y-2">
-                      <button onClick={() => updateKYCStatus('approved')} disabled={kycSaving || selectedKyc.kyc_status === 'approved'} className="w-full py-3 rounded text-xs font-bold uppercase tracking-widest transition-all bg-green-400/10 hover:bg-green-400/20 border border-green-400/20 hover:border-green-400/40 text-green-400 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2">
-                        {kycSaving ? <div className="w-3 h-3 border-2 border-green-400 border-t-transparent rounded-full animate-spin" /> : '✓'} Approve KYC
+                      <button onClick={() => updateKYCStatus('approved')} disabled={kycSaving || selectedKyc.kyc_status === 'approved'} className="w-full py-3 rounded text-xs font-bold uppercase tracking-widest transition-all bg-success/10 hover:bg-success/20 border border-success/20 hover:border-success/40 text-success disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+                        {kycSaving ? <div className="w-3 h-3 border-2 border-success border-t-transparent rounded-full animate-spin" /> : '✓'} Approve KYC
                       </button>
                       <button onClick={() => updateKYCStatus('under_review')} disabled={kycSaving || selectedKyc.kyc_status === 'under_review'} className="w-full py-3 rounded text-xs font-bold uppercase tracking-widest transition-all bg-zinc-300/10 hover:bg-zinc-300/20 border border-zinc-300/20 hover:border-zinc-300/40 text-zinc-300 disabled:opacity-40 disabled:cursor-not-allowed">Mark Under Review</button>
-                      <button onClick={() => updateKYCStatus('rejected')} disabled={kycSaving || selectedKyc.kyc_status === 'rejected'} className="w-full py-3 rounded text-xs font-bold uppercase tracking-widest transition-all bg-red-400/10 hover:bg-red-400/20 border border-red-400/20 hover:border-red-400/40 text-red-400 disabled:opacity-40 disabled:cursor-not-allowed">Reject KYC</button>
-                      {kycSaved && <p className="text-center text-xs text-green-400 font-semibold">✓ Status updated</p>}
+                      <button onClick={() => updateKYCStatus('rejected')} disabled={kycSaving || selectedKyc.kyc_status === 'rejected'} className="w-full py-3 rounded text-xs font-bold uppercase tracking-widest transition-all bg-destructive/10 hover:bg-destructive/20 border border-destructive/20 hover:border-destructive/40 text-destructive disabled:opacity-40 disabled:cursor-not-allowed">Reject KYC</button>
+                      {kycSaved && <p className="text-center text-xs text-success font-semibold">✓ Status updated</p>}
                     </div>
                   </div>
                   <div className="lg:col-span-2 space-y-4">
@@ -1586,7 +1586,7 @@ export default function AdminPage() {
                     return (
                       <button key={f} onClick={() => setKycFilter(f)} className={`px-4 py-3 text-xs font-semibold tracking-widest uppercase transition-colors border-b-2 -mb-px whitespace-nowrap flex items-center gap-1.5 ${kycFilter === f ? 'text-foreground border-primary' : 'text-muted-foreground border-transparent hover:text-muted-foreground'}`}>
                         {f === 'under_review' ? 'Under Review' : f.charAt(0).toUpperCase() + f.slice(1)}
-                        {count > 0 && <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-bold ${kycFilter === f ? 'bg-primary text-white' : 'bg-muted text-muted-foreground'}`}>{count}</span>}
+                        {count > 0 && <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-bold ${kycFilter === f ? 'bg-primary text-foreground' : 'bg-muted text-muted-foreground'}`}>{count}</span>}
                       </button>
                     );
                   })}
@@ -1631,7 +1631,7 @@ export default function AdminPage() {
           <>
             <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
               <div>
-                <h1 className="text-2xl font-extrabold text-foreground tracking-tight mb-1">Support Tickets</h1>
+                <h1 className="text-2xl font-medium text-foreground tracking-tight mb-1">Support Tickets</h1>
                 <p className="text-sm text-muted-foreground">Manage user support requests and send email updates.</p>
               </div>
               <div className="flex items-center gap-3">
@@ -1731,7 +1731,7 @@ export default function AdminPage() {
           <>
             <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <h1 className="text-xl font-extrabold text-foreground tracking-tight mb-0.5">{selectedPortfolio.userName}</h1>
+                <h1 className="text-xl font-medium text-foreground tracking-tight mb-0.5">{selectedPortfolio.userName}</h1>
                 <p className="text-xs text-muted-foreground">{selectedPortfolio.userEmail}</p>
               </div>
               <button onClick={handleSave} className="px-6 py-2.5 tesla-btn-primary rounded text-sm font-semibold flex items-center gap-2 self-start sm:self-auto">

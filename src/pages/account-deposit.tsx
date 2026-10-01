@@ -98,7 +98,7 @@ export default function AccountDepositPage() {
         <div className="max-w-3xl mx-auto px-5">
           <div className="mb-8">
             <Link href="/account" className="text-xs text-fin-muted hover:text-foreground transition-colors">← Back to account</Link>
-            <h1 className="text-3xl font-extrabold mt-3">Fund Your Wallet</h1>
+            <h1 className="text-3xl font-medium mt-3">Fund Your Wallet</h1>
             <p className="text-sm text-fin-muted mt-2 max-w-xl">
               Deposits are credited to your available wallet balance once our team confirms the payment.
               You then deploy that balance into any investment plan or giveaway from your dashboard.
@@ -107,7 +107,7 @@ export default function AccountDepositPage() {
 
           <div className="fin-card rounded-md p-5 mb-8">
             <p className="text-xs uppercase tracking-[0.2em] text-fin-muted mb-1">Available Wallet Balance</p>
-            <p className="text-3xl font-extrabold tabular-nums text-fin-emerald">
+            <p className="text-3xl font-medium tabular-nums text-fin-emerald">
               {loading ? '—' : money(wallet.available_balance)}
             </p>
           </div>
@@ -263,14 +263,14 @@ export default function AccountDepositPage() {
                 </p>
                 {proofPreview ? (
                   <div className="flex items-start gap-4">
-                    <img src={proofPreview} alt="Payment proof preview" className="h-28 w-28 rounded-lg object-cover border border-fin-border" />
+                    <img src={proofPreview} alt="Payment proof preview" className="h-28 w-28 rounded object-cover border border-fin-border" />
                     <div className="flex-1 min-w-0">
                       <p className="text-sm text-foreground font-semibold truncate">{proof?.name}</p>
                       <p className="text-[11px] text-fin-muted mt-0.5">{proof ? `${(proof.size / 1024).toFixed(0)} KB` : ''}</p>
                       <button
                         type="button"
                         onClick={() => { setProof(null); setProofPreview(''); }}
-                        className="mt-2 px-3 py-1.5 rounded-lg text-[11px] font-bold border border-fin-border text-fin-muted hover:text-foreground transition-colors"
+                        className="mt-2 px-3 py-1.5 rounded text-[11px] font-bold border border-fin-border text-fin-muted hover:text-foreground transition-colors"
                       >
                         Remove
                       </button>
@@ -279,7 +279,7 @@ export default function AccountDepositPage() {
                 ) : (
                   <label
                     htmlFor="dep-proof"
-                    className="flex flex-col items-center justify-center gap-2 py-6 rounded-lg cursor-pointer hover:bg-fin-bg/60 transition-colors"
+                    className="flex flex-col items-center justify-center gap-2 py-6 rounded cursor-pointer hover:bg-fin-bg/60 transition-colors"
                   >
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-fin-muted" aria-hidden="true">
                       <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" />

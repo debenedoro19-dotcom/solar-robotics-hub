@@ -23,10 +23,10 @@ interface DepositRecord {
 type StatusFilter = 'all' | 'pending' | 'confirmed' | 'processing' | 'rejected';
 
 const STATUS_CONFIG: Record<string, { label: string; color: string; bg: string; dot: string }> = {
-  pending: { label: 'Pending', color: 'text-yellow-400', bg: 'bg-yellow-400/10 border-yellow-400/20', dot: 'bg-yellow-400' },
+  pending: { label: 'Pending', color: 'text-warning', bg: 'bg-warning/10 border-warning/20', dot: 'bg-warning' },
   processing: { label: 'Processing', color: 'text-zinc-300', bg: 'bg-zinc-300/10 border-zinc-300/20', dot: 'bg-zinc-300' },
-  confirmed: { label: 'Confirmed', color: 'text-green-400', bg: 'bg-green-400/10 border-green-400/20', dot: 'bg-green-400' },
-  rejected: { label: 'Rejected', color: 'text-red-400', bg: 'bg-red-400/10 border-red-400/20', dot: 'bg-red-400' },
+  confirmed: { label: 'Confirmed', color: 'text-success', bg: 'bg-success/10 border-success/20', dot: 'bg-success' },
+  rejected: { label: 'Rejected', color: 'text-destructive', bg: 'bg-destructive/10 border-destructive/20', dot: 'bg-destructive' },
 };
 
 const PAYMENT_METHOD_ICONS: Record<string, string> = {
@@ -216,7 +216,7 @@ export default function AdminDepositsPage() {
           </div>
           <h1 className="text-xl font-bold text-foreground mb-2">Admin Access Required</h1>
           <p className="text-sm text-muted-foreground mb-6">You must be logged in as admin to view this page.</p>
-          <Link href="/login" className="px-6 py-2.5 bg-primary text-white rounded text-sm font-semibold">Sign In as Admin</Link>
+          <Link href="/login" className="px-6 py-2.5 bg-primary text-foreground rounded text-sm font-semibold">Sign In as Admin</Link>
         </div>
       </main>
     );
@@ -225,7 +225,7 @@ export default function AdminDepositsPage() {
   return (
     <main className="min-h-screen bg-background text-foreground">
       {/* Top bar */}
-      <div className="border-b border-border bg-background/95 backdrop-blur-xl sticky top-0 z-40">
+      <div className="border-b border-border bg-background/95  sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link href="/" className="flex items-center gap-2.5">
@@ -237,14 +237,14 @@ export default function AdminDepositsPage() {
           </div>
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-1.5">
-              <div className={`w-1.5 h-1.5 rounded-full transition-colors ${liveIndicator ? 'bg-green-400 animate-ping' : 'bg-green-400 animate-pulse'}`} />
+              <div className={`w-1.5 h-1.5 rounded-full transition-colors ${liveIndicator ? 'bg-success animate-ping' : 'bg-success animate-pulse'}`} />
               <span className="text-[10px] text-muted-foreground uppercase tracking-widest hidden sm:block">Live</span>
             </div>
             <Link href="/admin" className="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
               Dashboard
             </Link>
-            <div className="w-7 h-7 rounded-full bg-primary flex items-center justify-center text-[10px] font-bold text-white">A</div>
+            <div className="w-7 h-7 rounded-full bg-primary flex items-center justify-center text-[10px] font-bold text-foreground">A</div>
           </div>
         </div>
       </div>
@@ -254,10 +254,10 @@ export default function AdminDepositsPage() {
         <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <div className="w-8 h-8 rounded bg-green-400/10 border border-green-400/20 flex items-center justify-center">
+              <div className="w-8 h-8 rounded bg-success/10 border border-success/20 flex items-center justify-center">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00F59B" strokeWidth="2" aria-hidden="true"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
               </div>
-              <h1 className="text-2xl font-extrabold text-foreground tracking-tight">Deposit Management</h1>
+              <h1 className="text-2xl font-medium text-foreground tracking-tight">Deposit Management</h1>
             </div>
             <p className="text-sm text-muted-foreground">Track and manage all user deposit requests in real time.</p>
           </div>
@@ -275,15 +275,15 @@ export default function AdminDepositsPage() {
         <div className="grid grid-cols-2 lg:grid-cols-6 gap-3 mb-8">
           {[
             { label: 'Total', value: stats.total, color: 'text-foreground', accent: '#6B7280' },
-            { label: 'Pending', value: stats.pending, color: 'text-yellow-400', accent: '#F59E0B' },
+            { label: 'Pending', value: stats.pending, color: 'text-warning', accent: '#F59E0B' },
             { label: 'Processing', value: stats.processing, color: 'text-zinc-300', accent: '#A1A1AA' },
-            { label: 'Confirmed', value: stats.confirmed, color: 'text-green-400', accent: '#00F59B' },
-            { label: 'Rejected', value: stats.rejected, color: 'text-red-400', accent: '#E82127' },
-            { label: 'Total Confirmed', value: `$${stats.totalConfirmed.toLocaleString()}`, color: 'text-green-400', accent: '#00F59B' },
+            { label: 'Confirmed', value: stats.confirmed, color: 'text-success', accent: '#00F59B' },
+            { label: 'Rejected', value: stats.rejected, color: 'text-destructive', accent: '#E82127' },
+            { label: 'Total Confirmed', value: `$${stats.totalConfirmed.toLocaleString()}`, color: 'text-success', accent: '#00F59B' },
           ].map((s) => (
             <div key={s.label} className="bg-card border border-border rounded p-4">
               <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-2">{s.label}</div>
-              <div className={`text-xl font-extrabold ${s.color}`}>{s.value}</div>
+              <div className={`text-xl font-medium ${s.color}`}>{s.value}</div>
               <div className="mt-2 h-0.5 rounded-full" style={{ background: `${s.accent}33` }}>
                 <div className="h-full rounded-full" style={{ width: stats.total > 0 ? `${Math.min(100, (Number(s.value) / stats.total) * 100)}%` : '0%', background: s.accent }} />
               </div>
@@ -315,7 +315,7 @@ export default function AdminDepositsPage() {
                 placeholder="Search user, email, ref…"
                 value={userSearch}
                 onChange={(e) => setUserSearch(e.target.value)}
-                className="w-full bg-background border border-border rounded px-3 py-1.5 text-xs text-foreground placeholder-[#52525B] focus:outline-none focus:border-border"
+                className="w-full bg-background border border-border rounded px-3 py-1.5 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-border"
               />
             </div>
             <div className="flex items-center gap-2">
@@ -327,7 +327,7 @@ export default function AdminDepositsPage() {
         </div>
 
         {error && (
-          <div className="mb-4 px-4 py-3 bg-red-400/10 border border-red-400/20 rounded text-xs text-red-400">{error}</div>
+          <div className="mb-4 px-4 py-3 bg-destructive/10 border border-destructive/20 rounded text-xs text-destructive">{error}</div>
         )}
 
         <div className="flex gap-6">
@@ -366,7 +366,7 @@ export default function AdminDepositsPage() {
                         onClick={() => openDetail(d)}
                         className={`w-full text-left px-5 py-4 hover:bg-card transition-colors flex items-center gap-4 ${selected?.id === d.id ? 'bg-card border-l-2 border-primary' : ''}`}
                       >
-                        <div className="w-9 h-9 rounded-full bg-green-400/10 border border-green-400/20 flex items-center justify-center text-xs font-bold text-green-400 shrink-0">{initials}</div>
+                        <div className="w-9 h-9 rounded-full bg-success/10 border border-success/20 flex items-center justify-center text-xs font-bold text-success shrink-0">{initials}</div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-0.5">
                             <span className="text-sm font-semibold text-foreground truncate">{d.user_name || d.user_email}</span>
@@ -410,7 +410,7 @@ export default function AdminDepositsPage() {
                 <div className="p-5 space-y-5">
                   {/* User info */}
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-green-400/10 border border-green-400/20 flex items-center justify-center text-sm font-bold text-green-400">
+                    <div className="w-10 h-10 rounded-full bg-success/10 border border-success/20 flex items-center justify-center text-sm font-bold text-success">
                       {(selected.user_name || selected.user_email || 'U').split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)}
                     </div>
                     <div>
@@ -423,7 +423,7 @@ export default function AdminDepositsPage() {
                   <div className="grid grid-cols-2 gap-3">
                     <div className="bg-background border border-border rounded p-3">
                       <div className="text-[10px] text-muted-foreground uppercase tracking-widest mb-1">Amount</div>
-                      <div className="text-lg font-extrabold text-foreground">${Number(selected.amount).toLocaleString()}</div>
+                      <div className="text-lg font-medium text-foreground">${Number(selected.amount).toLocaleString()}</div>
                     </div>
                     <div className="bg-background border border-border rounded p-3">
                       <div className="text-[10px] text-muted-foreground uppercase tracking-widest mb-1">Status</div>
@@ -470,7 +470,7 @@ export default function AdminDepositsPage() {
                         onChange={(e) => setActionNotes(e.target.value)}
                         rows={3}
                         placeholder="Add internal notes…"
-                        className="w-full bg-background border border-border rounded px-3 py-2 text-xs text-foreground placeholder-[#52525B] focus:outline-none focus:border-border resize-none"
+                        className="w-full bg-background border border-border rounded px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-border resize-none"
                       />
                     </div>
 
@@ -478,14 +478,14 @@ export default function AdminDepositsPage() {
                       <button
                         onClick={saveAction}
                         disabled={saving}
-                        className="flex-1 py-2.5 bg-primary hover:bg-red-700 text-white text-xs font-bold rounded tracking-widest uppercase transition-all disabled:opacity-50"
+                        className="flex-1 py-2.5 bg-primary hover:bg-destructive text-foreground text-xs font-bold rounded tracking-widest uppercase transition-all disabled:opacity-50"
                       >
                         {saving ? 'Saving…' : 'Save Changes'}
                       </button>
                       <button
                         onClick={() => { setActionStatus('confirmed'); saveAction(); }}
                         disabled={saving || selected.deposit_status === 'confirmed'}
-                        className="px-3 py-2.5 bg-green-400/10 hover:bg-green-400/20 border border-green-400/20 text-green-400 text-xs font-bold rounded transition-all disabled:opacity-30"
+                        className="px-3 py-2.5 bg-success/10 hover:bg-success/20 border border-success/20 text-success text-xs font-bold rounded transition-all disabled:opacity-30"
                         title="Quick confirm"
                       >
                         ✓
@@ -493,7 +493,7 @@ export default function AdminDepositsPage() {
                     </div>
 
                     {savedMsg && (
-                      <p className={`text-xs text-center font-semibold ${savedMsg.includes('Failed') ? 'text-red-400' : 'text-green-400'}`}>
+                      <p className={`text-xs text-center font-semibold ${savedMsg.includes('Failed') ? 'text-destructive' : 'text-success'}`}>
                         {savedMsg}
                       </p>
                     )}

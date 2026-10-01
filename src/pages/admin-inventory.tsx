@@ -31,7 +31,7 @@ const EMPTY = {
 };
 
 const inputClass =
-  'w-full px-3 py-2.5 rounded text-sm bg-background border border-border text-foreground placeholder-[#52525B] focus:border-primary/40 focus:outline-none transition-colors';
+  'w-full px-3 py-2.5 rounded text-sm bg-background border border-border text-foreground placeholder:text-muted-foreground focus:border-primary/40 focus:outline-none transition-colors';
 const labelClass = 'block text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-1.5';
 
 export default function AdminInventoryPage() {
@@ -187,7 +187,7 @@ export default function AdminInventoryPage() {
             <Link href="/admin" className="text-xs text-muted-foreground hover:text-primary transition-colors">
               ← Admin overview
             </Link>
-            <h1 className="text-3xl font-extrabold tracking-tighter mt-2">Inventory Editor</h1>
+            <h1 className="text-3xl font-medium tracking-tight mt-2">Inventory Editor</h1>
             <p className="text-sm text-muted-foreground mt-1">
               Add, edit, reorder, recategorize and hide the products shown on the homepage.
             </p>
@@ -218,7 +218,7 @@ export default function AdminInventoryPage() {
         </div>
 
         {error && !creating && !editing && (
-          <p className="text-sm text-red-400 mb-4">{error}</p>
+          <p className="text-sm text-destructive mb-4">{error}</p>
         )}
 
         {loading ? (
@@ -253,7 +253,7 @@ export default function AdminInventoryPage() {
                 />
                 <div className="min-w-[180px] flex-1">
                   <p className="text-sm font-bold leading-tight">{item.name}</p>
-                  <p className="text-xs text-emerald-400 font-semibold">{item.price}</p>
+                  <p className="text-xs text-success font-semibold">{item.price}</p>
                 </div>
                 <select
                   aria-label={`Category for ${item.name}`}
@@ -270,7 +270,7 @@ export default function AdminInventoryPage() {
                   onClick={() => void toggleActive(item)}
                   className={`px-3 py-1.5 rounded text-xs font-bold border ${
                     item.is_active
-                      ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
+                      ? 'bg-success/15 text-success border-success/30'
                       : 'bg-muted text-muted-foreground border-border'
                   }`}>
                   {item.is_active ? 'Live' : 'Hidden'}
@@ -282,7 +282,7 @@ export default function AdminInventoryPage() {
                 </button>
                 <button
                   onClick={() => void remove(item)}
-                  className="px-3 py-1.5 rounded text-xs font-bold text-red-400 border border-red-500/30 hover:bg-red-500/10">
+                  className="px-3 py-1.5 rounded text-xs font-bold text-destructive border border-destructive/30 hover:bg-destructive/10">
                   Delete
                 </button>
               </div>
@@ -296,13 +296,13 @@ export default function AdminInventoryPage() {
 
       {(creating || editing) && (
         <div
-          className="fixed inset-0 z-[95] flex items-start justify-center overflow-y-auto bg-black/75 backdrop-blur-sm px-4 py-10"
+          className="fixed inset-0 z-[95] flex items-start justify-center overflow-y-auto bg-foreground/40  px-4 py-10"
           role="dialog"
           aria-modal="true">
           <form
             onSubmit={save}
             className="w-full max-w-lg rounded-md border border-border bg-card p-6 space-y-4">
-            <h2 className="text-lg font-extrabold tracking-tight">
+            <h2 className="text-lg font-medium tracking-tight">
               {editing ? 'Edit item' : 'New inventory item'}
             </h2>
 
@@ -372,7 +372,7 @@ export default function AdminInventoryPage() {
               Visible on the site
             </label>
 
-            {error && <p className="text-sm text-red-400">{error}</p>}
+            {error && <p className="text-sm text-destructive">{error}</p>}
 
             <div className="flex gap-3 pt-2">
               <button type="submit" disabled={saving} className="flex-1 py-3 rounded text-sm font-bold bg-primary text-primary-foreground disabled:opacity-60">

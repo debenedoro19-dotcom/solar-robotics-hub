@@ -39,7 +39,7 @@ const EMPTY = {
   is_active: true,
 };
 const inputClass =
-  "w-full px-3 py-2.5 rounded text-sm bg-background border border-border text-foreground placeholder-[#52525B] focus:border-emerald-500/40 focus:outline-none transition-colors";
+  "w-full px-3 py-2.5 rounded text-sm bg-background border border-border text-foreground placeholder:text-muted-foreground focus:border-success/40 focus:outline-none transition-colors";
 const labelClass = "block text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-1.5";
 
 const money = (n: number) => `$${Number(n || 0).toLocaleString("en-US", { maximumFractionDigits: 2 })}`;
@@ -173,14 +173,14 @@ export default function AdminGiveawaysPage() {
 
         <div className="mt-4 mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-extrabold tracking-tight mb-1">Giveaway Management</h1>
+            <h1 className="text-2xl font-medium tracking-tight mb-1">Giveaway Management</h1>
             <p className="text-sm text-muted-foreground">
               Every campaign here is live on the homepage and paid for from the investor wallet balance automatically.
             </p>
           </div>
           <button
             onClick={startCreate}
-            className="px-5 py-2.5 bg-emerald-500 text-black text-xs font-bold rounded tracking-widest uppercase hover:opacity-90 transition-opacity self-start sm:self-auto"
+            className="px-5 py-2.5 bg-success text-black text-xs font-bold rounded tracking-widest uppercase hover:opacity-90 transition-opacity self-start sm:self-auto"
           >
             + New Giveaway
           </button>
@@ -195,15 +195,15 @@ export default function AdminGiveawaysPage() {
           ].map((k) => (
             <div key={k.label} className="bg-card border border-border rounded p-4">
               <p className="text-[10px] text-muted-foreground uppercase tracking-widest mb-2">{k.label}</p>
-              <p className="text-xl font-extrabold text-foreground tabular-nums">{k.value}</p>
+              <p className="text-xl font-medium text-foreground tabular-nums">{k.value}</p>
             </div>
           ))}
         </div>
 
-        {error && <p className="mb-4 text-sm text-red-400">{error}</p>}
+        {error && <p className="mb-4 text-sm text-destructive">{error}</p>}
 
         {(creating || editing) && (
-          <div className="bg-card border border-emerald-500/20 rounded p-6 mb-8">
+          <div className="bg-card border border-success/20 rounded p-6 mb-8">
             <h2 className="text-sm font-bold mb-5">{editing ? `Edit: ${editing.title}` : "New Giveaway Campaign"}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
               <div className="sm:col-span-2">
@@ -294,7 +294,7 @@ export default function AdminGiveawaysPage() {
                 <span className={labelClass}>Active</span>
                 <button
                   onClick={() => setForm({ ...form, is_active: !form.is_active })}
-                  className={`relative w-10 h-5 rounded-full transition-colors ${form.is_active ? "bg-emerald-500" : "bg-muted"}`}
+                  className={`relative w-10 h-5 rounded-full transition-colors ${form.is_active ? "bg-success" : "bg-muted"}`}
                   aria-pressed={form.is_active}
                 >
                   <span
@@ -307,7 +307,7 @@ export default function AdminGiveawaysPage() {
               <button
                 onClick={save}
                 disabled={saving}
-                className="px-5 py-2.5 bg-emerald-500 text-black text-xs font-bold rounded tracking-widest uppercase disabled:opacity-60"
+                className="px-5 py-2.5 bg-success text-black text-xs font-bold rounded tracking-widest uppercase disabled:opacity-60"
               >
                 {saving ? "Saving…" : editing ? "Save Changes" : "Create Giveaway"}
               </button>
@@ -339,11 +339,11 @@ export default function AdminGiveawaysPage() {
                     <div className="min-w-0">
                       <div className="flex items-center gap-2 mb-1 flex-wrap">
                         <h3 className="font-bold">{g.title}</h3>
-                        <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                        <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-success/10 text-success border border-success/20">
                           {g.badge}
                         </span>
                         <span
-                          className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase border ${g.is_active ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20" : "bg-muted text-muted-foreground border-border"}`}
+                          className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase border ${g.is_active ? "bg-success/10 text-success border-success/20" : "bg-muted text-muted-foreground border-border"}`}
                         >
                           {g.is_active ? "Active" : "Hidden"}
                         </span>
@@ -359,7 +359,7 @@ export default function AdminGiveawaysPage() {
                           </span>
                         </div>
                         <div className="h-1.5 rounded-full bg-muted overflow-hidden">
-                          <div className="h-full rounded-full bg-emerald-500" style={{ width: `${pct}%` }} />
+                          <div className="h-full rounded-full bg-success" style={{ width: `${pct}%` }} />
                         </div>
                       </div>
                     </div>
@@ -382,13 +382,13 @@ export default function AdminGiveawaysPage() {
                       </button>
                       <button
                         onClick={() => setEntrantsFor(entrantsFor === g.id ? null : g.id)}
-                        className="px-3 py-1.5 bg-cyan-400/10 border border-cyan-400/20 text-cyan-400 text-xs font-semibold rounded"
+                        className="px-3 py-1.5 bg-muted-foreground/10 border border-muted-foreground/20 text-muted-foreground text-xs font-semibold rounded"
                       >
                         Entrants ({list.length})
                       </button>
                       <button
                         onClick={() => toggleActive(g)}
-                        className="px-3 py-1.5 bg-yellow-400/10 border border-yellow-400/20 text-yellow-400 text-xs font-semibold rounded"
+                        className="px-3 py-1.5 bg-warning/10 border border-warning/20 text-warning text-xs font-semibold rounded"
                       >
                         {g.is_active ? "Hide" : "Show"}
                       </button>
@@ -400,7 +400,7 @@ export default function AdminGiveawaysPage() {
                       </button>
                       <button
                         onClick={() => remove(g)}
-                        className="px-3 py-1.5 bg-red-400/10 border border-red-400/20 text-red-400 text-xs font-semibold rounded"
+                        className="px-3 py-1.5 bg-destructive/10 border border-destructive/20 text-destructive text-xs font-semibold rounded"
                       >
                         Delete
                       </button>
@@ -428,7 +428,7 @@ export default function AdminGiveawaysPage() {
                                   <td className="py-2 pr-4">
                                     {profiles[e.user_id]?.full_name || profiles[e.user_id]?.email || e.user_id}
                                   </td>
-                                  <td className="py-2 pr-4 tabular-nums text-emerald-400">
+                                  <td className="py-2 pr-4 tabular-nums text-success">
                                     {money(Number(e.amount_paid))}
                                   </td>
                                   <td className="py-2 pr-4 uppercase">{e.status}</td>

@@ -37,9 +37,9 @@ type StatusFilter = 'all' | 'pending' | 'processing' | 'paid' | 'rejected';
 const STATUS_CONFIG: Record<string, { label: string; color: string; bg: string; dot: string; icon: React.ReactNode }> = {
   pending: {
     label: 'Pending',
-    color: 'text-yellow-400',
-    bg: 'bg-yellow-400/10 border-yellow-400/20',
-    dot: 'bg-yellow-400',
+    color: 'text-warning',
+    bg: 'bg-warning/10 border-warning/20',
+    dot: 'bg-warning',
     icon: (
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
         <circle cx="12" cy="12" r="10" /><path d="M12 6v6l4 2" />
@@ -59,9 +59,9 @@ const STATUS_CONFIG: Record<string, { label: string; color: string; bg: string; 
   },
   paid: {
     label: 'Paid',
-    color: 'text-green-400',
-    bg: 'bg-green-400/10 border-green-400/20',
-    dot: 'bg-green-400',
+    color: 'text-success',
+    bg: 'bg-success/10 border-success/20',
+    dot: 'bg-success',
     icon: (
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
         <path d="M20 6L9 17l-5-5" />
@@ -70,9 +70,9 @@ const STATUS_CONFIG: Record<string, { label: string; color: string; bg: string; 
   },
   rejected: {
     label: 'Rejected',
-    color: 'text-red-400',
-    bg: 'bg-red-400/10 border-red-400/20',
-    dot: 'bg-red-400',
+    color: 'text-destructive',
+    bg: 'bg-destructive/10 border-destructive/20',
+    dot: 'bg-destructive',
     icon: (
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
         <path d="M18 6L6 18M6 6l12 12" />
@@ -361,7 +361,7 @@ export default function AdminWithdrawalsPage() {
   return (
     <main className="min-h-screen bg-background text-foreground">
       {/* Top bar */}
-      <div className="border-b border-border bg-background/95 backdrop-blur-xl sticky top-0 z-40">
+      <div className="border-b border-border bg-background/95  sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link href="/" className="flex items-center gap-2.5">
@@ -376,7 +376,7 @@ export default function AdminWithdrawalsPage() {
           <div className="flex items-center gap-3">
             {/* Live indicator */}
             <div className="flex items-center gap-1.5">
-              <span className={`w-2 h-2 rounded-full transition-colors duration-300 ${liveIndicator ? 'bg-green-400 shadow-[0_0_6px_#00F59B]' : 'bg-green-500/40'}`} />
+              <span className={`w-2 h-2 rounded-full transition-colors duration-300 ${liveIndicator ? 'bg-success shadow-[0_0_6px_#00F59B]' : 'bg-success/40'}`} />
               <span className="text-[10px] text-muted-foreground uppercase tracking-widest">Live</span>
             </div>
             <Link
@@ -388,7 +388,7 @@ export default function AdminWithdrawalsPage() {
               </svg>
               Admin Home
             </Link>
-            <div className="w-7 h-7 rounded-full bg-primary flex items-center justify-center text-[10px] font-bold text-white">A</div>
+            <div className="w-7 h-7 rounded-full bg-primary flex items-center justify-center text-[10px] font-bold text-foreground">A</div>
           </div>
         </div>
       </div>
@@ -397,7 +397,7 @@ export default function AdminWithdrawalsPage() {
         {/* Header */}
         <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-extrabold text-foreground tracking-tight mb-1">Withdrawals Management</h1>
+            <h1 className="text-2xl font-medium text-foreground tracking-tight mb-1">Withdrawals Management</h1>
             <p className="text-sm text-muted-foreground">Review pending requests, approve or reject payouts, and track disbursement status in real time.</p>
           </div>
           <button
@@ -416,15 +416,15 @@ export default function AdminWithdrawalsPage() {
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
           {[
             { label: 'Total Requests', value: stats.total, color: 'text-foreground' },
-            { label: 'Pending', value: stats.pending, color: 'text-yellow-400' },
+            { label: 'Pending', value: stats.pending, color: 'text-warning' },
             { label: 'Processing', value: stats.processing, color: 'text-zinc-300' },
-            { label: 'Paid', value: stats.paid, color: 'text-green-400' },
-            { label: 'Rejected', value: stats.rejected, color: 'text-red-400' },
-            { label: 'Total Paid Out', value: formatAmount(stats.totalPaid), color: 'text-green-400' },
+            { label: 'Paid', value: stats.paid, color: 'text-success' },
+            { label: 'Rejected', value: stats.rejected, color: 'text-destructive' },
+            { label: 'Total Paid Out', value: formatAmount(stats.totalPaid), color: 'text-success' },
           ].map((card) => (
             <div key={card.label} className="bg-card border border-border rounded p-4">
               <p className="text-[10px] text-muted-foreground uppercase tracking-widest mb-1.5">{card.label}</p>
-              <p className={`text-xl font-extrabold ${card.color}`}>{card.value}</p>
+              <p className={`text-xl font-medium ${card.color}`}>{card.value}</p>
             </div>
           ))}
         </div>
@@ -494,7 +494,7 @@ export default function AdminWithdrawalsPage() {
         </div>
 
         {error && (
-          <div className="mb-4 p-3 bg-red-500/10 border border-red-500/20 rounded text-red-400 text-sm">{error}</div>
+          <div className="mb-4 p-3 bg-destructive/10 border border-destructive/20 rounded text-destructive text-sm">{error}</div>
         )}
 
         <div className="flex gap-6">
@@ -579,7 +579,7 @@ export default function AdminWithdrawalsPage() {
                   {/* Amount */}
                   <div className="text-center py-4 bg-background rounded border border-border">
                     <p className="text-[10px] text-muted-foreground uppercase tracking-widest mb-1">Requested Amount</p>
-                    <p className="text-3xl font-extrabold text-foreground">{formatAmount(selected.amount)}</p>
+                    <p className="text-3xl font-medium text-foreground">{formatAmount(selected.amount)}</p>
                     <div className="mt-2">
                       <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold border ${STATUS_CONFIG[selected.payout_status].bg} ${STATUS_CONFIG[selected.payout_status].color}`}>
                         <span className={`w-1.5 h-1.5 rounded-full ${STATUS_CONFIG[selected.payout_status].dot}`} />
@@ -644,7 +644,7 @@ export default function AdminWithdrawalsPage() {
                       <div className="grid grid-cols-2 gap-2">
                         <button
                           onClick={() => openConfirm('approve', 'paid', actionNotes)}
-                          className="flex items-center justify-center gap-2 py-2.5 bg-green-500/10 hover:bg-green-500/20 border border-green-500/20 hover:border-green-500/40 text-green-400 text-xs font-bold rounded tracking-widest uppercase transition-all"
+                          className="flex items-center justify-center gap-2 py-2.5 bg-success/10 hover:bg-success/20 border border-success/20 hover:border-success/40 text-success text-xs font-bold rounded tracking-widest uppercase transition-all"
                         >
                           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
                             <path d="M20 6L9 17l-5-5" />
@@ -653,7 +653,7 @@ export default function AdminWithdrawalsPage() {
                         </button>
                         <button
                           onClick={() => openConfirm('reject', 'rejected', actionNotes)}
-                          className="flex items-center justify-center gap-2 py-2.5 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 hover:border-red-500/40 text-red-400 text-xs font-bold rounded tracking-widest uppercase transition-all"
+                          className="flex items-center justify-center gap-2 py-2.5 bg-destructive/10 hover:bg-destructive/20 border border-destructive/20 hover:border-destructive/40 text-destructive text-xs font-bold rounded tracking-widest uppercase transition-all"
                         >
                           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
                             <path d="M18 6L6 18M6 6l12 12" />
@@ -688,7 +688,7 @@ export default function AdminWithdrawalsPage() {
                       <button
                         onClick={() => openConfirm('update', actionStatus, actionNotes)}
                         disabled={saving}
-                        className="w-full py-2.5 bg-primary hover:bg-primary/90 text-white text-xs font-bold rounded tracking-widest uppercase transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                        className="w-full py-2.5 bg-primary hover:bg-primary/90 text-foreground text-xs font-bold rounded tracking-widest uppercase transition-all disabled:opacity-50 flex items-center justify-center gap-2"
                       >
                         {saving ? (
                           <>
@@ -759,7 +759,7 @@ export default function AdminWithdrawalsPage() {
       {confirmModal.open && confirmModal.withdrawal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div
-            className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+            className="absolute inset-0 bg-foreground/40 "
             onClick={() => setConfirmModal((prev) => ({ ...prev, open: false }))}
           />
           <div className="relative bg-card border border-border rounded w-full max-w-md shadow-2xl">
@@ -767,13 +767,13 @@ export default function AdminWithdrawalsPage() {
             <div className="flex items-center justify-between px-6 py-4 border-b border-border">
               <div className="flex items-center gap-3">
                 {confirmModal.type === 'approve' ? (
-                  <div className="w-8 h-8 rounded-full bg-green-500/10 border border-green-500/20 flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-full bg-success/10 border border-success/20 flex items-center justify-center">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00F59B" strokeWidth="2.5" aria-hidden="true">
                       <path d="M20 6L9 17l-5-5" />
                     </svg>
                   </div>
                 ) : confirmModal.type === 'reject' ? (
-                  <div className="w-8 h-8 rounded-full bg-red-500/10 border border-red-500/20 flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-full bg-destructive/10 border border-destructive/20 flex items-center justify-center">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E82127" strokeWidth="2.5" aria-hidden="true">
                       <path d="M18 6L6 18M6 6l12 12" />
                     </svg>
@@ -811,7 +811,7 @@ export default function AdminWithdrawalsPage() {
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-xs text-muted-foreground">Amount</span>
-                  <span className="text-lg font-extrabold text-foreground">{formatAmount(confirmModal.withdrawal.amount)}</span>
+                  <span className="text-lg font-medium text-foreground">{formatAmount(confirmModal.withdrawal.amount)}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-xs text-muted-foreground">Bank</span>
@@ -831,22 +831,22 @@ export default function AdminWithdrawalsPage() {
               </div>
 
               {confirmModal.type === 'approve' && (
-                <div className="flex items-start gap-2 p-3 bg-green-500/5 border border-green-500/15 rounded">
+                <div className="flex items-start gap-2 p-3 bg-success/5 border border-success/15 rounded">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00F59B" strokeWidth="2" className="flex-shrink-0 mt-0.5" aria-hidden="true">
                     <circle cx="12" cy="12" r="10" /><path d="M12 8v4m0 4h.01" />
                   </svg>
-                  <p className="text-xs text-green-400/80">
+                  <p className="text-xs text-success/80">
                     Approving this payout will mark it as <strong>Paid</strong> and send a confirmation email to the user.
                   </p>
                 </div>
               )}
 
               {confirmModal.type === 'reject' && (
-                <div className="flex items-start gap-2 p-3 bg-red-500/5 border border-red-500/15 rounded">
+                <div className="flex items-start gap-2 p-3 bg-destructive/5 border border-destructive/15 rounded">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E82127" strokeWidth="2" className="flex-shrink-0 mt-0.5" aria-hidden="true">
                     <circle cx="12" cy="12" r="10" /><path d="M12 8v4m0 4h.01" />
                   </svg>
-                  <p className="text-xs text-red-400/80">
+                  <p className="text-xs text-destructive/80">
                     This action will reject the withdrawal request. The user will not receive a payout.
                   </p>
                 </div>
@@ -871,8 +871,8 @@ export default function AdminWithdrawalsPage() {
               <button
                 onClick={executeStatusUpdate}
                 className={`flex-1 py-2.5 text-foreground text-xs font-bold rounded tracking-widest uppercase transition-all ${
-                  confirmModal.type === 'approve' ?'bg-green-600 hover:bg-green-500'
-                    : confirmModal.type === 'reject' ?'bg-red-600 hover:bg-red-500' :'bg-primary hover:bg-primary/90'
+                  confirmModal.type === 'approve' ?'bg-success hover:bg-success'
+                    : confirmModal.type === 'reject' ?'bg-destructive hover:bg-destructive' :'bg-primary hover:bg-primary/90'
                 }`}
               >
                 {confirmModal.type === 'approve' ?'Confirm Payout'

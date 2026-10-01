@@ -436,7 +436,7 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
         <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-8">
           <div className="fin-card-elevated rounded-md p-5">
             <p className="text-[11px] uppercase tracking-[0.22em] text-fin-muted mb-2">Available Wallet Balance</p>
-            <p className="text-3xl font-extrabold tabular-nums text-fin-emerald">{money(balance?.available_balance || 0)}</p>
+            <p className="text-3xl font-medium tabular-nums text-fin-emerald">{money(balance?.available_balance || 0)}</p>
           </div>
           <MetricCard label="Total Active Capital" value={money(balance?.total_invested || 0)} />
           <MetricCard label="Net Profit Accrued" value={money(balance?.total_profit || 0)} accent />
@@ -474,7 +474,7 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
               onClick={() => setActiveTab(tab.id)}
               className={`px-4 py-2 text-xs font-semibold tracking-widest uppercase rounded transition-all whitespace-nowrap ${
                 activeTab === tab.id
-                  ? 'bg-primary text-white' :'text-fin-muted hover:text-foreground hover:bg-fin-elevated'
+                  ? 'bg-primary text-foreground' :'text-fin-muted hover:text-foreground hover:bg-fin-elevated'
               }`}
             >
               {tab.label}
@@ -632,7 +632,7 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
                   {(!kyc || kycStatus === 'rejected') && (
                     <Link
                       href="/kyc"
-                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-xs font-bold rounded tracking-widest uppercase hover:bg-accent transition-colors"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-foreground text-xs font-bold rounded tracking-widest uppercase hover:bg-accent transition-colors"
                       style={{ boxShadow: '0 0 20px rgba(227,25,55,0.3)' }}
                     >
                       {kycStatus === 'rejected' ? 'Resubmit KYC' : 'Start KYC Verification'}
@@ -653,7 +653,7 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
                       { step: 'Account Verified', done: kycStatus === 'approved' },
                     ].map((item, i) => (
                       <div key={i} className="flex items-center gap-3">
-                        <div className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${item.done ? 'bg-[#00F59B]/20 text-fin-emerald border border-[#00F59B]/30' : 'bg-fin-elevated text-fin-muted border border-fin-border'}`}>
+                        <div className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${item.done ? 'bg-card/20 text-fin-emerald border border-border/30' : 'bg-fin-elevated text-fin-muted border border-fin-border'}`}>
                           {item.done ? '✓' : i + 1}
                         </div>
                         <p className={`text-sm ${item.done ? 'text-foreground' : 'text-fin-muted'}`}>{item.step}</p>
@@ -754,7 +754,7 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
                             <tr key={tx.id || i} className="hover:bg-fin-elevated transition-colors">
                               <td className="px-5 py-4 text-sm text-slate-300 whitespace-nowrap">{tx.date}</td>
                               <td className="px-5 py-4">
-                                <span className={`px-2 py-1 rounded text-[10px] font-semibold capitalize ${isCredit ? 'bg-[#00F59B]/10 text-fin-emerald' : 'bg-primary/10 text-fin-danger'}`}>
+                                <span className={`px-2 py-1 rounded text-[10px] font-semibold capitalize ${isCredit ? 'bg-card/10 text-fin-emerald' : 'bg-primary/10 text-fin-danger'}`}>
                                   {tx.type}
                                 </span>
                               </td>
@@ -765,7 +765,7 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
                                 </span>
                               </td>
                               <td className="px-5 py-4">
-                                <span className={`px-2 py-1 rounded text-[10px] font-semibold ${tx.status === 'completed' ? 'bg-[#00F59B]/10 text-fin-emerald' : tx.status === 'pending' ? 'bg-[#F59E0B]/10 text-[#F59E0B]' : 'bg-[#6B7280]/10 text-fin-muted'}`}>
+                                <span className={`px-2 py-1 rounded text-[10px] font-semibold ${tx.status === 'completed' ? 'bg-card/10 text-fin-emerald' : tx.status === 'pending' ? 'bg-card/10 text-[#F59E0B]' : 'bg-card/10 text-fin-muted'}`}>
                                   {tx.status}
                                 </span>
                               </td>
@@ -804,7 +804,7 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
 
                 {/* Action message */}
                 {balanceActionMsg && (
-                  <div className={`p-4 rounded border text-xs font-medium ${balanceActionMsg.type === 'success' ? 'bg-green-400/5 border-green-400/20 text-green-400' : 'bg-red-400/5 border-red-400/20 text-red-400'}`}>
+                  <div className={`p-4 rounded border text-xs font-medium ${balanceActionMsg.type === 'success' ? 'bg-success/5 border-success/20 text-success' : 'bg-destructive/5 border-destructive/20 text-destructive'}`}>
                     {balanceActionMsg.text}
                   </div>
                 )}
@@ -841,7 +841,7 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
                           <button
                             key={m.id}
                             onClick={() => setDepositMethod(m.id)}
-                            className={`w-full flex items-center gap-3 p-3 rounded border text-left transition-all text-xs ${depositMethod === m.id ? 'border-primary bg-primary/5 text-white' : 'border-fin-border text-fin-muted hover:border-fin-border'}`}
+                            className={`w-full flex items-center gap-3 p-3 rounded border text-left transition-all text-xs ${depositMethod === m.id ? 'border-primary bg-primary/5 text-foreground' : 'border-fin-border text-fin-muted hover:border-fin-border'}`}
                           >
                             <span>{m.icon}</span>
                             <span className="font-semibold">{m.label}</span>
@@ -891,7 +891,7 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
                           <button
                             key={m.id}
                             onClick={() => setWithdrawMethod(m.id)}
-                            className={`w-full flex items-center gap-3 p-3 rounded border text-left transition-all text-xs ${withdrawMethod === m.id ? 'border-primary bg-primary/5 text-white' : 'border-fin-border text-fin-muted hover:border-fin-border'}`}
+                            className={`w-full flex items-center gap-3 p-3 rounded border text-left transition-all text-xs ${withdrawMethod === m.id ? 'border-primary bg-primary/5 text-foreground' : 'border-fin-border text-fin-muted hover:border-fin-border'}`}
                           >
                             <span>{m.icon}</span>
                             <span className="font-semibold">{m.label}</span>
@@ -931,7 +931,7 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
                     <button
                       onClick={handleWithdraw}
                       disabled={balanceLoading || !withdrawAmount || Number(withdrawAmount) <= 0 || !withdrawMethod}
-                      className="w-full py-3 rounded text-xs font-bold tracking-widest uppercase disabled:opacity-40 disabled:cursor-not-allowed border border-fin-border text-white hover:border-primary/50 hover:bg-primary/5 transition-all"
+                      className="w-full py-3 rounded text-xs font-bold tracking-widest uppercase disabled:opacity-40 disabled:cursor-not-allowed border border-fin-border text-foreground hover:border-primary/50 hover:bg-primary/5 transition-all"
                     >
                       {balanceLoading ? 'Processing...' : 'Submit Withdrawal Request'}
                     </button>
@@ -1029,7 +1029,7 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
                               <tr key={tx.id} className="hover:bg-fin-elevated transition-colors">
                                 <td className="px-5 py-4 text-sm text-slate-300 whitespace-nowrap">{new Date(tx.created_at).toLocaleDateString()}</td>
                                 <td className="px-5 py-4">
-                                  <span className={`px-2 py-1 rounded text-[10px] font-semibold ${isCredit ? 'bg-[#00F59B]/10 text-fin-emerald' : 'bg-primary/10 text-fin-danger'}`}>
+                                  <span className={`px-2 py-1 rounded text-[10px] font-semibold ${isCredit ? 'bg-card/10 text-fin-emerald' : 'bg-primary/10 text-fin-danger'}`}>
                                     {typeLabels[tx.type] || tx.type}
                                   </span>
                                 </td>
@@ -1084,7 +1084,7 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
                     <div className="flex-1 bg-fin-elevated border border-fin-border rounded px-4 py-2.5 text-sm text-fin-muted font-mono truncate">
                       {`https://tradeenergyhub.com/register?ref=${userId.slice(0, 8)}`}
                     </div>
-                    <Link href="/referral" className="px-4 py-2.5 bg-primary text-white text-xs font-bold rounded tracking-widest uppercase hover:bg-accent transition-colors whitespace-nowrap">
+                    <Link href="/referral" className="px-4 py-2.5 bg-primary text-foreground text-xs font-bold rounded tracking-widest uppercase hover:bg-accent transition-colors whitespace-nowrap">
                       Referral Page
                     </Link>
                   </div>
