@@ -24,8 +24,8 @@ const panels: Panel[] = [
     secondary: { label: "View Inventory", href: "/inventory" },
   },
   {
-    title: "Invest in Tesla",
-    sub: "Plans built around the Tesla ecosystem",
+    title: "Invest in Tesla & SpaceX",
+    sub: "Plans built around the Tesla and SpaceX ecosystems",
     img: "/assets/images/spacex_starship_launch.webp",
     alt: "Rocket launch at dusk",
     primary: { label: "Start Investing", href: "/register" },
