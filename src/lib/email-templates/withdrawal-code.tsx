@@ -63,7 +63,7 @@ const codeText = {
   fontSize: '30px',
   letterSpacing: '8px',
   fontWeight: 'bold' as const,
-  color: '#ffffff',
+  color: '#000000',
   margin: '0',
 }
 const row = { fontSize: '12px', color: '#71717a', margin: '0 0 14px' }

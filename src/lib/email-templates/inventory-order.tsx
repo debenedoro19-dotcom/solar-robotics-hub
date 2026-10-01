@@ -76,4 +76,4 @@ export const template = {
 
 const row = { margin: '0 0 12px', fontSize: '14px', lineHeight: '20px' }
 const rowLabel = { color: '#71717a', fontSize: '11px', textTransform: 'uppercase' as const, letterSpacing: '1px' }
-const rowValue = { color: '#ffffff', fontWeight: '600' as const }
+const rowValue = { color: '#000000', fontWeight: '600' as const }
