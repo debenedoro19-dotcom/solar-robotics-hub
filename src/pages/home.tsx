@@ -1,26 +1,87 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import HeroSection from "@/components/sections/HeroSection";
-import GiveawaysSection from "@/components/sections/GiveawaysSection";
+import Link from "@/components/SmartLink";
 import InvestmentPackagesSection from "@/components/sections/InvestmentPackagesSection";
-import PlatformCredibilitySection from "@/components/sections/PlatformCredibilitySection";
-import TestimonialsSection from "@/components/sections/TestimonialsSection";
-import FinalCTASection from "@/components/sections/FinalCTASection";
 import FloatingSupport from "@/components/sections/FloatingSupport";
 import ScrollAnimations from "@/components/ScrollAnimations";
 
+type Panel = {
+  title: string;
+  sub: string;
+  img: string;
+  alt: string;
+  primary: { label: string; href: string };
+  secondary: { label: string; href: string };
+};
+
+const panels: Panel[] = [
+  {
+    title: "Model Y",
+    sub: "From $38,240 · Order with Trade Tesla",
+    img: "/assets/images/tesla_vehicles_hero.webp",
+    alt: "Tesla Model Y in a studio setting",
+    primary: { label: "Order Now", href: "/inventory" },
+    secondary: { label: "View Inventory", href: "/inventory" },
+  },
+  {
+    title: "Invest in Tesla",
+    sub: "Plans built around the Tesla ecosystem",
+    img: "/assets/images/spacex_starship_launch.webp",
+    alt: "Rocket launch at dusk",
+    primary: { label: "Start Investing", href: "/register" },
+    secondary: { label: "View Plans", href: "/invest" },
+  },
+  {
+    title: "Powerwall & Megapack",
+    sub: "Store energy. Power your future.",
+    img: "/assets/images/tesla_energy_hero.webp",
+    alt: "Tesla energy storage installation",
+    primary: { label: "Shop Energy", href: "/inventory" },
+    secondary: { label: "Learn More", href: "/ecosystem" },
+  },
+  {
+    title: "Solar Roof",
+    sub: "Generate clean energy from your roof",
+    img: "/assets/inventory/solar_roof.webp",
+    alt: "Home with Tesla Solar Roof",
+    primary: { label: "Order Now", href: "/inventory" },
+    secondary: { label: "Learn More", href: "/ecosystem" },
+  },
+  {
+    title: "Optimus",
+    sub: "The future of robotics",
+    img: "/assets/images/tesla_optimus_robotics.webp",
+    alt: "Tesla Optimus humanoid robot",
+    primary: { label: "Reserve Now", href: "/inventory" },
+    secondary: { label: "Learn More", href: "/ecosystem" },
+  },
+];
+
+function PanelSection({ p, first }: { p: Panel; first: boolean }) {
+  return (
+    <section className="tsla-panel">
+      <img src={p.img} alt={p.alt} loading={first ? "eager" : "lazy"} decoding="async" />
+      <div className="pt-28 sm:pt-32 px-6 tsla-fade">
+        <h2 className="text-4xl sm:text-5xl font-semibold tracking-tight">{p.title}</h2>
+        <p className="mt-2 text-sm sm:text-base opacity-90">{p.sub}</p>
+      </div>
+      <div className="pb-16 px-6 flex flex-col sm:flex-row gap-3 sm:gap-6 w-full sm:w-auto tsla-fade">
+        <Link href={p.primary.href} className="tsla-btn tsla-btn-solid">{p.primary.label}</Link>
+        <Link href={p.secondary.href} className="tsla-btn tsla-btn-ghost">{p.secondary.label}</Link>
+      </div>
+    </section>
+  );
+}
+
 export default function HomePage() {
   return (
-    <main className="relative bg-background text-foreground overflow-x-hidden">
-      <div className="grid-bg" aria-hidden="true" />
-      <div className="noise-overlay" aria-hidden="true" />
+    <main className="relative bg-background text-foreground overflow-x-hidden tsla-snap">
       <Header />
-      <HeroSection />
-      <div className="defer-paint"><GiveawaysSection /></div>
-      <div className="defer-paint"><InvestmentPackagesSection /></div>
-      <div className="defer-paint"><PlatformCredibilitySection /></div>
-      <div className="defer-paint"><TestimonialsSection /></div>
-      <div className="defer-paint"><FinalCTASection /></div>
+      <h1 className="sr-only">Trade Tesla — vehicles, energy, solar, robotics and investing</h1>
+      {panels.map((p, i) => (
+        <PanelSection key={p.title} p={p} first={i === 0} />
+      ))}
+      <InvestmentPackagesSection />
       <Footer />
       <FloatingSupport />
       <ScrollAnimations />
