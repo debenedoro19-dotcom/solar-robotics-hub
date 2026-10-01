@@ -267,8 +267,8 @@ export default function InvestorDashboard() {
             </p>
             <div className="flex flex-wrap gap-3 mt-6">
               <button onClick={() => goDeposit()} className="px-5 py-2.5 rounded btn-red text-sm">+ Deposit</button>
-              <button onClick={() => setWithdrawOpen(true)} className="px-5 py-2.5 rounded bg-white/[0.04] border border-white/[0.08] backdrop-blur-xl text-sm font-bold hover:border-white/25 transition-all duration-300">↑ Withdraw</button>
-              <button onClick={() => { setTab('browse'); document.getElementById('marketplace')?.scrollIntoView({ behavior: 'smooth' }); }} className="px-5 py-2.5 rounded bg-white/[0.04] border border-white/[0.08] backdrop-blur-xl text-sm font-bold hover:border-white/25 transition-all duration-300">⚡ Buy Plan</button>
+              <button onClick={() => setWithdrawOpen(true)} className="px-5 py-2.5 rounded bg-secondary border border-border text-sm font-bold hover:border-white/25 transition-all duration-300">↑ Withdraw</button>
+              <button onClick={() => { setTab('browse'); document.getElementById('marketplace')?.scrollIntoView({ behavior: 'smooth' }); }} className="px-5 py-2.5 rounded bg-secondary border border-border text-sm font-bold hover:border-white/25 transition-all duration-300">⚡ Buy Plan</button>
             </div>
           </div>
 
