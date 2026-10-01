@@ -22,7 +22,7 @@ export const CATEGORY_STYLES: Record<string, string> = Object.fromEntries(
     'Vehicle Fleet',
     'Powerwall Energy',
     'Supercharger Network',
-  ].map((c) => [c, 'bg-primary/10 text-primary border-primary/30']),
+  ].map((c) => [c, 'bg-transparent text-muted-foreground border-border']),
 );
 
 export const money = (n: number) =>
@@ -31,8 +31,8 @@ export const money = (n: number) =>
 export function CategoryBadge({ category }: { category: string }) {
   return (
     <span
-      className={`self-start px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider border mb-3 ${
-        CATEGORY_STYLES[category] ?? 'bg-white/5 text-fin-muted border-fin-border'
+      className={`self-start px-2 py-0.5 rounded text-[10px] font-medium uppercase tracking-wide border mb-3 ${
+        CATEGORY_STYLES[category] ?? 'text-muted-foreground border-border'
       }`}
     >
       {category}
@@ -49,26 +49,26 @@ export default function PlanCard({
   action: React.ReactNode;
 }) {
   return (
-    <article className="fin-card rounded-3xl p-5 flex flex-col">
+    <article className="bg-card border border-border rounded-lg p-6 flex flex-col">
       <CategoryBadge category={plan.category} />
-      <h3 className="font-bold text-lg text-white">{plan.name}</h3>
-      <p className="text-sm text-fin-muted mt-1 mb-4 flex-1">{plan.description}</p>
+      <h3 className="font-medium text-lg text-foreground">{plan.name}</h3>
+      <p className="text-sm text-muted-foreground mt-1 mb-4 flex-1">{plan.description}</p>
       <dl className="grid grid-cols-2 gap-3 text-sm mb-4">
         <div>
-          <dt className="text-xs text-fin-muted">Daily ROI</dt>
-          <dd className="font-bold text-fin-emerald tabular-nums">{Number(plan.daily_roi).toFixed(2)}%</dd>
+          <dt className="text-xs text-muted-foreground">Daily ROI</dt>
+          <dd className="font-medium text-foreground tabular-nums">{Number(plan.daily_roi).toFixed(2)}%</dd>
         </div>
         <div>
-          <dt className="text-xs text-fin-muted">Term</dt>
-          <dd className="font-bold text-white">{plan.duration_days} days</dd>
+          <dt className="text-xs text-muted-foreground">Term</dt>
+          <dd className="font-medium text-foreground">{plan.duration_days} days</dd>
         </div>
         <div>
-          <dt className="text-xs text-fin-muted">Minimum</dt>
-          <dd className="font-bold text-white tabular-nums">{money(Number(plan.min_deposit))}</dd>
+          <dt className="text-xs text-muted-foreground">Minimum</dt>
+          <dd className="font-medium text-foreground tabular-nums">{money(Number(plan.min_deposit))}</dd>
         </div>
         <div>
-          <dt className="text-xs text-fin-muted">Maximum</dt>
-          <dd className="font-bold text-white tabular-nums">{money(Number(plan.max_deposit))}</dd>
+          <dt className="text-xs text-muted-foreground">Maximum</dt>
+          <dd className="font-medium text-foreground tabular-nums">{money(Number(plan.max_deposit))}</dd>
         </div>
       </dl>
       {action}
@@ -77,5 +77,5 @@ export default function PlanCard({
 }
 
 export function PlanCardSkeleton() {
-  return <div className="fin-card rounded-3xl p-5 h-[290px] animate-pulse" aria-hidden="true" />;
+  return <div className="bg-card border border-border rounded-lg p-6 h-[290px] animate-pulse" aria-hidden="true" />;
 }
