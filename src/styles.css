@@ -1008,3 +1008,6 @@ html:not(.dark) .scanline, html:not(.dark) .dot-grid { opacity: 0.5; }
 .stat-number { text-shadow: none !important; }
 main section [class*="blur-["] { opacity: .35; }
 h1, h2, h3 { letter-spacing: -0.01em; }
+:root { --radius: 0.25rem; }
+main button.rounded-full, main a.rounded-full { border-radius: 4px; }
+main .rounded-2xl, main .rounded-3xl { border-radius: 8px; }
