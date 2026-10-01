@@ -3,19 +3,30 @@ import Link from '@/components/SmartLink';
 import { createClient } from '@/lib/supabase/client';
 import { ThemeToggle } from '@/lib/theme';
 
-const navLinks = [
+// Tesla.com style: few primary links in the center, everything else in the side menu.
+const primaryLinks = [
+  { label: 'Vehicles', href: '/inventory' },
+  { label: 'Energy', href: '/ecosystem' },
+  { label: 'Invest', href: '/invest' },
+  { label: 'News', href: '/news' },
+  { label: 'Careers', href: '/careers' },
+];
+
+const menuLinks = [
   { label: 'Inventory', href: '/inventory' },
   { label: 'Ecosystem', href: '/ecosystem' },
+  { label: 'Invest', href: '/invest' },
   { label: 'Payments', href: '/payments' },
-  { label: 'Invest', href: '#invest' },
-  { label: 'Giveaways', href: '#giveaways' },
+  { label: 'Giveaways', href: '/#giveaways' },
   { label: 'Elon Musk', href: '/elon-musk' },
   { label: 'VIP Session', href: '/vip-session' },
+  { label: 'Book a Session', href: '/book-session' },
   { label: 'News', href: '/news' },
   { label: 'Careers', href: '/careers' },
   { label: 'Account', href: '/dashboard' },
   { label: 'Deposit', href: '/account/deposit' },
   { label: 'My Orders', href: '/account/orders' },
+  { label: 'Support', href: '/support' },
 ];
 
 export default function Header() {
@@ -25,181 +36,85 @@ export default function Header() {
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   useEffect(() => {
     const supabase = createClient();
-    supabase?.auth?.getUser()?.then(({ data: { user } }) => {
-      setIsLoggedIn(!!user);
-    });
-    const { data: { subscription } } = supabase?.auth?.onAuthStateChange((_event, session) => {
+    supabase?.auth?.getUser()?.then(({ data: { user } }) => setIsLoggedIn(!!user));
+    const { data: { subscription } } = supabase?.auth?.onAuthStateChange((_e, session) => {
       setIsLoggedIn(!!session?.user);
     });
     return () => subscription?.unsubscribe();
   }, []);
 
   useEffect(() => {
-    if (menuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
   }, [menuOpen]);
+
+  const pill = 'px-3 py-1.5 rounded text-sm font-medium text-foreground/90 hover:bg-foreground/10 transition-colors whitespace-nowrap';
 
   return (
     <>
       <nav
-        className="fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-[#050507]/80 backdrop-blur-xl border-b border-white/[0.06]"
+        className={`fixed top-0 left-0 w-full z-50 transition-colors duration-300 ${scrolled ? 'bg-background/90 backdrop-blur-md' : 'bg-background/40 backdrop-blur-sm'}`}
         role="navigation"
         aria-label="Main navigation"
       >
-        {/* Live tracking badge pulse rail */}
-        <div className={`absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary/50 to-transparent transition-opacity duration-500 ${scrolled ? 'opacity-100' : 'opacity-40'}`} />
-
-
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 h-16 flex items-center justify-between">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 shrink-0 group" aria-label="Trade Tesla home">
-            <div className="relative">
-              <div className="absolute inset-0 bg-primary/20 rounded-full blur-md group-hover:bg-primary/35 transition-all duration-300" />
-              <img
-                src="/tesla-mark.png"
-                width={30}
-                height={30}
-                alt=""
-                aria-hidden="true"
-                className="relative z-10 w-[30px] h-[30px] object-contain drop-shadow-[0_0_8px_rgba(227,25,55,0.6)]"
-              />
-            </div>
-
-            <span className="text-white font-bold text-base tracking-widest uppercase">
-              Trade <span className="text-primary" style={{ textShadow: '0 0 12px rgba(227,25,55,0.5)' }}>Tesla</span>
-            </span>
+        <div className="px-6 lg:px-10 h-14 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-2 shrink-0" aria-label="Trade Tesla home">
+            <img src="/tesla-mark.png" width={22} height={22} alt="" aria-hidden="true" className="w-[22px] h-[22px] object-contain" />
+            <span className="text-foreground font-semibold text-sm tracking-[0.35em] uppercase">Trade Tesla</span>
           </Link>
 
-          {/* Desktop Nav */}
-          <div className="hidden lg:flex items-center gap-0 xl:gap-1">
-            {navLinks?.map((link) => (
-              link?.href?.startsWith('/') ? (
-                <Link
-                  key={link?.label}
-                  href={link?.href}
-                  className="px-4 py-2 text-xs font-semibold text-[#A1A1AA] hover:text-white transition-colors tracking-widest uppercase relative group"
-                >
-                  {link?.label}
-                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[1px] bg-primary group-hover:w-4 transition-all duration-300" />
-                </Link>
-              ) : (
-                <a
-                  key={link?.label}
-                  href={link?.href}
-                  className="px-4 py-2 text-xs font-semibold text-[#A1A1AA] hover:text-white transition-colors tracking-widest uppercase relative group"
-                >
-                  {link?.label}
-                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[1px] bg-primary group-hover:w-4 transition-all duration-300" />
-                </a>
-              )
+          <div className="hidden lg:flex items-center gap-1">
+            {primaryLinks.map((l) => (
+              <Link key={l.label} href={l.href} className={pill}>{l.label}</Link>
             ))}
           </div>
 
-          {/* Actions */}
-          <div className="hidden lg:flex items-center gap-3">
+          <div className="flex items-center gap-1">
             <ThemeToggle />
-            <span className="hidden 2xl:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-[10px] font-semibold tracking-widest uppercase text-zinc-300 whitespace-nowrap">
-              <span className="ts-pulse" aria-hidden="true" />
-              Live Tracking
-            </span>
-            {!isLoggedIn && (
-              <Link
-                href="/login"
-                className="px-5 py-2 text-xs font-semibold text-white bg-white/[0.04] border border-white/[0.08] rounded-xl hover:border-white/25 transition-all duration-300 tracking-widest uppercase whitespace-nowrap"
-              >
-                Sign In
-              </Link>
-            )}
-            {isLoggedIn ? (
-              <Link
-                href="/dashboard"
-                className="px-5 py-2 text-xs font-bold bg-primary text-white rounded-xl btn-shimmer hover:bg-[#B3181D] transition-all duration-300 tracking-widest uppercase shadow-[inset_0_1px_0_rgba(255,255,255,0.18)] whitespace-nowrap"
-              >
-                Dashboard
-              </Link>
-            ) : (
-              <Link
-                href="/register"
-                className="px-5 py-2 text-xs font-bold bg-primary text-white rounded-xl btn-shimmer hover:bg-[#B3181D] transition-all duration-300 tracking-widest uppercase shadow-[inset_0_1px_0_rgba(255,255,255,0.18)] whitespace-nowrap"
-              >
-                Get Started
-              </Link>
-            )}
-          </div>
-
-
-          {/* Mobile Hamburger */}
-          <div className="lg:hidden flex items-center gap-1">
-          <ThemeToggle />
-          <button
-            className="lg:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5"
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-            aria-expanded={menuOpen}
-          >
-            <span className={`w-5 h-0.5 bg-foreground transition-all duration-300 ${menuOpen ? 'rotate-45 translate-y-2' : ''}`} />
-            <span className={`w-5 h-0.5 bg-foreground transition-all duration-300 ${menuOpen ? 'opacity-0' : ''}`} />
-            <span className={`w-5 h-0.5 bg-foreground transition-all duration-300 ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
-          </button>
+            <Link href={isLoggedIn ? '/dashboard' : '/login'} className={`${pill} hidden sm:inline-flex`}>
+              {isLoggedIn ? 'Account' : 'Sign In'}
+            </Link>
+            <button type="button" className={pill} onClick={() => setMenuOpen(true)} aria-expanded={menuOpen} aria-label="Open menu">
+              Menu
+            </button>
           </div>
         </div>
       </nav>
-      {/* Mobile Menu */}
-      <div
-        className={`fixed inset-0 z-40 lg:hidden transition-all duration-300 ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
-      >
-        <div className="absolute inset-0 bg-[#050507]/98 backdrop-blur-xl" onClick={() => setMenuOpen(false)} />
-        <div className={`absolute top-16 left-0 right-0 bg-[#080808] border-b border-[#12131A] p-6 transition-transform duration-300 shadow-[0_8px_40px_rgba(0,0,0,0.8)] ${menuOpen ? 'translate-y-0' : '-translate-y-4'}`}>
-          <div className="flex flex-col gap-1 mb-6">
-            {navLinks?.map((link) => (
-              link?.href?.startsWith('/') ? (
-                <Link
-                  key={link?.label}
-                  href={link?.href}
-                  className="px-4 py-3 text-sm font-semibold text-[#A1A1AA] hover:text-white hover:bg-[#0D0E12] rounded-xl transition-colors tracking-widest uppercase min-h-[44px] flex items-center"
-                  onClick={() => setMenuOpen(false)}
-                >
-                  {link?.label}
-                </Link>
-              ) : (
-                <a
-                  key={link?.label}
-                  href={link?.href}
-                  className="px-4 py-3 text-sm font-semibold text-[#A1A1AA] hover:text-white hover:bg-[#0D0E12] rounded-xl transition-colors tracking-widest uppercase min-h-[44px] flex items-center"
-                  onClick={() => setMenuOpen(false)}
-                >
-                  {link?.label}
-                </a>
-              )
+
+      {/* Side drawer menu */}
+      <div className={`fixed inset-0 z-[60] transition-opacity duration-300 ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+        <div className="absolute inset-0 bg-foreground/30 backdrop-blur-sm" onClick={() => setMenuOpen(false)} />
+        <aside className={`absolute right-0 top-0 h-full w-full max-w-sm bg-background text-foreground p-6 pt-5 overflow-y-auto transition-transform duration-300 ${menuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+          <div className="flex justify-end mb-6">
+            <button type="button" onClick={() => setMenuOpen(false)} aria-label="Close menu" className="w-9 h-9 rounded hover:bg-foreground/10 flex items-center justify-center">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
+            </button>
+          </div>
+          <div className="flex flex-col">
+            {menuLinks.map((l) => (
+              <Link key={l.label} href={l.href} onClick={() => setMenuOpen(false)} className="px-4 py-3 rounded text-[15px] font-medium hover:bg-foreground/10 transition-colors">
+                {l.label}
+              </Link>
             ))}
           </div>
-          <div className="flex flex-col gap-3 pt-4 border-t border-[#12131A]">
-            {!isLoggedIn && (
-              <Link href="/login" className="w-full py-3 text-center text-xs font-semibold text-white border border-[#1E2027] rounded-xl tracking-widest uppercase min-h-[44px] flex items-center justify-center" onClick={() => setMenuOpen(false)}>
-                Sign In
-              </Link>
-            )}
+          <div className="mt-8 flex flex-col gap-3">
             {isLoggedIn ? (
-              <Link href="/dashboard" className="w-full py-3 text-center text-xs font-bold bg-primary text-white rounded-xl tracking-widest uppercase min-h-[44px] flex items-center justify-center" style={{ boxShadow: '0 0 20px rgba(227,25,55,0.3)' }} onClick={() => setMenuOpen(false)}>
-                Dashboard
-              </Link>
+              <Link href="/dashboard" onClick={() => setMenuOpen(false)} className="tsla-btn tsla-btn-solid w-full">Dashboard</Link>
             ) : (
-              <Link href="/register" className="w-full py-3 text-center text-xs font-bold bg-primary text-white rounded-xl tracking-widest uppercase min-h-[44px] flex items-center justify-center" style={{ boxShadow: '0 0 20px rgba(227,25,55,0.3)' }} onClick={() => setMenuOpen(false)}>
-                Get Started
-              </Link>
+              <>
+                <Link href="/register" onClick={() => setMenuOpen(false)} className="tsla-btn tsla-btn-solid w-full">Get Started</Link>
+                <Link href="/login" onClick={() => setMenuOpen(false)} className="tsla-btn w-full border border-border">Sign In</Link>
+              </>
             )}
           </div>
-        </div>
+        </aside>
       </div>
     </>
   );

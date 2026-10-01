@@ -989,3 +989,25 @@ html:not(.dark) .scanline, html:not(.dark) .dot-grid { opacity: 0.5; }
 .tsla-btn-ghost:hover { background: var(--on-media); }
 .tsla-fade { animation: tslaFade 1s ease-out both; }
 @keyframes tslaFade { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+
+/* ===== Tesla.com-style sitewide flattening =====
+   Tones down the old neon/glow/grid effects on every page so all sections
+   share the clean, minimal Tesla look. */
+.grid-bg, .noise-overlay, .dot-grid, .scanlines::after { display: none !important; }
+.neon-red { text-shadow: none !important; }
+.gradient-text-primary { background: none !important; -webkit-text-fill-color: currentColor !important; color: var(--primary) !important; }
+.holo-border::before { display: none !important; }
+.glass-card, .glass-card-hover, .glass-premium, .depth-card {
+  background: var(--card) !important; border: 1px solid var(--border) !important;
+  box-shadow: none !important; backdrop-filter: none !important; transform: none !important;
+}
+.badge-3d { box-shadow: none !important; }
+.btn-shimmer::before, .btn-shimmer::after { display: none !important; }
+.btn-elevated, .btn-elevated:hover { box-shadow: none !important; transform: none !important; }
+.tesla-btn-primary, .tesla-btn-outline { border-radius: 4px !important; letter-spacing: 0.02em !important; text-transform: none !important; font-size: 14px !important; font-weight: 600 !important; box-shadow: none !important; }
+.stat-number { text-shadow: none !important; }
+main section [class*="blur-["] { opacity: .35; }
+h1, h2, h3 { letter-spacing: -0.01em; }
+:root { --radius: 0.25rem; }
+main button.rounded-full, main a.rounded-full { border-radius: 4px; }
+main .rounded-2xl, main .rounded-3xl { border-radius: 8px; }
