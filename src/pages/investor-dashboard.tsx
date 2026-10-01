@@ -289,7 +289,7 @@ export default function InvestorDashboard() {
         <section className="fin-card rounded-md p-5 sm:p-6">
           <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
             <div>
-              <h2 className="text-lg font-bold">Portfolio Analytics</h2>
+              <p className="lux-label">Performance</p><h2 className="text-2xl font-medium tracking-tight mt-1">Portfolio Analytics</h2>
               <p className="text-xs text-fin-muted">Capital base plus accrued daily yield</p>
             </div>
             <div className="flex gap-1 p-1 rounded bg-fin-elevated border border-fin-border">
@@ -297,7 +297,7 @@ export default function InvestorDashboard() {
                 <button
                   key={r}
                   onClick={() => setRange(r)}
-                  className={`px-3 py-1.5 rounded-md text-xs font-bold uppercase transition-colors ${range === r ? 'bg-primary text-primary-foreground' : 'text-fin-muted hover:text-foreground'}`}>
+                  className={`px-3 py-1.5 lux-pill text-[10px] font-semibold tracking-[0.2em] uppercase transition-colors ${range === r ? 'bg-primary text-primary-foreground' : 'text-fin-muted hover:text-foreground'}`}>
                   {r === 'all' ? 'All' : r.toUpperCase()}
                 </button>
               ))}
@@ -318,7 +318,7 @@ export default function InvestorDashboard() {
               <button
                 key={t}
                 onClick={() => setTab(t)}
-                className={`px-5 py-2.5 rounded text-sm font-bold transition-colors ${tab === t ? 'bg-primary text-primary-foreground' : 'fin-card text-fin-muted hover:text-foreground'}`}>
+                className={`px-5 py-2.5 lux-pill text-xs font-semibold uppercase tracking-[0.18em] transition-colors ${tab === t ? 'bg-foreground text-background' : 'lux-glass text-fin-muted hover:text-foreground'}`}>
                 {t === 'active' ? `Active Investments (${activeContracts.length})` : 'Browse & Deploy Capital'}
               </button>
             ))}
@@ -337,18 +337,18 @@ export default function InvestorDashboard() {
                   const matures = new Date(c.matures_at).getTime();
                   const progress = Math.min(100, Math.max(0, ((Date.now() - started) / (matures - started)) * 100));
                   return (
-                    <article key={c.id} className="fin-card rounded-md p-5">
+                    <article key={c.id} className="fin-card p-6">
                       <div className="flex items-start justify-between gap-3 mb-3">
-                        <h3 className="font-bold">{c.plan_name}</h3>
+                        <h3 className="text-xl font-medium tracking-tight">{c.plan_name}</h3>
                         <span className={`px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider border ${CATEGORY_STYLES[c.plan_category] ?? 'bg-muted text-fin-muted border-fin-border'}`}>
                           {c.plan_category}
                         </span>
                       </div>
                       <dl className="grid grid-cols-2 gap-3 text-sm mb-4">
-                        <div><dt className="text-xs text-fin-muted">Principal</dt><dd className="font-bold tabular-nums">{money(Number(c.principal))}</dd></div>
-                        <div><dt className="text-xs text-fin-muted">Daily ROI</dt><dd className="font-bold text-fin-emerald tabular-nums">{Number(c.daily_roi).toFixed(2)}%</dd></div>
-                        <div><dt className="text-xs text-fin-muted">Yield Earned</dt><dd className="font-bold text-fin-emerald tabular-nums">{money(Number(c.yield_earned))}</dd></div>
-                        <div><dt className="text-xs text-fin-muted">Matures</dt><dd className="font-bold">{new Date(c.matures_at).toLocaleDateString()}</dd></div>
+                        <div><dt className="lux-label">Principal</dt><dd className="mt-1 text-lg font-medium tabular-nums">{money(Number(c.principal))}</dd></div>
+                        <div><dt className="lux-label">Daily ROI</dt><dd className="mt-1 text-lg font-medium tabular-nums">{Number(c.daily_roi).toFixed(2)}%</dd></div>
+                        <div><dt className="lux-label">Yield Earned</dt><dd className="mt-1 text-lg font-medium tabular-nums">{money(Number(c.yield_earned))}</dd></div>
+                        <div><dt className="lux-label">Matures</dt><dd className="mt-1 text-lg font-medium">{new Date(c.matures_at).toLocaleDateString()}</dd></div>
                       </dl>
                       <div className="h-2 ts-progress">
                         <div className="ts-progress-fill" style={{ width: `${progress}%` }} />
@@ -382,7 +382,7 @@ export default function InvestorDashboard() {
         <section className="fin-card rounded-md overflow-hidden">
           <div className="p-5 border-b border-fin-border flex items-center justify-between gap-4">
             <div>
-              <h2 className="text-lg font-bold">Giveaway Entries</h2>
+              <h2 className="text-xl font-medium tracking-tight">Giveaway Entries</h2>
               <p className="text-xs text-fin-muted">Entries paid from your wallet balance</p>
             </div>
             <a href="/#giveaways" className="px-4 py-2 rounded btn-emerald text-xs whitespace-nowrap">Enter a Giveaway</a>
@@ -420,7 +420,7 @@ export default function InvestorDashboard() {
         {/* Ledger */}
         <section className="fin-card rounded-md overflow-hidden">
           <div className="p-5 border-b border-fin-border">
-            <h2 className="text-lg font-bold">Transaction Ledger</h2>
+            <h2 className="text-xl font-medium tracking-tight">Transaction Ledger</h2>
             <p className="text-xs text-fin-muted">Deposits, plan purchases, giveaway entries, yield payouts and withdrawals</p>
           </div>
           {ledger.length === 0 ? (
