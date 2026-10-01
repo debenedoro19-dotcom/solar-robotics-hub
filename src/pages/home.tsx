@@ -16,10 +16,10 @@ type Panel = {
 
 const panels: Panel[] = [
   {
-    title: "Model Y",
-    sub: "From $38,240 · Order with Trade Tesla",
+    title: "Cybertruck",
+    sub: "From $67,990 · Order with Trade Tesla",
     img: "/assets/images/tesla_vehicles_hero.webp",
-    alt: "Tesla Model Y in a studio setting",
+    alt: "Tesla Cybertrucks in a studio setting",
     primary: { label: "Order Now", href: "/inventory" },
     secondary: { label: "View Inventory", href: "/inventory" },
   },
