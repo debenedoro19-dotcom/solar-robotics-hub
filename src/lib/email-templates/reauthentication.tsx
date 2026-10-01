@@ -54,7 +54,7 @@ const codeStyle = {
   fontFamily: 'Courier, monospace',
   fontSize: '28px',
   fontWeight: 'bold' as const,
-  color: '#ffffff',
+  color: '#000000',
   letterSpacing: '6px',
   textAlign: 'center' as const,
 }

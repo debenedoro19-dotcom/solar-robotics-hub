@@ -67,5 +67,5 @@ const card = emailCard
 const h1 = emailHeading
 const p = emailText
 const detailBox = emailDetailBox
-const row = { fontSize: '13px', lineHeight: '20px', color: '#ffffff', margin: '0 0 4px' }
+const row = { fontSize: '13px', lineHeight: '20px', color: '#000000', margin: '0 0 4px' }
 const muted = emailMuted

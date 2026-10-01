@@ -64,5 +64,5 @@ const container = emailContainer
 const card = emailCard
 const h1 = emailHeading
 const p = emailText
-const detailBox = { ...emailDetailBox, color: '#ffffff', fontSize: '14px' }
+const detailBox = { ...emailDetailBox, color: '#000000', fontSize: '14px' }
 const muted = emailMuted

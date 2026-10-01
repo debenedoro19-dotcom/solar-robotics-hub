@@ -1,7 +1,9 @@
+// Cinematic minimalism: monochrome (#000 / #fff / #393C41), frosted card,
+// uppercase micro-labels, rounded pill CTA. Body stays white for deliverability.
 export const emailMain = {
-  backgroundColor: '#050507',
-  color: '#ffffff',
-  fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+  backgroundColor: '#ffffff',
+  color: '#171a20',
+  fontFamily: '"Gotham", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
   margin: '0',
   padding: '0',
 }
@@ -9,58 +11,61 @@ export const emailMain = {
 export const emailContainer = {
   maxWidth: '560px',
   margin: '0 auto',
-  padding: '40px 20px',
+  padding: '32px 16px',
 }
 
 export const emailCard = {
-  backgroundColor: '#0d0e12',
-  border: '1px solid #25262c',
+  backgroundColor: '#f7f7f8',
+  border: '1px solid #e6e7ea',
   borderTop: 'none',
-  borderRadius: '0 0 16px 16px',
-  padding: '32px 40px 36px',
+  borderRadius: '0 0 20px 20px',
+  padding: '36px 40px 36px',
 }
 
 export const emailHeading = {
-  color: '#ffffff',
-  fontSize: '24px',
-  fontWeight: '700' as const,
+  color: '#000000',
+  fontSize: '26px',
+  fontWeight: '500' as const,
+  letterSpacing: '-0.01em',
   lineHeight: '1.25',
   margin: '0 0 18px',
 }
 
 export const emailText = {
-  color: '#a1a1aa',
+  color: '#393c41',
   fontSize: '15px',
   lineHeight: '24px',
   margin: '0 0 16px',
 }
 
 export const emailButton = {
-  backgroundColor: '#e82127',
-  borderRadius: '8px',
+  backgroundColor: '#000000',
+  borderRadius: '999px',
   color: '#ffffff',
   display: 'inline-block',
-  fontSize: '15px',
+  fontSize: '13px',
   fontWeight: '600' as const,
-  padding: '13px 22px',
+  letterSpacing: '0.08em',
+  textTransform: 'uppercase' as const,
+  padding: '14px 32px',
   textDecoration: 'none',
 }
 
 export const emailDetailBox = {
-  backgroundColor: '#12141a',
-  border: '1px solid #25262c',
-  borderRadius: '8px',
-  padding: '16px 18px',
+  backgroundColor: '#ffffff',
+  border: '1px solid #e6e7ea',
+  borderRadius: '14px',
+  padding: '18px 20px',
   margin: '6px 0 20px',
 }
 
 export const emailMuted = {
-  borderTop: '1px solid #25262c',
-  color: '#71717a',
+  borderTop: '1px solid #e6e7ea',
+  color: '#5c5e62',
   fontSize: '12px',
   lineHeight: '18px',
   margin: '28px 0 0',
   paddingTop: '20px',
 }
 
-export const emailLink = { color: '#ffffff', textDecoration: 'underline' }
+export const emailLink = { color: '#000000', textDecoration: 'underline' }
