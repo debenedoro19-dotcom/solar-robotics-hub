@@ -89,7 +89,6 @@ export default function RegisterPage() {
     <main className="min-h-screen bg-background flex items-center justify-center px-4 py-16 relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px]" />
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-primary/3 rounded-full blur-[100px]" />
       </div>
 

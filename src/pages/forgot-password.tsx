@@ -35,7 +35,6 @@ export default function ForgotPasswordPage() {
     <main className="min-h-screen bg-background flex items-center justify-center px-4 relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px]" />
         <div
           className="absolute inset-0 opacity-[0.015]"
           style={{
