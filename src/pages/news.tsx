@@ -130,7 +130,7 @@ export default function NewsPage() {
                   alt={featured?.alt}
                   className="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500 group-hover:scale-105 transform" />
                 
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#0D0E12] hidden lg:block" />
+                  <div className="absolute inset-0 bg-transparent hidden lg:block" />
                 </div>
                 <div className="p-8 lg:p-10 flex flex-col justify-center">
                   <div className="flex items-center gap-3 mb-4">

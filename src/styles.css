@@ -1011,3 +1011,28 @@ h1, h2, h3 { letter-spacing: -0.01em; }
 :root { --radius: 0.25rem; }
 main button.rounded-full, main a.rounded-full { border-radius: 4px; }
 main .rounded-2xl, main .rounded-3xl { border-radius: 8px; }
+
+/* ===== Tesla.com standard: dashboards, admin, deposit, withdrawal ===== */
+.gradient-text-primary { color: inherit !important; }
+.backdrop-blur-xl, .backdrop-blur-sm { backdrop-filter: none !important; }
+.sticky.backdrop-blur-xl, header.backdrop-blur-xl { background: var(--background) !important; }
+[class*="shadow-[0_0"] { box-shadow: none !important; }
+.group > .absolute.inset-0[style*="radial-gradient"] { display: none !important; }
+[class*="bg-gradient-to-"] { background-image: none !important; }
+.rounded-full[class*="bg-gradient-to-"] { background-color: var(--muted) !important; }
+.bg-black\/70, .bg-black\/75 { background: color-mix(in oklab, var(--foreground) 45%, transparent) !important; }
+table th { font-weight: 500; text-transform: none; letter-spacing: 0; color: var(--muted-foreground); }
+table td, table th { border-color: var(--border); }
+input, select, textarea { border-radius: 4px !important; box-shadow: none !important; }
+input:focus, select:focus, textarea:focus { outline: none; border-color: var(--foreground) !important; }
+[role="dialog"], .fixed > .relative.max-w-lg, .fixed > .relative.max-w-md { border-radius: 8px !important; box-shadow: 0 8px 40px -12px color-mix(in oklab, var(--foreground) 25%, transparent) !important; }
+/* Muted, Tesla-like status colours */
+[class*="text-emerald-"], [class*="text-green-"] { color: oklch(0.55 0.12 150) !important; }
+[class*="text-amber-"], [class*="text-yellow-"] { color: oklch(0.62 0.12 75) !important; }
+[class*="text-blue-"], [class*="text-cyan-"], [class*="text-sky-"], [class*="text-purple-"], [class*="text-violet-"], [class*="text-indigo-"] { color: var(--foreground) !important; }
+[class*="bg-blue-"], [class*="bg-cyan-"], [class*="bg-purple-"], [class*="bg-violet-"], [class*="bg-indigo-"] { background-color: var(--muted) !important; }
+[class*="border-blue-"], [class*="border-cyan-"], [class*="border-purple-"], [class*="border-violet-"], [class*="border-indigo-"] { border-color: var(--border) !important; }
+h1 { font-weight: 500 !important; }
+h2, h3 { font-weight: 500 !important; }
+.font-extrabold, .font-black { font-weight: 600 !important; }
+.uppercase.tracking-widest, .uppercase.tracking-wider { letter-spacing: 0.04em !important; }
