@@ -4,6 +4,7 @@ import SmartLink from "@/components/SmartLink";
 import { sendGiveawayEntryConfirmedEmail } from "@/lib/emailService";
 import model3Img from "@/assets/giveaways/model_3.webp";
 import cybertruckImg from "@/assets/giveaways/cybertruck.webp";
+import bitcoinImg from "@/assets/giveaways/bitcoin_pool.webp";
 
 export interface Giveaway {
   id: string;
@@ -67,13 +68,10 @@ const money = (n: number) =>
 
 // Card image: DB image_url first, then keyword match, then Model 3 default.
 function imageFor(g: Giveaway): string {
-  if (g.image_url) return g.image_url;
   const text = `${g.title} ${g.prize}`.toLowerCase();
+  if (text.includes("bitcoin") || text.includes("btc") || text.includes("$1.3")) return bitcoinImg;
+  if (g.image_url) return g.image_url;
   if (text.includes("cybertruck") || text.includes("cyber")) return cybertruckImg;
-  if (text.includes("bitcoin") || text.includes("btc") || text.includes("stock pool") || text.includes("$1.3")) {
-    // Prefer hosted URL if you set image_url on the row; this is last-resort fallback only
-    return model3Img;
-  }
   return model3Img;
 }
 
