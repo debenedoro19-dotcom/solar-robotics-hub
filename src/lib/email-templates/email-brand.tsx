@@ -23,26 +23,24 @@ export const EmailHeader = ({
       style={logo}
     />
     <Text style={brand}>
-      TESLA<span style={{ color: '#E82127' }}>TRADE</span>
+      TRADE TESLA
     </Text>
     <Text style={kicker}>{tagline}</Text>
   </Section>
 )
 
 const header = {
-  backgroundColor: '#0d0e12',
-  border: '1px solid #25262c',
-  borderBottom: '1px solid #1c1d22',
-  borderRadius: '16px 16px 0 0',
-  padding: '30px 28px 24px',
+  backgroundColor: '#000000',
+  borderRadius: '20px 20px 0 0',
+  padding: '34px 28px 28px',
   textAlign: 'center' as const,
 }
-const logo = { margin: '0 auto 12px', display: 'block' }
-const brand = { color: '#ffffff', fontSize: '19px', fontWeight: 800, letterSpacing: '0.12em', margin: '0' }
+const logo = { margin: '0 auto 14px', display: 'block' }
+const brand = { color: '#ffffff', fontSize: '15px', fontWeight: 500, letterSpacing: '0.42em', margin: '0' }
 const kicker = {
-  color: '#71717a',
+  color: '#a2a3a5',
   fontSize: '10px',
-  letterSpacing: '0.16em',
+  letterSpacing: '0.28em',
   textTransform: 'uppercase' as const,
   margin: '6px 0 0',
 }
