@@ -1,0 +1,2 @@
+ALTER TABLE public.balance_transactions DROP CONSTRAINT balance_transactions_type_check;
+ALTER TABLE public.balance_transactions ADD CONSTRAINT balance_transactions_type_check CHECK (type = ANY (ARRAY['deposit','withdrawal','investment','investment_debit','investment_return','giveaway','admin_adjustment','purchase','refund']));
