@@ -4,7 +4,7 @@ import Link from '@/components/SmartLink';
 const LAST_UPDATED = 'August 14, 2026';
 const EFFECTIVE_DATE = 'August 14, 2026';
 const COMPANY_NAME = 'Trade Tesla';
-const SITE_URL = 'https://teslaenerg6773.builtwithrocket.new';
+const SITE_URL = 'https://tradeenergyhub.com';
 
 const sections = [
   {

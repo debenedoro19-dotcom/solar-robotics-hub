@@ -31,11 +31,11 @@ export default function InvestPage() {
         <div className="max-w-7xl mx-auto">
           <span className="text-xs font-bold text-primary tracking-[0.25em] uppercase mb-3 block">Investment Packages</span>
           <h1 className="text-section-title font-extrabold tracking-tighter text-foreground max-w-3xl">
-            Deploy capital across the <span className="gradient-text-primary">Tesla ecosystem</span>
+            Clean energy asset programs
           </h1>
           <p className="text-sm text-fin-muted mt-4 max-w-2xl">
-            Fund your wallet, then commit to any contract below. Yield accrues daily and every position is tracked live
-            in your dashboard.
+            Allocate capital to programs tied to energy storage, solar and charging infrastructure. Performance figures are
+            targets, not guarantees, and every position is tracked in your dashboard.
           </p>
         </div>
       </section>
@@ -83,13 +83,20 @@ export default function InvestPage() {
             {[
               ['1. Fund your wallet', 'Deposit via crypto or bank transfer. Balances are credited once confirmed.'],
               ['2. Choose a package', 'Pick any contract within its minimum and maximum allocation range.'],
-              ['3. Earn daily yield', 'Returns accrue every day of the term and settle back into your wallet.'],
+              ['3. Track performance', 'Program results are reported in your dashboard and settle to your wallet at the end of the term.'],
             ].map(([title, body]) => (
               <div key={title}>
                 <h3 className="font-bold text-foreground mb-1">{title}</h3>
                 <p className="text-sm text-fin-muted">{body}</p>
               </div>
             ))}
+          </div>
+
+          <div className="border-t border-border mt-10 pt-6 space-y-2 text-xs text-muted-foreground leading-relaxed">
+            <p className="font-medium text-foreground">Important risk disclosure</p>
+            <p>All investing involves risk, including possible loss of principal. Target returns are estimates and are not guaranteed. Past performance does not predict future results.</p>
+            <p>These programs are offered by Trade Tesla, an independent company. Trade Tesla is not affiliated with, endorsed by, or sponsored by Tesla, Inc. These programs are not Tesla, Inc. (NASDAQ: TSLA) shares. To buy TSLA stock, use a registered brokerage.</p>
+            <p>Identity verification (KYC) is required before any allocation. See our <a href="/terms" className="underline">Terms</a> and <a href="/privacy" className="underline">Privacy Policy</a>.</p>
           </div>
         </div>
       </section>

@@ -66,7 +66,7 @@ function markShown(lsKey: string) {
 }
 
 const inputClass =
-  "w-full px-3.5 py-2.5 rounded-xl text-sm bg-[var(--popup-input-bg)] border border-[var(--popup-input-border)] text-[var(--popup-text)] placeholder-[var(--popup-text-subtle)] focus:border-primary/50 focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all duration-200";
+  "w-full px-3.5 py-2.5 rounded text-sm bg-[var(--popup-input-bg)] border border-[var(--popup-input-border)] text-[var(--popup-text)] placeholder-[var(--popup-text-subtle)] focus:border-primary/50 focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all duration-200";
 
 function CloseButton({ onClick }: { onClick: () => void }) {
   return (
@@ -441,17 +441,16 @@ function ActivityTicker() {
         leaving ? "opacity-0 translate-y-2" : "opacity-100 translate-y-0 animate-[fadeSlideUp_0.4s_ease-out] motion-reduce:animate-none"
       }`}
     >
-      <div className="flex items-center gap-3 rounded-xl border border-[var(--popup-ticker-border)] bg-[var(--popup-ticker-bg)] backdrop-blur-xl px-3.5 py-2.5 shadow-[0_8px_30px_var(--popup-ticker-glow)]">
+      <div className="flex items-center gap-3 rounded border border-border bg-background px-4 py-3 shadow-[0_4px_16px_rgba(0,0,0,0.08)]">
         <div
-          className="w-7 h-7 rounded-full flex items-center justify-center shrink-0"
-          style={{ backgroundColor: `${meta.color}1F`, border: `1px solid ${meta.color}40` }}
+          className="w-7 h-7 rounded flex items-center justify-center shrink-0 bg-muted"
         >
           <svg
             width="12"
             height="12"
             viewBox="0 0 24 24"
             fill="none"
-            stroke={meta.color}
+            stroke="currentColor"
             strokeWidth="2.25"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -469,8 +468,7 @@ function ActivityTicker() {
             <span className="font-normal opacity-70"> · {relativeTime(current.at)}</span>
           </p>
           <p
-            className="text-[10px] tracking-wide uppercase font-medium mt-0.5"
-            style={{ color: meta.color }}
+            className="text-[10px] tracking-wide font-medium mt-0.5 text-muted-foreground"
           >
             {meta.label}
           </p>

@@ -124,6 +124,13 @@ export default function CheckoutModal({ item, onClose }: { item: CheckoutItem; o
         ) : (
           <div className="space-y-4">
             <p className="text-xs font-bold tracking-widest uppercase text-muted-foreground">Step 2 · Payment</p>
+            <div className="rounded border border-border divide-y divide-border text-sm">
+              <div className="flex justify-between p-3"><span className="text-muted-foreground">Purchase price</span><span className="text-foreground font-medium">{money(price)}</span></div>
+              <div className="flex justify-between p-3"><span className="text-muted-foreground">Destination & documentation</span><span className="text-foreground">Included</span></div>
+              <div className="flex justify-between p-3"><span className="text-muted-foreground">Taxes, title & registration</span><span className="text-foreground">Based on {f.state || 'your state'}, settled at delivery</span></div>
+              <div className="flex justify-between p-3"><span className="text-foreground font-medium">Due today</span><span className="text-foreground font-medium">{money(price)}</span></div>
+            </div>
+            <p className="text-xs text-muted-foreground">A delivery specialist contacts you within 1 business day to confirm your vehicle, delivery date and paperwork. Valid driver's license and proof of insurance are required at handover.</p>
             <div className="grid grid-cols-2 gap-2">
               {(['wallet', 'external'] as const).map((m) => (
                 <button key={m} onClick={() => setMethod(m)} className={`p-3 rounded border text-left text-sm ${method === m ? 'border-primary bg-primary/10' : 'border-border'}`}>
