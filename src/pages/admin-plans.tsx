@@ -29,7 +29,7 @@ const EMPTY = {
 const CATEGORIES = ['Solar', 'Robotics', 'Space', 'Energy', 'Vehicles'];
 
 const inputClass =
-  'w-full px-3 py-2.5 rounded text-sm bg-background border border-border text-foreground placeholder-[#52525B] focus:border-emerald-500/40 focus:outline-none transition-colors';
+  'w-full px-3 py-2.5 rounded text-sm bg-background border border-border text-foreground placeholder:text-muted-foreground focus:border-success/40 focus:outline-none transition-colors';
 const labelClass = 'block text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-1.5';
 
 export default function AdminPlansPage() {
@@ -151,21 +151,21 @@ export default function AdminPlansPage() {
             >
               ← Admin
             </Link>
-            <h1 className="text-2xl font-extrabold tracking-tight mt-2">Investment Packages</h1>
+            <h1 className="text-2xl font-medium tracking-tight mt-2">Investment Packages</h1>
             <p className="text-sm text-muted-foreground mt-1">
               Create, edit, reorder and retire every investment plan offered on the platform.
             </p>
           </div>
           <button
             onClick={openCreate}
-            className="px-5 py-2.5 rounded bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-bold uppercase tracking-widest transition-colors"
+            className="px-5 py-2.5 rounded bg-success hover:bg-success text-black text-xs font-bold uppercase tracking-widest transition-colors"
           >
             + New Plan
           </button>
         </div>
 
         {error && (
-          <div className="mb-6 px-4 py-3 rounded bg-red-500/10 border border-red-500/30 text-red-300 text-sm">
+          <div className="mb-6 px-4 py-3 rounded bg-destructive/10 border border-destructive/30 text-destructive text-sm">
             {error}
           </div>
         )}
@@ -177,7 +177,7 @@ export default function AdminPlansPage() {
               onClick={() => setFilter(c)}
               className={`px-4 py-2 rounded text-xs font-semibold transition-all ${
                 filter === c
-                  ? 'bg-emerald-500 text-black'
+                  ? 'bg-success text-black'
                   : 'bg-card border border-slate-800/80 text-muted-foreground hover:text-foreground'
               }`}
             >
@@ -284,7 +284,7 @@ export default function AdminPlansPage() {
               <button
                 type="submit"
                 disabled={saving}
-                className="px-5 py-2.5 rounded bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-bold uppercase tracking-widest disabled:opacity-50"
+                className="px-5 py-2.5 rounded bg-success hover:bg-success text-black text-xs font-bold uppercase tracking-widest disabled:opacity-50"
               >
                 {saving ? 'Saving…' : editing ? 'Save changes' : 'Create plan'}
               </button>
@@ -311,11 +311,11 @@ export default function AdminPlansPage() {
                 <div className="min-w-[220px]">
                   <div className="flex items-center gap-2">
                     <p className="font-bold">{p.name}</p>
-                    <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-emerald-500/10 text-emerald-400">
+                    <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-success/10 text-success">
                       {p.category}
                     </span>
                     {!p.is_active && (
-                      <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-red-500/10 text-red-400">
+                      <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-destructive/10 text-destructive">
                         Hidden
                       </span>
                     )}
@@ -324,7 +324,7 @@ export default function AdminPlansPage() {
                 </div>
                 <div className="text-xs text-muted-foreground grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-1">
                   <span>
-                    ROI <b className="text-emerald-400">{Number(p.daily_roi)}%/d</b>
+                    ROI <b className="text-success">{Number(p.daily_roi)}%/d</b>
                   </span>
                   <span>
                     Term <b className="text-foreground">{p.duration_days}d</b>
@@ -342,10 +342,10 @@ export default function AdminPlansPage() {
                   <button onClick={() => toggleActive(p)} className="px-3 py-1.5 rounded border border-slate-800/80 text-xs font-semibold text-muted-foreground hover:text-foreground">
                     {p.is_active ? 'Hide' : 'Show'}
                   </button>
-                  <button onClick={() => openEdit(p)} className="px-3 py-1.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold">
+                  <button onClick={() => openEdit(p)} className="px-3 py-1.5 rounded bg-success/10 border border-success/30 text-success text-xs font-semibold">
                     Edit
                   </button>
-                  <button onClick={() => remove(p)} className="px-3 py-1.5 rounded bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-semibold">
+                  <button onClick={() => remove(p)} className="px-3 py-1.5 rounded bg-destructive/10 border border-destructive/30 text-destructive text-xs font-semibold">
                     Delete
                   </button>
                 </div>

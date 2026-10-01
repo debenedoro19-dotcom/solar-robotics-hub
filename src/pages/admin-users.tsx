@@ -65,10 +65,10 @@ interface EnrichedUser {
 // ── Constants ─────────────────────────────────────────────────────────────────
 
 const KYC_STATUS_CONFIG = {
-  pending: { label: 'Pending', color: 'text-yellow-400', bg: 'bg-yellow-400/10 border-yellow-400/20', dot: 'bg-yellow-400' },
+  pending: { label: 'Pending', color: 'text-warning', bg: 'bg-warning/10 border-warning/20', dot: 'bg-warning' },
   under_review: { label: 'Under Review', color: 'text-zinc-300', bg: 'bg-zinc-300/10 border-zinc-300/20', dot: 'bg-zinc-300' },
-  approved: { label: 'Approved', color: 'text-green-400', bg: 'bg-green-400/10 border-green-400/20', dot: 'bg-green-400' },
-  rejected: { label: 'Rejected', color: 'text-red-400', bg: 'bg-red-400/10 border-red-400/20', dot: 'bg-red-400' },
+  approved: { label: 'Approved', color: 'text-success', bg: 'bg-success/10 border-success/20', dot: 'bg-success' },
+  rejected: { label: 'Rejected', color: 'text-destructive', bg: 'bg-destructive/10 border-destructive/20', dot: 'bg-destructive' },
   none: { label: 'No KYC', color: 'text-muted-foreground', bg: 'bg-muted border-border', dot: 'bg-muted-foreground' },
 };
 
@@ -375,7 +375,7 @@ export default function AdminUsersPage() {
           </div>
           <h1 className="text-xl font-bold text-foreground mb-2">Admin Access Required</h1>
           <p className="text-sm text-muted-foreground mb-6">You must be logged in as admin to view this page.</p>
-          <Link href="/login" className="px-6 py-2.5 bg-primary text-white rounded text-sm font-semibold hover:bg-primary/90 transition-colors">
+          <Link href="/login" className="px-6 py-2.5 bg-primary text-foreground rounded text-sm font-semibold hover:bg-primary/90 transition-colors">
             Sign In as Admin
           </Link>
         </div>
@@ -386,7 +386,7 @@ export default function AdminUsersPage() {
   // ── Top bar ──────────────────────────────────────────────────────────────────
 
   const topBar = (
-    <div className="border-b border-border bg-background/95 backdrop-blur-xl sticky top-0 z-40">
+    <div className="border-b border-border bg-background/95  sticky top-0 z-40">
       <div className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <Link href="/" className="flex items-center gap-2.5">
@@ -422,7 +422,7 @@ export default function AdminUsersPage() {
             </svg>
             Admin Home
           </Link>
-          <div className="w-7 h-7 rounded-full bg-primary flex items-center justify-center text-[10px] font-bold text-white">A</div>
+          <div className="w-7 h-7 rounded-full bg-primary flex items-center justify-center text-[10px] font-bold text-foreground">A</div>
         </div>
       </div>
     </div>
@@ -441,7 +441,7 @@ export default function AdminUsersPage() {
           {/* Header */}
           <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h1 className="text-2xl font-extrabold text-foreground tracking-tight mb-1">KYC Review</h1>
+              <h1 className="text-2xl font-medium text-foreground tracking-tight mb-1">KYC Review</h1>
               <p className="text-sm text-muted-foreground">
                 {selectedUser.profile.full_name || selectedUser.profile.email} — Identity Verification
               </p>
@@ -516,7 +516,7 @@ export default function AdminUsersPage() {
                     onChange={(e) => setKycNotes(e.target.value)}
                     placeholder="Add notes for the applicant (optional)…"
                     rows={4}
-                    className="w-full px-3 py-2.5 bg-background border border-border rounded text-sm text-foreground placeholder-[#52525B] focus:outline-none focus:border-border resize-none"
+                    className="w-full px-3 py-2.5 bg-background border border-border rounded text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-border resize-none"
                   />
                 </div>
 
@@ -525,10 +525,10 @@ export default function AdminUsersPage() {
                   <button
                     onClick={() => updateKYCStatus('approved')}
                     disabled={kycSaving || kyc.kyc_status === 'approved'}
-                    className="w-full py-3 rounded text-xs font-bold uppercase tracking-widest transition-all bg-green-400/10 hover:bg-green-400/20 border border-green-400/20 hover:border-green-400/40 text-green-400 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    className="w-full py-3 rounded text-xs font-bold uppercase tracking-widest transition-all bg-success/10 hover:bg-success/20 border border-success/20 hover:border-success/40 text-success disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >
                     {kycSaving ? (
-                      <div className="w-3 h-3 border-2 border-green-400 border-t-transparent rounded-full animate-spin" />
+                      <div className="w-3 h-3 border-2 border-success border-t-transparent rounded-full animate-spin" />
                     ) : (
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg>
                     )}
@@ -545,19 +545,19 @@ export default function AdminUsersPage() {
                   <button
                     onClick={() => updateKYCStatus('rejected')}
                     disabled={kycSaving || kyc.kyc_status === 'rejected'}
-                    className="w-full py-3 rounded text-xs font-bold uppercase tracking-widest transition-all bg-red-400/10 hover:bg-red-400/20 border border-red-400/20 hover:border-red-400/40 text-red-400 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    className="w-full py-3 rounded text-xs font-bold uppercase tracking-widest transition-all bg-destructive/10 hover:bg-destructive/20 border border-destructive/20 hover:border-destructive/40 text-destructive disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
                     Reject KYC
                   </button>
                   {kycSaved && (
-                    <div className="flex items-center justify-center gap-2 py-2 bg-green-400/10 border border-green-400/20 rounded text-xs text-green-400 font-semibold">
+                    <div className="flex items-center justify-center gap-2 py-2 bg-success/10 border border-success/20 rounded text-xs text-success font-semibold">
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg>
                       Status updated successfully
                     </div>
                   )}
                   {error && (
-                    <p className="text-xs text-red-400 text-center">{error}</p>
+                    <p className="text-xs text-destructive text-center">{error}</p>
                   )}
                 </div>
               </div>
@@ -649,8 +649,8 @@ export default function AdminUsersPage() {
 
                 {/* Previous admin notes */}
                 {kyc.admin_notes && (
-                  <div className="bg-card border border-yellow-400/20 rounded p-5">
-                    <h3 className="text-[10px] font-bold text-yellow-400/70 uppercase tracking-widest mb-2">Previous Admin Notes</h3>
+                  <div className="bg-card border border-warning/20 rounded p-5">
+                    <h3 className="text-[10px] font-bold text-warning/70 uppercase tracking-widest mb-2">Previous Admin Notes</h3>
                     <p className="text-sm text-foreground/90 leading-relaxed">{kyc.admin_notes}</p>
                   </div>
                 )}
@@ -672,7 +672,7 @@ export default function AdminUsersPage() {
           {/* Header */}
           <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h1 className="text-2xl font-extrabold text-foreground tracking-tight mb-1">Balance Adjustment</h1>
+              <h1 className="text-2xl font-medium text-foreground tracking-tight mb-1">Balance Adjustment</h1>
               <p className="text-sm text-muted-foreground">
                 Manually adjust account balances for{' '}
                 <span className="text-foreground font-semibold">
@@ -715,7 +715,7 @@ export default function AdminUsersPage() {
           {/* Live wallet balance (canonical) */}
           <div className="bg-card border border-border rounded p-6 mb-6">
             <h2 className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-5">Wallet Balance (Live)</h2>
-            <p className="text-3xl font-extrabold text-green-400 tabular-nums mb-5">
+            <p className="text-3xl font-medium text-success tabular-nums mb-5">
               ${Number(currentWallet).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 items-end">
@@ -733,7 +733,7 @@ export default function AdminUsersPage() {
               <button
                 onClick={saveWalletBalance}
                 disabled={walletSaving}
-                className="px-5 py-2.5 rounded bg-green-500 text-black text-xs font-bold uppercase tracking-widest disabled:opacity-40"
+                className="px-5 py-2.5 rounded bg-success text-black text-xs font-bold uppercase tracking-widest disabled:opacity-40"
               >
                 {walletSaving ? 'Saving…' : 'Update Wallet Balance'}
               </button>
@@ -763,7 +763,7 @@ export default function AdminUsersPage() {
                     value={(balanceForm as any)[field.key]}
                     onChange={(e) => setBalanceForm((prev) => ({ ...prev, [field.key]: e.target.value }))}
                     placeholder={field.placeholder}
-                    className="w-full px-3 py-2.5 bg-background border border-border rounded text-sm text-foreground placeholder-[#52525B] focus:outline-none focus:border-border transition-colors"
+                    className="w-full px-3 py-2.5 bg-background border border-border rounded text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-border transition-colors"
                   />
                   <p className="text-[10px] text-muted-foreground mt-1">{field.hint}</p>
                 </div>
@@ -779,7 +779,7 @@ export default function AdminUsersPage() {
               onChange={(e) => setBalanceNote(e.target.value)}
               placeholder="Reason for balance adjustment (internal use only, not shown to user)…"
               rows={3}
-              className="w-full px-3 py-2.5 bg-background border border-border rounded text-sm text-foreground placeholder-[#52525B] focus:outline-none focus:border-border resize-none"
+              className="w-full px-3 py-2.5 bg-background border border-border rounded text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-border resize-none"
             />
           </div>
 
@@ -803,7 +803,7 @@ export default function AdminUsersPage() {
             <button
               onClick={saveBalanceAdjustment}
               disabled={balanceSaving}
-              className="flex items-center gap-2 px-8 py-3 bg-primary hover:bg-primary/90 text-white text-xs font-bold rounded tracking-widest uppercase transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center gap-2 px-8 py-3 bg-primary hover:bg-primary/90 text-foreground text-xs font-bold rounded tracking-widest uppercase transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {balanceSaving ? (
                 <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -823,14 +823,14 @@ export default function AdminUsersPage() {
               Cancel
             </button>
             {balanceSaved && (
-              <div className="flex items-center gap-2 text-xs text-green-400 font-semibold">
+              <div className="flex items-center gap-2 text-xs text-success font-semibold">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
                   <polyline points="20 6 9 17 4 12" />
                 </svg>
                 Balance saved successfully
               </div>
             )}
-            {error && <p className="text-xs text-red-400">{error}</p>}
+            {error && <p className="text-xs text-destructive">{error}</p>}
           </div>
         </div>
       </main>
@@ -846,7 +846,7 @@ export default function AdminUsersPage() {
         {/* Header */}
         <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-extrabold text-foreground tracking-tight mb-1">User Management</h1>
+            <h1 className="text-2xl font-medium text-foreground tracking-tight mb-1">User Management</h1>
             <p className="text-sm text-muted-foreground">
               {users.length} registered user{users.length !== 1 ? 's' : ''} — review KYC, adjust balances, and manage accounts.
             </p>
@@ -878,10 +878,10 @@ export default function AdminUsersPage() {
           {(
             [
               { label: 'Total Users', value: kycCounts.all, color: 'text-foreground', filter: 'all' as KYCFilterType },
-              { label: 'KYC Pending', value: kycCounts.pending, color: 'text-yellow-400', filter: 'pending' as KYCFilterType },
+              { label: 'KYC Pending', value: kycCounts.pending, color: 'text-warning', filter: 'pending' as KYCFilterType },
               { label: 'Under Review', value: kycCounts.under_review, color: 'text-zinc-300', filter: 'under_review' as KYCFilterType },
-              { label: 'KYC Approved', value: kycCounts.approved, color: 'text-green-400', filter: 'approved' as KYCFilterType },
-              { label: 'KYC Rejected', value: kycCounts.rejected, color: 'text-red-400', filter: 'rejected' as KYCFilterType },
+              { label: 'KYC Approved', value: kycCounts.approved, color: 'text-success', filter: 'approved' as KYCFilterType },
+              { label: 'KYC Rejected', value: kycCounts.rejected, color: 'text-destructive', filter: 'rejected' as KYCFilterType },
               { label: 'No KYC', value: kycCounts.none, color: 'text-muted-foreground', filter: 'none' as KYCFilterType },
             ] as { label: string; value: number; color: string; filter: KYCFilterType }[]
           ).map((kpi) => (
@@ -892,7 +892,7 @@ export default function AdminUsersPage() {
                 kycFilter === kpi.filter ? 'border-primary/40' : 'border-border hover:border-border'
               }`}
             >
-              <p className={`text-2xl font-extrabold mb-1 ${kpi.color}`}>{kpi.value}</p>
+              <p className={`text-2xl font-medium mb-1 ${kpi.color}`}>{kpi.value}</p>
               <p className="text-[10px] text-muted-foreground uppercase tracking-widest leading-tight">{kpi.label}</p>
             </button>
           ))}
@@ -919,7 +919,7 @@ export default function AdminUsersPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by name or email…"
-              className="w-full pl-9 pr-4 py-2.5 bg-card border border-border rounded text-sm text-foreground placeholder-[#52525B] focus:outline-none focus:border-border transition-colors"
+              className="w-full pl-9 pr-4 py-2.5 bg-card border border-border rounded text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-border transition-colors"
             />
           </div>
           <div className="flex gap-1 overflow-x-auto">
@@ -938,7 +938,7 @@ export default function AdminUsersPage() {
                 onClick={() => setKycFilter(f.value)}
                 className={`px-3 py-2 rounded text-xs font-semibold whitespace-nowrap transition-all ${
                   kycFilter === f.value
-                    ? 'bg-primary text-white' :'bg-card border border-border text-muted-foreground hover:text-foreground'
+                    ? 'bg-primary text-foreground' :'bg-card border border-border text-muted-foreground hover:text-foreground'
                 }`}
               >
                 {f.label}
@@ -949,7 +949,7 @@ export default function AdminUsersPage() {
 
         {/* Error */}
         {error && (
-          <div className="mb-4 px-4 py-3 bg-red-400/10 border border-red-400/20 rounded text-xs text-red-400">
+          <div className="mb-4 px-4 py-3 bg-destructive/10 border border-destructive/20 rounded text-xs text-destructive">
             {error}
           </div>
         )}
@@ -1039,7 +1039,7 @@ export default function AdminUsersPage() {
                       <button
                         onClick={() => openKYCDetail(u)}
                         className={`px-3 py-1.5 text-[10px] font-bold rounded border transition-all uppercase tracking-widest ${
-                          u.kyc.kyc_status === 'pending' || u.kyc.kyc_status === 'under_review' ?'bg-yellow-400/10 hover:bg-yellow-400/20 border-yellow-400/20 hover:border-yellow-400/40 text-yellow-400' :'bg-muted hover:bg-[#222222] border-border hover:border-border text-muted-foreground hover:text-foreground'
+                          u.kyc.kyc_status === 'pending' || u.kyc.kyc_status === 'under_review' ?'bg-warning/10 hover:bg-warning/20 border-warning/20 hover:border-warning/40 text-warning' :'bg-muted hover:bg-card border-border hover:border-border text-muted-foreground hover:text-foreground'
                         }`}
                       >
                         {u.kyc.kyc_status === 'pending' ? '⚠ Review KYC' : 'View KYC'}

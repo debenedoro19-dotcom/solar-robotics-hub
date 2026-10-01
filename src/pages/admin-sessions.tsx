@@ -23,15 +23,15 @@ interface Booking {
 const STATUSES = ['pending', 'paid', 'confirmed', 'completed', 'cancelled'];
 
 const inputClass =
-  'w-full px-3 py-2.5 rounded text-sm bg-background border border-border text-foreground placeholder-[#52525B] focus:border-emerald-500/40 focus:outline-none transition-colors';
+  'w-full px-3 py-2.5 rounded text-sm bg-background border border-border text-foreground placeholder:text-muted-foreground focus:border-success/40 focus:outline-none transition-colors';
 const labelClass = 'block text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-1.5';
 
 const statusColor = (s: string) =>
   s === 'paid' || s === 'confirmed' || s === 'completed'
-    ? 'bg-emerald-500/10 text-emerald-400'
+    ? 'bg-success/10 text-success'
     : s === 'cancelled'
-      ? 'bg-red-500/10 text-red-400'
-      : 'bg-amber-500/10 text-amber-400';
+      ? 'bg-destructive/10 text-destructive'
+      : 'bg-warning/10 text-warning';
 
 export default function AdminSessionsPage() {
   const [rows, setRows] = useState<Booking[]>([]);
@@ -113,14 +113,14 @@ export default function AdminSessionsPage() {
           >
             ← Admin
           </Link>
-          <h1 className="text-2xl font-extrabold tracking-tight mt-2">Session Bookings</h1>
+          <h1 className="text-2xl font-medium tracking-tight mt-2">Session Bookings</h1>
           <p className="text-sm text-muted-foreground mt-1">
             Review, reschedule, update payment status and annotate every advisory session request.
           </p>
         </div>
 
         {error && (
-          <div className="mb-6 px-4 py-3 rounded bg-red-500/10 border border-red-500/30 text-red-300 text-sm">
+          <div className="mb-6 px-4 py-3 rounded bg-destructive/10 border border-destructive/30 text-destructive text-sm">
             {error}
           </div>
         )}
@@ -132,7 +132,7 @@ export default function AdminSessionsPage() {
               onClick={() => setFilter(s)}
               className={`px-4 py-2 rounded text-xs font-semibold capitalize transition-all ${
                 filter === s
-                  ? 'bg-emerald-500 text-black'
+                  ? 'bg-success text-black'
                   : 'bg-card border border-slate-800/80 text-muted-foreground hover:text-foreground'
               }`}
             >
@@ -204,7 +204,7 @@ export default function AdminSessionsPage() {
               </div>
             </div>
             <div className="flex gap-3 mt-6">
-              <button type="submit" disabled={saving} className="px-5 py-2.5 rounded bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-bold uppercase tracking-widest disabled:opacity-50">
+              <button type="submit" disabled={saving} className="px-5 py-2.5 rounded bg-success hover:bg-success text-black text-xs font-bold uppercase tracking-widest disabled:opacity-50">
                 {saving ? 'Saving…' : 'Save changes'}
               </button>
               <button type="button" onClick={() => setEditing(null)} className="px-5 py-2.5 rounded border border-slate-800/80 text-muted-foreground text-xs font-bold uppercase tracking-widest hover:text-foreground">
@@ -240,7 +240,7 @@ export default function AdminSessionsPage() {
                     Time <b className="text-foreground">{b.preferred_time || '—'}</b>
                   </span>
                   <span>
-                    Amount <b className="text-emerald-400">${Number(b.amount).toLocaleString()}</b>
+                    Amount <b className="text-success">${Number(b.amount).toLocaleString()}</b>
                   </span>
                 </div>
                 <div className="flex gap-2">
@@ -255,10 +255,10 @@ export default function AdminSessionsPage() {
                       </option>
                     ))}
                   </select>
-                  <button onClick={() => setEditing(b)} className="px-3 py-1.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold">
+                  <button onClick={() => setEditing(b)} className="px-3 py-1.5 rounded bg-success/10 border border-success/30 text-success text-xs font-semibold">
                     Edit
                   </button>
-                  <button onClick={() => remove(b)} className="px-3 py-1.5 rounded bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-semibold">
+                  <button onClick={() => remove(b)} className="px-3 py-1.5 rounded bg-destructive/10 border border-destructive/30 text-destructive text-xs font-semibold">
                     Delete
                   </button>
                 </div>

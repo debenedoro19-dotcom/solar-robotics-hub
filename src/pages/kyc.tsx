@@ -307,7 +307,7 @@ export default function KYCPage() {
             <img src="/tesla-mark.png" width={24} height={24} alt="" aria-hidden="true" className="text-primary object-contain" />
             <span className="text-foreground font-bold text-sm tracking-widest uppercase">Trade Tesla</span>
           </Link>
-          <h1 className="text-2xl font-extrabold text-foreground tracking-tight mb-2">Identity Verification</h1>
+          <h1 className="text-2xl font-medium text-foreground tracking-tight mb-2">Identity Verification</h1>
           <p className="text-sm text-muted-foreground">Complete KYC to unlock full investment access</p>
         </div>
 
@@ -316,10 +316,10 @@ export default function KYCPage() {
           <div
             className={`mb-6 p-4 rounded border flex items-center gap-3 ${
               existingKyc.kyc_status === "approved"
-                ? "bg-green-400/10 border-green-400/20"
+                ? "bg-success/10 border-success/20"
                 : existingKyc.kyc_status === "rejected"
-                  ? "bg-red-400/10 border-red-400/20"
-                  : "bg-yellow-400/10 border-yellow-400/20"
+                  ? "bg-destructive/10 border-destructive/20"
+                  : "bg-warning/10 border-warning/20"
             }`}
           >
             <span className="text-lg">
@@ -329,10 +329,10 @@ export default function KYCPage() {
               <p
                 className={`text-xs font-bold uppercase tracking-widest ${
                   existingKyc.kyc_status === "approved"
-                    ? "text-green-400"
+                    ? "text-success"
                     : existingKyc.kyc_status === "rejected"
-                      ? "text-red-400"
-                      : "text-yellow-400"
+                      ? "text-destructive"
+                      : "text-warning"
                 }`}
               >
                 KYC{" "}
@@ -511,7 +511,7 @@ export default function KYCPage() {
                     onClick={() => setForm((p) => ({ ...p, idType: type }))}
                     className={`py-3 px-2 rounded border text-xs font-semibold tracking-wider uppercase transition-all ${
                       form.idType === type
-                        ? "border-primary bg-primary/10 text-white"
+                        ? "border-primary bg-primary/10 text-foreground"
                         : "border-border text-muted-foreground hover:border-border"
                     }`}
                   >
@@ -586,7 +586,7 @@ export default function KYCPage() {
                     onClick={() => setForm((p) => ({ ...p, investorType: type }))}
                     className={`py-3 px-3 rounded border text-xs font-semibold tracking-wider transition-all text-left ${
                       form.investorType === type
-                        ? "border-primary bg-primary/10 text-white"
+                        ? "border-primary bg-primary/10 text-foreground"
                         : "border-border text-muted-foreground hover:border-border"
                     }`}
                   >
@@ -679,7 +679,7 @@ export default function KYCPage() {
                 <div key={item.label} className="flex justify-between py-2 border-b border-border">
                   <span className="text-xs text-muted-foreground uppercase tracking-wider">{item.label}</span>
                   <span
-                    className={`text-xs font-semibold ${item.value.startsWith("✓") ? "text-green-400" : item.value.startsWith("—") ? "text-muted-foreground" : "text-foreground"}`}
+                    className={`text-xs font-semibold ${item.value.startsWith("✓") ? "text-success" : item.value.startsWith("—") ? "text-muted-foreground" : "text-foreground"}`}
                   >
                     {item.value}
                   </span>
@@ -720,7 +720,7 @@ export default function KYCPage() {
                 <div key={item.label} className="flex justify-between py-2 border-b border-border">
                   <span className="text-xs text-muted-foreground uppercase tracking-wider">{item.label}</span>
                   <span
-                    className={`text-xs font-semibold ${item.value.startsWith("✓") ? "text-green-400" : item.value.startsWith("—") ? "text-muted-foreground" : "text-foreground"}`}
+                    className={`text-xs font-semibold ${item.value.startsWith("✓") ? "text-success" : item.value.startsWith("—") ? "text-muted-foreground" : "text-foreground"}`}
                   >
                     {item.value}
                   </span>
@@ -746,7 +746,7 @@ export default function KYCPage() {
                 <div key={item.label} className="flex justify-between py-2 border-b border-border">
                   <span className="text-xs text-muted-foreground uppercase tracking-wider">{item.label}</span>
                   <span
-                    className={`text-xs font-semibold ${item.value.startsWith("✓") ? "text-green-400" : item.value.startsWith("—") ? "text-muted-foreground" : "text-foreground"}`}
+                    className={`text-xs font-semibold ${item.value.startsWith("✓") ? "text-success" : item.value.startsWith("—") ? "text-muted-foreground" : "text-foreground"}`}
                   >
                     {item.value}
                   </span>
@@ -755,7 +755,7 @@ export default function KYCPage() {
             </div>
 
             {error && (
-              <div className="p-3 bg-red-400/10 border border-red-400/20 rounded text-xs text-red-400">{error}</div>
+              <div className="p-3 bg-destructive/10 border border-destructive/20 rounded text-xs text-destructive">{error}</div>
             )}
 
             <label className="flex items-start gap-3 cursor-pointer mt-4">

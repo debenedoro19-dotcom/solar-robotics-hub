@@ -52,7 +52,7 @@ export default function AdminAuditPage() {
       <div className="max-w-6xl mx-auto">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-xl font-extrabold text-foreground tracking-tight">Audit Trail</h1>
+            <h1 className="text-xl font-medium text-foreground tracking-tight">Audit Trail</h1>
             <p className="text-xs text-muted-foreground">Every deposit, withdrawal and balance action recorded server-side.</p>
           </div>
           <Link href="/admin" className="text-xs font-semibold text-muted-foreground hover:text-foreground">← Admin</Link>
@@ -62,7 +62,7 @@ export default function AdminAuditPage() {
           value={filter}
           onChange={(e) => { setPage(0); setFilter(e.target.value); }}
           placeholder="Filter by action, e.g. withdrawal.paid"
-          className="w-full md:w-96 mb-4 bg-card border border-border rounded px-4 py-2.5 text-sm text-foreground placeholder-[#52525B] focus:outline-none focus:border-primary/50"
+          className="w-full md:w-96 mb-4 bg-card border border-border rounded px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50"
         />
 
         <div className="bg-card border border-border rounded overflow-hidden">

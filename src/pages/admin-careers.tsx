@@ -6,11 +6,11 @@ import { sendJobApplicationStageChangedEmail } from '@/lib/emailService';
 type Stage = 'new' | 'screening' | 'interview' | 'offer' | 'hired' | 'rejected';
 const STAGES: Stage[] = ['new', 'screening', 'interview', 'offer', 'hired', 'rejected'];
 const STAGE_COLORS: Record<Stage, string> = {
-  new: 'bg-sky-500/15 text-sky-400 border-sky-500/30',
-  screening: 'bg-amber-500/15 text-amber-400 border-amber-500/30',
-  interview: 'bg-violet-500/15 text-violet-400 border-violet-500/30',
-  offer: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30',
-  hired: 'bg-emerald-500/20 text-emerald-300 border-emerald-400/40',
+  new: 'bg-muted-foreground/15 text-muted-foreground border-muted-foreground/30',
+  screening: 'bg-warning/15 text-warning border-warning/30',
+  interview: 'bg-muted-foreground/15 text-muted-foreground border-muted-foreground/30',
+  offer: 'bg-success/15 text-success border-success/30',
+  hired: 'bg-success/20 text-success border-success/40',
   rejected: 'bg-muted text-muted-foreground border-border',
 };
 
@@ -40,7 +40,7 @@ interface Application {
 }
 
 const EMPTY_JOB = { title: '', department: 'Engineering', location: 'Remote', job_type: 'Full-time', description: '', requirements: '' };
-const inputClass = 'w-full px-3 py-2.5 rounded text-sm bg-background border border-border text-foreground placeholder-[#52525B] focus:border-primary/40 focus:outline-none transition-colors';
+const inputClass = 'w-full px-3 py-2.5 rounded text-sm bg-background border border-border text-foreground placeholder:text-muted-foreground focus:border-primary/40 focus:outline-none transition-colors';
 const labelClass = 'block text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-1.5';
 
 export default function AdminCareersPage() {
@@ -126,7 +126,7 @@ export default function AdminCareersPage() {
 
   return (
     <main className="min-h-screen bg-background text-foreground">
-      <div className="border-b border-border bg-background/95 backdrop-blur-xl sticky top-0 z-40">
+      <div className="border-b border-border bg-background/95  sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link href="/admin" className="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5">
@@ -207,7 +207,7 @@ export default function AdminCareersPage() {
                               value={notesDraft}
                               onChange={(e) => setNotesDraft(e.target.value)}
                               placeholder="Internal notes…"
-                              className="w-full px-2 py-1.5 rounded text-[10px] bg-background border border-border text-foreground placeholder-[#52525B] focus:outline-none"
+                              className="w-full px-2 py-1.5 rounded text-[10px] bg-background border border-border text-foreground placeholder:text-muted-foreground focus:outline-none"
                             />
                             <button onClick={() => saveNotes(app)} className="w-full py-1.5 rounded tesla-btn-primary text-[10px] font-bold">
                               Save notes
@@ -232,7 +232,7 @@ export default function AdminCareersPage() {
                     <p className="text-[10px] text-muted-foreground">{job.department} · {job.location} · {job.job_type}</p>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
-                    <span className={`text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded-full border ${job.status === 'open' ? 'text-emerald-400 border-emerald-500/30 bg-emerald-500/10' : 'text-muted-foreground border-border'}`}>
+                    <span className={`text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded-full border ${job.status === 'open' ? 'text-success border-success/30 bg-success/10' : 'text-muted-foreground border-border'}`}>
                       {job.status}
                     </span>
                     <button

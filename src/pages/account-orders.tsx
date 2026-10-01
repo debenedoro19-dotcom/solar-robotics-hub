@@ -34,11 +34,11 @@ export default function AccountOrdersPage() {
       <main className="min-h-screen bg-background text-foreground pt-24 pb-20">
         <div className="max-w-3xl mx-auto px-5">
           <a href="/account" className="text-xs text-muted-foreground hover:text-foreground">← Back to account</a>
-          <h1 className="text-3xl font-extrabold tracking-tight mt-2 mb-6">My orders</h1>
+          <h1 className="text-3xl font-medium tracking-tight mt-2 mb-6">My orders</h1>
           {orders === null ? (
             <p className="text-muted-foreground">Loading…</p>
           ) : orders.length === 0 ? (
-            <div className="glass-card rounded-md p-8 text-center">
+            <div className="bg-card border border-border rounded-md p-8 text-center">
               <p className="text-muted-foreground mb-4">You have no orders yet.</p>
               <a href="/inventory" className="inline-block px-5 py-2.5 rounded bg-primary text-primary-foreground font-bold text-sm">Browse inventory</a>
             </div>
@@ -47,7 +47,7 @@ export default function AccountOrdersPage() {
               {orders.map((o) => {
                 const idx = STEPS.indexOf(o.order_status);
                 return (
-                  <article key={o.id} className="glass-card rounded-md p-5">
+                  <article key={o.id} className="bg-card border border-border rounded-md p-5">
                     <div className="flex gap-4 items-center">
                       {o.item_image && <img src={o.item_image} alt="" className="w-16 h-16 rounded object-cover" />}
                       <div className="flex-1 min-w-0">
@@ -55,7 +55,7 @@ export default function AccountOrdersPage() {
                         <h2 className="font-bold truncate">{o.item_name}</h2>
                         <p className="text-sm text-primary font-bold">${Number(o.amount).toLocaleString()} · {o.payment_method === 'wallet' ? 'Wallet' : 'Crypto / bank'}</p>
                       </div>
-                      <span className={`text-xs font-bold px-2.5 py-1 rounded-lg ${o.order_status === 'cancelled' ? 'bg-destructive/15 text-destructive' : 'bg-primary/15 text-primary'}`}>
+                      <span className={`text-xs font-bold px-2.5 py-1 rounded ${o.order_status === 'cancelled' ? 'bg-destructive/15 text-destructive' : 'bg-primary/15 text-primary'}`}>
                         {STATUS_LABEL[o.order_status]}
                       </span>
                     </div>

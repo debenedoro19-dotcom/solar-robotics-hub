@@ -156,7 +156,7 @@ export default function SupportPage() {
           {user && view === 'list' && (
             <button
               onClick={() => setView('new')}
-              className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded text-sm font-semibold hover:opacity-90 transition-opacity"
+              className="flex items-center gap-2 px-4 py-2 bg-primary text-foreground rounded text-sm font-semibold hover:opacity-90 transition-opacity"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12h14"/></svg>
               New Ticket
@@ -174,7 +174,7 @@ export default function SupportPage() {
             </div>
             <h2 className="text-xl font-bold mb-2">Sign In to Access Support</h2>
             <p className="text-muted-foreground mb-6 text-sm">You need to be logged in to submit and track support tickets.</p>
-            <Link href="/login" className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded font-semibold hover:opacity-90 transition-opacity">
+            <Link href="/login" className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-foreground rounded font-semibold hover:opacity-90 transition-opacity">
               Sign In
             </Link>
           </div>
@@ -191,17 +191,17 @@ export default function SupportPage() {
             </div>
 
             {submitSuccess ? (
-              <div className="glass-card rounded-md p-8 text-center border border-green-500/30">
-                <div className="w-16 h-16 rounded-full bg-green-500/10 border border-green-500/30 flex items-center justify-center mx-auto mb-4">
+              <div className="bg-card border border-border rounded-md p-8 text-center border border-success/30">
+                <div className="w-16 h-16 rounded-full bg-success/10 border border-success/30 flex items-center justify-center mx-auto mb-4">
                   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00F59B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
                 </div>
-                <h3 className="text-lg font-bold text-green-400 mb-2">Ticket Submitted!</h3>
+                <h3 className="text-lg font-bold text-success mb-2">Ticket Submitted!</h3>
                 <p className="text-muted-foreground text-sm">We've received your request and sent a confirmation to your email. Redirecting to your tickets…</p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="glass-card rounded-md p-6 border border-border space-y-5">
+              <form onSubmit={handleSubmit} className="bg-card border border-border rounded-md p-6 border border-border space-y-5">
                 {error && (
-                  <div className="p-3 rounded bg-red-500/10 border border-red-500/30 text-red-400 text-sm">{error}</div>
+                  <div className="p-3 rounded bg-destructive/10 border border-destructive/30 text-destructive text-sm">{error}</div>
                 )}
 
                 <div>
@@ -227,8 +227,8 @@ export default function SupportPage() {
                         onClick={() => setForm(f => ({ ...f, priority: p }))}
                         className={`py-2 rounded text-xs font-semibold capitalize border transition-all ${
                           form.priority === p
-                            ? p === 'urgent' ? 'bg-red-500/20 border-red-500/50 text-red-400'
-                            : p === 'high' ? 'bg-orange-500/20 border-orange-500/50 text-orange-400'
+                            ? p === 'urgent' ? 'bg-destructive/20 border-destructive/50 text-destructive'
+                            : p === 'high' ? 'bg-warning/20 border-warning/50 text-warning'
                             : p === 'normal'? 'bg-primary/20 border-primary/50 text-primary' :'bg-muted/20 border-muted/50 text-muted-foreground' :'bg-background border-border text-muted-foreground hover:border-muted'
                         }`}
                       >{p}</button>
@@ -237,7 +237,7 @@ export default function SupportPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Subject <span className="text-red-400">*</span></label>
+                  <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Subject <span className="text-destructive">*</span></label>
                   <input
                     type="text"
                     required
@@ -249,7 +249,7 @@ export default function SupportPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Description <span className="text-red-400">*</span></label>
+                  <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Description <span className="text-destructive">*</span></label>
                   <textarea
                     required
                     rows={5}
@@ -269,7 +269,7 @@ export default function SupportPage() {
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="flex-1 py-3 rounded bg-primary text-white text-sm font-semibold hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex-1 py-3 rounded bg-primary text-foreground text-sm font-semibold hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {submitting ? 'Submitting…' : 'Submit Ticket'}
                   </button>
@@ -294,7 +294,7 @@ export default function SupportPage() {
 
             <div className="space-y-4">
               {/* Status & Meta */}
-              <div className="glass-card rounded-md p-5 border border-border">
+              <div className="bg-card border border-border rounded-md p-5 border border-border">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Status</p>
@@ -326,14 +326,14 @@ export default function SupportPage() {
               </div>
 
               {/* Description */}
-              <div className="glass-card rounded-md p-5 border border-border">
+              <div className="bg-card border border-border rounded-md p-5 border border-border">
                 <p className="text-xs text-muted-foreground uppercase tracking-wider mb-3">Your Request</p>
                 <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">{selectedTicket.description}</p>
               </div>
 
               {/* Admin Reply */}
               {selectedTicket.admin_reply ? (
-                <div className="glass-card rounded-md p-5 border border-primary/30" style={{ background: 'rgba(0,212,255,0.03)' }}>
+                <div className="bg-card border border-border rounded-md p-5 border border-primary/30" style={{ background: 'rgba(0,212,255,0.03)' }}>
                   <div className="flex items-center gap-2 mb-3">
                     <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center">
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -346,7 +346,7 @@ export default function SupportPage() {
                   )}
                 </div>
               ) : (
-                <div className="glass-card rounded-md p-5 border border-border text-center">
+                <div className="bg-card border border-border rounded-md p-5 border border-border text-center">
                   <div className="w-10 h-10 rounded-full bg-card border border-border flex items-center justify-center mx-auto mb-3">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-muted-foreground"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
                   </div>
@@ -365,7 +365,7 @@ export default function SupportPage() {
               {(['open', 'in_progress', 'resolved', 'closed'] as TicketStatus[]).map(s => {
                 const count = tickets.filter(t => t.ticket_status === s).length;
                 return (
-                  <div key={s} className="glass-card rounded p-4 border border-border">
+                  <div key={s} className="bg-card border border-border rounded p-4 border border-border">
                     <p className="text-2xl font-bold" style={{ color: STATUS_CONFIG[s].color }}>{count}</p>
                     <p className="text-xs text-muted-foreground mt-0.5">{STATUS_CONFIG[s].label}</p>
                   </div>
@@ -387,7 +387,7 @@ export default function SupportPage() {
                 <p className="text-muted-foreground text-sm mb-6">Have an issue? Submit a ticket and our team will help you.</p>
                 <button
                   onClick={() => setView('new')}
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded font-semibold hover:opacity-90 transition-opacity text-sm"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-foreground rounded font-semibold hover:opacity-90 transition-opacity text-sm"
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12h14"/></svg>
                   Submit Your First Ticket
@@ -399,7 +399,7 @@ export default function SupportPage() {
                   <button
                     key={ticket.id}
                     onClick={() => { setSelectedTicket(ticket); setView('detail'); }}
-                    className="w-full glass-card rounded p-4 border border-border hover:border-primary/40 transition-all text-left group"
+                    className="w-full bg-card border border-border rounded p-4 border border-border hover:border-primary/40 transition-all text-left group"
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex-1 min-w-0">

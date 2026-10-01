@@ -143,7 +143,7 @@ export default function CryptoPaymentClient() {
           {/* Page Header */}
           <div className="mb-10">
             <span className="text-xs font-bold text-primary tracking-[0.25em] uppercase mb-3 block">Crypto Payment</span>
-            <h1 className="text-3xl font-extrabold text-foreground tracking-tight mb-3">
+            <h1 className="text-3xl font-medium text-foreground tracking-tight mb-3">
               Pay with <span className="gradient-text-primary">Cryptocurrency</span>
             </h1>
             <p className="text-muted-foreground text-sm">
@@ -158,7 +158,7 @@ export default function CryptoPaymentClient() {
                 <div className="flex items-center gap-2">
                   <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
                     step === s
-                      ? 'bg-primary text-white'
+                      ? 'bg-primary text-foreground'
                       : steps.indexOf(step) > i
                       ? 'bg-primary/20 text-primary border border-primary/40' :'bg-muted text-muted-foreground border border-border'
                   }`}>
@@ -251,9 +251,9 @@ export default function CryptoPaymentClient() {
             <div>
               <div className="flex items-center justify-between mb-6">
                 <p className="text-xs text-muted-foreground uppercase tracking-widest">Send exact amount to wallet below</p>
-                <div className={`flex items-center gap-2 px-3 py-1.5 rounded border ${timeLeft < 300 ? 'border-red-500/30 bg-red-500/5' : 'border-border bg-card'}`}>
-                  <svg className={`w-3 h-3 ${timeLeft < 300 ? 'text-red-400' : 'text-muted-foreground'}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-                  <span className={`text-xs font-mono font-bold ${timeLeft < 300 ? 'text-red-400' : 'text-muted-foreground'}`}>{formatTime(timeLeft)}</span>
+                <div className={`flex items-center gap-2 px-3 py-1.5 rounded border ${timeLeft < 300 ? 'border-destructive/30 bg-destructive/5' : 'border-border bg-card'}`}>
+                  <svg className={`w-3 h-3 ${timeLeft < 300 ? 'text-destructive' : 'text-muted-foreground'}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                  <span className={`text-xs font-mono font-bold ${timeLeft < 300 ? 'text-destructive' : 'text-muted-foreground'}`}>{formatTime(timeLeft)}</span>
                 </div>
               </div>
 
@@ -266,7 +266,7 @@ export default function CryptoPaymentClient() {
                     {crypto.icon}
                   </div>
                   <div>
-                    <div className="text-base font-extrabold text-foreground">{crypto.name}</div>
+                    <div className="text-base font-medium text-foreground">{crypto.name}</div>
                     <div className="text-xs text-muted-foreground">{crypto.network}</div>
                   </div>
                   <button onClick={() => setStep('select')} className="ml-auto text-xs text-muted-foreground hover:text-primary transition-colors">
@@ -276,7 +276,7 @@ export default function CryptoPaymentClient() {
 
                 <div className="mb-5">
                   <div className="text-[10px] text-muted-foreground uppercase tracking-widest mb-2">Amount to Send (USD equivalent)</div>
-                  <div className="text-3xl font-extrabold text-foreground">${Number(amount).toLocaleString()}</div>
+                  <div className="text-3xl font-medium text-foreground">${Number(amount).toLocaleString()}</div>
                   <div className="text-xs text-muted-foreground mt-1">Use current exchange rate at time of transfer</div>
                 </div>
 
@@ -290,7 +290,7 @@ export default function CryptoPaymentClient() {
                       onClick={copyAddress}
                       className={`shrink-0 px-3 py-2.5 rounded border text-xs font-bold transition-all duration-200 ${
                         copied
-                          ? 'border-green-500/40 bg-green-500/10 text-green-400' :'border-border bg-card text-muted-foreground hover:border-primary/40 hover:text-primary'
+                          ? 'border-success/40 bg-success/10 text-success' :'border-border bg-card text-muted-foreground hover:border-primary/40 hover:text-primary'
                       }`}
                       aria-label="Copy wallet address"
                     >
@@ -312,11 +312,11 @@ export default function CryptoPaymentClient() {
               </div>
 
               {/* Warning */}
-              <div className="bg-amber-500/5 border border-amber-500/20 rounded p-4 mb-6">
+              <div className="bg-warning/5 border border-warning/20 rounded p-4 mb-6">
                 <div className="flex items-start gap-3">
-                  <svg className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                  <p className="text-xs text-amber-300/80 leading-relaxed">
-                    Send <strong className="text-amber-300">only {crypto.symbol}</strong> on the <strong className="text-amber-300">{crypto.network}</strong>. Sending other assets or using a different network will result in permanent loss of funds.
+                  <svg className="w-4 h-4 text-warning shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                  <p className="text-xs text-warning/80 leading-relaxed">
+                    Send <strong className="text-warning">only {crypto.symbol}</strong> on the <strong className="text-warning">{crypto.network}</strong>. Sending other assets or using a different network will result in permanent loss of funds.
                   </p>
                 </div>
               </div>
@@ -396,16 +396,16 @@ export default function CryptoPaymentClient() {
           {step === 'success' && crypto && (
             <div className="text-center">
               <div className="relative inline-flex items-center justify-center mb-8">
-                <div className="absolute w-28 h-28 rounded-full bg-green-500/10 animate-ping" style={{ animationDuration: '2s' }} />
-                <div className="relative w-20 h-20 rounded-full bg-green-500/15 border border-green-500/30 flex items-center justify-center">
-                  <svg className="w-10 h-10 text-green-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <div className="absolute w-28 h-28 rounded-full bg-success/10 animate-ping" style={{ animationDuration: '2s' }} />
+                <div className="relative w-20 h-20 rounded-full bg-success/15 border border-success/30 flex items-center justify-center">
+                  <svg className="w-10 h-10 text-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                     <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
                     <polyline points="22 4 12 14.01 9 11.01"/>
                   </svg>
                 </div>
               </div>
 
-              <h2 className="text-2xl font-extrabold text-foreground mb-3">Payment Submitted!</h2>
+              <h2 className="text-2xl font-medium text-foreground mb-3">Payment Submitted!</h2>
               <p className="text-muted-foreground text-sm mb-8 max-w-sm mx-auto leading-relaxed">
                 Your {crypto.name} payment has been received and is pending on-chain confirmation. We&apos;ll activate your investment once verified.
               </p>

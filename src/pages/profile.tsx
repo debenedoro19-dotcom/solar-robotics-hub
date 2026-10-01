@@ -345,7 +345,7 @@ export default function ProfilePage() {
   return (
     <main className="min-h-screen bg-background text-foreground">
       {/* Top bar */}
-      <div className="border-b border-border bg-background/95 backdrop-blur-xl sticky top-0 z-40">
+      <div className="border-b border-border bg-background/95  sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-6">
             <Link href="/" className="flex items-center gap-2.5">
@@ -370,11 +370,11 @@ export default function ProfilePage() {
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center gap-4 mb-2">
-            <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#E82127]/30 to-[#E82127]/10 border border-primary/30 flex items-center justify-center text-xl font-extrabold text-primary">
+            <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#E82127]/30 to-[#E82127]/10 border border-primary/30 flex items-center justify-center text-xl font-medium text-primary">
               {initials}
             </div>
             <div>
-              <h1 className="text-2xl font-extrabold text-foreground tracking-tight">{personal.fullName || 'Your Profile'}</h1>
+              <h1 className="text-2xl font-medium text-foreground tracking-tight">{personal.fullName || 'Your Profile'}</h1>
               <p className="text-sm text-muted-foreground">{userEmail}</p>
             </div>
           </div>
@@ -390,7 +390,7 @@ export default function ProfilePage() {
                   onClick={() => setActiveSection(item.id)}
                   className={`w-full flex items-center gap-3 px-4 py-3.5 text-xs font-semibold tracking-widest uppercase transition-all border-l-2 ${
                     activeSection === item.id
-                      ? 'text-white bg-primary/10 border-primary'
+                      ? 'text-foreground bg-primary/10 border-primary'
                       : 'text-muted-foreground hover:text-foreground hover:bg-card border-transparent'
                   }`}
                 >
@@ -418,7 +418,7 @@ export default function ProfilePage() {
                       type="text"
                       value={personal.fullName}
                       onChange={e => setPersonal(p => ({ ...p, fullName: e.target.value }))}
-                      className="w-full bg-background border border-border rounded px-4 py-2.5 text-sm text-foreground placeholder-[#52525B] focus:outline-none focus:border-primary/50 transition-colors"
+                      className="w-full bg-background border border-border rounded px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 transition-colors"
                       placeholder="John Doe"
                     />
                   </div>
@@ -438,7 +438,7 @@ export default function ProfilePage() {
                       type="tel"
                       value={personal.phone}
                       onChange={e => setPersonal(p => ({ ...p, phone: e.target.value }))}
-                      className="w-full bg-background border border-border rounded px-4 py-2.5 text-sm text-foreground placeholder-[#52525B] focus:outline-none focus:border-primary/50 transition-colors"
+                      className="w-full bg-background border border-border rounded px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 transition-colors"
                       placeholder="+1 (555) 000-0000"
                     />
                   </div>
@@ -461,7 +461,7 @@ export default function ProfilePage() {
                       type="text"
                       value={personal.city}
                       onChange={e => setPersonal(p => ({ ...p, city: e.target.value }))}
-                      className="w-full bg-background border border-border rounded px-4 py-2.5 text-sm text-foreground placeholder-[#52525B] focus:outline-none focus:border-primary/50 transition-colors"
+                      className="w-full bg-background border border-border rounded px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 transition-colors"
                       placeholder="New York"
                     />
                   </div>
@@ -471,7 +471,7 @@ export default function ProfilePage() {
                       type="text"
                       value={personal.address}
                       onChange={e => setPersonal(p => ({ ...p, address: e.target.value }))}
-                      className="w-full bg-background border border-border rounded px-4 py-2.5 text-sm text-foreground placeholder-[#52525B] focus:outline-none focus:border-primary/50 transition-colors"
+                      className="w-full bg-background border border-border rounded px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 transition-colors"
                       placeholder="123 Main St"
                     />
                   </div>
@@ -482,7 +482,7 @@ export default function ProfilePage() {
                     value={personal.bio}
                     onChange={e => setPersonal(p => ({ ...p, bio: e.target.value }))}
                     rows={3}
-                    className="w-full bg-background border border-border rounded px-4 py-2.5 text-sm text-foreground placeholder-[#52525B] focus:outline-none focus:border-primary/50 transition-colors resize-none"
+                    className="w-full bg-background border border-border rounded px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 transition-colors resize-none"
                     placeholder="Tell us a bit about yourself..."
                   />
                 </div>
@@ -512,7 +512,7 @@ export default function ProfilePage() {
                       type="text"
                       value={bank.bankName}
                       onChange={e => setBank(b => ({ ...b, bankName: e.target.value }))}
-                      className="w-full bg-background border border-border rounded px-4 py-2.5 text-sm text-foreground placeholder-[#52525B] focus:outline-none focus:border-primary/50 transition-colors"
+                      className="w-full bg-background border border-border rounded px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 transition-colors"
                       placeholder="Chase Bank"
                     />
                   </div>
@@ -522,7 +522,7 @@ export default function ProfilePage() {
                       type="text"
                       value={bank.accountHolder}
                       onChange={e => setBank(b => ({ ...b, accountHolder: e.target.value }))}
-                      className="w-full bg-background border border-border rounded px-4 py-2.5 text-sm text-foreground placeholder-[#52525B] focus:outline-none focus:border-primary/50 transition-colors"
+                      className="w-full bg-background border border-border rounded px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 transition-colors"
                       placeholder="John Doe"
                     />
                   </div>
@@ -533,7 +533,7 @@ export default function ProfilePage() {
                         type={showAccountNumber ? 'text' : 'password'}
                         value={bank.accountNumber}
                         onChange={e => setBank(b => ({ ...b, accountNumber: e.target.value }))}
-                        className="w-full bg-background border border-border rounded px-4 py-2.5 pr-10 text-sm text-foreground placeholder-[#52525B] focus:outline-none focus:border-primary/50 transition-colors"
+                        className="w-full bg-background border border-border rounded px-4 py-2.5 pr-10 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 transition-colors"
                         placeholder="••••••••••"
                       />
                       <button
@@ -557,7 +557,7 @@ export default function ProfilePage() {
                         type={showRoutingNumber ? 'text' : 'password'}
                         value={bank.routingNumber}
                         onChange={e => setBank(b => ({ ...b, routingNumber: e.target.value }))}
-                        className="w-full bg-background border border-border rounded px-4 py-2.5 pr-10 text-sm text-foreground placeholder-[#52525B] focus:outline-none focus:border-primary/50 transition-colors"
+                        className="w-full bg-background border border-border rounded px-4 py-2.5 pr-10 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 transition-colors"
                         placeholder="••••••••••"
                       />
                       <button
@@ -591,7 +591,7 @@ export default function ProfilePage() {
                       type="text"
                       value={bank.swiftCode}
                       onChange={e => setBank(b => ({ ...b, swiftCode: e.target.value.toUpperCase() }))}
-                      className="w-full bg-background border border-border rounded px-4 py-2.5 text-sm text-foreground placeholder-[#52525B] focus:outline-none focus:border-primary/50 transition-colors"
+                      className="w-full bg-background border border-border rounded px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 transition-colors"
                       placeholder="CHASUS33"
                     />
                   </div>
@@ -661,14 +661,14 @@ export default function ProfilePage() {
                     { label: 'One special character', met: /[^A-Za-z0-9]/.test(passwords.newPass) },
                   ].map(req => (
                     <div key={req.label} className="flex items-center gap-2 mb-1">
-                      <div className={`w-3.5 h-3.5 rounded-full flex items-center justify-center ${req.met ? 'bg-green-400/20' : 'bg-muted'}`}>
+                      <div className={`w-3.5 h-3.5 rounded-full flex items-center justify-center ${req.met ? 'bg-success/20' : 'bg-muted'}`}>
                         {req.met && (
                           <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#00F59B" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                             <polyline points="20 6 9 17 4 12" />
                           </svg>
                         )}
                       </div>
-                      <span className={`text-xs ${req.met ? 'text-green-400' : 'text-muted-foreground'}`}>{req.label}</span>
+                      <span className={`text-xs ${req.met ? 'text-success' : 'text-muted-foreground'}`}>{req.label}</span>
                     </div>
                   ))}
                 </div>
@@ -747,14 +747,14 @@ export default function ProfilePage() {
                 </div>
 
                 {/* Status Banner */}
-                <div className={`flex items-center gap-3 px-4 py-3 rounded border mb-6 ${twoFAEnabled ? 'bg-green-400/5 border-green-400/20' : 'bg-primary/5 border-primary/20'}`}>
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${twoFAEnabled ? 'bg-green-400/20' : 'bg-primary/20'}`}>
+                <div className={`flex items-center gap-3 px-4 py-3 rounded border mb-6 ${twoFAEnabled ? 'bg-success/5 border-success/20' : 'bg-primary/5 border-primary/20'}`}>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${twoFAEnabled ? 'bg-success/20' : 'bg-primary/20'}`}>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={twoFAEnabled ? '#00F59B' : '#E82127'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                       <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                     </svg>
                   </div>
                   <div>
-                    <p className={`text-sm font-bold ${twoFAEnabled ? 'text-green-400' : 'text-primary'}`}>
+                    <p className={`text-sm font-bold ${twoFAEnabled ? 'text-success' : 'text-primary'}`}>
                       2FA is {twoFAEnabled ? 'Enabled' : 'Disabled'}
                     </p>
                     <p className="text-xs text-muted-foreground">
@@ -781,7 +781,7 @@ export default function ProfilePage() {
                     </div>
                     <button
                       onClick={handle2FASetup}
-                      className="px-6 py-2.5 bg-primary text-white text-xs font-bold rounded tracking-widest uppercase hover:bg-primary/90 transition-colors"
+                      className="px-6 py-2.5 bg-primary text-foreground text-xs font-bold rounded tracking-widest uppercase hover:bg-primary/90 transition-colors"
                     >
                       Enable Two-Factor Auth
                     </button>
@@ -811,14 +811,14 @@ export default function ProfilePage() {
                       maxLength={6}
                       value={twoFACode}
                       onChange={e => setTwoFACode(e.target.value.replace(/\D/g, ''))}
-                      className="w-full bg-background border border-border rounded px-4 py-2.5 text-sm text-foreground text-center tracking-[0.5em] font-mono placeholder-[#52525B] focus:outline-none focus:border-primary/50 transition-colors mb-4"
+                      className="w-full bg-background border border-border rounded px-4 py-2.5 text-sm text-foreground text-center tracking-[0.5em] font-mono placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 transition-colors mb-4"
                       placeholder="000000"
                     />
                     <div className="flex gap-3">
                       <button
                         onClick={handle2FAVerify}
                         disabled={twoFACode.length !== 6 || twoFABusy}
-                        className="flex-1 py-2.5 bg-primary text-white text-xs font-bold rounded tracking-widest uppercase hover:bg-primary/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                        className="flex-1 py-2.5 bg-primary text-foreground text-xs font-bold rounded tracking-widest uppercase hover:bg-primary/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                       >
                         {twoFABusy ? 'Verifying…' : 'Verify & Enable'}
                       </button>
@@ -857,7 +857,7 @@ export default function ProfilePage() {
                         value={twoFACode}
                         onChange={e => setTwoFACode(e.target.value)}
                         placeholder="000000"
-                        className="w-full bg-background border border-border rounded px-4 py-2.5 text-sm text-foreground text-center tracking-[0.4em] font-mono placeholder-[#52525B] focus:outline-none focus:border-primary/50 transition-colors mb-3"
+                        className="w-full bg-background border border-border rounded px-4 py-2.5 text-sm text-foreground text-center tracking-[0.4em] font-mono placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 transition-colors mb-3"
                       />
                       <button
                         onClick={handle2FADisable}
@@ -914,7 +914,7 @@ export default function ProfilePage() {
                       <button
                         onClick={() => setSecurityPage(p => Math.max(0, p - 1))}
                         disabled={securityPage === 0}
-                        className="px-3 py-1.5 rounded-lg border border-border text-[11px] font-semibold text-muted-foreground disabled:opacity-30"
+                        className="px-3 py-1.5 rounded border border-border text-[11px] font-semibold text-muted-foreground disabled:opacity-30"
                       >
                         Previous
                       </button>
@@ -924,7 +924,7 @@ export default function ProfilePage() {
                       <button
                         onClick={() => setSecurityPage(p => ((p + 1) * 8 < securityTotal ? p + 1 : p))}
                         disabled={(securityPage + 1) * 8 >= securityTotal}
-                        className="px-3 py-1.5 rounded-lg border border-border text-[11px] font-semibold text-muted-foreground disabled:opacity-30"
+                        className="px-3 py-1.5 rounded border border-border text-[11px] font-semibold text-muted-foreground disabled:opacity-30"
                       >
                         Next
                       </button>
@@ -949,8 +949,8 @@ function SaveButton({ status, onClick, label = 'Save Changes' }: { status: strin
       onClick={onClick}
       disabled={status === 'saving'}
       className={`px-6 py-2.5 text-xs font-bold rounded tracking-widest uppercase transition-all ${
-        status === 'saved' ?'bg-green-400/20 text-green-400 border border-green-400/30'
-          : status === 'error' ?'bg-primary/20 text-primary border border-primary/30' :'bg-primary text-white hover:bg-primary/90'
+        status === 'saved' ?'bg-success/20 text-success border border-success/30'
+          : status === 'error' ?'bg-primary/20 text-primary border border-primary/30' :'bg-primary text-foreground hover:bg-primary/90'
       } disabled:opacity-60 disabled:cursor-not-allowed`}
     >
       {status === 'saving' ? 'Saving...' : status === 'saved' ? '✓ Saved' : status === 'error' ? 'Error — Retry' : label}
@@ -981,7 +981,7 @@ function PasswordField({
           type={show ? 'text' : 'password'}
           value={value}
           onChange={e => onChange(e.target.value)}
-          className="w-full bg-background border border-border rounded px-4 py-2.5 pr-10 text-sm text-foreground placeholder-[#52525B] focus:outline-none focus:border-primary/50 transition-colors"
+          className="w-full bg-background border border-border rounded px-4 py-2.5 pr-10 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 transition-colors"
           placeholder={placeholder}
         />
         <button
