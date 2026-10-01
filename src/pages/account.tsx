@@ -1082,7 +1082,7 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
                   <p className="text-xs font-semibold text-foreground tracking-widest uppercase mb-3">Your Referral Link</p>
                   <div className="flex items-center gap-3">
                     <div className="flex-1 bg-fin-elevated border border-fin-border rounded px-4 py-2.5 text-sm text-fin-muted font-mono truncate">
-                      {`https://teslaenerg6773.builtwithrocket.new/register?ref=${userId.slice(0, 8)}`}
+                      {`https://tradeenergyhub.com/register?ref=${userId.slice(0, 8)}`}
                     </div>
                     <Link href="/referral" className="px-4 py-2.5 bg-primary text-white text-xs font-bold rounded tracking-widest uppercase hover:bg-accent transition-colors whitespace-nowrap">
                       Referral Page

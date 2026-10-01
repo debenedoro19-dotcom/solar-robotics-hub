@@ -62,8 +62,7 @@ const socialLinks = [
 export default function Footer() {
   return (
     <footer
-      className="relative z-10 border-t border-[#12131A] py-14 px-6 lg:px-8"
-      style={{ background: "linear-gradient(to bottom, #050507, #060606)" }}
+      className="relative z-10 border-t border-border bg-background py-14 px-6 lg:px-8"
     >
       {/* Top accent */}
       <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
@@ -75,7 +74,7 @@ export default function Footer() {
               <div className="absolute inset-0 bg-primary/15 rounded-full blur-sm group-hover:bg-primary/25 transition-all duration-300" />
               <img src="/tesla-mark.png" width={22} height={22} alt="" aria-hidden="true" className="text-primary relative z-10 drop-shadow-[0_0_6px_rgba(227,25,55,0.5)] object-contain" />
             </div>
-            <span className="text-white font-bold text-sm tracking-widest uppercase">
+            <span className="text-foreground font-medium text-sm tracking-widest uppercase">
               Trade{" "}
               <span className="text-primary" style={{ textShadow: "0 0 10px rgba(227,25,55,0.4)" }}>
                 Tesla
@@ -89,7 +88,7 @@ export default function Footer() {
               <Link
                 key={link?.label}
                 href={link?.href}
-                className="text-xs text-[#6B7280] hover:text-white transition-colors duration-300 tracking-wide"
+                className="text-xs text-muted-foreground hover:text-foreground transition-colors duration-300 tracking-wide"
               >
                 {link?.label}
               </Link>
@@ -101,20 +100,9 @@ export default function Footer() {
 
         <div className="flex flex-col sm:flex-row items-center justify-between gap-5">
           {/* Copyright */}
-          <p className="text-xs text-[#52525B] tracking-wide">© 2026 Trade Tesla. All Rights Reserved.</p>
-
-          {/* Social Icons */}
-          <div className="flex items-center gap-2">
-            {socialLinks?.map((social) => (
-              <span
-                key={social?.label}
-                aria-label={social?.label}
-                role="img"
-                className="w-8 h-8 flex items-center justify-center rounded-xl border border-[#222222] text-[#6B7280] hover:text-white hover:border-primary/40 hover:bg-primary/8 transition-all duration-300 cursor-default select-none"
-              >
-                {social?.icon}
-              </span>
-            ))}
+          <div className="max-w-2xl space-y-2">
+            <p className="text-xs text-muted-foreground">© 2026 Trade Tesla. All Rights Reserved.</p>
+            <p className="text-[11px] text-muted-foreground leading-relaxed">Trade Tesla is an independent company and is not affiliated with, endorsed by, or sponsored by Tesla, Inc. Tesla and related marks belong to their owners and are used for descriptive purposes only. Investing involves risk, including loss of principal.</p>
           </div>
         </div>
       </div>

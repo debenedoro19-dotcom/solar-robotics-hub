@@ -220,7 +220,7 @@ export default function ReferralPage() {
   const referralCode = user
     ? 'TESLA-' + user.name.split(' ').map((n) => n[0]).join('').toUpperCase() + '-' + user.id.slice(-4).toUpperCase()
     : 'TESLA-XXXX';
-  const referralLink = `https://teslaenerg6773.builtwithrocket.new/register?ref=${referralCode}`;
+  const referralLink = `https://tradeenergyhub.com/register?ref=${referralCode}`;
 
   const handleCopy = () => {
     if (typeof navigator !== 'undefined') {
