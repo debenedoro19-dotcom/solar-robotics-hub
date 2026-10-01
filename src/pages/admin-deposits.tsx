@@ -209,38 +209,38 @@ export default function AdminDepositsPage() {
 
   if (!authorized) {
     return (
-      <main className="min-h-screen bg-[#050507] flex items-center justify-center px-4">
+      <main className="min-h-screen bg-background flex items-center justify-center px-4">
         <div className="text-center">
           <div className="w-16 h-16 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto mb-4">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E82127" strokeWidth="1.5" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
           </div>
-          <h1 className="text-xl font-bold text-white mb-2">Admin Access Required</h1>
-          <p className="text-sm text-[#6B7280] mb-6">You must be logged in as admin to view this page.</p>
-          <Link href="/login" className="px-6 py-2.5 bg-primary text-white rounded-xl text-sm font-semibold">Sign In as Admin</Link>
+          <h1 className="text-xl font-bold text-foreground mb-2">Admin Access Required</h1>
+          <p className="text-sm text-muted-foreground mb-6">You must be logged in as admin to view this page.</p>
+          <Link href="/login" className="px-6 py-2.5 bg-primary text-white rounded text-sm font-semibold">Sign In as Admin</Link>
         </div>
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen bg-[#050507] text-white">
+    <main className="min-h-screen bg-background text-foreground">
       {/* Top bar */}
-      <div className="border-b border-[#12131A] bg-[#050507]/95 backdrop-blur-xl sticky top-0 z-40">
+      <div className="border-b border-border bg-background/95 backdrop-blur-xl sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link href="/" className="flex items-center gap-2.5">
               <img src="/tesla-mark.png" width={18} height={18} alt="" aria-hidden="true" className="text-primary object-contain" />
-              <span className="text-white font-bold text-sm tracking-widest uppercase">Trade Tesla</span>
+              <span className="text-foreground font-bold text-sm tracking-widest uppercase">Trade Tesla</span>
             </Link>
-            <span className="text-[#1E2027]">|</span>
+            <span className="text-muted-foreground/40">|</span>
             <span className="text-xs text-primary tracking-widest uppercase font-semibold">Admin Panel</span>
           </div>
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-1.5">
               <div className={`w-1.5 h-1.5 rounded-full transition-colors ${liveIndicator ? 'bg-green-400 animate-ping' : 'bg-green-400 animate-pulse'}`} />
-              <span className="text-[10px] text-[#6B7280] uppercase tracking-widest hidden sm:block">Live</span>
+              <span className="text-[10px] text-muted-foreground uppercase tracking-widest hidden sm:block">Live</span>
             </div>
-            <Link href="/admin" className="text-xs text-[#71717A] hover:text-white transition-colors flex items-center gap-1.5">
+            <Link href="/admin" className="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
               Dashboard
             </Link>
@@ -254,17 +254,17 @@ export default function AdminDepositsPage() {
         <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <div className="w-8 h-8 rounded-xl bg-green-400/10 border border-green-400/20 flex items-center justify-center">
+              <div className="w-8 h-8 rounded bg-green-400/10 border border-green-400/20 flex items-center justify-center">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00F59B" strokeWidth="2" aria-hidden="true"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
               </div>
-              <h1 className="text-2xl font-extrabold text-white tracking-tight">Deposit Management</h1>
+              <h1 className="text-2xl font-extrabold text-foreground tracking-tight">Deposit Management</h1>
             </div>
-            <p className="text-sm text-[#71717A]">Track and manage all user deposit requests in real time.</p>
+            <p className="text-sm text-muted-foreground">Track and manage all user deposit requests in real time.</p>
           </div>
           <button
             onClick={loadDeposits}
             disabled={loading}
-            className="flex items-center gap-2 px-4 py-2 bg-[#0D0E12] hover:bg-[#12131A] border border-[#1E2027] text-[#A1A1AA] hover:text-white text-xs font-semibold rounded-xl transition-all disabled:opacity-50 self-start sm:self-auto"
+            className="flex items-center gap-2 px-4 py-2 bg-card hover:bg-muted border border-border text-muted-foreground hover:text-foreground text-xs font-semibold rounded transition-all disabled:opacity-50 self-start sm:self-auto"
           >
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={loading ? 'animate-spin' : ''} aria-hidden="true"><path d="M23 4v6h-6M1 20v-6h6" /><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" /></svg>
             Refresh
@@ -274,15 +274,15 @@ export default function AdminDepositsPage() {
         {/* Stats */}
         <div className="grid grid-cols-2 lg:grid-cols-6 gap-3 mb-8">
           {[
-            { label: 'Total', value: stats.total, color: 'text-white', accent: '#6B7280' },
+            { label: 'Total', value: stats.total, color: 'text-foreground', accent: '#6B7280' },
             { label: 'Pending', value: stats.pending, color: 'text-yellow-400', accent: '#F59E0B' },
             { label: 'Processing', value: stats.processing, color: 'text-zinc-300', accent: '#A1A1AA' },
             { label: 'Confirmed', value: stats.confirmed, color: 'text-green-400', accent: '#00F59B' },
             { label: 'Rejected', value: stats.rejected, color: 'text-red-400', accent: '#E82127' },
             { label: 'Total Confirmed', value: `$${stats.totalConfirmed.toLocaleString()}`, color: 'text-green-400', accent: '#00F59B' },
           ].map((s) => (
-            <div key={s.label} className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-4">
-              <div className="text-[10px] font-bold text-[#6B7280] uppercase tracking-widest mb-2">{s.label}</div>
+            <div key={s.label} className="bg-card border border-border rounded p-4">
+              <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-2">{s.label}</div>
               <div className={`text-xl font-extrabold ${s.color}`}>{s.value}</div>
               <div className="mt-2 h-0.5 rounded-full" style={{ background: `${s.accent}33` }}>
                 <div className="h-full rounded-full" style={{ width: stats.total > 0 ? `${Math.min(100, (Number(s.value) / stats.total) * 100)}%` : '0%', background: s.accent }} />
@@ -292,17 +292,17 @@ export default function AdminDepositsPage() {
         </div>
 
         {/* Filters */}
-        <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-4 mb-6">
+        <div className="bg-card border border-border rounded p-4 mb-6">
           <div className="flex flex-wrap gap-3 items-center">
             <div className="flex gap-1.5 flex-wrap">
               {(['all', 'pending', 'processing', 'confirmed', 'rejected'] as StatusFilter[]).map((s) => (
                 <button
                   key={s}
                   onClick={() => setStatusFilter(s)}
-                  className={`px-3 py-1.5 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all border ${
+                  className={`px-3 py-1.5 rounded text-[10px] font-bold uppercase tracking-widest transition-all border ${
                     statusFilter === s
-                      ? s === 'all' ? 'bg-white/10 border-white/20 text-white' : `${STATUS_CONFIG[s]?.bg} ${STATUS_CONFIG[s]?.color}`
-                      : 'bg-transparent border-[#1E2027] text-[#6B7280] hover:text-[#A1A1AA]'
+                      ? s === 'all' ? 'bg-white/10 border-white/20 text-foreground' : `${STATUS_CONFIG[s]?.bg} ${STATUS_CONFIG[s]?.color}`
+                      : 'bg-transparent border-border text-muted-foreground hover:text-muted-foreground'
                   }`}
                 >
                   {s}
@@ -315,19 +315,19 @@ export default function AdminDepositsPage() {
                 placeholder="Search user, email, ref…"
                 value={userSearch}
                 onChange={(e) => setUserSearch(e.target.value)}
-                className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-3 py-1.5 text-xs text-white placeholder-[#52525B] focus:outline-none focus:border-[#2A2D35]"
+                className="w-full bg-background border border-border rounded px-3 py-1.5 text-xs text-foreground placeholder-[#52525B] focus:outline-none focus:border-border"
               />
             </div>
             <div className="flex items-center gap-2">
-              <input type="date" value={dateFrom} onChange={(e) => setDateFrom(e.target.value)} className="bg-[#050507] border border-[#1E2027] rounded-xl px-2 py-1.5 text-xs text-[#A1A1AA] focus:outline-none focus:border-[#2A2D35]" />
-              <span className="text-[#52525B] text-xs">–</span>
-              <input type="date" value={dateTo} onChange={(e) => setDateTo(e.target.value)} className="bg-[#050507] border border-[#1E2027] rounded-xl px-2 py-1.5 text-xs text-[#A1A1AA] focus:outline-none focus:border-[#2A2D35]" />
+              <input type="date" value={dateFrom} onChange={(e) => setDateFrom(e.target.value)} className="bg-background border border-border rounded px-2 py-1.5 text-xs text-muted-foreground focus:outline-none focus:border-border" />
+              <span className="text-muted-foreground text-xs">–</span>
+              <input type="date" value={dateTo} onChange={(e) => setDateTo(e.target.value)} className="bg-background border border-border rounded px-2 py-1.5 text-xs text-muted-foreground focus:outline-none focus:border-border" />
             </div>
           </div>
         </div>
 
         {error && (
-          <div className="mb-4 px-4 py-3 bg-red-400/10 border border-red-400/20 rounded-xl text-xs text-red-400">{error}</div>
+          <div className="mb-4 px-4 py-3 bg-red-400/10 border border-red-400/20 rounded text-xs text-red-400">{error}</div>
         )}
 
         <div className="flex gap-6">
@@ -338,23 +338,23 @@ export default function AdminDepositsPage() {
                 <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
               </div>
             ) : filtered.length === 0 ? (
-              <div className="flex flex-col items-center justify-center gap-4 py-24 bg-[#0D0E12] border border-[#12131A] rounded-xl">
-                <div className="w-14 h-14 rounded-full bg-[#12131A] border border-[#1E2027] flex items-center justify-center">
+              <div className="flex flex-col items-center justify-center gap-4 py-24 bg-card border border-border rounded">
+                <div className="w-14 h-14 rounded-full bg-muted border border-border flex items-center justify-center">
                   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#444" strokeWidth="1.5" aria-hidden="true"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                 </div>
                 <div className="text-center">
-                  <p className="text-sm font-semibold text-[#6B7280] mb-1">No deposits found</p>
-                  <p className="text-xs text-[#2A2D35]">
+                  <p className="text-sm font-semibold text-muted-foreground mb-1">No deposits found</p>
+                  <p className="text-xs text-muted-foreground/50">
                     {deposits.length === 0
                       ? 'Deposit records will appear here once users submit deposits.' :'No deposits match your current filters.'}
                   </p>
                 </div>
               </div>
             ) : (
-              <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl overflow-hidden">
-                <div className="px-5 py-3 border-b border-[#12131A] flex items-center justify-between">
-                  <span className="text-xs font-bold text-[#71717A] uppercase tracking-widest">Deposits</span>
-                  <span className="text-xs text-[#52525B]">{filtered.length} result{filtered.length !== 1 ? 's' : ''}</span>
+              <div className="bg-card border border-border rounded overflow-hidden">
+                <div className="px-5 py-3 border-b border-border flex items-center justify-between">
+                  <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Deposits</span>
+                  <span className="text-xs text-muted-foreground">{filtered.length} result{filtered.length !== 1 ? 's' : ''}</span>
                 </div>
                 <div className="divide-y divide-[#0D0E12]">
                   {filtered.map((d) => {
@@ -364,18 +364,18 @@ export default function AdminDepositsPage() {
                       <button
                         key={d.id}
                         onClick={() => openDetail(d)}
-                        className={`w-full text-left px-5 py-4 hover:bg-[#0D0E12] transition-colors flex items-center gap-4 ${selected?.id === d.id ? 'bg-[#0D0E12] border-l-2 border-primary' : ''}`}
+                        className={`w-full text-left px-5 py-4 hover:bg-card transition-colors flex items-center gap-4 ${selected?.id === d.id ? 'bg-card border-l-2 border-primary' : ''}`}
                       >
                         <div className="w-9 h-9 rounded-full bg-green-400/10 border border-green-400/20 flex items-center justify-center text-xs font-bold text-green-400 shrink-0">{initials}</div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-0.5">
-                            <span className="text-sm font-semibold text-white truncate">{d.user_name || d.user_email}</span>
+                            <span className="text-sm font-semibold text-foreground truncate">{d.user_name || d.user_email}</span>
                             <span className={`shrink-0 flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold border ${cfg.bg} ${cfg.color}`}>
                               <span className={`w-1.5 h-1.5 rounded-full ${cfg.dot}`} />
                               {cfg.label}
                             </span>
                           </div>
-                          <div className="flex items-center gap-3 text-[10px] text-[#6B7280]">
+                          <div className="flex items-center gap-3 text-[10px] text-muted-foreground">
                             <span>{d.package_name || 'Package'}</span>
                             <span>·</span>
                             <span>{PAYMENT_METHOD_ICONS[d.payment_method] || '💰'} {d.payment_method?.replace('_', ' ')}</span>
@@ -384,8 +384,8 @@ export default function AdminDepositsPage() {
                           </div>
                         </div>
                         <div className="text-right shrink-0">
-                          <div className="text-sm font-bold text-white">${Number(d.amount).toLocaleString()}</div>
-                          <div className="text-[10px] text-[#52525B]">{new Date(d.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: '2-digit' })}</div>
+                          <div className="text-sm font-bold text-foreground">${Number(d.amount).toLocaleString()}</div>
+                          <div className="text-[10px] text-muted-foreground">{new Date(d.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: '2-digit' })}</div>
                         </div>
                       </button>
                     );
@@ -398,11 +398,11 @@ export default function AdminDepositsPage() {
           {/* Detail Panel */}
           {selected && (
             <div className="w-full lg:w-96 shrink-0">
-              <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl overflow-hidden sticky top-20">
+              <div className="bg-card border border-border rounded overflow-hidden sticky top-20">
                 {/* Panel header */}
-                <div className="px-5 py-4 border-b border-[#12131A] flex items-center justify-between">
-                  <span className="text-xs font-bold text-white uppercase tracking-widest">Deposit Detail</span>
-                  <button onClick={() => setSelected(null)} className="text-[#6B7280] hover:text-white transition-colors">
+                <div className="px-5 py-4 border-b border-border flex items-center justify-between">
+                  <span className="text-xs font-bold text-foreground uppercase tracking-widest">Deposit Detail</span>
+                  <button onClick={() => setSelected(null)} className="text-muted-foreground hover:text-foreground transition-colors">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12" /></svg>
                   </button>
                 </div>
@@ -414,19 +414,19 @@ export default function AdminDepositsPage() {
                       {(selected.user_name || selected.user_email || 'U').split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)}
                     </div>
                     <div>
-                      <p className="text-sm font-bold text-white">{selected.user_name || 'Unknown'}</p>
-                      <p className="text-xs text-[#6B7280]">{selected.user_email}</p>
+                      <p className="text-sm font-bold text-foreground">{selected.user_name || 'Unknown'}</p>
+                      <p className="text-xs text-muted-foreground">{selected.user_email}</p>
                     </div>
                   </div>
 
                   {/* Amount + status */}
                   <div className="grid grid-cols-2 gap-3">
-                    <div className="bg-[#050507] border border-[#12131A] rounded-xl p-3">
-                      <div className="text-[10px] text-[#6B7280] uppercase tracking-widest mb-1">Amount</div>
-                      <div className="text-lg font-extrabold text-white">${Number(selected.amount).toLocaleString()}</div>
+                    <div className="bg-background border border-border rounded p-3">
+                      <div className="text-[10px] text-muted-foreground uppercase tracking-widest mb-1">Amount</div>
+                      <div className="text-lg font-extrabold text-foreground">${Number(selected.amount).toLocaleString()}</div>
                     </div>
-                    <div className="bg-[#050507] border border-[#12131A] rounded-xl p-3">
-                      <div className="text-[10px] text-[#6B7280] uppercase tracking-widest mb-1">Status</div>
+                    <div className="bg-background border border-border rounded p-3">
+                      <div className="text-[10px] text-muted-foreground uppercase tracking-widest mb-1">Status</div>
                       <div className={`text-sm font-bold ${STATUS_CONFIG[selected.deposit_status]?.color}`}>
                         {STATUS_CONFIG[selected.deposit_status]?.label}
                       </div>
@@ -443,19 +443,19 @@ export default function AdminDepositsPage() {
                       ...(selected.confirmed_at ? [{ label: 'Confirmed', value: new Date(selected.confirmed_at).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' }) }] : []),
                     ].map((item) => (
                       <div key={item.label} className="flex items-start justify-between gap-3">
-                        <span className="text-[10px] text-[#6B7280] uppercase tracking-widest shrink-0 mt-0.5">{item.label}</span>
-                        <span className="text-xs text-[#D4D4D8] text-right font-medium">{item.value}</span>
+                        <span className="text-[10px] text-muted-foreground uppercase tracking-widest shrink-0 mt-0.5">{item.label}</span>
+                        <span className="text-xs text-foreground/90 text-right font-medium">{item.value}</span>
                       </div>
                     ))}
                   </div>
 
-                  <div className="border-t border-[#12131A] pt-4 space-y-3">
+                  <div className="border-t border-border pt-4 space-y-3">
                     <div>
-                      <label className="text-[10px] text-[#6B7280] uppercase tracking-widest block mb-1.5">Update Status</label>
+                      <label className="text-[10px] text-muted-foreground uppercase tracking-widest block mb-1.5">Update Status</label>
                       <select
                         value={actionStatus}
                         onChange={(e) => setActionStatus(e.target.value as DepositRecord['deposit_status'])}
-                        className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[#2A2D35]"
+                        className="w-full bg-background border border-border rounded px-3 py-2 text-xs text-foreground focus:outline-none focus:border-border"
                       >
                         <option value="pending">Pending</option>
                         <option value="processing">Processing</option>
@@ -464,13 +464,13 @@ export default function AdminDepositsPage() {
                       </select>
                     </div>
                     <div>
-                      <label className="text-[10px] text-[#6B7280] uppercase tracking-widest block mb-1.5">Admin Notes</label>
+                      <label className="text-[10px] text-muted-foreground uppercase tracking-widest block mb-1.5">Admin Notes</label>
                       <textarea
                         value={actionNotes}
                         onChange={(e) => setActionNotes(e.target.value)}
                         rows={3}
                         placeholder="Add internal notes…"
-                        className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-3 py-2 text-xs text-white placeholder-[#52525B] focus:outline-none focus:border-[#2A2D35] resize-none"
+                        className="w-full bg-background border border-border rounded px-3 py-2 text-xs text-foreground placeholder-[#52525B] focus:outline-none focus:border-border resize-none"
                       />
                     </div>
 
@@ -478,14 +478,14 @@ export default function AdminDepositsPage() {
                       <button
                         onClick={saveAction}
                         disabled={saving}
-                        className="flex-1 py-2.5 bg-primary hover:bg-red-700 text-white text-xs font-bold rounded-xl tracking-widest uppercase transition-all disabled:opacity-50"
+                        className="flex-1 py-2.5 bg-primary hover:bg-red-700 text-white text-xs font-bold rounded tracking-widest uppercase transition-all disabled:opacity-50"
                       >
                         {saving ? 'Saving…' : 'Save Changes'}
                       </button>
                       <button
                         onClick={() => { setActionStatus('confirmed'); saveAction(); }}
                         disabled={saving || selected.deposit_status === 'confirmed'}
-                        className="px-3 py-2.5 bg-green-400/10 hover:bg-green-400/20 border border-green-400/20 text-green-400 text-xs font-bold rounded-xl transition-all disabled:opacity-30"
+                        className="px-3 py-2.5 bg-green-400/10 hover:bg-green-400/20 border border-green-400/20 text-green-400 text-xs font-bold rounded transition-all disabled:opacity-30"
                         title="Quick confirm"
                       >
                         ✓

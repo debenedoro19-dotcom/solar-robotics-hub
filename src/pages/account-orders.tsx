@@ -38,18 +38,18 @@ export default function AccountOrdersPage() {
           {orders === null ? (
             <p className="text-muted-foreground">Loading…</p>
           ) : orders.length === 0 ? (
-            <div className="glass-card rounded-2xl p-8 text-center">
+            <div className="glass-card rounded-md p-8 text-center">
               <p className="text-muted-foreground mb-4">You have no orders yet.</p>
-              <a href="/inventory" className="inline-block px-5 py-2.5 rounded-xl bg-primary text-primary-foreground font-bold text-sm">Browse inventory</a>
+              <a href="/inventory" className="inline-block px-5 py-2.5 rounded bg-primary text-primary-foreground font-bold text-sm">Browse inventory</a>
             </div>
           ) : (
             <div className="space-y-4">
               {orders.map((o) => {
                 const idx = STEPS.indexOf(o.order_status);
                 return (
-                  <article key={o.id} className="glass-card rounded-2xl p-5">
+                  <article key={o.id} className="glass-card rounded-md p-5">
                     <div className="flex gap-4 items-center">
-                      {o.item_image && <img src={o.item_image} alt="" className="w-16 h-16 rounded-xl object-cover" />}
+                      {o.item_image && <img src={o.item_image} alt="" className="w-16 h-16 rounded object-cover" />}
                       <div className="flex-1 min-w-0">
                         <p className="text-xs text-muted-foreground">{o.order_number} · {new Date(o.created_at).toLocaleDateString()}</p>
                         <h2 className="font-bold truncate">{o.item_name}</h2>

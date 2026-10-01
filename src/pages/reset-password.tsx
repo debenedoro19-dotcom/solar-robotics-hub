@@ -65,7 +65,7 @@ export default function ResetPasswordPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#050507] flex items-center justify-center px-4 relative overflow-hidden">
+    <main className="min-h-screen bg-background flex items-center justify-center px-4 relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px]" />
@@ -84,12 +84,12 @@ export default function ResetPasswordPage() {
         <div className="text-center mb-10">
           <Link href="/" className="inline-flex items-center gap-3 mb-6">
             <img src="/tesla-mark.png" width={32} height={32} alt="" aria-hidden="true" className="text-primary object-contain" />
-            <span className="text-white font-bold text-lg tracking-widest uppercase">Trade Tesla</span>
+            <span className="text-foreground font-bold text-lg tracking-widest uppercase">Trade Tesla</span>
           </Link>
-          <h1 className="text-2xl font-extrabold text-white tracking-tight mb-2">
+          <h1 className="text-2xl font-extrabold text-foreground tracking-tight mb-2">
             {success ? 'Password Updated' : 'Set New Password'}
           </h1>
-          <p className="text-sm text-[#71717A]">
+          <p className="text-sm text-muted-foreground">
              {success ? 'Redirecting you to sign in…' : 'Choose a new password for your account.'}
           </p>
         </div>
@@ -101,27 +101,27 @@ export default function ResetPasswordPage() {
                 <path d="M20 6L9 17l-5-5" />
               </svg>
             </div>
-            <p className="text-sm text-[#A1A1AA] text-center">
+            <p className="text-sm text-muted-foreground text-center">
               Your password has been reset successfully. You&apos;ll be redirected to sign in shortly.
             </p>
           </div>
         ) : checkingLink ? (
-          <p className="py-8 text-center text-sm text-[#A1A1AA]">Checking your recovery link…</p>
+          <p className="py-8 text-center text-sm text-muted-foreground">Checking your recovery link…</p>
         ) : !hasRecoverySession ? (
           <div className="space-y-5 py-4 text-center">
-            <p className="text-sm text-[#A1A1AA]">This recovery link is invalid or has expired.</p>
-            <Link href="/forgot-password" className="tesla-btn-primary flex min-h-[48px] items-center justify-center rounded-xl text-sm font-bold uppercase tracking-widest">
+            <p className="text-sm text-muted-foreground">This recovery link is invalid or has expired.</p>
+            <Link href="/forgot-password" className="tesla-btn-primary flex min-h-[48px] items-center justify-center rounded text-sm font-bold uppercase tracking-widest">
               Request a new link
             </Link>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
-              <div className="px-4 py-3 rounded-xl bg-primary/10 border border-primary/30 text-sm text-primary">{error}</div>
+              <div className="px-4 py-3 rounded bg-primary/10 border border-primary/30 text-sm text-primary">{error}</div>
             )}
 
             <div>
-              <label htmlFor="password" className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">
+              <label htmlFor="password" className="block text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">
                 New Password
               </label>
               <input
@@ -131,13 +131,13 @@ export default function ResetPasswordPage() {
                 value={form.password}
                 onChange={handleChange}
                 placeholder="Min. 8 characters"
-                className="w-full px-4 py-3 rounded-xl text-sm input-tesla"
+                className="w-full px-4 py-3 rounded text-sm input-tesla"
                 autoComplete="new-password"
               />
             </div>
 
             <div>
-              <label htmlFor="confirm" className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">
+              <label htmlFor="confirm" className="block text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">
                 Confirm New Password
               </label>
               <input
@@ -147,7 +147,7 @@ export default function ResetPasswordPage() {
                 value={form.confirm}
                 onChange={handleChange}
                 placeholder="Repeat new password"
-                className="w-full px-4 py-3 rounded-xl text-sm input-tesla"
+                className="w-full px-4 py-3 rounded text-sm input-tesla"
                 autoComplete="new-password"
               />
             </div>
@@ -155,7 +155,7 @@ export default function ResetPasswordPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 tesla-btn-primary rounded-xl min-h-[48px] flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+              className="w-full py-3.5 tesla-btn-primary rounded min-h-[48px] flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {loading ? (
                 <>
@@ -174,7 +174,7 @@ export default function ResetPasswordPage() {
 
         {!success && (
           <div className="mt-6 text-center">
-            <p className="text-sm text-[#6B7280]">
+            <p className="text-sm text-muted-foreground">
               Remember your password?{' '}
               <Link href="/login" className="text-primary hover:text-red-400 font-semibold transition-colors">
                 Sign In
@@ -183,8 +183,8 @@ export default function ResetPasswordPage() {
           </div>
         )}
 
-        <div className="mt-8 pt-6 border-t border-[#12131A] text-center">
-          <Link href="/" className="text-xs text-[#52525B] hover:text-[#A1A1AA] transition-colors tracking-wider uppercase">
+        <div className="mt-8 pt-6 border-t border-border text-center">
+          <Link href="/" className="text-xs text-muted-foreground hover:text-muted-foreground transition-colors tracking-wider uppercase">
             ← Back to Home
           </Link>
         </div>

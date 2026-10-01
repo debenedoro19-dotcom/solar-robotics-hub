@@ -86,7 +86,7 @@ export default function RegisterPage() {
 
   // ── Registration form ────────────────────────────────────────────────────────
   return (
-    <main className="min-h-screen bg-[#050507] flex items-center justify-center px-4 py-16 relative overflow-hidden">
+    <main className="min-h-screen bg-background flex items-center justify-center px-4 py-16 relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px]" />
@@ -96,23 +96,23 @@ export default function RegisterPage() {
       {/* Verification popup — shown right after sign up */}
       {emailSent && (
         <div className="fixed inset-0 z-50 flex items-center justify-center px-4 fin-overlay" role="dialog" aria-modal="true" aria-labelledby="verify-title">
-          <div className="w-full max-w-sm rounded-2xl bg-[#0D0E12] border border-[#1E2027] p-6 text-center shadow-2xl">
+          <div className="w-full max-w-sm rounded-md bg-card border border-border p-6 text-center shadow-2xl">
             <div className="w-14 h-14 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center mx-auto mb-4">
               <svg className="w-7 h-7 text-primary" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
               </svg>
             </div>
-            <h2 id="verify-title" className="text-lg font-extrabold text-white tracking-tight mb-2">Verify your email</h2>
-            <p className="text-sm text-[#A1A1AA] leading-relaxed mb-1">
+            <h2 id="verify-title" className="text-lg font-extrabold text-foreground tracking-tight mb-2">Verify your email</h2>
+            <p className="text-sm text-muted-foreground leading-relaxed mb-1">
               A verification link was sent to
             </p>
-            <p className="text-sm font-semibold text-white mb-3 break-all">{registeredEmail}</p>
-            <p className="text-xs text-[#71717A] leading-relaxed mb-5">
+            <p className="text-sm font-semibold text-foreground mb-3 break-all">{registeredEmail}</p>
+            <p className="text-xs text-muted-foreground leading-relaxed mb-5">
               Open your inbox and click the link to activate your account. Check spam if you don&apos;t see it.
             </p>
             <Link
               href="/login"
-              className="block w-full py-3 tesla-btn-primary rounded-xl text-sm font-bold tracking-widest uppercase text-center"
+              className="block w-full py-3 tesla-btn-primary rounded text-sm font-bold tracking-widest uppercase text-center"
             >
               Got it
             </Link>
@@ -126,33 +126,33 @@ export default function RegisterPage() {
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-3 mb-6">
             <img src="/tesla-mark.png" width={28} height={28} alt="" aria-hidden="true" className="text-primary object-contain" />
-            <span className="text-white font-bold text-base tracking-widest uppercase">Trade Tesla</span>
+            <span className="text-foreground font-bold text-base tracking-widest uppercase">Trade Tesla</span>
           </Link>
-          <h1 className="text-2xl font-extrabold text-white tracking-tight mb-2">Create Account</h1>
-          <p className="text-sm text-[#71717A]">Join the Tesla investment ecosystem</p>
+          <h1 className="text-2xl font-extrabold text-foreground tracking-tight mb-2">Create Account</h1>
+          <p className="text-sm text-muted-foreground">Join the Tesla investment ecosystem</p>
         </div>
 
         {/* Steps indicator */}
         <div className="flex items-center gap-2 mb-8">
           <div className="flex items-center gap-2 flex-1">
             <div className="w-6 h-6 rounded-full step-active flex items-center justify-center text-xs font-bold">1</div>
-            <span className="text-xs text-white font-semibold tracking-wider uppercase">Account</span>
+            <span className="text-xs text-foreground font-semibold tracking-wider uppercase">Account</span>
           </div>
-          <div className="flex-1 h-px bg-[#1E2027]" />
+          <div className="flex-1 h-px bg-muted" />
           <div className="flex items-center gap-2 flex-1">
             <div className="w-6 h-6 rounded-full step-pending flex items-center justify-center text-xs font-bold">2</div>
-            <span className="text-xs text-[#6B7280] tracking-wider uppercase">Verify</span>
+            <span className="text-xs text-muted-foreground tracking-wider uppercase">Verify</span>
           </div>
         </div>
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
-            <div className="px-4 py-3 rounded-xl bg-primary/10 border border-primary/30 text-sm text-primary">{error}</div>
+            <div className="px-4 py-3 rounded bg-primary/10 border border-primary/30 text-sm text-primary">{error}</div>
           )}
 
           <div>
-            <label htmlFor="name" className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">
+            <label htmlFor="name" className="block text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">
               Full Name <span className="text-primary">*</span>
             </label>
             <input
@@ -162,12 +162,12 @@ export default function RegisterPage() {
               value={form.name}
               onChange={handleChange}
               placeholder="John Smith"
-              className="w-full px-4 py-3 rounded-xl text-sm input-tesla"
+              className="w-full px-4 py-3 rounded text-sm input-tesla"
             />
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">
+            <label htmlFor="email" className="block text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">
               Email Address <span className="text-primary">*</span>
             </label>
             <input
@@ -177,12 +177,12 @@ export default function RegisterPage() {
               value={form.email}
               onChange={handleChange}
               placeholder="you@example.com"
-              className="w-full px-4 py-3 rounded-xl text-sm input-tesla"
+              className="w-full px-4 py-3 rounded text-sm input-tesla"
             />
           </div>
 
           <div>
-            <label htmlFor="phone" className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">
+            <label htmlFor="phone" className="block text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">
               Phone Number
             </label>
             <input
@@ -192,12 +192,12 @@ export default function RegisterPage() {
               value={form.phone}
               onChange={handleChange}
               placeholder="+1 (555) 000-0000"
-              className="w-full px-4 py-3 rounded-xl text-sm input-tesla"
+              className="w-full px-4 py-3 rounded text-sm input-tesla"
             />
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">
+            <label htmlFor="password" className="block text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">
               Password <span className="text-primary">*</span>
             </label>
             <input
@@ -207,12 +207,12 @@ export default function RegisterPage() {
               value={form.password}
               onChange={handleChange}
               placeholder="Min. 8 characters"
-              className="w-full px-4 py-3 rounded-xl text-sm input-tesla"
+              className="w-full px-4 py-3 rounded text-sm input-tesla"
             />
           </div>
 
           <div>
-            <label htmlFor="confirm" className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">
+            <label htmlFor="confirm" className="block text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">
               Confirm Password <span className="text-primary">*</span>
             </label>
             <input
@@ -222,11 +222,11 @@ export default function RegisterPage() {
               value={form.confirm}
               onChange={handleChange}
               placeholder="Repeat password"
-              className="w-full px-4 py-3 rounded-xl text-sm input-tesla"
+              className="w-full px-4 py-3 rounded text-sm input-tesla"
             />
           </div>
 
-          <p className="text-xs text-[#6B7280] leading-relaxed">
+          <p className="text-xs text-muted-foreground leading-relaxed">
             By creating an account you agree to our{' '}
             <a href="#" className="text-primary hover:underline">Terms of Service</a>{' '}
             and{' '}
@@ -246,19 +246,19 @@ export default function RegisterPage() {
                 />
                 <div
                   onClick={() => setAcceptedTerms(!acceptedTerms)}
-                  className={`w-4 h-4 rounded-xl border flex items-center justify-center transition-all duration-150 ${
+                  className={`w-4 h-4 rounded border flex items-center justify-center transition-all duration-150 ${
                     acceptedTerms
-                      ? 'bg-primary border-primary' :'bg-[#0D0E12] border-[#1E2027] group-hover:border-primary/50'
+                      ? 'bg-primary border-primary' :'bg-card border-border group-hover:border-primary/50'
                   }`}
                 >
                   {acceptedTerms && (
-                    <svg className="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24" aria-hidden="true">
+                    <svg className="w-2.5 h-2.5 text-foreground" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24" aria-hidden="true">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                     </svg>
                   )}
                 </div>
               </div>
-              <span className="text-xs text-[#71717A] leading-relaxed">
+              <span className="text-xs text-muted-foreground leading-relaxed">
                 I have read and agree to the{' '}
                 <Link href="/terms" target="_blank" className="text-primary hover:underline font-semibold">
                   Terms of Service
@@ -279,19 +279,19 @@ export default function RegisterPage() {
                 />
                 <div
                   onClick={() => setAcceptedPrivacy(!acceptedPrivacy)}
-                  className={`w-4 h-4 rounded-xl border flex items-center justify-center transition-all duration-150 ${
+                  className={`w-4 h-4 rounded border flex items-center justify-center transition-all duration-150 ${
                     acceptedPrivacy
-                      ? 'bg-primary border-primary' :'bg-[#0D0E12] border-[#1E2027] group-hover:border-primary/50'
+                      ? 'bg-primary border-primary' :'bg-card border-border group-hover:border-primary/50'
                   }`}
                 >
                   {acceptedPrivacy && (
-                    <svg className="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24" aria-hidden="true">
+                    <svg className="w-2.5 h-2.5 text-foreground" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24" aria-hidden="true">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                     </svg>
                   )}
                 </div>
               </div>
-              <span className="text-xs text-[#71717A] leading-relaxed">
+              <span className="text-xs text-muted-foreground leading-relaxed">
                 I have read and agree to the{' '}
                 <Link href="/privacy" target="_blank" className="text-primary hover:underline font-semibold">
                   Privacy Policy
@@ -305,7 +305,7 @@ export default function RegisterPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3.5 tesla-btn-primary rounded-xl min-h-[48px] flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+            className="w-full py-3.5 tesla-btn-primary rounded min-h-[48px] flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {loading ? (
               <>
@@ -322,7 +322,7 @@ export default function RegisterPage() {
         </form>
 
         <div className="mt-6 text-center">
-          <p className="text-sm text-[#6B7280]">
+          <p className="text-sm text-muted-foreground">
             Already have an account?{' '}
             <Link href="/login" className="text-primary hover:text-red-400 font-semibold transition-colors">
               Sign In

@@ -146,7 +146,7 @@ export function PayoutMethodsPanel() {
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="shrink-0 px-3.5 py-2 rounded-xl btn-emerald text-xs font-semibold"
+          className="shrink-0 px-3.5 py-2 rounded btn-emerald text-xs font-semibold"
         >
           {open ? 'Cancel' : 'Add method'}
         </button>
@@ -157,7 +157,7 @@ export function PayoutMethodsPanel() {
       )}
 
       {open && (
-        <form onSubmit={addMethod} className="rounded-2xl border border-fin-border bg-[var(--surface-2)] p-4 space-y-3">
+        <form onSubmit={addMethod} className="rounded-md border border-fin-border bg-[var(--surface-2)] p-4 space-y-3">
           <div>
             <label className="fin-label block mb-1.5">Label (optional)</label>
             <input
@@ -192,7 +192,7 @@ export function PayoutMethodsPanel() {
               spellCheck={false}
             />
           </div>
-          <button type="submit" disabled={busy} className="w-full py-2.5 rounded-xl btn-emerald text-sm font-semibold disabled:opacity-50">
+          <button type="submit" disabled={busy} className="w-full py-2.5 rounded btn-emerald text-sm font-semibold disabled:opacity-50">
             {busy ? 'Saving…' : 'Save method'}
           </button>
         </form>
@@ -201,7 +201,7 @@ export function PayoutMethodsPanel() {
       {loading ? (
         <p className="text-sm text-fin-muted">Loading…</p>
       ) : methods.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-fin-border p-6 text-center">
+        <div className="rounded-md border border-dashed border-fin-border p-6 text-center">
           <p className="text-sm text-fin-muted">No saved methods yet. Add a crypto wallet to withdraw faster and safer.</p>
         </div>
       ) : (
@@ -211,7 +211,7 @@ export function PayoutMethodsPanel() {
             return (
               <li
                 key={m.id}
-                className="flex flex-col sm:flex-row sm:items-center gap-3 rounded-2xl border border-fin-border bg-[var(--surface-2)] px-4 py-3"
+                className="flex flex-col sm:flex-row sm:items-center gap-3 rounded-md border border-fin-border bg-[var(--surface-2)] px-4 py-3"
               >
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2 flex-wrap">

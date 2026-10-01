@@ -133,7 +133,7 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#050507] flex items-center justify-center px-4 relative overflow-hidden">
+    <main className="min-h-screen bg-background flex items-center justify-center px-4 relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px]" />
@@ -152,19 +152,19 @@ export default function LoginPage() {
         <div className="text-center mb-10">
           <Link href="/" className="inline-flex items-center gap-3 mb-6">
             <img src="/tesla-mark.png" width={32} height={32} alt="" aria-hidden="true" className="text-primary object-contain" />
-            <span className="text-white font-bold text-lg tracking-widest uppercase">Trade Tesla</span>
+            <span className="text-foreground font-bold text-lg tracking-widest uppercase">Trade Tesla</span>
           </Link>
-          <h1 className="text-2xl font-extrabold text-white tracking-tight mb-2">Sign In</h1>
-          <p className="text-sm text-[#71717A]">Access your investment dashboard</p>
+          <h1 className="text-2xl font-extrabold text-foreground tracking-tight mb-2">Sign In</h1>
+          <p className="text-sm text-muted-foreground">Access your investment dashboard</p>
         </div>
 
         {/* Two-factor step */}
         {needs2FA ? (
           <form onSubmit={submitTwoFactor} className="space-y-4">
             {error && (
-              <div className="px-4 py-3 rounded-xl bg-primary/10 border border-primary/30 text-sm text-primary">{error}</div>
+              <div className="px-4 py-3 rounded bg-primary/10 border border-primary/30 text-sm text-primary">{error}</div>
             )}
-            <p className="text-sm text-[#A1A1AA]">
+            <p className="text-sm text-muted-foreground">
               Enter the 6-digit code from your authenticator app, or one of your backup codes.
             </p>
             <input
@@ -173,19 +173,19 @@ export default function LoginPage() {
               onChange={(e) => setTwoFactorCode(e.target.value)}
               placeholder="123456"
               autoComplete="one-time-code"
-              className="w-full px-4 py-3 rounded-xl text-center text-lg tracking-[0.4em] input-tesla"
+              className="w-full px-4 py-3 rounded text-center text-lg tracking-[0.4em] input-tesla"
             />
             <button
               type="submit"
               disabled={loading || twoFactorCode.trim().length < 6}
-              className="w-full py-3.5 rounded-xl bg-primary text-primary-foreground text-sm font-bold disabled:opacity-40"
+              className="w-full py-3.5 rounded bg-primary text-primary-foreground text-sm font-bold disabled:opacity-40"
             >
               {loading ? 'Verifying…' : 'Verify & continue'}
             </button>
             <button
               type="button"
               onClick={cancelTwoFactor}
-              className="w-full py-3 rounded-xl border border-white/10 text-xs font-semibold text-[#A1A1AA] hover:text-white"
+              className="w-full py-3 rounded border border-border text-xs font-semibold text-muted-foreground hover:text-foreground"
             >
               Use a different account
             </button>
@@ -194,11 +194,11 @@ export default function LoginPage() {
         /* Form */
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
-            <div className="px-4 py-3 rounded-xl bg-primary/10 border border-primary/30 text-sm text-primary">{error}</div>
+            <div className="px-4 py-3 rounded bg-primary/10 border border-primary/30 text-sm text-primary">{error}</div>
           )}
 
           <div>
-            <label htmlFor="email" className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">
+            <label htmlFor="email" className="block text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">
               Email Address
             </label>
             <input
@@ -207,12 +207,12 @@ export default function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
-              className="w-full px-4 py-3 rounded-xl text-sm input-tesla"
+              className="w-full px-4 py-3 rounded text-sm input-tesla"
             />
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">
+            <label htmlFor="password" className="block text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">
               Password
             </label>
             <input
@@ -221,12 +221,12 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Your password"
-              className="w-full px-4 py-3 rounded-xl text-sm input-tesla"
+              className="w-full px-4 py-3 rounded text-sm input-tesla"
             />
           </div>
 
           <div className="flex justify-end">
-            <Link href="/forgot-password" className="text-xs text-[#6B7280] hover:text-primary transition-colors">
+            <Link href="/forgot-password" className="text-xs text-muted-foreground hover:text-primary transition-colors">
               Forgot password?
             </Link>
           </div>
@@ -234,7 +234,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3.5 tesla-btn-primary rounded-xl min-h-[48px] flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+            className="w-full py-3.5 tesla-btn-primary rounded min-h-[48px] flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {loading ? (
               <>
@@ -254,7 +254,7 @@ export default function LoginPage() {
 
 
         <div className="mt-6 text-center">
-          <p className="text-sm text-[#6B7280]">
+          <p className="text-sm text-muted-foreground">
             Don&apos;t have an account?{' '}
             <Link href="/register" className="text-primary hover:text-red-400 font-semibold transition-colors">
               Create Account

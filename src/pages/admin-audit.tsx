@@ -48,46 +48,46 @@ export default function AdminAuditPage() {
   const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
 
   return (
-    <main className="min-h-screen bg-[#050507] px-4 py-10">
+    <main className="min-h-screen bg-background px-4 py-10">
       <div className="max-w-6xl mx-auto">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-xl font-extrabold text-white tracking-tight">Audit Trail</h1>
-            <p className="text-xs text-[#6B7280]">Every deposit, withdrawal and balance action recorded server-side.</p>
+            <h1 className="text-xl font-extrabold text-foreground tracking-tight">Audit Trail</h1>
+            <p className="text-xs text-muted-foreground">Every deposit, withdrawal and balance action recorded server-side.</p>
           </div>
-          <Link href="/admin" className="text-xs font-semibold text-[#A1A1AA] hover:text-white">← Admin</Link>
+          <Link href="/admin" className="text-xs font-semibold text-muted-foreground hover:text-foreground">← Admin</Link>
         </div>
 
         <input
           value={filter}
           onChange={(e) => { setPage(0); setFilter(e.target.value); }}
           placeholder="Filter by action, e.g. withdrawal.paid"
-          className="w-full md:w-96 mb-4 bg-[#0D0E12] border border-[#1E2027] rounded-xl px-4 py-2.5 text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-[#E82127]/50"
+          className="w-full md:w-96 mb-4 bg-card border border-border rounded px-4 py-2.5 text-sm text-foreground placeholder-[#52525B] focus:outline-none focus:border-primary/50"
         />
 
-        <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl overflow-hidden">
+        <div className="bg-card border border-border rounded overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-[#12131A]">
+                <tr className="border-b border-border">
                   {['When', 'Action', 'Entity', 'Amount', 'Status', 'Details'].map((h) => (
-                    <th key={h} className="px-4 py-3 text-left text-[10px] text-[#6B7280] uppercase tracking-widest font-medium">{h}</th>
+                    <th key={h} className="px-4 py-3 text-left text-[10px] text-muted-foreground uppercase tracking-widest font-medium">{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#12131A]">
                 {loading ? (
-                  <tr><td colSpan={6} className="px-4 py-6 text-xs text-[#6B7280]">Loading…</td></tr>
+                  <tr><td colSpan={6} className="px-4 py-6 text-xs text-muted-foreground">Loading…</td></tr>
                 ) : rows.length === 0 ? (
-                  <tr><td colSpan={6} className="px-4 py-6 text-xs text-[#6B7280]">No audit entries yet.</td></tr>
+                  <tr><td colSpan={6} className="px-4 py-6 text-xs text-muted-foreground">No audit entries yet.</td></tr>
                 ) : rows.map((r) => (
                   <tr key={r.id}>
-                    <td className="px-4 py-3 text-xs text-[#A1A1AA] whitespace-nowrap">{new Date(r.created_at).toLocaleString()}</td>
-                    <td className="px-4 py-3 text-xs font-bold text-white whitespace-nowrap">{r.action}</td>
-                    <td className="px-4 py-3 text-xs text-[#A1A1AA]">{r.entity_type}</td>
-                    <td className="px-4 py-3 text-xs text-white tabular-nums">{money(r.amount)}</td>
-                    <td className="px-4 py-3 text-xs text-[#A1A1AA]">{r.status ?? '—'}</td>
-                    <td className="px-4 py-3 text-[11px] text-[#6B7280] max-w-xs truncate">
+                    <td className="px-4 py-3 text-xs text-muted-foreground whitespace-nowrap">{new Date(r.created_at).toLocaleString()}</td>
+                    <td className="px-4 py-3 text-xs font-bold text-foreground whitespace-nowrap">{r.action}</td>
+                    <td className="px-4 py-3 text-xs text-muted-foreground">{r.entity_type}</td>
+                    <td className="px-4 py-3 text-xs text-foreground tabular-nums">{money(r.amount)}</td>
+                    <td className="px-4 py-3 text-xs text-muted-foreground">{r.status ?? '—'}</td>
+                    <td className="px-4 py-3 text-[11px] text-muted-foreground max-w-xs truncate">
                       {r.metadata && Object.keys(r.metadata).length > 0 ? JSON.stringify(r.metadata) : '—'}
                     </td>
                   </tr>
@@ -101,15 +101,15 @@ export default function AdminAuditPage() {
           <button
             onClick={() => setPage((p) => Math.max(0, p - 1))}
             disabled={page === 0}
-            className="px-4 py-2 rounded-xl border border-[#1E2027] text-xs font-semibold text-[#A1A1AA] disabled:opacity-30"
+            className="px-4 py-2 rounded border border-border text-xs font-semibold text-muted-foreground disabled:opacity-30"
           >
             Previous
           </button>
-          <span className="text-xs text-[#6B7280]">Page {page + 1} of {pages} · {total} entries</span>
+          <span className="text-xs text-muted-foreground">Page {page + 1} of {pages} · {total} entries</span>
           <button
             onClick={() => setPage((p) => ((p + 1) * PAGE_SIZE < total ? p + 1 : p))}
             disabled={(page + 1) * PAGE_SIZE >= total}
-            className="px-4 py-2 rounded-xl border border-[#1E2027] text-xs font-semibold text-[#A1A1AA] disabled:opacity-30"
+            className="px-4 py-2 rounded border border-border text-xs font-semibold text-muted-foreground disabled:opacity-30"
           >
             Next
           </button>
