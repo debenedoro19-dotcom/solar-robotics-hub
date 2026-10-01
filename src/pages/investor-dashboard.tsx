@@ -227,13 +227,13 @@ export default function InvestorDashboard() {
 
   return (
     <InvestorShell balance={wallet.available_balance} onDeposit={() => goDeposit()} onWithdraw={() => setWithdrawOpen(true)}>
-    <main className="bg-fin-bg text-foreground">
+    <main className="text-foreground">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         {/* Header */}
         <header className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-fin-muted">Investor Console</p>
-            <h1 className="text-2xl sm:text-3xl font-medium tracking-tight">Portfolio Overview</h1>
+            <p className="lux-label">Investor Console</p>
+            <h1 className="text-3xl sm:text-5xl font-medium tracking-tight mt-2">Portfolio Overview</h1>
             <p className="text-sm text-fin-muted mt-1">{userEmail}</p>
           </div>
           <div className="flex gap-1 p-1 rounded bg-fin-elevated border border-fin-border">

@@ -73,13 +73,47 @@ function PanelSection({ p, first }: { p: Panel; first: boolean }) {
   );
 }
 
+function VideoInventoryPanel() {
+  return (
+    <section className="tsla-panel">
+      <video
+        src="/assets/video/inventory.mp4"
+        poster="/assets/video/inventory-poster.jpg"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        aria-hidden="true"
+      />
+      <div className="pt-28 sm:pt-32 px-6 tsla-fade">
+        <p className="lux-label" style={{ color: "var(--on-media)", opacity: 0.8 }}>Live Inventory</p>
+        <h2 className="mt-3 text-4xl sm:text-6xl font-medium tracking-tight">Drive Today</h2>
+        <p className="mt-2 text-sm sm:text-base opacity-90">Verified vehicles, energy and robotics — ready to order</p>
+      </div>
+      <div className="pb-10 px-6 w-full max-w-3xl tsla-fade">
+        <div className="lux-metrics mb-8">
+          <div><div className="text-2xl sm:text-3xl font-medium">20+</div><div className="lux-label" style={{ color: "var(--on-media)" }}>Models</div></div>
+          <div><div className="text-2xl sm:text-3xl font-medium">1 Day</div><div className="lux-label" style={{ color: "var(--on-media)" }}>Specialist Contact</div></div>
+          <div><div className="text-2xl sm:text-3xl font-medium">24/7</div><div className="lux-label" style={{ color: "var(--on-media)" }}>Support</div></div>
+        </div>
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-6 justify-center">
+          <Link href="/inventory" className="tsla-btn tsla-btn-solid">Shop Inventory</Link>
+          <Link href="/register" className="tsla-btn tsla-btn-ghost">Start Investing</Link>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function HomePage() {
   return (
     <main className="relative bg-background text-foreground overflow-x-hidden tsla-snap">
       <Header />
       <h1 className="sr-only">Trade Tesla — vehicles, energy, solar, robotics and investing</h1>
-      {panels.map((p, i) => (
-        <PanelSection key={p.title} p={p} first={i === 0} />
+      <VideoInventoryPanel />
+      {panels.map((p) => (
+        <PanelSection key={p.title} p={p} first={false} />
       ))}
       <InvestmentPackagesSection />
       <Footer />

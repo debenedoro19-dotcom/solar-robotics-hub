@@ -60,7 +60,7 @@ export default function Header() {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 w-full z-50 transition-colors duration-300 ${scrolled ? 'bg-background/90 backdrop-blur-md' : 'bg-background/40 backdrop-blur-sm'}`}
+        className={`fixed top-0 left-0 w-full z-50 transition-colors duration-300 lux-nav`}
         role="navigation"
         aria-label="Main navigation"
       >
