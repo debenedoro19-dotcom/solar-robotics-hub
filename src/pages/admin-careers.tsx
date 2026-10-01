@@ -11,7 +11,7 @@ const STAGE_COLORS: Record<Stage, string> = {
   interview: 'bg-violet-500/15 text-violet-400 border-violet-500/30',
   offer: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30',
   hired: 'bg-emerald-500/20 text-emerald-300 border-emerald-400/40',
-  rejected: 'bg-[#12131A] text-[#71717A] border-[#1E2027]',
+  rejected: 'bg-muted text-muted-foreground border-border',
 };
 
 interface Job {
@@ -40,8 +40,8 @@ interface Application {
 }
 
 const EMPTY_JOB = { title: '', department: 'Engineering', location: 'Remote', job_type: 'Full-time', description: '', requirements: '' };
-const inputClass = 'w-full px-3 py-2.5 rounded-xl text-sm bg-[#050507] border border-[#12131A] text-white placeholder-[#52525B] focus:border-primary/40 focus:outline-none transition-colors';
-const labelClass = 'block text-[10px] font-bold text-[#6B7280] uppercase tracking-widest mb-1.5';
+const inputClass = 'w-full px-3 py-2.5 rounded text-sm bg-background border border-border text-foreground placeholder-[#52525B] focus:border-primary/40 focus:outline-none transition-colors';
+const labelClass = 'block text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-1.5';
 
 export default function AdminCareersPage() {
   const [tab, setTab] = useState<'pipeline' | 'jobs'>('pipeline');
@@ -125,15 +125,15 @@ export default function AdminCareersPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#050507] text-white">
-      <div className="border-b border-[#12131A] bg-[#050507]/95 backdrop-blur-xl sticky top-0 z-40">
+    <main className="min-h-screen bg-background text-foreground">
+      <div className="border-b border-border bg-background/95 backdrop-blur-xl sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Link href="/admin" className="text-xs text-[#71717A] hover:text-white transition-colors flex items-center gap-1.5">
+            <Link href="/admin" className="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
               Admin
             </Link>
-            <span className="text-[#1E2027]">|</span>
+            <span className="text-muted-foreground/40">|</span>
             <span className="text-xs text-primary tracking-widest uppercase font-semibold">Careers Pipeline</span>
           </div>
           <div className="flex gap-2">
@@ -141,8 +141,8 @@ export default function AdminCareersPage() {
               <button
                 key={t}
                 onClick={() => setTab(t)}
-                className={`px-4 py-2 text-[10px] font-bold rounded-xl tracking-widest uppercase transition-all ${
-                  tab === t ? 'bg-primary/20 border border-primary/40 text-primary' : 'bg-[#0D0E12] border border-[#12131A] text-[#71717A] hover:text-white'
+                className={`px-4 py-2 text-[10px] font-bold rounded tracking-widest uppercase transition-all ${
+                  tab === t ? 'bg-primary/20 border border-primary/40 text-primary' : 'bg-card border border-border text-muted-foreground hover:text-foreground'
                 }`}
               >
                 {t === 'pipeline' ? 'Applicants' : 'Job Postings'}
@@ -154,12 +154,12 @@ export default function AdminCareersPage() {
 
       <div className="max-w-7xl mx-auto px-6 py-8">
         {loading ? (
-          <div className="grid md:grid-cols-3 gap-4">{[0, 1, 2].map((i) => <div key={i} className="h-40 rounded-xl bg-[#0D0E12] animate-pulse" />)}</div>
+          <div className="grid md:grid-cols-3 gap-4">{[0, 1, 2].map((i) => <div key={i} className="h-40 rounded bg-card animate-pulse" />)}</div>
         ) : tab === 'pipeline' ? (
           <>
             <div className="flex items-center gap-3 mb-6">
               <label className={labelClass + ' mb-0'}>Role</label>
-              <select value={jobFilter} onChange={(e) => setJobFilter(e.target.value)} className="px-3 py-2 rounded-xl text-xs bg-[#0D0E12] border border-[#1E2027] text-white focus:outline-none">
+              <select value={jobFilter} onChange={(e) => setJobFilter(e.target.value)} className="px-3 py-2 rounded text-xs bg-card border border-border text-foreground focus:outline-none">
                 <option value="all">All roles ({apps.length})</option>
                 {jobs.map((j) => (
                   <option key={j.id} value={j.id}>{j.title} ({apps.filter((a) => a.job_id === j.id).length})</option>
@@ -168,13 +168,13 @@ export default function AdminCareersPage() {
             </div>
             <div className="grid md:grid-cols-3 xl:grid-cols-6 gap-4">
               {STAGES.map((stage) => (
-                <div key={stage} className="rounded-xl bg-[#050507] border border-[#12131A] p-3 min-h-[200px]">
+                <div key={stage} className="rounded bg-background border border-border p-3 min-h-[200px]">
                   <div className={`inline-flex items-center px-2.5 py-1 rounded-full border text-[10px] font-bold uppercase tracking-widest mb-3 ${STAGE_COLORS[stage]}`}>
                     {stage} · {byStage[stage].length}
                   </div>
                   <div className="space-y-2">
                     {byStage[stage].map((app) => (
-                      <div key={app.id} className="rounded-xl bg-[#0D0E12] border border-[#12131A] p-3">
+                      <div key={app.id} className="rounded bg-card border border-border p-3">
                         <button
                           className="w-full text-left"
                           onClick={() => {
@@ -182,14 +182,14 @@ export default function AdminCareersPage() {
                             setNotesDraft(app.notes);
                           }}
                         >
-                          <p className="text-xs font-bold text-white">{app.full_name}</p>
-                          <p className="text-[10px] text-[#71717A] truncate">{jobsById[app.job_id]?.title ?? '—'}</p>
-                          <p className="text-[10px] text-[#6B7280]">{new Date(app.created_at).toLocaleDateString()}</p>
+                          <p className="text-xs font-bold text-foreground">{app.full_name}</p>
+                          <p className="text-[10px] text-muted-foreground truncate">{jobsById[app.job_id]?.title ?? '—'}</p>
+                          <p className="text-[10px] text-muted-foreground">{new Date(app.created_at).toLocaleDateString()}</p>
                         </button>
                         {expanded === app.id && (
-                          <div className="mt-3 pt-3 border-t border-[#12131A] space-y-2">
-                            <p className="text-[10px] text-[#A1A1AA]">{app.email}{app.phone ? ` · ${app.phone}` : ''}</p>
-                            {app.cover_note && <p className="text-[10px] text-[#71717A] leading-relaxed line-clamp-4">{app.cover_note}</p>}
+                          <div className="mt-3 pt-3 border-t border-border space-y-2">
+                            <p className="text-[10px] text-muted-foreground">{app.email}{app.phone ? ` · ${app.phone}` : ''}</p>
+                            {app.cover_note && <p className="text-[10px] text-muted-foreground leading-relaxed line-clamp-4">{app.cover_note}</p>}
                             {app.resume_path && (
                               <button onClick={() => openResume(app)} className="text-[10px] font-semibold text-primary hover:underline">
                                 View resume
@@ -198,7 +198,7 @@ export default function AdminCareersPage() {
                             <select
                               value={app.stage}
                               onChange={(e) => setStage(app, e.target.value as Stage)}
-                              className="w-full px-2 py-1.5 rounded-xl text-[10px] bg-[#050507] border border-[#1E2027] text-white focus:outline-none"
+                              className="w-full px-2 py-1.5 rounded text-[10px] bg-background border border-border text-foreground focus:outline-none"
                             >
                               {STAGES.map((s) => <option key={s} value={s}>{s}</option>)}
                             </select>
@@ -207,9 +207,9 @@ export default function AdminCareersPage() {
                               value={notesDraft}
                               onChange={(e) => setNotesDraft(e.target.value)}
                               placeholder="Internal notes…"
-                              className="w-full px-2 py-1.5 rounded-xl text-[10px] bg-[#050507] border border-[#1E2027] text-white placeholder-[#52525B] focus:outline-none"
+                              className="w-full px-2 py-1.5 rounded text-[10px] bg-background border border-border text-foreground placeholder-[#52525B] focus:outline-none"
                             />
-                            <button onClick={() => saveNotes(app)} className="w-full py-1.5 rounded-xl tesla-btn-primary text-[10px] font-bold">
+                            <button onClick={() => saveNotes(app)} className="w-full py-1.5 rounded tesla-btn-primary text-[10px] font-bold">
                               Save notes
                             </button>
                           </div>
@@ -224,32 +224,32 @@ export default function AdminCareersPage() {
         ) : (
           <div className="grid lg:grid-cols-2 gap-8">
             <div className="space-y-3">
-              <h2 className="text-sm font-bold text-white mb-2">Postings ({jobs.length})</h2>
+              <h2 className="text-sm font-bold text-foreground mb-2">Postings ({jobs.length})</h2>
               {jobs.map((job) => (
-                <div key={job.id} className="rounded-xl bg-[#0D0E12] border border-[#12131A] p-4 flex items-center justify-between gap-4">
+                <div key={job.id} className="rounded bg-card border border-border p-4 flex items-center justify-between gap-4">
                   <div>
-                    <p className="text-sm font-bold text-white">{job.title}</p>
-                    <p className="text-[10px] text-[#71717A]">{job.department} · {job.location} · {job.job_type}</p>
+                    <p className="text-sm font-bold text-foreground">{job.title}</p>
+                    <p className="text-[10px] text-muted-foreground">{job.department} · {job.location} · {job.job_type}</p>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
-                    <span className={`text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded-full border ${job.status === 'open' ? 'text-emerald-400 border-emerald-500/30 bg-emerald-500/10' : 'text-[#71717A] border-[#1E2027]'}`}>
+                    <span className={`text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded-full border ${job.status === 'open' ? 'text-emerald-400 border-emerald-500/30 bg-emerald-500/10' : 'text-muted-foreground border-border'}`}>
                       {job.status}
                     </span>
                     <button
                       onClick={() => { setEditingJob(job); setJobForm({ title: job.title, department: job.department, location: job.location, job_type: job.job_type, description: job.description, requirements: job.requirements }); }}
-                      className="px-3 py-1.5 rounded-xl border border-[#1E2027] text-[10px] font-semibold text-[#A1A1AA] hover:text-white"
+                      className="px-3 py-1.5 rounded border border-border text-[10px] font-semibold text-muted-foreground hover:text-foreground"
                     >
                       Edit
                     </button>
-                    <button onClick={() => toggleJobStatus(job)} className="px-3 py-1.5 rounded-xl border border-[#1E2027] text-[10px] font-semibold text-[#A1A1AA] hover:text-white">
+                    <button onClick={() => toggleJobStatus(job)} className="px-3 py-1.5 rounded border border-border text-[10px] font-semibold text-muted-foreground hover:text-foreground">
                       {job.status === 'open' ? 'Close' : 'Reopen'}
                     </button>
                   </div>
                 </div>
               ))}
             </div>
-            <form onSubmit={saveJob} className="rounded-xl bg-[#0D0E12] border border-[#12131A] p-6 space-y-4 h-fit">
-              <h2 className="text-sm font-bold text-white">{editingJob ? `Edit: ${editingJob.title}` : 'New job posting'}</h2>
+            <form onSubmit={saveJob} className="rounded bg-card border border-border p-6 space-y-4 h-fit">
+              <h2 className="text-sm font-bold text-foreground">{editingJob ? `Edit: ${editingJob.title}` : 'New job posting'}</h2>
               <div>
                 <label className={labelClass}>Title *</label>
                 <input required value={jobForm.title} onChange={(e) => setJobForm({ ...jobForm, title: e.target.value })} className={inputClass} />
@@ -279,11 +279,11 @@ export default function AdminCareersPage() {
                 <textarea rows={3} value={jobForm.requirements} onChange={(e) => setJobForm({ ...jobForm, requirements: e.target.value })} className={inputClass} />
               </div>
               <div className="flex gap-2">
-                <button type="submit" disabled={savingJob} className="flex-1 py-2.5 rounded-xl tesla-btn-primary text-xs font-bold disabled:opacity-60">
+                <button type="submit" disabled={savingJob} className="flex-1 py-2.5 rounded tesla-btn-primary text-xs font-bold disabled:opacity-60">
                   {savingJob ? 'Saving…' : editingJob ? 'Save changes' : 'Publish posting'}
                 </button>
                 {editingJob && (
-                  <button type="button" onClick={() => { setEditingJob(null); setJobForm(EMPTY_JOB); }} className="px-4 py-2.5 rounded-xl border border-[#1E2027] text-xs font-semibold text-[#A1A1AA]">
+                  <button type="button" onClick={() => { setEditingJob(null); setJobForm(EMPTY_JOB); }} className="px-4 py-2.5 rounded border border-border text-xs font-semibold text-muted-foreground">
                     Cancel
                   </button>
                 )}

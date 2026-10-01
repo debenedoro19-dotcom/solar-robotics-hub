@@ -83,7 +83,7 @@ export default function PrivacyPage() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
 
   return (
-    <main className="min-h-screen bg-[#050507] relative overflow-hidden">
+    <main className="min-h-screen bg-background relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-primary/4 rounded-full blur-[150px]" />
@@ -94,31 +94,31 @@ export default function PrivacyPage() {
         <div className="mb-12">
           <Link href="/" className="inline-flex items-center gap-3 mb-10 group">
             <img src="/tesla-mark.png" width={22} height={22} alt="" aria-hidden="true" className="text-primary object-contain" />
-            <span className="text-white font-bold text-sm tracking-widest uppercase group-hover:text-primary transition-colors">Trade Tesla</span>
+            <span className="text-foreground font-bold text-sm tracking-widest uppercase group-hover:text-primary transition-colors">Trade Tesla</span>
           </Link>
 
           <div className="flex items-center gap-3 mb-4">
             <div className="w-1 h-10 bg-primary rounded-full" />
             <div>
-              <p className="text-xs text-[#6B7280] uppercase tracking-widest font-semibold mb-1">Legal Document</p>
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Privacy Policy</h1>
+              <p className="text-xs text-muted-foreground uppercase tracking-widest font-semibold mb-1">Legal Document</p>
+              <h1 className="text-3xl sm:text-4xl font-extrabold text-foreground tracking-tight">Privacy Policy</h1>
             </div>
           </div>
 
           <div className="flex flex-wrap gap-4 mt-6 ml-4">
             <div className="flex items-center gap-2">
-              <span className="text-xs text-[#6B7280] uppercase tracking-widest">Effective:</span>
-              <span className="text-xs text-[#A1A1AA] font-semibold">{EFFECTIVE_DATE}</span>
+              <span className="text-xs text-muted-foreground uppercase tracking-widest">Effective:</span>
+              <span className="text-xs text-muted-foreground font-semibold">{EFFECTIVE_DATE}</span>
             </div>
-            <div className="w-px h-4 bg-[#1E2027] self-center" />
+            <div className="w-px h-4 bg-muted self-center" />
             <div className="flex items-center gap-2">
-              <span className="text-xs text-[#6B7280] uppercase tracking-widest">Last Updated:</span>
-              <span className="text-xs text-[#A1A1AA] font-semibold">{LAST_UPDATED}</span>
+              <span className="text-xs text-muted-foreground uppercase tracking-widest">Last Updated:</span>
+              <span className="text-xs text-muted-foreground font-semibold">{LAST_UPDATED}</span>
             </div>
           </div>
 
-          <div className="mt-6 p-4 bg-primary/8 border border-primary/20 rounded-xl">
-            <p className="text-sm text-[#E4E4E7] leading-relaxed">
+          <div className="mt-6 p-4 bg-primary/8 border border-primary/20 rounded">
+            <p className="text-sm text-foreground leading-relaxed">
               <span className="text-primary font-semibold">Your privacy matters.</span> This policy explains how {COMPANY_NAME} collects, uses, and protects your personal information in compliance with applicable data protection laws, including GDPR and financial services regulations.
             </p>
           </div>
@@ -127,14 +127,14 @@ export default function PrivacyPage() {
         <div className="tesla-divider mb-10" />
 
         {/* Table of Contents */}
-        <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-6 mb-10">
-          <h2 className="text-xs font-bold text-[#6B7280] uppercase tracking-widest mb-4">Table of Contents</h2>
+        <div className="bg-card border border-border rounded p-6 mb-10">
+          <h2 className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-4">Table of Contents</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {sections?.map((s) => (
               <a
                 key={s?.id}
                 href={`#${s?.id}`}
-                className="text-xs text-[#71717A] hover:text-primary transition-colors py-1 flex items-center gap-2"
+                className="text-xs text-muted-foreground hover:text-primary transition-colors py-1 flex items-center gap-2"
               >
                 <span className="w-1 h-1 rounded-full bg-primary/40 shrink-0" />
                 {s?.title}
@@ -149,8 +149,8 @@ export default function PrivacyPage() {
             <div
               key={section?.id}
               id={section?.id}
-              className={`bg-[#0D0E12] border rounded-xl transition-all duration-200 ${
-                activeSection === section?.id ? 'border-primary/30' : 'border-[#12131A]'
+              className={`bg-card border rounded transition-all duration-200 ${
+                activeSection === section?.id ? 'border-primary/30' : 'border-border'
               }`}
             >
               <button
@@ -158,9 +158,9 @@ export default function PrivacyPage() {
                 onClick={() => setActiveSection(activeSection === section?.id ? null : section?.id)}
                 className="w-full flex items-center justify-between px-6 py-4 text-left"
               >
-                <h2 className="text-sm font-bold text-white tracking-tight">{section?.title}</h2>
+                <h2 className="text-sm font-bold text-foreground tracking-tight">{section?.title}</h2>
                 <svg
-                  className={`w-4 h-4 text-[#6B7280] shrink-0 transition-transform duration-200 ${activeSection === section?.id ? 'rotate-180 text-primary' : ''}`}
+                  className={`w-4 h-4 text-muted-foreground shrink-0 transition-transform duration-200 ${activeSection === section?.id ? 'rotate-180 text-primary' : ''}`}
                   fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden="true"
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
@@ -168,8 +168,8 @@ export default function PrivacyPage() {
               </button>
               {activeSection === section?.id && (
                 <div className="px-6 pb-5">
-                  <div className="h-px bg-[#12131A] mb-4" />
-                  <p className="text-sm text-[#A1A1AA] leading-relaxed">{section?.content}</p>
+                  <div className="h-px bg-muted mb-4" />
+                  <p className="text-sm text-muted-foreground leading-relaxed">{section?.content}</p>
                 </div>
               )}
             </div>
@@ -179,14 +179,14 @@ export default function PrivacyPage() {
         {/* Footer actions */}
         <div className="mt-12 tesla-divider mb-8" />
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-[#52525B]">
+          <p className="text-xs text-muted-foreground">
             © 2026 {COMPANY_NAME}. Not affiliated with Tesla, Inc.
           </p>
           <div className="flex items-center gap-4">
-            <Link href="/terms" className="text-xs text-[#6B7280] hover:text-primary transition-colors uppercase tracking-widest font-semibold">
+            <Link href="/terms" className="text-xs text-muted-foreground hover:text-primary transition-colors uppercase tracking-widest font-semibold">
               Terms of Service
             </Link>
-            <span className="text-[#1E2027]">|</span>
+            <span className="text-muted-foreground/40">|</span>
             <Link href="/register" className="text-xs text-primary hover:text-red-400 transition-colors uppercase tracking-widest font-semibold">
               Create Account
             </Link>

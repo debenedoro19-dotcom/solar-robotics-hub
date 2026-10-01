@@ -14,7 +14,7 @@ export interface CheckoutItem {
 }
 
 const UUID = /^[0-9a-f-]{36}$/i;
-const input = 'w-full px-3 py-2.5 rounded-xl bg-muted/40 border border-border text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary';
+const input = 'w-full px-3 py-2.5 rounded bg-muted/40 border border-border text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary';
 
 export default function CheckoutModal({ item, onClose }: { item: CheckoutItem; onClose: () => void }) {
   const { wallet, userId, loading } = useWallet();
@@ -77,11 +77,11 @@ export default function CheckoutModal({ item, onClose }: { item: CheckoutItem; o
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm" onClick={onClose}>
-      <div className="glass-card relative w-full max-w-lg max-h-[92vh] overflow-y-auto rounded-3xl p-6" onClick={(e) => e.stopPropagation()} role="dialog" aria-label={`Buy ${item.name}`}>
+      <div className="glass-card relative w-full max-w-lg max-h-[92vh] overflow-y-auto rounded-md p-6" onClick={(e) => e.stopPropagation()} role="dialog" aria-label={`Buy ${item.name}`}>
         <button onClick={onClose} aria-label="Close" className="absolute top-4 right-4 text-muted-foreground hover:text-foreground">✕</button>
 
         <div className="flex gap-3 items-center mb-5 pr-6">
-          <img src={item.image} alt="" className="w-16 h-16 rounded-xl object-cover" />
+          <img src={item.image} alt="" className="w-16 h-16 rounded object-cover" />
           <div>
             <p className="text-[10px] font-bold tracking-widest uppercase text-muted-foreground">{item.category}</p>
             <h3 className="font-bold text-foreground leading-tight">{item.name}</h3>
@@ -92,7 +92,7 @@ export default function CheckoutModal({ item, onClose }: { item: CheckoutItem; o
         {!loading && !userId ? (
           <div className="text-center py-6">
             <p className="text-sm text-muted-foreground mb-4">Sign in to purchase this item and track your order.</p>
-            <a href="/login" className="inline-block px-5 py-2.5 rounded-xl bg-primary text-primary-foreground font-bold text-sm">Sign in to buy</a>
+            <a href="/login" className="inline-block px-5 py-2.5 rounded bg-primary text-primary-foreground font-bold text-sm">Sign in to buy</a>
           </div>
         ) : !buyable ? (
           <p className="text-sm text-muted-foreground py-6 text-center">This item is not available for online purchase right now.</p>
@@ -104,7 +104,7 @@ export default function CheckoutModal({ item, onClose }: { item: CheckoutItem; o
             <p className="text-sm text-muted-foreground mb-5">
               {method === 'wallet' ? 'Paid from your wallet. A confirmation email is on its way.' : 'We are verifying your payment and will email you once it is confirmed.'}
             </p>
-            <a href="/account/orders" className="inline-block px-5 py-2.5 rounded-xl bg-primary text-primary-foreground font-bold text-sm">Track my orders</a>
+            <a href="/account/orders" className="inline-block px-5 py-2.5 rounded bg-primary text-primary-foreground font-bold text-sm">Track my orders</a>
           </div>
         ) : step === 1 ? (
           <div className="space-y-3">
@@ -119,14 +119,14 @@ export default function CheckoutModal({ item, onClose }: { item: CheckoutItem; o
               <input className={input} placeholder="Country" value={f.country} onChange={set('country')} maxLength={80} />
             </div>
             <textarea className={input} rows={2} placeholder="Delivery notes (optional)" value={f.notes} onChange={set('notes')} maxLength={500} />
-            <button disabled={!deliveryOk} onClick={() => setStep(2)} className="w-full py-3 rounded-xl bg-primary text-primary-foreground font-bold text-sm disabled:opacity-40">Continue to payment</button>
+            <button disabled={!deliveryOk} onClick={() => setStep(2)} className="w-full py-3 rounded bg-primary text-primary-foreground font-bold text-sm disabled:opacity-40">Continue to payment</button>
           </div>
         ) : (
           <div className="space-y-4">
             <p className="text-xs font-bold tracking-widest uppercase text-muted-foreground">Step 2 · Payment</p>
             <div className="grid grid-cols-2 gap-2">
               {(['wallet', 'external'] as const).map((m) => (
-                <button key={m} onClick={() => setMethod(m)} className={`p-3 rounded-xl border text-left text-sm ${method === m ? 'border-primary bg-primary/10' : 'border-border'}`}>
+                <button key={m} onClick={() => setMethod(m)} className={`p-3 rounded border text-left text-sm ${method === m ? 'border-primary bg-primary/10' : 'border-border'}`}>
                   <span className="font-bold text-foreground block">{m === 'wallet' ? 'Wallet balance' : 'Crypto / bank'}</span>
                   <span className="text-xs text-muted-foreground">{m === 'wallet' ? `Available ${money(wallet.available_balance)}` : 'Pay & upload proof'}</span>
                 </button>
@@ -135,7 +135,7 @@ export default function CheckoutModal({ item, onClose }: { item: CheckoutItem; o
 
             {method === 'wallet' ? (
               shortfall > 0 ? (
-                <div className="rounded-xl border border-border p-3 text-sm text-muted-foreground">
+                <div className="rounded border border-border p-3 text-sm text-muted-foreground">
                   Your balance is {money(shortfall)} short. <a href="/account/deposit" className="text-primary font-semibold">Fund your wallet</a> or pay by crypto / bank.
                 </div>
               ) : (
@@ -146,7 +146,7 @@ export default function CheckoutModal({ item, onClose }: { item: CheckoutItem; o
                 <select className={input} value={network} onChange={(e) => setNetwork(e.target.value as typeof network)}>
                   {NETS.map((n) => <option key={n.id} value={n.id}>{n.label}</option>)}
                 </select>
-                <div className="rounded-xl border border-border p-3 text-sm">
+                <div className="rounded border border-border p-3 text-sm">
                   <p className="text-muted-foreground mb-1">Send exactly <span className="font-bold text-foreground">{money(price)}</span> {net.address ? 'to:' : ''}</p>
                   {net.address ? (
                     <p className="font-mono text-xs break-all text-foreground">{net.address}</p>
@@ -164,11 +164,11 @@ export default function CheckoutModal({ item, onClose }: { item: CheckoutItem; o
 
             {error && <p className="text-sm text-destructive">{error}</p>}
             <div className="flex gap-2">
-              <button onClick={() => setStep(1)} className="px-4 py-3 rounded-xl border border-border text-sm font-semibold">Back</button>
+              <button onClick={() => setStep(1)} className="px-4 py-3 rounded border border-border text-sm font-semibold">Back</button>
               <button
                 disabled={busy || (method === 'wallet' && shortfall > 0)}
                 onClick={submit}
-                className="flex-1 py-3 rounded-xl bg-primary text-primary-foreground font-bold text-sm disabled:opacity-40"
+                className="flex-1 py-3 rounded bg-primary text-primary-foreground font-bold text-sm disabled:opacity-40"
               >
                 {busy ? 'Placing order…' : method === 'wallet' ? `Pay ${money(price)}` : 'Submit order'}
               </button>

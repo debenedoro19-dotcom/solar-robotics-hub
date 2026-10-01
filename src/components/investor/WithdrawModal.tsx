@@ -262,7 +262,7 @@ export function WithdrawModal({
           type="button"
           disabled={codeBusy || emailCode.trim().length < 6}
           onClick={() => void confirmCode()}
-          className="w-full py-3 rounded-xl btn-emerald text-sm font-semibold disabled:opacity-50"
+          className="w-full py-3 rounded btn-emerald text-sm font-semibold disabled:opacity-50"
         >
           {codeBusy ? 'Confirming…' : 'Confirm withdrawal'}
         </button>
@@ -292,7 +292,7 @@ export function WithdrawModal({
           Your request is in the queue. You will receive updates by email.
           {txCode ? ` Reference: ${txCode}` : ''}
         </p>
-        <button onClick={onClose} className="w-full py-3 rounded-xl btn-emerald text-sm font-semibold">
+        <button onClick={onClose} className="w-full py-3 rounded btn-emerald text-sm font-semibold">
           Done
         </button>
       </LockedModal>
@@ -306,11 +306,11 @@ export function WithdrawModal({
         <div className="flex gap-3">
           <button
             onClick={() => setStage('form')}
-            className="flex-1 py-3 rounded-xl border border-fin-border text-sm font-semibold text-fin-muted hover:text-foreground"
+            className="flex-1 py-3 rounded border border-fin-border text-sm font-semibold text-fin-muted hover:text-foreground"
           >
             Back
           </button>
-          <button onClick={onClose} className="flex-1 py-3 rounded-xl btn-emerald text-sm font-semibold">
+          <button onClick={onClose} className="flex-1 py-3 rounded btn-emerald text-sm font-semibold">
             Close
           </button>
         </div>
@@ -322,7 +322,7 @@ export function WithdrawModal({
     return (
       <Modal title="Confirm Withdrawal" onClose={() => setStage('form')}>
         <div className="space-y-4">
-          <div className="rounded-xl border border-fin-border bg-[var(--surface-2)] p-4 space-y-1.5 text-sm">
+          <div className="rounded border border-fin-border bg-[var(--surface-2)] p-4 space-y-1.5 text-sm">
             <div className="flex justify-between">
               <span className="text-fin-muted">Amount</span>
               <span className="font-bold fin-figure">{money(value)}</span>
@@ -346,11 +346,11 @@ export function WithdrawModal({
           <div className="flex gap-3">
             <button
               onClick={() => setStage('form')}
-              className="flex-1 py-3 rounded-xl border border-fin-border text-sm font-semibold text-fin-muted hover:text-foreground"
+              className="flex-1 py-3 rounded border border-fin-border text-sm font-semibold text-fin-muted hover:text-foreground"
             >
               Edit
             </button>
-            <button onClick={() => void submit()} className="flex-1 py-3 rounded-xl btn-emerald text-sm">
+            <button onClick={() => void submit()} className="flex-1 py-3 rounded btn-emerald text-sm">
               Confirm & Withdraw
             </button>
           </div>
@@ -362,7 +362,7 @@ export function WithdrawModal({
   return (
     <Modal title="Withdraw Funds" onClose={onClose}>
       <div className="space-y-5">
-        <div className="rounded-xl bg-[var(--surface-2)] border border-fin-border p-4">
+        <div className="rounded bg-[var(--surface-2)] border border-fin-border p-4">
           <p className="fin-label">Available Balance</p>
           <p className={`text-2xl font-extrabold tabular-nums ${insufficient ? 'text-fin-danger' : 'text-fin-emerald'}`}>
             {money(balance)}
@@ -449,7 +449,7 @@ export function WithdrawModal({
           />
         </div>
 
-        <div className="rounded-xl border border-fin-border bg-[var(--surface-2)] p-4 space-y-1.5 text-sm">
+        <div className="rounded border border-fin-border bg-[var(--surface-2)] p-4 space-y-1.5 text-sm">
           <div className="flex justify-between">
             <span className="text-fin-muted">Network fee (1.5%)</span>
             <span className="font-bold fin-figure text-foreground">{money(fee)}</span>
@@ -463,7 +463,7 @@ export function WithdrawModal({
         <button
           onClick={review}
           disabled={insufficient}
-          className="w-full py-3 rounded-xl btn-emerald text-sm disabled:opacity-40 disabled:hover:transform-none"
+          className="w-full py-3 rounded btn-emerald text-sm disabled:opacity-40 disabled:hover:transform-none"
         >
           {insufficient ? 'Insufficient balance' : 'Review Withdrawal'}
         </button>

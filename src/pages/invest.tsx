@@ -30,7 +30,7 @@ export default function InvestPage() {
       <section className="relative z-10 pt-28 pb-10 px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <span className="text-xs font-bold text-primary tracking-[0.25em] uppercase mb-3 block">Investment Packages</span>
-          <h1 className="text-section-title font-extrabold tracking-tighter text-white max-w-3xl">
+          <h1 className="text-section-title font-extrabold tracking-tighter text-foreground max-w-3xl">
             Deploy capital across the <span className="gradient-text-primary">Tesla ecosystem</span>
           </h1>
           <p className="text-sm text-fin-muted mt-4 max-w-2xl">
@@ -47,8 +47,8 @@ export default function InvestPage() {
               <button
                 key={c}
                 onClick={() => setCategory(c)}
-                className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors ${
-                  category === c ? 'bg-primary text-primary-foreground' : 'fin-card text-fin-muted hover:text-white'
+                className={`px-4 py-2 rounded text-xs font-bold uppercase tracking-wider transition-colors ${
+                  category === c ? 'bg-primary text-primary-foreground' : 'fin-card text-fin-muted hover:text-foreground'
                 }`}
               >
                 {c}
@@ -66,7 +66,7 @@ export default function InvestPage() {
                     action={
                       <Link
                         href={isLoggedIn ? '/dashboard' : '/login'}
-                        className="w-full py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-bold text-center hover:opacity-90 transition-opacity"
+                        className="w-full py-2.5 rounded bg-primary text-primary-foreground text-sm font-bold text-center hover:opacity-90 transition-opacity"
                       >
                         {isLoggedIn ? 'Invest' : 'Sign in to Invest'}
                       </Link>
@@ -79,14 +79,14 @@ export default function InvestPage() {
             <p className="text-sm text-fin-muted">No packages available in this category right now.</p>
           )}
 
-          <div className="fin-card rounded-3xl p-6 mt-10 grid gap-6 md:grid-cols-3">
+          <div className="fin-card rounded-md p-6 mt-10 grid gap-6 md:grid-cols-3">
             {[
               ['1. Fund your wallet', 'Deposit via crypto or bank transfer. Balances are credited once confirmed.'],
               ['2. Choose a package', 'Pick any contract within its minimum and maximum allocation range.'],
               ['3. Earn daily yield', 'Returns accrue every day of the term and settle back into your wallet.'],
             ].map(([title, body]) => (
               <div key={title}>
-                <h3 className="font-bold text-white mb-1">{title}</h3>
+                <h3 className="font-bold text-foreground mb-1">{title}</h3>
                 <p className="text-sm text-fin-muted">{body}</p>
               </div>
             ))}

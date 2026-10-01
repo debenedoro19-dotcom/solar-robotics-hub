@@ -23,8 +23,8 @@ interface Booking {
 const STATUSES = ['pending', 'paid', 'confirmed', 'completed', 'cancelled'];
 
 const inputClass =
-  'w-full px-3 py-2.5 rounded-xl text-sm bg-[#050507] border border-[#12131A] text-white placeholder-[#52525B] focus:border-emerald-500/40 focus:outline-none transition-colors';
-const labelClass = 'block text-[10px] font-bold text-[#6B7280] uppercase tracking-widest mb-1.5';
+  'w-full px-3 py-2.5 rounded text-sm bg-background border border-border text-foreground placeholder-[#52525B] focus:border-emerald-500/40 focus:outline-none transition-colors';
+const labelClass = 'block text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-1.5';
 
 const statusColor = (s: string) =>
   s === 'paid' || s === 'confirmed' || s === 'completed'
@@ -104,23 +104,23 @@ export default function AdminSessionsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#050507] text-white">
+    <div className="min-h-screen bg-background text-foreground">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
         <div className="mb-8">
           <Link
             href="/admin"
-            className="text-[10px] font-bold uppercase tracking-widest text-[#666] hover:text-white transition-colors"
+            className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors"
           >
             ← Admin
           </Link>
           <h1 className="text-2xl font-extrabold tracking-tight mt-2">Session Bookings</h1>
-          <p className="text-sm text-[#A1A1AA] mt-1">
+          <p className="text-sm text-muted-foreground mt-1">
             Review, reschedule, update payment status and annotate every advisory session request.
           </p>
         </div>
 
         {error && (
-          <div className="mb-6 px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-sm">
+          <div className="mb-6 px-4 py-3 rounded bg-red-500/10 border border-red-500/30 text-red-300 text-sm">
             {error}
           </div>
         )}
@@ -130,10 +130,10 @@ export default function AdminSessionsPage() {
             <button
               key={s}
               onClick={() => setFilter(s)}
-              className={`px-4 py-2 rounded-xl text-xs font-semibold capitalize transition-all ${
+              className={`px-4 py-2 rounded text-xs font-semibold capitalize transition-all ${
                 filter === s
                   ? 'bg-emerald-500 text-black'
-                  : 'bg-[#0D0E12] border border-slate-800/80 text-[#A1A1AA] hover:text-white'
+                  : 'bg-card border border-slate-800/80 text-muted-foreground hover:text-foreground'
               }`}
             >
               {s}
@@ -145,7 +145,7 @@ export default function AdminSessionsPage() {
         </div>
 
         {editing && (
-          <form onSubmit={save} className="mb-8 p-6 rounded-3xl bg-[#0D0E12] border border-slate-800/80">
+          <form onSubmit={save} className="mb-8 p-6 rounded-md bg-card border border-slate-800/80">
             <h2 className="text-sm font-bold mb-5">Edit booking — {editing.full_name}</h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               <div>
@@ -204,10 +204,10 @@ export default function AdminSessionsPage() {
               </div>
             </div>
             <div className="flex gap-3 mt-6">
-              <button type="submit" disabled={saving} className="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-bold uppercase tracking-widest disabled:opacity-50">
+              <button type="submit" disabled={saving} className="px-5 py-2.5 rounded bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-bold uppercase tracking-widest disabled:opacity-50">
                 {saving ? 'Saving…' : 'Save changes'}
               </button>
-              <button type="button" onClick={() => setEditing(null)} className="px-5 py-2.5 rounded-xl border border-slate-800/80 text-[#A1A1AA] text-xs font-bold uppercase tracking-widest hover:text-white">
+              <button type="button" onClick={() => setEditing(null)} className="px-5 py-2.5 rounded border border-slate-800/80 text-muted-foreground text-xs font-bold uppercase tracking-widest hover:text-foreground">
                 Cancel
               </button>
             </div>
@@ -215,29 +215,29 @@ export default function AdminSessionsPage() {
         )}
 
         {loading ? (
-          <p className="text-sm text-[#A1A1AA]">Loading bookings…</p>
+          <p className="text-sm text-muted-foreground">Loading bookings…</p>
         ) : (
           <div className="space-y-3">
             {visible.map((b) => (
-              <div key={b.id} className="p-5 rounded-3xl bg-[#0D0E12] border border-slate-800/80 flex flex-wrap gap-4 items-center justify-between">
+              <div key={b.id} className="p-5 rounded-md bg-card border border-slate-800/80 flex flex-wrap gap-4 items-center justify-between">
                 <div className="min-w-[220px]">
                   <div className="flex items-center gap-2">
                     <p className="font-bold">{b.full_name}</p>
-                    <span className={`px-2 py-0.5 rounded-xl text-[10px] font-bold uppercase ${statusColor(b.payment_status)}`}>
+                    <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${statusColor(b.payment_status)}`}>
                       {b.payment_status}
                     </span>
                   </div>
-                  <p className="text-xs text-[#A1A1AA] mt-1">
+                  <p className="text-xs text-muted-foreground mt-1">
                     {b.email} · {b.session_type}
                   </p>
                   {b.admin_notes && <p className="text-xs text-[#5c6470] mt-1">Note: {b.admin_notes}</p>}
                 </div>
-                <div className="text-xs text-[#A1A1AA] grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-1">
+                <div className="text-xs text-muted-foreground grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-1">
                   <span>
-                    Date <b className="text-white">{b.preferred_date || '—'}</b>
+                    Date <b className="text-foreground">{b.preferred_date || '—'}</b>
                   </span>
                   <span>
-                    Time <b className="text-white">{b.preferred_time || '—'}</b>
+                    Time <b className="text-foreground">{b.preferred_time || '—'}</b>
                   </span>
                   <span>
                     Amount <b className="text-emerald-400">${Number(b.amount).toLocaleString()}</b>
@@ -247,7 +247,7 @@ export default function AdminSessionsPage() {
                   <select
                     value={b.payment_status}
                     onChange={(e) => setStatus(b, e.target.value)}
-                    className="px-2 py-1.5 rounded-xl border border-slate-800/80 bg-[#050507] text-xs text-[#A1A1AA]"
+                    className="px-2 py-1.5 rounded border border-slate-800/80 bg-background text-xs text-muted-foreground"
                   >
                     {STATUSES.map((s) => (
                       <option key={s} value={s}>
@@ -255,16 +255,16 @@ export default function AdminSessionsPage() {
                       </option>
                     ))}
                   </select>
-                  <button onClick={() => setEditing(b)} className="px-3 py-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold">
+                  <button onClick={() => setEditing(b)} className="px-3 py-1.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold">
                     Edit
                   </button>
-                  <button onClick={() => remove(b)} className="px-3 py-1.5 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-semibold">
+                  <button onClick={() => remove(b)} className="px-3 py-1.5 rounded bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-semibold">
                     Delete
                   </button>
                 </div>
               </div>
             ))}
-            {visible.length === 0 && <p className="text-sm text-[#A1A1AA]">No bookings in this view.</p>}
+            {visible.length === 0 && <p className="text-sm text-muted-foreground">No bookings in this view.</p>}
           </div>
         )}
       </div>

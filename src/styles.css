@@ -518,7 +518,7 @@
   .input-tesla {
     background: var(--surface-1);
     border: 1px solid var(--hairline);
-    border-radius: 0.75rem;
+    border-radius: 4px;
     color: var(--text-1);
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
   }

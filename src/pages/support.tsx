@@ -156,7 +156,7 @@ export default function SupportPage() {
           {user && view === 'list' && (
             <button
               onClick={() => setView('new')}
-              className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-xl text-sm font-semibold hover:opacity-90 transition-opacity"
+              className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded text-sm font-semibold hover:opacity-90 transition-opacity"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12h14"/></svg>
               New Ticket
@@ -174,7 +174,7 @@ export default function SupportPage() {
             </div>
             <h2 className="text-xl font-bold mb-2">Sign In to Access Support</h2>
             <p className="text-muted-foreground mb-6 text-sm">You need to be logged in to submit and track support tickets.</p>
-            <Link href="/login" className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-xl font-semibold hover:opacity-90 transition-opacity">
+            <Link href="/login" className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded font-semibold hover:opacity-90 transition-opacity">
               Sign In
             </Link>
           </div>
@@ -191,7 +191,7 @@ export default function SupportPage() {
             </div>
 
             {submitSuccess ? (
-              <div className="glass-card rounded-3xl p-8 text-center border border-green-500/30">
+              <div className="glass-card rounded-md p-8 text-center border border-green-500/30">
                 <div className="w-16 h-16 rounded-full bg-green-500/10 border border-green-500/30 flex items-center justify-center mx-auto mb-4">
                   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00F59B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
                 </div>
@@ -199,9 +199,9 @@ export default function SupportPage() {
                 <p className="text-muted-foreground text-sm">We've received your request and sent a confirmation to your email. Redirecting to your tickets…</p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="glass-card rounded-3xl p-6 border border-border space-y-5">
+              <form onSubmit={handleSubmit} className="glass-card rounded-md p-6 border border-border space-y-5">
                 {error && (
-                  <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-sm">{error}</div>
+                  <div className="p-3 rounded bg-red-500/10 border border-red-500/30 text-red-400 text-sm">{error}</div>
                 )}
 
                 <div>
@@ -209,7 +209,7 @@ export default function SupportPage() {
                   <select
                     value={form.category}
                     onChange={e => setForm(f => ({ ...f, category: e.target.value as TicketCategory }))}
-                    className="w-full bg-background border border-border rounded-xl px-4 py-3 text-sm text-foreground focus:outline-none focus:border-primary transition-colors"
+                    className="w-full bg-background border border-border rounded px-4 py-3 text-sm text-foreground focus:outline-none focus:border-primary transition-colors"
                   >
                     {Object.entries(CATEGORY_LABELS).map(([val, label]) => (
                       <option key={val} value={val}>{label}</option>
@@ -225,7 +225,7 @@ export default function SupportPage() {
                         key={p}
                         type="button"
                         onClick={() => setForm(f => ({ ...f, priority: p }))}
-                        className={`py-2 rounded-xl text-xs font-semibold capitalize border transition-all ${
+                        className={`py-2 rounded text-xs font-semibold capitalize border transition-all ${
                           form.priority === p
                             ? p === 'urgent' ? 'bg-red-500/20 border-red-500/50 text-red-400'
                             : p === 'high' ? 'bg-orange-500/20 border-orange-500/50 text-orange-400'
@@ -244,7 +244,7 @@ export default function SupportPage() {
                     value={form.subject}
                     onChange={e => setForm(f => ({ ...f, subject: e.target.value }))}
                     placeholder="Brief summary of your issue"
-                    className="w-full bg-background border border-border rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
+                    className="w-full bg-background border border-border rounded px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
                   />
                 </div>
 
@@ -256,7 +256,7 @@ export default function SupportPage() {
                     value={form.description}
                     onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
                     placeholder="Please describe your issue in detail. Include any relevant transaction IDs, dates, or error messages."
-                    className="w-full bg-background border border-border rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors resize-none"
+                    className="w-full bg-background border border-border rounded px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors resize-none"
                   />
                 </div>
 
@@ -264,12 +264,12 @@ export default function SupportPage() {
                   <button
                     type="button"
                     onClick={() => setView('list')}
-                    className="flex-1 py-3 rounded-xl border border-border text-sm font-semibold text-muted-foreground hover:text-foreground hover:border-muted transition-colors"
+                    className="flex-1 py-3 rounded border border-border text-sm font-semibold text-muted-foreground hover:text-foreground hover:border-muted transition-colors"
                   >Cancel</button>
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="flex-1 py-3 rounded-xl bg-primary text-white text-sm font-semibold hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex-1 py-3 rounded bg-primary text-white text-sm font-semibold hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {submitting ? 'Submitting…' : 'Submit Ticket'}
                   </button>
@@ -294,7 +294,7 @@ export default function SupportPage() {
 
             <div className="space-y-4">
               {/* Status & Meta */}
-              <div className="glass-card rounded-3xl p-5 border border-border">
+              <div className="glass-card rounded-md p-5 border border-border">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Status</p>
@@ -326,14 +326,14 @@ export default function SupportPage() {
               </div>
 
               {/* Description */}
-              <div className="glass-card rounded-3xl p-5 border border-border">
+              <div className="glass-card rounded-md p-5 border border-border">
                 <p className="text-xs text-muted-foreground uppercase tracking-wider mb-3">Your Request</p>
                 <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">{selectedTicket.description}</p>
               </div>
 
               {/* Admin Reply */}
               {selectedTicket.admin_reply ? (
-                <div className="glass-card rounded-3xl p-5 border border-primary/30" style={{ background: 'rgba(0,212,255,0.03)' }}>
+                <div className="glass-card rounded-md p-5 border border-primary/30" style={{ background: 'rgba(0,212,255,0.03)' }}>
                   <div className="flex items-center gap-2 mb-3">
                     <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center">
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -346,7 +346,7 @@ export default function SupportPage() {
                   )}
                 </div>
               ) : (
-                <div className="glass-card rounded-3xl p-5 border border-border text-center">
+                <div className="glass-card rounded-md p-5 border border-border text-center">
                   <div className="w-10 h-10 rounded-full bg-card border border-border flex items-center justify-center mx-auto mb-3">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-muted-foreground"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
                   </div>
@@ -365,7 +365,7 @@ export default function SupportPage() {
               {(['open', 'in_progress', 'resolved', 'closed'] as TicketStatus[]).map(s => {
                 const count = tickets.filter(t => t.ticket_status === s).length;
                 return (
-                  <div key={s} className="glass-card rounded-xl p-4 border border-border">
+                  <div key={s} className="glass-card rounded p-4 border border-border">
                     <p className="text-2xl font-bold" style={{ color: STATUS_CONFIG[s].color }}>{count}</p>
                     <p className="text-xs text-muted-foreground mt-0.5">{STATUS_CONFIG[s].label}</p>
                   </div>
@@ -387,7 +387,7 @@ export default function SupportPage() {
                 <p className="text-muted-foreground text-sm mb-6">Have an issue? Submit a ticket and our team will help you.</p>
                 <button
                   onClick={() => setView('new')}
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-xl font-semibold hover:opacity-90 transition-opacity text-sm"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded font-semibold hover:opacity-90 transition-opacity text-sm"
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12h14"/></svg>
                   Submit Your First Ticket
@@ -399,7 +399,7 @@ export default function SupportPage() {
                   <button
                     key={ticket.id}
                     onClick={() => { setSelectedTicket(ticket); setView('detail'); }}
-                    className="w-full glass-card rounded-xl p-4 border border-border hover:border-primary/40 transition-all text-left group"
+                    className="w-full glass-card rounded p-4 border border-border hover:border-primary/40 transition-all text-left group"
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex-1 min-w-0">

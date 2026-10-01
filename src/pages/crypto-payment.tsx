@@ -135,7 +135,7 @@ export default function CryptoPaymentClient() {
   const stepLabels = ['Choose Coin', 'Send Funds', 'Confirm', 'Complete'];
 
   return (
-    <main className="min-h-screen bg-[#050507] text-white">
+    <main className="min-h-screen bg-background text-foreground">
       <Header />
       <div className="pt-24 pb-20 px-6 lg:px-8">
         <div className="max-w-2xl mx-auto">
@@ -143,10 +143,10 @@ export default function CryptoPaymentClient() {
           {/* Page Header */}
           <div className="mb-10">
             <span className="text-xs font-bold text-primary tracking-[0.25em] uppercase mb-3 block">Crypto Payment</span>
-            <h1 className="text-3xl font-extrabold text-white tracking-tight mb-3">
+            <h1 className="text-3xl font-extrabold text-foreground tracking-tight mb-3">
               Pay with <span className="gradient-text-primary">Cryptocurrency</span>
             </h1>
-            <p className="text-[#71717A] text-sm">
+            <p className="text-muted-foreground text-sm">
               Send directly to our wallet address. Your investment is processed after network confirmation.
             </p>
           </div>
@@ -160,16 +160,16 @@ export default function CryptoPaymentClient() {
                     step === s
                       ? 'bg-primary text-white shadow-[0_0_12px_rgba(227,25,55,0.4)]'
                       : steps.indexOf(step) > i
-                      ? 'bg-primary/20 text-primary border border-primary/40' :'bg-[#12131A] text-[#52525B] border border-[#1E2027]'
+                      ? 'bg-primary/20 text-primary border border-primary/40' :'bg-muted text-muted-foreground border border-border'
                   }`}>
                     {steps.indexOf(step) > i ? '✓' : i + 1}
                   </div>
-                  <span className={`text-[10px] font-semibold tracking-wider uppercase hidden sm:block ${step === s ? 'text-white' : 'text-[#52525B]'}`}>
+                  <span className={`text-[10px] font-semibold tracking-wider uppercase hidden sm:block ${step === s ? 'text-foreground' : 'text-muted-foreground'}`}>
                     {stepLabels[i]}
                   </span>
                 </div>
                 {i < steps.length - 1 && (
-                  <div className={`flex-1 h-px transition-all ${steps.indexOf(step) > i ? 'bg-primary' : 'bg-[#1E2027]'}`} />
+                  <div className={`flex-1 h-px transition-all ${steps.indexOf(step) > i ? 'bg-primary' : 'bg-muted'}`} />
                 )}
               </React.Fragment>
             ))}
@@ -177,20 +177,20 @@ export default function CryptoPaymentClient() {
 
           {/* Investment Summary Bar */}
           {step !== 'success' && (
-            <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl px-5 py-3 flex items-center justify-between mb-8">
+            <div className="bg-card border border-border rounded px-5 py-3 flex items-center justify-between mb-8">
               <div>
-                <div className="text-[10px] text-[#6B7280] uppercase tracking-widest">Package</div>
-                <div className="text-sm font-bold text-white">{packageName}</div>
+                <div className="text-[10px] text-muted-foreground uppercase tracking-widest">Package</div>
+                <div className="text-sm font-bold text-foreground">{packageName}</div>
               </div>
-              <div className="h-8 w-px bg-[#12131A]" />
+              <div className="h-8 w-px bg-muted" />
               <div>
-                <div className="text-[10px] text-[#6B7280] uppercase tracking-widest">Amount</div>
+                <div className="text-[10px] text-muted-foreground uppercase tracking-widest">Amount</div>
                 <div className="text-sm font-bold text-primary">${Number(amount).toLocaleString()}</div>
               </div>
-              <div className="h-8 w-px bg-[#12131A]" />
+              <div className="h-8 w-px bg-muted" />
               <div>
-                <div className="text-[10px] text-[#6B7280] uppercase tracking-widest">Ref</div>
-                <div className="text-xs font-mono font-bold text-[#A1A1AA]">{txRef}</div>
+                <div className="text-[10px] text-muted-foreground uppercase tracking-widest">Ref</div>
+                <div className="text-xs font-mono font-bold text-muted-foreground">{txRef}</div>
               </div>
             </div>
           )}
@@ -198,15 +198,15 @@ export default function CryptoPaymentClient() {
           {/* ── STEP 1: Select Crypto ── */}
           {step === 'select' && (
             <div>
-              <p className="text-xs text-[#71717A] uppercase tracking-widest mb-5">Select your preferred cryptocurrency</p>
+              <p className="text-xs text-muted-foreground uppercase tracking-widest mb-5">Select your preferred cryptocurrency</p>
               <div className="space-y-3 mb-8">
                 {cryptoOptions.map((c) => (
                   <button
                     key={c.id}
                     onClick={() => setSelectedCrypto(c.id)}
-                    className={`w-full flex items-center gap-4 p-5 rounded-xl border text-left transition-all duration-300 ${
+                    className={`w-full flex items-center gap-4 p-5 rounded border text-left transition-all duration-300 ${
                       selectedCrypto === c.id
-                        ? 'border-primary bg-primary/5' :'border-[#12131A] bg-[#0D0E12] hover:border-[#1E2027]'
+                        ? 'border-primary bg-primary/5' :'border-border bg-card hover:border-border'
                     }`}
                   >
                     <div
@@ -216,12 +216,12 @@ export default function CryptoPaymentClient() {
                       {c.icon}
                     </div>
                     <div className="flex-1">
-                      <div className="text-sm font-bold text-white">{c.name}</div>
-                      <div className="text-xs text-[#6B7280]">{c.network}</div>
+                      <div className="text-sm font-bold text-foreground">{c.name}</div>
+                      <div className="text-xs text-muted-foreground">{c.network}</div>
                     </div>
                     <div className="text-right">
                       <div className="text-xs font-bold" style={{ color: c.color }}>{c.symbol}</div>
-                      <div className="text-[10px] text-[#52525B]">{c.confirmations}</div>
+                      <div className="text-[10px] text-muted-foreground">{c.confirmations}</div>
                     </div>
                     {selectedCrypto === c.id && (
                       <div className="w-5 h-5 bg-primary rounded-full flex items-center justify-center shrink-0">
@@ -232,13 +232,13 @@ export default function CryptoPaymentClient() {
                 ))}
               </div>
               <div className="flex gap-3">
-                <Link href="/invest" className="flex-1 py-3.5 tesla-btn-outline rounded-xl min-h-[48px] flex items-center justify-center text-xs font-bold tracking-widest uppercase">
+                <Link href="/invest" className="flex-1 py-3.5 tesla-btn-outline rounded min-h-[48px] flex items-center justify-center text-xs font-bold tracking-widest uppercase">
                   ← Back
                 </Link>
                 <button
                   onClick={() => selectedCrypto && setStep('send')}
                   disabled={!selectedCrypto}
-                  className="flex-1 py-3.5 tesla-btn-primary rounded-xl min-h-[48px] disabled:opacity-40 disabled:cursor-not-allowed"
+                  className="flex-1 py-3.5 tesla-btn-primary rounded min-h-[48px] disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   Continue →
                 </button>
@@ -250,15 +250,15 @@ export default function CryptoPaymentClient() {
           {step === 'send' && crypto && (
             <div>
               <div className="flex items-center justify-between mb-6">
-                <p className="text-xs text-[#71717A] uppercase tracking-widest">Send exact amount to wallet below</p>
-                <div className={`flex items-center gap-2 px-3 py-1.5 rounded-xl border ${timeLeft < 300 ? 'border-red-500/30 bg-red-500/5' : 'border-[#1E2027] bg-[#0D0E12]'}`}>
-                  <svg className={`w-3 h-3 ${timeLeft < 300 ? 'text-red-400' : 'text-[#6B7280]'}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-                  <span className={`text-xs font-mono font-bold ${timeLeft < 300 ? 'text-red-400' : 'text-[#A1A1AA]'}`}>{formatTime(timeLeft)}</span>
+                <p className="text-xs text-muted-foreground uppercase tracking-widest">Send exact amount to wallet below</p>
+                <div className={`flex items-center gap-2 px-3 py-1.5 rounded border ${timeLeft < 300 ? 'border-red-500/30 bg-red-500/5' : 'border-border bg-card'}`}>
+                  <svg className={`w-3 h-3 ${timeLeft < 300 ? 'text-red-400' : 'text-muted-foreground'}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                  <span className={`text-xs font-mono font-bold ${timeLeft < 300 ? 'text-red-400' : 'text-muted-foreground'}`}>{formatTime(timeLeft)}</span>
                 </div>
               </div>
 
-              <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-6 mb-4">
-                <div className="flex items-center gap-4 mb-6 pb-5 border-b border-[#12131A]">
+              <div className="bg-card border border-border rounded p-6 mb-4">
+                <div className="flex items-center gap-4 mb-6 pb-5 border-b border-border">
                   <div
                     className="w-14 h-14 rounded-full flex items-center justify-center text-2xl font-bold shrink-0"
                     style={{ background: crypto.bgColor, border: `1px solid ${crypto.borderColor}`, color: crypto.color }}
@@ -266,31 +266,31 @@ export default function CryptoPaymentClient() {
                     {crypto.icon}
                   </div>
                   <div>
-                    <div className="text-base font-extrabold text-white">{crypto.name}</div>
-                    <div className="text-xs text-[#6B7280]">{crypto.network}</div>
+                    <div className="text-base font-extrabold text-foreground">{crypto.name}</div>
+                    <div className="text-xs text-muted-foreground">{crypto.network}</div>
                   </div>
-                  <button onClick={() => setStep('select')} className="ml-auto text-xs text-[#6B7280] hover:text-primary transition-colors">
+                  <button onClick={() => setStep('select')} className="ml-auto text-xs text-muted-foreground hover:text-primary transition-colors">
                     Change
                   </button>
                 </div>
 
                 <div className="mb-5">
-                  <div className="text-[10px] text-[#6B7280] uppercase tracking-widest mb-2">Amount to Send (USD equivalent)</div>
-                  <div className="text-3xl font-extrabold text-white">${Number(amount).toLocaleString()}</div>
-                  <div className="text-xs text-[#6B7280] mt-1">Use current exchange rate at time of transfer</div>
+                  <div className="text-[10px] text-muted-foreground uppercase tracking-widest mb-2">Amount to Send (USD equivalent)</div>
+                  <div className="text-3xl font-extrabold text-foreground">${Number(amount).toLocaleString()}</div>
+                  <div className="text-xs text-muted-foreground mt-1">Use current exchange rate at time of transfer</div>
                 </div>
 
                 <div>
-                  <div className="text-[10px] text-[#6B7280] uppercase tracking-widest mb-2">Wallet Address</div>
+                  <div className="text-[10px] text-muted-foreground uppercase tracking-widest mb-2">Wallet Address</div>
                   <div className="flex items-center gap-2">
-                    <div className="flex-1 bg-[#050507] border border-[#1E2027] rounded-xl px-3 py-2.5 font-mono text-xs text-[#E4E4E7] break-all leading-relaxed">
+                    <div className="flex-1 bg-background border border-border rounded px-3 py-2.5 font-mono text-xs text-foreground break-all leading-relaxed">
                       {crypto.address}
                     </div>
                     <button
                       onClick={copyAddress}
-                      className={`shrink-0 px-3 py-2.5 rounded-xl border text-xs font-bold transition-all duration-200 ${
+                      className={`shrink-0 px-3 py-2.5 rounded border text-xs font-bold transition-all duration-200 ${
                         copied
-                          ? 'border-green-500/40 bg-green-500/10 text-green-400' :'border-[#1E2027] bg-[#0D0E12] text-[#A1A1AA] hover:border-primary/40 hover:text-primary'
+                          ? 'border-green-500/40 bg-green-500/10 text-green-400' :'border-border bg-card text-muted-foreground hover:border-primary/40 hover:text-primary'
                       }`}
                       aria-label="Copy wallet address"
                     >
@@ -301,18 +301,18 @@ export default function CryptoPaymentClient() {
               </div>
 
               {/* QR Code */}
-              <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-5 mb-4 flex items-center gap-5">
+              <div className="bg-card border border-border rounded p-5 mb-4 flex items-center gap-5">
                 <QrCode value={walletUri(crypto.id, crypto.address)} size={140} label={`${crypto.name} wallet QR code`} />
                 <div>
-                  <div className="text-xs font-bold text-white mb-1">Scan QR Code</div>
-                  <div className="text-xs text-[#6B7280] leading-relaxed">
+                  <div className="text-xs font-bold text-foreground mb-1">Scan QR Code</div>
+                  <div className="text-xs text-muted-foreground leading-relaxed">
                     Scan with your crypto wallet app to auto-fill the {crypto.symbol} address on the {crypto.network}. Always verify the address before sending.
                   </div>
                 </div>
               </div>
 
               {/* Warning */}
-              <div className="bg-amber-500/5 border border-amber-500/20 rounded-xl p-4 mb-6">
+              <div className="bg-amber-500/5 border border-amber-500/20 rounded p-4 mb-6">
                 <div className="flex items-start gap-3">
                   <svg className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
                   <p className="text-xs text-amber-300/80 leading-relaxed">
@@ -322,8 +322,8 @@ export default function CryptoPaymentClient() {
               </div>
 
               <div className="flex gap-3">
-                <button onClick={() => setStep('select')} className="flex-1 py-3.5 tesla-btn-outline rounded-xl min-h-[48px]">← Back</button>
-                <button onClick={() => setStep('confirm')} className="flex-1 py-3.5 tesla-btn-primary rounded-xl min-h-[48px]">
+                <button onClick={() => setStep('select')} className="flex-1 py-3.5 tesla-btn-outline rounded min-h-[48px]">← Back</button>
+                <button onClick={() => setStep('confirm')} className="flex-1 py-3.5 tesla-btn-primary rounded min-h-[48px]">
                   I&apos;ve Sent the Payment →
                 </button>
               </div>
@@ -333,10 +333,10 @@ export default function CryptoPaymentClient() {
           {/* ── STEP 3: Confirm Transaction ── */}
           {step === 'confirm' && crypto && (
             <div>
-              <p className="text-xs text-[#71717A] uppercase tracking-widest mb-6">Provide your transaction hash for verification</p>
+              <p className="text-xs text-muted-foreground uppercase tracking-widest mb-6">Provide your transaction hash for verification</p>
 
-              <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-6 mb-5">
-                <div className="space-y-3 mb-6 pb-5 border-b border-[#12131A]">
+              <div className="bg-card border border-border rounded p-6 mb-5">
+                <div className="space-y-3 mb-6 pb-5 border-b border-border">
                   {[
                     { label: 'Cryptocurrency', value: `${crypto.name} (${crypto.symbol})` },
                     { label: 'Network', value: crypto.network },
@@ -345,41 +345,41 @@ export default function CryptoPaymentClient() {
                     { label: 'Transaction Ref', value: txRef },
                   ].map((item) => (
                     <div key={item.label} className="flex justify-between items-center">
-                      <span className="text-[10px] text-[#6B7280] uppercase tracking-wider">{item.label}</span>
-                      <span className="text-xs font-bold text-white font-mono">{item.value}</span>
+                      <span className="text-[10px] text-muted-foreground uppercase tracking-wider">{item.label}</span>
+                      <span className="text-xs font-bold text-foreground font-mono">{item.value}</span>
                     </div>
                   ))}
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">
-                    Transaction Hash / TXID <span className="text-[#52525B] normal-case tracking-normal font-normal">(optional but recommended)</span>
+                  <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">
+                    Transaction Hash / TXID <span className="text-muted-foreground normal-case tracking-normal font-normal">(optional but recommended)</span>
                   </label>
                   <input
                     type="text"
                     value={txHash}
                     onChange={(e) => setTxHash(e.target.value)}
                     placeholder="e.g. 0x4a3b2c1d..."
-                    className="w-full px-4 py-3 rounded-xl text-sm input-tesla font-mono"
+                    className="w-full px-4 py-3 rounded text-sm input-tesla font-mono"
                   />
-                  <p className="text-xs text-[#52525B] mt-2">
+                  <p className="text-xs text-muted-foreground mt-2">
                     Find this in your wallet&apos;s transaction history after sending. Speeds up verification.
                   </p>
                 </div>
               </div>
 
-              <div className="bg-primary/5 border border-primary/20 rounded-xl p-4 mb-6">
-                <p className="text-xs text-[#A1A1AA] leading-relaxed">
+              <div className="bg-primary/5 border border-primary/20 rounded p-4 mb-6">
+                <p className="text-xs text-muted-foreground leading-relaxed">
                   After confirming, our team will verify your transaction on-chain. You&apos;ll receive an email once your investment is activated. Keep your reference <span className="text-primary font-bold">{txRef}</span> for support inquiries.
                 </p>
               </div>
 
               <div className="flex gap-3">
-                <button onClick={() => setStep('send')} className="flex-1 py-3.5 tesla-btn-outline rounded-xl min-h-[48px]">← Back</button>
+                <button onClick={() => setStep('send')} className="flex-1 py-3.5 tesla-btn-outline rounded min-h-[48px]">← Back</button>
                 <button
                   onClick={handleConfirmPayment}
                   disabled={confirming}
-                  className="flex-1 py-3.5 tesla-btn-primary rounded-xl min-h-[48px] disabled:opacity-60"
+                  className="flex-1 py-3.5 tesla-btn-primary rounded min-h-[48px] disabled:opacity-60"
                 >
                   {confirming ? (
                     <span className="flex items-center justify-center gap-2">
@@ -405,13 +405,13 @@ export default function CryptoPaymentClient() {
                 </div>
               </div>
 
-              <h2 className="text-2xl font-extrabold text-white mb-3">Payment Submitted!</h2>
-              <p className="text-[#71717A] text-sm mb-8 max-w-sm mx-auto leading-relaxed">
+              <h2 className="text-2xl font-extrabold text-foreground mb-3">Payment Submitted!</h2>
+              <p className="text-muted-foreground text-sm mb-8 max-w-sm mx-auto leading-relaxed">
                 Your {crypto.name} payment has been received and is pending on-chain confirmation. We&apos;ll activate your investment once verified.
               </p>
 
-              <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-6 mb-6 text-left">
-                <div className="text-[10px] text-[#6B7280] uppercase tracking-widest mb-4">Payment Summary</div>
+              <div className="bg-card border border-border rounded p-6 mb-6 text-left">
+                <div className="text-[10px] text-muted-foreground uppercase tracking-widest mb-4">Payment Summary</div>
                 <div className="space-y-3">
                   {[
                     { label: 'Transaction Reference', value: txRef, highlight: true },
@@ -422,16 +422,16 @@ export default function CryptoPaymentClient() {
                     { label: 'Status', value: 'Pending Confirmation' },
                     ...(txHash ? [{ label: 'TX Hash', value: `${txHash.slice(0, 16)}...`, highlight: false }] : []),
                   ].map((item) => (
-                    <div key={item.label} className="flex justify-between items-center py-2 border-b border-[#12131A] last:border-0">
-                      <span className="text-[10px] text-[#6B7280] uppercase tracking-wider">{item.label}</span>
-                      <span className={`text-xs font-bold font-mono ${item.highlight ? 'text-primary' : 'text-white'}`}>{item.value}</span>
+                    <div key={item.label} className="flex justify-between items-center py-2 border-b border-border last:border-0">
+                      <span className="text-[10px] text-muted-foreground uppercase tracking-wider">{item.label}</span>
+                      <span className={`text-xs font-bold font-mono ${item.highlight ? 'text-primary' : 'text-foreground'}`}>{item.value}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-5 mb-8 text-left">
-                <div className="text-[10px] text-[#6B7280] uppercase tracking-widest mb-4">What Happens Next</div>
+              <div className="bg-card border border-border rounded p-5 mb-8 text-left">
+                <div className="text-[10px] text-muted-foreground uppercase tracking-widest mb-4">What Happens Next</div>
                 <div className="space-y-3">
                   {[
                     'Network confirms your transaction',
@@ -440,20 +440,20 @@ export default function CryptoPaymentClient() {
                     'Confirmation email sent to your address',
                   ].map((text, i) => (
                     <div key={i} className="flex items-center gap-3">
-                      <div className="w-6 h-6 rounded-full bg-[#12131A] border border-[#1E2027] flex items-center justify-center text-[10px] font-bold text-[#6B7280] shrink-0">
+                      <div className="w-6 h-6 rounded-full bg-muted border border-border flex items-center justify-center text-[10px] font-bold text-muted-foreground shrink-0">
                         {i + 1}
                       </div>
-                      <span className="text-xs text-[#71717A]">{text}</span>
+                      <span className="text-xs text-muted-foreground">{text}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
               <div className="flex flex-col sm:flex-row gap-3">
-                <Link href="/dashboard" className="flex-1 py-3.5 tesla-btn-primary rounded-xl min-h-[48px] flex items-center justify-center text-xs font-bold tracking-widest uppercase">
+                <Link href="/dashboard" className="flex-1 py-3.5 tesla-btn-primary rounded min-h-[48px] flex items-center justify-center text-xs font-bold tracking-widest uppercase">
                   Go to Dashboard →
                 </Link>
-                <Link href="/" className="flex-1 py-3.5 tesla-btn-outline rounded-xl min-h-[48px] flex items-center justify-center text-xs font-bold tracking-widest uppercase">
+                <Link href="/" className="flex-1 py-3.5 tesla-btn-outline rounded min-h-[48px] flex items-center justify-center text-xs font-bold tracking-widest uppercase">
                   Back to Home
                 </Link>
               </div>

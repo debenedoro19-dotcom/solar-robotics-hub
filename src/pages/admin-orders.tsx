@@ -74,7 +74,7 @@ function OrderCard({ o, update }: { o: Order; update: ReturnType<typeof useServe
 
   const closed = o.order_status === 'cancelled' || o.order_status === 'delivered';
   return (
-    <article className="glass-card rounded-2xl p-4 grid md:grid-cols-3 gap-4 text-sm">
+    <article className="glass-card rounded-md p-4 grid md:grid-cols-3 gap-4 text-sm">
       <div>
         <p className="text-xs text-muted-foreground">{o.order_number} · {new Date(o.created_at).toLocaleString()}</p>
         <p className="font-bold">{o.item_name}</p>

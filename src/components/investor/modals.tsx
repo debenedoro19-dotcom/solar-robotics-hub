@@ -6,7 +6,7 @@ import { sendWithdrawalCode, confirmWithdrawal } from '@/lib/withdrawal-confirm.
 
 export function MetricCard({ label, value, accent, sub }: { label: string; value: string; accent?: boolean; sub?: string }) {
   return (
-    <div className="fin-card rounded-3xl p-5">
+    <div className="fin-card rounded-md p-5">
       <p className="text-xs uppercase tracking-[0.2em] text-fin-muted mb-2">{label}</p>
       <p className={`text-2xl font-extrabold tabular-nums ${accent ? 'text-fin-emerald' : 'text-foreground'}`}>{value}</p>
       {sub && <p className="text-[11px] text-fin-muted mt-1">{sub}</p>}
@@ -145,7 +145,7 @@ export function WithdrawModal({ balance, userId, userEmail, onClose, onDone, onE
           15 minutes — the payout is not queued until it is confirmed.
         </p>
         {txCode && (
-          <div className="rounded-xl border border-fin-border bg-[var(--surface-2)] p-3 mb-4">
+          <div className="rounded border border-fin-border bg-[var(--surface-2)] p-3 mb-4">
             <p className="fin-label mb-1">Transaction ID</p>
             <code className="text-sm font-bold text-foreground break-all">{txCode}</code>
           </div>
@@ -170,14 +170,14 @@ export function WithdrawModal({ balance, userId, userEmail, onClose, onDone, onE
         <div className="flex gap-3">
           <button
             onClick={() => sendWithdrawalCode({ data: { requestId } }).catch(() => {})}
-            className="flex-1 py-3 rounded-xl border border-fin-border text-sm font-semibold text-fin-muted hover:text-foreground"
+            className="flex-1 py-3 rounded border border-fin-border text-sm font-semibold text-fin-muted hover:text-foreground"
           >
             Resend code
           </button>
           <button
             onClick={submitCode}
             disabled={codeBusy || emailCode.length !== 6}
-            className="flex-1 py-3 rounded-xl btn-emerald text-sm disabled:opacity-40"
+            className="flex-1 py-3 rounded btn-emerald text-sm disabled:opacity-40"
           >
             {codeBusy ? 'Confirming…' : 'Confirm withdrawal'}
           </button>
@@ -206,12 +206,12 @@ export function WithdrawModal({ balance, userId, userEmail, onClose, onDone, onE
           {money(value)} is reserved and queued for payout. You will be emailed once the payout is processed.
         </p>
         {txCode && (
-          <div className="rounded-xl border border-fin-border bg-[var(--surface-2)] p-3 mb-5">
+          <div className="rounded border border-fin-border bg-[var(--surface-2)] p-3 mb-5">
             <p className="fin-label mb-1">Transaction ID</p>
             <code className="text-sm font-bold text-foreground break-all">{txCode}</code>
           </div>
         )}
-        <button onClick={onClose} className="w-full py-3 rounded-xl btn-emerald text-sm">Done</button>
+        <button onClick={onClose} className="w-full py-3 rounded btn-emerald text-sm">Done</button>
       </LockedModal>
     );
   }
@@ -222,8 +222,8 @@ export function WithdrawModal({ balance, userId, userEmail, onClose, onDone, onE
         <div className="w-12 h-12 rounded-full bg-fin-danger/15 border border-fin-danger/40 flex items-center justify-center mx-auto mb-4 text-fin-danger text-xl">!</div>
         <p className="text-sm text-fin-muted mb-5">{failure}</p>
         <div className="flex gap-3">
-          <button onClick={() => setStage('form')} className="flex-1 py-3 rounded-xl border border-fin-border text-sm font-semibold text-fin-muted hover:text-foreground">Back</button>
-          <button onClick={submit} className="flex-1 py-3 rounded-xl btn-emerald text-sm">Retry</button>
+          <button onClick={() => setStage('form')} className="flex-1 py-3 rounded border border-fin-border text-sm font-semibold text-fin-muted hover:text-foreground">Back</button>
+          <button onClick={submit} className="flex-1 py-3 rounded btn-emerald text-sm">Retry</button>
         </div>
       </LockedModal>
     );
@@ -233,7 +233,7 @@ export function WithdrawModal({ balance, userId, userEmail, onClose, onDone, onE
     return (
       <Modal title="Confirm Withdrawal" onClose={() => setStage('form')}>
         <div className="space-y-4">
-          <div className="rounded-xl border border-fin-border bg-[var(--surface-2)] p-4 space-y-2 text-sm">
+          <div className="rounded border border-fin-border bg-[var(--surface-2)] p-4 space-y-2 text-sm">
             <div className="flex justify-between"><span className="text-fin-muted">Amount</span><span className="font-bold fin-figure text-foreground">{money(value)}</span></div>
             <div className="flex justify-between"><span className="text-fin-muted">Network fee (1.5%)</span><span className="font-bold fin-figure text-foreground">{money(fee)}</span></div>
             <div className="flex justify-between"><span className="text-fin-muted">You receive</span><span className="font-bold text-fin-emerald tabular-nums">{money(Math.max(0, net))}</span></div>
@@ -246,8 +246,8 @@ export function WithdrawModal({ balance, userId, userEmail, onClose, onDone, onE
             Confirming reserves {money(value)} from your available balance immediately. Payouts are irreversible once processed.
           </p>
           <div className="flex gap-3">
-            <button onClick={() => setStage('form')} className="flex-1 py-3 rounded-xl border border-fin-border text-sm font-semibold text-fin-muted hover:text-foreground">Edit</button>
-            <button onClick={submit} className="flex-1 py-3 rounded-xl btn-emerald text-sm">Confirm & Withdraw</button>
+            <button onClick={() => setStage('form')} className="flex-1 py-3 rounded border border-fin-border text-sm font-semibold text-fin-muted hover:text-foreground">Edit</button>
+            <button onClick={submit} className="flex-1 py-3 rounded btn-emerald text-sm">Confirm & Withdraw</button>
           </div>
         </div>
       </Modal>
@@ -257,7 +257,7 @@ export function WithdrawModal({ balance, userId, userEmail, onClose, onDone, onE
   return (
     <Modal title="Withdraw Funds" onClose={onClose}>
       <div className="space-y-5">
-        <div className="rounded-xl bg-[var(--surface-2)] border border-fin-border p-4">
+        <div className="rounded bg-[var(--surface-2)] border border-fin-border p-4">
           <p className="fin-label">Available Balance</p>
           <p className={`text-2xl font-extrabold tabular-nums ${insufficient ? 'text-fin-danger' : 'text-fin-emerald'}`}>{money(balance)}</p>
           <p className="text-[11px] text-fin-muted mt-2">
@@ -278,12 +278,12 @@ export function WithdrawModal({ balance, userId, userEmail, onClose, onDone, onE
             className="field-fin px-4 py-3 fin-figure" />
         </div>
 
-        <div className="rounded-xl border border-fin-border bg-[var(--surface-2)] p-4 space-y-1.5 text-sm">
+        <div className="rounded border border-fin-border bg-[var(--surface-2)] p-4 space-y-1.5 text-sm">
           <div className="flex justify-between"><span className="text-fin-muted">Network fee (1.5%)</span><span className="font-bold fin-figure text-foreground">{money(fee)}</span></div>
           <div className="flex justify-between"><span className="text-fin-muted">You receive</span><span className="font-bold text-fin-emerald tabular-nums">{money(Math.max(0, net))}</span></div>
         </div>
 
-        <button onClick={review} disabled={insufficient} className="w-full py-3 rounded-xl btn-emerald text-sm disabled:opacity-40 disabled:hover:transform-none">
+        <button onClick={review} disabled={insufficient} className="w-full py-3 rounded btn-emerald text-sm disabled:opacity-40 disabled:hover:transform-none">
           {insufficient ? 'Insufficient balance' : 'Review Withdrawal'}
         </button>
       </div>

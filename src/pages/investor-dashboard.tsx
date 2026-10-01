@@ -219,7 +219,7 @@ export default function InvestorDashboard() {
         <div className="text-center">
           <h1 className="text-xl font-bold text-foreground mb-2">Sign in required</h1>
           <p className="text-sm text-fin-muted mb-6">Access your investor dashboard to view your wallet.</p>
-          <Link href="/login" className="px-6 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-semibold">Sign In</Link>
+          <Link href="/login" className="px-6 py-2.5 rounded bg-primary text-primary-foreground text-sm font-semibold">Sign In</Link>
         </div>
       </main>
     );
@@ -236,7 +236,7 @@ export default function InvestorDashboard() {
             <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">Portfolio Overview</h1>
             <p className="text-sm text-fin-muted mt-1">{userEmail}</p>
           </div>
-          <div className="flex gap-1 p-1 rounded-xl bg-fin-elevated border border-fin-border">
+          <div className="flex gap-1 p-1 rounded bg-fin-elevated border border-fin-border">
             {(['portfolio', 'account'] as const).map((v) => (
               <button
                 key={v}
@@ -249,7 +249,7 @@ export default function InvestorDashboard() {
         </header>
 
         {view === 'account' ? (
-          <React.Suspense fallback={<div className="h-64 rounded-3xl bg-fin-elevated animate-pulse" />}>
+          <React.Suspense fallback={<div className="h-64 rounded-md bg-fin-elevated animate-pulse" />}>
             <AccountPanel embedded />
           </React.Suspense>
         ) : (
@@ -257,7 +257,7 @@ export default function InvestorDashboard() {
 
 
         <section className="grid gap-5 lg:grid-cols-[1.4fr_1fr]">
-          <div className="fin-card-elevated rounded-3xl p-6 sm:p-8">
+          <div className="fin-card-elevated rounded-md p-6 sm:p-8">
             <p className="ts-label mb-3">Available Wallet Balance</p>
             <p className="text-3xl sm:text-5xl font-bold text-foreground fin-figure">
               {money(wallet.available_balance)}
@@ -266,9 +266,9 @@ export default function InvestorDashboard() {
               Deposit-first platform — fund your wallet before deploying capital into a plan.
             </p>
             <div className="flex flex-wrap gap-3 mt-6">
-              <button onClick={() => goDeposit()} className="px-5 py-2.5 rounded-xl btn-red text-sm">+ Deposit</button>
-              <button onClick={() => setWithdrawOpen(true)} className="px-5 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] backdrop-blur-xl text-sm font-bold hover:border-white/25 transition-all duration-300">↑ Withdraw</button>
-              <button onClick={() => { setTab('browse'); document.getElementById('marketplace')?.scrollIntoView({ behavior: 'smooth' }); }} className="px-5 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] backdrop-blur-xl text-sm font-bold hover:border-white/25 transition-all duration-300">⚡ Buy Plan</button>
+              <button onClick={() => goDeposit()} className="px-5 py-2.5 rounded btn-red text-sm">+ Deposit</button>
+              <button onClick={() => setWithdrawOpen(true)} className="px-5 py-2.5 rounded bg-white/[0.04] border border-white/[0.08] backdrop-blur-xl text-sm font-bold hover:border-white/25 transition-all duration-300">↑ Withdraw</button>
+              <button onClick={() => { setTab('browse'); document.getElementById('marketplace')?.scrollIntoView({ behavior: 'smooth' }); }} className="px-5 py-2.5 rounded bg-white/[0.04] border border-white/[0.08] backdrop-blur-xl text-sm font-bold hover:border-white/25 transition-all duration-300">⚡ Buy Plan</button>
             </div>
           </div>
 
@@ -281,13 +281,13 @@ export default function InvestorDashboard() {
         </section>
 
         {/* Chart */}
-        <section className="fin-card rounded-3xl p-5 sm:p-6">
+        <section className="fin-card rounded-md p-5 sm:p-6">
           <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
             <div>
               <h2 className="text-lg font-bold">Portfolio Analytics</h2>
               <p className="text-xs text-fin-muted">Capital base plus accrued daily yield</p>
             </div>
-            <div className="flex gap-1 p-1 rounded-xl bg-fin-elevated border border-fin-border">
+            <div className="flex gap-1 p-1 rounded bg-fin-elevated border border-fin-border">
               {(['7d', '1m', '1y', 'all'] as Range[]).map((r) => (
                 <button
                   key={r}
@@ -299,7 +299,7 @@ export default function InvestorDashboard() {
             </div>
           </div>
           <div className="h-64">
-            <React.Suspense fallback={<div className="h-full w-full rounded-2xl bg-fin-elevated animate-pulse" />}>
+            <React.Suspense fallback={<div className="h-full w-full rounded-md bg-fin-elevated animate-pulse" />}>
               <PortfolioChart data={chartData} />
             </React.Suspense>
           </div>
@@ -313,7 +313,7 @@ export default function InvestorDashboard() {
               <button
                 key={t}
                 onClick={() => setTab(t)}
-                className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-colors ${tab === t ? 'bg-primary text-primary-foreground' : 'fin-card text-fin-muted hover:text-foreground'}`}>
+                className={`px-5 py-2.5 rounded text-sm font-bold transition-colors ${tab === t ? 'bg-primary text-primary-foreground' : 'fin-card text-fin-muted hover:text-foreground'}`}>
                 {t === 'active' ? `Active Investments (${activeContracts.length})` : 'Browse & Deploy Capital'}
               </button>
             ))}
@@ -321,9 +321,9 @@ export default function InvestorDashboard() {
 
           {tab === 'active' ? (
             activeContracts.length === 0 ? (
-              <div className="fin-card rounded-3xl p-10 text-center">
+              <div className="fin-card rounded-md p-10 text-center">
                 <p className="text-sm text-fin-muted mb-4">No active contracts yet.</p>
-                <button onClick={() => setTab('browse')} className="px-5 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-bold">Browse Plans</button>
+                <button onClick={() => setTab('browse')} className="px-5 py-2.5 rounded bg-primary text-primary-foreground text-sm font-bold">Browse Plans</button>
               </div>
             ) : (
               <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -332,10 +332,10 @@ export default function InvestorDashboard() {
                   const matures = new Date(c.matures_at).getTime();
                   const progress = Math.min(100, Math.max(0, ((Date.now() - started) / (matures - started)) * 100));
                   return (
-                    <article key={c.id} className="fin-card rounded-3xl p-5">
+                    <article key={c.id} className="fin-card rounded-md p-5">
                       <div className="flex items-start justify-between gap-3 mb-3">
                         <h3 className="font-bold">{c.plan_name}</h3>
-                        <span className={`px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider border ${CATEGORY_STYLES[c.plan_category] ?? 'bg-white/5 text-fin-muted border-fin-border'}`}>
+                        <span className={`px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider border ${CATEGORY_STYLES[c.plan_category] ?? 'bg-muted text-fin-muted border-fin-border'}`}>
                           {c.plan_category}
                         </span>
                       </div>
@@ -365,7 +365,7 @@ export default function InvestorDashboard() {
                   key={p.id}
                   plan={p as unknown as SharedPlan}
                   action={
-                    <button onClick={() => setInvestPlan(p)} className="w-full py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-bold hover:opacity-90 transition-opacity">Invest</button>
+                    <button onClick={() => setInvestPlan(p)} className="w-full py-2.5 rounded bg-primary text-primary-foreground text-sm font-bold hover:opacity-90 transition-opacity">Invest</button>
                   }
                 />
               ))}
@@ -374,13 +374,13 @@ export default function InvestorDashboard() {
         </section>
 
         {/* Giveaway entries */}
-        <section className="fin-card rounded-3xl overflow-hidden">
+        <section className="fin-card rounded-md overflow-hidden">
           <div className="p-5 border-b border-fin-border flex items-center justify-between gap-4">
             <div>
               <h2 className="text-lg font-bold">Giveaway Entries</h2>
               <p className="text-xs text-fin-muted">Entries paid from your wallet balance</p>
             </div>
-            <a href="/#giveaways" className="px-4 py-2 rounded-xl btn-emerald text-xs whitespace-nowrap">Enter a Giveaway</a>
+            <a href="/#giveaways" className="px-4 py-2 rounded btn-emerald text-xs whitespace-nowrap">Enter a Giveaway</a>
           </div>
           {giveawayEntries.length === 0 ? (
             <p className="p-8 text-center text-sm text-fin-muted">No giveaway entries yet.</p>
@@ -401,7 +401,7 @@ export default function InvestorDashboard() {
                       <td className="px-5 py-3">{e.giveaway_title}</td>
                       <td className="px-5 py-3 text-right font-bold tabular-nums">{money(Number(e.amount_paid))}</td>
                       <td className="px-5 py-3">
-                        <span className={`px-2.5 py-1 rounded-md text-[10px] font-bold uppercase border ${STATUS_STYLES[e.status] ?? 'bg-white/5 text-fin-muted border-fin-border'}`}>{e.status}</span>
+                        <span className={`px-2.5 py-1 rounded-md text-[10px] font-bold uppercase border ${STATUS_STYLES[e.status] ?? 'bg-muted text-fin-muted border-fin-border'}`}>{e.status}</span>
                       </td>
                       <td className="px-5 py-3 text-fin-muted whitespace-nowrap">{new Date(e.created_at).toLocaleString()}</td>
                     </tr>
@@ -413,7 +413,7 @@ export default function InvestorDashboard() {
         </section>
 
         {/* Ledger */}
-        <section className="fin-card rounded-3xl overflow-hidden">
+        <section className="fin-card rounded-md overflow-hidden">
           <div className="p-5 border-b border-fin-border">
             <h2 className="text-lg font-bold">Transaction Ledger</h2>
             <p className="text-xs text-fin-muted">Deposits, plan purchases, giveaway entries, yield payouts and withdrawals</p>
@@ -440,7 +440,7 @@ export default function InvestorDashboard() {
                         {Number(row.amount) < 0 ? '-' : '+'}{money(Math.abs(Number(row.amount)))}
                       </td>
                       <td className="px-5 py-3">
-                        <span className={`px-2.5 py-1 rounded-md text-[10px] font-bold uppercase border ${STATUS_STYLES[row.status] ?? 'bg-white/5 text-fin-muted border-fin-border'}`}>
+                        <span className={`px-2.5 py-1 rounded-md text-[10px] font-bold uppercase border ${STATUS_STYLES[row.status] ?? 'bg-muted text-fin-muted border-fin-border'}`}>
                           {row.status}
                         </span>
                       </td>
@@ -511,11 +511,11 @@ function InvestModal({ plan, balance, onClose, onDone, onError, onDeposit }: {
     <Modal title={`Deploy Capital — ${plan.name}`} onClose={onClose}>
       <div className="space-y-5">
         <div className="grid grid-cols-2 gap-3">
-          <div className="rounded-xl bg-fin-elevated border border-fin-border p-3">
+          <div className="rounded bg-fin-elevated border border-fin-border p-3">
             <p className="text-[11px] uppercase text-fin-muted">Available Balance</p>
             <p className={`text-lg font-extrabold tabular-nums ${insufficient ? 'text-fin-danger' : 'text-fin-emerald'}`}>{money(balance)}</p>
           </div>
-          <div className="rounded-xl bg-fin-elevated border border-fin-border p-3">
+          <div className="rounded bg-fin-elevated border border-fin-border p-3">
             <p className="text-[11px] uppercase text-fin-muted">Required Capital</p>
             <p className="text-lg font-extrabold tabular-nums">{money(value)}</p>
           </div>
@@ -542,7 +542,7 @@ function InvestModal({ plan, balance, onClose, onDone, onError, onDeposit }: {
           </p>
         </div>
 
-        <div className="rounded-xl border border-fin-emerald/25 bg-fin-emerald-soft p-4 space-y-1.5">
+        <div className="rounded border border-fin-emerald/25 bg-fin-emerald-soft p-4 space-y-1.5">
           <div className="flex justify-between text-sm"><span className="text-fin-muted">Projected daily payout</span><span className="font-bold text-fin-emerald tabular-nums">{money(dailyPayout)}</span></div>
           <div className="flex justify-between text-sm"><span className="text-fin-muted">Total return at maturity</span><span className="font-bold text-fin-emerald tabular-nums">{money(totalReturn)}</span></div>
           <div className="flex justify-between text-sm"><span className="text-fin-muted">Principal + yield</span><span className="font-bold tabular-nums">{money(value + totalReturn)}</span></div>
@@ -551,13 +551,13 @@ function InvestModal({ plan, balance, onClose, onDone, onError, onDeposit }: {
         {insufficient ? (
           <div className="space-y-3">
             <p className="text-sm text-fin-danger font-semibold">Insufficient wallet balance for this allocation.</p>
-            <button onClick={onDeposit} className="w-full py-3 rounded-xl btn-emerald text-sm">Deposit Funds</button>
+            <button onClick={onDeposit} className="w-full py-3 rounded btn-emerald text-sm">Deposit Funds</button>
           </div>
         ) : (
           <button
             onClick={confirm}
             disabled={busy || outOfBounds || value <= 0}
-            className="w-full py-3 rounded-xl btn-emerald text-sm disabled:opacity-40">
+            className="w-full py-3 rounded btn-emerald text-sm disabled:opacity-40">
             {busy ? 'Processing…' : outOfBounds ? 'Amount outside plan limits' : 'Confirm Investment'}
           </button>
         )}

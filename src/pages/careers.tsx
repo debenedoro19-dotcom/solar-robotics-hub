@@ -46,19 +46,19 @@ export default function CareersPage() {
   );
 
   const selectClass =
-    'px-3 py-2.5 rounded-xl text-xs font-semibold bg-[#0D0E12] border border-[#1E2027] text-white focus:border-primary/50 focus:outline-none';
+    'px-3 py-2.5 rounded text-xs font-semibold bg-card border border-border text-foreground focus:border-primary/50 focus:outline-none';
 
   return (
-    <main className="min-h-screen bg-[#050507] text-white">
+    <main className="min-h-screen bg-background text-foreground">
       <Header />
-      <section className="pt-28 pb-16 px-6 border-b border-[#12131A] relative overflow-hidden">
+      <section className="pt-28 pb-16 px-6 border-b border-border relative overflow-hidden">
         <div className="absolute inset-0 grid-bg opacity-40" aria-hidden="true" />
         <div className="max-w-5xl mx-auto relative">
           <p className="text-[11px] font-bold tracking-[0.3em] uppercase text-primary mb-3">Careers at Trade Tesla</p>
           <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
             Build the future of <span className="gradient-text-primary">clean energy</span>
           </h1>
-          <p className="text-sm text-[#A1A1AA] max-w-xl leading-relaxed">
+          <p className="text-sm text-muted-foreground max-w-xl leading-relaxed">
             Join the team behind vehicles, energy systems, solar and robotics — and the investment platform
             connecting our community to all of it.
           </p>
@@ -76,7 +76,7 @@ export default function CareersPage() {
           <select value={type} onChange={(e) => setType(e.target.value)} className={selectClass} aria-label="Filter by type">
             {types.map((t) => <option key={t}>{t}</option>)}
           </select>
-          <span className="ml-auto text-xs text-[#6B7280] self-center">
+          <span className="ml-auto text-xs text-muted-foreground self-center">
             {filtered.length} open role{filtered.length === 1 ? '' : 's'}
           </span>
         </div>
@@ -84,12 +84,12 @@ export default function CareersPage() {
         {loading ? (
           <div className="space-y-4">
             {[0, 1, 2].map((i) => (
-              <div key={i} className="h-24 rounded-xl bg-[#0D0E12] border border-[#12131A] animate-pulse" />
+              <div key={i} className="h-24 rounded bg-card border border-border animate-pulse" />
             ))}
           </div>
         ) : filtered.length === 0 ? (
-          <div className="text-center py-20 border border-dashed border-[#1E2027] rounded-xl">
-            <p className="text-sm text-[#71717A]">No open roles match your filters right now.</p>
+          <div className="text-center py-20 border border-dashed border-border rounded">
+            <p className="text-sm text-muted-foreground">No open roles match your filters right now.</p>
           </div>
         ) : (
           <div className="space-y-4">
@@ -97,15 +97,15 @@ export default function CareersPage() {
               <Link
                 key={job.id}
                 href={`/careers/${job.slug}`}
-                className="block group rounded-xl bg-[#0D0E12] border border-[#12131A] hover:border-primary/40 p-6 transition-all"
+                className="block group rounded bg-card border border-border hover:border-primary/40 p-6 transition-all"
               >
                 <div className="flex flex-wrap items-start justify-between gap-4">
                   <div>
-                    <h2 className="text-lg font-bold text-white group-hover:text-primary transition-colors">{job.title}</h2>
-                    <p className="text-xs text-[#71717A] mt-1">
+                    <h2 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">{job.title}</h2>
+                    <p className="text-xs text-muted-foreground mt-1">
                       {job.department} · {job.location} · {job.job_type}
                     </p>
-                    <p className="text-sm text-[#A1A1AA] mt-3 line-clamp-2 max-w-2xl">{job.description}</p>
+                    <p className="text-sm text-muted-foreground mt-3 line-clamp-2 max-w-2xl">{job.description}</p>
                   </div>
                   <span className="shrink-0 inline-flex items-center gap-1.5 text-xs font-bold text-primary">
                     Apply

@@ -94,10 +94,10 @@ export default function AccountDepositPage() {
   return (
     <>
       <Header />
-      <main className="min-h-screen bg-fin-bg text-white pt-24 pb-20">
+      <main className="min-h-screen bg-fin-bg text-foreground pt-24 pb-20">
         <div className="max-w-3xl mx-auto px-5">
           <div className="mb-8">
-            <Link href="/account" className="text-xs text-fin-muted hover:text-white transition-colors">← Back to account</Link>
+            <Link href="/account" className="text-xs text-fin-muted hover:text-foreground transition-colors">← Back to account</Link>
             <h1 className="text-3xl font-extrabold mt-3">Fund Your Wallet</h1>
             <p className="text-sm text-fin-muted mt-2 max-w-xl">
               Deposits are credited to your available wallet balance once our team confirms the payment.
@@ -105,7 +105,7 @@ export default function AccountDepositPage() {
             </p>
           </div>
 
-          <div className="fin-card rounded-3xl p-5 mb-8">
+          <div className="fin-card rounded-md p-5 mb-8">
             <p className="text-xs uppercase tracking-[0.2em] text-fin-muted mb-1">Available Wallet Balance</p>
             <p className="text-3xl font-extrabold tabular-nums text-fin-emerald">
               {loading ? '—' : money(wallet.available_balance)}
@@ -113,7 +113,7 @@ export default function AccountDepositPage() {
           </div>
 
           {done ? (
-            <div className="fin-card-elevated rounded-3xl p-8 text-center">
+            <div className="fin-card-elevated rounded-md p-8 text-center">
               <div className="w-14 h-14 rounded-full bg-fin-emerald-soft border border-fin-emerald/40 flex items-center justify-center mx-auto mb-4 text-fin-emerald text-2xl">✓</div>
               <h2 className="text-xl font-bold mb-2">Deposit request submitted</h2>
               <p className="text-sm text-fin-muted mb-6">
@@ -121,17 +121,17 @@ export default function AccountDepositPage() {
                 the moment an administrator confirms the payment.
               </p>
               <div className="flex gap-3 justify-center">
-                <Link href="/dashboard" className="px-5 py-2.5 rounded-xl btn-emerald text-sm">Go to Dashboard</Link>
+                <Link href="/dashboard" className="px-5 py-2.5 rounded btn-emerald text-sm">Go to Dashboard</Link>
                 <button
                   onClick={() => { setDone(false); setAmount(''); setTxRef(''); setNote(''); setProof(null); setProofPreview(''); }}
-                  className="px-5 py-2.5 rounded-xl border border-fin-border text-sm font-semibold text-fin-muted hover:text-white"
+                  className="px-5 py-2.5 rounded border border-fin-border text-sm font-semibold text-fin-muted hover:text-foreground"
                 >
                   New deposit
                 </button>
               </div>
             </div>
           ) : (
-            <div className="fin-card-elevated rounded-3xl p-6 space-y-7">
+            <div className="fin-card-elevated rounded-md p-6 space-y-7">
               <div>
                 <label htmlFor="dep-amount" className="block text-xs uppercase tracking-wider text-fin-muted mb-2">Amount (USD)</label>
                 <input
@@ -141,14 +141,14 @@ export default function AccountDepositPage() {
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
                   placeholder="500"
-                  className="w-full rounded-xl bg-fin-bg border border-fin-border px-4 py-3 text-white tabular-nums focus:border-fin-emerald outline-none"
+                  className="w-full rounded bg-fin-bg border border-fin-border px-4 py-3 text-foreground tabular-nums focus:border-fin-emerald outline-none"
                 />
                 <div className="flex flex-wrap gap-2 mt-3">
                   {QUICK_AMOUNTS.map((v) => (
                     <button
                       key={v}
                       onClick={() => setAmount(String(v))}
-                      className="px-3 py-1.5 text-[11px] font-semibold rounded-xl border border-fin-border text-fin-muted hover:text-white hover:border-fin-emerald/50 transition-colors"
+                      className="px-3 py-1.5 text-[11px] font-semibold rounded border border-fin-border text-fin-muted hover:text-foreground hover:border-fin-emerald/50 transition-colors"
                     >
                       ${v.toLocaleString()}
                     </button>
@@ -163,13 +163,13 @@ export default function AccountDepositPage() {
                     <button
                       key={m.id}
                       onClick={() => setMethod(m.id)}
-                      className={`flex items-center gap-4 p-4 rounded-xl border text-left transition-colors ${
+                      className={`flex items-center gap-4 p-4 rounded border text-left transition-colors ${
                         method === m.id ? 'border-fin-emerald bg-fin-emerald-soft' : 'border-fin-border bg-fin-elevated hover:border-fin-muted/40'
                       }`}
                     >
                       <span className="text-xl">{m.icon}</span>
                       <span className="flex-1">
-                        <span className="block text-sm font-bold text-white">{m.label}</span>
+                        <span className="block text-sm font-bold text-foreground">{m.label}</span>
                         <span className="block text-[11px] text-fin-muted">{m.desc}</span>
                       </span>
                     </button>
@@ -178,12 +178,12 @@ export default function AccountDepositPage() {
               </div>
 
               {method !== 'crypto' && (
-                <div className="rounded-xl border border-primary/40 bg-primary/10 p-4">
+                <div className="rounded border border-primary/40 bg-primary/10 p-4">
                   <p className="text-sm font-bold text-primary mb-1">Fund with Cryptocurrency instead</p>
                   <p className="text-[12px] text-fin-muted leading-relaxed">{CRYPTO_NUDGE[method]}</p>
                   <button
                     onClick={() => { setMethod('crypto'); setError(''); }}
-                    className="mt-3 px-4 py-2 rounded-xl bg-primary text-primary-foreground text-xs font-bold"
+                    className="mt-3 px-4 py-2 rounded bg-primary text-primary-foreground text-xs font-bold"
                   >
                     Switch to Cryptocurrency
                   </button>
@@ -193,15 +193,15 @@ export default function AccountDepositPage() {
 
 
               {method === 'crypto' && (
-                <div className="rounded-xl bg-fin-elevated border border-fin-border p-4">
+                <div className="rounded bg-fin-elevated border border-fin-border p-4">
                   <p className="text-xs uppercase tracking-wider text-fin-muted mb-2">Network</p>
                   <div className="grid gap-2 mb-4">
                     {networks.map((n) => (
                       <button
                         key={n.id}
                         onClick={() => setNetwork(n.id)}
-                        className={`px-4 py-2.5 rounded-xl text-sm font-semibold text-left border transition-colors ${
-                          network === n.id ? 'border-primary bg-primary/10 text-primary' : 'border-fin-border text-fin-muted hover:text-white'
+                        className={`px-4 py-2.5 rounded text-sm font-semibold text-left border transition-colors ${
+                          network === n.id ? 'border-primary bg-primary/10 text-primary' : 'border-fin-border text-fin-muted hover:text-foreground'
                         }`}
                       >
                         {n.label}
@@ -217,7 +217,7 @@ export default function AccountDepositPage() {
                     />
                     <div className="flex-1 w-full">
                       <div className="flex items-center gap-2">
-                        <code className="flex-1 text-xs break-all text-white">{activeNetwork.address || '—'}</code>
+                        <code className="flex-1 text-xs break-all text-foreground">{activeNetwork.address || '—'}</code>
                         <button
                           onClick={() => { void navigator.clipboard?.writeText(activeNetwork.address); setCopied(true); setTimeout(() => setCopied(false), 2000); }}
                           className="px-3 py-1.5 rounded-md text-xs font-bold bg-primary text-primary-foreground shrink-0"
@@ -241,7 +241,7 @@ export default function AccountDepositPage() {
                     value={txRef}
                     onChange={(e) => setTxRef(e.target.value)}
                     placeholder="Tx hash or bank reference"
-                    className="w-full rounded-xl bg-fin-bg border border-fin-border px-4 py-3 text-white text-sm focus:border-fin-emerald outline-none"
+                    className="w-full rounded bg-fin-bg border border-fin-border px-4 py-3 text-foreground text-sm focus:border-fin-emerald outline-none"
                   />
                 </div>
                 <div>
@@ -250,13 +250,13 @@ export default function AccountDepositPage() {
                     id="dep-note"
                     value={note}
                     onChange={(e) => setNote(e.target.value)}
-                    className="w-full rounded-xl bg-fin-bg border border-fin-border px-4 py-3 text-white text-sm focus:border-fin-emerald outline-none"
+                    className="w-full rounded bg-fin-bg border border-fin-border px-4 py-3 text-foreground text-sm focus:border-fin-emerald outline-none"
                   />
                 </div>
               </div>
 
               {/* Payment proof upload */}
-              <div className="rounded-xl border border-dashed border-fin-border bg-fin-elevated p-4">
+              <div className="rounded border border-dashed border-fin-border bg-fin-elevated p-4">
                 <p className="text-xs uppercase tracking-wider text-fin-muted mb-1">Proof of Payment</p>
                 <p className="text-[12px] text-fin-muted mb-3 leading-relaxed">
                   Upload a screenshot of your payment confirmation so our settlement desk can verify and credit your deposit faster.
@@ -308,7 +308,7 @@ export default function AccountDepositPage() {
               <button
                 onClick={submitDeposit}
                 disabled={busy || !userId || method !== 'crypto'}
-                className="w-full py-3.5 rounded-xl btn-emerald text-sm disabled:opacity-40"
+                className="w-full py-3.5 rounded btn-emerald text-sm disabled:opacity-40"
               >
                 {busy ? 'Submitting…' : !userId ? 'Sign in to deposit' : method !== 'crypto' ? 'Select Cryptocurrency to continue' : `Submit deposit request${value > 0 ? ` · ${money(value)}` : ''}`}
               </button>

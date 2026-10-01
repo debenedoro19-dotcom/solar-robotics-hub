@@ -343,23 +343,23 @@ export default function ProfilePage() {
   if (!mounted) return null;
 
   return (
-    <main className="min-h-screen bg-[#050507] text-white">
+    <main className="min-h-screen bg-background text-foreground">
       {/* Top bar */}
-      <div className="border-b border-[#12131A] bg-[#050507]/95 backdrop-blur-xl sticky top-0 z-40">
+      <div className="border-b border-border bg-background/95 backdrop-blur-xl sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-6">
             <Link href="/" className="flex items-center gap-2.5">
-              <img src="/tesla-mark.png" width={20} height={20} alt="" aria-hidden="true" className="text-[#E82127] object-contain" />
-              <span className="text-white font-bold text-sm tracking-widest uppercase">Trade Tesla</span>
+              <img src="/tesla-mark.png" width={20} height={20} alt="" aria-hidden="true" className="text-primary object-contain" />
+              <span className="text-foreground font-bold text-sm tracking-widest uppercase">Trade Tesla</span>
             </Link>
-            <span className="text-[#1E2027]">|</span>
-            <span className="text-xs text-[#71717A] tracking-widest uppercase">Profile Settings</span>
+            <span className="text-muted-foreground/40">|</span>
+            <span className="text-xs text-muted-foreground tracking-widest uppercase">Profile Settings</span>
           </div>
           <div className="flex items-center gap-3">
-            <Link href="/dashboard" className="px-4 py-1.5 text-xs font-semibold text-[#A1A1AA] hover:text-white border border-[#1E2027] hover:border-[#52525B] rounded-xl transition-all tracking-widest uppercase">
+            <Link href="/dashboard" className="px-4 py-1.5 text-xs font-semibold text-muted-foreground hover:text-foreground border border-border hover:border-border rounded transition-all tracking-widest uppercase">
               Dashboard
             </Link>
-            <div className="w-8 h-8 rounded-full bg-[#E82127]/20 border border-[#E82127]/30 flex items-center justify-center text-xs font-bold text-[#E82127]">
+            <div className="w-8 h-8 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center text-xs font-bold text-primary">
               {initials}
             </div>
           </div>
@@ -370,12 +370,12 @@ export default function ProfilePage() {
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center gap-4 mb-2">
-            <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#E82127]/30 to-[#E82127]/10 border border-[#E82127]/30 flex items-center justify-center text-xl font-extrabold text-[#E82127]">
+            <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#E82127]/30 to-[#E82127]/10 border border-primary/30 flex items-center justify-center text-xl font-extrabold text-primary">
               {initials}
             </div>
             <div>
-              <h1 className="text-2xl font-extrabold text-white tracking-tight">{personal.fullName || 'Your Profile'}</h1>
-              <p className="text-sm text-[#71717A]">{userEmail}</p>
+              <h1 className="text-2xl font-extrabold text-foreground tracking-tight">{personal.fullName || 'Your Profile'}</h1>
+              <p className="text-sm text-muted-foreground">{userEmail}</p>
             </div>
           </div>
         </div>
@@ -383,15 +383,15 @@ export default function ProfilePage() {
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Sidebar Nav */}
           <aside className="lg:w-56 shrink-0">
-            <nav className="bg-[#0D0E12] border border-[#12131A] rounded-xl overflow-hidden">
+            <nav className="bg-card border border-border rounded overflow-hidden">
               {navItems.map((item) => (
                 <button
                   key={item.id}
                   onClick={() => setActiveSection(item.id)}
                   className={`w-full flex items-center gap-3 px-4 py-3.5 text-xs font-semibold tracking-widest uppercase transition-all border-l-2 ${
                     activeSection === item.id
-                      ? 'text-white bg-[#E82127]/10 border-[#E82127]'
-                      : 'text-[#71717A] hover:text-white hover:bg-[#161616] border-transparent'
+                      ? 'text-white bg-primary/10 border-primary'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-card border-transparent'
                   }`}
                 >
                   {item.icon}
@@ -406,48 +406,48 @@ export default function ProfilePage() {
 
             {/* ── Personal Info ── */}
             {activeSection === 'personal' && (
-              <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-6">
+              <div className="bg-card border border-border rounded p-6">
                 <div className="mb-6">
-                  <h2 className="text-base font-bold text-white tracking-wide mb-1">Personal Information</h2>
-                  <p className="text-xs text-[#6B7280]">Update your name, contact details, and profile information.</p>
+                  <h2 className="text-base font-bold text-foreground tracking-wide mb-1">Personal Information</h2>
+                  <p className="text-xs text-muted-foreground">Update your name, contact details, and profile information.</p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                   <div>
-                    <label className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">Full Name</label>
+                    <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">Full Name</label>
                     <input
                       type="text"
                       value={personal.fullName}
                       onChange={e => setPersonal(p => ({ ...p, fullName: e.target.value }))}
-                      className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-4 py-2.5 text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-[#E82127]/50 transition-colors"
+                      className="w-full bg-background border border-border rounded px-4 py-2.5 text-sm text-foreground placeholder-[#52525B] focus:outline-none focus:border-primary/50 transition-colors"
                       placeholder="John Doe"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">Email Address</label>
+                    <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">Email Address</label>
                     <input
                       type="email"
                       value={personal.email}
                       disabled
-                      className="w-full bg-[#050507] border border-[#12131A] rounded-xl px-4 py-2.5 text-sm text-[#6B7280] cursor-not-allowed"
+                      className="w-full bg-background border border-border rounded px-4 py-2.5 text-sm text-muted-foreground cursor-not-allowed"
                     />
-                    <p className="text-[10px] text-[#52525B] mt-1">Email cannot be changed here.</p>
+                    <p className="text-[10px] text-muted-foreground mt-1">Email cannot be changed here.</p>
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">Phone Number</label>
+                    <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">Phone Number</label>
                     <input
                       type="tel"
                       value={personal.phone}
                       onChange={e => setPersonal(p => ({ ...p, phone: e.target.value }))}
-                      className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-4 py-2.5 text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-[#E82127]/50 transition-colors"
+                      className="w-full bg-background border border-border rounded px-4 py-2.5 text-sm text-foreground placeholder-[#52525B] focus:outline-none focus:border-primary/50 transition-colors"
                       placeholder="+1 (555) 000-0000"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">Country</label>
+                    <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">Country</label>
                     <select
                       value={personal.country}
                       onChange={e => setPersonal(p => ({ ...p, country: e.target.value }))}
-                      className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#E82127]/50 transition-colors"
+                      className="w-full bg-background border border-border rounded px-4 py-2.5 text-sm text-foreground focus:outline-none focus:border-primary/50 transition-colors"
                     >
                       <option value="">Select country</option>
                       {['United States', 'United Kingdom', 'Canada', 'Australia', 'Germany', 'France', 'Japan', 'Singapore', 'UAE', 'Other'].map(c => (
@@ -456,33 +456,33 @@ export default function ProfilePage() {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">City</label>
+                    <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">City</label>
                     <input
                       type="text"
                       value={personal.city}
                       onChange={e => setPersonal(p => ({ ...p, city: e.target.value }))}
-                      className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-4 py-2.5 text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-[#E82127]/50 transition-colors"
+                      className="w-full bg-background border border-border rounded px-4 py-2.5 text-sm text-foreground placeholder-[#52525B] focus:outline-none focus:border-primary/50 transition-colors"
                       placeholder="New York"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">Address</label>
+                    <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">Address</label>
                     <input
                       type="text"
                       value={personal.address}
                       onChange={e => setPersonal(p => ({ ...p, address: e.target.value }))}
-                      className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-4 py-2.5 text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-[#E82127]/50 transition-colors"
+                      className="w-full bg-background border border-border rounded px-4 py-2.5 text-sm text-foreground placeholder-[#52525B] focus:outline-none focus:border-primary/50 transition-colors"
                       placeholder="123 Main St"
                     />
                   </div>
                 </div>
                 <div className="mb-6">
-                  <label className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">Bio</label>
+                  <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">Bio</label>
                   <textarea
                     value={personal.bio}
                     onChange={e => setPersonal(p => ({ ...p, bio: e.target.value }))}
                     rows={3}
-                    className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-4 py-2.5 text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-[#E82127]/50 transition-colors resize-none"
+                    className="w-full bg-background border border-border rounded px-4 py-2.5 text-sm text-foreground placeholder-[#52525B] focus:outline-none focus:border-primary/50 transition-colors resize-none"
                     placeholder="Tell us a bit about yourself..."
                   />
                 </div>
@@ -492,54 +492,54 @@ export default function ProfilePage() {
 
             {/* ── Bank Account ── */}
             {activeSection === 'bank' && (
-              <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-6">
+              <div className="bg-card border border-border rounded p-6">
                 <div className="mb-6">
-                  <h2 className="text-base font-bold text-white tracking-wide mb-1">Bank Account Details</h2>
-                  <p className="text-xs text-[#6B7280]">Your payout destination for approved withdrawals. All data is encrypted.</p>
+                  <h2 className="text-base font-bold text-foreground tracking-wide mb-1">Bank Account Details</h2>
+                  <p className="text-xs text-muted-foreground">Your payout destination for approved withdrawals. All data is encrypted.</p>
                 </div>
-                <div className="flex items-center gap-2 mb-5 px-4 py-3 bg-[#E82127]/5 border border-[#E82127]/20 rounded-xl">
+                <div className="flex items-center gap-2 mb-5 px-4 py-3 bg-primary/5 border border-primary/20 rounded">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E82127" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                     <circle cx="12" cy="12" r="10" />
                     <line x1="12" y1="8" x2="12" y2="12" />
                     <line x1="12" y1="16" x2="12.01" y2="16" />
                   </svg>
-                  <p className="text-xs text-[#E82127]/80">Bank details are used exclusively for withdrawal payouts. Changes require admin review.</p>
+                  <p className="text-xs text-primary/80">Bank details are used exclusively for withdrawal payouts. Changes require admin review.</p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                   <div>
-                    <label className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">Bank Name</label>
+                    <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">Bank Name</label>
                     <input
                       type="text"
                       value={bank.bankName}
                       onChange={e => setBank(b => ({ ...b, bankName: e.target.value }))}
-                      className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-4 py-2.5 text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-[#E82127]/50 transition-colors"
+                      className="w-full bg-background border border-border rounded px-4 py-2.5 text-sm text-foreground placeholder-[#52525B] focus:outline-none focus:border-primary/50 transition-colors"
                       placeholder="Chase Bank"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">Account Holder Name</label>
+                    <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">Account Holder Name</label>
                     <input
                       type="text"
                       value={bank.accountHolder}
                       onChange={e => setBank(b => ({ ...b, accountHolder: e.target.value }))}
-                      className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-4 py-2.5 text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-[#E82127]/50 transition-colors"
+                      className="w-full bg-background border border-border rounded px-4 py-2.5 text-sm text-foreground placeholder-[#52525B] focus:outline-none focus:border-primary/50 transition-colors"
                       placeholder="John Doe"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">Account Number</label>
+                    <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">Account Number</label>
                     <div className="relative">
                       <input
                         type={showAccountNumber ? 'text' : 'password'}
                         value={bank.accountNumber}
                         onChange={e => setBank(b => ({ ...b, accountNumber: e.target.value }))}
-                        className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-4 py-2.5 pr-10 text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-[#E82127]/50 transition-colors"
+                        className="w-full bg-background border border-border rounded px-4 py-2.5 pr-10 text-sm text-foreground placeholder-[#52525B] focus:outline-none focus:border-primary/50 transition-colors"
                         placeholder="••••••••••"
                       />
                       <button
                         type="button"
                         onClick={() => setShowAccountNumber(v => !v)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-[#6B7280] hover:text-white transition-colors"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                         aria-label={showAccountNumber ? 'Hide account number' : 'Show account number'}
                       >
                         {showAccountNumber ? (
@@ -551,19 +551,19 @@ export default function ProfilePage() {
                     </div>
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">Routing Number</label>
+                    <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">Routing Number</label>
                     <div className="relative">
                       <input
                         type={showRoutingNumber ? 'text' : 'password'}
                         value={bank.routingNumber}
                         onChange={e => setBank(b => ({ ...b, routingNumber: e.target.value }))}
-                        className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-4 py-2.5 pr-10 text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-[#E82127]/50 transition-colors"
+                        className="w-full bg-background border border-border rounded px-4 py-2.5 pr-10 text-sm text-foreground placeholder-[#52525B] focus:outline-none focus:border-primary/50 transition-colors"
                         placeholder="••••••••••"
                       />
                       <button
                         type="button"
                         onClick={() => setShowRoutingNumber(v => !v)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-[#6B7280] hover:text-white transition-colors"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                         aria-label={showRoutingNumber ? 'Hide routing number' : 'Show routing number'}
                       >
                         {showRoutingNumber ? (
@@ -575,23 +575,23 @@ export default function ProfilePage() {
                     </div>
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">Account Type</label>
+                    <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">Account Type</label>
                     <select
                       value={bank.accountType}
                       onChange={e => setBank(b => ({ ...b, accountType: e.target.value as 'checking' | 'savings' }))}
-                      className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#E82127]/50 transition-colors"
+                      className="w-full bg-background border border-border rounded px-4 py-2.5 text-sm text-foreground focus:outline-none focus:border-primary/50 transition-colors"
                     >
                       <option value="checking">Checking</option>
                       <option value="savings">Savings</option>
                     </select>
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">SWIFT / BIC Code</label>
+                    <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">SWIFT / BIC Code</label>
                     <input
                       type="text"
                       value={bank.swiftCode}
                       onChange={e => setBank(b => ({ ...b, swiftCode: e.target.value.toUpperCase() }))}
-                      className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-4 py-2.5 text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-[#E82127]/50 transition-colors"
+                      className="w-full bg-background border border-border rounded px-4 py-2.5 text-sm text-foreground placeholder-[#52525B] focus:outline-none focus:border-primary/50 transition-colors"
                       placeholder="CHASUS33"
                     />
                   </div>
@@ -602,10 +602,10 @@ export default function ProfilePage() {
 
             {/* ── Password ── */}
             {activeSection === 'password' && (
-              <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-6">
+              <div className="bg-card border border-border rounded p-6">
                 <div className="mb-6">
-                  <h2 className="text-base font-bold text-white tracking-wide mb-1">Change Password</h2>
-                  <p className="text-xs text-[#6B7280]">Use a strong, unique password to protect your account.</p>
+                  <h2 className="text-base font-bold text-foreground tracking-wide mb-1">Change Password</h2>
+                  <p className="text-xs text-muted-foreground">Use a strong, unique password to protect your account.</p>
                 </div>
                 <div className="max-w-md space-y-4 mb-6">
                   <PasswordField
@@ -649,11 +649,11 @@ export default function ProfilePage() {
                     placeholder="Repeat new password"
                   />
                   {passwordError && (
-                    <p className="text-xs text-[#E82127]">{passwordError}</p>
+                    <p className="text-xs text-primary">{passwordError}</p>
                   )}
                 </div>
-                <div className="mb-4 p-4 bg-[#050507] border border-[#12131A] rounded-xl">
-                  <p className="text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">Password Requirements</p>
+                <div className="mb-4 p-4 bg-background border border-border rounded">
+                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">Password Requirements</p>
                   {[
                     { label: 'At least 8 characters', met: passwords.newPass.length >= 8 },
                     { label: 'One uppercase letter', met: /[A-Z]/.test(passwords.newPass) },
@@ -661,14 +661,14 @@ export default function ProfilePage() {
                     { label: 'One special character', met: /[^A-Za-z0-9]/.test(passwords.newPass) },
                   ].map(req => (
                     <div key={req.label} className="flex items-center gap-2 mb-1">
-                      <div className={`w-3.5 h-3.5 rounded-full flex items-center justify-center ${req.met ? 'bg-green-400/20' : 'bg-[#12131A]'}`}>
+                      <div className={`w-3.5 h-3.5 rounded-full flex items-center justify-center ${req.met ? 'bg-green-400/20' : 'bg-muted'}`}>
                         {req.met && (
                           <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#00F59B" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                             <polyline points="20 6 9 17 4 12" />
                           </svg>
                         )}
                       </div>
-                      <span className={`text-xs ${req.met ? 'text-green-400' : 'text-[#6B7280]'}`}>{req.label}</span>
+                      <span className={`text-xs ${req.met ? 'text-green-400' : 'text-muted-foreground'}`}>{req.label}</span>
                     </div>
                   ))}
                 </div>
@@ -678,10 +678,10 @@ export default function ProfilePage() {
 
             {/* ── Notifications ── */}
             {activeSection === 'notifications' && (
-              <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-6">
+              <div className="bg-card border border-border rounded p-6">
                 <div className="mb-6">
-                  <h2 className="text-base font-bold text-white tracking-wide mb-1">Notification Preferences</h2>
-                  <p className="text-xs text-[#6B7280]">Control how and when you receive alerts from Trade Tesla.</p>
+                  <h2 className="text-base font-bold text-foreground tracking-wide mb-1">Notification Preferences</h2>
+                  <p className="text-xs text-muted-foreground">Control how and when you receive alerts from Trade Tesla.</p>
                 </div>
                 <div className="space-y-6">
                   <NotifGroup
@@ -740,24 +740,24 @@ export default function ProfilePage() {
 
             {/* ── Two-Factor Auth ── */}
             {activeSection === 'twofa' && (
-              <div className="bg-[#0D0E12] border border-[#12131A] rounded-xl p-6">
+              <div className="bg-card border border-border rounded p-6">
                 <div className="mb-6">
-                  <h2 className="text-base font-bold text-white tracking-wide mb-1">Two-Factor Authentication</h2>
-                  <p className="text-xs text-[#6B7280]">Add an extra layer of security to your account with an authenticator app.</p>
+                  <h2 className="text-base font-bold text-foreground tracking-wide mb-1">Two-Factor Authentication</h2>
+                  <p className="text-xs text-muted-foreground">Add an extra layer of security to your account with an authenticator app.</p>
                 </div>
 
                 {/* Status Banner */}
-                <div className={`flex items-center gap-3 px-4 py-3 rounded-xl border mb-6 ${twoFAEnabled ? 'bg-green-400/5 border-green-400/20' : 'bg-[#E82127]/5 border-[#E82127]/20'}`}>
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${twoFAEnabled ? 'bg-green-400/20' : 'bg-[#E82127]/20'}`}>
+                <div className={`flex items-center gap-3 px-4 py-3 rounded border mb-6 ${twoFAEnabled ? 'bg-green-400/5 border-green-400/20' : 'bg-primary/5 border-primary/20'}`}>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${twoFAEnabled ? 'bg-green-400/20' : 'bg-primary/20'}`}>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={twoFAEnabled ? '#00F59B' : '#E82127'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                       <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                     </svg>
                   </div>
                   <div>
-                    <p className={`text-sm font-bold ${twoFAEnabled ? 'text-green-400' : 'text-[#E82127]'}`}>
+                    <p className={`text-sm font-bold ${twoFAEnabled ? 'text-green-400' : 'text-primary'}`}>
                       2FA is {twoFAEnabled ? 'Enabled' : 'Disabled'}
                     </p>
-                    <p className="text-xs text-[#6B7280]">
+                    <p className="text-xs text-muted-foreground">
                       {twoFAEnabled ? 'Your account is protected with two-factor authentication.' : 'Enable 2FA to secure your account against unauthorized access.'}
                     </p>
                   </div>
@@ -772,16 +772,16 @@ export default function ProfilePage() {
                         { step: '2', title: 'Scan QR Code', desc: 'Scan the QR code shown during setup with your app.' },
                         { step: '3', title: 'Enter Code', desc: 'Enter the 6-digit code from your app to verify.' },
                       ].map(s => (
-                        <div key={s.step} className="bg-[#050507] border border-[#12131A] rounded-xl p-4">
-                          <div className="w-7 h-7 rounded-full bg-[#E82127]/20 border border-[#E82127]/30 flex items-center justify-center text-xs font-bold text-[#E82127] mb-3">{s.step}</div>
-                          <p className="text-xs font-bold text-white mb-1">{s.title}</p>
-                          <p className="text-xs text-[#6B7280]">{s.desc}</p>
+                        <div key={s.step} className="bg-background border border-border rounded p-4">
+                          <div className="w-7 h-7 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center text-xs font-bold text-primary mb-3">{s.step}</div>
+                          <p className="text-xs font-bold text-foreground mb-1">{s.title}</p>
+                          <p className="text-xs text-muted-foreground">{s.desc}</p>
                         </div>
                       ))}
                     </div>
                     <button
                       onClick={handle2FASetup}
-                      className="px-6 py-2.5 bg-[#E82127] text-white text-xs font-bold rounded-xl tracking-widest uppercase hover:bg-[#B3181D] transition-colors"
+                      className="px-6 py-2.5 bg-primary text-white text-xs font-bold rounded tracking-widest uppercase hover:bg-primary/90 transition-colors"
                     >
                       Enable Two-Factor Auth
                     </button>
@@ -789,7 +789,7 @@ export default function ProfilePage() {
                 )}
 
                 {twoFAError && (
-                  <div className="mb-4 px-4 py-3 rounded-xl bg-[#E82127]/10 border border-[#E82127]/30 text-xs text-[#E82127]">
+                  <div className="mb-4 px-4 py-3 rounded bg-primary/10 border border-primary/30 text-xs text-primary">
                     {twoFAError}
                   </div>
                 )}
@@ -797,34 +797,34 @@ export default function ProfilePage() {
                 {/* Setup step */}
                 {twoFAStep === 'setup' && (
                   <div className="max-w-sm">
-                    <p className="text-xs text-[#A1A1AA] mb-4">Scan this QR code with your authenticator app, or enter the secret key manually.</p>
+                    <p className="text-xs text-muted-foreground mb-4">Scan this QR code with your authenticator app, or enter the secret key manually.</p>
                     <div className="flex justify-center mb-4">
                       <QrCode value={twoFAUri} size={160} label="Two-factor authentication setup QR code" />
                     </div>
-                    <div className="bg-[#050507] border border-[#1E2027] rounded-xl px-4 py-2.5 mb-4 text-center">
-                      <p className="text-[10px] text-[#6B7280] uppercase tracking-widest mb-1">Manual Entry Key</p>
-                      <p className="text-sm font-mono text-white tracking-widest break-all">{twoFASecret}</p>
+                    <div className="bg-background border border-border rounded px-4 py-2.5 mb-4 text-center">
+                      <p className="text-[10px] text-muted-foreground uppercase tracking-widest mb-1">Manual Entry Key</p>
+                      <p className="text-sm font-mono text-foreground tracking-widest break-all">{twoFASecret}</p>
                     </div>
-                    <label className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">Enter 6-Digit Code</label>
+                    <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">Enter 6-Digit Code</label>
                     <input
                       type="text"
                       maxLength={6}
                       value={twoFACode}
                       onChange={e => setTwoFACode(e.target.value.replace(/\D/g, ''))}
-                      className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-4 py-2.5 text-sm text-white text-center tracking-[0.5em] font-mono placeholder-[#52525B] focus:outline-none focus:border-[#E82127]/50 transition-colors mb-4"
+                      className="w-full bg-background border border-border rounded px-4 py-2.5 text-sm text-foreground text-center tracking-[0.5em] font-mono placeholder-[#52525B] focus:outline-none focus:border-primary/50 transition-colors mb-4"
                       placeholder="000000"
                     />
                     <div className="flex gap-3">
                       <button
                         onClick={handle2FAVerify}
                         disabled={twoFACode.length !== 6 || twoFABusy}
-                        className="flex-1 py-2.5 bg-[#E82127] text-white text-xs font-bold rounded-xl tracking-widest uppercase hover:bg-[#B3181D] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                        className="flex-1 py-2.5 bg-primary text-white text-xs font-bold rounded tracking-widest uppercase hover:bg-primary/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                       >
                         {twoFABusy ? 'Verifying…' : 'Verify & Enable'}
                       </button>
                       <button
                         onClick={() => { setTwoFAStep('idle'); setTwoFACode(''); setTwoFAError(''); }}
-                        className="px-4 py-2.5 border border-[#1E2027] text-[#A1A1AA] text-xs font-semibold rounded-xl tracking-widest uppercase hover:text-white hover:border-[#52525B] transition-colors"
+                        className="px-4 py-2.5 border border-border text-muted-foreground text-xs font-semibold rounded tracking-widest uppercase hover:text-foreground hover:border-border transition-colors"
                       >
                         Cancel
                       </button>
@@ -837,11 +837,11 @@ export default function ProfilePage() {
                   <div>
                     {backupCodes.length > 0 && (
                       <div className="mb-6">
-                        <p className="text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-3">Backup Codes</p>
-                        <p className="text-xs text-[#6B7280] mb-3">Save these codes now — they are shown once and each works a single time.</p>
+                        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-3">Backup Codes</p>
+                        <p className="text-xs text-muted-foreground mb-3">Save these codes now — they are shown once and each works a single time.</p>
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-3">
                           {backupCodes.map(code => (
-                            <div key={code} className="bg-[#050507] border border-[#12131A] rounded-xl px-3 py-2 text-center font-mono text-xs text-white tracking-widest">
+                            <div key={code} className="bg-background border border-border rounded px-3 py-2 text-center font-mono text-xs text-foreground tracking-widest">
                               {code}
                             </div>
                           ))}
@@ -849,7 +849,7 @@ export default function ProfilePage() {
                       </div>
                     )}
                     <div className="max-w-sm">
-                      <label htmlFor="twofa-off" className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">
+                      <label htmlFor="twofa-off" className="block text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">
                         Authenticator or backup code
                       </label>
                       <input
@@ -857,12 +857,12 @@ export default function ProfilePage() {
                         value={twoFACode}
                         onChange={e => setTwoFACode(e.target.value)}
                         placeholder="000000"
-                        className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-4 py-2.5 text-sm text-white text-center tracking-[0.4em] font-mono placeholder-[#52525B] focus:outline-none focus:border-[#E82127]/50 transition-colors mb-3"
+                        className="w-full bg-background border border-border rounded px-4 py-2.5 text-sm text-foreground text-center tracking-[0.4em] font-mono placeholder-[#52525B] focus:outline-none focus:border-primary/50 transition-colors mb-3"
                       />
                       <button
                         onClick={handle2FADisable}
                         disabled={twoFABusy}
-                        className="px-6 py-2.5 border border-[#E82127]/40 text-[#E82127] text-xs font-bold rounded-xl tracking-widest uppercase hover:bg-[#E82127]/10 transition-colors disabled:opacity-40"
+                        className="px-6 py-2.5 border border-primary/40 text-primary text-xs font-bold rounded tracking-widest uppercase hover:bg-primary/10 transition-colors disabled:opacity-40"
                       >
                         {twoFABusy ? 'Working…' : 'Disable 2FA'}
                       </button>
@@ -871,16 +871,16 @@ export default function ProfilePage() {
                 )}
 
                 {/* Devices + security activity */}
-                <div className="mt-8 pt-6 border-t border-[#12131A]">
-                  <h3 className="text-sm font-bold text-white tracking-wide mb-1">Devices & Security Activity</h3>
-                  <p className="text-xs text-[#6B7280] mb-4">Every sign-in, device and withdrawal confirmation on your account.</p>
+                <div className="mt-8 pt-6 border-t border-border">
+                  <h3 className="text-sm font-bold text-foreground tracking-wide mb-1">Devices & Security Activity</h3>
+                  <p className="text-xs text-muted-foreground mb-4">Every sign-in, device and withdrawal confirmation on your account.</p>
 
                   {knownDevices.length > 0 && (
                     <div className="grid sm:grid-cols-2 gap-2 mb-5">
                       {knownDevices.map(d => (
-                        <div key={d.id} className="bg-[#050507] border border-[#12131A] rounded-xl px-4 py-3">
-                          <p className="text-xs font-bold text-white">{d.label}</p>
-                          <p className="text-[11px] text-[#6B7280]">
+                        <div key={d.id} className="bg-background border border-border rounded px-4 py-3">
+                          <p className="text-xs font-bold text-foreground">{d.label}</p>
+                          <p className="text-[11px] text-muted-foreground">
                             {d.last_ip || 'IP unavailable'} · last seen {new Date(d.last_seen_at).toLocaleString()}
                           </p>
                         </div>
@@ -888,22 +888,22 @@ export default function ProfilePage() {
                     </div>
                   )}
 
-                  <div className="border border-[#12131A] rounded-xl overflow-hidden">
+                  <div className="border border-border rounded overflow-hidden">
                     {securityEvents.length === 0 ? (
-                      <p className="px-4 py-5 text-xs text-[#6B7280]">No security activity recorded yet.</p>
+                      <p className="px-4 py-5 text-xs text-muted-foreground">No security activity recorded yet.</p>
                     ) : (
                       securityEvents.map(ev => (
-                        <div key={ev.id} className="flex items-center justify-between gap-3 px-4 py-3 border-b border-[#12131A] last:border-0">
+                        <div key={ev.id} className="flex items-center justify-between gap-3 px-4 py-3 border-b border-border last:border-0">
                           <div className="min-w-0">
-                            <p className="text-xs font-bold text-white capitalize">
+                            <p className="text-xs font-bold text-foreground capitalize">
                               {ev.event_type.replace(/_/g, ' ')}
-                              {ev.new_device && <span className="ml-2 text-[10px] text-[#E82127] uppercase tracking-widest">new device</span>}
+                              {ev.new_device && <span className="ml-2 text-[10px] text-primary uppercase tracking-widest">new device</span>}
                             </p>
-                            <p className="text-[11px] text-[#6B7280] truncate">
+                            <p className="text-[11px] text-muted-foreground truncate">
                               {ev.device_label || 'Unknown device'} · {ev.ip || 'IP unavailable'}
                             </p>
                           </div>
-                          <p className="text-[11px] text-[#6B7280] whitespace-nowrap">{new Date(ev.created_at).toLocaleString()}</p>
+                          <p className="text-[11px] text-muted-foreground whitespace-nowrap">{new Date(ev.created_at).toLocaleString()}</p>
                         </div>
                       ))
                     )}
@@ -914,17 +914,17 @@ export default function ProfilePage() {
                       <button
                         onClick={() => setSecurityPage(p => Math.max(0, p - 1))}
                         disabled={securityPage === 0}
-                        className="px-3 py-1.5 rounded-lg border border-[#1E2027] text-[11px] font-semibold text-[#A1A1AA] disabled:opacity-30"
+                        className="px-3 py-1.5 rounded-lg border border-border text-[11px] font-semibold text-muted-foreground disabled:opacity-30"
                       >
                         Previous
                       </button>
-                      <span className="text-[11px] text-[#6B7280]">
+                      <span className="text-[11px] text-muted-foreground">
                         Page {securityPage + 1} of {Math.max(1, Math.ceil(securityTotal / 8))}
                       </span>
                       <button
                         onClick={() => setSecurityPage(p => ((p + 1) * 8 < securityTotal ? p + 1 : p))}
                         disabled={(securityPage + 1) * 8 >= securityTotal}
-                        className="px-3 py-1.5 rounded-lg border border-[#1E2027] text-[11px] font-semibold text-[#A1A1AA] disabled:opacity-30"
+                        className="px-3 py-1.5 rounded-lg border border-border text-[11px] font-semibold text-muted-foreground disabled:opacity-30"
                       >
                         Next
                       </button>
@@ -948,9 +948,9 @@ function SaveButton({ status, onClick, label = 'Save Changes' }: { status: strin
     <button
       onClick={onClick}
       disabled={status === 'saving'}
-      className={`px-6 py-2.5 text-xs font-bold rounded-xl tracking-widest uppercase transition-all ${
+      className={`px-6 py-2.5 text-xs font-bold rounded tracking-widest uppercase transition-all ${
         status === 'saved' ?'bg-green-400/20 text-green-400 border border-green-400/30'
-          : status === 'error' ?'bg-[#E82127]/20 text-[#E82127] border border-[#E82127]/30' :'bg-[#E82127] text-white hover:bg-[#B3181D]'
+          : status === 'error' ?'bg-primary/20 text-primary border border-primary/30' :'bg-primary text-white hover:bg-primary/90'
       } disabled:opacity-60 disabled:cursor-not-allowed`}
     >
       {status === 'saving' ? 'Saving...' : status === 'saved' ? '✓ Saved' : status === 'error' ? 'Error — Retry' : label}
@@ -975,19 +975,19 @@ function PasswordField({
 }) {
   return (
     <div>
-      <label className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-widest mb-2">{label}</label>
+      <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">{label}</label>
       <div className="relative">
         <input
           type={show ? 'text' : 'password'}
           value={value}
           onChange={e => onChange(e.target.value)}
-          className="w-full bg-[#050507] border border-[#1E2027] rounded-xl px-4 py-2.5 pr-10 text-sm text-white placeholder-[#52525B] focus:outline-none focus:border-[#E82127]/50 transition-colors"
+          className="w-full bg-background border border-border rounded px-4 py-2.5 pr-10 text-sm text-foreground placeholder-[#52525B] focus:outline-none focus:border-primary/50 transition-colors"
           placeholder={placeholder}
         />
         <button
           type="button"
           onClick={onToggle}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-[#6B7280] hover:text-white transition-colors"
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
           aria-label={show ? 'Hide password' : 'Show password'}
         >
           {show ? (
@@ -1015,21 +1015,21 @@ function NotifGroup({
   onChange: (key: string, val: boolean) => void;
 }) {
   return (
-    <div className="bg-[#050507] border border-[#12131A] rounded-xl p-4">
+    <div className="bg-background border border-border rounded p-4">
       <div className="flex items-center gap-2 mb-4">
         {icon}
-        <span className="text-xs font-bold text-white uppercase tracking-widest">{title}</span>
+        <span className="text-xs font-bold text-foreground uppercase tracking-widest">{title}</span>
       </div>
       <div className="space-y-3">
         {items.map(item => (
           <div key={item.key} className="flex items-center justify-between gap-4">
             <div>
-              <p className="text-xs font-semibold text-white">{item.label}</p>
-              <p className="text-[10px] text-[#6B7280] mt-0.5">{item.desc}</p>
+              <p className="text-xs font-semibold text-foreground">{item.label}</p>
+              <p className="text-[10px] text-muted-foreground mt-0.5">{item.desc}</p>
             </div>
             <button
               onClick={() => onChange(item.key, !(prefs as any)[item.key])}
-              className={`relative w-10 h-5 rounded-full transition-all duration-300 shrink-0 ${(prefs as any)[item.key] ? 'bg-[#E82127]' : 'bg-[#1E2027]'}`}
+              className={`relative w-10 h-5 rounded-full transition-all duration-300 shrink-0 ${(prefs as any)[item.key] ? 'bg-primary' : 'bg-muted'}`}
               role="switch"
               aria-checked={(prefs as any)[item.key]}
               aria-label={`Toggle ${item.label}`}
