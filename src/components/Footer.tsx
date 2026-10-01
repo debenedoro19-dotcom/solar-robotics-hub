@@ -100,9 +100,20 @@ export default function Footer() {
 
         <div className="flex flex-col sm:flex-row items-center justify-between gap-5">
           {/* Copyright */}
-          <div className="max-w-2xl space-y-2">
-            <p className="text-xs text-muted-foreground">© 2026 Trade Tesla. All Rights Reserved.</p>
-            <p className="text-[11px] text-muted-foreground leading-relaxed">Trade Tesla is an independent company and is not affiliated with, endorsed by, or sponsored by Tesla, Inc. Tesla and related marks belong to their owners and are used for descriptive purposes only. Investing involves risk, including loss of principal.</p>
+          <p className="text-xs text-muted-foreground tracking-wide">© 2026 Trade Tesla. All Rights Reserved.</p>
+
+          {/* Social Icons */}
+          <div className="flex items-center gap-2">
+            {socialLinks?.map((social) => (
+              <span
+                key={social?.label}
+                aria-label={social?.label}
+                role="img"
+                className="w-8 h-8 flex items-center justify-center rounded-xl border border-border text-muted-foreground hover:text-foreground hover:border-primary/40 transition-all duration-300 cursor-default select-none"
+              >
+                {social?.icon}
+              </span>
+            ))}
           </div>
         </div>
       </div>
