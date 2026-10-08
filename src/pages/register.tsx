@@ -1,3 +1,4 @@
+import SocialAuthButtons from '@/components/SocialAuthButtons';
 import React, { useState } from 'react';
 import Link from '@/components/SmartLink';
 import { createClient } from '@/lib/supabase/client';
@@ -145,6 +146,7 @@ export default function RegisterPage() {
         </div>
 
         {/* Form */}
+        <div className="mb-4"><SocialAuthButtons mode="signup" /></div>
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
             <div className="px-4 py-3 rounded bg-primary/10 border border-primary/30 text-sm text-primary">{error}</div>

@@ -3,6 +3,7 @@ import Link from '@/components/SmartLink';
 import { setCurrentUser } from '@/lib/portfolioStore';
 import { createClient } from '@/lib/supabase/client';
 import { sanitizeEmail } from '@/lib/sanitize';
+import SocialAuthButtons from '@/components/SocialAuthButtons';
 import { get2FAStatus, verify2FACode, recordSecurityEvent } from '@/lib/security.functions';
 
 export default function LoginPage() {
@@ -191,6 +192,8 @@ export default function LoginPage() {
           </form>
         ) : (
         /* Form */
+        <>
+        <div className="mb-4"><SocialAuthButtons /></div>
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
             <div className="px-4 py-3 rounded bg-primary/10 border border-primary/30 text-sm text-primary">{error}</div>
@@ -248,6 +251,7 @@ export default function LoginPage() {
             )}
           </button>
         </form>
+        </>
         )}
 
 
