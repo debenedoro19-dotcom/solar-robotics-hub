@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { createFileRoute } from '@tanstack/react-router';
 import { createClient } from '@/lib/supabase/client';
+import { get2FAStatus, recordSecurityEvent } from '@/lib/security.functions';
 
 type Status = 'working' | 'verified' | 'error';
 
@@ -57,6 +58,20 @@ function AuthCallbackPage() {
         return;
       }
 
+      if (url.searchParams.get('oauth') === '1') {
+        // Social sign-in: accounts with 2FA must still pass the code step.
+        const twofa = await get2FAStatus().catch(() => null);
+        if (twofa?.enabled) {
+          await supabase.auth.signOut();
+          setStatus('error');
+          setMessage('This account has two-step verification. Please sign in with your email and password to enter your code.');
+          return;
+        }
+        await recordSecurityEvent({ data: { eventType: 'login' } }).catch(() => {});
+        setMessage('Signed in. Redirecting you now…');
+        window.location.href = target;
+        return;
+      }
       setMessage('Your email address has been verified. Redirecting you now…');
       window.setTimeout(() => { window.location.href = target; }, 2000);
     };
