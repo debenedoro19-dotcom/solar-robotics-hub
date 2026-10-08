@@ -17,7 +17,6 @@ import { Route as CryptoPaymentRouteImport } from './routes/crypto-payment'
 import { Route as EcosystemRouteImport } from './routes/ecosystem'
 import { Route as ElonMuskRouteImport } from './routes/elon-musk'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
-import { Route as GiveawaysRouteImport } from './routes/giveaways'
 import { Route as InventoryRouteImport } from './routes/inventory'
 import { Route as InvestRouteImport } from './routes/invest'
 import { Route as LoginRouteImport } from './routes/login'
@@ -95,11 +94,6 @@ const ElonMuskRoute = ElonMuskRouteImport.update({
 const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
   id: '/forgot-password',
   path: '/forgot-password',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const GiveawaysRoute = GiveawaysRouteImport.update({
-  id: '/giveaways',
-  path: '/giveaways',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InventoryRoute = InventoryRouteImport.update({
@@ -319,7 +313,6 @@ export interface FileRoutesByFullPath {
   '/ecosystem': typeof EcosystemRoute
   '/elon-musk': typeof ElonMuskRoute
   '/forgot-password': typeof ForgotPasswordRoute
-  '/giveaways': typeof GiveawaysRoute
   '/inventory': typeof InventoryRoute
   '/invest': typeof InvestRoute
   '/login': typeof LoginRoute
@@ -368,7 +361,6 @@ export interface FileRoutesByTo {
   '/ecosystem': typeof EcosystemRoute
   '/elon-musk': typeof ElonMuskRoute
   '/forgot-password': typeof ForgotPasswordRoute
-  '/giveaways': typeof GiveawaysRoute
   '/inventory': typeof InventoryRoute
   '/invest': typeof InvestRoute
   '/login': typeof LoginRoute
@@ -418,7 +410,6 @@ export interface FileRoutesById {
   '/ecosystem': typeof EcosystemRoute
   '/elon-musk': typeof ElonMuskRoute
   '/forgot-password': typeof ForgotPasswordRoute
-  '/giveaways': typeof GiveawaysRoute
   '/inventory': typeof InventoryRoute
   '/invest': typeof InvestRoute
   '/login': typeof LoginRoute
@@ -469,7 +460,6 @@ export interface FileRouteTypes {
     | '/ecosystem'
     | '/elon-musk'
     | '/forgot-password'
-    | '/giveaways'
     | '/inventory'
     | '/invest'
     | '/login'
@@ -518,7 +508,6 @@ export interface FileRouteTypes {
     | '/ecosystem'
     | '/elon-musk'
     | '/forgot-password'
-    | '/giveaways'
     | '/inventory'
     | '/invest'
     | '/login'
@@ -567,7 +556,6 @@ export interface FileRouteTypes {
     | '/ecosystem'
     | '/elon-musk'
     | '/forgot-password'
-    | '/giveaways'
     | '/inventory'
     | '/invest'
     | '/login'
@@ -618,7 +606,6 @@ export interface RootRouteChildren {
   EcosystemRoute: typeof EcosystemRoute
   ElonMuskRoute: typeof ElonMuskRoute
   ForgotPasswordRoute: typeof ForgotPasswordRoute
-  GiveawaysRoute: typeof GiveawaysRoute
   InventoryRoute: typeof InventoryRoute
   InvestRoute: typeof InvestRoute
   LoginRoute: typeof LoginRoute
@@ -695,13 +682,6 @@ declare module '@tanstack/react-router' {
       path: '/forgot-password'
       fullPath: '/forgot-password'
       preLoaderRoute: typeof ForgotPasswordRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/giveaways': {
-      id: '/giveaways'
-      path: '/giveaways'
-      fullPath: '/giveaways'
-      preLoaderRoute: typeof GiveawaysRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/inventory': {
@@ -1050,7 +1030,6 @@ const rootRouteChildren: RootRouteChildren = {
   EcosystemRoute: EcosystemRoute,
   ElonMuskRoute: ElonMuskRoute,
   ForgotPasswordRoute: ForgotPasswordRoute,
-  GiveawaysRoute: GiveawaysRoute,
   InventoryRoute: InventoryRoute,
   InvestRoute: InvestRoute,
   LoginRoute: LoginRoute,
