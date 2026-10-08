@@ -107,7 +107,7 @@ export default function RegisterPage() {
             </p>
             <p className="text-sm font-semibold text-foreground mb-3 break-all">{registeredEmail}</p>
             <p className="text-xs text-muted-foreground leading-relaxed mb-5">
-              You can confirm your email whenever you&apos;re ready — there&apos;s no rush. If it doesn&apos;t arrive, check your spam folder.
+              Open the link in that email to verify your account and unlock your dashboard. If it doesn&apos;t arrive, check your spam folder.
             </p>
             <Link
               href="/login"
