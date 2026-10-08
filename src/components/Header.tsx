@@ -17,7 +17,7 @@ const menuLinks = [
   { label: 'Ecosystem', href: '/ecosystem' },
   { label: 'Invest', href: '/invest' },
   { label: 'Payments', href: '/payments' },
-  { label: 'Giveaways', href: '/#giveaways' },
+  { label: 'Giveaways', href: '/giveaways' },
   { label: 'Elon Musk', href: '/elon-musk' },
   { label: 'VIP Session', href: '/vip-session' },
   { label: 'Book a Session', href: '/book-session' },
