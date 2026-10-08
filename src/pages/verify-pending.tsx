@@ -62,15 +62,15 @@ export default function VerifyPendingPage() {
           </svg>
         </div>
 
-        <h1 className="text-2xl font-extrabold text-foreground tracking-tight mb-3">Email Verification Required</h1>
+        <h1 className="text-2xl font-extrabold text-foreground tracking-tight mb-3">Confirm your email</h1>
         <p className="text-sm text-muted-foreground leading-relaxed mb-2">
-          Your dashboard is locked until you verify your email.
+          No rush — you can do this whenever you&apos;re ready.
         </p>
         {userEmail && (
           <p className="text-sm font-semibold text-foreground mb-6">{userEmail}</p>
         )}
         <p className="text-sm text-muted-foreground leading-relaxed mb-8">
-          We sent a verification link to your email address. Click the link to unlock your account and continue to your dashboard.
+          We&apos;ve emailed you a confirmation link. Opening it takes a few seconds and gives you full access to your dashboard.
         </p>
 
         {/* Status messages */}

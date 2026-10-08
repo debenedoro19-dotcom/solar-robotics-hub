@@ -92,28 +92,28 @@ export default function RegisterPage() {
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-primary/3 rounded-full blur-[100px]" />
       </div>
 
-      {/* Verification popup — shown right after sign up */}
+      {/* Calm confirmation — shown right after sign up */}
       {emailSent && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center px-4 fin-overlay" role="dialog" aria-modal="true" aria-labelledby="verify-title">
-          <div className="w-full max-w-sm rounded-md bg-card border border-border p-6 text-center shadow-2xl">
+        <div className="fixed inset-0 z-50 bg-background flex items-center justify-center px-4" role="status" aria-live="polite">
+          <div className="w-full max-w-sm rounded-md bg-card border border-border p-6 text-center">
             <div className="w-14 h-14 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center mx-auto mb-4">
               <svg className="w-7 h-7 text-primary" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
               </svg>
             </div>
-            <h2 id="verify-title" className="text-lg font-extrabold text-foreground tracking-tight mb-2">Verify your email</h2>
+            <h2 className="text-lg font-extrabold text-foreground tracking-tight mb-2">Account created</h2>
             <p className="text-sm text-muted-foreground leading-relaxed mb-1">
-              A verification link was sent to
+              A confirmation link is on its way to
             </p>
             <p className="text-sm font-semibold text-foreground mb-3 break-all">{registeredEmail}</p>
             <p className="text-xs text-muted-foreground leading-relaxed mb-5">
-              Open your inbox and click the link to activate your account. Check spam if you don&apos;t see it.
+              You can confirm your email whenever you&apos;re ready — there&apos;s no rush. If it doesn&apos;t arrive, check your spam folder.
             </p>
             <Link
               href="/login"
               className="block w-full py-3 tesla-btn-primary rounded text-sm font-bold tracking-widest uppercase text-center"
             >
-              Got it
+              Back to Sign In
             </Link>
           </div>
         </div>
@@ -131,18 +131,6 @@ export default function RegisterPage() {
           <p className="text-sm text-muted-foreground">Join the Tesla investment ecosystem</p>
         </div>
 
-        {/* Steps indicator */}
-        <div className="flex items-center gap-2 mb-8">
-          <div className="flex items-center gap-2 flex-1">
-            <div className="w-6 h-6 rounded-full step-active flex items-center justify-center text-xs font-bold">1</div>
-            <span className="text-xs text-foreground font-semibold tracking-wider uppercase">Account</span>
-          </div>
-          <div className="flex-1 h-px bg-muted" />
-          <div className="flex items-center gap-2 flex-1">
-            <div className="w-6 h-6 rounded-full step-pending flex items-center justify-center text-xs font-bold">2</div>
-            <span className="text-xs text-muted-foreground tracking-wider uppercase">Verify</span>
-          </div>
-        </div>
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
