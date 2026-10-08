@@ -62,9 +62,9 @@ export default function VerifyPendingPage() {
           </svg>
         </div>
 
-        <h1 className="text-2xl font-extrabold text-foreground tracking-tight mb-3">Confirm your email</h1>
+        <h1 className="text-2xl font-extrabold text-foreground tracking-tight mb-3">Verify your email</h1>
         <p className="text-sm text-muted-foreground leading-relaxed mb-2">
-          No rush — you can do this whenever you&apos;re ready.
+          Your dashboard is locked until you verify.
         </p>
         {userEmail && (
           <p className="text-sm font-semibold text-foreground mb-6">{userEmail}</p>
