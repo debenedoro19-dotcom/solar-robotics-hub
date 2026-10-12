@@ -11,6 +11,21 @@ import { requireSupabaseAuth } from '@/integrations/supabase/auth-middleware'
 const money = (v: number) =>
   `$${Number(v || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
 
+/**
+ * Constrains admin-supplied notes before they are embedded in an outbound
+ * email: plain text only, no markup or control characters, capped length.
+ */
+function sanitizeNote(note: string | null | undefined): string | undefined {
+  if (!note) return undefined
+  const clean = String(note)
+    .replace(/[<>{}\\]/g, '')
+    .replace(/https?:\/\/\S+/gi, '[link removed]')
+    .replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/g, '')
+    .trim()
+    .slice(0, 500)
+  return clean || undefined
+}
+
 async function notify(
   email: string | null | undefined,
   name: string | null | undefined,
