@@ -102,6 +102,18 @@ function userCopy(event: UserEvent, name: string, input: EventInput) {
   }
 }
 
+/** Constrains admin-supplied free text before it enters an outbound email. */
+function safeText(v: string | undefined, max = 500): string | undefined {
+  if (!v) return undefined
+  const clean = String(v)
+    .replace(/[<>{}\\]/g, '')
+    .replace(/https?:\/\/\S+/gi, '[link removed]')
+    .replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/g, '')
+    .trim()
+    .slice(0, max)
+  return clean || undefined
+}
+
 function adminCopy(event: AdminEvent, input: EventInput) {
   switch (event) {
     case 'deposit_approved':

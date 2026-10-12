@@ -98,7 +98,7 @@ export const adminConfirmDeposit = createServerFn({ method: 'POST' })
       'Deposit approved — funds credited',
       `Your deposit of ${money(Number(deposit.amount))} has been confirmed and credited to your wallet balance.`,
       `deposit-approved-${deposit.id}`,
-      data.notes,
+      sanitizeNote(data.notes),
     )
     return { ok: true as const, emailed: sent, recipient: Boolean(to.email) }
   })
@@ -129,8 +129,8 @@ export const adminRejectDeposit = createServerFn({ method: 'POST' })
       to.email,
       to.name,
       'Deposit could not be confirmed',
-      data.notes
-        ? `We could not confirm your deposit of ${money(Number(deposit.amount))}. ${data.notes}\n\nPlease resubmit or contact support.`
+      sanitizeNote(data.notes)
+        ? `We could not confirm your deposit of ${money(Number(deposit.amount))}. ${sanitizeNote(data.notes)}\n\nPlease resubmit or contact support.`
         : `We could not confirm your deposit of ${money(Number(deposit.amount))}. Please review your transaction and resubmit, or contact support.`,
       `deposit-rejected-${deposit.id}`,
     )
@@ -183,7 +183,7 @@ export const adminSetWithdrawalStatus = createServerFn({ method: 'POST' })
         to.email,
         to.name || row.user_name,
         'Withdrawal request declined',
-        `Your withdrawal request for ${money(Number(row.amount))} was declined and the amount has been returned to your wallet.${data.notes ? ` ${data.notes}` : ''}`,
+        `Your withdrawal request for ${money(Number(row.amount))} was declined and the amount has been returned to your wallet.${sanitizeNote(data.notes) ? ` ${sanitizeNote(data.notes)}` : ''}`,
         `withdrawal-rejected-${row.id}`,
         row.tx_code ? `Transaction ID: ${row.tx_code}` : undefined,
       )

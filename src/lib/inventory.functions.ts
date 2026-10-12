@@ -149,7 +149,15 @@ export const adminUpdateOrder = createServerFn({ method: 'POST' })
       const { data: o } = await context.supabase.from('inventory_orders').select(SELECT).eq('id', data.id).single()
       if (o) {
         const [h, intro] = STATUS_COPY[data.status]
-        await mailOrder(o as OrderRow, h, intro, data.notes || undefined)
+        const safeNotes = data.notes
+          ? String(data.notes)
+              .replace(/[<>{}\\]/g, '')
+              .replace(/https?:\/\/\S+/gi, '[link removed]')
+              .replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/g, '')
+              .trim()
+              .slice(0, 500) || undefined
+          : undefined
+        await mailOrder(o as OrderRow, h, intro, safeNotes)
       }
     }
     return { ok: true as const }
