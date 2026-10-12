@@ -6,6 +6,7 @@ const MAX_BYTES = 10 * 1024 * 1024
 
 const schema = z.object({
   applicationId: z.string().uuid(),
+  token: z.string().uuid(),
   ext: z.enum(ALLOWED_EXT),
   contentType: z.string().max(120).optional(),
   // base64-encoded file contents
@@ -29,12 +30,13 @@ export const uploadApplicationResume = createServerFn({ method: 'POST' })
 
     const { data: app, error: appErr } = await supabaseAdmin
       .from('job_applications')
-      .select('id, resume_path')
+      .select('id, resume_path, resume_token')
       .eq('id', data.applicationId)
       .maybeSingle()
 
     if (appErr) return { ok: false as const, error: 'Could not verify the application.' }
     if (!app) return { ok: false as const, error: 'Application not found.' }
+    if (app.resume_token !== data.token) return { ok: false as const, error: 'Application not found.' }
     if (app.resume_path) return { ok: false as const, error: 'A resume is already attached.' }
 
     const path = `applications/${data.applicationId}.${data.ext}`
