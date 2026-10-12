@@ -67,11 +67,12 @@ function PanelSection({ p, first }: { p: Panel; first: boolean }) {
   return (
     <section className="tsla-panel">
       <img src={p.img} alt={p.alt} loading={first ? "eager" : "lazy"} decoding="async" />
-      <div className="pt-28 sm:pt-32 px-6 tsla-fade">
-        <h2 className="text-4xl sm:text-5xl font-semibold tracking-tight">{p.title}</h2>
-        <p className="mt-2 text-sm sm:text-base opacity-90">{p.sub}</p>
+      <div className="pt-28 sm:pt-32 px-6">
+        <p className="lux-label tsla-rise" style={{ color: "var(--on-media)", opacity: 0.85 }}>{p.label}</p>
+        <h2 className="tsla-rise tsla-rise-1 mt-3 text-5xl sm:text-6xl font-medium tracking-tight">{p.title}</h2>
+        <p className="tsla-rise tsla-rise-2 mt-3 text-sm sm:text-base opacity-90">{p.sub}</p>
       </div>
-      <div className="pb-16 px-6 flex flex-col sm:flex-row gap-3 sm:gap-6 w-full sm:w-auto tsla-fade">
+      <div className="pb-16 px-6 flex flex-col sm:flex-row gap-3 sm:gap-6 w-full sm:w-auto tsla-rise tsla-rise-3">
         <Link href={p.primary.href} className="tsla-btn tsla-btn-solid">{p.primary.label}</Link>
         <Link href={p.secondary.href} className="tsla-btn tsla-btn-ghost">{p.secondary.label}</Link>
       </div>
@@ -91,13 +92,14 @@ function VideoInventoryPanel() {
         playsInline
         preload="auto"
         aria-hidden="true"
+        onPlaying={(e) => e.currentTarget.classList.add("is-playing")}
       />
-      <div className="pt-28 sm:pt-32 px-6 tsla-fade">
-        <p className="lux-label" style={{ color: "var(--on-media)", opacity: 0.8 }}>Live Inventory</p>
-        <h2 className="mt-3 text-4xl sm:text-6xl font-medium tracking-tight">Drive Today</h2>
-        <p className="mt-2 text-sm sm:text-base opacity-90">Verified vehicles, energy and robotics — ready to order</p>
+      <div className="pt-28 sm:pt-32 px-6">
+        <p className="lux-label tsla-rise" style={{ color: "var(--on-media)", opacity: 0.85 }}>Live Inventory</p>
+        <h2 className="tsla-rise tsla-rise-1 mt-3 text-5xl sm:text-6xl font-medium tracking-tight">Drive Today</h2>
+        <p className="tsla-rise tsla-rise-2 mt-3 text-sm sm:text-base opacity-90">Verified vehicles, energy and robotics — ready to order</p>
       </div>
-      <div className="pb-10 px-6 w-full max-w-3xl tsla-fade">
+      <div className="pb-10 px-6 w-full max-w-3xl tsla-rise tsla-rise-3">
         <div className="lux-metrics mb-8">
           <div><div className="text-2xl sm:text-3xl font-medium">20+</div><div className="lux-label" style={{ color: "var(--on-media)" }}>Models</div></div>
           <div><div className="text-2xl sm:text-3xl font-medium">1 Day</div><div className="lux-label" style={{ color: "var(--on-media)" }}>Specialist Contact</div></div>
