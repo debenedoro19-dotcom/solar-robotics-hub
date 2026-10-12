@@ -6,6 +6,7 @@ import FloatingSupport from "@/components/sections/FloatingSupport";
 import ScrollAnimations from "@/components/ScrollAnimations";
 
 type Panel = {
+  label: string;
   title: string;
   sub: string;
   img: string;
@@ -16,6 +17,7 @@ type Panel = {
 
 const panels: Panel[] = [
   {
+    label: "Electric Trucks",
     title: "Cybertruck",
     sub: "From $67,990 · Order with Trade Tesla",
     img: "/assets/images/tesla_vehicles_hero.webp",
@@ -24,6 +26,7 @@ const panels: Panel[] = [
     secondary: { label: "View Inventory", href: "/inventory" },
   },
   {
+    label: "Invest",
     title: "Invest in Tesla & SpaceX",
     sub: "Plans built around the Tesla and SpaceX ecosystems",
     img: "/assets/images/spacex_starship_launch.webp",
@@ -32,6 +35,7 @@ const panels: Panel[] = [
     secondary: { label: "View Plans", href: "/invest" },
   },
   {
+    label: "Energy Storage",
     title: "Powerwall & Megapack",
     sub: "Store energy. Power your future.",
     img: "/assets/images/tesla_energy_hero.webp",
@@ -40,6 +44,7 @@ const panels: Panel[] = [
     secondary: { label: "Learn More", href: "/ecosystem" },
   },
   {
+    label: "Solar",
     title: "Solar Roof",
     sub: "Generate clean energy from your roof",
     img: "/assets/inventory/solar_roof.webp",
@@ -48,6 +53,7 @@ const panels: Panel[] = [
     secondary: { label: "Learn More", href: "/ecosystem" },
   },
   {
+    label: "Robotics",
     title: "Optimus",
     sub: "The future of robotics",
     img: "/assets/images/tesla_optimus_robotics.webp",
