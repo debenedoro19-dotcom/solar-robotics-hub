@@ -21,6 +21,7 @@ export const Route = createFileRoute("/")({
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:url", content: "https://tradeenergyhub.com/" },
       { property: "og:image", content: "https://tradeenergyhub.com/og-image.jpg" },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
@@ -28,6 +29,7 @@ export const Route = createFileRoute("/")({
     ],
     links: [
       { rel: "preload", as: "image", href: "/assets/video/inventory-poster.jpg", fetchpriority: "high" },
+      { rel: "canonical", href: "https://tradeenergyhub.com/" },
     ],
   }),
   component: HomePage,

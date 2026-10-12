@@ -10,7 +10,9 @@ export const Route = createFileRoute("/privacy")({
       { property: "og:description", content: "How Trade Tesla collects, uses and protects your personal and financial data." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:url", content: "https://tradeenergyhub.com/privacy" },
     ],
+    links: [{ rel: "canonical", href: "https://tradeenergyhub.com/privacy" }],
   }),
   component: Page,
 });

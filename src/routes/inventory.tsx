@@ -10,7 +10,9 @@ export const Route = createFileRoute("/inventory")({
       { property: "og:description", content: "Browse verified Tesla vehicles, energy systems and robotics with live market pricing on Trade Tesla." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:url", content: "https://tradeenergyhub.com/inventory" },
     ],
+    links: [{ rel: "canonical", href: "https://tradeenergyhub.com/inventory" }],
   }),
   component: Page,
 });

@@ -10,7 +10,9 @@ export const Route = createFileRoute("/ecosystem")({
       { property: "og:description", content: "Explore the Tesla ecosystem — vehicles, energy systems, robotics, SpaceX, Neuralink and xAI — one interconnected vision." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:url", content: "https://tradeenergyhub.com/ecosystem" },
     ],
+    links: [{ rel: "canonical", href: "https://tradeenergyhub.com/ecosystem" }],
   }),
   component: Page,
 });

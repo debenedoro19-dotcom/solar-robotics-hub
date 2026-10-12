@@ -10,7 +10,9 @@ export const Route = createFileRoute("/careers")({
       { property: "og:description", content: "Join Trade Tesla: open roles across engineering, energy operations, robotics, finance and customer care." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:url", content: "https://tradeenergyhub.com/careers" },
     ],
+    links: [{ rel: "canonical", href: "https://tradeenergyhub.com/careers" }],
   }),
   component: Page,
 });

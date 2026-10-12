@@ -10,7 +10,9 @@ export const Route = createFileRoute("/book-session")({
       { property: "og:description", content: "Book a private virtual or in-person session with a Trade Tesla investment strategist." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:url", content: "https://tradeenergyhub.com/book-session" },
     ],
+    links: [{ rel: "canonical", href: "https://tradeenergyhub.com/book-session" }],
   }),
   component: Page,
 });

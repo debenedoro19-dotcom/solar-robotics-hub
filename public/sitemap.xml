@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://tradeenergyhub.com/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://tradeenergyhub.com/inventory</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://tradeenergyhub.com/invest</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://tradeenergyhub.com/ecosystem</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://tradeenergyhub.com/news</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://tradeenergyhub.com/careers</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://tradeenergyhub.com/payments</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://tradeenergyhub.com/book-session</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://tradeenergyhub.com/vip-session</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://tradeenergyhub.com/elon-musk</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
+  <url><loc>https://tradeenergyhub.com/terms</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>
+  <url><loc>https://tradeenergyhub.com/privacy</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>
+</urlset>

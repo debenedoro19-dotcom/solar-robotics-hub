@@ -10,7 +10,9 @@ export const Route = createFileRoute("/news")({
       { property: "og:description", content: "Latest Tesla ecosystem news covering vehicles, energy, solar and robotics markets." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:url", content: "https://tradeenergyhub.com/news" },
     ],
+    links: [{ rel: "canonical", href: "https://tradeenergyhub.com/news" }],
   }),
   component: Page,
 });

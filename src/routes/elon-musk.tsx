@@ -10,7 +10,9 @@ export const Route = createFileRoute("/elon-musk")({
       { property: "og:description", content: "The vision behind Tesla, SpaceX, Neuralink and xAI — and what it means for Trade Tesla investors." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:url", content: "https://tradeenergyhub.com/elon-musk" },
     ],
+    links: [{ rel: "canonical", href: "https://tradeenergyhub.com/elon-musk" }],
   }),
   component: Page,
 });
