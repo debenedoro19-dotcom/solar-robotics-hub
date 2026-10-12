@@ -29,8 +29,8 @@ export const Route = createFileRoute("/")({
     ],
     links: [
       { rel: "preload", as: "image", href: "/assets/video/inventory-poster.jpg", fetchpriority: "high" },
+      { rel: "canonical", href: "https://tradeenergyhub.com/" },
     ],
-    links: [{ rel: "canonical", href: "https://tradeenergyhub.com/" }],
   }),
   component: HomePage,
 });
