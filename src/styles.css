@@ -1068,3 +1068,92 @@ h2, h3 { font-weight: 500 !important; }
   box-shadow: 0 1px 0 color-mix(in oklab, var(--lux-paper) 20%, transparent) inset, 0 24px 60px -30px color-mix(in oklab, var(--lux-ink) 40%, transparent) !important;
 }
 .lux-dash button.rounded, .lux-dash a.rounded { border-radius: 999px !important; }
+
+/* ===== Homepage cinematic upgrade ===== */
+@keyframes tsla-kenburns {
+  from { transform: scale(1); }
+  to { transform: scale(1.08); }
+}
+@keyframes tsla-rise {
+  from { opacity: 0; transform: translateY(26px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes tsla-cue {
+  0%, 100% { opacity: 0; transform: translateY(-4px); }
+  50% { opacity: .9; transform: translateY(4px); }
+}
+
+.tsla-panel > img {
+  animation: tsla-kenburns 22s ease-in-out infinite alternate;
+  will-change: transform;
+}
+.tsla-panel > video {
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+.tsla-panel > video.is-playing { opacity: 1; }
+
+.tsla-rise {
+  opacity: 0;
+  animation: tsla-rise .9s cubic-bezier(.22,.61,.36,1) forwards;
+}
+.tsla-rise-1 { animation-delay: .12s; }
+.tsla-rise-2 { animation-delay: .26s; }
+.tsla-rise-3 { animation-delay: .4s; }
+
+/* richer scrim: gentle vignette + calm bottom band */
+.tsla-panel::after {
+  background:
+    radial-gradient(ellipse at center, transparent 55%, color-mix(in oklab, var(--media-scrim) 28%, transparent) 100%),
+    linear-gradient(to bottom,
+      color-mix(in oklab, var(--media-scrim) 55%, transparent) 0%,
+      transparent 32%,
+      transparent 55%,
+      color-mix(in oklab, var(--media-scrim) 72%, transparent) 100%);
+}
+.tsla-panel h2 {
+  text-shadow: 0 2px 24px color-mix(in oklab, var(--media-scrim) 45%, transparent);
+}
+
+/* refined pill buttons */
+.tsla-panel .tsla-btn {
+  transition: transform .3s ease, background-color .3s ease, color .3s ease, box-shadow .3s ease;
+}
+.tsla-panel .tsla-btn-solid:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -12px color-mix(in oklab, var(--lux-ink) 55%, transparent);
+}
+.tsla-panel .tsla-btn-ghost {
+  border: 1px solid color-mix(in oklab, var(--on-media) 45%, transparent);
+  backdrop-filter: blur(12px);
+}
+.tsla-panel .tsla-btn-ghost:hover { transform: translateY(-2px); }
+
+/* frosted metrics bar */
+.tsla-panel .lux-metrics {
+  border-top: 1px solid color-mix(in oklab, var(--on-media) 22%, transparent);
+  border-bottom: 1px solid color-mix(in oklab, var(--on-media) 22%, transparent);
+  padding: 6px 0;
+  backdrop-filter: blur(10px);
+  background: color-mix(in oklab, var(--media-scrim) 18%, transparent);
+  border-radius: 12px;
+}
+
+/* scroll cue */
+.tsla-scroll-cue {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  color: var(--on-media);
+  animation: tsla-cue 2.2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tsla-panel > img { animation: none; }
+  .tsla-rise { opacity: 1; animation: none; }
+  .tsla-scroll-cue { animation: none; opacity: .6; }
+  .tsla-panel > video { transition: none; }
+}

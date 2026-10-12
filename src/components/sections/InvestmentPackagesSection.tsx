@@ -7,10 +7,10 @@ export default function InvestmentPackagesSection() {
   const { plans, loading } = useInvestmentPlans();
 
   return (
-    <section id="invest" className="relative z-10 py-20 px-6 lg:px-8">
+    <section id="invest" className="relative z-10 py-24 sm:py-32 px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-14 section-reveal">
-          <span className="text-sm text-muted-foreground mb-2 block">Investment Packages</span>
+        <div className="mb-16 section-reveal">
+          <span className="lux-label mb-3 block">Investment Packages</span>
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
             <h2 className="text-3xl sm:text-4xl font-medium tracking-tight text-foreground">
               Choose Your Allocation
