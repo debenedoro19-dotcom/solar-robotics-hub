@@ -10,7 +10,9 @@ export const Route = createFileRoute("/vip-session")({
       { property: "og:description", content: "Apply for a private 30-minute session to discuss investment opportunities across the Tesla ecosystem." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:url", content: "https://tradeenergyhub.com/vip-session" },
     ],
+    links: [{ rel: "canonical", href: "https://tradeenergyhub.com/vip-session" }],
   }),
   component: Page,
 });

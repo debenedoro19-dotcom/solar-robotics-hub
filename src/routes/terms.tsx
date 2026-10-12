@@ -10,7 +10,9 @@ export const Route = createFileRoute("/terms")({
       { property: "og:description", content: "The terms governing your use of the Trade Tesla investment marketplace." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:url", content: "https://tradeenergyhub.com/terms" },
     ],
+    links: [{ rel: "canonical", href: "https://tradeenergyhub.com/terms" }],
   }),
   component: Page,
 });
