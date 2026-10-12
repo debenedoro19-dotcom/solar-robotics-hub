@@ -50,7 +50,7 @@ export default function CareerDetailPage({ slug }: { slug: string }) {
           cover_note: form.cover_note || null,
           resume_path: null,
         })
-        .select('id')
+        .select('id, resume_token')
         .single();
       if (error) throw error;
 
@@ -71,6 +71,7 @@ export default function CareerDetailPage({ slug }: { slug: string }) {
         const res = await uploadApplicationResume({
           data: {
             applicationId: appRow.id,
+            token: appRow.resume_token,
             ext,
             contentType: resume.type || undefined,
             data: btoa(binary),

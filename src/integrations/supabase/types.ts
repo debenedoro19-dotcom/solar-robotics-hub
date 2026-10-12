@@ -473,6 +473,7 @@ export type Database = {
           notes: string
           phone: string | null
           resume_path: string | null
+          resume_token: string
           stage: string
           updated_at: string
         }
@@ -486,6 +487,7 @@ export type Database = {
           notes?: string
           phone?: string | null
           resume_path?: string | null
+          resume_token?: string
           stage?: string
           updated_at?: string
         }
@@ -499,6 +501,7 @@ export type Database = {
           notes?: string
           phone?: string | null
           resume_path?: string | null
+          resume_token?: string
           stage?: string
           updated_at?: string
         }
