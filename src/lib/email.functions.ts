@@ -147,17 +147,17 @@ function adminCopy(event: AdminEvent, input: EventInput) {
     case 'support_ticket_updated':
       return {
         title: 'Update on your support ticket',
-        message: input.message || 'Your support ticket has been updated.',
+        message: safeText(input.message) || 'Your support ticket has been updated.',
       }
     case 'job_application_stage_changed':
       return {
         title: 'Your application status has changed',
-        message: input.message || 'Your job application has been updated.',
+        message: safeText(input.message) || 'Your job application has been updated.',
       }
     case 'notice':
       return {
-        title: input.title || 'Account notice',
-        message: input.message || 'There is an update on your account.',
+        title: safeText(input.title, 120) || 'Account notice',
+        message: safeText(input.message) || 'There is an update on your account.',
       }
   }
 }
@@ -239,7 +239,7 @@ export const sendUserActivityEmail = createServerFn({ method: 'POST' })
           name: profile.full_name || 'there',
           title: copy.title,
           message: copy.message,
-          detail: data.input?.note,
+          detail: safeText(data.input?.note),
         },
         idempotencyKey: `${data.event}-${profile.email}-${data.input?.reference ?? Date.now()}`,
       })
@@ -251,17 +251,17 @@ export const sendUserActivityEmail = createServerFn({ method: 'POST' })
   })
 
 /**
- * Admin test email — sends a branded test message to the supplied address.
- * Requires an admin session.
+ * Admin test email — sends a branded test message to the calling admin's own
+ * verified account address only. Requires an admin session.
  */
 export const sendAdminTestEmail = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((data: { to: string }) => data)
-  .handler(async ({ data, context }) => {
+  .inputValidator((data: { to?: string }) => data)
+  .handler(async ({ context }) => {
     const { data: isAdmin } = await context.supabase.rpc('is_admin')
     if (isAdmin !== true) throw new Error('Forbidden')
 
-    const to = data.to.trim()
+    const to = ((context.claims as { email?: string } | null)?.email ?? '').trim()
     if (!to) return { sent: false as const }
 
     const { sendTemplateEmail } = await import('@/lib/email-templates/send-email')
