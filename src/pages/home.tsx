@@ -61,6 +61,15 @@ const panels: Panel[] = [
     primary: { label: "Reserve Now", href: "/inventory" },
     secondary: { label: "Learn More", href: "/ecosystem" },
   },
+  {
+    label: "Careers & Apprenticeship",
+    title: "Build the Future",
+    sub: "Open roles across engineering, operations, solar, and remote AI robotics",
+    img: "/assets/images/tesla_energy_hero.webp",
+    alt: "Tesla clean energy facilities and workforce",
+    primary: { label: "Explore Careers", href: "/careers" },
+    secondary: { label: "Entry-Level Roles", href: "/careers" },
+  },
 ];
 
 function PanelSection({ p, first }: { p: Panel; first: boolean }) {
