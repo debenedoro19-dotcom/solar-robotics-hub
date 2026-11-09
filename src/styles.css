@@ -1157,3 +1157,51 @@ h2, h3 { font-weight: 500 !important; }
   .tsla-scroll-cue { animation: none; opacity: .6; }
   .tsla-panel > video { transition: none; }
 }
+
+/* Homepage product-led experience */
+.home-hero {
+  height: 78svh;
+  min-height: 420px;
+  max-height: 760px;
+  background: var(--media-scrim);
+}
+.home-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in oklab, var(--media-scrim) 34%, transparent) 0%,
+    color-mix(in oklab, var(--media-scrim) 24%, transparent) 38%,
+    color-mix(in oklab, var(--media-scrim) 78%, transparent) 100%
+  );
+  pointer-events: none;
+}
+.home-hero-media { animation: home-hero-enter 600ms ease-out both; }
+.home-hero-tab[aria-pressed="true"] {
+  background: color-mix(in oklab, var(--on-media) 22%, transparent);
+  border-color: color-mix(in oklab, var(--on-media) 75%, transparent);
+}
+.home-inventory-card { transition: border-color 180ms ease, transform 180ms ease; }
+.home-inventory-card:hover { border-color: color-mix(in oklab, var(--foreground) 38%, transparent); transform: translateY(-2px); }
+.home-bento-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(to top, color-mix(in oklab, var(--media-scrim) 88%, transparent), color-mix(in oklab, var(--media-scrim) 4%, transparent) 82%);
+  pointer-events: none;
+}
+@keyframes home-hero-enter {
+  from { opacity: .65; transform: scale(1.015); }
+  to { opacity: 1; transform: scale(1); }
+}
+.lux-nav.is-scrolled {
+  background: color-mix(in oklab, var(--background) 84%, transparent);
+  box-shadow: 0 8px 24px -20px color-mix(in oklab, var(--foreground) 45%, transparent);
+}
+.lux-nav.is-scrolled > div { height: 3rem; }
+@media (prefers-reduced-motion: reduce) {
+  .home-hero-media, .home-inventory-card { animation: none; transition: none; }
+}

@@ -8,3 +8,4 @@
 - [x] Live activity pop-ups: real anonymized U.S. deposits, investments and withdrawals (KYC state field + public activity server function)
 - [x] Inventory: real checkout (wallet or crypto/bank + proof), order tracking, admin orders page, order status emails
 - [x] Clone Tesla Model Y new inventory (tesla.com/inventory/new/my, zip 90060) with 15% lower prices
+- [x] Upgrade homepage with an interactive feature selector, database-backed inventory preview, allocation range tool, and ecosystem grid
