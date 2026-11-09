@@ -126,7 +126,7 @@ export default function LiveInventorySection() {
   const [items, setItems] = useState<InventoryItem[]>(inventory);
   const [active, setActive] = useState<Category>('All');
   const [visible, setVisible] = useState(PAGE_SIZE);
-  const [inquiry, setInquiry] = useState<InventoryItem | null>(null);
+  const [checkoutItem, setCheckoutItem] = useState<InventoryItem | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -256,7 +256,7 @@ export default function LiveInventorySection() {
               <div className="flex items-center justify-between mt-3">
                 <span className="text-primary font-extrabold text-base">{item.price}</span>
                 <button
-                  onClick={() => setInquiry(item)}
+                  onClick={() => setCheckoutItem(item)}
                   className="px-3 py-1.5 text-xs font-bold text-primary-foreground bg-primary rounded-xl btn-shimmer hover:opacity-90 transition-all min-h-[36px]">
                   Buy Now
                 </button>
@@ -278,7 +278,7 @@ export default function LiveInventorySection() {
         </div>
       }
 
-      {inquiry && <CheckoutModal item={inquiry} onClose={() => setInquiry(null)} />}
+      {checkoutItem && <CheckoutModal item={checkoutItem} onClose={() => setCheckoutItem(null)} />}
     </section>);
 
 }

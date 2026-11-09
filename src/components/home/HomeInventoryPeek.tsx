@@ -93,11 +93,7 @@ export default function HomeInventoryPeek() {
                   <h3 className="mt-2 min-h-12 text-lg font-medium leading-snug">{item.name}</h3>
                   <div className="mt-4 flex items-center justify-between gap-3 border-t border-border pt-4">
                     <p className="text-sm font-medium tabular-nums">{item.price || 'Price on request'}</p>
-                    {UUID.test(item.id) ? (
-                      <Button size="sm" onClick={() => setSelected(item)}>Details</Button>
-                    ) : (
-                      <Button asChild size="sm" variant="outline"><Link href="/inventory">View listing</Link></Button>
-                    )}
+                    <Button size="sm" onClick={() => setSelected(item)}>Buy Now</Button>
                   </div>
                 </div>
               </article>
