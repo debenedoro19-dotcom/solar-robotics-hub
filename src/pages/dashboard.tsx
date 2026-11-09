@@ -73,14 +73,8 @@ export default function DashboardPage() {
     // ── Supabase: initial fetch + real-time subscription ──────────────────────
     const supabase = createClient();
 
-    // ── Email verification gate ───────────────────────────────────────────────
-    if (currentUser.email !== 'admin@teslatrade.com') {
-      supabase.auth.getUser().then(({ data: { user } }) => {
-        if (user && !user.email_confirmed_at) {
-          window.location.href = '/verify-pending';
-        }
-      });
-    }
+    // ── Email verification gate suspended while mailbox is inactive ──────────
+    // (Bypassed so users can access dashboard directly without email confirmation)
 
     async function fetchPortfolioFromSupabase() {
       try {

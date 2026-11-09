@@ -85,12 +85,8 @@ export default function LoginPage() {
 
       const user = data?.user;
 
-      // Gate: email must be verified before accessing dashboard
-      if (user && !user.email_confirmed_at) {
-        setLoading(false);
-        window.location.href = '/verify-pending';
-        return;
-      }
+      // Note: email verification requirement suspended while mailbox is inactive.
+      // (Bypassed so users can access dashboard directly upon sign in)
 
       if (user) {
         const fullName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'Investor';

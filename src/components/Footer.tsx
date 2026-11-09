@@ -3,7 +3,8 @@ import Link from "@/components/SmartLink";
 
 const footerLinks = [
   { label: "Dashboard", href: "/dashboard" },
-  { label: "Invest", href: "#invest" },
+  { label: "Invest", href: "/invest" },
+  { label: "Giveaways", href: "/giveaways" },
   { label: "News", href: "/news" },
   { label: "Referral", href: "/referral" },
   { label: "Privacy", href: "/privacy" },

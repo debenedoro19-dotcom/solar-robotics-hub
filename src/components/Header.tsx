@@ -8,6 +8,7 @@ const primaryLinks = [
   { label: 'Vehicles', href: '/inventory' },
   { label: 'Energy', href: '/ecosystem' },
   { label: 'Invest', href: '/invest' },
+  { label: 'Giveaways', href: '/giveaways' },
   { label: 'News', href: '/news' },
   { label: 'Careers', href: '/careers' },
 ];
@@ -16,8 +17,8 @@ const menuLinks = [
   { label: 'Inventory', href: '/inventory' },
   { label: 'Ecosystem', href: '/ecosystem' },
   { label: 'Invest', href: '/invest' },
+  { label: 'Giveaways', href: '/giveaways' },
   { label: 'Payments', href: '/payments' },
-  { label: 'Giveaways', href: '/#giveaways' },
   { label: 'Elon Musk', href: '/elon-musk' },
   { label: 'VIP Session', href: '/vip-session' },
   { label: 'Book a Session', href: '/book-session' },

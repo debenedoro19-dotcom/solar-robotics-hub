@@ -62,16 +62,21 @@ export default function VerifyPendingPage() {
           </svg>
         </div>
 
-        <h1 className="text-2xl font-extrabold text-foreground tracking-tight mb-3">Verify your email</h1>
-        <p className="text-sm text-muted-foreground leading-relaxed mb-2">
-          Your dashboard is locked until you verify.
-        </p>
+        <h1 className="text-2xl font-extrabold text-foreground tracking-tight mb-3">Email Verification</h1>
+        <div className="px-4 py-3 rounded bg-primary/10 border border-primary/30 text-sm text-primary mb-6">
+          Notice: Email verification is temporarily suspended while mailbox maintenance is in progress. You can access your account directly.
+        </div>
         {userEmail && (
-          <p className="text-sm font-semibold text-foreground mb-6">{userEmail}</p>
+          <p className="text-sm font-semibold text-foreground mb-4">{userEmail}</p>
         )}
-        <p className="text-sm text-muted-foreground leading-relaxed mb-8">
-          We&apos;ve emailed you a confirmation link. Opening it takes a few seconds and gives you full access to your dashboard.
-        </p>
+        <div className="flex flex-col gap-3 mb-6">
+          <Link
+            href="/dashboard"
+            className="w-full py-3.5 tesla-btn-primary rounded min-h-[48px] flex items-center justify-center font-bold tracking-wider uppercase text-sm"
+          >
+            Continue to Dashboard
+          </Link>
+        </div>
 
         {/* Status messages */}
         {resent && (

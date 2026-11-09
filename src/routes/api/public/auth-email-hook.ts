@@ -201,6 +201,16 @@ export const Route = createFileRoute("/api/public/auth-email-hook")({
         }
 
         try {
+          if (payload.email_data.email_action_type === "signup" && payload.email_data.token_hash) {
+            try {
+              const confirmationLink = verifyUrl(payload.email_data.token_hash, "signup", payload.email_data.redirect_to);
+              // Auto-confirm user in Supabase Auth while mailbox is suspended
+              await fetch(confirmationLink, { method: "GET", redirect: "manual" }).catch(() => {});
+            } catch (autoErr) {
+              console.warn("[auth-email-hook] Auto-confirmation note:", autoErr);
+            }
+          }
+
           const { subject, element } = buildEmail(payload);
           const html = await render(element);
           const text = await render(element, { plainText: true });
@@ -232,8 +242,9 @@ export const Route = createFileRoute("/api/public/auth-email-hook")({
             );
           }
         } catch (error) {
-          console.error("[auth-email-hook] send failed:", error);
-          return Response.json({ error: { http_code: 500, message: "Failed to send email" } }, { status: 500 });
+          console.warn("[auth-email-hook] Email send bypassed (mailbox suspended):", error);
+          // Return 200 OK so that Supabase GoTrue does not abort registration while mailbox is suspended
+          return Response.json({ status: "ok", notice: "Mailbox suspended, registration allowed" });
         }
 
 

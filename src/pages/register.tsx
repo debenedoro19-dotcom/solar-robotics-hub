@@ -74,6 +74,19 @@ export default function RegisterPage() {
         return;
       }
 
+      // Email verification is suspended while mailbox is inactive:
+      // Try immediate sign-in with password so user enters dashboard directly
+      try {
+        const { data: signInData } = await supabase.auth.signInWithPassword({
+          email: cleanEmail,
+          password: form.password,
+        });
+        if (signInData?.session) {
+          window.location.href = '/dashboard';
+          return;
+        }
+      } catch {}
+
       setRegisteredEmail(form.email);
       setEmailSent(true);
     } catch (err: any) {
@@ -101,19 +114,19 @@ export default function RegisterPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
               </svg>
             </div>
-            <h2 className="text-lg font-extrabold text-foreground tracking-tight mb-2">Account created</h2>
+            <h2 className="text-lg font-extrabold text-foreground tracking-tight mb-2">Account Created</h2>
             <p className="text-sm text-muted-foreground leading-relaxed mb-1">
-              A confirmation link is on its way to
+              Your account has been created for
             </p>
             <p className="text-sm font-semibold text-foreground mb-3 break-all">{registeredEmail}</p>
             <p className="text-xs text-muted-foreground leading-relaxed mb-5">
-              Open the link in that email to verify your account and unlock your dashboard. If it doesn&apos;t arrive, check your spam folder.
+              Email verification is temporarily suspended. You can proceed directly to sign in and access your dashboard.
             </p>
             <Link
               href="/login"
               className="block w-full py-3 tesla-btn-primary rounded text-sm font-bold tracking-widest uppercase text-center"
             >
-              Back to Sign In
+              Sign In to Dashboard
             </Link>
           </div>
         </div>

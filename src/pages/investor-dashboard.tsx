@@ -385,7 +385,7 @@ export default function InvestorDashboard() {
               <h2 className="text-xl font-medium tracking-tight">Giveaway Entries</h2>
               <p className="text-xs text-fin-muted">Entries paid from your wallet balance</p>
             </div>
-            <a href="/#giveaways" className="px-4 py-2 rounded btn-emerald text-xs whitespace-nowrap">Enter a Giveaway</a>
+            <a href="/giveaways" className="px-4 py-2 rounded btn-emerald text-xs whitespace-nowrap">Enter a Giveaway</a>
           </div>
           {giveawayEntries.length === 0 ? (
             <p className="p-8 text-center text-sm text-fin-muted">No giveaway entries yet.</p>

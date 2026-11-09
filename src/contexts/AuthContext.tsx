@@ -80,9 +80,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return user;
   };
 
-  // Check if Email is Verified
+  // Check if Email is Verified (suspended while mailbox is inactive)
   const isEmailVerified = () => {
-    return user?.email_confirmed_at !== null;
+    return true;
   };
 
   // Get User Profile from Database
