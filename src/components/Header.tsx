@@ -61,7 +61,7 @@ export default function Header() {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 w-full z-50 transition-colors duration-300 lux-nav`}
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 lux-nav ${scrolled ? 'is-scrolled' : ''}`}
         role="navigation"
         aria-label="Main navigation"
       >
