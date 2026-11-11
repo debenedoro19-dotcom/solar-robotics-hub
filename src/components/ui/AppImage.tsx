@@ -1,4 +1,4 @@
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 
 interface AppImageProps {
   src: string;
@@ -29,6 +29,11 @@ const AppImage = memo(function AppImage({
 }: AppImageProps) {
   const [imageSrc, setImageSrc] = useState(src);
   const [hasError, setHasError] = useState(false);
+
+  useEffect(() => {
+    setImageSrc(src);
+    setHasError(false);
+  }, [src]);
 
   const handleError = useCallback(() => {
     if (!hasError && imageSrc !== fallbackSrc) {

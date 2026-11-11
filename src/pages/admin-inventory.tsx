@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Link from '@/components/SmartLink';
 import { supabase } from '@/lib/supabase/client';
+import { normalizeInventoryImageUrl } from '@/lib/inventoryImages';
 
 type Category = 'Vehicles' | 'Energy' | 'Solar' | 'Robotics';
 const CATEGORIES: Category[] = ['Vehicles', 'Energy', 'Solar', 'Robotics'];
@@ -246,7 +247,7 @@ export default function AdminInventoryPage() {
                   </button>
                 </div>
                 <img
-                  src={item.image_url}
+                  src={normalizeInventoryImageUrl(item.image_url)}
                   alt=""
                   className="w-20 h-14 object-cover rounded bg-muted flex-shrink-0"
                   loading="lazy"
@@ -358,7 +359,7 @@ export default function AdminInventoryPage() {
                 {uploading && <span className="text-xs text-muted-foreground">Uploading…</span>}
               </div>
               {form.image_url && (
-                <img src={form.image_url} alt="" className="mt-3 w-full h-40 object-cover rounded bg-muted" />
+                <img src={normalizeInventoryImageUrl(form.image_url)} alt="" className="mt-3 w-full h-40 object-cover rounded bg-muted" />
               )}
             </div>
 

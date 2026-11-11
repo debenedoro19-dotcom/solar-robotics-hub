@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import AppImage from '@/components/ui/AppImage';
 import CheckoutModal from '@/components/inventory/CheckoutModal';
-import modelYImg from '@/assets/inventory/model_y.webp';
-import megapackImg from '@/assets/inventory/megapack.webp';
-import solarRoofImg from '@/assets/inventory/solar_roof.webp';
-import cybercabImg from '@/assets/inventory/cybercab.webp';
+import {
+  cybercabImg,
+  megapackImg,
+  modelYImg,
+  normalizeInventoryImageUrl,
+  solarRoofImg,
+} from '@/lib/inventoryImages';
 
 type Category = 'All' | 'Vehicles' | 'Energy' | 'Solar' | 'Robotics';
 
@@ -139,17 +142,32 @@ export default function LiveInventorySection() {
           .eq('is_active', true)
           .order('sort_order', { ascending: true });
         if (cancelled || !data || data.length === 0) return;
+
+        const staticNameMap = new Map<string, string>();
+        for (const item of inventory) {
+          const key = item.name.toLowerCase().trim();
+          staticNameMap.set(key, item.image);
+          staticNameMap.set(key.replace(/^2026\b/, '2025'), item.image);
+        }
+        staticNameMap.set('2026 model y premium rear-wheel drive', modelYImg);
+        staticNameMap.set('2026 model y premium all-wheel drive', modelYImg);
+
         setItems(
-          data.map((r: Record<string, string>) => ({
-            id: r.id,
-            name: r.name,
-            price: r.price,
-            badge: r.badge,
-            badgeType: r.badge_type as InventoryItem['badgeType'],
-            category: r.category as Exclude<Category, 'All'>,
-            image: r.image_url,
-            alt: r.alt,
-          })),
+          data.map((r: Record<string, string>) => {
+            const normalizedDbImg = normalizeInventoryImageUrl(r.image_url);
+            const fallbackImg = staticNameMap.get(String(r.name ?? '').toLowerCase().trim()) ?? '';
+
+            return {
+              id: r.id,
+              name: r.name,
+              price: r.price,
+              badge: r.badge,
+              badgeType: r.badge_type as InventoryItem['badgeType'],
+              category: r.category as Exclude<Category, 'All'>,
+              image: normalizedDbImg || fallbackImg,
+              alt: r.alt || r.name,
+            };
+          }),
         );
       } catch {
         /* keep the static catalog */

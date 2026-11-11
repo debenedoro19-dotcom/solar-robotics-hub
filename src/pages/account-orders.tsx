@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Header from '@/components/Header';
 import { createClient } from '@/lib/supabase/client';
 import { STATUS_LABEL, type OrderStatus } from '@/lib/inventory.functions';
+import { normalizeInventoryImageUrl } from '@/lib/inventoryImages';
 
 type Order = {
   id: string; order_number: string; item_name: string; item_image: string | null; amount: number;
@@ -49,7 +50,7 @@ export default function AccountOrdersPage() {
                 return (
                   <article key={o.id} className="bg-card border border-border rounded-md p-5">
                     <div className="flex gap-4 items-center">
-                      {o.item_image && <img src={o.item_image} alt="" className="w-16 h-16 rounded object-cover" />}
+                      {o.item_image && <img src={normalizeInventoryImageUrl(o.item_image)} alt="" className="w-16 h-16 rounded object-cover" />}
                       <div className="flex-1 min-w-0">
                         <p className="text-xs text-muted-foreground">{o.order_number} · {new Date(o.created_at).toLocaleDateString()}</p>
                         <h2 className="font-bold truncate">{o.item_name}</h2>

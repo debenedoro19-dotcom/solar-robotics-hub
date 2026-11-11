@@ -1,6 +1,5 @@
 import React, { useState, useEffect, memo, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
-import SmartLink from "@/components/SmartLink";
 import model3Img from "@/assets/giveaways/model_3.webp";
 import cybertruckImg from "@/assets/giveaways/cybertruck.webp";
 
@@ -36,14 +35,14 @@ export interface ClaimDetails {
   status: string;
 }
 
-// 100% Free Giveaways — Bitcoin giveaway removed
+// 100% Free Giveaways — Restored to original campaigns and images (Bitcoin removed)
 const FALLBACK_GIVEAWAYS: Giveaway[] = [
   {
-    id: "giveaway-model-3",
-    title: "Win a 2026 Model 3 Long Range AWD",
+    id: "fallback-1",
+    title: "Win a 2025 Model 3 Long Range",
     description:
-      "Official Trade Tesla promotional acquisition. Winner receives a brand-new 2026 Tesla Model 3 Long Range with complimentary enclosed freight courier delivery directly to your door.",
-    prize: "2026 Tesla Model 3 Long Range AWD",
+      "2025 Tesla Model 3 Long Range AWD. One winner selected after the campaign ends. Includes standard delivery within the continental US.",
+    prize: "2025 Tesla Model 3 Long Range AWD",
     image_url: null,
     entry_fee: 0,
     ends_at: "2026-12-31",
@@ -52,38 +51,33 @@ const FALLBACK_GIVEAWAYS: Giveaway[] = [
     badge: "FREE CLAIM",
   },
   {
-    id: "giveaway-cybertruck",
-    title: "Cybertruck Foundation Series Package",
+    id: "fallback-2",
+    title: "Cybertruck Experience Weekend",
     description:
-      "Claim your entry for a Foundation Series Cybertruck delivery and experience package, plus complimentary lifetime Supercharging allocation.",
-    prize: "Cybertruck Foundation Series Package",
+      "Win a full weekend with a Cybertruck Foundation Series plus a $2,000 platform credit toward any purchase.",
+    prize: "Cybertruck Foundation Series + $2,000 credit",
     image_url: null,
     entry_fee: 0,
-    ends_at: "2026-11-30",
+    ends_at: "2026-10-15",
     entries_count: 683,
     max_entries: 2000,
     badge: "FREE CLAIM",
   },
-  {
-    id: "giveaway-powerwall",
-    title: "Tesla Powerwall 3 Whole-Home Backup System",
-    description:
-      "Complete residential clean energy package including Tesla Powerwall 3, Gateway 2, and certified professional installation voucher delivered via FedEx Freight.",
-    prize: "Tesla Powerwall 3 + Whole-Home Installation",
-    image_url: "https://images.unsplash.com/photo-1706699778556-a9f9da002139?auto=format&fit=crop&w=640&q=65",
-    entry_fee: 0,
-    ends_at: "2026-12-15",
-    entries_count: 890,
-    max_entries: 2500,
-    badge: "FREE CLAIM",
-  },
 ];
 
-// Card image: DB image_url first, then Cybertruck or Model 3
+// Card image: Original asset image mapping
 function imageFor(g: Giveaway): string {
-  if (g.image_url) return g.image_url;
   const text = `${g.title} ${g.prize}`.toLowerCase();
   if (text.includes("cybertruck") || text.includes("cyber")) return cybertruckImg;
+  if (text.includes("model 3") || text.includes("model_3") || text.includes("model-3")) return model3Img;
+  const url = String(g.image_url ?? "").trim();
+  if (
+    url &&
+    !url.includes("photo-1706699778556-a9f9da002139") &&
+    !/^\/assets\/giveaways\/.*\.(jpe?g|png)$/i.test(url)
+  ) {
+    return url;
+  }
   return model3Img;
 }
 
@@ -495,19 +489,33 @@ function FreeClaimModal({
         /* ignore */
       }
 
-      // Try recording into Supabase giveaway_entries
+      // Try recording into Supabase giveaway_entries when claiming a persisted UUID campaign
       try {
-        const supabase = createClient();
-        const { data: userRes } = await supabase.auth.getUser();
-        const userId = userRes?.user?.id;
-        if (userId) {
-          await supabase.from("giveaway_entries").insert({
-            giveaway_id: giveaway.id.includes("giveaway") || giveaway.id.includes("fallback") ? undefined : giveaway.id,
-            user_id: userId,
-            giveaway_title: giveaway.title,
-            amount_paid: 0,
-            status: "claimed_fedex_queue",
-          });
+        const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(giveaway.id);
+        if (isUuid) {
+          const supabase = createClient();
+          const { data: userRes } = await supabase.auth.getUser();
+          const userId = userRes?.user?.id;
+          if (userId) {
+            await supabase.from("giveaway_entries").insert({
+              giveaway_id: giveaway.id,
+              user_id: userId,
+              giveaway_title: giveaway.title,
+              amount_paid: 0,
+              status: "claimed_fedex_queue",
+              full_name: claimData.fullName,
+              email: claimData.email,
+              phone: claimData.phone,
+              address_line: claimData.addressLine,
+              city: claimData.city,
+              state: claimData.state,
+              postal_code: claimData.postalCode,
+              country: claimData.country,
+              delivery_notes: claimData.notes ?? "",
+              tracking_number: claimData.trackingNumber,
+              courier: "FedEx Express",
+            });
+          }
         }
       } catch {
         /* entry recorded locally */
@@ -724,7 +732,7 @@ export default function GiveawaysSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        <div className={giveaways.length <= 2 ? "grid grid-cols-1 md:grid-cols-2 gap-6" : "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"}>
           {giveaways.map((g, idx) => (
             <GiveawayCard key={g.id} g={g} idx={idx} onEnter={setActiveGiveaway} />
           ))}

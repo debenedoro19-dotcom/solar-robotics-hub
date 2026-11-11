@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/client';
 import { useWallet, money } from '@/components/investor/wallet';
 import { useCryptoWallets } from '@/components/payments/cryptoWallets';
 import { placeWalletOrder, placeExternalOrder } from '@/lib/inventory.functions';
+import { normalizeInventoryImageUrl } from '@/lib/inventoryImages';
 
 export interface CheckoutItem {
   id: number | string;
@@ -21,6 +22,7 @@ export default function CheckoutModal({ item, onClose }: { item: CheckoutItem; o
   const wallFn = useServerFn(placeWalletOrder);
   const extFn = useServerFn(placeExternalOrder);
   const price = Number(item.price.replace(/[^0-9.]/g, '')) || 0;
+  const resolvedImage = normalizeInventoryImageUrl(item.image);
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [method, setMethod] = useState<'wallet' | 'external'>('wallet');
   const [network, setNetwork] = useState<'usdt' | 'eth' | 'btc' | 'bank'>('usdt');
@@ -71,7 +73,7 @@ export default function CheckoutModal({ item, onClose }: { item: CheckoutItem; o
         itemName: item.name,
         itemPrice: price,
         itemCategory: item.category,
-        itemImage: item.image,
+        itemImage: resolvedImage || item.image,
         ...f,
         notes: f.notes || undefined,
       };
@@ -127,7 +129,7 @@ export default function CheckoutModal({ item, onClose }: { item: CheckoutItem; o
         <button onClick={onClose} aria-label="Close" className="absolute top-4 right-4 text-muted-foreground hover:text-foreground text-xl">✕</button>
 
         <div className="flex gap-3 items-center mb-5 pr-6 border-b border-border pb-4">
-          <img src={item.image} alt={item.name} className="w-16 h-16 rounded-xl object-cover bg-muted border border-border/50" />
+          <img src={resolvedImage || item.image} alt={item.name} className="w-16 h-16 rounded-xl object-cover bg-muted border border-border/50" />
           <div className="min-w-0">
             <p className="text-[10px] font-bold tracking-widest uppercase text-primary">{item.category}</p>
             <h3 className="font-bold text-foreground leading-tight truncate">{item.name}</h3>

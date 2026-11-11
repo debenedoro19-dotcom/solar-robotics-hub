@@ -4,10 +4,9 @@ import Link from '@/components/SmartLink';
 import { Button } from '@/components/ui/button';
 import CheckoutModal, { type CheckoutItem } from '@/components/inventory/CheckoutModal';
 import { supabase } from '@/integrations/supabase/client';
+import { normalizeInventoryImageUrl } from '@/lib/inventoryImages';
 
 type Listing = CheckoutItem & { id: string; badge: string; alt: string };
-
-const UUID = /^[0-9a-f-]{36}$/i;
 
 export default function HomeInventoryPeek() {
   const [listings, setListings] = useState<Listing[]>([]);
@@ -34,7 +33,7 @@ export default function HomeInventoryPeek() {
           price: String(row.price ?? ''),
           badge: String(row.badge ?? row.category ?? 'LISTING'),
           category: String(row.category ?? 'Listing'),
-          image: String(row.image_url ?? ''),
+          image: normalizeInventoryImageUrl(row.image_url),
           alt: String(row.alt ?? `${row.name} listing image`),
         })));
       }
