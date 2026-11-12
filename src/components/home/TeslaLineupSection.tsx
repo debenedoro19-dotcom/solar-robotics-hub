@@ -2,6 +2,7 @@ import React, { useMemo, useState } from "react";
 import { TESLA_VEHICLES, type TeslaVehicleModel } from "@/data/teslaCatalog";
 import CheckoutModal from "@/components/inventory/CheckoutModal";
 import { useTeslaLoader } from "@/components/TeslaLoader";
+import { calculateOrderTotals, HEROES_DISCOUNT_AMOUNT } from "@/lib/orderPricing";
 
 const CATEGORIES: Array<"All" | TeslaVehicleModel["category"]> = [
   "All",
@@ -25,6 +26,7 @@ function TeslaDesignStudioModal({
     badge: string;
     category: string;
     image: string;
+    heroesDiscount?: boolean;
   }) => void;
 }) {
   const [trimIndex, setTrimIndex] = useState(0);
@@ -32,6 +34,7 @@ function TeslaDesignStudioModal({
   const [wheelIndex, setWheelIndex] = useState(0);
   const [interiorIndex, setInteriorIndex] = useState(0);
   const [includeFsd, setIncludeFsd] = useState(false);
+  const [applyHeroes, setApplyHeroes] = useState(false);
   const [paymentMode, setPaymentMode] = useState<"cash" | "finance" | "lease">("cash");
   const { triggerLoader } = useTeslaLoader();
 
@@ -42,10 +45,16 @@ function TeslaDesignStudioModal({
 
   const totalPrice =
     trim.price + paint.price + wheel.price + interior.price + (includeFsd ? 8000 : 0);
+  const pricing = calculateOrderTotals({
+    assetPrice: totalPrice,
+    category: "Vehicles",
+    applyHeroesDiscount: applyHeroes,
+  });
   const baseRangeNum = parseInt(trim.range, 10) || model.rangeMiles;
   const effectiveRange = Math.max(240, baseRangeNum + wheel.rangeDelta);
-  const estFinance = Math.round((totalPrice * 0.88) / 60);
-  const estLease = Math.max(229, Math.round(totalPrice * 0.0112));
+  const effectiveVehicleTotal = Math.max(0, totalPrice - pricing.heroesDiscount);
+  const estFinance = Math.round((effectiveVehicleTotal * 0.88) / 60);
+  const estLease = Math.max(229, Math.round(effectiveVehicleTotal * 0.0112));
 
   return (
     <div
@@ -257,6 +266,29 @@ function TeslaDesignStudioModal({
               </div>
               <span className="text-xs font-semibold tabular shrink-0">+$8,000</span>
             </label>
+
+            {/* Our Heroes $2,000 Discount */}
+            <label className="flex items-start justify-between gap-3 rounded-[4px] border border-[#0e9f6e]/35 bg-[#0e9f6e]/8 p-3.5 cursor-pointer hover:bg-[#0e9f6e]/12 transition-colors">
+              <div className="flex items-start gap-3">
+                <input
+                  type="checkbox"
+                  checked={applyHeroes}
+                  onChange={(e) => setApplyHeroes(e.target.checked)}
+                  className="mt-0.5 h-4 w-4 accent-[#0e9f6e]"
+                />
+                <div>
+                  <div className="text-sm font-medium text-foreground">
+                    Our Heroes Discount (Military, First Responders &amp; Educators)
+                  </div>
+                  <div className="text-xs text-muted-foreground mt-0.5">
+                    Save ${HEROES_DISCOUNT_AMOUNT.toLocaleString()} instantly at checkout with service verification.
+                  </div>
+                </div>
+              </div>
+              <span className="text-xs font-semibold text-[#0e9f6e] tabular shrink-0">
+                -${HEROES_DISCOUNT_AMOUNT.toLocaleString()}
+              </span>
+            </label>
           </div>
 
           {/* Pricing + Order Action */}
@@ -279,14 +311,14 @@ function TeslaDesignStudioModal({
               <div className="text-right">
                 <div className="font-display text-2xl font-semibold tabular">
                   {paymentMode === "cash"
-                    ? `$${totalPrice.toLocaleString()}`
+                    ? `$${pricing.totalDue.toLocaleString()}`
                     : paymentMode === "finance"
                     ? `$${estFinance.toLocaleString()}/mo`
                     : `$${estLease.toLocaleString()}/mo`}
                 </div>
                 <div className="text-[11px] text-muted-foreground">
                   {paymentMode === "cash"
-                    ? "Direct Purchase Total"
+                    ? `Incl. $${pricing.shippingFee.toLocaleString()} enclosed freight${pricing.heroesDiscount > 0 ? ` · -$${pricing.heroesDiscount.toLocaleString()} Heroes` : ""}`
                     : paymentMode === "finance"
                     ? "Est. 60-mo · 12% down"
                     : "Est. 36-mo · 10k mi/yr"}
@@ -308,6 +340,7 @@ function TeslaDesignStudioModal({
                       badge: "NEW",
                       category: "Vehicles",
                       image: paint.image,
+                      heroesDiscount: applyHeroes,
                     });
                   },
                 });
@@ -341,6 +374,7 @@ export default function TeslaLineupSection({
     badge: string;
     category: string;
     image: string;
+    heroesDiscount?: boolean;
   } | null>(null);
   const { triggerLoader } = useTeslaLoader();
 
@@ -376,8 +410,12 @@ export default function TeslaLineupSection({
               Tesla Model Lineup · 2026
             </p>
             <h2 className="font-display mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">
-              Compare & Configure Every Model
+              Compare &amp; Configure Every Model
             </h2>
+            <p className="mt-2.5 inline-flex items-center gap-2 rounded-[4px] border border-[#0e9f6e]/30 bg-[#0e9f6e]/10 px-3 py-1 text-xs font-medium text-[#0e9f6e]">
+              <span>★</span>
+              <span>$2,000 Off for Our Heroes · Military, Veterans, First Responders, Healthcare &amp; Educators</span>
+            </p>
           </div>
 
           <div className="flex flex-wrap gap-2">
@@ -751,6 +789,7 @@ export default function TeslaLineupSection({
       {checkoutItem && (
         <CheckoutModal
           item={checkoutItem}
+          initialHeroesDiscount={Boolean(checkoutItem.heroesDiscount)}
           onClose={() => setCheckoutItem(null)}
         />
       )}

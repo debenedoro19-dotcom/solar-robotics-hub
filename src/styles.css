@@ -1108,19 +1108,22 @@ table td, table th { border-color: var(--border); }
 .lux-metrics > div { padding: 14px 8px; text-align: center; }
 .lux-metrics > div + div { border-left: 1px solid color-mix(in oklab, var(--on-media) 25%, transparent); }
 
-/* Dashboard: glass surfaces over a cinematic backdrop */
-.lux-dash { position: relative; isolation: isolate; }
-.lux-dash::before { content: ""; position: fixed; inset: 0; z-index: -2; background: url('/assets/video/inventory-poster.jpg') center/cover no-repeat; filter: grayscale(1) blur(2px); opacity: .22; }
-.lux-dash::after { content: ""; position: fixed; inset: 0; z-index: -1; background: radial-gradient(ellipse at top, transparent 0%, var(--background) 75%); }
-.lux-dash .fin-card, .lux-dash .fin-card-elevated {
-  background: color-mix(in oklab, var(--background) 58%, transparent) !important;
-  -webkit-backdrop-filter: blur(22px) saturate(160%) !important;
-  backdrop-filter: blur(22px) saturate(160%) !important;
-  border: 1px solid color-mix(in oklab, var(--foreground) 9%, transparent) !important;
-  border-radius: 16px !important;
-  box-shadow: 0 1px 0 color-mix(in oklab, var(--lux-paper) 20%, transparent) inset, 0 24px 60px -30px color-mix(in oklab, var(--lux-ink) 40%, transparent) !important;
+/* Dashboard: Tesla Studio clean architectural workspace */
+.lux-dash { position: relative; isolation: isolate; background: var(--background); }
+.lux-dash::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(ellipse 90% 45% at 50% -10%, color-mix(in oklab, var(--foreground) 4%, transparent), transparent 65%);
+  pointer-events: none;
 }
-.lux-dash button.rounded, .lux-dash a.rounded { border-radius: 999px !important; }
+.lux-dash .fin-card, .lux-dash .fin-card-elevated {
+  background: var(--card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 1px 2px color-mix(in oklab, var(--foreground) 4%, transparent), 0 18px 42px -28px color-mix(in oklab, var(--foreground) 18%, transparent) !important;
+}
 
 /* ===== Homepage cinematic upgrade ===== */
 @keyframes tsla-kenburns {

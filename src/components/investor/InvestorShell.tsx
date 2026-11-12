@@ -4,17 +4,19 @@ import { usePathname } from '@/lib/next-shims';
 import { createClient } from '@/lib/supabase/client';
 import { money } from './wallet';
 import { ThemeToggle } from '@/lib/theme';
+import { TeslaShieldSvg } from '@/components/TeslaLoader';
 
 const NAV = [
   { href: '/dashboard', label: 'Dashboard' },
+  { href: '/account/orders', label: 'Orders' },
+  { href: '/inventory', label: 'Inventory' },
   { href: '/kyc', label: 'Verification' },
   { href: '/support', label: 'Support' },
 ];
 
 /**
- * Shared chrome for every signed-in investor surface (/dashboard, /account).
- * Tesla high-tech identity — red spark mark, wide tracking, dark glass — with
- * the institutional emerald data layer used across the wallet.
+ * Shared chrome for every signed-in Trade Tesla investor surface (/dashboard, /account/*).
+ * Matches the Tesla Studio visual identity of the main marketing experience.
  */
 export default function InvestorShell({
   children,
@@ -36,25 +38,33 @@ export default function InvestorShell({
   }
 
   return (
-    <div className="min-h-screen bg-fin-bg text-foreground lux-dash">
-      <header className="sticky top-0 z-50 lux-nav">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="h-16 flex items-center justify-between gap-4">
+    <div className="min-h-screen bg-background text-foreground lux-dash">
+      <header className="sticky top-0 z-50 border-b border-border/80 bg-background/90 backdrop-blur-xl">
+        <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-10">
+          <div className="h-14 flex items-center justify-between gap-4">
             <div className="flex items-center gap-6 min-w-0">
-              <Link href="/" className="flex items-center gap-2.5 shrink-0">
-                <img src="/tesla-mark.png" width={18} height={18} alt="" aria-hidden="true" className="text-primary object-contain" />
-                <span className="font-bold text-sm tracking-[0.25em] uppercase">Trade Tesla</span>
+              <Link href="/" className="flex items-center gap-2.5 shrink-0" aria-label="Trade Tesla Home">
+                <TeslaShieldSvg className="w-5 h-5 text-[#e82127]" />
+                <span className="font-display text-[13px] font-semibold tracking-[0.34em] uppercase whitespace-nowrap">
+                  Trade Tesla
+                </span>
               </Link>
-              <nav className="hidden md:flex items-center gap-1">
+              <nav className="hidden lg:flex items-center gap-1" aria-label="Account navigation">
                 {NAV.map((item) => {
-                  const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
+                  const active =
+                    item.href === '/dashboard'
+                      ? pathname === '/dashboard'
+                      : pathname === item.href || pathname.startsWith(`${item.href}/`);
                   return (
                     <Link
                       key={item.href}
                       href={item.href}
-                      className={`px-3 py-2 rounded text-[11px] font-bold tracking-[0.18em] uppercase transition-colors ${
-                        active ? 'text-foreground bg-fin-elevated border border-fin-border' : 'text-fin-muted hover:text-foreground'
-                      }`}>
+                      className={`px-3 py-1.5 rounded-[4px] text-[13px] font-medium transition-colors whitespace-nowrap ${
+                        active
+                          ? 'bg-foreground text-background'
+                          : 'text-foreground/75 hover:bg-muted hover:text-foreground'
+                      }`}
+                    >
                       {item.label}
                     </Link>
                   );
@@ -62,38 +72,61 @@ export default function InvestorShell({
               </nav>
             </div>
 
-            <div className="flex items-center gap-2 sm:gap-3">
+            <div className="flex items-center gap-2 sm:gap-2.5">
               <ThemeToggle />
               {typeof balance === 'number' && (
-                <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded border border-fin-emerald/30 bg-fin-emerald-soft">
-                  <span className="h-1.5 w-1.5 rounded-full bg-fin-emerald animate-pulse" />
-                  <span className="text-[10px] uppercase tracking-widest text-fin-muted">Wallet</span>
-                  <span className="text-sm font-extrabold tabular-nums text-fin-emerald">{money(balance)}</span>
+                <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-[4px] border border-[#0e9f6e]/30 bg-[#0e9f6e]/10">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#0e9f6e] pulse-dot" />
+                  <span className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground font-semibold">
+                    Wallet
+                  </span>
+                  <span className="font-display text-xs font-semibold tabular text-[#0e9f6e]">
+                    {money(balance)}
+                  </span>
                 </div>
               )}
               {onDeposit && (
-                <button onClick={onDeposit} className="px-3.5 py-1.5 rounded text-[11px] font-bold tracking-widest uppercase bg-primary text-white hover:opacity-90 transition-opacity">
+                <button
+                  onClick={onDeposit}
+                  className="h-9 px-3.5 rounded-[4px] text-xs font-medium bg-[#3e6ae1] text-white hover:bg-[#345ac7] transition-colors whitespace-nowrap"
+                >
                   + Deposit
                 </button>
               )}
               {onWithdraw && (
-                <button onClick={onWithdraw} className="hidden sm:inline-flex px-3.5 py-1.5 rounded text-[11px] font-bold tracking-widest uppercase fin-card hover:border-fin-emerald/40 transition-colors">
+                <button
+                  onClick={onWithdraw}
+                  className="hidden sm:inline-flex items-center h-9 px-3.5 rounded-[4px] text-xs font-medium border border-border bg-card text-foreground hover:bg-muted transition-colors whitespace-nowrap"
+                >
                   Withdraw
                 </button>
               )}
-              <button onClick={signOut} className="text-[11px] font-bold tracking-widest uppercase text-fin-muted hover:text-foreground transition-colors">
+              <button
+                onClick={signOut}
+                className="h-9 px-3 rounded-[4px] text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors whitespace-nowrap"
+              >
                 Sign Out
               </button>
             </div>
           </div>
 
           {/* Mobile nav */}
-          <nav className="md:hidden flex items-center gap-1 overflow-x-auto pb-2 -mt-1">
+          <nav className="lg:hidden flex items-center gap-1 overflow-x-auto pb-2.5 -mt-0.5">
             {NAV.map((item) => {
-              const active = pathname === item.href;
+              const active =
+                item.href === '/dashboard'
+                  ? pathname === '/dashboard'
+                  : pathname === item.href || pathname.startsWith(`${item.href}/`);
               return (
-                <Link key={item.href} href={item.href}
-                  className={`px-3 py-1.5 rounded text-[10px] font-bold tracking-widest uppercase whitespace-nowrap ${active ? 'bg-fin-elevated border border-fin-border text-foreground' : 'text-fin-muted'}`}>
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`px-3 py-1.5 rounded-[4px] text-xs font-medium whitespace-nowrap transition-colors ${
+                    active
+                      ? 'bg-foreground text-background'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                  }`}
+                >
                   {item.label}
                 </Link>
               );

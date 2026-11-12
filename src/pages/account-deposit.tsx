@@ -97,11 +97,11 @@ export default function AccountDepositPage() {
       <main className="min-h-screen bg-fin-bg text-foreground pt-24 pb-20">
         <div className="max-w-3xl mx-auto px-5">
           <div className="mb-8">
-            <Link href="/account" className="text-xs text-fin-muted hover:text-foreground transition-colors">← Back to account</Link>
-            <h1 className="text-3xl font-medium mt-3">Fund Your Wallet</h1>
-            <p className="text-sm text-fin-muted mt-2 max-w-xl">
-              Deposits are credited to your available wallet balance once our team confirms the payment.
-              You then deploy that balance into any investment plan or giveaway from your dashboard.
+            <Link href="/dashboard" className="text-xs font-medium text-muted-foreground hover:text-foreground transition-colors">← Back to Dashboard</Link>
+            <h1 className="font-display text-3xl sm:text-4xl font-semibold tracking-tight mt-3">Fund Your Wallet</h1>
+            <p className="text-sm text-muted-foreground mt-2 max-w-xl">
+              Deposits are credited to your available wallet balance once our settlement desk confirms the transfer.
+              Use your wallet for vehicles, energy hardware, freight delivery settlement, or investment allocations.
             </p>
           </div>
 

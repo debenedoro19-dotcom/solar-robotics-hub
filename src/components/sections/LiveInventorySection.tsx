@@ -247,6 +247,10 @@ export default function LiveInventorySection() {
               Select any in-stock vehicle or clean energy system for direct online checkout via wallet
               balance, wire, or digital asset settlement.
             </p>
+            <div className="mt-3 inline-flex items-center gap-2 rounded-[4px] border border-[#0e9f6e]/30 bg-[#0e9f6e]/10 px-3 py-1.5 text-xs font-medium text-[#0e9f6e]">
+              <span>★</span>
+              <span>$2,000 Off for Our Heroes · Military, Veterans, First Responders, Healthcare &amp; Educators</span>
+            </div>
           </div>
 
           <div className="w-full md:w-72">

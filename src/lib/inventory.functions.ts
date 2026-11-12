@@ -1,6 +1,7 @@
 import { createServerFn } from '@tanstack/react-start'
 import { z } from 'zod'
 import { requireSupabaseAuth } from '@/integrations/supabase/auth-middleware'
+import { calculateOrderTotals, GIVEAWAY_SHIPPING_FEE } from '@/lib/orderPricing'
 
 export const ORDER_STATUSES = ['pending_payment', 'paid', 'processing', 'shipped', 'delivered', 'cancelled'] as const
 export type OrderStatus = (typeof ORDER_STATUSES)[number]
@@ -19,6 +20,8 @@ const delivery = z.object({
   itemPrice: z.number().optional(),
   itemCategory: z.string().optional(),
   itemImage: z.string().optional(),
+  applyHeroesDiscount: z.boolean().optional(),
+  heroRole: z.string().trim().max(80).optional(),
   fullName: z.string().trim().min(2).max(120),
   phone: z.string().trim().min(5).max(40),
   addressLine: z.string().trim().min(3).max(200),
@@ -68,109 +71,119 @@ async function mailOrder(o: OrderRow, heading: string, intro: string, note?: str
 const SELECT = 'id,order_number,item_name,amount,payment_method,order_status,full_name,email,address_line,city,state,postal_code,country,tracking_number,phone'
 const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
+async function resolveInventoryItem(
+  supabase: any,
+  itemId: string,
+  itemName?: string,
+) {
+  let resolvedItemId: string | null = null;
+  let resolvedItem: { id: string; name: string; category: string; image_url: string; price: string } | null = null;
+
+  if (UUID_REGEX.test(itemId)) {
+    resolvedItemId = itemId;
+    const { data: item } = await supabase
+      .from('inventory_items')
+      .select('id,name,category,image_url,price')
+      .eq('id', itemId)
+      .maybeSingle();
+    if (item) resolvedItem = item;
+  } else {
+    const num = Number(itemId);
+    if (!isNaN(num) && num > 0) {
+      const { data: item } = await supabase
+        .from('inventory_items')
+        .select('id,name,category,image_url,price')
+        .eq('sort_order', num)
+        .maybeSingle();
+      if (item) {
+        resolvedItemId = item.id;
+        resolvedItem = item;
+      }
+    }
+    if (!resolvedItemId && itemName) {
+      const { data: item } = await supabase
+        .from('inventory_items')
+        .select('id,name,category,image_url,price')
+        .ilike('name', `%${itemName.trim()}%`)
+        .maybeSingle();
+      if (item) {
+        resolvedItemId = item.id;
+        resolvedItem = item;
+      }
+    }
+  }
+  return { resolvedItemId, resolvedItem };
+}
+
+function buildOrderNote(
+  userNotes: string | undefined,
+  shippingFee: number,
+  heroesDiscount: number,
+  heroRole?: string,
+) {
+  const parts: string[] = [`Shipping: ${fmt(shippingFee)}`];
+  if (heroesDiscount > 0) {
+    parts.push(`Our Heroes Discount: -${fmt(heroesDiscount)}${heroRole ? ` (${heroRole})` : ''}`);
+  }
+  if (userNotes?.trim()) parts.push(`Notes: ${userNotes.trim()}`);
+  return parts.join(' | ');
+}
+
 export const placeWalletOrder = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => delivery.parse(d))
   .handler(async ({ data, context }) => {
-    let resolvedItemId: string | null = null;
-    let resolvedItem: { id: string; name: string; category: string; image_url: string; price: string } | null = null;
-
-    if (UUID_REGEX.test(data.itemId)) {
-      resolvedItemId = data.itemId;
-    } else {
-      // Try resolving by numeric sort_order or item name
-      const num = Number(data.itemId);
-      if (!isNaN(num) && num > 0) {
-        const { data: item } = await context.supabase
-          .from('inventory_items')
-          .select('id,name,category,image_url,price')
-          .eq('sort_order', num)
-          .maybeSingle();
-        if (item) {
-          resolvedItemId = item.id;
-          resolvedItem = item;
-        }
-      }
-      if (!resolvedItemId && data.itemName) {
-        const { data: item } = await context.supabase
-          .from('inventory_items')
-          .select('id,name,category,image_url,price')
-          .ilike('name', `%${data.itemName.trim()}%`)
-          .maybeSingle();
-        if (item) {
-          resolvedItemId = item.id;
-          resolvedItem = item;
-        }
-      }
-    }
-
-    // Try calling the database RPC if item UUID is known
-    if (resolvedItemId) {
-      const { data: res, error } = await context.supabase.rpc('purchase_inventory_wallet', {
-        _item_id: resolvedItemId,
-        _full_name: data.fullName,
-        _phone: data.phone,
-        _address_line: data.addressLine,
-        _city: data.city,
-        _state: data.state,
-        _postal_code: data.postalCode,
-        _country: data.country,
-        _notes: data.notes ?? '',
-      });
-
-      if (!error && res) {
-        const r = res as { ok: boolean; error?: string; order_id?: string; order_number?: string };
-        if (r.ok && r.order_id && r.order_number) {
-          const { data: o } = await context.supabase.from('inventory_orders').select(SELECT).eq('id', r.order_id).single();
-          if (o) {
-            await mailOrder(
-              o as OrderRow,
-              'Order confirmed',
-              'Thank you for your purchase. The amount has been deducted from your wallet balance and your order is confirmed. Our logistics partner (FedEx Freight) is preparing dispatch.'
-            );
-            const { notifyOwner } = await import('@/lib/owner-alerts.server');
-            await notifyOwner(
-              'New inventory purchase (wallet) — Trade Tesla',
-              [`Order: ${o.order_number}`, `Item: ${o.item_name}`, `Amount: ${fmt(o.amount)}`, `Customer: ${o.full_name} (${o.email})`, `Phone: ${o.phone}`],
-              `owner-inv-${o.id}`
-            );
-          }
-          return { ok: true as const, orderNumber: r.order_number };
-        }
-      }
-    }
-
-    // Direct fallback wallet purchase flow if RPC was unavailable or item was static
     const uid = context.userId;
-    const price = data.itemPrice || (resolvedItem ? Number(String(resolvedItem.price).replace(/[^0-9.]/g, '')) : 0);
-    if (price <= 0) {
+    const { resolvedItemId, resolvedItem } = await resolveInventoryItem(
+      context.supabase,
+      data.itemId,
+      data.itemName,
+    );
+
+    const dbPrice = resolvedItem ? Number(String(resolvedItem.price).replace(/[^0-9.]/g, '')) : 0;
+    const assetPrice = dbPrice > 0 ? dbPrice : Number(data.itemPrice || 0);
+    if (assetPrice <= 0) {
       return { ok: false as const, error: 'Could not determine asset price' };
     }
 
+    const itemName = resolvedItem?.name || data.itemName || 'Tesla Asset';
+    const itemCategory = resolvedItem?.category || data.itemCategory || 'Vehicles';
+    const itemImage = resolvedItem?.image_url || data.itemImage || '';
+
+    const pricing = calculateOrderTotals({
+      assetPrice,
+      category: itemCategory,
+      applyHeroesDiscount: Boolean(data.applyHeroesDiscount),
+    });
+
+    await context.supabase.from('user_balance').insert({ user_id: uid }).select().maybeSingle();
     const { data: bal } = await context.supabase.from('user_balance').select('*').eq('user_id', uid).maybeSingle();
     const available = Number(bal?.available_balance ?? 0);
-    if (available < price) {
+
+    if (available < pricing.totalDue) {
       return {
         ok: false as const,
-        error: `Insufficient wallet balance. You have $${available.toLocaleString('en-US', { minimumFractionDigits: 2 })} but this item costs $${price.toLocaleString('en-US', { minimumFractionDigits: 2 })}.`,
+        error: `Insufficient wallet balance. Available: ${fmt(available)}, Total due (incl. ${fmt(pricing.shippingFee)} shipping${pricing.heroesDiscount > 0 ? ` less ${fmt(pricing.heroesDiscount)} Heroes credit` : ''}): ${fmt(pricing.totalDue)}.`,
       };
     }
 
-    // Deduct balance
     const { error: balErr } = await context.supabase
       .from('user_balance')
-      .update({ available_balance: available - price, updated_at: new Date().toISOString() })
+      .update({ available_balance: available - pricing.totalDue, updated_at: new Date().toISOString() })
       .eq('user_id', uid);
     if (balErr) {
       return { ok: false as const, error: 'Could not deduct wallet balance. Please try again.' };
     }
 
     const orderNumber = 'TT-' + Math.random().toString(36).substring(2, 10).toUpperCase();
-    const itemName = data.itemName || resolvedItem?.name || 'Tesla Asset';
-    const itemCategory = data.itemCategory || resolvedItem?.category || 'Vehicles';
-    const itemImage = data.itemImage || resolvedItem?.image_url || '';
-
     const { data: profile } = await context.supabase.from('user_profiles').select('email').eq('id', uid).maybeSingle();
+
+    const orderNotes = buildOrderNote(
+      data.notes,
+      pricing.shippingFee,
+      pricing.heroesDiscount,
+      data.heroRole,
+    );
 
     const { data: o, error: ordErr } = await context.supabase.from('inventory_orders').insert({
       order_number: orderNumber,
@@ -179,7 +192,7 @@ export const placeWalletOrder = createServerFn({ method: 'POST' })
       item_name: itemName,
       item_category: itemCategory,
       item_image: itemImage,
-      amount: price,
+      amount: pricing.totalDue,
       payment_method: 'wallet',
       order_status: 'paid',
       full_name: data.fullName,
@@ -190,32 +203,45 @@ export const placeWalletOrder = createServerFn({ method: 'POST' })
       state: data.state,
       postal_code: data.postalCode,
       country: data.country,
-      notes: data.notes || null,
+      notes: orderNotes,
     }).select(SELECT).single();
 
     if (ordErr || !o) {
-      // Refund balance on insertion failure
       await context.supabase.from('user_balance').update({ available_balance: available, updated_at: new Date().toISOString() }).eq('user_id', uid);
       return { ok: false as const, error: 'Could not record order. Please try again.' };
     }
 
-    // Record balance transaction ledger entry
     await context.supabase.from('balance_transactions').insert({
       user_id: uid,
       type: 'purchase',
-      amount: -price,
+      amount: -pricing.totalDue,
       status: 'completed',
-      description: `Inventory purchase: ${itemName}`,
+      description: `Order ${orderNumber}: ${itemName} (incl. ${fmt(pricing.shippingFee)} shipping${pricing.heroesDiscount > 0 ? `, -${fmt(pricing.heroesDiscount)} Heroes` : ''})`,
       reference: orderNumber,
     });
 
     await mailOrder(
       o as OrderRow,
       'Order confirmed',
-      'Thank you for your purchase. The amount has been deducted from your wallet balance and your order is confirmed. Our logistics partner (FedEx Freight) is preparing dispatch.'
+      `Thank you for your purchase. ${fmt(pricing.totalDue)} (including ${fmt(pricing.shippingFee)} enclosed freight delivery${pricing.heroesDiscount > 0 ? ` and -${fmt(pricing.heroesDiscount)} Our Heroes credit` : ''}) has been deducted from your wallet balance.`,
+      orderNotes,
     );
 
-    return { ok: true as const, orderNumber };
+    const { notifyOwner } = await import('@/lib/owner-alerts.server');
+    await notifyOwner(
+      'New inventory purchase (wallet) — Trade Tesla',
+      [
+        `Order: ${o.order_number}`,
+        `Item: ${o.item_name}`,
+        `Asset: ${fmt(pricing.assetPrice)} | Shipping: ${fmt(pricing.shippingFee)} | Heroes Discount: -${fmt(pricing.heroesDiscount)}`,
+        `Total Paid: ${fmt(pricing.totalDue)}`,
+        `Customer: ${o.full_name} (${o.email})`,
+        `Phone: ${o.phone}`,
+      ],
+      `owner-inv-${o.id}`,
+    );
+
+    return { ok: true as const, orderNumber, totalPaid: pricing.totalDue };
   })
 
 export const placeExternalOrder = createServerFn({ method: 'POST' })
@@ -230,40 +256,32 @@ export const placeExternalOrder = createServerFn({ method: 'POST' })
     const { supabase, userId } = context
     if (data.proofPath && !data.proofPath.startsWith(`${userId}/`)) return { ok: false as const, error: 'Invalid proof file' }
 
-    let resolvedItemId: string | null = null;
-    let resolvedItem: { id: string; name: string; category: string; image_url: string; price: string } | null = null;
-
-    if (UUID_REGEX.test(data.itemId)) {
-      const { data: item } = await supabase.from('inventory_items').select('id,name,category,image_url,price').eq('id', data.itemId).eq('is_active', true).maybeSingle();
-      if (item) {
-        resolvedItemId = item.id;
-        resolvedItem = item;
-      }
-    } else {
-      const num = Number(data.itemId);
-      if (!isNaN(num) && num > 0) {
-        const { data: item } = await supabase.from('inventory_items').select('id,name,category,image_url,price').eq('sort_order', num).eq('is_active', true).maybeSingle();
-        if (item) {
-          resolvedItemId = item.id;
-          resolvedItem = item;
-        }
-      }
-      if (!resolvedItemId && data.itemName) {
-        const { data: item } = await supabase.from('inventory_items').select('id,name,category,image_url,price').ilike('name', `%${data.itemName.trim()}%`).eq('is_active', true).maybeSingle();
-        if (item) {
-          resolvedItemId = item.id;
-          resolvedItem = item;
-        }
-      }
-    }
+    const { resolvedItemId, resolvedItem } = await resolveInventoryItem(
+      supabase,
+      data.itemId,
+      data.itemName,
+    );
 
     const itemName = resolvedItem?.name || data.itemName || 'Tesla Asset';
     const itemCategory = resolvedItem?.category || data.itemCategory || 'Vehicles';
     const itemImage = resolvedItem?.image_url || data.itemImage || '';
-    const amount = resolvedItem ? Number(String(resolvedItem.price).replace(/[^0-9.]/g, '')) : (data.itemPrice || 0);
+    const dbPrice = resolvedItem ? Number(String(resolvedItem.price).replace(/[^0-9.]/g, '')) : 0;
+    const assetPrice = dbPrice > 0 ? dbPrice : Number(data.itemPrice || 0);
+
+    const pricing = calculateOrderTotals({
+      assetPrice,
+      category: itemCategory,
+      applyHeroesDiscount: Boolean(data.applyHeroesDiscount),
+    });
 
     const { data: profile } = await supabase.from('user_profiles').select('email').eq('id', userId).maybeSingle();
     const orderNumber = 'TT-' + Math.random().toString(36).substring(2, 10).toUpperCase();
+    const orderNotes = buildOrderNote(
+      data.notes,
+      pricing.shippingFee,
+      pricing.heroesDiscount,
+      data.heroRole,
+    );
 
     const { data: o, error } = await supabase.from('inventory_orders').insert({
       order_number: orderNumber,
@@ -272,7 +290,7 @@ export const placeExternalOrder = createServerFn({ method: 'POST' })
       item_name: itemName,
       item_category: itemCategory,
       item_image: itemImage,
-      amount,
+      amount: pricing.totalDue,
       payment_method: 'external',
       payment_proof_url: data.proofPath || null,
       tx_reference: [data.network, data.txReference].filter(Boolean).join(' · ') || null,
@@ -285,7 +303,7 @@ export const placeExternalOrder = createServerFn({ method: 'POST' })
       state: data.state,
       postal_code: data.postalCode,
       country: data.country,
-      notes: data.notes || null,
+      notes: orderNotes,
     }).select(SELECT).single();
 
     if (error || !o) {
@@ -293,16 +311,172 @@ export const placeExternalOrder = createServerFn({ method: 'POST' })
       return { ok: false as const, error: 'Could not place order. Please verify details and try again.' };
     }
 
-    await mailOrder(o as OrderRow, 'Order received',
-      'We received your order and payment details. Our finance and logistics team (FedEx Freight) are verifying your payment — you will get an email as soon as it is confirmed.');
+    await mailOrder(
+      o as OrderRow,
+      'Order received',
+      `We received your order and payment details for ${fmt(pricing.totalDue)} (incl. ${fmt(pricing.shippingFee)} delivery${pricing.heroesDiscount > 0 ? ` less -${fmt(pricing.heroesDiscount)} Our Heroes discount` : ''}). Our settlement team is verifying payment prior to dispatch.`,
+      orderNotes,
+    );
 
     const { notifyOwner } = await import('@/lib/owner-alerts.server');
     await notifyOwner('New inventory order awaiting payment check — Trade Tesla',
-      [`Order: ${o.order_number}`, `Item: ${o.item_name}`, `Amount: ${fmt(o.amount)}`, `Payment: ${data.network}`, `Reference: ${data.txReference || '—'}`, `Customer: ${o.full_name} (${o.email})`],
+      [
+        `Order: ${o.order_number}`,
+        `Item: ${o.item_name}`,
+        `Asset: ${fmt(pricing.assetPrice)} | Shipping: ${fmt(pricing.shippingFee)} | Heroes Discount: -${fmt(pricing.heroesDiscount)}`,
+        `Total Due: ${fmt(pricing.totalDue)}`,
+        `Payment: ${data.network}`,
+        `Reference: ${data.txReference || '—'}`,
+        `Customer: ${o.full_name} (${o.email})`,
+      ],
       `owner-inv-${o.id}`);
 
-    return { ok: true as const, orderNumber: o.order_number };
+    return { ok: true as const, orderNumber: o.order_number, totalPaid: pricing.totalDue };
   })
+
+const giveawayDeliverySchema = z.object({
+  giveawayId: z.string().min(1),
+  giveawayTitle: z.string().trim().min(1).max(200),
+  fullName: z.string().trim().min(2).max(120),
+  email: z.string().trim().email().max(160),
+  phone: z.string().trim().min(5).max(40),
+  addressLine: z.string().trim().min(3).max(200),
+  city: z.string().trim().min(1).max(100),
+  state: z.string().trim().min(1).max(100),
+  postalCode: z.string().trim().min(2).max(20),
+  country: z.string().trim().min(2).max(80),
+  notes: z.string().trim().max(500).optional(),
+});
+
+export const payGiveawayShippingWallet = createServerFn({ method: 'POST' })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => giveawayDeliverySchema.parse(d))
+  .handler(async ({ data, context }) => {
+    const uid = context.userId;
+    const fee = GIVEAWAY_SHIPPING_FEE;
+
+    await context.supabase.from('user_balance').insert({ user_id: uid }).select().maybeSingle();
+    const { data: bal } = await context.supabase.from('user_balance').select('*').eq('user_id', uid).maybeSingle();
+    const available = Number(bal?.available_balance ?? 0);
+
+    if (available < fee) {
+      return {
+        ok: false as const,
+        error: `Insufficient wallet balance for freight delivery (${fmt(fee)}). Available balance: ${fmt(available)}. Deposit funds or settle with crypto/wire.`,
+      };
+    }
+
+    const { error: balErr } = await context.supabase
+      .from('user_balance')
+      .update({ available_balance: available - fee, updated_at: new Date().toISOString() })
+      .eq('user_id', uid);
+    if (balErr) {
+      return { ok: false as const, error: 'Could not deduct delivery fee from wallet.' };
+    }
+
+    const randDigits = Math.floor(10000000 + Math.random() * 90000000);
+    const trackingNumber = `FX-TSLA-${randDigits}US`;
+
+    if (UUID_REGEX.test(data.giveawayId)) {
+      await context.supabase.from('giveaway_entries').insert({
+        giveaway_id: data.giveawayId,
+        user_id: uid,
+        giveaway_title: data.giveawayTitle,
+        amount_paid: fee,
+        status: 'claimed_fedex_queue',
+        full_name: data.fullName,
+        email: data.email,
+        phone: data.phone,
+        address_line: data.addressLine,
+        city: data.city,
+        state: data.state,
+        postal_code: data.postalCode,
+        country: data.country,
+        delivery_notes: data.notes ?? '',
+        tracking_number: trackingNumber,
+        courier: 'FedEx Freight',
+      });
+    }
+
+    await context.supabase.from('balance_transactions').insert({
+      user_id: uid,
+      type: 'giveaway',
+      amount: -fee,
+      status: 'completed',
+      description: `Giveaway freight delivery: ${data.giveawayTitle}`,
+      reference: trackingNumber,
+    });
+
+    const { notifyOwner } = await import('@/lib/owner-alerts.server');
+    await notifyOwner(
+      'Giveaway delivery shipping paid (wallet) — Trade Tesla',
+      [
+        `Campaign: ${data.giveawayTitle}`,
+        `Shipping Paid: ${fmt(fee)}`,
+        `Tracking: ${trackingNumber}`,
+        `Recipient: ${data.fullName} (${data.email}) · ${data.phone}`,
+        `Address: ${data.addressLine}, ${data.city}, ${data.state} ${data.postalCode}, ${data.country}`,
+      ],
+      `owner-gv-${trackingNumber}`,
+    );
+
+    return { ok: true as const, trackingNumber, shippingPaid: fee };
+  });
+
+export const submitGiveawayShippingExternal = createServerFn({ method: 'POST' })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) =>
+    giveawayDeliverySchema.extend({
+      txReference: z.string().trim().max(200).optional(),
+      proofPath: z.string().trim().max(300).optional(),
+      network: z.string().trim().max(80),
+    }).parse(d))
+  .handler(async ({ data, context }) => {
+    const uid = context.userId;
+    if (data.proofPath && !data.proofPath.startsWith(`${uid}/`)) {
+      return { ok: false as const, error: 'Invalid payment proof upload path.' };
+    }
+
+    const fee = GIVEAWAY_SHIPPING_FEE;
+    const randDigits = Math.floor(10000000 + Math.random() * 90000000);
+    const trackingNumber = `FX-TSLA-${randDigits}US`;
+
+    if (UUID_REGEX.test(data.giveawayId)) {
+      await context.supabase.from('giveaway_entries').insert({
+        giveaway_id: data.giveawayId,
+        user_id: uid,
+        giveaway_title: data.giveawayTitle,
+        amount_paid: fee,
+        status: 'pending_shipping_verification',
+        full_name: data.fullName,
+        email: data.email,
+        phone: data.phone,
+        address_line: data.addressLine,
+        city: data.city,
+        state: data.state,
+        postal_code: data.postalCode,
+        country: data.country,
+        delivery_notes: [data.network, data.txReference ? `Ref: ${data.txReference}` : '', data.notes ?? ''].filter(Boolean).join(' | '),
+        tracking_number: trackingNumber,
+        courier: 'FedEx Freight',
+      });
+    }
+
+    const { notifyOwner } = await import('@/lib/owner-alerts.server');
+    await notifyOwner(
+      'Giveaway delivery shipping awaiting check — Trade Tesla',
+      [
+        `Campaign: ${data.giveawayTitle}`,
+        `Shipping Fee: ${fmt(fee)}`,
+        `Payment: ${data.network} | Ref: ${data.txReference || 'Screenshot uploaded'}`,
+        `Tracking: ${trackingNumber}`,
+        `Recipient: ${data.fullName} (${data.email}) · ${data.phone}`,
+      ],
+      `owner-gv-ext-${trackingNumber}`,
+    );
+
+    return { ok: true as const, trackingNumber, shippingPaid: fee };
+  });
 
 const STATUS_COPY: Record<OrderStatus, [string, string]> = {
   pending_payment: ['Order pending', 'Your order is waiting for payment confirmation.'],

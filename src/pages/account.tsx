@@ -429,14 +429,14 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
   if (!mounted) return null;
 
   const body = (
-    <main className="bg-fin-bg text-foreground">
-      <div className="max-w-7xl mx-auto px-6 py-8">
+    <main className="bg-background text-foreground">
+      <div className={embedded ? 'py-2' : 'max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10 py-8'}>
         {/* Synced wallet strip — same source of truth as the investor dashboard */}
         {!embedded && (
         <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-8">
-          <div className="fin-card-elevated rounded-md p-5">
-            <p className="text-[11px] uppercase tracking-[0.22em] text-fin-muted mb-2">Available Wallet Balance</p>
-            <p className="text-3xl font-medium tabular-nums text-fin-emerald">{money(balance?.available_balance || 0)}</p>
+          <div className="fin-card-elevated rounded-[8px] p-5">
+            <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground mb-2">Available Wallet Balance</p>
+            <p className="font-display text-3xl font-semibold tabular text-[#0e9f6e]">{money(balance?.available_balance || 0)}</p>
           </div>
           <MetricCard label="Total Active Capital" value={money(balance?.total_invested || 0)} />
           <MetricCard label="Net Profit Accrued" value={money(balance?.total_profit || 0)} accent />
@@ -448,15 +448,15 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
 
         {/* Profile header */}
         <div className="flex items-start gap-5 mb-8">
-          <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary/30 to-primary/10 border border-primary/30 flex items-center justify-center text-lg font-bold text-primary shrink-0">
+          <div className="w-14 h-14 rounded-full bg-[#3e6ae1]/15 border border-[#3e6ae1]/35 flex items-center justify-center text-lg font-bold text-[#3e6ae1] shrink-0">
             {initials}
           </div>
           <div className="flex-1 min-w-0">
-            <h1 className="text-xl font-bold text-foreground truncate">{userName}</h1>
-            <p className="text-sm text-fin-muted truncate">{userEmail}</p>
+            <h1 className="font-display text-xl font-semibold text-foreground truncate">{userName}</h1>
+            <p className="text-sm text-muted-foreground truncate">{userEmail}</p>
             <div className="flex items-center gap-2 mt-2">
               <span
-                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-semibold"
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[4px] text-xs font-semibold"
                 style={{ color: kycConfig.color, background: kycConfig.bg, border: `1px solid ${kycConfig.border}` }}
               >
                 <span>{kycConfig.icon}</span>
@@ -467,14 +467,14 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-1 mb-8 overflow-x-auto pb-1 scrollbar-hide">
+        <div className="inline-flex gap-1 p-1 rounded-[6px] bg-muted/50 border border-border mb-8 overflow-x-auto max-w-full">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-4 py-2 text-xs font-semibold tracking-widest uppercase rounded transition-all whitespace-nowrap ${
+              className={`px-4 py-2 text-xs font-medium rounded-[4px] transition-all whitespace-nowrap ${
                 activeTab === tab.id
-                  ? 'bg-primary text-foreground' :'text-fin-muted hover:text-foreground hover:bg-fin-elevated'
+                  ? 'bg-foreground text-background' : 'text-muted-foreground hover:text-foreground'
               }`}
             >
               {tab.label}
@@ -624,7 +624,7 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
                   {kyc?.admin_notes && (
                     <div className="bg-fin-elevated border border-fin-border rounded p-4 mb-5">
                       <p className="text-[10px] text-fin-muted tracking-widest uppercase mb-2">Admin Notes</p>
-                      <p className="text-sm text-slate-200 leading-relaxed">{kyc.admin_notes}</p>
+                      <p className="text-sm text-foreground leading-relaxed">{kyc.admin_notes}</p>
                     </div>
                   )}
 
@@ -632,8 +632,7 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
                   {(!kyc || kycStatus === 'rejected') && (
                     <Link
                       href="/kyc"
-                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-foreground text-xs font-bold rounded tracking-widest uppercase hover:bg-accent transition-colors"
-                      style={{ boxShadow: '0 0 20px rgba(227,25,55,0.3)' }}
+                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#3e6ae1] text-white text-xs font-medium rounded-[4px] hover:bg-[#345ac7] transition-colors"
                     >
                       {kycStatus === 'rejected' ? 'Resubmit KYC' : 'Start KYC Verification'}
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -689,11 +688,11 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
                           {withdrawals.map((w) => {
                             const sc = PAYOUT_STATUS_CONFIG[w.payout_status] || { label: w.payout_status, color: '#A1A1AA' };
                             return (
-                              <tr key={w.id} className="hover:bg-fin-elevated transition-colors">
-                                <td className="px-5 py-4 text-sm text-slate-300">{new Date(w.requested_at).toLocaleDateString()}</td>
+                              <tr key={w.id} className="hover:bg-muted/40 transition-colors">
+                                <td className="px-5 py-4 text-sm text-muted-foreground">{new Date(w.requested_at).toLocaleDateString()}</td>
                                 <td className="px-5 py-4 text-sm font-semibold text-foreground">${Number(w.amount).toLocaleString()}</td>
-                                <td className="px-5 py-4 text-sm text-slate-300">{w.bank_name}</td>
-                                <td className="px-5 py-4 text-sm text-slate-300">****{w.account_number?.slice(-4)}</td>
+                                <td className="px-5 py-4 text-sm text-foreground">{w.bank_name}</td>
+                                <td className="px-5 py-4 text-sm text-muted-foreground">****{w.account_number?.slice(-4)}</td>
                                 <td className="px-5 py-4">
                                   <span className="px-2 py-1 rounded text-[10px] font-semibold" style={{ color: sc.color, background: `${sc.color}18` }}>
                                     {sc.label}
@@ -751,14 +750,14 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
                         {portfolio.transactions.map((tx, i) => {
                           const isCredit = tx.type === 'credit' || tx.type === 'deposit' || tx.type === 'return';
                           return (
-                            <tr key={tx.id || i} className="hover:bg-fin-elevated transition-colors">
-                              <td className="px-5 py-4 text-sm text-slate-300 whitespace-nowrap">{tx.date}</td>
+                            <tr key={tx.id || i} className="hover:bg-muted/40 transition-colors">
+                              <td className="px-5 py-4 text-sm text-muted-foreground whitespace-nowrap">{tx.date}</td>
                               <td className="px-5 py-4">
-                                <span className={`px-2 py-1 rounded text-[10px] font-semibold capitalize ${isCredit ? 'bg-card/10 text-fin-emerald' : 'bg-primary/10 text-fin-danger'}`}>
+                                <span className={`px-2 py-1 rounded text-[10px] font-semibold capitalize ${isCredit ? 'bg-[#0e9f6e]/10 text-[#0e9f6e]' : 'bg-[#e82127]/10 text-[#e82127]'}`}>
                                   {tx.type}
                                 </span>
                               </td>
-                              <td className="px-5 py-4 text-sm text-slate-300">{tx.description || '—'}</td>
+                              <td className="px-5 py-4 text-sm text-foreground">{tx.description || '—'}</td>
                               <td className="px-5 py-4">
                                 <span className={`text-sm font-semibold ${isCredit ? 'text-fin-emerald' : 'text-fin-danger'}`}>
                                   {isCredit ? '+' : '-'}{tx.amount}
@@ -1026,14 +1025,14 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
                               rejected: '#E82127',
                             };
                             return (
-                              <tr key={tx.id} className="hover:bg-fin-elevated transition-colors">
-                                <td className="px-5 py-4 text-sm text-slate-300 whitespace-nowrap">{new Date(tx.created_at).toLocaleDateString()}</td>
+                              <tr key={tx.id} className="hover:bg-muted/40 transition-colors">
+                                <td className="px-5 py-4 text-sm text-muted-foreground whitespace-nowrap">{new Date(tx.created_at).toLocaleDateString()}</td>
                                 <td className="px-5 py-4">
-                                  <span className={`px-2 py-1 rounded text-[10px] font-semibold ${isCredit ? 'bg-card/10 text-fin-emerald' : 'bg-primary/10 text-fin-danger'}`}>
+                                  <span className={`px-2 py-1 rounded text-[10px] font-semibold ${isCredit ? 'bg-[#0e9f6e]/10 text-[#0e9f6e]' : 'bg-[#e82127]/10 text-[#e82127]'}`}>
                                     {typeLabels[tx.type] || tx.type}
                                   </span>
                                 </td>
-                                <td className="px-5 py-4 text-sm text-slate-300">{tx.description || '—'}</td>
+                                <td className="px-5 py-4 text-sm text-foreground">{tx.description || '—'}</td>
                                 <td className="px-5 py-4">
                                   <span className={`text-sm font-semibold ${isCredit ? 'text-fin-emerald' : 'text-fin-danger'}`}>
                                     {isCredit ? '+' : '-'}${Number(tx.amount).toLocaleString('en-US', { minimumFractionDigits: 2 })}
