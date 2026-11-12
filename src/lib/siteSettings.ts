@@ -36,7 +36,7 @@ export interface TickerConfig {
 export const DEFAULT_WELCOME: WelcomePopupConfig = {
   enabled: true,
   title: 'Welcome to Trade Tesla',
-  body: 'Explore vehicles, energy, solar and robotics — plus investor packages with daily yield.',
+  body: 'Explore verified Tesla vehicles, Solar Roof, Powerwall, Optimus robotics, and live giveaways.',
   ctaLabel: 'Explore Inventory',
   ctaHref: '/inventory',
   delaySeconds: 8,

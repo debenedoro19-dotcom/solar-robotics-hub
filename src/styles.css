@@ -990,52 +990,105 @@ html:not(.dark) .scanline, html:not(.dark) .dot-grid { opacity: 0.5; }
 .tsla-fade { animation: tslaFade 1s ease-out both; }
 @keyframes tslaFade { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
 
-/* ===== Tesla.com-style sitewide flattening =====
-   Tones down the old neon/glow/grid effects on every page so all sections
-   share the clean, minimal Tesla look. */
-.grid-bg, .noise-overlay, .dot-grid, .scanlines::after { display: none !important; }
-.neon-red { text-shadow: none !important; }
-.gradient-text-primary { background: none !important; -webkit-text-fill-color: currentColor !important; color: var(--primary) !important; }
-.holo-border::before { display: none !important; }
-.glass-card, .glass-card-hover, .glass-premium, .depth-card {
-  background: var(--card) !important; border: 1px solid var(--border) !important;
-  box-shadow: none !important; backdrop-filter: none !important; transform: none !important;
+/* ===== Tesla.com Design System Tokens & Utilities ===== */
+:root {
+  --font-display: "Inter Tight", "Inter", system-ui, sans-serif;
+  --font-sans: "Inter", "Manrope", system-ui, -apple-system, sans-serif;
+  --tesla-ink: #171a20;
+  --tesla-ink-soft: #393c41;
+  --tesla-surface: #f4f4f4;
+  --tesla-accent: #3e6ae1;
+  --tesla-red: #e82127;
+  --tesla-night: #0a0b0d;
+  --tesla-volt: #0e9f6e;
 }
-.badge-3d { box-shadow: none !important; }
-.btn-shimmer::before, .btn-shimmer::after { display: none !important; }
-.btn-elevated, .btn-elevated:hover { box-shadow: none !important; transform: none !important; }
-.tesla-btn-primary, .tesla-btn-outline { border-radius: 4px !important; letter-spacing: 0.02em !important; text-transform: none !important; font-size: 14px !important; font-weight: 600 !important; box-shadow: none !important; }
-.stat-number { text-shadow: none !important; }
-main section [class*="blur-["] { opacity: .35; }
-h1, h2, h3 { letter-spacing: -0.01em; }
-:root { --radius: 0.25rem; }
-main button.rounded-full, main a.rounded-full { border-radius: 4px; }
-main .rounded-2xl, main .rounded-3xl { border-radius: 8px; }
 
-/* ===== Tesla.com standard: dashboards, admin, deposit, withdrawal ===== */
-.gradient-text-primary { color: inherit !important; }
-.backdrop-blur-xl, .backdrop-blur-sm { backdrop-filter: none !important; }
-.sticky.backdrop-blur-xl, header.backdrop-blur-xl { background: var(--background) !important; }
-[class*="shadow-[0_0"] { box-shadow: none !important; }
-.group > .absolute.inset-0[style*="radial-gradient"] { display: none !important; }
-[class*="bg-gradient-to-"] { background-image: none !important; }
-.rounded-full[class*="bg-gradient-to-"] { background-color: var(--muted) !important; }
-.bg-black\/70, .bg-black\/75 { background: color-mix(in oklab, var(--foreground) 45%, transparent) !important; }
-table th { font-weight: 500; text-transform: none; letter-spacing: 0; color: var(--muted-foreground); }
+.font-display {
+  font-family: var(--font-display);
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+.text-shadow-hero {
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.45);
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.45; transform: scale(1.3); }
+}
+.pulse-dot {
+  animation: pulseDot 2s infinite ease-in-out;
+}
+
+/* Range slider styling matching Tesla.com */
+input[type="range"].teh-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--foreground) 16%, transparent);
+  outline: none;
+  cursor: pointer;
+}
+input[type="range"].teh-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  background: var(--foreground);
+  border: 3px solid var(--background);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+  transition: transform 0.15s ease;
+}
+input[type="range"].teh-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.12);
+}
+
+/* Tesla Logo CTA Loader animations */
+@keyframes teslaSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes teslaSpinReverse {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+@keyframes teslaLogoPulse {
+  0%, 100% { transform: scale(0.95); opacity: 0.88; }
+  50% { transform: scale(1.04); opacity: 1; }
+}
+@keyframes teslaBarSweep {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(220%); }
+}
+.tesla-loader-ring {
+  animation: teslaSpin 1.1s linear infinite;
+}
+.tesla-loader-ring-reverse {
+  animation: teslaSpinReverse 1.7s linear infinite;
+}
+.tesla-logo-pulse {
+  animation: teslaLogoPulse 0.9s ease-in-out infinite;
+}
+.tesla-loader-bar {
+  animation: teslaBarSweep 0.75s cubic-bezier(0.22, 0.61, 0.36, 1) infinite;
+}
+
+.grid-bg, .noise-overlay {
+  opacity: 0.35;
+}
+.tesla-btn-primary, .tesla-btn-outline {
+  border-radius: 4px;
+  letter-spacing: 0.02em;
+  font-size: 14px;
+  font-weight: 600;
+}
+table th { font-weight: 500; color: var(--muted-foreground); }
 table td, table th { border-color: var(--border); }
-input, select, textarea { border-radius: 4px !important; box-shadow: none !important; }
-input:focus, select:focus, textarea:focus { outline: none; border-color: var(--foreground) !important; }
-[role="dialog"], .fixed > .relative.max-w-lg, .fixed > .relative.max-w-md { border-radius: 8px !important; box-shadow: 0 8px 40px -12px color-mix(in oklab, var(--foreground) 25%, transparent) !important; }
-/* Muted, Tesla-like status colours */
-[class*="text-emerald-"], [class*="text-green-"] { color: oklch(0.55 0.12 150) !important; }
-[class*="text-amber-"], [class*="text-yellow-"] { color: oklch(0.62 0.12 75) !important; }
-[class*="text-blue-"], [class*="text-cyan-"], [class*="text-sky-"], [class*="text-purple-"], [class*="text-violet-"], [class*="text-indigo-"] { color: var(--foreground) !important; }
-[class*="bg-blue-"], [class*="bg-cyan-"], [class*="bg-purple-"], [class*="bg-violet-"], [class*="bg-indigo-"] { background-color: var(--muted) !important; }
-[class*="border-blue-"], [class*="border-cyan-"], [class*="border-purple-"], [class*="border-violet-"], [class*="border-indigo-"] { border-color: var(--border) !important; }
-h1 { font-weight: 500 !important; }
-h2, h3 { font-weight: 500 !important; }
-.font-extrabold, .font-black { font-weight: 600 !important; }
-.uppercase.tracking-widest, .uppercase.tracking-wider { letter-spacing: 0.04em !important; }
 
 /* ===== Luxury glass system (cinematic minimalism) ===== */
 :root { --lux-ink: #000000; --lux-paper: #ffffff; --lux-graphite: #393c41; }

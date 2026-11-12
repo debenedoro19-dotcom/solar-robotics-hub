@@ -1,53 +1,60 @@
-import React, { useState } from 'react';
-import Link from '@/components/SmartLink';
-import { setCurrentUser } from '@/lib/portfolioStore';
-import { createClient } from '@/lib/supabase/client';
-import { sanitizeEmail } from '@/lib/sanitize';
-import { get2FAStatus, verify2FACode, recordSecurityEvent } from '@/lib/security.functions';
+import React, { useState } from "react";
+import Link from "@/components/SmartLink";
+import { setCurrentUser } from "@/lib/portfolioStore";
+import { createClient } from "@/lib/supabase/client";
+import { sanitizeEmail } from "@/lib/sanitize";
+import { get2FAStatus, verify2FACode, recordSecurityEvent } from "@/lib/security.functions";
+import { TeslaShieldSvg, useTeslaLoader } from "@/components/TeslaLoader";
+import { ThemeToggle } from "@/lib/theme";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [needs2FA, setNeeds2FA] = useState(false);
-  const [twoFactorCode, setTwoFactorCode] = useState('');
+  const [twoFactorCode, setTwoFactorCode] = useState("");
+  const { triggerLoader } = useTeslaLoader();
 
-  /** Logs the device/IP, then routes by role. */
   async function finishLogin() {
     const supabase = createClient();
-    await recordSecurityEvent({ data: { eventType: 'login' } }).catch(() => {});
+    await recordSecurityEvent({ data: { eventType: "login" } }).catch(() => {});
 
     const { data: userData } = await supabase.auth.getUser();
     const user = userData?.user;
     let isAdmin = false;
     if (user) {
       const { data: roleRow } = await supabase
-        .from('user_roles')
-        .select('role')
-        .eq('user_id', user.id)
-        .eq('role', 'admin')
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", user.id)
+        .eq("role", "admin")
         .maybeSingle();
       isAdmin = !!roleRow;
     }
 
-    // Honour ?redirect=/path when it is a safe same-site path.
-    let target = isAdmin ? '/admin' : '/dashboard';
-    if (typeof window !== 'undefined') {
-      const wanted = new URLSearchParams(window.location.search).get('redirect');
-      if (wanted && wanted.startsWith('/') && !wanted.startsWith('//')) target = wanted;
+    let target = isAdmin ? "/admin" : "/dashboard";
+    if (typeof window !== "undefined") {
+      const wanted = new URLSearchParams(window.location.search).get("redirect");
+      if (wanted && wanted.startsWith("/") && !wanted.startsWith("//")) target = wanted;
     }
-    window.location.href = target;
+    triggerLoader({
+      label: isAdmin ? "ADMIN CONSOLE" : "ACCOUNT PORTAL",
+      durationMs: 420,
+      onComplete: () => {
+        window.location.href = target;
+      },
+    });
   }
 
   async function submitTwoFactor(e: React.FormEvent) {
     e.preventDefault();
-    setError('');
+    setError("");
     setLoading(true);
     const res = await verify2FACode({ data: { code: twoFactorCode } }).catch(() => null);
     if (!res?.ok) {
       setLoading(false);
-      setError(res && 'error' in res ? res.error : 'Could not verify that code.');
+      setError(res && "error" in res ? res.error : "Could not verify that code.");
       return;
     }
     await finishLogin();
@@ -57,25 +64,26 @@ export default function LoginPage() {
     const supabase = createClient();
     await supabase.auth.signOut();
     setNeeds2FA(false);
-    setTwoFactorCode('');
-    setPassword('');
+    setTwoFactorCode("");
+    setPassword("");
   }
-
-
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
     const cleanEmail = sanitizeEmail(email);
     if (!cleanEmail || !password) {
-      setError('Please fill in all fields with valid values.');
+      setError("Please fill in all fields with valid values.");
       return;
     }
     setLoading(true);
 
     try {
       const supabase = createClient();
-      const { data, error: signInError } = await supabase.auth.signInWithPassword({ email: cleanEmail, password });
+      const { data, error: signInError } = await supabase.auth.signInWithPassword({
+        email: cleanEmail,
+        password,
+      });
 
       if (signInError) {
         setLoading(false);
@@ -84,21 +92,16 @@ export default function LoginPage() {
       }
 
       const user = data?.user;
-
-      // Note: email verification requirement suspended while mailbox is inactive.
-      // (Bypassed so users can access dashboard directly upon sign in)
-
       if (user) {
-        const fullName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'Investor';
+        const fullName =
+          user.user_metadata?.full_name || user.email?.split("@")[0] || "Investor";
         setCurrentUser({
           id: user.id,
           name: fullName,
-          email: user.email || '',
+          email: user.email || "",
         });
       }
 
-      // Two-factor gate: signed in, but the session is not usable until the
-      // authenticator code checks out.
       const status = await get2FAStatus().catch(() => null);
       if (status?.enabled) {
         setLoading(false);
@@ -107,158 +110,185 @@ export default function LoginPage() {
       }
 
       await finishLogin();
-    } catch (err: any) {
+    } catch {
       setLoading(false);
-      // Fallback: localStorage-based login for legacy accounts
-      const userId = 'user_' + email.replace(/[^a-z0-9]/gi, '_').toLowerCase();
-      const storedUsers = typeof window !== 'undefined' ? localStorage.getItem('tesla_trade_users') : null;
+      const userId = "user_" + email.replace(/[^a-z0-9]/gi, "_").toLowerCase();
+      const storedUsers =
+        typeof window !== "undefined" ? localStorage.getItem("tesla_trade_users") : null;
       const users = storedUsers ? JSON.parse(storedUsers) : [];
       const found = users.find((u: { id: string }) => u.id === userId);
 
       if (!found) {
-        setError('No account found with this email. Please register first.');
+        setError("No account found with this email. Please create an account below.");
         return;
       }
 
       setCurrentUser({ id: found.id, name: found.name, email: found.email });
-      setTimeout(() => {
-        setLoading(false);
-        window.location.href = '/dashboard';
-      }, 1000);
+      triggerLoader({
+        label: "ACCOUNT PORTAL",
+        durationMs: 420,
+        onComplete: () => {
+          window.location.href = "/dashboard";
+        },
+      });
     }
   };
 
   return (
-    <main className="min-h-screen bg-background flex items-center justify-center px-4 relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div
-          className="absolute inset-0 opacity-[0.015]"
-          style={{
-            backgroundImage:
-              'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
-            backgroundSize: '60px 60px',
-          }}
-        />
-      </div>
+    <main className="min-h-screen bg-background text-foreground flex flex-col justify-between">
+      {/* Minimal Tesla SSO Top Bar */}
+      <header className="h-14 px-6 lg:px-10 flex items-center justify-between border-b border-border/60">
+        <Link href="/" className="inline-flex items-center gap-2.5" aria-label="Trade Tesla home">
+          <TeslaShieldSvg className="w-5 h-5 text-[#e82127]" />
+          <span className="font-display text-xs font-semibold tracking-[0.34em] uppercase">
+            Trade Tesla
+          </span>
+        </Link>
+        <ThemeToggle />
+      </header>
 
-      <div className="relative z-10 w-full max-w-sm">
-        {/* Logo */}
-        <div className="text-center mb-10">
-          <Link href="/" className="inline-flex items-center gap-3 mb-6">
-            <img src="/tesla-mark.png" width={32} height={32} alt="" aria-hidden="true" className="text-primary object-contain" />
-            <span className="text-foreground font-bold text-lg tracking-widest uppercase">Trade Tesla</span>
-          </Link>
-          <h1 className="text-2xl font-extrabold text-foreground tracking-tight mb-2">Sign In</h1>
-          <p className="text-sm text-muted-foreground">Access your investment dashboard</p>
+      <div className="mx-auto w-full max-w-[360px] px-4 py-12">
+        <div className="mb-8">
+          <h1 className="font-display text-3xl font-semibold tracking-tight text-foreground">
+            {needs2FA ? "Two-Factor Check" : "Sign In"}
+          </h1>
+          <p className="mt-1.5 text-sm text-muted-foreground">
+            {needs2FA
+              ? "Enter your authenticator code to continue."
+              : "Access your Trade Tesla Account."}
+          </p>
         </div>
 
-        {/* Two-factor step */}
         {needs2FA ? (
           <form onSubmit={submitTwoFactor} className="space-y-4">
             {error && (
-              <div className="px-4 py-3 rounded bg-primary/10 border border-primary/30 text-sm text-primary">{error}</div>
+              <div className="px-3.5 py-2.5 rounded-[4px] bg-[#e82127]/10 border border-[#e82127]/30 text-xs font-medium text-[#e82127]">
+                {error}
+              </div>
             )}
-            <p className="text-sm text-muted-foreground">
-              Enter the 6-digit code from your authenticator app, or one of your backup codes.
-            </p>
-            <input
-              id="twofa"
-              value={twoFactorCode}
-              onChange={(e) => setTwoFactorCode(e.target.value)}
-              placeholder="123456"
-              autoComplete="one-time-code"
-              className="w-full px-4 py-3 rounded text-center text-lg tracking-[0.4em] input-tesla"
-            />
+            <div>
+              <label
+                htmlFor="twofa"
+                className="block text-xs font-medium text-muted-foreground mb-1.5"
+              >
+                6-Digit Verification Code
+              </label>
+              <input
+                id="twofa"
+                value={twoFactorCode}
+                onChange={(e) => setTwoFactorCode(e.target.value)}
+                placeholder="123456"
+                autoComplete="one-time-code"
+                className="w-full h-11 px-3.5 rounded-[4px] bg-muted/40 border border-border text-center text-lg tracking-[0.35em] focus:outline-none focus:border-foreground"
+              />
+            </div>
             <button
               type="submit"
               disabled={loading || twoFactorCode.trim().length < 6}
-              className="w-full py-3.5 rounded bg-primary text-primary-foreground text-sm font-bold disabled:opacity-40"
+              className="w-full h-11 rounded-[4px] bg-[#3e6ae1] text-white text-sm font-medium hover:bg-[#345ac7] disabled:opacity-40 transition-colors"
             >
-              {loading ? 'Verifying…' : 'Verify & continue'}
+              {loading ? "Verifying…" : "Verify & Continue"}
             </button>
             <button
               type="button"
               onClick={cancelTwoFactor}
-              className="w-full py-3 rounded border border-border text-xs font-semibold text-muted-foreground hover:text-foreground"
+              className="w-full h-10 rounded-[4px] border border-border text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
             >
               Use a different account
             </button>
           </form>
         ) : (
-        /* Form */
-        <>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {error && (
-            <div className="px-4 py-3 rounded bg-primary/10 border border-primary/30 text-sm text-primary">{error}</div>
-          )}
-
-          <div>
-            <label htmlFor="email" className="block text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">
-              Email Address
-            </label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@example.com"
-              className="w-full px-4 py-3 rounded text-sm input-tesla"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="password" className="block text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Your password"
-              className="w-full px-4 py-3 rounded text-sm input-tesla"
-            />
-          </div>
-
-          <div className="flex justify-end">
-            <Link href="/forgot-password" className="text-xs text-muted-foreground hover:text-primary transition-colors">
-              Forgot password?
-            </Link>
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full py-3.5 tesla-btn-primary rounded min-h-[48px] flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
-          >
-            {loading ? (
-              <>
-                <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                  <circle cx="12" cy="12" r="10" strokeOpacity="0.25" />
-                  <path d="M12 2a10 10 0 0 1 10 10" />
-                </svg>
-                Signing In...
-              </>
-            ) : (
-              'Sign In →'
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {error && (
+              <div className="px-3.5 py-2.5 rounded-[4px] bg-[#e82127]/10 border border-[#e82127]/30 text-xs font-medium text-[#e82127]">
+                {error}
+              </div>
             )}
-          </button>
-        </form>
-        </>
-        )}
 
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-xs font-medium text-muted-foreground mb-1.5"
+              >
+                Email Address
+              </label>
+              <input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@domain.com"
+                autoComplete="email"
+                className="w-full h-11 px-3.5 rounded-[4px] bg-muted/45 border border-border text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground transition-colors"
+              />
+            </div>
 
+            <div>
+              <div className="flex items-center justify-between mb-1.5">
+                <label
+                  htmlFor="password"
+                  className="block text-xs font-medium text-muted-foreground"
+                >
+                  Password
+                </label>
+                <Link
+                  href="/forgot-password"
+                  className="text-xs text-muted-foreground hover:text-foreground underline underline-offset-4"
+                >
+                  Forgot password?
+                </Link>
+              </div>
+              <input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter password"
+                autoComplete="current-password"
+                className="w-full h-11 px-3.5 rounded-[4px] bg-muted/45 border border-border text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground transition-colors"
+              />
+            </div>
 
-        <div className="mt-6 text-center">
-          <p className="text-sm text-muted-foreground">
-            Don&apos;t have an account?{' '}
-            <Link href="/register" className="text-primary hover:text-primary/80 font-semibold transition-colors">
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full h-11 rounded-[4px] bg-[#3e6ae1] text-white text-sm font-medium hover:bg-[#345ac7] transition-colors flex items-center justify-center gap-2 disabled:opacity-60"
+            >
+              {loading ? "Signing In…" : "Next · Sign In"}
+            </button>
+
+            <div className="relative py-3">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-border" />
+              </div>
+              <div className="relative flex justify-center text-xs">
+                <span className="bg-background px-3 text-muted-foreground">Or</span>
+              </div>
+            </div>
+
+            <Link
+              href="/register"
+              ctaLoader
+              loaderLabel="CREATE ACCOUNT"
+              className="w-full h-11 rounded-[4px] bg-muted/70 border border-border text-foreground text-sm font-medium hover:bg-muted transition-colors flex items-center justify-center"
+            >
               Create Account
             </Link>
-          </p>
-        </div>
+          </form>
+        )}
       </div>
+
+      <footer className="py-6 px-6 text-center text-[11px] text-muted-foreground space-x-4">
+        <Link href="/privacy" className="hover:text-foreground">
+          Privacy &amp; Legal
+        </Link>
+        <Link href="/terms" className="hover:text-foreground">
+          Terms of Use
+        </Link>
+        <Link href="/support" className="hover:text-foreground">
+          Support
+        </Link>
+      </footer>
     </main>
   );
 }

@@ -7,6 +7,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AuthProvider } from "@/contexts/AuthContext";
 import PopupManager from "@/components/PopupManager";
 import { ThemeProvider, THEME_INIT_SCRIPT } from "@/lib/theme";
+import { TeslaLoaderProvider } from "@/components/TeslaLoader";
 
 function NotFoundComponent() {
   return (
@@ -97,7 +98,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap",
       },
       { rel: "icon", href: "/favicon.png", type: "image/png", sizes: "64x64" },
       { rel: "shortcut icon", href: "/favicon.ico", sizes: "any" },
@@ -155,9 +156,11 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
         <AuthProvider>
-          {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-          <Outlet />
-          <PopupManager />
+          <TeslaLoaderProvider>
+            {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+            <Outlet />
+            <PopupManager />
+          </TeslaLoaderProvider>
         </AuthProvider>
       </ThemeProvider>
     </QueryClientProvider>

@@ -172,10 +172,10 @@ export default function SupportPage() {
             <div className="w-16 h-16 rounded-full bg-card border border-border flex items-center justify-center mx-auto mb-4">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-muted-foreground"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
             </div>
-            <h2 className="text-xl font-bold mb-2">Sign In to Access Support</h2>
-            <p className="text-muted-foreground mb-6 text-sm">You need to be logged in to submit and track support tickets.</p>
-            <Link href="/login" className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-foreground rounded font-semibold hover:opacity-90 transition-opacity">
-              Sign In
+            <h2 className="font-display text-xl font-semibold mb-2">Account Required for Support</h2>
+            <p className="text-muted-foreground mb-6 text-sm">Sign in to your Trade Tesla Account to submit and track support requests.</p>
+            <Link href="/login" ctaLoader loaderLabel="ACCOUNT" className="inline-flex h-11 items-center gap-2 px-7 bg-[#3e6ae1] text-white rounded-[4px] font-medium hover:bg-[#345ac7] transition-colors">
+              Account · Sign In
             </Link>
           </div>
         )}

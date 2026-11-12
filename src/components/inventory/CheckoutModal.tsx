@@ -139,15 +139,21 @@ export default function CheckoutModal({ item, onClose }: { item: CheckoutItem; o
 
         {!loading && !userId ? (
           <div className="text-center py-6">
-            <div className="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center mx-auto mb-3 text-lg font-bold">🔒</div>
-            <h4 className="font-bold text-foreground mb-1">Sign In to Complete Purchase</h4>
-            <p className="text-sm text-muted-foreground mb-4">Please sign in or register to secure this inventory asset and track delivery status.</p>
-            <div className="flex flex-col gap-2">
-              <a href="/login" className="inline-block px-5 py-2.5 rounded-xl bg-primary text-primary-foreground font-bold text-sm hover:opacity-90 transition-opacity">
-                Sign in to buy
-              </a>
-              <a href="/register" className="inline-block px-5 py-2.5 rounded-xl border border-border text-foreground font-semibold text-sm hover:bg-muted/40 transition-colors">
-                Create an account
+            <div className="w-12 h-12 rounded-full bg-muted text-foreground flex items-center justify-center mx-auto mb-3 text-lg font-bold border border-border">
+              🔒
+            </div>
+            <h4 className="font-display font-semibold text-foreground text-lg mb-1">
+              Account Required for Direct Checkout
+            </h4>
+            <p className="text-sm text-muted-foreground mb-5">
+              Sign in to your Trade Tesla Account to complete settlement and track FedEx delivery.
+            </p>
+            <div className="flex flex-col gap-2.5">
+              <a
+                href="/login"
+                className="inline-flex h-11 items-center justify-center rounded-[4px] bg-[#3e6ae1] px-5 text-white font-medium text-sm hover:bg-[#345ac7] transition-colors"
+              >
+                Account · Continue to Sign In
               </a>
             </div>
           </div>

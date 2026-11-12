@@ -7,8 +7,6 @@ import ScrollAnimations from "@/components/ScrollAnimations";
 export default function VipSessionPage() {
   return (
     <main className="relative bg-background text-foreground overflow-x-hidden">
-      <div className="grid-bg" aria-hidden="true" />
-      <div className="noise-overlay" aria-hidden="true" />
       <Header />
       <div className="pt-16">
         <VIPSection />

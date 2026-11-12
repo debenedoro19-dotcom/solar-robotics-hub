@@ -1,174 +1,221 @@
-import React from 'react';
-import AppImage from '@/components/ui/AppImage';
-
-const stats = [
-  { label: 'Starship Launches', value: '6+' },
-  { label: '2026 Mars Target', value: 'Active' },
-  { label: 'Ecosystem Value', value: '$350B+' },
-];
-
-const categories = [
-  {
-    id: 1,
-    name: 'Tesla Vehicles',
-    sub: 'Model S, 3, X, Y & Cybertruck',
-    description: 'Full range of verified listings with live market pricing.',
-    cta: 'Browse listings →',
-    href: '/inventory',
-    image: '/assets/images/tesla_vehicles_hero.webp',
-    imageAlt: 'Tesla Cybertruck fleet lineup in dramatic dark studio with cinematic lighting',
-    colSpan: 'lg:col-span-2',
-    accent: '#00D4FF',
-  },
-  {
-    id: 2,
-    name: 'Energy Systems',
-    sub: 'Powerwall · Solar Roof · Megapack',
-    description: 'Complete your energy ecosystem with verified installations.',
-    cta: 'Browse listings →',
-    href: '/inventory',
-    image: '/assets/images/tesla_energy_hero.webp',
-    imageAlt: 'Tesla Powerwall and solar panels installed on modern home at golden hour',
-    colSpan: 'lg:col-span-1',
-    accent: '#00F59B',
-  },
-  {
-    id: 3,
-    name: 'Robotics',
-    sub: 'Optimus Gen 2 · Industrial Automation',
-    description: 'Early access to the future of humanoid robotics.',
-    cta: 'Browse listings →',
-    href: '/inventory',
-    image: '/assets/images/tesla_optimus_robotics.webp',
-    imageAlt: 'Tesla Optimus humanoid robot in futuristic factory with neon blue lighting',
-    colSpan: 'lg:col-span-3',
-    accent: '#A78BFA',
-  },
-];
+import React from "react";
+import { useTeslaLoader } from "@/components/TeslaLoader";
+import { TESLA_ENERGY_SYSTEMS } from "@/data/teslaCatalog";
 
 export default function EcosystemSection() {
-  return (
-    <section className="relative z-10 py-20 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-16 section-reveal">
-          <span className="text-xs font-bold text-primary tracking-[0.25em] uppercase mb-3 block">The Future Is Now</span>
-          <h2 className="text-section-title font-extrabold tracking-tighter text-foreground mb-4">
-            Beyond Earth.{' '}
-            <span className="gradient-text-primary">Beyond Limits.</span>
-          </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-base font-light">
-            From Tesla vehicles and energy to SpaceX Starship, Neuralink, and xAI — one interconnected vision for humanity&apos;s multiplanetary future.
-          </p>
-        </div>
+  const { navigateWithLoader } = useTeslaLoader();
 
-        {/* Stats — with SpaceX launch cinematic background */}
-        <div className="relative rounded-3xl overflow-hidden mb-12 section-reveal">
-          {/* SpaceX background image */}
-          <div className="absolute inset-0 z-0">
-            <AppImage
-              src="/assets/images/spacex_starship_launch.webp"
-              alt="SpaceX Starship rocket launching at night with massive flame plume"
-              fill
-              className="object-cover object-center"
-              priority
-            />
-            {/* Dark overlay so text stays readable */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#050507]/85 via-[#050507]/70 to-[#050507]/85" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#050507]/60 via-transparent to-[#050507]/40" />
+  return (
+    <div className="bg-background text-foreground">
+      {/* Ecosystem Hero */}
+      <section className="relative overflow-hidden bg-[#0a0b0d] text-white py-20 sm:py-28 px-4 sm:px-6 lg:px-10">
+        <img
+          src="/images/energy-home.jpg"
+          alt="Tesla Solar Roof and Powerwall 3 modern installation"
+          className="absolute inset-0 h-full w-full object-cover opacity-40"
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(10,11,13,0.65) 0%, rgba(10,11,13,0.92) 100%)",
+          }}
+        />
+        <div className="relative z-10 mx-auto max-w-[1440px]">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#e82127]">
+            Trade Tesla Ecosystem
+          </span>
+          <h1 className="font-display mt-3 max-w-3xl text-4xl font-semibold tracking-tight sm:text-6xl">
+            Clean Generation, Storage, Charging &amp; Robotics
+          </h1>
+          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/78 sm:text-base">
+            Built to integrate seamlessly from rooftop photon capture to whole-home LFP battery
+            storage, Megapack utility dispatch, global NACS Supercharging, and Optimus humanoid
+            automation.
+          </p>
+
+          <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl border-t border-white/15 pt-6">
+            <div>
+              <div className="font-display text-2xl font-semibold tabular">13.5 kWh</div>
+              <div className="text-[11px] uppercase tracking-wider text-white/60">Powerwall 3 Unit</div>
+            </div>
+            <div>
+              <div className="font-display text-2xl font-semibold tabular">3.9 MWh</div>
+              <div className="text-[11px] uppercase tracking-wider text-white/60">Megapack 2 XL</div>
+            </div>
+            <div>
+              <div className="font-display text-2xl font-semibold tabular">60,000+</div>
+              <div className="text-[11px] uppercase tracking-wider text-white/60">Superchargers</div>
+            </div>
+            <div>
+              <div className="font-display text-2xl font-semibold tabular">28 DoF</div>
+              <div className="text-[11px] uppercase tracking-wider text-white/60">Optimus Actuators</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Energy & Solar Systems Studio Grid */}
+      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-10">
+        <div className="mx-auto max-w-[1440px]">
+          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between border-b border-border pb-6 mb-10">
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+                Tesla Energy Hardware
+              </p>
+              <h2 className="font-display mt-1.5 text-3xl font-semibold tracking-tight">
+                Solar, Storage &amp; Home Charging
+              </h2>
+            </div>
+            <button
+              type="button"
+              onClick={() => navigateWithLoader("/inventory", "HARDWARE INVENTORY")}
+              className="self-start rounded-[4px] bg-foreground px-5 py-2.5 text-xs font-medium text-background hover:opacity-90 transition-opacity"
+            >
+              Order Hardware Directly →
+            </button>
           </div>
 
-          {/* Stats grid on top */}
-          <div className="relative z-10 grid grid-cols-3 gap-4 p-6 sm:p-8">
-            {stats?.map((s) => (
-              <div key={s?.label} className="rounded-xl p-5 text-center border border-white/10 bg-black/30 backdrop-blur-sm">
-                <div className="text-2xl sm:text-3xl font-extrabold text-primary mb-1">{s?.value}</div>
-                <div className="text-xs font-semibold text-white/70">{s?.label}</div>
-              </div>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+            {TESLA_ENERGY_SYSTEMS.map((sys) => (
+              <article
+                key={sys.id}
+                className="flex flex-col justify-between overflow-hidden rounded-[6px] border border-border bg-card hover:border-foreground/35 transition-all"
+              >
+                <div>
+                  <div className="relative aspect-[16/10] bg-muted overflow-hidden">
+                    <img src={sys.image} alt={sys.name} className="h-full w-full object-cover" />
+                    <span className="absolute top-3 left-3 rounded-[3px] bg-black/75 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white">
+                      {sys.tag}
+                    </span>
+                  </div>
+                  <div className="p-5">
+                    <h3 className="font-display text-lg font-semibold">{sys.name}</h3>
+                    <p className="mt-1 text-xs font-medium text-[#3e6ae1]">{sys.headlineMetric}</p>
+                    <p className="mt-2.5 text-xs text-muted-foreground leading-relaxed">
+                      {sys.summary}
+                    </p>
+                    <dl className="mt-4 space-y-1.5 border-t border-border/70 pt-3 text-xs">
+                      {sys.specs.map((sp) => (
+                        <div key={sp.label} className="flex justify-between">
+                          <dt className="text-muted-foreground">{sp.label}</dt>
+                          <dd className="font-medium tabular">{sp.value}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between border-t border-border px-5 py-4">
+                  <span className="text-sm font-semibold tabular">{sys.priceLabel}</span>
+                  <button
+                    type="button"
+                    onClick={() => navigateWithLoader("/inventory", sys.name.toUpperCase())}
+                    className="h-9 rounded-[4px] bg-[#3e6ae1] px-4 text-xs font-medium text-white hover:bg-[#345ac7] transition-colors"
+                  >
+                    Order Now
+                  </button>
+                </div>
+              </article>
             ))}
           </div>
         </div>
+      </section>
 
-        {/* Bento grid — 3 cards across 3 cols */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-          {/* col-1–2: Vehicles */}
-          <div className="glass-card glass-card-hover rounded-3xl section-reveal lg:col-span-2 relative overflow-hidden group min-h-[280px]">
-            {/* Background image */}
-            <div className="absolute inset-0 z-0">
-              <AppImage
-                src={categories?.[0]?.image}
-                alt={categories?.[0]?.imageAlt}
-                fill
-                className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
-                sizes="(max-width: 1024px) 100vw, 66vw"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#050507] via-[#050507]/60 to-transparent" />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#050507]/40 to-transparent" />
-            </div>
-            <div className="relative z-10 p-8 flex flex-col justify-end h-full min-h-[280px]">
-              <h3 className="text-2xl font-extrabold text-foreground mb-1">{categories?.[0]?.name}</h3>
-              <div className="text-xs font-bold tracking-widest uppercase mb-3" style={{ color: categories?.[0]?.accent }}>{categories?.[0]?.sub}</div>
-              <p className="text-muted-foreground text-sm leading-relaxed mb-6">{categories?.[0]?.description}</p>
-              <a href={categories?.[0]?.href} className="text-sm font-bold transition-colors" style={{ color: categories?.[0]?.accent }}>
-                {categories?.[0]?.cta}
-              </a>
-            </div>
-          </div>
+      {/* Optimus Gen 2 & SpaceX Robotics Synergy */}
+      <section
+        id="robotics"
+        className="border-t border-border bg-[#0a0b0d] text-white py-16 sm:py-24 px-4 sm:px-6 lg:px-10"
+      >
+        <div className="mx-auto max-w-[1440px] space-y-16">
+          <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
+            <div>
+              <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/65">
+                Autonomous Humanoid Robotics
+              </span>
+              <h2 className="font-display mt-2 text-3xl font-semibold tracking-tight sm:text-5xl">
+                Optimus Gen 2 Specifications
+              </h2>
+              <p className="mt-4 text-sm leading-relaxed text-white/75">
+                General-purpose bi-pedal autonomous humanoid built for repetitive industrial
+                logistics, factory tooling, and supervised utility tasks.
+              </p>
 
-          {/* col-3: Energy */}
-          <div className="glass-card glass-card-hover rounded-3xl section-reveal lg:col-span-1 relative overflow-hidden group min-h-[280px]">
-            {/* Background image */}
-            <div className="absolute inset-0 z-0">
-              <AppImage
-                src={categories?.[1]?.image}
-                alt={categories?.[1]?.imageAlt}
-                fill
-                className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
-                sizes="(max-width: 1024px) 100vw, 33vw"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#050507] via-[#050507]/60 to-transparent" />
-            </div>
-            <div className="relative z-10 p-8 flex flex-col justify-end h-full min-h-[280px]">
-              <h3 className="text-xl font-extrabold text-foreground mb-1">{categories?.[1]?.name}</h3>
-              <div className="text-xs font-bold tracking-widest uppercase mb-3" style={{ color: categories?.[1]?.accent }}>{categories?.[1]?.sub}</div>
-              <p className="text-muted-foreground text-sm leading-relaxed mb-6">{categories?.[1]?.description}</p>
-              <a href={categories?.[1]?.href} className="text-sm font-bold transition-colors" style={{ color: categories?.[1]?.accent }}>
-                {categories?.[1]?.cta}
-              </a>
-            </div>
-          </div>
+              <dl className="mt-8 grid grid-cols-2 gap-4 border-t border-white/15 pt-6 text-sm">
+                <div>
+                  <dt className="text-[11px] uppercase tracking-wider text-white/55">Height &amp; Weight</dt>
+                  <dd className="font-display mt-1 text-lg font-semibold">5&apos;8&quot; · 125 lb</dd>
+                </div>
+                <div>
+                  <dt className="text-[11px] uppercase tracking-wider text-white/55">Tactile Hands</dt>
+                  <dd className="font-display mt-1 text-lg font-semibold">11-DoF Force Sensing</dd>
+                </div>
+                <div>
+                  <dt className="text-[11px] uppercase tracking-wider text-white/55">Actuation</dt>
+                  <dd className="font-display mt-1 text-lg font-semibold">28 Structural Joints</dd>
+                </div>
+                <div>
+                  <dt className="text-[11px] uppercase tracking-wider text-white/55">Compute</dt>
+                  <dd className="font-display mt-1 text-lg font-semibold">FSD AI + Dojo Trained</dd>
+                </div>
+              </dl>
 
-          {/* col-1–3: Robotics (full width) */}
-          <div className="glass-card glass-card-hover rounded-3xl section-reveal lg:col-span-3 relative overflow-hidden group min-h-[260px]">
-            {/* Background image */}
-            <div className="absolute inset-0 z-0">
-              <AppImage
-                src={categories?.[2]?.image}
-                alt={categories?.[2]?.imageAlt}
-                fill
-                className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
-                sizes="100vw"
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#050507] via-[#050507]/70 to-[#050507]/40" />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#050507]/80 via-transparent to-transparent" />
-            </div>
-            <div className="relative z-10 p-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 min-h-[260px]">
-              <div className="flex flex-col justify-end">
-                <h3 className="text-2xl font-extrabold text-foreground mb-1">{categories?.[2]?.name}</h3>
-                <div className="text-xs font-bold tracking-widest uppercase mb-3" style={{ color: categories?.[2]?.accent }}>{categories?.[2]?.sub}</div>
-                <p className="text-muted-foreground text-sm leading-relaxed max-w-xl">{categories?.[2]?.description}</p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <button
+                  type="button"
+                  onClick={() => navigateWithLoader("/inventory", "OPTIMUS ALLOCATIONS")}
+                  className="h-11 rounded-[4px] bg-white px-6 text-xs font-medium text-[#171a20] hover:bg-white/90 transition-colors"
+                >
+                  Reserve Optimus Allocation
+                </button>
+                <button
+                  type="button"
+                  onClick={() => navigateWithLoader("/login", "ACCOUNT")}
+                  className="h-11 rounded-[4px] border border-white/30 px-6 text-xs font-medium text-white hover:bg-white/10 transition-colors"
+                >
+                  Account
+                </button>
               </div>
-              <a
-                href={categories?.[2]?.href}
-                className="shrink-0 inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-bold text-sm btn-shimmer transition-all duration-300 min-h-[48px] border"
-                style={{ color: categories?.[2]?.accent, borderColor: `${categories?.[2]?.accent}40` }}
+            </div>
+
+            <div className="overflow-hidden rounded-[6px] border border-white/15">
+              <img
+                src="/assets/images/tesla_optimus_robotics.webp"
+                alt="Optimus Gen 2"
+                className="h-[360px] w-full object-cover"
+              />
+            </div>
+          </div>
+
+          <div className="grid gap-10 border-t border-white/15 pt-16 lg:grid-cols-2 lg:items-center">
+            <div className="overflow-hidden rounded-[6px] border border-white/15 order-2 lg:order-1">
+              <img
+                src="/assets/images/spacex_starship_launch.webp"
+                alt="SpaceX Starship launch integration"
+                className="h-[320px] w-full object-cover"
+              />
+            </div>
+            <div className="order-1 lg:order-2 space-y-4">
+              <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#e82127]">
+                Aerospace &amp; AI Telemetry Synergy
+              </span>
+              <h3 className="font-display text-3xl font-semibold tracking-tight">
+                Beyond Earth. Multiplanetary Scale.
+              </h3>
+              <p className="text-sm leading-relaxed text-white/75">
+                Cross-pollinated metallurgy, battery chemistry, and autonomous flight guidance link
+                Starship heavy-lift propulsion, Starlink mesh connectivity, and xAI compute clusters.
+              </p>
+              <button
+                type="button"
+                onClick={() => navigateWithLoader("/invest", "INFRASTRUCTURE PROGRAMS")}
+                className="h-11 rounded-[4px] border border-white/30 px-6 text-xs font-medium text-white hover:bg-white/10 transition-colors"
               >
-                {categories?.[2]?.cta}
-              </a>
+                Explore Infrastructure Programs →
+              </button>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   );
 }

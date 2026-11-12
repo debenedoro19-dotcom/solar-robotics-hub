@@ -11,11 +11,11 @@ export default function FloatingSupport() {
     <div className="fixed bottom-6 right-4 sm:right-6 z-50 flex flex-col items-end gap-3">
       {/* Chat bubble */}
       {chatOpen && (
-        <div className="glass-card rounded-3xl p-5 w-72 border border-border shadow-2xl animate-fade-up">
+        <div className="rounded-[8px] p-5 w-72 border border-border bg-card text-foreground shadow-2xl">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-              <span className="text-sm font-bold text-foreground">Trade Tesla Support</span>
+              <span className="w-2 h-2 rounded-full bg-[#0e9f6e] pulse-dot" />
+              <span className="font-display text-sm font-semibold text-foreground">Trade Tesla Support</span>
             </div>
             <button
               onClick={() => setChatOpen(false)}
@@ -82,11 +82,10 @@ export default function FloatingSupport() {
       {/* Live chat button */}
       <button
         onClick={() => setChatOpen(!chatOpen)}
-        className="w-14 h-14 rounded-full bg-primary flex items-center justify-center shadow-2xl hover:opacity-90 transition-all duration-300 hover:-translate-y-0.5"
+        className="w-12 h-12 rounded-full bg-foreground text-background flex items-center justify-center shadow-xl hover:opacity-90 transition-all duration-300 border border-border"
         aria-label="Open support chat"
-        style={{ boxShadow: '0 4px 20px rgba(0,212,255,0.35)' }}
       >
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
         </svg>
       </button>

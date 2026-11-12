@@ -314,43 +314,51 @@ export default function CareersPage() {
       <Header />
 
       {/* ── Tesla Hero Section ──────────────────────────────────────────────── */}
-      <section className="relative pt-32 pb-20 px-6 border-b border-border/60 overflow-hidden bg-gradient-to-b from-card/40 via-background to-background">
-        <div className="absolute inset-0 grid-bg opacity-30" aria-hidden="true" />
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[720px] h-[360px] bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
+      <section className="relative overflow-hidden bg-[#0a0b0d] text-white pt-32 pb-20 px-6 border-b border-border">
+        <img
+          src="/images/hero-road.jpg"
+          alt="Tesla engineering careers"
+          className="absolute inset-0 h-full w-full object-cover opacity-30"
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background: "linear-gradient(180deg, rgba(10,11,13,0.72) 0%, rgba(10,11,13,0.92) 100%)",
+          }}
+        />
 
         <div className="max-w-6xl mx-auto relative z-10 text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold tracking-[0.2em] uppercase mb-6">
-            <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-            Careers // Accelerating The Transition
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-[4px] bg-white/10 border border-white/20 text-white text-[11px] font-medium tracking-[0.2em] uppercase mb-6 backdrop-blur-md">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#e82127] pulse-dot" />
+            Careers · Accelerating The Transition
           </div>
 
-          <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-foreground mb-6 max-w-4xl mx-auto leading-[1.1]">
-            Build The Future of <br className="hidden sm:inline" />
-            <span className="text-primary">Clean Energy & Robotics</span>
+          <h1 className="font-display text-4xl sm:text-6xl font-semibold tracking-tight text-white mb-6 max-w-4xl mx-auto leading-[1.08]">
+            Build The Future of Clean Energy &amp; Robotics
           </h1>
 
-          <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed mb-10">
+          <p className="text-sm sm:text-base text-white/78 max-w-2xl mx-auto leading-relaxed mb-10">
             Join the teams powering vehicles, Solar Roof, Megapack storage, and Optimus humanoid robots.
-            Explore open roles across all experience levels — with comprehensive on-the-job training for entry-level positions.
+            Explore open roles across all experience levels — with paid on-the-job training for entry-level positions.
           </p>
 
           {/* Quick Metrics Bar */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto pt-6 border-t border-border/40">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto pt-6 border-t border-white/15">
             <div className="p-3">
-              <div className="text-2xl font-black text-foreground">12+</div>
-              <div className="text-xs uppercase tracking-wider text-muted-foreground mt-1">Open Roles</div>
+              <div className="font-display text-2xl font-semibold text-white tabular">12+</div>
+              <div className="text-[11px] uppercase tracking-wider text-white/60 mt-1">Open Roles</div>
             </div>
             <div className="p-3">
-              <div className="text-2xl font-black text-primary">{entryCount}</div>
-              <div className="text-xs uppercase tracking-wider text-muted-foreground mt-1">Entry-Level Roles</div>
+              <div className="font-display text-2xl font-semibold text-[#e82127] tabular">{entryCount}</div>
+              <div className="text-[11px] uppercase tracking-wider text-white/60 mt-1">Entry-Level Roles</div>
             </div>
             <div className="p-3">
-              <div className="text-2xl font-black text-foreground">&lt; 48h</div>
-              <div className="text-xs uppercase tracking-wider text-muted-foreground mt-1">Review Time</div>
+              <div className="font-display text-2xl font-semibold text-white tabular">&lt; 48h</div>
+              <div className="text-[11px] uppercase tracking-wider text-white/60 mt-1">Review Time</div>
             </div>
             <div className="p-3">
-              <div className="text-2xl font-black text-foreground">100%</div>
-              <div className="text-xs uppercase tracking-wider text-muted-foreground mt-1">Equity Eligible</div>
+              <div className="font-display text-2xl font-semibold text-white tabular">100%</div>
+              <div className="text-[11px] uppercase tracking-wider text-white/60 mt-1">Equity Eligible</div>
             </div>
           </div>
         </div>
@@ -617,7 +625,9 @@ export default function CareersPage() {
           </div>
           <Link
             href="/careers/remote-ai-data-specialist"
-            className="shrink-0 px-6 py-3 rounded-xl bg-foreground text-background hover:bg-primary hover:text-primary-foreground text-xs font-extrabold tracking-wider uppercase transition-colors"
+            ctaLoader
+            loaderLabel="APPLICATION PORTAL"
+            className="shrink-0 px-6 py-3 rounded-[4px] bg-[#3e6ae1] text-white hover:bg-[#345ac7] text-xs font-medium tracking-wide transition-colors"
           >
             Submit General Application
           </Link>

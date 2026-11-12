@@ -1,188 +1,229 @@
-import React from 'react';
-
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import React, { useState } from "react";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import FloatingSupport from "@/components/sections/FloatingSupport";
+import { useTeslaLoader } from "@/components/TeslaLoader";
 
 const articles = [
-{
-  id: 1,
-  category: 'Market Update',
-  title: 'Tesla Q3 2026 Earnings Beat Expectations — EPS $2.84 vs $2.61 Estimate',
-  excerpt: 'Tesla reported record quarterly revenue of $28.4B, driven by strong Cybertruck demand and energy storage deployments reaching 9.4 GWh.',
-  time: '2 hours ago',
-  readTime: '4 min read',
-  tag: 'TSLA',
-  tagColor: 'text-green-400 bg-green-400/10 border-green-400/20',
-  image: "https://images.unsplash.com/photo-1573126324222-6600c9c21274",
-  alt: 'Tesla Model S electric vehicle charging at a Supercharger station at night with city lights in background',
-  featured: true
-},
-{
-  id: 2,
-  category: 'Energy',
-  title: 'Megapack Orders Surge 340% as Global Grid Storage Demand Accelerates',
-  excerpt: 'Tesla Energy division sees unprecedented demand with utility-scale battery contracts signed across 14 countries.',
-  time: '5 hours ago',
-  readTime: '3 min read',
-  tag: 'Energy',
-  tagColor: 'text-yellow-400 bg-yellow-400/10 border-yellow-400/20',
-  image: "https://img.rocket.new/generatedImages/rocket_gen_img_1b937a421-1773093286076.png",
-  alt: 'Large-scale solar panel array in desert landscape with clear blue sky, renewable energy installation',
-  featured: false
-},
-{
-  id: 3,
-  category: 'Robotics',
-  title: 'Optimus Gen 3 Begins Factory Deployment — 1,000 Units Operational',
-  excerpt: 'Tesla\'s humanoid robot reaches commercial milestone with full factory integration at Gigafactory Texas.',
-  time: '1 day ago',
-  readTime: '5 min read',
-  tag: 'Robotics',
-  tagColor: 'text-zinc-300 bg-zinc-300/10 border-zinc-300/20',
-  image: "https://img.rocket.new/generatedImages/rocket_gen_img_114687bad-1772811528144.png",
-  alt: 'Futuristic humanoid robot in industrial factory setting with bright lights and machinery',
-  featured: false
-},
-{
-  id: 4,
-  category: 'Investment',
-  title: 'Trade Tesla Platform Reaches $2.4T AUM Milestone',
-  excerpt: 'The platform celebrates a landmark achievement as total assets under management cross the $2.4 trillion threshold.',
-  time: '2 days ago',
-  readTime: '2 min read',
-  tag: 'Platform',
-  tagColor: 'text-primary bg-primary/10 border-primary/20',
-  image: "https://images.unsplash.com/photo-1672617195387-1a890be98e28",
-  alt: 'Stock market trading screen showing green upward trending charts and financial data',
-  featured: false
-},
-{
-  id: 5,
-  category: 'Vehicles',
-  title: 'Cybertruck Demand Outpaces Production — 2.1M Orders Backlog',
-  excerpt: 'Despite ramping production to 3,000 units per week, Tesla faces a growing waitlist for its stainless steel pickup.',
-  time: '3 days ago',
-  readTime: '3 min read',
-  tag: 'Vehicles',
-  tagColor: 'text-zinc-300 bg-zinc-300/10 border-zinc-300/20',
-  image: "https://images.unsplash.com/photo-1667137092038-27612b7233d1",
-  alt: 'Modern electric pickup truck on a dark road with dramatic lighting and mountain backdrop',
-  featured: false
-},
-{
-  id: 6,
-  category: 'Regulation',
-  title: 'SEC Approves Tesla Ecosystem Investment Products for Retail Investors',
-  excerpt: 'New regulatory framework opens Tesla-backed investment vehicles to a broader retail investor base.',
-  time: '4 days ago',
-  readTime: '4 min read',
-  tag: 'Regulation',
-  tagColor: 'text-muted-foreground bg-muted border-border',
-  image: "https://img.rocket.new/generatedImages/rocket_gen_img_1daf442ff-1772333279339.png",
-  alt: 'Government building with columns and American flag, representing financial regulation and policy',
-  featured: false
-}];
+  {
+    id: 1,
+    category: "Market Update",
+    title: "Tesla Energy Deployments Accelerate — Utility Megapack Capacity Expands",
+    excerpt:
+      "Grid-scale Megapack 2 XL deliveries continue scaling rapidly alongside surging Cybertruck and Model 3 Highland customer deliveries.",
+    time: "2 hours ago",
+    readTime: "4 min read",
+    tag: "TSLA",
+    image: "/images/car-red.jpg",
+    alt: "Tesla Model S Plaid on coastal highway",
+    featured: true,
+    href: "/inventory",
+  },
+  {
+    id: 2,
+    category: "Energy",
+    title: "Megapack 2 XL Orders Surge Across 14 Regional Grid Operators",
+    excerpt:
+      "Utility-scale 3.9 MWh battery blocks replace fossil peaker plants with zero-emission turnkey Autobidder storage arrays.",
+    time: "5 hours ago",
+    readTime: "3 min read",
+    tag: "Energy",
+    image: "/images/energy-home.jpg",
+    alt: "Tesla solar and Powerwall residential energy installation",
+    featured: false,
+    href: "/ecosystem",
+  },
+  {
+    id: 3,
+    category: "Robotics",
+    title: "Optimus Gen 2 Enters Autonomous Factory Logistics Validation",
+    excerpt:
+      "Powered by FSD neural inference hardware and Dojo simulation, Optimus actuators handle delicate production sorting.",
+    time: "1 day ago",
+    readTime: "5 min read",
+    tag: "Robotics",
+    image: "/assets/images/tesla_optimus_robotics.webp",
+    alt: "Tesla Optimus Gen 2 humanoid robot in factory setting",
+    featured: false,
+    href: "/ecosystem#robotics",
+  },
+  {
+    id: 4,
+    category: "Investment",
+    title: "Clean Energy Asset Allocations Expand Across Solar & Charging",
+    excerpt:
+      "Investors gain structured exposure to Megapack deployments, solar arrays, and V4 Supercharger corridors.",
+    time: "2 days ago",
+    readTime: "3 min read",
+    tag: "Programs",
+    image: "/images/battery.jpg",
+    alt: "Home and grid battery storage installation",
+    featured: false,
+    href: "/invest",
+  },
+  {
+    id: 5,
+    category: "Vehicles",
+    title: "Cybertruck & New Model 3 Headline Direct-Checkout Fleet Availability",
+    excerpt:
+      "Steer-by-wire agility, cold-rolled stainless exoskeleton, and 363-mile acoustic sedan configurations ship with FedEx dispatch.",
+    time: "3 days ago",
+    readTime: "3 min read",
+    tag: "Vehicles",
+    image: "/images/car-truck.jpg",
+    alt: "Tesla Cybertruck on open terrain",
+    featured: false,
+    href: "/inventory",
+  },
+  {
+    id: 6,
+    category: "Charging",
+    title: "NACS Supercharger Network Surpasses 60,000 Fast-Charging Stalls",
+    excerpt:
+      "V4 cabinets deliver up to 350 kW peak power with 99.97% network uptime and plug-and-charge telemetry.",
+    time: "4 days ago",
+    readTime: "4 min read",
+    tag: "Charging",
+    image: "/images/charger.jpg",
+    alt: "Tesla Supercharger network hardware",
+    featured: false,
+    href: "/ecosystem",
+  },
+];
 
-
-const categories = ['All', 'Market Update', 'Energy', 'Robotics', 'Investment', 'Vehicles', 'Regulation'];
+const categories = ["All", "Market Update", "Energy", "Robotics", "Investment", "Vehicles", "Charging"];
 
 export default function NewsPage() {
-  const featured = articles?.find((a) => a?.featured);
-  const rest = articles?.filter((a) => !a?.featured);
+  const [activeCategory, setActiveCategory] = useState("All");
+  const { navigateWithLoader } = useTeslaLoader();
+
+  const visibleArticles =
+    activeCategory === "All"
+      ? articles
+      : articles.filter((a) => a.category === activeCategory);
+
+  const featured = activeCategory === "All" ? visibleArticles.find((a) => a.featured) : null;
+  const gridArticles = featured
+    ? visibleArticles.filter((a) => a.id !== featured.id)
+    : visibleArticles;
 
   return (
     <main className="min-h-screen bg-background text-foreground">
       <Header />
-      <div className="pt-24 pb-20 px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <div className="mb-10">
-            <span className="text-xs font-bold text-primary tracking-[0.25em] uppercase mb-3 block">Market Intelligence</span>
-            <h1 className="text-4xl sm:text-5xl font-extrabold text-foreground tracking-tight mb-4">
-              News & <span className="gradient-text-primary">Insights</span>
+      <div className="pt-24 pb-20 px-4 sm:px-6 lg:px-10">
+        <div className="mx-auto max-w-[1440px]">
+          <div className="border-b border-border pb-8 mb-8">
+            <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+              Trade Tesla Newsroom
+            </span>
+            <h1 className="font-display mt-2 text-3xl font-semibold tracking-tight sm:text-5xl">
+              News &amp; Ecosystem Updates
             </h1>
-            <p className="text-muted-foreground text-base max-w-xl">
-              Real-time market intelligence, Tesla ecosystem updates, and investment research.
+            <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
+              Dispatches across Tesla vehicles, Megapack utility storage, Optimus robotics, NACS
+              charging, and platform milestones.
             </p>
           </div>
 
-          {/* Category filters */}
           <div className="flex gap-2 flex-wrap mb-10">
-            {categories?.map((cat) =>
-            <button
-              key={cat}
-              className={`px-4 py-2 text-xs font-semibold rounded border tracking-wider uppercase transition-all ${
-              cat === 'All' ? 'bg-primary text-white border-primary' : 'bg-transparent text-muted-foreground border-border hover:border-border hover:text-foreground'}`
-              }>
-              
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => setActiveCategory(cat)}
+                className={`h-9 rounded-[4px] px-4 text-xs font-medium transition-colors ${
+                  activeCategory === cat
+                    ? "bg-foreground text-background"
+                    : "border border-border bg-card text-muted-foreground hover:text-foreground"
+                }`}
+              >
                 {cat}
               </button>
-            )}
+            ))}
           </div>
 
-          {/* Featured article */}
-          {featured &&
-          <div className="mb-10 bg-card border border-border rounded overflow-hidden hover:border-primary/20 transition-all duration-300 group">
+          {featured && (
+            <article className="mb-10 overflow-hidden rounded-[6px] border border-border bg-card transition-all hover:shadow-md">
               <div className="grid grid-cols-1 lg:grid-cols-2">
-                <div className="relative h-64 lg:h-auto overflow-hidden">
+                <div className="relative h-64 lg:h-auto min-h-[280px] overflow-hidden bg-muted">
                   <img
-                  src={featured?.image}
-                  alt={featured?.alt}
-                  className="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500 group-hover:scale-105 transform" />
-                
-                  <div className="absolute inset-0 bg-transparent hidden lg:block" />
+                    src={featured.image}
+                    alt={featured.alt}
+                    className="h-full w-full object-cover"
+                  />
                 </div>
                 <div className="p-8 lg:p-10 flex flex-col justify-center">
-                  <div className="flex items-center gap-3 mb-4">
-                    <span className={`px-2.5 py-1 text-[10px] font-bold rounded border tracking-wider uppercase ${featured?.tagColor}`}>
-                      {featured?.tag}
+                  <div className="flex items-center gap-3 mb-4 text-xs text-muted-foreground">
+                    <span className="rounded-[3px] bg-foreground px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-background">
+                      {featured.tag}
                     </span>
-                    <span className="text-xs text-muted-foreground">{featured?.time}</span>
-                    <span className="text-xs text-muted-foreground">{featured?.readTime}</span>
+                    <span>{featured.time}</span>
+                    <span>· {featured.readTime}</span>
                   </div>
-                  <h2 className="text-xl sm:text-2xl font-extrabold text-foreground tracking-tight mb-4 leading-tight">
-                    {featured?.title}
+                  <h2 className="font-display text-2xl sm:text-3xl font-semibold tracking-tight text-foreground mb-4">
+                    {featured.title}
                   </h2>
-                  <p className="text-sm text-muted-foreground leading-relaxed mb-6">{featured?.excerpt}</p>
-                  <a href="#" className="inline-flex items-center gap-2 text-xs font-bold text-primary tracking-widest uppercase hover:gap-3 transition-all">
-                    Read Full Story
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-                  </a>
+                  <p className="text-sm text-muted-foreground leading-relaxed mb-6">
+                    {featured.excerpt}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => navigateWithLoader(featured.href, "EXPLORE")}
+                    className="self-start text-xs font-semibold text-[#3e6ae1] hover:underline"
+                  >
+                    Explore Related Listings →
+                  </button>
                 </div>
               </div>
-            </div>
-          }
+            </article>
+          )}
 
-          {/* Article grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {rest?.map((article) =>
-            <article key={article?.id} className="bg-card border border-border rounded overflow-hidden hover:border-primary/20 transition-all duration-300 group flex flex-col">
-                <div className="relative h-44 overflow-hidden">
-                  <img
-                  src={article?.image}
-                  alt={article?.alt}
-                  className="w-full h-full object-cover opacity-50 group-hover:opacity-70 transition-opacity duration-500 group-hover:scale-105 transform" />
-                
-                </div>
-                <div className="p-5 flex flex-col flex-1">
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className={`px-2 py-0.5 text-[9px] font-bold rounded border tracking-wider uppercase ${article?.tagColor}`}>
-                      {article?.tag}
-                    </span>
-                    <span className="text-[10px] text-muted-foreground">{article?.time}</span>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {gridArticles.map((article) => (
+              <article
+                key={article.id}
+                className="flex flex-col justify-between overflow-hidden rounded-[6px] border border-border bg-card transition-all hover:border-foreground/35 hover:shadow-md"
+              >
+                <div>
+                  <div className="aspect-[16/10] overflow-hidden bg-muted">
+                    <img
+                      src={article.image}
+                      alt={article.alt}
+                      loading="lazy"
+                      className="h-full w-full object-cover"
+                    />
                   </div>
-                  <h3 className="text-sm font-bold text-foreground leading-snug mb-2 flex-1">{article?.title}</h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed mb-4 line-clamp-2">{article?.excerpt}</p>
-                  <a href="#" className="text-[10px] font-bold text-primary tracking-widest uppercase hover:text-red-400 transition-colors">
-                    Read More →
-                  </a>
+                  <div className="p-6">
+                    <div className="flex items-center gap-2 mb-3 text-[11px] text-muted-foreground">
+                      <span className="rounded-[3px] border border-border bg-muted px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-foreground">
+                        {article.tag}
+                      </span>
+                      <span>{article.time}</span>
+                    </div>
+                    <h3 className="font-display text-lg font-semibold leading-snug text-foreground mb-2">
+                      {article.title}
+                    </h3>
+                    <p className="text-xs text-muted-foreground leading-relaxed">
+                      {article.excerpt}
+                    </p>
+                  </div>
+                </div>
+                <div className="px-6 pb-6">
+                  <button
+                    type="button"
+                    onClick={() => navigateWithLoader(article.href, article.tag.toUpperCase())}
+                    className="text-xs font-semibold text-[#3e6ae1] hover:underline"
+                  >
+                    View Section →
+                  </button>
                 </div>
               </article>
-            )}
+            ))}
           </div>
         </div>
       </div>
       <Footer />
-    </main>);
-
+      <FloatingSupport />
+    </main>
+  );
 }
