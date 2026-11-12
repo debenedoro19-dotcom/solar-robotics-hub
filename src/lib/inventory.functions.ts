@@ -544,3 +544,46 @@ export const adminUpdateOrder = createServerFn({ method: 'POST' })
     }
     return { ok: true as const }
   })
+
+export const submitAeroBooking = createServerFn({ method: 'POST' })
+  .inputValidator((d: unknown) =>
+    z.object({
+      mode: z.enum(['prebook', 'test_drive']),
+      vehicle: z.string().trim().min(2).max(120),
+      edition: z.string().trim().min(1).max(120),
+      fullName: z.string().trim().min(2).max(120),
+      email: z.string().trim().email().max(160),
+      phone: z.string().trim().min(5).max(40),
+      hub: z.string().trim().min(2).max(120),
+      preferredDate: z.string().trim().max(80).optional(),
+      experienceType: z.string().trim().max(80).optional(),
+      notes: z.string().trim().max(500).optional(),
+    }).parse(d))
+  .handler(async ({ data }) => {
+    const prefix = data.mode === 'prebook' ? 'TT-AERO' : 'TT-DRV';
+    const rand = Math.random().toString(36).slice(2, 7).toUpperCase();
+    const reservationCode = `${prefix}-${rand}`;
+
+    const { notifyOwner } = await import('@/lib/owner-alerts.server');
+    await notifyOwner(
+      data.mode === 'prebook'
+        ? `New Flying Car Pre-Book (${reservationCode}) — Trade Tesla`
+        : `New Prototype Test Drive Scheduled (${reservationCode}) — Trade Tesla`,
+      [
+        `Reservation Code: ${reservationCode}`,
+        `Mode: ${data.mode === 'prebook' ? 'Flying Car Priority Pre-Book' : 'Test Drive / Flight Briefing'}`,
+        `Vehicle: ${data.vehicle} (${data.edition})`,
+        `Hub / Target: ${data.hub}${data.preferredDate ? ` · ${data.preferredDate}` : ''}`,
+        data.experienceType ? `Format: ${data.experienceType}` : undefined,
+        `Applicant: ${data.fullName} · ${data.email} · ${data.phone}`,
+        data.notes ? `Notes: ${data.notes}` : undefined,
+      ],
+      `owner-aero-${reservationCode}`,
+    );
+
+    return {
+      ok: true as const,
+      reservationCode,
+      createdAt: new Date().toISOString(),
+    };
+  })

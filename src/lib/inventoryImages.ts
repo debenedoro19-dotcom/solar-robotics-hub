@@ -41,6 +41,7 @@ export function resolveInventoryImageUrl(
   // Deterministic Tesla model-to-studio-image matching
   if (n.includes('semi')) return '/images/tesla/semi-studio.jpg';
   if (n.includes('cyberbeast') || n.includes('cybertruck')) return '/images/car-truck.jpg';
+  if (n.includes('aero') || n.includes('flying') || n.includes('evtol')) return '/images/tesla/cybercab-studio.jpg';
   if (n.includes('cybercab') || n.includes('robotaxi')) return '/images/tesla/cybercab-studio.jpg';
   if (n.includes('roadster')) return '/images/car-red.jpg';
   if (n.includes('model s')) return '/images/car-red.jpg';

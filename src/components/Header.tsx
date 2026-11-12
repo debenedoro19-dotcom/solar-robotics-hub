@@ -7,6 +7,7 @@ import { TESLA_VEHICLES } from "@/data/teslaCatalog";
 
 const primaryLinks = [
   { label: "Vehicles", href: "/inventory", hasMega: true },
+  { label: "Flying Car", href: "/flying-car" },
   { label: "Energy", href: "/ecosystem" },
   { label: "Robotics", href: "/ecosystem#robotics" },
   { label: "Invest", href: "/invest" },
@@ -17,9 +18,10 @@ const primaryLinks = [
 
 const drawerLinks = [
   { label: "Live Inventory", href: "/inventory", note: "Direct checkout — Vehicles, Energy & Robotics" },
+  { label: "Flying Car & Test Drive", href: "/flying-car", note: "Pre-book Model Aero eVTOL or book prototype drive" },
   { label: "Tesla Ecosystem", href: "/ecosystem", note: "Solar, Powerwall 3, Supercharger & Optimus" },
   { label: "Investment Programs", href: "/invest", note: "Clean-energy portfolio allocations" },
-  { label: "Free Giveaways", href: "/giveaways", note: "100% free entries with FedEx dispatch" },
+  { label: "Free Giveaways", href: "/giveaways", note: "100% free $0 vehicle prize drops & claims" },
   { label: "Elon Musk & Vision", href: "/elon-musk", note: "Leadership & long-term roadmap" },
   { label: "VIP Executive Session", href: "/vip-session", note: "Private briefings & strategic tours" },
   { label: "Funding & Rails", href: "/payments", note: "Wire, card, and digital asset settlement" },
@@ -237,6 +239,16 @@ export default function Header({ heroTransparent = false }: { heroTransparent?: 
                     className="block text-sm font-medium hover:text-[#e82127] transition-colors"
                   >
                     Optimus Humanoid Robotics
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setVehiclesHover(false);
+                      navigateWithLoader("/flying-car", "MODEL AERO PRE-BOOK");
+                    }}
+                    className="block text-sm font-medium hover:text-[#e82127] transition-colors"
+                  >
+                    Flying Car Pre-Book &amp; Demo
                   </button>
                   <button
                     type="button"

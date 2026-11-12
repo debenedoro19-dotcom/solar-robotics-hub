@@ -482,6 +482,56 @@ export const TESLA_VEHICLES: TeslaVehicleModel[] = [
       },
     ],
   },
+  {
+    id: "model-aero",
+    name: "Model Aero (Flying Car)",
+    category: "Autonomous & Future",
+    tagline: "Dual-mode electric hypercar with enclosed carbon-ducted VTOL flight.",
+    price: 299000,
+    leaseMonthly: 3290,
+    rangeMiles: 350,
+    zeroToSixty: "2.1 s",
+    topSpeedMph: "215 mph Air",
+    horsepower: "8-Rotor + Dual Drive",
+    seats: "2 + Gear",
+    cargoCuFt: "18 cu ft",
+    drivetrain: "Road AWD + Enclosed VTOL",
+    peakChargingKw: "350 kW V4",
+    badge: "Pre-Book",
+    heroImage: "/images/tesla/cybercab-studio.jpg",
+    description:
+      "Street-legal autonomous EV engineered with fold-flush enclosed ducted fans, fly-by-wire corridor guidance, and seamless 6.5-second transition from highway driving to vertical takeoff.",
+    paints: [
+      { name: "Obsidian Aerospace Satin", hex: "#14161a", price: 0, image: "/images/tesla/cybercab-studio.jpg" },
+      { name: "Liquid Silver Flight Coat", hex: "#d1d5db", price: 4500, image: "/images/car-white.jpg" },
+      { name: "Crimson Vector", hex: "#9b111e", price: 5000, image: "/images/car-red.jpg" },
+    ],
+    wheels: [
+      { name: '20" Retractable Aero Shroud', price: 0, rangeDelta: 0 },
+    ],
+    interiors: [
+      { name: "Carbon Cockpit 2-Seat", swatch: "#1a1c20", price: 0 },
+      { name: "Light Aerospace Suede", swatch: "#eaecef", price: 3500 },
+    ],
+    trims: [
+      {
+        name: "Aero Dual-Mode Production",
+        price: 299000,
+        range: "350 mi Road · 110 mi Air",
+        zeroToSixty: "2.1 s",
+        topSpeed: "215 mph Air",
+        drivetrain: "AWD + 8-Rotor VTOL",
+      },
+      {
+        name: "Aero Founders VTOL Edition",
+        price: 350000,
+        range: "410 mi Road · 145 mi Air",
+        zeroToSixty: "1.9 s",
+        topSpeed: "235 mph Air",
+        drivetrain: "Tri-Motor + Carbon Blades",
+      },
+    ],
+  },
 ];
 
 export const TESLA_HERO_SLIDES: TeslaHeroSlide[] = [
@@ -563,6 +613,22 @@ export const TESLA_HERO_SLIDES: TeslaHeroSlide[] = [
       { label: "Actuators", value: "28 Torque" },
       { label: "Hands", value: "11-DoF Tactile" },
       { label: "Battery Pack", value: "2.3 kWh" },
+    ],
+  },
+  {
+    id: "hero-flying-car",
+    eyebrow: "Pre-Book & Flight Demo",
+    title: "Model Aero · Road & Sky",
+    subtitle: "Dual-mode electric hypercar with enclosed VTOL lift rotors. Reserve your priority build slot or schedule a prototype test drive & flight simulator briefing.",
+    badge: "Flying Car",
+    image: "/images/tesla/cybercab-studio.jpg",
+    primaryCta: { label: "Pre-Book Build Slot", href: "/flying-car", actionType: "route" },
+    secondaryCta: { label: "Book Test Drive", href: "/flying-car?mode=test_drive" },
+    specs: [
+      { label: "Road / Air", value: "350 / 110 mi" },
+      { label: "VTOL Shift", value: "6.5 s" },
+      { label: "Air Cruise", value: "215 mph" },
+      { label: "Pre-Book Due", value: "$0 Queue" },
     ],
   },
 ];

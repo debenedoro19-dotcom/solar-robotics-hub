@@ -51,7 +51,7 @@ const FALLBACK_GIVEAWAYS: Giveaway[] = [
     id: "fallback-1",
     title: "Win a 2025 Model 3 Long Range",
     description:
-      "2025 Tesla Model 3 Long Range AWD. Prize entry is $0; enclosed FedEx carrier delivery shipping ($495) is settled upon dispatch claim.",
+      "Enter for $0 to claim a 2025 Tesla Model 3 Long Range AWD finished in Stealth Grey. Verified fair-draw allocation with insured doorstep courier dispatch upon winner confirmation.",
     prize: "2025 Tesla Model 3 Long Range AWD",
     image_url: null,
     entry_fee: 0,
@@ -64,7 +64,7 @@ const FALLBACK_GIVEAWAYS: Giveaway[] = [
     id: "fallback-2",
     title: "Cybertruck Experience Weekend",
     description:
-      "Win a full weekend with a Cybertruck Foundation Series plus a $2,000 platform credit toward any purchase. Freight delivery fee settled on claim.",
+      "Win a full weekend with a Cybertruck Foundation Series plus a $2,000 Trade Tesla credit toward any vehicle or hardware purchase. Entry is 100% free with priority allocation.",
     prize: "Cybertruck Foundation Series + $2,000 credit",
     image_url: null,
     entry_fee: 0,
@@ -74,6 +74,36 @@ const FALLBACK_GIVEAWAYS: Giveaway[] = [
     badge: "FREE PRIZE",
   },
 ];
+
+function sanitizeGiveawayCopy(raw: string): string {
+  const cleaned = String(raw || "")
+    .replace(/\$?\b495\b/gi, "")
+    .replace(/[^.?!]*(?:freight delivery fee|enclosed (?:fedex )?carrier delivery shipping|delivery shipping \(\) is settled)[^.?!]*[.?!]?/gi, "")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+  return (
+    cleaned ||
+    "Official Trade Tesla promotional drop. Prize allocation entry is 100% free ($0) with verified doorstep courier dispatch upon destination confirmation."
+  );
+}
+
+function specsForGiveaway(g: Giveaway): Array<{ label: string; value: string }> {
+  const text = `${g.title} ${g.prize}`.toLowerCase();
+  if (text.includes("cybertruck") || text.includes("cyber")) {
+    return [
+      { label: "Entry Cost", value: "$0 Free" },
+      { label: "Est. Value", value: "$99,990+" },
+      { label: "0–60 mph", value: "2.6 s" },
+      { label: "Bonus Credit", value: "$2,000" },
+    ];
+  }
+  return [
+    { label: "Entry Cost", value: "$0 Free" },
+    { label: "EPA Range", value: "341 mi" },
+    { label: "0–60 mph", value: "4.2 s" },
+    { label: "MSRP Value", value: "$47,490" },
+  ];
+}
 
 function imageFor(g: Giveaway): string {
   const text = `${g.title} ${g.prize}`.toLowerCase();
@@ -202,10 +232,10 @@ const GiveawayCard = memo(function GiveawayCard({
             className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
           <span className="absolute top-3 left-3 rounded-[3px] bg-[#171a20]/90 px-2.5 py-1 text-[10px] font-semibold tracking-wider uppercase text-white backdrop-blur-sm">
-            Free Prize Allocation
+            Free Entry · $0
           </span>
-          <span className="absolute top-3 right-3 rounded-[3px] bg-black/75 px-2.5 py-1 text-[10px] font-medium tracking-wider text-white backdrop-blur-sm">
-            ${GIVEAWAY_SHIPPING_FEE} Freight Delivery
+          <span className="absolute top-3 right-3 rounded-[3px] bg-black/75 px-2.5 py-1 text-[10px] font-medium tracking-wider uppercase text-white backdrop-blur-sm">
+            Verified Drop
           </span>
         </div>
 
@@ -213,7 +243,9 @@ const GiveawayCard = memo(function GiveawayCard({
           <h3 className="font-display text-2xl font-semibold tracking-tight text-foreground">
             {g.title}
           </h3>
-          <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{g.description}</p>
+          <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
+            {sanitizeGiveawayCopy(g.description)}
+          </p>
 
           <div className="mt-5 rounded-[4px] border border-border bg-muted/35 p-4">
             <div className="text-[10px] font-semibold text-muted-foreground tracking-[0.16em] uppercase mb-2">
@@ -245,7 +277,7 @@ const GiveawayCard = memo(function GiveawayCard({
             </div>
             <div className="flex justify-between items-center text-[11px] text-muted-foreground mt-2">
               <span className="text-foreground font-medium">Prize Entry: $0 Free</span>
-              <span>Delivery Fee: ${GIVEAWAY_SHIPPING_FEE}</span>
+              <span>Verified Fair-Draw Allocation</span>
             </div>
           </div>
         </div>
@@ -257,7 +289,7 @@ const GiveawayCard = memo(function GiveawayCard({
           onClick={() => onEnter(g)}
           className="w-full h-11 rounded-[4px] bg-foreground text-background text-xs font-medium hover:opacity-90 transition-opacity"
         >
-          Claim Free Prize &amp; Arrange Delivery →
+          Enter &amp; Claim Free Prize →
         </button>
       </div>
     </article>
@@ -640,7 +672,9 @@ function FreeClaimModal({
               Free Prize ($0)
             </span>
             <span className="text-xs font-medium text-muted-foreground">
-              ${shippingFee} Enclosed Freight Shipping
+              {step === 2
+                ? `$${shippingFee} Enclosed Carrier Dispatch`
+                : "Priority Allocation Claim"}
             </span>
           </div>
           <h2 className="font-display text-xl font-semibold text-foreground">{giveaway.title}</h2>
@@ -652,9 +686,8 @@ function FreeClaimModal({
         {!loading && !userId ? (
           <div className="text-center py-6 space-y-4">
             <p className="text-sm text-muted-foreground">
-              Sign in to your Trade Tesla Account to reserve your free prize claim and settle the{" "}
-              <strong className="text-foreground">${shippingFee}</strong> enclosed carrier shipping
-              fee from your wallet or crypto/wire transfer.
+              Sign in to your Trade Tesla Account to lock in your free ($0) prize claim and confirm
+              your delivery destination.
             </p>
             <a
               href="/login"
@@ -667,11 +700,11 @@ function FreeClaimModal({
           <div className="space-y-4">
             <div className="p-3.5 rounded-[4px] bg-muted/35 border border-border text-xs text-muted-foreground space-y-1">
               <p className="font-semibold text-foreground">
-                Step 1 · Delivery Destination (${shippingFee} Carrier Dispatch)
+                Step 1 · Confirm Delivery Destination
               </p>
               <p>
-                Prize allocation is 100% free ($0). Enclosed carrier freight shipping (${shippingFee})
-                is deducted or paid on the next step before generating your FedEx waybill.
+                Prize allocation is 100% free ($0). Enter your legal recipient details and delivery
+                address to lock in your destination and move to final dispatch confirmation.
               </p>
             </div>
 
@@ -817,7 +850,7 @@ function FreeClaimModal({
               }}
               className="w-full h-11 rounded-[4px] bg-foreground text-background font-medium text-xs disabled:opacity-40 hover:opacity-90 transition-opacity"
             >
-              Continue to Shipping Payment (${shippingFee}) →
+              Confirm Destination &amp; Continue →
             </button>
           </div>
         ) : (
@@ -999,8 +1032,15 @@ function FreeClaimModal({
   );
 }
 
+const RECENT_ALLOCATION_LEDGER = [
+  { code: "TT-DRP-9041", vehicle: "Model 3 Long Range AWD", hub: "Austin, TX", status: "Allocation Confirmed · Waybill Active" },
+  { code: "TT-DRP-8874", vehicle: "Cybertruck Foundation Series", hub: "San Jose, CA", status: "Verified Entry Pass Issued" },
+  { code: "TT-DRP-8612", vehicle: "Model 3 Long Range AWD", hub: "Miami, FL", status: "Handover Scheduled" },
+];
+
 export default function GiveawaysSection() {
   const [giveaways, setGiveaways] = useState<Giveaway[]>(FALLBACK_GIVEAWAYS);
+  const [spotlightIndex, setSpotlightIndex] = useState(0);
   const [activeGiveaway, setActiveGiveaway] = useState<Giveaway | null>(null);
   const [activeClaim, setActiveClaim] = useState<ClaimDetails | null>(null);
   const [showFedExModal, setShowFedExModal] = useState(false);
@@ -1033,6 +1073,7 @@ export default function GiveawaysSection() {
           setGiveaways(
             data.map((g: Giveaway) => ({
               ...g,
+              description: sanitizeGiveawayCopy(g.description),
               entry_fee: 0,
               badge: "FREE PRIZE",
             })),
@@ -1056,50 +1097,249 @@ export default function GiveawaysSection() {
     );
   }, []);
 
-  return (
-    <section id="giveaways" className="py-12 sm:py-16 px-4 sm:px-6 lg:px-10 bg-background">
-      <div className="mx-auto max-w-[1440px]">
-        {activeClaim && (
-          <div className="mb-8 rounded-[6px] border border-border bg-card p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm">
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-foreground pulse-dot" />
-                <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-foreground">
-                  Active FedEx Courier Dispatch
-                </span>
-              </div>
-              <p className="mt-1 text-sm font-semibold text-foreground">
-                {activeClaim.prize} · Waybill:{" "}
-                <span className="font-mono text-foreground underline underline-offset-4">{activeClaim.trackingNumber}</span>
-              </p>
-            </div>
-            <button
-              type="button"
-              onClick={() =>
-                triggerLoader({
-                  label: "FEDEX TRACKING",
-                  durationMs: 360,
-                  onComplete: () => setShowFedExModal(true),
-                })
-              }
-              className="h-10 rounded-[4px] bg-foreground px-5 text-xs font-medium text-background hover:opacity-90 transition-opacity self-start md:self-auto"
-            >
-              Track with FedEx Delivery →
-            </button>
-          </div>
-        )}
+  const spotlight = giveaways[spotlightIndex] ?? giveaways[0];
+  const spotlightEntries = spotlight ? asymmetricDisplayEntries(spotlight) : 0;
+  const spotlightPct = spotlight
+    ? Math.min(100, Math.round((spotlightEntries / Math.max(1, spotlight.max_entries)) * 100))
+    : 0;
+  const spotlightSpecs = spotlight ? specsForGiveaway(spotlight) : [];
 
-        <div className="border-b border-border pb-8 mb-10">
-          <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
-            Official Trade Tesla Campaigns
-          </span>
-          <h1 className="font-display mt-2 text-3xl font-semibold tracking-tight sm:text-5xl">
-            Vehicle Giveaways &amp; Free Claims
-          </h1>
-          <p className="mt-3 max-w-2xl text-sm text-muted-foreground leading-relaxed">
-            Every promotional giveaway prize on Trade Tesla is free to enter ($0). Enclosed carrier
-            delivery shipping (${GIVEAWAY_SHIPPING_FEE}) is paid or deducted on the website when you
-            confirm your delivery destination.
+  return (
+    <section id="giveaways" className="bg-background">
+      {/* ── Flagship Dark Obsidian Giveaway Spotlight Stage ──────────────────── */}
+      <div className="bg-[#0a0b0d] text-white border-b border-white/10">
+        <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-10 py-12 sm:py-16">
+          {/* Active Claim Waybill Banner inside Spotlight if claimed */}
+          {activeClaim && (
+            <div className="mb-8 rounded-[6px] border border-white/20 bg-white/[0.05] p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="h-2 w-2 rounded-full bg-[#e82127] pulse-dot" />
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/85">
+                    Active Courier Dispatch Waybill
+                  </span>
+                </div>
+                <p className="mt-1 text-sm font-semibold text-white">
+                  {activeClaim.prize} · Waybill:{" "}
+                  <span className="font-mono underline underline-offset-4">
+                    {activeClaim.trackingNumber}
+                  </span>
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() =>
+                  triggerLoader({
+                    label: "FEDEX TRACKING",
+                    durationMs: 360,
+                    onComplete: () => setShowFedExModal(true),
+                  })
+                }
+                className="h-10 rounded-[4px] bg-white px-5 text-xs font-semibold text-[#171a20] hover:bg-white/90 transition-colors self-start md:self-auto"
+              >
+                Track FedEx Delivery →
+              </button>
+            </div>
+          )}
+
+          {/* Switcher Pills for Active Spotlight Campaigns */}
+          <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
+            <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-3.5 py-1.5 text-[10.5px] font-semibold uppercase tracking-[0.22em] text-white/85">
+              <span className="h-2 w-2 rounded-full bg-[#e82127] pulse-dot" />
+              <span>Trade Tesla Special Drops Lounge · $0 Free Entry</span>
+            </div>
+
+            {giveaways.length > 1 && (
+              <div className="flex flex-wrap gap-2" role="tablist" aria-label="Featured drop selector">
+                {giveaways.map((item, idx) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    role="tab"
+                    aria-selected={spotlightIndex === idx}
+                    onClick={() => setSpotlightIndex(idx)}
+                    className={`h-9 rounded-[4px] px-4 text-xs font-medium transition-colors ${
+                      spotlightIndex === idx
+                        ? "bg-white text-[#171a20]"
+                        : "border border-white/20 bg-white/[0.04] text-white/75 hover:bg-white/10 hover:text-white"
+                    }`}
+                  >
+                    0{idx + 1} · {item.title.replace(/^Win a /i, "")}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {spotlight && (
+            <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+              {/* Left Column: Typography, Countdown, Specs & CTA */}
+              <div className="space-y-6">
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/55">
+                    Featured Drop #{String(spotlightIndex + 1).padStart(2, "0")} · Priority Vehicle Allocation
+                  </p>
+                  <h1 className="font-display mt-2 text-4xl font-medium tracking-tight text-white sm:text-5xl lg:text-6xl leading-[1.04]">
+                    {spotlight.title}
+                  </h1>
+                  <p className="mt-4 max-w-xl text-sm leading-relaxed text-white/75">
+                    {sanitizeGiveawayCopy(spotlight.description)}
+                  </p>
+                </div>
+
+                {/* Spec Strip */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  {spotlightSpecs.map((spec) => (
+                    <div
+                      key={spec.label}
+                      className="rounded-[6px] border border-white/12 bg-white/[0.04] px-3.5 py-3"
+                    >
+                      <p className="text-[10px] uppercase tracking-[0.16em] text-white/55">
+                        {spec.label}
+                      </p>
+                      <p className="font-display mt-1 text-base font-semibold text-white tabular">
+                        {spec.value}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Large Architectural Countdown on Dark Canvas */}
+                <div className="rounded-[6px] border border-white/15 bg-white/[0.04] p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-5">
+                  <div>
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/55 mb-2">
+                      Drop Allocation Closes ·{" "}
+                      {new Date(spotlight.ends_at).toLocaleDateString("en-US", {
+                        timeZone: "UTC",
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                      })}
+                    </p>
+                    <div className="[&_span.text-foreground]:text-white [&_span.text-muted-foreground]:text-white/55">
+                      <CountdownTimer endDate={spotlight.ends_at} />
+                    </div>
+                  </div>
+                  <div className="sm:text-right">
+                    <p className="font-display text-xl font-semibold text-white tabular">
+                      {spotlightPct}% Filled
+                    </p>
+                    <p className="text-[11px] text-white/60 tabular mt-0.5">
+                      {spotlightEntries.toLocaleString()} / {spotlight.max_entries.toLocaleString()} claims
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap gap-3 pt-1">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      triggerLoader({
+                        label: "OPENING CLAIM PORTAL",
+                        durationMs: 360,
+                        onComplete: () => setActiveGiveaway(spotlight),
+                      })
+                    }
+                    className="h-12 rounded-[4px] bg-white px-7 text-xs font-semibold uppercase tracking-[0.12em] text-[#171a20] hover:bg-white/90 transition-colors"
+                  >
+                    Enter Free Drop ($0) →
+                  </button>
+                  <a
+                    href="#active-drops"
+                    className="inline-flex h-12 items-center justify-center rounded-[4px] border border-white/30 px-6 text-xs font-medium text-white hover:bg-white/10 transition-colors"
+                  >
+                    Compare All Active Drops
+                  </a>
+                </div>
+              </div>
+
+              {/* Right Column: Studio Vehicle + Collector Entry Pass Card */}
+              <div className="rounded-[8px] border border-white/15 bg-[#121418] overflow-hidden shadow-2xl">
+                <div className="relative h-64 sm:h-80 overflow-hidden bg-black">
+                  <img
+                    src={imageFor(spotlight)}
+                    alt={spotlight.prize || spotlight.title}
+                    className="h-full w-full object-cover"
+                  />
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      background:
+                        "linear-gradient(180deg, rgba(10,11,13,0.12) 0%, rgba(18,20,24,0.88) 100%)",
+                    }}
+                  />
+                  <div className="absolute top-4 left-4 right-4 flex items-center justify-between gap-2">
+                    <span className="rounded-[3px] bg-white px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#171a20]">
+                      $0 · Zero Purchase Required
+                    </span>
+                    <span className="rounded-[3px] border border-white/25 bg-black/55 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.12em] text-white backdrop-blur-sm">
+                      Drop #TT-2026
+                    </span>
+                  </div>
+                  <div className="absolute bottom-4 left-5 right-5 flex items-end justify-between gap-4">
+                    <div>
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/60">
+                        Verified Prize Asset
+                      </p>
+                      <p className="font-display text-lg sm:text-xl font-semibold text-white">
+                        {spotlight.prize}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Digital Entry Pass Strip */}
+                <div className="p-5 sm:p-6 border-t border-white/10 space-y-4">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-white/60">Allocation Eligibility</span>
+                    <span className="font-semibold text-white">Verified Global Entry ($0)</span>
+                  </div>
+                  <div className="h-1.5 rounded-full bg-white/10 overflow-hidden">
+                    <div
+                      className="h-full rounded-full bg-white transition-[width] duration-1000 ease-out"
+                      style={{ width: `${spotlightPct}%` }}
+                    />
+                  </div>
+                  <div className="grid grid-cols-3 gap-3 pt-2 border-t border-white/10 text-[11px]">
+                    <div>
+                      <span className="block text-white/50 uppercase tracking-wider text-[9.5px]">
+                        01 · Reserve
+                      </span>
+                      <span className="font-medium text-white">$0 Pass Claim</span>
+                    </div>
+                    <div>
+                      <span className="block text-white/50 uppercase tracking-wider text-[9.5px]">
+                        02 · Address
+                      </span>
+                      <span className="font-medium text-white">Lock Destination</span>
+                    </div>
+                    <div>
+                      <span className="block text-white/50 uppercase tracking-wider text-[9.5px]">
+                        03 · Handover
+                      </span>
+                      <span className="font-medium text-white">Insured Waybill</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* ── Active Drop Grid & How It Works ────────────────────────────────── */}
+      <div id="active-drops" className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-10 py-14 sm:py-16 space-y-14">
+        <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between border-b border-border pb-6">
+          <div>
+            <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+              Live Campaigns · All Verified Allocations
+            </span>
+            <h2 className="font-display mt-2 text-2xl font-semibold tracking-tight sm:text-4xl text-foreground">
+              Choose Your Active Drop
+            </h2>
+          </div>
+          <p className="max-w-md text-xs text-muted-foreground leading-relaxed">
+            Every promotional campaign on Trade Tesla carries a $0 entry allocation. Select any drop below to confirm your recipient destination and enter the draw.
           </p>
         </div>
 
@@ -1123,6 +1363,79 @@ export default function GiveawaysSection() {
               }
             />
           ))}
+        </div>
+
+        {/* 3-Step Drop Journey & Collector Ledger */}
+        <div className="grid gap-6 lg:grid-cols-2">
+          <div className="rounded-[6px] border border-border bg-card p-6 sm:p-7">
+            <p className="text-[10.5px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+              Simple 3-Step Claim Architecture
+            </p>
+            <h3 className="font-display mt-1.5 text-xl font-semibold text-foreground">
+              From Free Entry Pass to Verified Delivery
+            </h3>
+            <div className="mt-5 space-y-4">
+              {[
+                {
+                  step: "01",
+                  title: "Enter Active Drop ($0 Free)",
+                  body: "Select your preferred Trade Tesla vehicle drop above. Zero ticket purchase or hidden platform entry fee is charged.",
+                },
+                {
+                  step: "02",
+                  title: "Confirm Delivery Destination",
+                  body: "Provide your legal recipient name, SMS phone number, and physical delivery destination to lock in your allocation.",
+                },
+                {
+                  step: "03",
+                  title: "Finalize Dispatch & Live Waybill",
+                  body: "Complete final logistics arrangement on the next step to generate your tracked FedEx courier manifest.",
+                },
+              ].map((s) => (
+                <div key={s.step} className="flex gap-4 border-t border-border/70 pt-4 first:border-t-0 first:pt-0">
+                  <span className="font-display text-sm font-semibold text-foreground tabular w-7 shrink-0">
+                    {s.step}
+                  </span>
+                  <div>
+                    <p className="text-sm font-semibold text-foreground">{s.title}</p>
+                    <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{s.body}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-[6px] border border-border bg-card p-6 sm:p-7">
+            <div className="flex items-center justify-between gap-2">
+              <div>
+                <p className="text-[10.5px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                  Collector Registry
+                </p>
+                <h3 className="font-display mt-1.5 text-xl font-semibold text-foreground">
+                  Recent Verified Drop Passes
+                </h3>
+              </div>
+              <span className="inline-flex items-center gap-1.5 rounded-[3px] border border-border bg-muted/40 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-foreground">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#e82127] pulse-dot" /> Live Ledger
+              </span>
+            </div>
+
+            <div className="mt-5 divide-y divide-border">
+              {RECENT_ALLOCATION_LEDGER.map((row) => (
+                <div key={row.code} className="py-3.5 flex items-center justify-between gap-4">
+                  <div>
+                    <p className="text-xs font-semibold text-foreground">{row.vehicle}</p>
+                    <p className="text-[11px] text-muted-foreground mt-0.5">
+                      {row.code} · {row.hub}
+                    </p>
+                  </div>
+                  <span className="rounded-[3px] border border-border bg-muted/40 px-2.5 py-1 text-[10px] font-medium text-foreground shrink-0">
+                    {row.status}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 

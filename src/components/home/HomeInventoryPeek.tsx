@@ -162,8 +162,15 @@ export default function HomeInventoryPeek() {
             </button>
             <button
               type="button"
-              onClick={() => navigateWithLoader("/inventory", "FULL INVENTORY")}
+              onClick={() => navigateWithLoader("/flying-car", "FLYING CAR & TEST DRIVE")}
               className="ml-2 h-9 rounded-[4px] border border-border bg-card px-4 text-xs font-medium text-foreground hover:bg-muted transition-colors"
+            >
+              Pre-Book &amp; Test Drive
+            </button>
+            <button
+              type="button"
+              onClick={() => navigateWithLoader("/inventory", "FULL INVENTORY")}
+              className="h-9 rounded-[4px] border border-border bg-card px-4 text-xs font-medium text-foreground hover:bg-muted transition-colors"
             >
               View All Inventory →
             </button>

@@ -164,6 +164,17 @@ const INVENTORY_CATALOG: InventoryItem[] = [
     specs: "290 mi Est. · AI5 End-to-End FSD · Inductive Wireless Charging",
   },
   {
+    id: "ts-model-aero",
+    name: "Model Aero – Flying Car Pre-Book",
+    price: "$299,000",
+    badge: "PRE-BOOK",
+    badgeType: "new",
+    category: "Vehicles",
+    image: "/images/tesla/cybercab-studio.jpg",
+    alt: "Tesla Model Aero dual-mode road and eVTOL flying vehicle",
+    specs: "350 mi Road / 110 mi Air · 8-Rotor VTOL · 215 mph Cruise",
+  },
+  {
     id: "ts-semi-300",
     name: "Tesla Semi – 300 Mile Range",
     price: "$150,000",
@@ -510,6 +521,7 @@ function getSpecLineForItem(name: string, category: string): string {
   if (n.includes("cyberbeast")) return "320 mi Est. · 2.6 s 0–60 mph · 845 hp Tri-Motor";
   if (n.includes("cybertruck")) return "325 mi Est. · 11,000 lb Tow · Steer-by-Wire";
   if (n.includes("roadster")) return "620 mi Est. · 1.9 s 0–60 mph · 250+ mph";
+  if (n.includes("aero") || n.includes("flying")) return "350 mi Road / 110 mi Air · 8-Rotor VTOL · 215 mph Cruise";
   if (n.includes("semi")) return "82,000 lb GCWR · 1,000V · 70% in 30 min";
   if (n.includes("cybercab")) return "290 mi Est. · Full Autonomy · Inductive Charge";
   if (n.includes("powerwall")) return "13.5 kWh Usable · 11.5 kW Continuous Inverter";

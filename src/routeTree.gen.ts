@@ -16,6 +16,7 @@ import { Route as CareersRouteImport } from './routes/careers'
 import { Route as CryptoPaymentRouteImport } from './routes/crypto-payment'
 import { Route as EcosystemRouteImport } from './routes/ecosystem'
 import { Route as ElonMuskRouteImport } from './routes/elon-musk'
+import { Route as FlyingCarRouteImport } from './routes/flying-car'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as GiveawayRouteImport } from './routes/giveaway'
 import { Route as GiveawaysRouteImport } from './routes/giveaways'
@@ -91,6 +92,11 @@ const EcosystemRoute = EcosystemRouteImport.update({
 const ElonMuskRoute = ElonMuskRouteImport.update({
   id: '/elon-musk',
   path: '/elon-musk',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FlyingCarRoute = FlyingCarRouteImport.update({
+  id: '/flying-car',
+  path: '/flying-car',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
@@ -324,6 +330,7 @@ export interface FileRoutesByFullPath {
   '/crypto-payment': typeof CryptoPaymentRoute
   '/ecosystem': typeof EcosystemRoute
   '/elon-musk': typeof ElonMuskRoute
+  '/flying-car': typeof FlyingCarRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/giveaway': typeof GiveawayRoute
   '/giveaways': typeof GiveawaysRoute
@@ -374,6 +381,7 @@ export interface FileRoutesByTo {
   '/crypto-payment': typeof CryptoPaymentRoute
   '/ecosystem': typeof EcosystemRoute
   '/elon-musk': typeof ElonMuskRoute
+  '/flying-car': typeof FlyingCarRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/giveaway': typeof GiveawayRoute
   '/giveaways': typeof GiveawaysRoute
@@ -425,6 +433,7 @@ export interface FileRoutesById {
   '/crypto-payment': typeof CryptoPaymentRoute
   '/ecosystem': typeof EcosystemRoute
   '/elon-musk': typeof ElonMuskRoute
+  '/flying-car': typeof FlyingCarRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/giveaway': typeof GiveawayRoute
   '/giveaways': typeof GiveawaysRoute
@@ -477,6 +486,7 @@ export interface FileRouteTypes {
     | '/crypto-payment'
     | '/ecosystem'
     | '/elon-musk'
+    | '/flying-car'
     | '/forgot-password'
     | '/giveaway'
     | '/giveaways'
@@ -527,6 +537,7 @@ export interface FileRouteTypes {
     | '/crypto-payment'
     | '/ecosystem'
     | '/elon-musk'
+    | '/flying-car'
     | '/forgot-password'
     | '/giveaway'
     | '/giveaways'
@@ -577,6 +588,7 @@ export interface FileRouteTypes {
     | '/crypto-payment'
     | '/ecosystem'
     | '/elon-musk'
+    | '/flying-car'
     | '/forgot-password'
     | '/giveaway'
     | '/giveaways'
@@ -629,6 +641,7 @@ export interface RootRouteChildren {
   CryptoPaymentRoute: typeof CryptoPaymentRoute
   EcosystemRoute: typeof EcosystemRoute
   ElonMuskRoute: typeof ElonMuskRoute
+  FlyingCarRoute: typeof FlyingCarRoute
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   GiveawayRoute: typeof GiveawayRoute
   GiveawaysRoute: typeof GiveawaysRoute
@@ -701,6 +714,13 @@ declare module '@tanstack/react-router' {
       path: '/elon-musk'
       fullPath: '/elon-musk'
       preLoaderRoute: typeof ElonMuskRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/flying-car': {
+      id: '/flying-car'
+      path: '/flying-car'
+      fullPath: '/flying-car'
+      preLoaderRoute: typeof FlyingCarRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/forgot-password': {
@@ -1069,6 +1089,7 @@ const rootRouteChildren: RootRouteChildren = {
   CryptoPaymentRoute: CryptoPaymentRoute,
   EcosystemRoute: EcosystemRoute,
   ElonMuskRoute: ElonMuskRoute,
+  FlyingCarRoute: FlyingCarRoute,
   ForgotPasswordRoute: ForgotPasswordRoute,
   GiveawayRoute: GiveawayRoute,
   GiveawaysRoute: GiveawaysRoute,

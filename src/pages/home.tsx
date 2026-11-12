@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FloatingSupport from "@/components/sections/FloatingSupport";
 import HeroModelSwitcher from "@/components/home/HeroModelSwitcher";
+import GiveawaySpotlightSection from "@/components/home/GiveawaySpotlightSection";
 import TeslaLineupSection from "@/components/home/TeslaLineupSection";
 import HomeInventoryPeek from "@/components/home/HomeInventoryPeek";
 import {
@@ -19,6 +20,7 @@ export default function HomePage() {
       <Header heroTransparent />
       <HeroModelSwitcher onConfigureModel={(id) => setHeroConfigureModelId(id)} />
       <QuickLinksSection />
+      <GiveawaySpotlightSection />
       <TeslaLineupSection
         externalModelId={heroConfigureModelId}
         onClearExternalModel={() => setHeroConfigureModelId(null)}
