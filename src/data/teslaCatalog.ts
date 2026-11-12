@@ -557,3 +557,85 @@ export const TESLA_ENERGY_SYSTEMS: TeslaEnergyProduct[] = [
     href: "/inventory",
   },
 ];
+
+export interface SolarStateInfo {
+  code: string;
+  name: string;
+  sun: number;
+  rate: number;
+}
+
+export const US_SOLAR_STATES: SolarStateInfo[] = [
+  { code: "CA", name: "California", sun: 1.0, rate: 0.31 },
+  { code: "TX", name: "Texas", sun: 0.94, rate: 0.22 },
+  { code: "FL", name: "Florida", sun: 0.96, rate: 0.23 },
+  { code: "NY", name: "New York", sun: 0.79, rate: 0.26 },
+  { code: "AZ", name: "Arizona", sun: 1.05, rate: 0.25 },
+  { code: "CO", name: "Colorado", sun: 0.91, rate: 0.21 },
+  { code: "WA", name: "Washington", sun: 0.74, rate: 0.19 },
+  { code: "IL", name: "Illinois", sun: 0.8, rate: 0.2 },
+];
+
+export interface SuperchargerStation {
+  name: string;
+  area: string;
+  distance: number;
+  stalls: number;
+  available: number;
+  kw: number;
+  amenities: string[];
+  status: "Open" | "Busy";
+}
+
+export const TESLA_SUPERCHARGERS: SuperchargerStation[] = [
+  {
+    name: "Trade Tesla Downtown Hub",
+    area: "San Francisco, CA",
+    distance: 0.8,
+    stalls: 24,
+    available: 14,
+    kw: 325,
+    amenities: ["V4 Stalls", "Lounge", "Wi-Fi"],
+    status: "Open",
+  },
+  {
+    name: "Santa Monica Pier Plaza",
+    area: "Los Angeles, CA",
+    distance: 2.1,
+    stalls: 40,
+    available: 9,
+    kw: 250,
+    amenities: ["Café", "Solar Canopy"],
+    status: "Busy",
+  },
+  {
+    name: "Giga Texas Campus Supercharger",
+    area: "Austin, TX",
+    distance: 4.5,
+    stalls: 36,
+    available: 24,
+    kw: 350,
+    amenities: ["V4 Magic Dock", "Lounge", "Restrooms"],
+    status: "Open",
+  },
+  {
+    name: "Midtown Hudson Yards",
+    area: "New York, NY",
+    distance: 6.2,
+    stalls: 18,
+    available: 7,
+    kw: 250,
+    amenities: ["24/7 Access", "Wi-Fi"],
+    status: "Open",
+  },
+  {
+    name: "Brickell Clean Energy Hub",
+    area: "Miami, FL",
+    distance: 11.4,
+    stalls: 28,
+    available: 17,
+    kw: 325,
+    amenities: ["V4 Stalls", "Market"],
+    status: "Open",
+  },
+];

@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import Link from '@/components/SmartLink';
-import { createClient } from '@/lib/supabase/client';
-import { emailSafeOrigin } from '@/lib/site-url';
+import React, { useState, useEffect } from "react";
+import Link from "@/components/SmartLink";
+import { createClient } from "@/lib/supabase/client";
+import { emailSafeOrigin } from "@/lib/site-url";
+import { TeslaShieldSvg } from "@/components/TeslaLoader";
+import { ThemeToggle } from "@/lib/theme";
 
 export default function VerifyPendingPage() {
   const [resending, setResending] = useState(false);
   const [resent, setResent] = useState(false);
-  const [userEmail, setUserEmail] = useState('');
-  const [error, setError] = useState('');
+  const [userEmail, setUserEmail] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const supabase = createClient();
@@ -19,12 +21,12 @@ export default function VerifyPendingPage() {
   const handleResend = async () => {
     if (!userEmail) return;
     setResending(true);
-    setError('');
+    setError("");
     try {
       const supabase = createClient();
       const siteUrl = emailSafeOrigin();
       const { error: resendError } = await supabase.auth.resend({
-        type: 'signup',
+        type: "signup",
         email: userEmail,
         options: {
           emailRedirectTo: `${siteUrl}/auth/callback?next=/kyc`,
@@ -36,63 +38,64 @@ export default function VerifyPendingPage() {
         setResent(true);
       }
     } catch (err: any) {
-      setError(err?.message || 'Failed to resend. Please try again.');
+      setError(err?.message || "Failed to resend. Please try again.");
     } finally {
       setResending(false);
     }
   };
 
   return (
-    <main className="min-h-screen bg-background flex items-center justify-center px-4 py-16 relative overflow-hidden">
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-primary/3 rounded-full blur-[100px]" />
-      </div>
-
-      <div className="relative z-10 w-full max-w-sm text-center">
-        {/* Logo */}
-        <Link href="/" className="inline-flex items-center gap-3 mb-10 justify-center">
-          <img src="/tesla-mark.png" width={28} height={28} alt="" aria-hidden="true" className="text-primary object-contain" />
-          <span className="text-foreground font-bold text-base tracking-widest uppercase">Trade Tesla</span>
+    <main className="min-h-screen bg-background text-foreground flex flex-col justify-between">
+      <header className="h-14 px-6 lg:px-10 flex items-center justify-between border-b border-border/60">
+        <Link href="/" className="inline-flex items-center gap-2.5" aria-label="Trade Tesla home">
+          <TeslaShieldSvg className="w-5 h-5 text-[#e82127]" />
+          <span className="font-display text-xs font-semibold tracking-[0.34em] uppercase">
+            Trade Tesla
+          </span>
         </Link>
+        <ThemeToggle />
+      </header>
 
-        {/* Icon */}
-        <div className="w-20 h-20 rounded-full bg-card border border-border flex items-center justify-center mx-auto mb-6">
-          <svg className="w-10 h-10 text-primary" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" aria-hidden="true">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
-          </svg>
+      <div className="mx-auto w-full max-w-[380px] px-4 py-12">
+        <div className="mb-6">
+          <h1 className="font-display text-3xl font-semibold tracking-tight text-foreground">
+            Email Verification
+          </h1>
+          {userEmail && (
+            <p className="mt-1.5 text-sm font-medium text-foreground">{userEmail}</p>
+          )}
         </div>
 
-        <h1 className="text-2xl font-extrabold text-foreground tracking-tight mb-3">Email Verification</h1>
-        <div className="px-4 py-3 rounded bg-primary/10 border border-primary/30 text-sm text-primary mb-6">
-          Notice: Email verification is temporarily suspended while mailbox maintenance is in progress. You can access your account directly.
+        <div className="px-4 py-3 rounded-[4px] bg-[#3e6ae1]/10 border border-[#3e6ae1]/30 text-xs leading-relaxed text-foreground mb-6">
+          Notice: Email verification is temporarily suspended while mailbox maintenance is in progress. You can access your Trade Tesla account directly.
         </div>
-        {userEmail && (
-          <p className="text-sm font-semibold text-foreground mb-4">{userEmail}</p>
-        )}
+
         <div className="flex flex-col gap-3 mb-6">
           <Link
             href="/dashboard"
-            className="w-full py-3.5 tesla-btn-primary rounded min-h-[48px] flex items-center justify-center font-bold tracking-wider uppercase text-sm"
+            ctaLoader
+            loaderLabel="ACCOUNT PORTAL"
+            className="w-full h-11 rounded-[4px] bg-[#3e6ae1] text-white text-sm font-medium hover:bg-[#345ac7] transition-colors flex items-center justify-center"
           >
             Continue to Dashboard
           </Link>
         </div>
 
-        {/* Status messages */}
         {resent && (
-          <div className="px-4 py-3 rounded bg-green-900/20 border border-green-700/30 text-sm text-green-400 mb-4">
-            ✓ Verification email resent successfully. Check your inbox.
+          <div className="px-4 py-3 rounded-[4px] bg-[#0e9f6e]/10 border border-[#0e9f6e]/30 text-xs text-[#0e9f6e] mb-4">
+            Verification email resent successfully. Check your inbox.
           </div>
         )}
         {error && (
-          <div className="px-4 py-3 rounded bg-primary/10 border border-primary/30 text-sm text-primary mb-4">
+          <div className="px-4 py-3 rounded-[4px] bg-[#e82127]/10 border border-[#e82127]/30 text-xs text-[#e82127] mb-4">
             {error}
           </div>
         )}
 
-        {/* Tips */}
-        <div className="bg-card border border-border rounded p-4 mb-8 text-left">
-          <p className="text-xs text-muted-foreground uppercase tracking-widest font-semibold mb-2">Didn't receive it?</p>
+        <div className="rounded-lg border border-border bg-muted/35 p-4 mb-6 text-left">
+          <p className="text-[11px] text-muted-foreground uppercase tracking-[0.14em] font-semibold mb-2">
+            Didn&apos;t receive it?
+          </p>
           <ul className="text-xs text-muted-foreground space-y-1 list-disc list-inside">
             <li>Check your spam or junk folder</li>
             <li>Make sure you used the correct email</li>
@@ -100,34 +103,32 @@ export default function VerifyPendingPage() {
           </ul>
         </div>
 
-        {/* Actions */}
-        <button
-          onClick={handleResend}
-          disabled={resending || resent}
-          className="w-full py-3.5 tesla-btn-primary rounded min-h-[48px] flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed mb-3"
-        >
-          {resending ? (
-            <>
-              <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                <circle cx="12" cy="12" r="10" strokeOpacity="0.25" />
-                <path d="M12 2a10 10 0 0 1 10 10" />
-              </svg>
-              Resending...
-            </>
-          ) : resent ? (
-            '✓ Email Sent'
-          ) : (
-            'Resend Verification Email'
-          )}
-        </button>
+        <div className="space-y-3">
+          <button
+            type="button"
+            onClick={handleResend}
+            disabled={resending || resent}
+            className="w-full h-11 rounded-[4px] border border-border bg-card text-foreground text-xs font-semibold hover:bg-muted transition-colors flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            {resending ? "Resending..." : resent ? "Email Sent" : "Resend Verification Email"}
+          </button>
 
-        <Link
-          href="/login"
-          className="block w-full py-3 rounded border border-border text-sm text-muted-foreground hover:text-foreground hover:border-border transition-colors text-center"
-        >
-          Back to Sign In
-        </Link>
+          <Link
+            href="/login"
+            ctaLoader
+            loaderLabel="ACCOUNT SIGN IN"
+            className="block w-full py-2.5 text-xs text-muted-foreground hover:text-foreground transition-colors text-center"
+          >
+            Back to Account Sign In
+          </Link>
+        </div>
       </div>
+
+      <footer className="py-5 px-6 text-center text-[11px] text-muted-foreground border-t border-border/60">
+        Trade Tesla © 2026 ·{" "}
+        <Link href="/privacy" className="hover:text-foreground">Privacy</Link> ·{" "}
+        <Link href="/terms" className="hover:text-foreground">Terms</Link>
+      </footer>
     </main>
   );
 }

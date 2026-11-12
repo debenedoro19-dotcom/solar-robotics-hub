@@ -294,8 +294,8 @@ export default function ReferralPage() {
           <div className="mb-10 flex items-start justify-between flex-wrap gap-4">
             <div>
               <span className="text-xs font-bold text-primary tracking-[0.25em] uppercase mb-3 block">Referral Program</span>
-              <h1 className="text-4xl font-extrabold text-foreground tracking-tight mb-3">
-                Earn by <span className="gradient-text-primary">Referring</span>
+              <h1 className="font-display text-4xl font-semibold text-foreground tracking-tight mb-3">
+                Earn by Referring
               </h1>
               <p className="text-muted-foreground text-sm max-w-xl">
                 Invite friends to invest in the Tesla ecosystem. Earnings are credited only when your referee makes an actual investment, stock purchase, or inventory buy.

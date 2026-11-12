@@ -332,6 +332,7 @@ export default function TeslaLineupSection({
 }) {
   const [category, setCategory] = useState<"All" | TeslaVehicleModel["category"]>("All");
   const [compareIds, setCompareIds] = useState<string[]>([]);
+  const [detailModel, setDetailModel] = useState<TeslaVehicleModel | null>(null);
   const [configuringModel, setConfiguringModel] = useState<TeslaVehicleModel | null>(null);
   const [checkoutItem, setCheckoutItem] = useState<{
     id: string;
@@ -341,7 +342,7 @@ export default function TeslaLineupSection({
     category: string;
     image: string;
   } | null>(null);
-  const { triggerLoader, navigateWithLoader } = useTeslaLoader();
+  const { triggerLoader } = useTeslaLoader();
 
   const activeExternalModel = useMemo(
     () => (externalModelId ? TESLA_VEHICLES.find((m) => m.id === externalModelId) ?? null : null),
@@ -399,7 +400,7 @@ export default function TeslaLineupSection({
 
         {/* Comparison Tray if >= 2 models selected */}
         {compared.length >= 2 && (
-          <div className="mt-8 rounded-[6px] border border-border bg-card p-6 shadow-sm overflow-x-auto">
+          <div id="compare-table" className="mt-8 rounded-xl border border-border bg-card p-6 shadow-sm overflow-x-auto">
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-display text-lg font-semibold">
                 Side-by-Side Specification Comparison
@@ -478,12 +479,19 @@ export default function TeslaLineupSection({
               >
                 <div>
                   <div className="relative aspect-[16/10] overflow-hidden bg-muted">
-                    <img
-                      src={v.heroImage}
-                      alt={v.name}
-                      loading="lazy"
-                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
+                    <button
+                      type="button"
+                      onClick={() => setDetailModel(v)}
+                      aria-label={`Inspect ${v.name} specifications`}
+                      className="h-full w-full block"
+                    >
+                      <img
+                        src={v.heroImage}
+                        alt={v.name}
+                        loading="lazy"
+                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                    </button>
                     {v.badge && (
                       <span className="absolute top-3 left-3 rounded-[3px] bg-black/75 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-white backdrop-blur-sm">
                         {v.badge}
@@ -560,10 +568,10 @@ export default function TeslaLineupSection({
                   </button>
                   <button
                     type="button"
-                    onClick={() => navigateWithLoader("/inventory", v.name.toUpperCase())}
+                    onClick={() => setDetailModel(v)}
                     className="h-10 rounded-[4px] border border-border text-xs font-medium text-foreground hover:bg-muted transition-colors"
                   >
-                    Live Inventory
+                    Learn More
                   </button>
                 </div>
               </article>
@@ -571,6 +579,159 @@ export default function TeslaLineupSection({
           })}
         </div>
       </div>
+
+      {/* Floating Compare Tray */}
+      {compareIds.length > 0 && (
+        <div className="fixed inset-x-4 bottom-5 z-[60] mx-auto flex w-fit max-w-[calc(100vw-32px)] items-center gap-3 rounded-full bg-foreground py-2 pl-5 pr-2 text-background shadow-2xl">
+          <span className="text-xs font-medium tabular">
+            {compareIds.length} / 3 selected
+          </span>
+          <button
+            type="button"
+            disabled={compareIds.length < 2}
+            onClick={() =>
+              document.getElementById("compare-table")?.scrollIntoView({ behavior: "smooth" })
+            }
+            className="rounded-full bg-background px-4 py-1.5 text-xs font-medium text-foreground transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            Compare
+          </button>
+          <button
+            type="button"
+            onClick={() => setCompareIds([])}
+            aria-label="Clear vehicle comparison"
+            className="grid h-7 w-7 place-items-center rounded-full text-background/75 hover:bg-background/15 hover:text-background"
+          >
+            ✕
+          </button>
+        </div>
+      )}
+
+      {/* Vehicle Quick-Detail Modal */}
+      {detailModel && (
+        <div
+          className="fixed inset-0 z-[95] flex items-center justify-center bg-black/65 p-4 backdrop-blur-md"
+          onClick={() => setDetailModel(null)}
+        >
+          <div
+            role="dialog"
+            aria-label={`${detailModel.name} specifications`}
+            onClick={(e) => e.stopPropagation()}
+            className="w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-xl border border-border bg-card text-foreground shadow-2xl"
+          >
+            <div className="relative h-60 sm:h-72 overflow-hidden bg-muted">
+              <img
+                src={detailModel.heroImage}
+                alt={detailModel.name}
+                className="h-full w-full object-cover"
+              />
+              <div
+                className="absolute inset-0"
+                style={{
+                  background: "linear-gradient(180deg, transparent 35%, rgba(10,11,13,0.82) 100%)",
+                }}
+              />
+              <button
+                type="button"
+                onClick={() => setDetailModel(null)}
+                aria-label="Close specifications"
+                className="absolute right-4 top-4 grid h-9 w-9 place-items-center rounded-full bg-black/60 text-white backdrop-blur hover:bg-black/80"
+              >
+                ✕
+              </button>
+              <div className="absolute bottom-5 left-6 right-6 text-white">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/75">
+                  {detailModel.category} · Trade Tesla
+                </p>
+                <h3 className="font-display mt-1 text-3xl font-semibold">{detailModel.name}</h3>
+                <p className="mt-1 text-xs text-white/80">{detailModel.tagline}</p>
+              </div>
+            </div>
+
+            <div className="p-6 sm:p-8 space-y-6">
+              <p className="text-sm leading-relaxed text-muted-foreground">
+                {detailModel.description}
+              </p>
+
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+                {[
+                  { label: "EPA Range", value: `${detailModel.rangeMiles} mi` },
+                  { label: "0–60 mph", value: detailModel.zeroToSixty },
+                  { label: "Top Speed", value: detailModel.topSpeedMph },
+                  { label: "Peak Charging", value: detailModel.peakChargingKw },
+                ].map((sp) => (
+                  <div key={sp.label} className="rounded-lg border border-border bg-muted/35 p-3.5">
+                    <p className="font-display text-lg font-semibold tabular">{sp.value}</p>
+                    <p className="mt-1 text-[10px] uppercase tracking-wider text-muted-foreground">
+                      {sp.label}
+                    </p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="grid gap-6 sm:grid-cols-2 border-t border-border pt-5">
+                <div>
+                  <p className="text-[10.5px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                    Exterior Finishes
+                  </p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {detailModel.paints.map((p) => (
+                      <span
+                        key={p.name}
+                        title={p.name}
+                        className="h-7 w-7 rounded-full border border-border"
+                        style={{ backgroundColor: p.hex }}
+                      />
+                    ))}
+                  </div>
+                  <p className="mt-3 text-xs text-muted-foreground">
+                    {detailModel.drivetrain} · {detailModel.seats} seats · {detailModel.cargoCuFt} cargo
+                  </p>
+                </div>
+
+                <div className="flex flex-col justify-between items-start sm:items-end">
+                  <div className="sm:text-right">
+                    <p className="text-[10.5px] uppercase tracking-wider text-muted-foreground">
+                      Starting From
+                    </p>
+                    <p className="font-display text-2xl font-semibold tabular">
+                      ${detailModel.price.toLocaleString()}
+                    </p>
+                    <p className="text-[11px] text-muted-foreground">
+                      Or ~${detailModel.leaseMonthly.toLocaleString()}/mo est. lease
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-2.5 border-t border-border pt-5">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const chosen = detailModel;
+                    setDetailModel(null);
+                    triggerLoader({
+                      label: `CONFIGURE ${chosen.name.toUpperCase()}`,
+                      durationMs: 380,
+                      onComplete: () => setConfiguringModel(chosen),
+                    });
+                  }}
+                  className="flex-1 h-11 rounded-[4px] bg-[#3e6ae1] text-white text-sm font-medium hover:bg-[#345ac7] transition-colors"
+                >
+                  Design & Order {detailModel.name}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setDetailModel(null)}
+                  className="h-11 rounded-[4px] border border-border px-6 text-sm font-medium hover:bg-muted transition-colors"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {modalModel && (
         <TeslaDesignStudioModal

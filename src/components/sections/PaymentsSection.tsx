@@ -1,88 +1,150 @@
-import React from 'react';
+import React from "react";
+import { useTeslaLoader } from "@/components/TeslaLoader";
 
 const portfolioSlices = [
-  { label: 'Vehicles', pct: 45, color: '#00D4FF' },
-  { label: 'Energy Systems', pct: 30, color: '#00F59B' },
-  { label: 'Robotics', pct: 15, color: '#A78BFA' },
-  { label: 'Liquidity', pct: 10, color: '#E82127' },
+  { label: "Electric Vehicles & Fleet", pct: 45, color: "#3e6ae1" },
+  { label: "Energy Storage & Solar", pct: 30, color: "#0e9f6e" },
+  { label: "Optimus Robotics & AI", pct: 15, color: "#e82127" },
+  { label: "Liquidity Reserves", pct: 10, color: "#71717a" },
 ];
 
 const paymentMethods = [
   {
-    icon: '🏦',
-    name: 'Bank Wire Transfer',
-    detail: 'USD · SWIFT available',
-    note: 'Contact support after selecting. Full banking details provided securely.',
+    tag: "Wire & ACH",
+    name: "Bank Wire Transfer",
+    detail: "USD · Fedwire & SWIFT International",
+    note: "Institutional settlement instructions issued automatically in your order flow and account portal.",
   },
   {
-    icon: '₿',
-    name: 'Cryptocurrency',
-    detail: 'USDT (TRC20 / ERC20) · BTC',
-    note: 'Send only to the wallet address provided after application approval. Always verify.',
+    tag: "Digital Assets",
+    name: "Cryptocurrency Settlement",
+    detail: "USDT (TRC20 / ERC20) · ETH · BTC",
+    note: "Verified on-chain wallets visible at checkout and Account Deposit. Submit transaction hash for verification.",
   },
   {
-    icon: '💳',
-    name: 'Credit / Debit Card',
-    detail: 'Visa · Mastercard',
-    note: 'Processed through a secure payment partner. Fees may apply.',
+    tag: "Cards",
+    name: "Credit & Debit Cards",
+    detail: "Visa · Mastercard · American Express",
+    note: "Processed through encrypted gateway checkout for vehicle reservations, charging hardware, and orders.",
   },
 ];
 
 export default function PaymentsSection() {
-  return (
-    <section className="relative z-10 py-20 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Portfolio */}
-          <div className="glass-premium rounded-3xl p-8 section-reveal depth-card">
-            <h3 className="text-lg font-extrabold text-foreground mb-2">Platform Portfolio Snapshot</h3>
-            <p className="text-sm text-muted-foreground mb-8">Illustrative allocation across the Tesla ecosystem</p>
+  const { navigateWithLoader } = useTeslaLoader();
 
-            <div className="space-y-4">
-              {portfolioSlices?.map((s) => (
-                <div key={s?.label}>
-                  <div className="flex justify-between text-sm mb-1.5">
-                    <span className="font-medium text-foreground">{s?.label}</span>
-                    <span className="font-extrabold" style={{ color: s?.color }}>{s?.pct}%</span>
+  return (
+    <section className="relative z-10 py-16 sm:py-24 px-4 sm:px-6 lg:px-10 bg-background">
+      <div className="mx-auto max-w-[1440px]">
+        <div className="max-w-2xl mb-12">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+            Settlement & Treasury Architecture
+          </p>
+          <h1 className="font-display mt-2 text-3xl sm:text-5xl font-semibold tracking-tight">
+            Multi-Rail Checkout & Account Funding
+          </h1>
+          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+            Complete direct hardware purchases or fund your Trade Tesla capital account using bank
+            wire, verified crypto wallets, or card payment rails.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Ecosystem Exposure Snapshot */}
+          <div className="rounded-xl border border-border bg-card p-6 sm:p-8 flex flex-col justify-between">
+            <div>
+              <h2 className="font-display text-xl font-semibold text-foreground">
+                Platform Allocation Mix
+              </h2>
+              <p className="mt-1 text-xs text-muted-foreground mb-7">
+                Illustrative sector weighting across Trade Tesla divisions
+              </p>
+
+              <div className="space-y-5">
+                {portfolioSlices.map((s) => (
+                  <div key={s.label}>
+                    <div className="flex justify-between text-xs mb-1.5">
+                      <span className="font-medium text-foreground">{s.label}</span>
+                      <span className="font-semibold tabular" style={{ color: s.color }}>
+                        {s.pct}%
+                      </span>
+                    </div>
+                    <div className="h-2 rounded-full bg-muted overflow-hidden">
+                      <div
+                        className="h-full rounded-full transition-all duration-700"
+                        style={{ width: `${s.pct}%`, background: s.color }}
+                      />
+                    </div>
                   </div>
-                  <div className="h-2.5 rounded-full bg-muted overflow-hidden">
-                    <div
-                      className="h-full rounded-full transition-all duration-1000"
-                      style={{ width: `${s?.pct}%`, background: s?.color }}
-                    />
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
 
             <div className="mt-8 pt-6 border-t border-border grid grid-cols-2 gap-4">
               <div>
-                <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-1">Total AUM</div>
-                <div className="text-xl font-extrabold text-primary">$2.4T+</div>
+                <div className="text-[10.5px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                  Ecosystem Scale
+                </div>
+                <div className="font-display mt-1 text-2xl font-semibold text-foreground tabular">
+                  $2.4T+
+                </div>
               </div>
               <div>
-                <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-1">Active Positions</div>
-                <div className="text-xl font-extrabold text-foreground">12,400+</div>
+                <div className="text-[10.5px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                  Active Positions
+                </div>
+                <div className="font-display mt-1 text-2xl font-semibold text-foreground tabular">
+                  12,400+
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Payment Methods */}
-          <div className="glass-premium rounded-3xl p-8 section-reveal depth-card">
-            <h3 className="text-lg font-extrabold text-foreground mb-2">Accepted Payment Methods</h3>
-            <p className="text-sm text-muted-foreground mb-8">Secure and flexible ways to fund your investments</p>
+          {/* Accepted Settlement Methods */}
+          <div className="rounded-xl border border-border bg-card p-6 sm:p-8 flex flex-col justify-between">
+            <div>
+              <h2 className="font-display text-xl font-semibold text-foreground">
+                Accepted Settlement Methods
+              </h2>
+              <p className="mt-1 text-xs text-muted-foreground mb-6">
+                Available for vehicle orders, Solar Roof, Powerwall, and wallet funding
+              </p>
 
-            <div className="space-y-4">
-              {paymentMethods?.map((m) => (
-                <div key={m?.name} className="flex gap-4 p-4 rounded-xl border border-border hover:border-primary/30 transition-colors bg-muted/20">
-                  <div className="w-10 h-10 rounded-xl bg-muted flex items-center justify-center text-xl shrink-0">{m?.icon}</div>
-                  <div>
-                    <div className="font-bold text-sm text-foreground">{m?.name}</div>
-                    <div className="text-xs font-semibold text-primary mb-1">{m?.detail}</div>
-                    <div className="text-xs text-muted-foreground leading-relaxed">{m?.note}</div>
+              <div className="space-y-3.5">
+                {paymentMethods.map((m) => (
+                  <div
+                    key={m.name}
+                    className="rounded-lg border border-border bg-muted/25 p-4 transition-colors hover:border-foreground/30"
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="font-display text-sm font-semibold text-foreground">
+                        {m.name}
+                      </span>
+                      <span className="rounded-[3px] border border-border bg-card px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                        {m.tag}
+                      </span>
+                    </div>
+                    <div className="mt-1 text-xs font-medium text-[#3e6ae1]">{m.detail}</div>
+                    <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed">{m.note}</p>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-6 pt-5 border-t border-border flex flex-wrap gap-3">
+              <button
+                type="button"
+                onClick={() => navigateWithLoader("/account/deposit", "FUND ACCOUNT")}
+                className="h-10 rounded-[4px] bg-[#3e6ae1] px-5 text-xs font-medium text-white hover:bg-[#345ac7] transition-colors"
+              >
+                Open Account Deposit
+              </button>
+              <button
+                type="button"
+                onClick={() => navigateWithLoader("/inventory", "BROWSE INVENTORY")}
+                className="h-10 rounded-[4px] border border-border px-5 text-xs font-medium hover:bg-muted transition-colors"
+              >
+                Shop Hardware
+              </button>
             </div>
           </div>
         </div>

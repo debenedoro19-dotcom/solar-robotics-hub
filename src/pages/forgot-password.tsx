@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
-import Link from '@/components/SmartLink';
-import { supabase } from '@/integrations/supabase/client';
-import { emailSafeOrigin } from '@/lib/site-url';
+import React, { useState } from "react";
+import Link from "@/components/SmartLink";
+import { supabase } from "@/integrations/supabase/client";
+import { emailSafeOrigin } from "@/lib/site-url";
+import { TeslaShieldSvg } from "@/components/TeslaLoader";
+import { ThemeToggle } from "@/lib/theme";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
@@ -32,59 +34,51 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <main className="min-h-screen bg-background flex items-center justify-center px-4 relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div
-          className="absolute inset-0 opacity-[0.015]"
-          style={{
-            backgroundImage:
-              'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
-            backgroundSize: '60px 60px',
-          }}
-        />
-      </div>
+    <main className="min-h-screen bg-background text-foreground flex flex-col justify-between">
+      <header className="h-14 px-6 lg:px-10 flex items-center justify-between border-b border-border/60">
+        <Link href="/" className="inline-flex items-center gap-2.5" aria-label="Trade Tesla home">
+          <TeslaShieldSvg className="w-5 h-5 text-[#e82127]" />
+          <span className="font-display text-xs font-semibold tracking-[0.34em] uppercase">
+            Trade Tesla
+          </span>
+        </Link>
+        <ThemeToggle />
+      </header>
 
-      <div className="relative z-10 w-full max-w-sm">
-        {/* Logo */}
-        <div className="text-center mb-10">
-          <Link href="/" className="inline-flex items-center gap-3 mb-6">
-            <img src="/tesla-mark.png" width={32} height={32} alt="" aria-hidden="true" className="text-primary object-contain" />
-            <span className="text-foreground font-bold text-lg tracking-widest uppercase">Trade Tesla</span>
-          </Link>
-          <h1 className="text-2xl font-extrabold text-foreground tracking-tight mb-2">
-            {sent ? 'Check Your Email' : 'Reset Password'}
+      <div className="mx-auto w-full max-w-[360px] px-4 py-12">
+        <div className="mb-8">
+          <h1 className="font-display text-3xl font-semibold tracking-tight text-foreground">
+            {sent ? "Check Your Email" : "Reset Password"}
           </h1>
-          <p className="text-sm text-muted-foreground">
+          <p className="mt-1.5 text-sm text-muted-foreground">
             {sent
-              ? 'Recovery instructions have been sent.' :'Enter your email to receive reset instructions.'}
+              ? "Recovery instructions have been sent."
+              : "Enter your email to receive reset instructions."}
           </p>
         </div>
 
         {sent ? (
           <div className="space-y-5">
-            {/* Success state */}
-            <div className="flex flex-col items-center gap-4 py-6">
-              <div className="w-16 h-16 rounded-full bg-green-500/10 border border-green-500/30 flex items-center justify-center">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00F59B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                  <polyline points="22,6 12,13 2,6" />
-                </svg>
+            <div className="rounded-lg border border-border bg-muted/35 p-5 text-center space-y-2">
+              <div className="w-11 h-11 rounded-full bg-[#0e9f6e]/15 text-[#0e9f6e] font-bold flex items-center justify-center mx-auto">
+                ✓
               </div>
-              <div className="text-center">
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  We&apos;ve sent password reset instructions to{' '}
-                  <span className="text-foreground font-semibold">{email}</span>.
-                </p>
-                <p className="text-xs text-muted-foreground mt-2">
-                  Didn&apos;t receive it? Check your spam folder or try again.
-                </p>
-              </div>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                We&apos;ve sent password reset instructions to{" "}
+                <span className="text-foreground font-semibold">{email}</span>.
+              </p>
+              <p className="text-xs text-muted-foreground">
+                Check your spam folder or try another address.
+              </p>
             </div>
 
             <button
-              onClick={() => { setSent(false); setEmail(''); }}
-              className="w-full py-3 text-xs text-muted-foreground hover:text-foreground transition-colors tracking-wider uppercase"
+              type="button"
+              onClick={() => {
+                setSent(false);
+                setEmail("");
+              }}
+              className="w-full h-11 rounded-[4px] border border-border text-xs font-medium hover:bg-muted transition-colors"
             >
               Try a different email
             </button>
@@ -92,11 +86,16 @@ export default function ForgotPasswordPage() {
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
-              <div className="px-4 py-3 rounded bg-primary/10 border border-primary/30 text-sm text-primary">{error}</div>
+              <div className="px-3.5 py-2.5 rounded-[4px] bg-[#e82127]/10 border border-[#e82127]/30 text-xs text-[#e82127]">
+                {error}
+              </div>
             )}
 
             <div>
-              <label htmlFor="email" className="block text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">
+              <label
+                htmlFor="email"
+                className="block text-[11px] font-semibold text-muted-foreground uppercase tracking-[0.14em] mb-1.5"
+              >
                 Email Address
               </label>
               <input
@@ -105,7 +104,7 @@ export default function ForgotPasswordPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
-                className="w-full px-4 py-3 rounded text-sm input-tesla"
+                className="w-full h-11 px-3.5 rounded-[4px] bg-muted/45 border border-border text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground transition-colors"
                 autoComplete="email"
               />
             </div>
@@ -113,38 +112,26 @@ export default function ForgotPasswordPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 tesla-btn-primary rounded min-h-[48px] flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+              className="w-full h-11 rounded-[4px] bg-[#3e6ae1] text-white text-sm font-medium hover:bg-[#345ac7] transition-colors disabled:opacity-60"
             >
-              {loading ? (
-                <>
-                  <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                    <circle cx="12" cy="12" r="10" strokeOpacity="0.25" />
-                    <path d="M12 2a10 10 0 0 1 10 10" />
-                  </svg>
-                  Sending...
-                </>
-              ) : (
-                'Send Reset Instructions →'
-              )}
+              {loading ? "Sending..." : "Send Reset Instructions"}
             </button>
           </form>
         )}
 
-        <div className="mt-6 text-center">
-          <p className="text-sm text-muted-foreground">
-            Remember your password?{' '}
-            <Link href="/login" className="text-primary hover:text-red-400 font-semibold transition-colors">
-              Sign In
-            </Link>
-          </p>
-        </div>
-
-        <div className="mt-8 pt-6 border-t border-border text-center">
-          <Link href="/" className="text-xs text-muted-foreground hover:text-muted-foreground transition-colors tracking-wider uppercase">
-            ← Back to Home
+        <div className="mt-8 border-t border-border pt-6 text-center text-xs text-muted-foreground">
+          Remember your password?{" "}
+          <Link href="/login" ctaLoader loaderLabel="SIGN IN" className="text-foreground font-semibold hover:underline">
+            Sign In
           </Link>
         </div>
       </div>
+
+      <footer className="py-5 px-6 text-center text-[11px] text-muted-foreground border-t border-border/60">
+        Trade Tesla © 2026 ·{" "}
+        <Link href="/privacy" className="hover:text-foreground">Privacy</Link> ·{" "}
+        <Link href="/terms" className="hover:text-foreground">Terms</Link>
+      </footer>
     </main>
   );
 }

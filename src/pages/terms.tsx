@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
-import Link from '@/components/SmartLink';
+import React, { useState } from "react";
+import Link from "@/components/SmartLink";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 const LAST_UPDATED = 'August 14, 2026';
 const EFFECTIVE_DATE = 'August 14, 2026';
@@ -85,51 +87,33 @@ const sections = [
 ];
 
 export default function TermsPage() {
-  const [activeSection, setActiveSection] = useState<string | null>(null);
+  const [activeSection, setActiveSection] = useState<string | null>(sections[0]?.id ?? null);
 
   return (
-    <main className="min-h-screen bg-background relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/4 rounded-full blur-[150px]" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-primary/3 rounded-full blur-[120px]" />
-      </div>
-      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <main className="min-h-screen bg-background text-foreground">
+      <Header />
+      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 pt-28 pb-20">
         {/* Header */}
-        <div className="mb-12">
-          <Link href="/" className="inline-flex items-center gap-3 mb-10 group">
-            <img src="/tesla-mark.png" width={22} height={22} alt="" aria-hidden="true" className="text-primary object-contain" />
-            <span className="text-foreground font-bold text-sm tracking-widest uppercase group-hover:text-primary transition-colors">Trade Tesla</span>
-          </Link>
+        <div className="mb-10">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground mb-2">
+            Trade Tesla · Legal Documentation
+          </p>
+          <h1 className="font-display text-3xl sm:text-4xl font-semibold tracking-tight text-foreground">
+            Terms of Service
+          </h1>
 
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-1 h-10 bg-primary rounded-full" />
-            <div>
-              <p className="text-xs text-muted-foreground uppercase tracking-widest font-semibold mb-1">Legal Document</p>
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-foreground tracking-tight">Terms of Service</h1>
-            </div>
+          <div className="flex flex-wrap gap-4 mt-4 text-xs text-muted-foreground">
+            <span>Effective: <strong className="text-foreground">{EFFECTIVE_DATE}</strong></span>
+            <span>·</span>
+            <span>Last Updated: <strong className="text-foreground">{LAST_UPDATED}</strong></span>
           </div>
 
-          <div className="flex flex-wrap gap-4 mt-6 ml-4">
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-muted-foreground uppercase tracking-widest">Effective:</span>
-              <span className="text-xs text-muted-foreground font-semibold">{EFFECTIVE_DATE}</span>
-            </div>
-            <div className="w-px h-4 bg-muted self-center" />
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-muted-foreground uppercase tracking-widest">Last Updated:</span>
-              <span className="text-xs text-muted-foreground font-semibold">{LAST_UPDATED}</span>
-            </div>
-          </div>
-
-          <div className="mt-6 p-4 bg-primary/8 border border-primary/20 rounded">
+          <div className="mt-6 rounded-lg border border-border bg-muted/35 p-4">
             <p className="text-sm text-foreground leading-relaxed">
-              <span className="text-primary font-semibold">Please read carefully.</span> These Terms of Service govern your use of the {COMPANY_NAME} investment platform. By creating an account or using our services, you agree to be legally bound by these terms.
+              <strong className="font-semibold">Please read carefully.</strong> These Terms of Service govern your use of the {COMPANY_NAME} platform across vehicle orders, energy hardware, giveaways, and capital programs.
             </p>
           </div>
         </div>
-
-        <div className="tesla-divider mb-10" />
 
         {/* Table of Contents */}
         <div className="bg-card border border-border rounded p-6 mb-10">
@@ -181,23 +165,22 @@ export default function TermsPage() {
           ))}
         </div>
 
-        {/* Footer actions */}
-        <div className="mt-12 tesla-divider mb-8" />
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="mt-10 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-border pt-6">
           <p className="text-xs text-muted-foreground">
-            © 2026 {COMPANY_NAME}. Not affiliated with Tesla, Inc.
+            © 2026 {COMPANY_NAME} ({SITE_URL})
           </p>
           <div className="flex items-center gap-4">
-            <Link href="/privacy" className="text-xs text-muted-foreground hover:text-primary transition-colors uppercase tracking-widest font-semibold">
+            <Link href="/privacy" ctaLoader loaderLabel="PRIVACY" className="text-xs font-medium text-muted-foreground hover:text-foreground transition-colors">
               Privacy Policy
             </Link>
             <span className="text-muted-foreground/40">|</span>
-            <Link href="/register" className="text-xs text-primary hover:text-red-400 transition-colors uppercase tracking-widest font-semibold">
-              Create Account
+            <Link href="/login" ctaLoader loaderLabel="ACCOUNT" className="text-xs font-medium text-[#3e6ae1] hover:underline">
+              Account
             </Link>
           </div>
         </div>
       </div>
+      <Footer />
     </main>
   );
 }

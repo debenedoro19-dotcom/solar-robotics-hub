@@ -130,8 +130,8 @@ export default function BookSessionPage() {
           {/* Header */}
           <div className="mb-10">
             <span className="text-xs font-bold text-primary tracking-[0.25em] uppercase mb-3 block">VIP Access</span>
-            <h1 className="text-4xl font-extrabold text-foreground tracking-tight mb-3">
-              Book a Session with <span className="gradient-text-primary">Elon Musk</span>
+            <h1 className="font-display text-4xl font-semibold text-foreground tracking-tight mb-3">
+              Book a Session with Elon Musk
             </h1>
             <p className="text-muted-foreground text-sm">
               Private 30-minute session — In-Person or Virtual. Appointment fee: <span className="text-foreground font-bold">$50,000</span>

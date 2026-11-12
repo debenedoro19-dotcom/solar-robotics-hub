@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import Link from '@/components/SmartLink';
-import {  useRouter  } from '@/lib/next-shims';
-import { supabase } from '@/integrations/supabase/client';
+import React, { useEffect, useState } from "react";
+import Link from "@/components/SmartLink";
+import { useRouter } from "@/lib/next-shims";
+import { supabase } from "@/integrations/supabase/client";
+import { TeslaShieldSvg } from "@/components/TeslaLoader";
+import { ThemeToggle } from "@/lib/theme";
 
 export default function ResetPasswordPage() {
   const router = useRouter();
@@ -65,62 +67,65 @@ export default function ResetPasswordPage() {
   };
 
   return (
-    <main className="min-h-screen bg-background flex items-center justify-center px-4 relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div
-          className="absolute inset-0 opacity-[0.015]"
-          style={{
-            backgroundImage:
-              'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
-            backgroundSize: '60px 60px',
-          }}
-        />
-      </div>
+    <main className="min-h-screen bg-background text-foreground flex flex-col justify-between">
+      <header className="h-14 px-6 lg:px-10 flex items-center justify-between border-b border-border/60">
+        <Link href="/" className="inline-flex items-center gap-2.5" aria-label="Trade Tesla home">
+          <TeslaShieldSvg className="w-5 h-5 text-[#e82127]" />
+          <span className="font-display text-xs font-semibold tracking-[0.34em] uppercase">
+            Trade Tesla
+          </span>
+        </Link>
+        <ThemeToggle />
+      </header>
 
-      <div className="relative z-10 w-full max-w-sm">
-        {/* Logo */}
-        <div className="text-center mb-10">
-          <Link href="/" className="inline-flex items-center gap-3 mb-6">
-            <img src="/tesla-mark.png" width={32} height={32} alt="" aria-hidden="true" className="text-primary object-contain" />
-            <span className="text-foreground font-bold text-lg tracking-widest uppercase">Trade Tesla</span>
-          </Link>
-          <h1 className="text-2xl font-extrabold text-foreground tracking-tight mb-2">
-            {success ? 'Password Updated' : 'Set New Password'}
+      <div className="mx-auto w-full max-w-[360px] px-4 py-12">
+        <div className="mb-8">
+          <h1 className="font-display text-3xl font-semibold tracking-tight text-foreground">
+            {success ? "Password Updated" : "Set New Password"}
           </h1>
-          <p className="text-sm text-muted-foreground">
-             {success ? 'Redirecting you to sign in…' : 'Choose a new password for your account.'}
+          <p className="mt-1.5 text-sm text-muted-foreground">
+            {success ? "Redirecting you to Sign In..." : "Choose a new password for your Account."}
           </p>
         </div>
 
         {success ? (
-          <div className="flex flex-col items-center gap-4 py-6">
-            <div className="w-16 h-16 rounded-full bg-green-500/10 border border-green-500/30 flex items-center justify-center">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00F59B" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="M20 6L9 17l-5-5" />
-              </svg>
+          <div className="rounded-lg border border-border bg-muted/35 p-6 text-center space-y-3">
+            <div className="w-11 h-11 rounded-full bg-[#0e9f6e]/15 text-[#0e9f6e] font-bold flex items-center justify-center mx-auto">
+              ✓
             </div>
-            <p className="text-sm text-muted-foreground text-center">
-              Your password has been reset successfully. You&apos;ll be redirected to sign in shortly.
+            <p className="text-sm text-muted-foreground">
+              Your password has been updated. Redirecting you to Sign In shortly.
             </p>
           </div>
         ) : checkingLink ? (
-          <p className="py-8 text-center text-sm text-muted-foreground">Checking your recovery link…</p>
+          <p className="py-8 text-center text-sm text-muted-foreground">Checking your recovery link...</p>
         ) : !hasRecoverySession ? (
-          <div className="space-y-5 py-4 text-center">
-            <p className="text-sm text-muted-foreground">This recovery link is invalid or has expired.</p>
-            <Link href="/forgot-password" className="tesla-btn-primary flex min-h-[48px] items-center justify-center rounded text-sm font-bold uppercase tracking-widest">
-              Request a new link
+          <div className="space-y-4 py-4 text-center">
+            <p className="text-sm text-muted-foreground">
+              This recovery link is invalid or has expired.
+            </p>
+            <Link
+              href="/forgot-password"
+              ctaLoader
+              loaderLabel="RESET PASSWORD"
+              className="flex h-11 items-center justify-center rounded-[4px] bg-[#3e6ae1] text-white text-sm font-medium hover:bg-[#345ac7] transition-colors"
+            >
+              Request a New Link
             </Link>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
-              <div className="px-4 py-3 rounded bg-primary/10 border border-primary/30 text-sm text-primary">{error}</div>
+              <div className="px-3.5 py-2.5 rounded-[4px] bg-[#e82127]/10 border border-[#e82127]/30 text-xs text-[#e82127]">
+                {error}
+              </div>
             )}
 
             <div>
-              <label htmlFor="password" className="block text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">
+              <label
+                htmlFor="password"
+                className="block text-[11px] font-semibold text-muted-foreground uppercase tracking-[0.14em] mb-1.5"
+              >
                 New Password
               </label>
               <input
@@ -130,13 +135,16 @@ export default function ResetPasswordPage() {
                 value={form.password}
                 onChange={handleChange}
                 placeholder="Min. 8 characters"
-                className="w-full px-4 py-3 rounded text-sm input-tesla"
+                className="w-full h-11 px-3.5 rounded-[4px] bg-muted/45 border border-border text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground transition-colors"
                 autoComplete="new-password"
               />
             </div>
 
             <div>
-              <label htmlFor="confirm" className="block text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">
+              <label
+                htmlFor="confirm"
+                className="block text-[11px] font-semibold text-muted-foreground uppercase tracking-[0.14em] mb-1.5"
+              >
                 Confirm New Password
               </label>
               <input
@@ -146,7 +154,7 @@ export default function ResetPasswordPage() {
                 value={form.confirm}
                 onChange={handleChange}
                 placeholder="Repeat new password"
-                className="w-full px-4 py-3 rounded text-sm input-tesla"
+                className="w-full h-11 px-3.5 rounded-[4px] bg-muted/45 border border-border text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground transition-colors"
                 autoComplete="new-password"
               />
             </div>
@@ -154,40 +162,28 @@ export default function ResetPasswordPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 tesla-btn-primary rounded min-h-[48px] flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+              className="w-full h-11 rounded-[4px] bg-[#3e6ae1] text-white text-sm font-medium hover:bg-[#345ac7] transition-colors disabled:opacity-60"
             >
-              {loading ? (
-                <>
-                  <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                    <circle cx="12" cy="12" r="10" strokeOpacity="0.25" />
-                    <path d="M12 2a10 10 0 0 1 10 10" />
-                  </svg>
-                  Updating...
-                </>
-              ) : (
-                'Reset Password →'
-              )}
+              {loading ? "Updating..." : "Reset Password"}
             </button>
           </form>
         )}
 
         {!success && (
-          <div className="mt-6 text-center">
-            <p className="text-sm text-muted-foreground">
-              Remember your password?{' '}
-              <Link href="/login" className="text-primary hover:text-red-400 font-semibold transition-colors">
-                Sign In
-              </Link>
-            </p>
+          <div className="mt-8 border-t border-border pt-6 text-center text-xs text-muted-foreground">
+            Remember your password?{" "}
+            <Link href="/login" ctaLoader loaderLabel="SIGN IN" className="text-foreground font-semibold hover:underline">
+              Sign In
+            </Link>
           </div>
         )}
-
-        <div className="mt-8 pt-6 border-t border-border text-center">
-          <Link href="/" className="text-xs text-muted-foreground hover:text-muted-foreground transition-colors tracking-wider uppercase">
-            ← Back to Home
-          </Link>
-        </div>
       </div>
+
+      <footer className="py-5 px-6 text-center text-[11px] text-muted-foreground border-t border-border/60">
+        Trade Tesla © 2026 ·{" "}
+        <Link href="/privacy" className="hover:text-foreground">Privacy</Link> ·{" "}
+        <Link href="/terms" className="hover:text-foreground">Terms</Link>
+      </footer>
     </main>
   );
 }

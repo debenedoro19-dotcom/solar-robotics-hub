@@ -143,8 +143,8 @@ export default function CryptoPaymentClient() {
           {/* Page Header */}
           <div className="mb-10">
             <span className="text-xs font-bold text-primary tracking-[0.25em] uppercase mb-3 block">Crypto Payment</span>
-            <h1 className="text-3xl font-medium text-foreground tracking-tight mb-3">
-              Pay with <span className="gradient-text-primary">Cryptocurrency</span>
+            <h1 className="font-display text-3xl font-semibold text-foreground tracking-tight mb-3">
+              Pay with Cryptocurrency
             </h1>
             <p className="text-muted-foreground text-sm">
               Send directly to our wallet address. Your investment is processed after network confirmation.
