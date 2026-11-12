@@ -199,7 +199,7 @@ export default function RegisterPage() {
                 type="checkbox"
                 checked={acceptedTerms}
                 onChange={(e) => setAcceptedTerms(e.target.checked)}
-                className="mt-0.5 h-4 w-4 accent-[#3e6ae1]"
+                className="mt-0.5 h-4 w-4 accent-foreground"
               />
               <span>
                 I have read and agree to the{" "}
@@ -215,7 +215,7 @@ export default function RegisterPage() {
                 type="checkbox"
                 checked={acceptedPrivacy}
                 onChange={(e) => setAcceptedPrivacy(e.target.checked)}
-                className="mt-0.5 h-4 w-4 accent-[#3e6ae1]"
+                className="mt-0.5 h-4 w-4 accent-foreground"
               />
               <span>
                 I have read and agree to the{" "}
@@ -230,7 +230,7 @@ export default function RegisterPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full h-11 rounded-[4px] bg-[#3e6ae1] text-white text-sm font-medium hover:bg-[#345ac7] transition-colors flex items-center justify-center gap-2 disabled:opacity-60"
+            className="w-full h-11 rounded-[4px] bg-foreground text-background text-sm font-medium hover:opacity-90 transition-opacity flex items-center justify-center gap-2 disabled:opacity-60"
           >
             {loading ? "Creating Account…" : "Create Account"}
           </button>

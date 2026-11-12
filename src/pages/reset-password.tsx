@@ -90,7 +90,7 @@ export default function ResetPasswordPage() {
 
         {success ? (
           <div className="rounded-lg border border-border bg-muted/35 p-6 text-center space-y-3">
-            <div className="w-11 h-11 rounded-full bg-[#0e9f6e]/15 text-[#0e9f6e] font-bold flex items-center justify-center mx-auto">
+            <div className="w-11 h-11 rounded-full bg-foreground text-background font-bold flex items-center justify-center mx-auto">
               ✓
             </div>
             <p className="text-sm text-muted-foreground">
@@ -108,7 +108,7 @@ export default function ResetPasswordPage() {
               href="/forgot-password"
               ctaLoader
               loaderLabel="RESET PASSWORD"
-              className="flex h-11 items-center justify-center rounded-[4px] bg-[#3e6ae1] text-white text-sm font-medium hover:bg-[#345ac7] transition-colors"
+              className="flex h-11 items-center justify-center rounded-[4px] bg-foreground text-background text-sm font-medium hover:opacity-90 transition-opacity"
             >
               Request a New Link
             </Link>
@@ -162,7 +162,7 @@ export default function ResetPasswordPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full h-11 rounded-[4px] bg-[#3e6ae1] text-white text-sm font-medium hover:bg-[#345ac7] transition-colors disabled:opacity-60"
+              className="w-full h-11 rounded-[4px] bg-foreground text-background text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-60"
             >
               {loading ? "Updating..." : "Reset Password"}
             </button>

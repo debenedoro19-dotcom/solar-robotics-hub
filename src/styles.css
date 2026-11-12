@@ -23,30 +23,30 @@
   --accent-foreground: oklch(1 0 0);
   --destructive: oklch(0.5880 0.2320 26.5);
   --destructive-foreground: oklch(1 0 0);
-  --success: oklch(0.6300 0.1500 162);      /* #00875A */
-  --warning: oklch(0.6500 0.1600 62);       /* #B45309 */
-  --robotics: oklch(0.5400 0.2000 293.54);
-  --solar: oklch(0.6800 0.1500 74);
+  --success: oklch(0.2800 0.0100 274);      /* #171A20 Tesla Charcoal */
+  --warning: oklch(0.5600 0.1200 62);       /* #9A5B13 */
+  --robotics: oklch(0.4200 0.0200 274);
+  --solar: oklch(0.4500 0.0400 74);
   --border: oklch(0 0 0 / 0.10);
   --input: oklch(0 0 0 / 0.12);
-  --ring: oklch(0.5880 0.2320 26.5);
+  --ring: oklch(0.2400 0.0080 274);
   --sidebar: oklch(1 0 0);
   --sidebar-foreground: oklch(0.2400 0.0080 274);
   --sidebar-border: oklch(0 0 0 / 0.08);
-  --chart-1: oklch(0.5880 0.2320 26.5);
-  --chart-2: oklch(0.6300 0.1500 162);
-  --chart-3: oklch(0.5400 0.2000 293.54);
-  --chart-4: oklch(0.6800 0.1500 74);
-  --chart-5: oklch(0.5800 0.1500 250.96);
+  --chart-1: oklch(0.2400 0.0080 274);
+  --chart-2: oklch(0.4500 0.0100 274);
+  --chart-3: oklch(0.5800 0.0100 274);
+  --chart-4: oklch(0.5880 0.2320 26.5);
+  --chart-5: oklch(0.7200 0.0060 274);
 
-  /* Surface + accent palette (raw values for gradients / charts) */
-  --fin-bg: #F5F5F7;
-  --fin-card: rgba(255, 255, 255, 0.92);
-  --fin-elevated: rgba(255, 255, 255, 1);
+  /* Surface + accent palette (Tesla Monochrome Studio) */
+  --fin-bg: #FFFFFF;
+  --fin-card: rgba(255, 255, 255, 0.96);
+  --fin-elevated: #F4F4F4;
   --fin-border: rgba(0, 0, 0, 0.10);
-  --fin-emerald: #00875A;
-  --fin-emerald-soft: rgba(0, 135, 90, 0.10);
-  --fin-amber: #B45309;
+  --fin-emerald: #171A20;
+  --fin-emerald-soft: rgba(23, 26, 32, 0.07);
+  --fin-amber: #8A5300;
   --fin-danger: #E82127;
   --fin-crimson: #E82127;
   --fin-muted: #5C5E62;
@@ -54,20 +54,20 @@
 
   /* Theme-aware helpers used by the utility layer */
   --surface-1: #FFFFFF;               /* cards */
-  --surface-2: #F0F0F3;               /* elevated / subtle fills */
+  --surface-2: #F4F4F4;               /* Tesla studio grey */
   --surface-3: #E4E4E7;               /* inputs, tracks */
   --text-1: #171A20;                  /* headings */
-  --text-2: #3E4148;                  /* body */
+  --text-2: #393C41;                  /* body */
   --text-3: #5C5E62;                  /* muted */
   --text-4: #86888C;                  /* faint */
   --hairline: rgba(0, 0, 0, 0.10);
   --hairline-strong: rgba(0, 0, 0, 0.22);
-  --glass-bg: rgba(255, 255, 255, 0.82);
-  --glass-hover-bg: rgba(255, 255, 255, 0.95);
-  --grid-line: rgba(0, 0, 0, 0.035);
-  --noise-opacity: 0.015;
-  --elevation: 0 1px 2px rgba(16, 24, 40, 0.06), 0 12px 32px -18px rgba(16, 24, 40, 0.25);
-  --chart-emerald: #00875A;
+  --glass-bg: rgba(255, 255, 255, 0.88);
+  --glass-hover-bg: rgba(255, 255, 255, 0.98);
+  --grid-line: rgba(0, 0, 0, 0.03);
+  --noise-opacity: 0.012;
+  --elevation: 0 1px 2px rgba(16, 24, 40, 0.05), 0 12px 32px -18px rgba(16, 24, 40, 0.18);
+  --chart-emerald: #171A20;
 }
 
 .dark {
@@ -88,49 +88,49 @@
   --accent-foreground: oklch(1.0000 0.0000 89.88);
   --destructive: oklch(0.5880 0.2320 26.5);
   --destructive-foreground: oklch(1.0000 0.0000 89.88);
-  --success: oklch(0.8600 0.2100 162);      /* #00F59B */
+  --success: oklch(0.9200 0.0050 285);      /* #E4E4E7 Monochrome Ivory */
   --warning: oklch(0.8131 0.1650 75.04);
-  --robotics: oklch(0.7090 0.1592 293.54);
-  --solar: oklch(0.8625 0.1494 84.65);
-  --border: oklch(1 0 0 / 0.08);
-  --input: oklch(1 0 0 / 0.08);
-  --ring: oklch(0.5880 0.2320 26.5);
+  --robotics: oklch(0.7600 0.0100 285);
+  --solar: oklch(0.8200 0.0400 84.65);
+  --border: oklch(1 0 0 / 0.10);
+  --input: oklch(1 0 0 / 0.10);
+  --ring: oklch(0.9500 0.0000 0);
   --sidebar: oklch(0.1200 0.0050 285);
   --sidebar-foreground: oklch(1.0000 0.0000 89.88);
   --sidebar-border: oklch(1 0 0 / 0.08);
-  --chart-1: oklch(0.5880 0.2320 26.5);
-  --chart-2: oklch(0.8600 0.2100 162);
-  --chart-3: oklch(0.7090 0.1592 293.54);
-  --chart-4: oklch(0.8625 0.1494 84.65);
-  --chart-5: oklch(0.7112 0.1559 250.96);
+  --chart-1: oklch(0.9500 0.0000 0);
+  --chart-2: oklch(0.7500 0.0050 285);
+  --chart-3: oklch(0.5500 0.0050 285);
+  --chart-4: oklch(0.5880 0.2320 26.5);
+  --chart-5: oklch(0.4200 0.0050 285);
 
   --fin-bg: #050507;
-  --fin-card: rgba(13, 14, 18, 0.8);
-  --fin-elevated: rgba(18, 19, 25, 0.85);
-  --fin-border: rgba(255, 255, 255, 0.08);
-  --fin-emerald: #00F59B;
-  --fin-emerald-soft: rgba(0, 245, 155, 0.12);
+  --fin-card: rgba(13, 14, 18, 0.88);
+  --fin-elevated: rgba(20, 22, 26, 0.94);
+  --fin-border: rgba(255, 255, 255, 0.09);
+  --fin-emerald: #F4F4F5;
+  --fin-emerald-soft: rgba(255, 255, 255, 0.08);
   --fin-amber: #F59E0B;
   --fin-danger: #E82127;
   --fin-crimson: #E82127;
   --fin-muted: #A1A1AA;
-  --ts-hairline: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  --ts-hairline: inset 0 1px 0 rgba(255, 255, 255, 0.08);
 
   --surface-1: #0D0E12;
-  --surface-2: #12131A;
+  --surface-2: #14161A;
   --surface-3: #1E2027;
   --text-1: #FFFFFF;
   --text-2: #D4D4D8;
   --text-3: #A1A1AA;
   --text-4: #71717A;
-  --hairline: rgba(255, 255, 255, 0.08);
+  --hairline: rgba(255, 255, 255, 0.09);
   --hairline-strong: rgba(255, 255, 255, 0.25);
-  --glass-bg: rgba(13, 14, 18, 0.8);
-  --glass-hover-bg: rgba(16, 17, 22, 0.9);
+  --glass-bg: rgba(13, 14, 18, 0.85);
+  --glass-hover-bg: rgba(16, 17, 22, 0.94);
   --grid-line: rgba(255, 255, 255, 0.015);
   --noise-opacity: 0.025;
   --elevation: 0 8px 32px rgba(0, 0, 0, 0.5);
-  --chart-emerald: #00F59B;
+  --chart-emerald: #E4E4E7;
 }
 
 
@@ -194,8 +194,7 @@
 .ts-progress-fill {
   height: 100%;
   border-radius: 9999px;
-  background: linear-gradient(90deg, color-mix(in srgb, var(--fin-emerald) 75%, #000), var(--fin-emerald));
-  box-shadow: 0 0 12px color-mix(in srgb, var(--fin-emerald) 45%, transparent);
+  background: var(--foreground);
 }
 
 /* Live pulse indicator */
@@ -203,14 +202,14 @@
   width: 0.5rem;
   height: 0.5rem;
   border-radius: 9999px;
-  background: var(--fin-emerald);
-  box-shadow: 0 0 0 0 color-mix(in srgb, var(--fin-emerald) 60%, transparent);
+  background: var(--foreground);
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--foreground) 45%, transparent);
   animation: ts-pulse-anim 2s infinite;
 }
 @keyframes ts-pulse-anim {
-  0% { box-shadow: 0 0 0 0 rgba(0, 245, 155, 0.5); }
-  70% { box-shadow: 0 0 0 8px rgba(0, 245, 155, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(0, 245, 155, 0); }
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--foreground) 35%, transparent); }
+  70% { box-shadow: 0 0 0 8px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
 }
 
 
@@ -444,23 +443,23 @@
   .no-scrollbar::-webkit-scrollbar { display: none; }
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   .card-badge-new {
-    background: linear-gradient(135deg, #E82127, #B3181D);
+    background: #171A20;
     color: #FFFFFF;
   }
   .card-badge-cpo {
-    background: rgba(232, 33, 39, 0.15);
-    color: #FF5A60;
-    border: 1px solid rgba(232, 33, 39, 0.3);
+    background: rgba(23, 26, 32, 0.88);
+    color: #FFFFFF;
+    border: 1px solid rgba(255, 255, 255, 0.18);
   }
   .card-badge-energy {
-    background: rgba(0, 245, 155, 0.1);
-    color: #00F59B;
-    border: 1px solid rgba(0, 245, 155, 0.25);
+    background: rgba(23, 26, 32, 0.88);
+    color: #FFFFFF;
+    border: 1px solid rgba(255, 255, 255, 0.18);
   }
   .card-badge-robotics {
-    background: rgba(139, 92, 246, 0.15);
-    color: #A78BFA;
-    border: 1px solid rgba(139, 92, 246, 0.3);
+    background: rgba(23, 26, 32, 0.88);
+    color: #FFFFFF;
+    border: 1px solid rgba(255, 255, 255, 0.18);
   }
   .pricing-glow {
     position: absolute;
@@ -763,11 +762,11 @@
 }
 
 .card-badge-solar {
-  background: rgba(255, 201, 77, 0.12);
-  color: #FFC94D;
-  border: 1px solid rgba(255, 201, 77, 0.3);
+  background: rgba(23, 26, 32, 0.88);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.18);
 }
-.card-badge-vehicles { background: linear-gradient(135deg, #E82127, #B3181D); color: #FFFFFF; }
+.card-badge-vehicles { background: #171A20; color: #FFFFFF; }
 
 /* Defer offscreen paint work for long marketing pages (big scroll perf win) */
 .defer-paint {
@@ -788,10 +787,8 @@
    Dark theme keeps the original values untouched.
    ============================================================ */
 
-html:not(.dark) .text-white { color: var(--text-1); }
-html:not(.dark) .text-white\/70 { color: var(--text-3); }
-html:not(.dark) .text-white\/60 { color: var(--text-3); }
-html:not(.dark) .text-white\/50 { color: var(--text-4); }
+/* Note: Do NOT override Tailwind .text-white or .bg-black/* in light mode,
+   so fixed-dark photo overlays, badges, and buttons always keep high contrast. */
 
 /* text scale */
 html:not(.dark) .text-\[\#E4E4E7\],
@@ -815,8 +812,6 @@ html:not(.dark) .bg-\[\#0D0E12\],
 html:not(.dark) .bg-\[\#161616\] { background-color: var(--surface-1); }
 html:not(.dark) .bg-\[\#12131A\] { background-color: var(--surface-2); }
 html:not(.dark) .bg-\[\#1E2027\] { background-color: var(--surface-3); }
-html:not(.dark) .bg-black\/80,
-html:not(.dark) .bg-black\/70 { background-color: rgba(23, 26, 32, 0.45); }
 html:not(.dark) .bg-white\/5 { background-color: rgba(23, 26, 32, 0.04); }
 html:not(.dark) .bg-white\/10 { background-color: rgba(23, 26, 32, 0.06); }
 
@@ -874,8 +869,8 @@ html:not(.dark) .scanline, html:not(.dark) .dot-grid { opacity: 0.5; }
   --fin-modal-shadow: 0 2px 6px rgba(16, 24, 40, 0.06), 0 40px 90px -30px rgba(16, 24, 40, 0.45);
 }
 .dark {
-  --fin-emerald-fg: #04120C;
-  --fin-overlay: rgba(2, 3, 5, 0.74);
+  --fin-emerald-fg: #171A20;
+  --fin-overlay: rgba(2, 3, 5, 0.78);
   --fin-modal-shadow: 0 40px 90px -20px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
@@ -997,10 +992,10 @@ html:not(.dark) .scanline, html:not(.dark) .dot-grid { opacity: 0.5; }
   --tesla-ink: #171a20;
   --tesla-ink-soft: #393c41;
   --tesla-surface: #f4f4f4;
-  --tesla-accent: #3e6ae1;
+  --tesla-accent: #171a20;
   --tesla-red: #e82127;
   --tesla-night: #0a0b0d;
-  --tesla-volt: #0e9f6e;
+  --tesla-volt: #171a20;
 }
 
 .font-display {

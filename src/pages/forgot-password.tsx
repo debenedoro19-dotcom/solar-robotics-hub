@@ -60,7 +60,7 @@ export default function ForgotPasswordPage() {
         {sent ? (
           <div className="space-y-5">
             <div className="rounded-lg border border-border bg-muted/35 p-5 text-center space-y-2">
-              <div className="w-11 h-11 rounded-full bg-[#0e9f6e]/15 text-[#0e9f6e] font-bold flex items-center justify-center mx-auto">
+              <div className="w-11 h-11 rounded-full bg-foreground text-background font-bold flex items-center justify-center mx-auto">
                 ✓
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed">
@@ -112,7 +112,7 @@ export default function ForgotPasswordPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full h-11 rounded-[4px] bg-[#3e6ae1] text-white text-sm font-medium hover:bg-[#345ac7] transition-colors disabled:opacity-60"
+              className="w-full h-11 rounded-[4px] bg-foreground text-background text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-60"
             >
               {loading ? "Sending..." : "Send Reset Instructions"}
             </button>

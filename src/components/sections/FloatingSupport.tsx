@@ -14,7 +14,7 @@ export default function FloatingSupport() {
         <div className="rounded-[8px] p-5 w-72 border border-border bg-card text-foreground shadow-2xl">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#0e9f6e] pulse-dot" />
+              <span className="w-2 h-2 rounded-full bg-foreground pulse-dot" />
               <span className="font-display text-sm font-semibold text-foreground">Trade Tesla Support</span>
             </div>
             <button
@@ -30,7 +30,7 @@ export default function FloatingSupport() {
             <Link
               href="/support"
               onClick={() => setChatOpen(false)}
-              className="flex items-center gap-2 w-full py-2.5 px-4 bg-primary text-white font-semibold rounded-xl text-sm hover:opacity-90 transition-opacity justify-center min-h-[44px]"
+              className="flex items-center gap-2 w-full py-2.5 px-4 bg-foreground text-background font-semibold rounded-[4px] text-sm hover:opacity-90 transition-opacity justify-center min-h-[44px]"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
               Submit a Support Ticket

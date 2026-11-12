@@ -32,8 +32,8 @@ export default function PlatformCredibilitySection() {
         {/* Live Market Data */}
         <div className="mb-16 section-reveal">
           <div className="flex items-center gap-3 mb-4">
-            <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-            <span className="text-xs font-bold text-green-400 tracking-[0.25em] uppercase">Live Market Data</span>
+            <span className="w-2 h-2 rounded-full bg-foreground animate-pulse" />
+            <span className="text-xs font-bold text-foreground tracking-[0.25em] uppercase">Live Market Data</span>
             <span className="text-xs text-muted-foreground">Real-time prices powered by institutional-grade feeds</span>
           </div>
 
@@ -44,7 +44,7 @@ export default function PlatformCredibilitySection() {
                 <div key={i} className="flex items-center gap-2 shrink-0">
                   <span className="text-xs font-extrabold text-foreground">{t?.symbol}</span>
                   <span className="text-xs text-muted-foreground">{t?.price}</span>
-                  <span className={`text-xs font-bold ${t?.up ? 'text-green-400' : 'text-accent'}`}>{t?.change}</span>
+                  <span className={`text-xs font-bold ${t?.up ? 'text-foreground' : 'text-accent'}`}>{t?.change}</span>
                   <span className="text-muted-foreground/30 text-xs">·</span>
                 </div>
               ))}
@@ -60,7 +60,7 @@ export default function PlatformCredibilitySection() {
                     <div className="text-xs font-bold text-muted-foreground tracking-widest uppercase">{t?.symbol}</div>
                     <div className="text-sm font-semibold text-foreground">{t?.name}</div>
                   </div>
-                  <span className={`px-2.5 py-1 rounded-xl text-xs font-bold ${t?.up ? 'bg-green-400/10 text-green-400 border border-green-400/20' : 'bg-accent/10 text-accent border border-accent/20'}`}>
+                  <span className={`px-2.5 py-1 rounded-xl text-xs font-bold ${t?.up ? 'bg-muted text-foreground border border-border' : 'bg-accent/10 text-accent border border-accent/20'}`}>
                     {t?.change}
                   </span>
                 </div>
@@ -70,7 +70,7 @@ export default function PlatformCredibilitySection() {
                   {chartBarHeights?.map((height, i) => (
                     <div
                       key={i}
-                      className={`flex-1 rounded-sm ${t?.up ? 'bg-green-400/30' : 'bg-accent/30'}`}
+                      className={`flex-1 rounded-sm ${t?.up ? 'bg-foreground/25' : 'bg-accent/30'}`}
                       style={{ height: `${height + (t?.up ? 5 : -5)}px` }}
                     />
                   ))}

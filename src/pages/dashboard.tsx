@@ -22,7 +22,7 @@ function buildMonthlyReturns(chartData: { month: string; value: number }[]) {
   }));
 }
 
-const RISK_COLORS = ['#E82127', '#FF6B35', '#FFD700', '#00F59B', '#A1A1AA'];
+const RISK_COLORS = ['#171A20', '#5C5E62', '#8E929B', '#B8BCC4', '#E82127'];
 
 export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState<'overview' | 'portfolio' | 'analytics' | 'transactions' | 'alerts'>('overview');
@@ -228,7 +228,7 @@ export default function DashboardPage() {
                   <path d="M13.73 21a2 2 0 0 1-3.46 0" />
                 </svg>
                 {unreadAlerts > 0 && (
-                  <span className="absolute top-0.5 right-0.5 w-4 h-4 bg-primary rounded-full text-[9px] font-bold text-foreground flex items-center justify-center">
+                  <span className="absolute top-0.5 right-0.5 w-4 h-4 bg-foreground text-background rounded-full text-[9px] font-bold flex items-center justify-center">
                     {unreadAlerts}
                   </span>
                 )}
@@ -240,7 +240,7 @@ export default function DashboardPage() {
                     <div className="flex items-center gap-2">
                       <span className="text-xs font-bold text-foreground uppercase tracking-widest">Notifications</span>
                       {unreadAlerts > 0 && (
-                        <span className="px-1.5 py-0.5 bg-primary text-foreground text-[9px] font-bold rounded-full">{unreadAlerts}</span>
+                        <span className="px-1.5 py-0.5 bg-foreground text-background text-[9px] font-bold rounded-full">{unreadAlerts}</span>
                       )}
                     </div>
                     {unreadAlerts > 0 && (
@@ -349,7 +349,7 @@ export default function DashboardPage() {
               icon: (
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
               ),
-              accent: '#00F59B',
+              accent: '#171A20',
             },
             {
               label: 'Referral Earnings',
@@ -359,7 +359,7 @@ export default function DashboardPage() {
               icon: (
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
               ),
-              accent: '#F59E0B',
+              accent: '#5C5E62',
             },
           ].map((stat) => (
             <div key={stat.label} className="relative bg-card border border-border rounded p-5 overflow-hidden group hover:border-border transition-all duration-300">
@@ -367,14 +367,14 @@ export default function DashboardPage() {
               <div className="relative">
                 <div className="flex items-center justify-between mb-3">
                   <div className="text-xs font-semibold text-muted-foreground uppercase tracking-widest">{stat.label}</div>
-                  <div className="w-7 h-7 rounded flex items-center justify-center" style={{ background: `${stat.accent}15`, color: stat.accent }}>
+                  <div className="w-7 h-7 rounded flex items-center justify-center bg-muted text-foreground">
                     {stat.icon}
                   </div>
                 </div>
                 <div className="text-2xl font-medium text-foreground mb-1.5 tracking-tight">{stat.value}</div>
                 <div className="flex items-center gap-1.5">
                   {stat.up === true && (
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#00F59B" strokeWidth="2.5" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-foreground" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
                   )}
                   <div className={`text-xs font-medium ${stat.up === true ? 'text-success' : stat.up === false ? 'text-primary' : 'text-muted-foreground'}`}>
                     {stat.change}
@@ -397,7 +397,7 @@ export default function DashboardPage() {
             >
               {tab}
               {tab === 'alerts' && unreadAlerts > 0 && (
-                <span className="ml-1.5 px-1.5 py-0.5 bg-primary text-foreground text-[9px] rounded-full">{unreadAlerts}</span>
+                <span className="ml-1.5 px-1.5 py-0.5 bg-foreground text-background text-[9px] rounded-full">{unreadAlerts}</span>
               )}
             </button>
           ))}
@@ -499,10 +499,10 @@ export default function DashboardPage() {
             {/* Quick actions */}
             <div className="lg:col-span-3 grid grid-cols-2 sm:grid-cols-4 gap-4">
               {[
-                { label: 'New Investment', icon: '💼', href: '/invest', desc: 'Browse packages', accent: '#E82127' },
-                { label: 'Market News', icon: '📰', href: '/news', desc: 'Latest updates', accent: '#A1A1AA' },
-                { label: 'Refer a Friend', icon: '🎁', href: '/referral', desc: 'Earn rewards', accent: '#F59E0B' },
-                { label: 'KYC Status', icon: '✅', href: '/kyc', desc: 'Verify identity', accent: '#00F59B' },
+                { label: 'New Investment', icon: '💼', href: '/invest', desc: 'Browse packages', accent: '#171A20' },
+                { label: 'Market News', icon: '📰', href: '/news', desc: 'Latest updates', accent: '#5C5E62' },
+                { label: 'Refer a Friend', icon: '🎁', href: '/referral', desc: 'Earn rewards', accent: '#5C5E62' },
+                { label: 'KYC Status', icon: '✅', href: '/kyc', desc: 'Verify identity', accent: '#171A20' },
               ].map((action) => (
                 <Link
                   key={action.label}
@@ -607,7 +607,7 @@ export default function DashboardPage() {
                       key={r}
                       onClick={() => setAnalyticsRange(r)}
                       className={`px-3 py-1.5 rounded text-[10px] font-bold uppercase tracking-widest transition-all ${
-                        analyticsRange === r ? 'bg-primary text-foreground' : 'bg-muted text-muted-foreground hover:text-foreground'
+                        analyticsRange === r ? 'bg-foreground text-background' : 'bg-muted text-muted-foreground hover:text-foreground'
                       }`}
                     >
                       {r}
@@ -657,7 +657,7 @@ export default function DashboardPage() {
                       />
                       <Bar dataKey="return" radius={[3, 3, 0, 0]}>
                         {monthlyReturns.map((entry, index) => (
-                          <Cell key={index} fill={entry.return >= 0 ? '#00F59B' : '#E82127'} />
+                          <Cell key={index} fill={entry.return >= 0 ? 'var(--chart-emerald)' : '#E82127'} />
                         ))}
                       </Bar>
                     </BarChart>

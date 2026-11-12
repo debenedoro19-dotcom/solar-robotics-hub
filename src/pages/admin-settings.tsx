@@ -919,7 +919,7 @@ export default function AdminSettingsPage() {
             {/* Commission Rates */}
             <div className={sectionClass}>
               <p className={sectionTitleClass}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00F59B" strokeWidth="2" aria-hidden="true"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                 Commission Rates
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -1062,7 +1062,7 @@ export default function AdminSettingsPage() {
             <div className={sectionClass}>
               <div className="flex items-center justify-between mb-4">
                 <p className={sectionTitleClass + ' mb-0'}>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00F59B" strokeWidth="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
                   IP Whitelist
                 </p>
                 <button
@@ -1183,8 +1183,8 @@ export default function AdminSettingsPage() {
         {activeTab === 'customercare' && (
           <div className="space-y-6">
             <div className="bg-background border border-border rounded p-5 flex items-start gap-3">
-              <div className="w-9 h-9 rounded bg-success/10 flex items-center justify-center shrink-0">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00F59B" strokeWidth="2" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <div className="w-9 h-9 rounded bg-muted flex items-center justify-center shrink-0 text-foreground">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
               </div>
               <div>
                 <p className="text-sm font-bold text-foreground mb-0.5">Customer Care Channels</p>

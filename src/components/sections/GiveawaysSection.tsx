@@ -201,7 +201,7 @@ const GiveawayCard = memo(function GiveawayCard({
             loading="lazy"
             className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
-          <span className="absolute top-3 left-3 rounded-[3px] bg-[#0e9f6e] px-2.5 py-1 text-[10px] font-semibold tracking-wider uppercase text-white">
+          <span className="absolute top-3 left-3 rounded-[3px] bg-[#171a20]/90 px-2.5 py-1 text-[10px] font-semibold tracking-wider uppercase text-white backdrop-blur-sm">
             Free Prize Allocation
           </span>
           <span className="absolute top-3 right-3 rounded-[3px] bg-black/75 px-2.5 py-1 text-[10px] font-medium tracking-wider text-white backdrop-blur-sm">
@@ -235,7 +235,7 @@ const GiveawayCard = memo(function GiveawayCard({
             </div>
             <div className="h-1.5 rounded-full bg-muted overflow-hidden">
               <div
-                className="h-full rounded-full bg-[#3e6ae1] transition-[width] duration-1000 ease-out"
+                className="h-full rounded-full bg-foreground transition-[width] duration-1000 ease-out"
                 style={{ width: `${pct}%` }}
                 role="progressbar"
                 aria-valuenow={displayEntries}
@@ -244,7 +244,7 @@ const GiveawayCard = memo(function GiveawayCard({
               />
             </div>
             <div className="flex justify-between items-center text-[11px] text-muted-foreground mt-2">
-              <span className="text-[#0e9f6e] font-medium">Prize Entry: $0 Free</span>
+              <span className="text-foreground font-medium">Prize Entry: $0 Free</span>
               <span>Delivery Fee: ${GIVEAWAY_SHIPPING_FEE}</span>
             </div>
           </div>
@@ -255,7 +255,7 @@ const GiveawayCard = memo(function GiveawayCard({
         <button
           type="button"
           onClick={() => onEnter(g)}
-          className="w-full h-11 rounded-[4px] bg-[#3e6ae1] text-white text-xs font-medium hover:bg-[#345ac7] transition-colors"
+          className="w-full h-11 rounded-[4px] bg-foreground text-background text-xs font-medium hover:opacity-90 transition-opacity"
         >
           Claim Free Prize &amp; Arrange Delivery →
         </button>
@@ -301,14 +301,14 @@ function FedExDeliveryModal({
 
         <div className="flex items-center gap-3 mb-6 pb-4 border-b border-border">
           <div className="flex items-center font-black tracking-tight text-2xl">
-            <span className="text-[#4D148C]">Fed</span>
-            <span className="text-[#FF6200]">Ex</span>
+            <span className="text-foreground">Fed</span>
+            <span className="text-foreground/65">Ex</span>
           </div>
           <div className="h-6 w-px bg-border" />
           <div>
             <div className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-[#0e9f6e] pulse-dot" />
-              <span className="text-[11px] font-semibold text-[#0e9f6e] uppercase tracking-wider">
+              <span className="w-2 h-2 rounded-full bg-foreground pulse-dot" />
+              <span className="text-[11px] font-semibold text-foreground uppercase tracking-wider">
                 Waybill Active · Dispatched
               </span>
             </div>
@@ -345,7 +345,7 @@ function FedExDeliveryModal({
               <span className="text-muted-foreground block text-[10px] uppercase font-semibold">
                 Freight Shipping Settled
               </span>
-              <span className="font-medium text-[#0e9f6e] tabular">
+              <span className="font-medium text-foreground tabular">
                 {money(claim.shippingPaid ?? GIVEAWAY_SHIPPING_FEE)}
               </span>
             </div>
@@ -373,9 +373,9 @@ function FedExDeliveryModal({
           </div>
         </div>
 
-        <div className="rounded-[6px] border border-orange-500/40 bg-orange-500/10 p-5 space-y-3 mb-6">
+        <div className="rounded-[6px] border border-border bg-muted/30 p-5 space-y-3 mb-6">
           <div className="flex items-center gap-2">
-            <span className="px-2 py-0.5 rounded-[3px] text-[10px] font-bold uppercase tracking-wider bg-orange-500 text-white">
+            <span className="px-2 py-0.5 rounded-[3px] text-[10px] font-bold uppercase tracking-wider bg-foreground text-background">
               Active Manifest
             </span>
             <h4 className="text-sm font-semibold text-foreground">
@@ -389,7 +389,7 @@ function FedExDeliveryModal({
           </p>
           <button
             onClick={() => setShowPortalDetails(!showPortalDetails)}
-            className="text-xs font-semibold text-[#FF6200] hover:underline block text-left"
+            className="text-xs font-semibold text-foreground hover:underline block text-left"
           >
             {showPortalDetails
               ? "Hide Dispatch Route & Timeline ▲"
@@ -397,9 +397,9 @@ function FedExDeliveryModal({
           </button>
 
           {showPortalDetails && (
-            <div className="pt-3 border-t border-orange-500/20 space-y-2 text-xs text-muted-foreground">
+            <div className="pt-3 border-t border-border space-y-2 text-xs text-muted-foreground">
               <div className="flex items-center gap-2 text-foreground font-medium">
-                <span className="w-5 h-5 rounded-full bg-[#0e9f6e]/20 text-[#0e9f6e] flex items-center justify-center text-[10px] font-bold">
+                <span className="w-5 h-5 rounded-full bg-foreground/15 text-foreground flex items-center justify-center text-[10px] font-bold">
                   ✓
                 </span>
                 <span>Stage 1: Free Prize Claim &amp; ${GIVEAWAY_SHIPPING_FEE} Freight Verified</span>
@@ -613,7 +613,7 @@ function FreeClaimModal({
   }
 
   const inputClass =
-    "w-full h-10 px-3.5 rounded-[4px] bg-muted/40 border border-border text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-[#3e6ae1] transition-colors";
+    "w-full h-10 px-3.5 rounded-[4px] bg-muted/40 border border-border text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground transition-colors";
 
   return (
     <div
@@ -636,10 +636,10 @@ function FreeClaimModal({
 
         <div className="mb-6">
           <div className="flex items-center gap-2 mb-2">
-            <span className="px-2 py-0.5 rounded-[3px] text-[10px] font-semibold uppercase tracking-wider bg-[#0e9f6e] text-white">
+            <span className="px-2 py-0.5 rounded-[3px] text-[10px] font-semibold uppercase tracking-wider bg-foreground text-background">
               Free Prize ($0)
             </span>
-            <span className="text-xs font-medium text-[#3e6ae1]">
+            <span className="text-xs font-medium text-muted-foreground">
               ${shippingFee} Enclosed Freight Shipping
             </span>
           </div>
@@ -658,7 +658,7 @@ function FreeClaimModal({
             </p>
             <a
               href="/login"
-              className="inline-flex h-11 items-center justify-center rounded-[4px] bg-[#3e6ae1] px-6 text-white font-medium text-sm hover:bg-[#345ac7] transition-colors"
+              className="inline-flex h-11 items-center justify-center rounded-[4px] bg-foreground px-6 text-background font-medium text-sm hover:opacity-90 transition-opacity"
             >
               Account · Sign In to Continue
             </a>
@@ -798,7 +798,7 @@ function FreeClaimModal({
                   Delivery Notes (Optional)
                 </label>
                 <textarea
-                  className="w-full p-3 rounded-[4px] bg-muted/40 border border-border text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-[#3e6ae1]"
+                  className="w-full p-3 rounded-[4px] bg-muted/40 border border-border text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground"
                   rows={2}
                   placeholder="Gate code or drop-off preferences..."
                   value={f.notes}
@@ -815,7 +815,7 @@ function FreeClaimModal({
                 setError("");
                 setStep(2);
               }}
-              className="w-full h-11 rounded-[4px] bg-[#3e6ae1] text-white font-medium text-xs disabled:opacity-40 hover:bg-[#345ac7] transition-colors"
+              className="w-full h-11 rounded-[4px] bg-foreground text-background font-medium text-xs disabled:opacity-40 hover:opacity-90 transition-opacity"
             >
               Continue to Shipping Payment (${shippingFee}) →
             </button>
@@ -826,7 +826,7 @@ function FreeClaimModal({
               <p className="text-[11px] font-semibold tracking-[0.18em] uppercase text-muted-foreground">
                 Step 2 · Delivery Fee Settlement
               </p>
-              <span className="font-display text-sm font-semibold text-[#3e6ae1] tabular">
+              <span className="font-display text-sm font-semibold text-foreground tabular">
                 {money(shippingFee)} Due
               </span>
             </div>
@@ -834,7 +834,7 @@ function FreeClaimModal({
             <div className="rounded-[6px] border border-border divide-y divide-border text-sm bg-muted/15">
               <div className="flex justify-between p-3">
                 <span className="text-muted-foreground">Giveaway Prize Allocation</span>
-                <span className="font-semibold text-[#0e9f6e]">$0.00 (Free)</span>
+                <span className="font-semibold text-foreground">$0.00 (Free)</span>
               </div>
               <div className="flex justify-between p-3">
                 <span className="text-muted-foreground">Enclosed Carrier Freight Shipping</span>
@@ -842,7 +842,7 @@ function FreeClaimModal({
               </div>
               <div className="flex justify-between p-3 bg-muted/25">
                 <span className="font-semibold text-foreground">Total Delivery Due</span>
-                <span className="font-bold text-[#3e6ae1] tabular">{money(shippingFee)}</span>
+                <span className="font-bold text-foreground tabular">{money(shippingFee)}</span>
               </div>
             </div>
 
@@ -854,7 +854,7 @@ function FreeClaimModal({
                   onClick={() => setMethod(m)}
                   className={`p-3 rounded-[6px] border text-left text-sm transition-all ${
                     method === m
-                      ? "border-[#3e6ae1] bg-[#3e6ae1]/10"
+                      ? "border-foreground bg-foreground/8"
                       : "border-border hover:border-foreground/30"
                   }`}
                 >
@@ -881,7 +881,7 @@ function FreeClaimModal({
                   <div className="flex gap-2 pt-1">
                     <a
                       href="/account/deposit"
-                      className="px-3.5 py-2 rounded-[4px] bg-[#3e6ae1] text-white font-medium text-xs"
+                      className="px-3.5 py-2 rounded-[4px] bg-foreground text-background font-medium text-xs"
                     >
                       Deposit Funds
                     </a>
@@ -895,8 +895,8 @@ function FreeClaimModal({
                   </div>
                 </div>
               ) : (
-                <div className="rounded-[6px] border border-[#3e6ae1]/30 bg-[#3e6ae1]/8 p-4 text-sm">
-                  <p className="font-semibold text-[#3e6ae1] mb-1">Instant Wallet Deduction</p>
+                <div className="rounded-[6px] border border-border bg-muted/35 p-4 text-sm">
+                  <p className="font-semibold text-foreground mb-1">Instant Wallet Deduction</p>
                   <p className="text-xs text-muted-foreground">
                     {money(shippingFee)} will be deducted from your wallet ({money(available)}) to
                     activate immediate FedEx courier dispatch.
@@ -931,7 +931,7 @@ function FreeClaimModal({
                           setCopied(true);
                           setTimeout(() => setCopied(false), 2000);
                         }}
-                        className="text-xs font-semibold text-[#3e6ae1] hover:underline"
+                        className="text-xs font-semibold text-foreground hover:underline"
                       >
                         {copied ? "✓ Copied" : "Copy Address"}
                       </button>
@@ -963,7 +963,7 @@ function FreeClaimModal({
                     type="file"
                     accept="image/*,application/pdf"
                     onChange={(e) => setProof(e.target.files?.[0] ?? null)}
-                    className="mt-1.5 block w-full text-xs text-muted-foreground file:mr-2 file:py-1.5 file:px-3 file:rounded-[4px] file:border-0 file:text-xs file:font-medium file:bg-[#3e6ae1] file:text-white hover:file:opacity-90"
+                    className="mt-1.5 block w-full text-xs text-muted-foreground file:mr-2 file:py-1.5 file:px-3 file:rounded-[4px] file:border-0 file:text-xs file:font-medium file:bg-foreground file:text-background hover:file:opacity-90"
                   />
                 </label>
               </div>
@@ -983,7 +983,7 @@ function FreeClaimModal({
                 type="button"
                 disabled={busy || (method === "wallet" && shortfall > 0)}
                 onClick={submitShippingPayment}
-                className="flex-1 h-11 rounded-[4px] bg-[#3e6ae1] text-white font-medium text-xs disabled:opacity-40 hover:bg-[#345ac7] transition-colors"
+                className="flex-1 h-11 rounded-[4px] bg-foreground text-background font-medium text-xs disabled:opacity-40 hover:opacity-90 transition-opacity"
               >
                 {busy
                   ? "Processing Delivery Settlement…"
@@ -1063,14 +1063,14 @@ export default function GiveawaysSection() {
           <div className="mb-8 rounded-[6px] border border-border bg-card p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm">
             <div>
               <div className="flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-[#0e9f6e] pulse-dot" />
-                <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#0e9f6e]">
+                <span className="h-2 w-2 rounded-full bg-foreground pulse-dot" />
+                <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-foreground">
                   Active FedEx Courier Dispatch
                 </span>
               </div>
               <p className="mt-1 text-sm font-semibold text-foreground">
                 {activeClaim.prize} · Waybill:{" "}
-                <span className="font-mono text-[#3e6ae1]">{activeClaim.trackingNumber}</span>
+                <span className="font-mono text-foreground underline underline-offset-4">{activeClaim.trackingNumber}</span>
               </p>
             </div>
             <button

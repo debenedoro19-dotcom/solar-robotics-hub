@@ -212,12 +212,12 @@ export default function CareerDetailPage({ slug }: { slug: string }) {
 
           <div className="flex flex-wrap items-center gap-2 mb-3">
             {job.is_entry_level && (
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-muted text-foreground border border-border">
                 Entry-Level Friendly
               </span>
             )}
             {job.training_provided && (
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-blue-500/15 text-blue-600 dark:text-blue-400 border border-blue-500/30">
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-foreground text-background">
                 Full Paid Training Provided
               </span>
             )}
@@ -255,9 +255,9 @@ export default function CareerDetailPage({ slug }: { slug: string }) {
           <div className="lg:col-span-7 space-y-8">
             {/* Quick summary banner for entry level */}
             {job.is_entry_level && (
-              <div className="p-5 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-xs text-foreground/90 leading-relaxed">
-                <div className="font-bold text-emerald-600 dark:text-emerald-400 text-sm mb-1 flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <div className="p-5 rounded-2xl bg-muted/60 border border-border text-xs text-foreground/90 leading-relaxed">
+                <div className="font-bold text-foreground text-sm mb-1 flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-foreground animate-pulse" />
                   Accessible Role — No Prior Industry Degree Required
                 </div>
                 We evaluate candidates based on drive, attention to detail, and alignment with our mission. Comprehensive training and mentorship are provided from day one.
@@ -326,7 +326,7 @@ export default function CareerDetailPage({ slug }: { slug: string }) {
 
               {status === 'done' ? (
                 <div className="text-center py-10 space-y-4">
-                  <div className="w-16 h-16 rounded-full bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center mx-auto text-emerald-500">
+                  <div className="w-16 h-16 rounded-full bg-muted border border-border flex items-center justify-center mx-auto text-foreground">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                       <path d="M20 6 9 17l-5-5" />
                     </svg>
@@ -443,15 +443,15 @@ export default function CareerDetailPage({ slug }: { slug: string }) {
                       onClick={() => fileInput.current?.click()}
                       className={`p-4 rounded-xl border border-dashed text-center cursor-pointer transition-all ${
                         isDragging
-                          ? 'border-primary bg-primary/10'
+                          ? 'border-foreground bg-muted/60'
                           : resume
-                          ? 'border-emerald-500/50 bg-emerald-500/5'
-                          : 'border-border hover:border-primary/50 hover:bg-muted/30'
+                          ? 'border-foreground/50 bg-muted/40'
+                          : 'border-border hover:border-foreground/50 hover:bg-muted/30'
                       }`}
                     >
                       {resume ? (
                         <div className="flex items-center justify-between text-xs text-foreground px-2">
-                          <span className="truncate max-w-[200px] font-semibold text-emerald-600 dark:text-emerald-400">
+                          <span className="truncate max-w-[200px] font-semibold text-foreground">
                             {resume.name}
                           </span>
                           <button

@@ -97,8 +97,8 @@ export default function BookSessionPage() {
         <Header />
         <div className="pt-24 pb-20 px-6 flex items-center justify-center min-h-screen">
           <div className="max-w-md w-full text-center">
-            <div className="w-20 h-20 rounded-full bg-green-400/10 border border-green-400/30 flex items-center justify-center mx-auto mb-6">
-              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#00F59B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <div className="w-20 h-20 rounded-full bg-muted border border-border flex items-center justify-center mx-auto mb-6 text-foreground">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M20 6L9 17l-5-5"/>
               </svg>
             </div>

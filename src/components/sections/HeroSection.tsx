@@ -158,7 +158,7 @@ export default function HeroSection() {
             ))}
           </div>
           <div className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" style={{ boxShadow: '0 0 6px rgba(74,222,128,0.6)' }} />
+            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" style={{ boxShadow: '0 0 6px rgba(255,255,255,0.5)' }} />
             <span className="text-[9px] font-bold text-[#52525B] tracking-widest uppercase">Markets Live</span>
           </div>
         </div>

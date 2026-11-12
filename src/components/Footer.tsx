@@ -86,8 +86,8 @@ export default function Footer() {
           </div>
 
           {status === "done" ? (
-            <div className="flex items-center gap-3 rounded-lg border border-[#0e9f6e]/30 bg-card p-4">
-              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[#0e9f6e]/15 text-[#0e9f6e] font-bold">
+            <div className="flex items-center gap-3 rounded-lg border border-border bg-card p-4">
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-foreground/10 text-foreground font-bold">
                 ✓
               </span>
               <div>

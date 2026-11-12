@@ -61,7 +61,7 @@ export default function PlanCard({
       <div>
         <div className="flex items-center justify-between gap-2">
           <CategoryBadge category={plan.category} />
-          <span className="text-[11px] font-medium text-[#0e9f6e] tabular">
+          <span className="text-[11px] font-semibold text-foreground tabular">
             +{totalTermReturnPct}% est. term target
           </span>
         </div>

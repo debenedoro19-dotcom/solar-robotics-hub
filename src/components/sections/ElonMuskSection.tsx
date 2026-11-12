@@ -198,7 +198,7 @@ export default function ElonMuskSection() {
               <p className="text-xs text-muted-foreground mt-1">
                 Founded {activeCompany.founded} · {activeCompany.role}
               </p>
-              <p className="mt-4 text-sm font-medium text-[#3e6ae1]">
+              <p className="mt-4 text-sm font-medium text-foreground">
                 &ldquo;{activeCompany.tagline}&rdquo;
               </p>
               <p className="mt-3 text-sm text-muted-foreground leading-relaxed">

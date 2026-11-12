@@ -81,7 +81,7 @@ export default function VIPSection() {
                 <button
                   type="button"
                   onClick={() => navigateWithLoader("/book-session", "VIP APPOINTMENT")}
-                  className="h-11 rounded-[4px] bg-[#3e6ae1] px-7 text-sm font-medium text-white hover:bg-[#345ac7] transition-colors"
+                  className="h-11 rounded-[4px] bg-foreground px-7 text-sm font-medium text-background hover:opacity-90 transition-opacity"
                 >
                   Apply for an Appointment →
                 </button>

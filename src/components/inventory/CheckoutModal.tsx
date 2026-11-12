@@ -20,7 +20,7 @@ export interface CheckoutItem {
 }
 
 const input =
-  'w-full h-10 px-3.5 rounded-[4px] bg-muted/40 border border-border text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-[#3e6ae1] transition-colors';
+  'w-full h-10 px-3.5 rounded-[4px] bg-muted/40 border border-border text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground transition-colors';
 
 export default function CheckoutModal({
   item,
@@ -183,7 +183,7 @@ export default function CheckoutModal({
             className="w-16 h-16 rounded-[6px] object-cover bg-muted border border-border"
           />
           <div className="min-w-0">
-            <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-[#3e6ae1]">
+            <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-muted-foreground">
               {item.category} · Trade Tesla Checkout
             </p>
             <h3 className="font-display font-semibold text-foreground leading-tight truncate mt-0.5">
@@ -212,7 +212,7 @@ export default function CheckoutModal({
             <div className="flex flex-col gap-2.5">
               <a
                 href="/login"
-                className="inline-flex h-11 items-center justify-center rounded-[4px] bg-[#3e6ae1] px-5 text-white font-medium text-sm hover:bg-[#345ac7] transition-colors"
+                className="inline-flex h-11 items-center justify-center rounded-[4px] bg-foreground px-5 text-background font-medium text-sm hover:opacity-90 transition-opacity"
               >
                 Account · Continue to Sign In
               </a>
@@ -225,7 +225,7 @@ export default function CheckoutModal({
         ) : step === 3 ? (
           <div className="py-2 space-y-4">
             <div className="text-center">
-              <div className="mx-auto mb-3 w-14 h-14 rounded-full bg-[#0e9f6e]/15 text-[#0e9f6e] flex items-center justify-center text-2xl font-bold border border-[#0e9f6e]/30">
+              <div className="mx-auto mb-3 w-14 h-14 rounded-full bg-muted text-foreground flex items-center justify-center text-2xl font-bold border border-border">
                 ✓
               </div>
               <h4 className="font-display font-semibold text-foreground text-xl mb-1">
@@ -235,7 +235,7 @@ export default function CheckoutModal({
               </h4>
               <p className="text-sm text-muted-foreground">
                 Order reference:{' '}
-                <span className="font-mono font-semibold text-[#3e6ae1]">{orderNo}</span>
+                <span className="font-mono font-semibold text-foreground">{orderNo}</span>
               </p>
             </div>
 
@@ -250,8 +250,8 @@ export default function CheckoutModal({
               </div>
               {pricing.heroesDiscount > 0 && (
                 <div className="flex justify-between gap-2">
-                  <span className="text-[#0e9f6e]">Our Heroes Discount ({heroRole})</span>
-                  <span className="font-semibold text-[#0e9f6e] tabular">
+                  <span className="text-foreground font-medium">Our Heroes Discount ({heroRole})</span>
+                  <span className="font-semibold text-foreground tabular">
                     -{money(pricing.heroesDiscount)}
                   </span>
                 </div>
@@ -274,15 +274,15 @@ export default function CheckoutModal({
               </div>
               <div className="flex justify-between border-t border-border pt-2">
                 <span className="text-muted-foreground">Logistics Courier</span>
-                <span className="font-semibold text-orange-500">
+                <span className="font-semibold text-foreground">
                   FedEx Special Freight / Transport
                 </span>
               </div>
             </div>
 
-            <div className="rounded-[6px] border border-orange-500/30 bg-orange-500/5 p-4 text-xs space-y-2">
+            <div className="rounded-[6px] border border-border bg-muted/30 p-4 text-xs space-y-2">
               <div className="flex items-center gap-2">
-                <span className="px-2 py-0.5 rounded-[3px] font-bold text-[10px] bg-orange-500 text-white uppercase tracking-wider">
+                <span className="px-2 py-0.5 rounded-[3px] font-bold text-[10px] bg-foreground text-background uppercase tracking-wider">
                   FedEx Partner
                 </span>
                 <span className="font-semibold text-foreground">Logistics Dispatch Manifest</span>
@@ -294,7 +294,7 @@ export default function CheckoutModal({
               </p>
               <button
                 onClick={() => setShowFedexNotice(!showFedexNotice)}
-                className="text-[#3e6ae1] hover:underline font-medium block text-left"
+                className="text-foreground underline-offset-4 hover:underline font-medium block text-left"
               >
                 {showFedexNotice
                   ? 'Hide FedEx Tracking Notice ▲'
@@ -305,7 +305,7 @@ export default function CheckoutModal({
                   <p className="font-medium text-foreground">FedEx Logistics Integration Status:</p>
                   <p>
                     • Waybill Status:{' '}
-                    <span className="text-[#0e9f6e] font-semibold">
+                    <span className="text-foreground font-semibold">
                       Active · Pre-Dispatch Inspection
                     </span>
                   </p>
@@ -320,7 +320,7 @@ export default function CheckoutModal({
             <div className="flex gap-2.5 pt-2">
               <a
                 href="/dashboard"
-                className="flex-1 h-11 flex items-center justify-center rounded-[4px] bg-[#3e6ae1] text-white font-medium text-sm hover:bg-[#345ac7] transition-colors"
+                className="flex-1 h-11 flex items-center justify-center rounded-[4px] bg-foreground text-background font-medium text-sm hover:opacity-90 transition-opacity"
               >
                 Track in Dashboard
               </a>
@@ -338,7 +338,7 @@ export default function CheckoutModal({
               <p className="text-[11px] font-semibold tracking-[0.18em] uppercase text-muted-foreground">
                 Step 1 · Delivery details
               </p>
-              <span className="text-[11px] text-[#3e6ae1] font-semibold">
+              <span className="text-[11px] text-foreground font-semibold">
                 {pricing.shippingLabel} · {money(pricing.shippingFee)}
               </span>
             </div>
@@ -394,7 +394,7 @@ export default function CheckoutModal({
               />
             </div>
             <textarea
-              className="w-full p-3 rounded-[4px] bg-muted/40 border border-border text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-[#3e6ae1]"
+              className="w-full p-3 rounded-[4px] bg-muted/40 border border-border text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground"
               rows={2}
               placeholder="Delivery notes / Gate code (optional)"
               value={f.notes}
@@ -404,7 +404,7 @@ export default function CheckoutModal({
             <button
               disabled={!deliveryOk}
               onClick={() => setStep(2)}
-              className="w-full h-11 rounded-[4px] bg-[#3e6ae1] text-white font-medium text-sm disabled:opacity-40 hover:bg-[#345ac7] transition-colors"
+              className="w-full h-11 rounded-[4px] bg-foreground text-background font-medium text-sm disabled:opacity-40 hover:opacity-90 transition-opacity"
             >
               Continue to Payment · {money(pricing.totalDue)} →
             </button>
@@ -415,20 +415,20 @@ export default function CheckoutModal({
               <p className="text-[11px] font-semibold tracking-[0.18em] uppercase text-muted-foreground">
                 Step 2 · Payment &amp; Settlement
               </p>
-              <span className="font-display text-sm font-semibold text-[#3e6ae1] tabular">
+              <span className="font-display text-sm font-semibold text-foreground tabular">
                 {money(pricing.totalDue)} Due
               </span>
             </div>
 
             {pricing.heroesEligible && (
-              <div className="rounded-[6px] border border-[#0e9f6e]/35 bg-[#0e9f6e]/8 p-3.5 space-y-2.5">
+              <div className="rounded-[6px] border border-border bg-muted/40 p-3.5 space-y-2.5">
                 <label className="flex items-start justify-between gap-3 cursor-pointer">
                   <div className="flex items-start gap-2.5">
                     <input
                       type="checkbox"
                       checked={applyHeroes}
                       onChange={(e) => setApplyHeroes(e.target.checked)}
-                      className="mt-0.5 h-4 w-4 accent-[#0e9f6e]"
+                      className="mt-0.5 h-4 w-4 accent-[#171a20] dark:accent-white"
                     />
                     <div>
                       <span className="text-xs font-semibold text-foreground block">
@@ -439,7 +439,7 @@ export default function CheckoutModal({
                       </span>
                     </div>
                   </div>
-                  <span className="text-xs font-bold text-[#0e9f6e] tabular shrink-0">
+                  <span className="text-xs font-bold text-foreground tabular shrink-0">
                     -${HEROES_DISCOUNT_AMOUNT.toLocaleString()}
                   </span>
                 </label>
@@ -475,8 +475,8 @@ export default function CheckoutModal({
               </div>
               {pricing.heroesDiscount > 0 && (
                 <div className="flex justify-between p-3">
-                  <span className="text-[#0e9f6e] font-medium">Our Heroes Discount</span>
-                  <span className="text-[#0e9f6e] font-semibold tabular">
+                  <span className="text-foreground font-medium">Our Heroes Discount</span>
+                  <span className="text-foreground font-semibold tabular">
                     -{money(pricing.heroesDiscount)}
                   </span>
                 </div>
@@ -487,7 +487,7 @@ export default function CheckoutModal({
               </div>
               <div className="flex justify-between p-3 bg-muted/25">
                 <span className="text-foreground font-semibold">Total Due Today</span>
-                <span className="text-[#3e6ae1] font-bold tabular">
+                <span className="text-foreground font-bold tabular">
                   {money(pricing.totalDue)}
                 </span>
               </div>
@@ -500,7 +500,7 @@ export default function CheckoutModal({
                   onClick={() => setMethod(m)}
                   className={`p-3 rounded-[6px] border text-left text-sm transition-all ${
                     method === m
-                      ? 'border-[#3e6ae1] bg-[#3e6ae1]/10 shadow-sm'
+                      ? 'border-foreground bg-foreground/8 shadow-sm'
                       : 'border-border hover:border-foreground/30'
                   }`}
                 >
@@ -528,7 +528,7 @@ export default function CheckoutModal({
                   <div className="flex gap-2 pt-1">
                     <a
                       href="/account/deposit"
-                      className="px-3.5 py-2 rounded-[4px] bg-[#3e6ae1] text-white font-medium text-xs hover:bg-[#345ac7] transition-colors"
+                      className="px-3.5 py-2 rounded-[4px] bg-foreground text-background font-medium text-xs hover:opacity-90 transition-opacity"
                     >
                       Deposit Funds
                     </a>
@@ -541,8 +541,8 @@ export default function CheckoutModal({
                   </div>
                 </div>
               ) : (
-                <div className="rounded-[6px] border border-[#3e6ae1]/30 bg-[#3e6ae1]/8 p-4 text-sm text-foreground">
-                  <p className="font-semibold text-[#3e6ae1] mb-1">Instant Wallet Settlement</p>
+                <div className="rounded-[6px] border border-border bg-muted/35 p-4 text-sm text-foreground">
+                  <p className="font-semibold text-foreground mb-1">Instant Wallet Settlement</p>
                   <p className="text-xs text-muted-foreground leading-relaxed">
                     {money(pricing.totalDue)} (including {money(pricing.shippingFee)} freight
                     delivery
@@ -579,7 +579,7 @@ export default function CheckoutModal({
                     {net.address && (
                       <button
                         onClick={() => copyAddress(net.address)}
-                        className="text-xs font-semibold text-[#3e6ae1] hover:underline"
+                        className="text-xs font-semibold text-foreground hover:underline"
                       >
                         {copied ? '✓ Copied' : 'Copy Address'}
                       </button>
@@ -611,7 +611,7 @@ export default function CheckoutModal({
                     type="file"
                     accept="image/*,application/pdf"
                     onChange={(e) => setProof(e.target.files?.[0] ?? null)}
-                    className="mt-1.5 block w-full text-xs text-muted-foreground file:mr-2 file:py-1.5 file:px-3 file:rounded-[4px] file:border-0 file:text-xs file:font-medium file:bg-[#3e6ae1] file:text-white hover:file:opacity-90"
+                    className="mt-1.5 block w-full text-xs text-muted-foreground file:mr-2 file:py-1.5 file:px-3 file:rounded-[4px] file:border-0 file:text-xs file:font-medium file:bg-foreground file:text-background hover:file:opacity-90"
                   />
                 </label>
               </div>
@@ -629,7 +629,7 @@ export default function CheckoutModal({
               <button
                 disabled={busy || (method === 'wallet' && shortfall > 0)}
                 onClick={submit}
-                className="flex-1 h-11 rounded-[4px] bg-[#3e6ae1] text-white font-medium text-sm disabled:opacity-40 hover:bg-[#345ac7] transition-colors"
+                className="flex-1 h-11 rounded-[4px] bg-foreground text-background font-medium text-sm disabled:opacity-40 hover:opacity-90 transition-opacity"
               >
                 {busy
                   ? 'Processing Purchase…'

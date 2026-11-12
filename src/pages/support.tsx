@@ -23,11 +23,11 @@ interface SupportTicket {
   resolved_at: string | null;
 }
 
-const STATUS_CONFIG: Record<TicketStatus, { label: string; color: string; bg: string; border: string }> = {
-  open: { label: 'Open', color: '#F59E0B', bg: '#1a1500', border: '#3a3000' },
-  in_progress: { label: 'In Progress', color: '#A1A1AA', bg: '#0a1525', border: '#1a3050' },
-  resolved: { label: 'Resolved', color: '#00F59B', bg: '#0a1a0a', border: '#1a4020' },
-  closed: { label: 'Closed', color: '#A1A1AA', bg: '#0D0E12', border: '#2a2a2a' },
+const STATUS_CONFIG: Record<TicketStatus, { label: string; badgeClass: string; dotClass: string; countClass: string }> = {
+  open: { label: 'Open', badgeClass: 'bg-muted text-foreground border-border', dotClass: 'bg-foreground', countClass: 'text-foreground' },
+  in_progress: { label: 'In Progress', badgeClass: 'bg-muted/80 text-muted-foreground border-border', dotClass: 'bg-muted-foreground', countClass: 'text-foreground' },
+  resolved: { label: 'Resolved', badgeClass: 'bg-foreground text-background border-foreground', dotClass: 'bg-background', countClass: 'text-foreground' },
+  closed: { label: 'Closed', badgeClass: 'bg-muted/40 text-muted-foreground border-border', dotClass: 'bg-muted-foreground/60', countClass: 'text-muted-foreground' },
 };
 
 const CATEGORY_LABELS: Record<TicketCategory, string> = {
@@ -156,7 +156,7 @@ export default function SupportPage() {
           {user && view === 'list' && (
             <button
               onClick={() => setView('new')}
-              className="flex items-center gap-2 px-4 py-2 bg-primary text-foreground rounded text-sm font-semibold hover:opacity-90 transition-opacity"
+              className="flex items-center gap-2 px-4 py-2 bg-foreground text-background rounded-[4px] text-sm font-medium hover:opacity-90 transition-opacity"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12h14"/></svg>
               New Ticket
@@ -174,7 +174,7 @@ export default function SupportPage() {
             </div>
             <h2 className="font-display text-xl font-semibold mb-2">Account Required for Support</h2>
             <p className="text-muted-foreground mb-6 text-sm">Sign in to your Trade Tesla Account to submit and track support requests.</p>
-            <Link href="/login" ctaLoader loaderLabel="ACCOUNT" className="inline-flex h-11 items-center gap-2 px-7 bg-[#3e6ae1] text-white rounded-[4px] font-medium hover:bg-[#345ac7] transition-colors">
+            <Link href="/login" ctaLoader loaderLabel="ACCOUNT" className="inline-flex h-11 items-center gap-2 px-7 bg-foreground text-background rounded-[4px] font-medium hover:opacity-90 transition-opacity">
               Account · Sign In
             </Link>
           </div>
@@ -191,11 +191,11 @@ export default function SupportPage() {
             </div>
 
             {submitSuccess ? (
-              <div className="bg-card border border-border rounded-md p-8 text-center border border-success/30">
-                <div className="w-16 h-16 rounded-full bg-success/10 border border-success/30 flex items-center justify-center mx-auto mb-4">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00F59B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+              <div className="bg-card border border-border rounded-md p-8 text-center">
+                <div className="w-16 h-16 rounded-full bg-muted border border-border flex items-center justify-center mx-auto mb-4 text-foreground">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
                 </div>
-                <h3 className="text-lg font-bold text-success mb-2">Ticket Submitted!</h3>
+                <h3 className="text-lg font-bold text-foreground mb-2">Ticket Submitted!</h3>
                 <p className="text-muted-foreground text-sm">We've received your request and sent a confirmation to your email. Redirecting to your tickets…</p>
               </div>
             ) : (
@@ -269,7 +269,7 @@ export default function SupportPage() {
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="flex-1 py-3 rounded bg-primary text-foreground text-sm font-semibold hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex-1 py-3 rounded-[4px] bg-foreground text-background text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {submitting ? 'Submitting…' : 'Submit Ticket'}
                   </button>
@@ -299,14 +299,9 @@ export default function SupportPage() {
                   <div>
                     <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Status</p>
                     <span
-                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold"
-                      style={{
-                        color: STATUS_CONFIG[selectedTicket.ticket_status].color,
-                        background: STATUS_CONFIG[selectedTicket.ticket_status].bg,
-                        border: `1px solid ${STATUS_CONFIG[selectedTicket.ticket_status].border}`,
-                      }}
+                      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border ${STATUS_CONFIG[selectedTicket.ticket_status].badgeClass}`}
                     >
-                      <span className="w-1.5 h-1.5 rounded-full" style={{ background: STATUS_CONFIG[selectedTicket.ticket_status].color }} />
+                      <span className={`w-1.5 h-1.5 rounded-full ${STATUS_CONFIG[selectedTicket.ticket_status].dotClass}`} />
                       {STATUS_CONFIG[selectedTicket.ticket_status].label}
                     </span>
                   </div>
@@ -333,12 +328,12 @@ export default function SupportPage() {
 
               {/* Admin Reply */}
               {selectedTicket.admin_reply ? (
-                <div className="bg-card border border-border rounded-md p-5 border border-primary/30" style={{ background: 'rgba(0,212,255,0.03)' }}>
+                <div className="bg-muted/40 border border-border rounded-md p-5">
                   <div className="flex items-center gap-2 mb-3">
-                    <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center">
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    <div className="w-6 h-6 rounded-full bg-foreground text-background flex items-center justify-center">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                     </div>
-                    <p className="text-xs font-semibold text-primary uppercase tracking-wider">Support Team Response</p>
+                    <p className="text-xs font-semibold text-foreground uppercase tracking-wider">Support Team Response</p>
                   </div>
                   <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">{selectedTicket.admin_reply}</p>
                   {selectedTicket.resolved_at && (
@@ -365,8 +360,8 @@ export default function SupportPage() {
               {(['open', 'in_progress', 'resolved', 'closed'] as TicketStatus[]).map(s => {
                 const count = tickets.filter(t => t.ticket_status === s).length;
                 return (
-                  <div key={s} className="bg-card border border-border rounded p-4 border border-border">
-                    <p className="text-2xl font-bold" style={{ color: STATUS_CONFIG[s].color }}>{count}</p>
+                  <div key={s} className="bg-card border border-border rounded p-4">
+                    <p className={`text-2xl font-bold ${STATUS_CONFIG[s].countClass}`}>{count}</p>
                     <p className="text-xs text-muted-foreground mt-0.5">{STATUS_CONFIG[s].label}</p>
                   </div>
                 );
@@ -387,7 +382,7 @@ export default function SupportPage() {
                 <p className="text-muted-foreground text-sm mb-6">Have an issue? Submit a ticket and our team will help you.</p>
                 <button
                   onClick={() => setView('new')}
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-foreground rounded font-semibold hover:opacity-90 transition-opacity text-sm"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-foreground text-background rounded-[4px] font-medium hover:opacity-90 transition-opacity text-sm"
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12h14"/></svg>
                   Submit Your First Ticket
@@ -406,12 +401,7 @@ export default function SupportPage() {
                         <div className="flex items-center gap-2 mb-1">
                           <span className="text-xs font-mono text-muted-foreground">{ticket.ticket_number}</span>
                           <span
-                            className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold"
-                            style={{
-                              color: STATUS_CONFIG[ticket.ticket_status].color,
-                              background: STATUS_CONFIG[ticket.ticket_status].bg,
-                              border: `1px solid ${STATUS_CONFIG[ticket.ticket_status].border}`,
-                            }}
+                            className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold border ${STATUS_CONFIG[ticket.ticket_status].badgeClass}`}
                           >
                             {STATUS_CONFIG[ticket.ticket_status].label}
                           </span>

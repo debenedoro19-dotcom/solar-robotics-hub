@@ -178,12 +178,12 @@ export default function AccountDepositPage() {
               </div>
 
               {method !== 'crypto' && (
-                <div className="rounded border border-primary/40 bg-primary/10 p-4">
-                  <p className="text-sm font-bold text-primary mb-1">Fund with Cryptocurrency instead</p>
+                <div className="rounded border border-border bg-muted/50 p-4">
+                  <p className="text-sm font-bold text-foreground mb-1">Fund with Cryptocurrency instead</p>
                   <p className="text-[12px] text-fin-muted leading-relaxed">{CRYPTO_NUDGE[method]}</p>
                   <button
                     onClick={() => { setMethod('crypto'); setError(''); }}
-                    className="mt-3 px-4 py-2 rounded bg-primary text-primary-foreground text-xs font-bold"
+                    className="mt-3 px-4 py-2 rounded bg-foreground text-background text-xs font-semibold hover:opacity-90 transition-opacity"
                   >
                     Switch to Cryptocurrency
                   </button>
@@ -201,7 +201,7 @@ export default function AccountDepositPage() {
                         key={n.id}
                         onClick={() => setNetwork(n.id)}
                         className={`px-4 py-2.5 rounded text-sm font-semibold text-left border transition-colors ${
-                          network === n.id ? 'border-primary bg-primary/10 text-primary' : 'border-fin-border text-fin-muted hover:text-foreground'
+                          network === n.id ? 'border-foreground bg-foreground text-background' : 'border-fin-border text-fin-muted hover:text-foreground'
                         }`}
                       >
                         {n.label}
@@ -220,7 +220,7 @@ export default function AccountDepositPage() {
                         <code className="flex-1 text-xs break-all text-foreground">{activeNetwork.address || '—'}</code>
                         <button
                           onClick={() => { void navigator.clipboard?.writeText(activeNetwork.address); setCopied(true); setTimeout(() => setCopied(false), 2000); }}
-                          className="px-3 py-1.5 rounded-md text-xs font-bold bg-primary text-primary-foreground shrink-0"
+                          className="px-3 py-1.5 rounded-md text-xs font-semibold bg-foreground text-background hover:opacity-90 transition-opacity shrink-0"
                         >
                           {copied ? 'Copied' : 'Copy'}
                         </button>

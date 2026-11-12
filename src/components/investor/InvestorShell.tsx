@@ -75,12 +75,12 @@ export default function InvestorShell({
             <div className="flex items-center gap-2 sm:gap-2.5">
               <ThemeToggle />
               {typeof balance === 'number' && (
-                <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-[4px] border border-[#0e9f6e]/30 bg-[#0e9f6e]/10">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#0e9f6e] pulse-dot" />
+                <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-[4px] border border-border bg-muted/50">
+                  <span className="h-1.5 w-1.5 rounded-full bg-foreground pulse-dot" />
                   <span className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground font-semibold">
                     Wallet
                   </span>
-                  <span className="font-display text-xs font-semibold tabular text-[#0e9f6e]">
+                  <span className="font-display text-xs font-semibold tabular text-foreground">
                     {money(balance)}
                   </span>
                 </div>
@@ -88,7 +88,7 @@ export default function InvestorShell({
               {onDeposit && (
                 <button
                   onClick={onDeposit}
-                  className="h-9 px-3.5 rounded-[4px] text-xs font-medium bg-[#3e6ae1] text-white hover:bg-[#345ac7] transition-colors whitespace-nowrap"
+                  className="h-9 px-3.5 rounded-[4px] text-xs font-medium bg-foreground text-background hover:opacity-90 transition-opacity whitespace-nowrap"
                 >
                   + Deposit
                 </button>

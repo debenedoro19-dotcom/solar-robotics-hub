@@ -91,7 +91,7 @@ export default function EcosystemSection() {
                   </div>
                   <div className="p-5">
                     <h3 className="font-display text-lg font-semibold">{sys.name}</h3>
-                    <p className="mt-1 text-xs font-medium text-[#3e6ae1]">{sys.headlineMetric}</p>
+                    <p className="mt-1 text-xs font-medium text-foreground/80">{sys.headlineMetric}</p>
                     <p className="mt-2.5 text-xs text-muted-foreground leading-relaxed">
                       {sys.summary}
                     </p>
@@ -110,7 +110,7 @@ export default function EcosystemSection() {
                   <button
                     type="button"
                     onClick={() => navigateWithLoader("/inventory", sys.name.toUpperCase())}
-                    className="h-9 rounded-[4px] bg-[#3e6ae1] px-4 text-xs font-medium text-white hover:bg-[#345ac7] transition-colors"
+                    className="h-9 rounded-[4px] bg-foreground px-4 text-xs font-medium text-background hover:opacity-90 transition-opacity"
                   >
                     Order Now
                   </button>

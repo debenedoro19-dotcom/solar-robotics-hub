@@ -2,10 +2,10 @@ import React from "react";
 import { useTeslaLoader } from "@/components/TeslaLoader";
 
 const portfolioSlices = [
-  { label: "Electric Vehicles & Fleet", pct: 45, color: "#3e6ae1" },
-  { label: "Energy Storage & Solar", pct: 30, color: "#0e9f6e" },
+  { label: "Electric Vehicles & Fleet", pct: 45, color: "#171a20" },
+  { label: "Energy Storage & Solar", pct: 30, color: "#5c5e62" },
   { label: "Optimus Robotics & AI", pct: 15, color: "#e82127" },
-  { label: "Liquidity Reserves", pct: 10, color: "#71717a" },
+  { label: "Liquidity Reserves", pct: 10, color: "#a2a3a5" },
 ];
 
 const paymentMethods = [
@@ -123,7 +123,7 @@ export default function PaymentsSection() {
                         {m.tag}
                       </span>
                     </div>
-                    <div className="mt-1 text-xs font-medium text-[#3e6ae1]">{m.detail}</div>
+                    <div className="mt-1 text-xs font-medium text-foreground/80">{m.detail}</div>
                     <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed">{m.note}</p>
                   </div>
                 ))}
@@ -134,7 +134,7 @@ export default function PaymentsSection() {
               <button
                 type="button"
                 onClick={() => navigateWithLoader("/account/deposit", "FUND ACCOUNT")}
-                className="h-10 rounded-[4px] bg-[#3e6ae1] px-5 text-xs font-medium text-white hover:bg-[#345ac7] transition-colors"
+                className="h-10 rounded-[4px] bg-foreground px-5 text-xs font-medium text-background hover:opacity-90 transition-opacity"
               >
                 Open Account Deposit
               </button>

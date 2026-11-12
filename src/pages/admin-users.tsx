@@ -375,7 +375,7 @@ export default function AdminUsersPage() {
           </div>
           <h1 className="text-xl font-bold text-foreground mb-2">Admin Access Required</h1>
           <p className="text-sm text-muted-foreground mb-6">You must be logged in as admin to view this page.</p>
-          <Link href="/login" className="px-6 py-2.5 bg-primary text-foreground rounded text-sm font-semibold hover:bg-primary/90 transition-colors">
+          <Link href="/login" className="px-6 py-2.5 bg-foreground text-background rounded-[4px] text-sm font-medium hover:opacity-90 transition-opacity">
             Sign In as Admin
           </Link>
         </div>
@@ -938,7 +938,7 @@ export default function AdminUsersPage() {
                 onClick={() => setKycFilter(f.value)}
                 className={`px-3 py-2 rounded text-xs font-semibold whitespace-nowrap transition-all ${
                   kycFilter === f.value
-                    ? 'bg-primary text-foreground' :'bg-card border border-border text-muted-foreground hover:text-foreground'
+                    ? 'bg-foreground text-background' :'bg-card border border-border text-muted-foreground hover:text-foreground'
                 }`}
               >
                 {f.label}

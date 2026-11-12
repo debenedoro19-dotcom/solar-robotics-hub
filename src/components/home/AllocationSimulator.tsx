@@ -58,7 +58,7 @@ export default function AllocationSimulator({
                   isLoggedIn ? "PORTFOLIO DASHBOARD" : "ACCOUNT SIGN IN",
                 )
               }
-              className="h-11 rounded-[4px] bg-[#3e6ae1] px-6 text-sm font-medium text-white hover:bg-[#345ac7] transition-colors"
+              className="h-11 rounded-[4px] bg-foreground px-6 text-sm font-medium text-background hover:opacity-90 transition-opacity"
             >
               {isLoggedIn ? "Open Dashboard to Allocate" : "Account Sign In"}
             </button>
@@ -134,7 +134,7 @@ export default function AllocationSimulator({
                   <dt className="text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
                     Illustrative / Day
                   </dt>
-                  <dd className="font-display mt-1 text-base font-semibold text-[#0e9f6e] tabular">
+                  <dd className="font-display mt-1 text-base font-semibold text-foreground tabular">
                     {money(estDailyTarget)}
                   </dd>
                 </div>
@@ -142,7 +142,7 @@ export default function AllocationSimulator({
                   <dt className="text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
                     Target Return
                   </dt>
-                  <dd className="font-display mt-1 text-base font-semibold text-[#0e9f6e] tabular">
+                  <dd className="font-display mt-1 text-base font-semibold text-foreground tabular">
                     {money(estTermTotal)}
                   </dd>
                 </div>

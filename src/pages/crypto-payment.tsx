@@ -158,9 +158,9 @@ export default function CryptoPaymentClient() {
                 <div className="flex items-center gap-2">
                   <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
                     step === s
-                      ? 'bg-primary text-foreground'
+                      ? 'bg-foreground text-background'
                       : steps.indexOf(step) > i
-                      ? 'bg-primary/20 text-primary border border-primary/40' :'bg-muted text-muted-foreground border border-border'
+                      ? 'bg-foreground/15 text-foreground border border-foreground/30' :'bg-muted text-muted-foreground border border-border'
                   }`}>
                     {steps.indexOf(step) > i ? '✓' : i + 1}
                   </div>

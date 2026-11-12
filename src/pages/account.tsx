@@ -96,17 +96,17 @@ interface WithdrawalRequest {
 }
 
 const KYC_STATUS_CONFIG = {
-  approved: { label: 'Verified', color: '#00F59B', bg: 'rgba(74,222,128,0.1)', border: 'rgba(74,222,128,0.25)', icon: '✓' },
+  approved: { label: 'Verified', color: 'var(--text-1)', bg: 'var(--surface-2)', border: 'var(--hairline-strong)', icon: '✓' },
   pending: { label: 'Pending Review', color: '#F59E0B', bg: 'rgba(250,204,21,0.1)', border: 'rgba(250,204,21,0.25)', icon: '⏳' },
-  under_review: { label: 'Under Review', color: '#A1A1AA', bg: 'rgba(96,165,250,0.1)', border: 'rgba(96,165,250,0.25)', icon: '🔍' },
+  under_review: { label: 'Under Review', color: 'var(--text-2)', bg: 'var(--surface-2)', border: 'var(--hairline)', icon: '🔍' },
   rejected: { label: 'Rejected', color: '#E82127', bg: 'rgba(248,113,113,0.1)', border: 'rgba(248,113,113,0.25)', icon: '✗' },
-  none: { label: 'Not Submitted', color: '#A1A1AA', bg: 'rgba(136,136,136,0.1)', border: 'rgba(136,136,136,0.25)', icon: '○' },
+  none: { label: 'Not Submitted', color: 'var(--text-3)', bg: 'var(--surface-2)', border: 'var(--hairline)', icon: '○' },
 };
 
 const PAYOUT_STATUS_CONFIG: Record<string, { label: string; color: string }> = {
   pending: { label: 'Pending', color: '#F59E0B' },
-  processing: { label: 'Processing', color: '#A1A1AA' },
-  paid: { label: 'Paid', color: '#00F59B' },
+  processing: { label: 'Processing', color: 'var(--text-2)' },
+  paid: { label: 'Paid', color: 'var(--text-1)' },
   rejected: { label: 'Rejected', color: '#E82127' },
 };
 
@@ -436,7 +436,7 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
         <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-8">
           <div className="fin-card-elevated rounded-[8px] p-5">
             <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground mb-2">Available Wallet Balance</p>
-            <p className="font-display text-3xl font-semibold tabular text-[#0e9f6e]">{money(balance?.available_balance || 0)}</p>
+            <p className="font-display text-3xl font-semibold tabular text-foreground">{money(balance?.available_balance || 0)}</p>
           </div>
           <MetricCard label="Total Active Capital" value={money(balance?.total_invested || 0)} />
           <MetricCard label="Net Profit Accrued" value={money(balance?.total_profit || 0)} accent />
@@ -448,7 +448,7 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
 
         {/* Profile header */}
         <div className="flex items-start gap-5 mb-8">
-          <div className="w-14 h-14 rounded-full bg-[#3e6ae1]/15 border border-[#3e6ae1]/35 flex items-center justify-center text-lg font-bold text-[#3e6ae1] shrink-0">
+          <div className="w-14 h-14 rounded-full bg-muted border border-border flex items-center justify-center text-lg font-bold text-foreground shrink-0">
             {initials}
           </div>
           <div className="flex-1 min-w-0">
@@ -494,15 +494,15 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
                 {/* Stats grid */}
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                   {[
-                    { label: 'Total Portfolio', value: money(livePortfolio), sub: `${money(balance?.available_balance || 0)} available`, color: '#00F59B' },
-                    { label: 'Total Returns', value: money(liveReturns), sub: `${money(activeCapital)} deployed`, color: '#A1A1AA' },
-                    { label: 'Active Investments', value: String(activeContracts.length), sub: 'positions', color: '#F59E0B' },
-                    { label: 'Referral Earnings', value: portfolio?.stats?.referralEarnings || '$0', sub: `${portfolio?.referrals?.total ?? 0} referrals`, color: '#c084fc' },
+                    { label: 'Total Portfolio', value: money(livePortfolio), sub: `${money(balance?.available_balance || 0)} available` },
+                    { label: 'Total Returns', value: money(liveReturns), sub: `${money(activeCapital)} deployed` },
+                    { label: 'Active Investments', value: String(activeContracts.length), sub: 'positions' },
+                    { label: 'Referral Earnings', value: portfolio?.stats?.referralEarnings || '$0', sub: `${portfolio?.referrals?.total ?? 0} referrals` },
                   ].map((stat) => (
                     <div key={stat.label} className="bg-fin-card border border-fin-border rounded p-5">
                       <p className="text-[11px] text-fin-muted tracking-widest uppercase mb-2">{stat.label}</p>
                       <p className="text-2xl font-bold text-foreground">{stat.value}</p>
-                      <p className="text-xs mt-1" style={{ color: stat.color }}>{stat.sub}</p>
+                      <p className="text-xs text-muted-foreground mt-1">{stat.sub}</p>
                     </div>
                   ))}
                 </div>
@@ -632,7 +632,7 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
                   {(!kyc || kycStatus === 'rejected') && (
                     <Link
                       href="/kyc"
-                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#3e6ae1] text-white text-xs font-medium rounded-[4px] hover:bg-[#345ac7] transition-colors"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-foreground text-background text-xs font-medium rounded-[4px] hover:opacity-90 transition-opacity"
                     >
                       {kycStatus === 'rejected' ? 'Resubmit KYC' : 'Start KYC Verification'}
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -753,7 +753,7 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
                             <tr key={tx.id || i} className="hover:bg-muted/40 transition-colors">
                               <td className="px-5 py-4 text-sm text-muted-foreground whitespace-nowrap">{tx.date}</td>
                               <td className="px-5 py-4">
-                                <span className={`px-2 py-1 rounded text-[10px] font-semibold capitalize ${isCredit ? 'bg-[#0e9f6e]/10 text-[#0e9f6e]' : 'bg-[#e82127]/10 text-[#e82127]'}`}>
+                                <span className={`px-2 py-1 rounded text-[10px] font-semibold capitalize ${isCredit ? 'bg-muted text-foreground' : 'bg-[#e82127]/10 text-[#e82127]'}`}>
                                   {tx.type}
                                 </span>
                               </td>
@@ -789,14 +789,14 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
                 {/* Balance summary cards */}
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                   {[
-                    { label: 'Available Balance', value: `$${(balance?.available_balance || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, color: '#00F59B' },
-                    { label: 'Total Deposited', value: `$${(balance?.total_deposited || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, color: '#A1A1AA' },
-                    { label: 'Investment Returns', value: `$${(balance?.total_returns || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, color: '#F59E0B' },
-                    { label: 'Total Withdrawn', value: `$${(balance?.total_withdrawn || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, color: '#E82127' },
+                    { label: 'Available Balance', value: `$${(balance?.available_balance || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, cls: 'text-foreground' },
+                    { label: 'Total Deposited', value: `$${(balance?.total_deposited || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, cls: 'text-muted-foreground' },
+                    { label: 'Investment Returns', value: `$${(balance?.total_returns || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, cls: 'text-foreground' },
+                    { label: 'Total Withdrawn', value: `$${(balance?.total_withdrawn || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, cls: 'text-[#e82127]' },
                   ].map((s) => (
                     <div key={s.label} className="bg-fin-card border border-fin-border rounded p-5">
                       <p className="text-[11px] text-fin-muted tracking-widest uppercase mb-2">{s.label}</p>
-                      <p className="text-xl font-bold" style={{ color: s.color }}>{s.value}</p>
+                      <p className={`text-xl font-bold ${s.cls}`}>{s.value}</p>
                     </div>
                   ))}
                 </div>
@@ -1020,15 +1020,15 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
                             };
                             const statusColors: Record<string, string> = {
                               pending: '#F59E0B',
-                              processing: '#A1A1AA',
-                              completed: '#00F59B',
+                              processing: 'var(--text-2)',
+                              completed: 'var(--text-1)',
                               rejected: '#E82127',
                             };
                             return (
                               <tr key={tx.id} className="hover:bg-muted/40 transition-colors">
                                 <td className="px-5 py-4 text-sm text-muted-foreground whitespace-nowrap">{new Date(tx.created_at).toLocaleDateString()}</td>
                                 <td className="px-5 py-4">
-                                  <span className={`px-2 py-1 rounded text-[10px] font-semibold ${isCredit ? 'bg-[#0e9f6e]/10 text-[#0e9f6e]' : 'bg-[#e82127]/10 text-[#e82127]'}`}>
+                                  <span className={`px-2 py-1 rounded text-[10px] font-semibold ${isCredit ? 'bg-muted text-foreground' : 'bg-[#e82127]/10 text-[#e82127]'}`}>
                                     {typeLabels[tx.type] || tx.type}
                                   </span>
                                 </td>
@@ -1065,13 +1065,13 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
                 {/* Referral stats */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   {[
-                    { label: 'Total Referrals', value: String(portfolio?.referrals?.total ?? 0), color: '#c084fc' },
-                    { label: 'Pending Rewards', value: String(portfolio?.referrals?.pending ?? 0), color: '#F59E0B' },
-                    { label: 'Total Earnings', value: portfolio?.referrals?.earnings || '$0', color: '#00F59B' },
+                    { label: 'Total Referrals', value: String(portfolio?.referrals?.total ?? 0), cls: 'text-foreground' },
+                    { label: 'Pending Rewards', value: String(portfolio?.referrals?.pending ?? 0), cls: 'text-amber-500' },
+                    { label: 'Total Earnings', value: portfolio?.referrals?.earnings || '$0', cls: 'text-foreground' },
                   ].map((s) => (
                     <div key={s.label} className="bg-fin-card border border-fin-border rounded p-5">
                       <p className="text-[10px] text-fin-muted tracking-widest uppercase mb-2">{s.label}</p>
-                      <p className="text-2xl font-bold" style={{ color: s.color }}>{s.value}</p>
+                      <p className={`text-2xl font-bold ${s.cls}`}>{s.value}</p>
                     </div>
                   ))}
                 </div>
@@ -1083,7 +1083,7 @@ export default function AccountPage({ embedded = false }: { embedded?: boolean }
                     <div className="flex-1 bg-fin-elevated border border-fin-border rounded px-4 py-2.5 text-sm text-fin-muted font-mono truncate">
                       {`https://tradeenergyhub.com/register?ref=${userId.slice(0, 8)}`}
                     </div>
-                    <Link href="/referral" className="px-4 py-2.5 bg-primary text-foreground text-xs font-bold rounded tracking-widest uppercase hover:bg-accent transition-colors whitespace-nowrap">
+                    <Link href="/referral" className="px-4 py-2.5 bg-foreground text-background text-xs font-bold rounded tracking-widest uppercase hover:opacity-90 transition-opacity whitespace-nowrap">
                       Referral Page
                     </Link>
                   </div>

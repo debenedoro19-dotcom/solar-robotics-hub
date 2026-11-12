@@ -186,7 +186,7 @@ function TeslaDesignStudioModal({
                     onClick={() => setPaintIndex(idx)}
                     className={`h-9 w-9 rounded-full border-2 transition-transform ${
                       idx === paintIndex
-                        ? "border-[#3e6ae1] scale-110 ring-2 ring-[#3e6ae1]/30"
+                        ? "border-foreground scale-110 ring-2 ring-foreground/25"
                         : "border-border hover:scale-105"
                     }`}
                     style={{ backgroundColor: p.hex }}
@@ -239,7 +239,7 @@ function TeslaDesignStudioModal({
                     type="button"
                     onClick={() => setInteriorIndex(idx)}
                     className={`h-8 w-8 rounded-full border-2 ${
-                      idx === interiorIndex ? "border-[#3e6ae1] ring-2 ring-[#3e6ae1]/30" : "border-border"
+                      idx === interiorIndex ? "border-foreground ring-2 ring-foreground/25" : "border-border"
                     }`}
                     style={{ backgroundColor: i.swatch }}
                     title={i.name}
@@ -255,7 +255,7 @@ function TeslaDesignStudioModal({
                   type="checkbox"
                   checked={includeFsd}
                   onChange={(e) => setIncludeFsd(e.target.checked)}
-                  className="mt-0.5 h-4 w-4 accent-[#3e6ae1]"
+                  className="mt-0.5 h-4 w-4 accent-foreground"
                 />
                 <div>
                   <div className="text-sm font-medium">Full Self-Driving (Supervised)</div>
@@ -268,13 +268,13 @@ function TeslaDesignStudioModal({
             </label>
 
             {/* Our Heroes $2,000 Discount */}
-            <label className="flex items-start justify-between gap-3 rounded-[4px] border border-[#0e9f6e]/35 bg-[#0e9f6e]/8 p-3.5 cursor-pointer hover:bg-[#0e9f6e]/12 transition-colors">
+            <label className="flex items-start justify-between gap-3 rounded-[4px] border border-border bg-muted/40 p-3.5 cursor-pointer hover:bg-muted/70 transition-colors">
               <div className="flex items-start gap-3">
                 <input
                   type="checkbox"
                   checked={applyHeroes}
                   onChange={(e) => setApplyHeroes(e.target.checked)}
-                  className="mt-0.5 h-4 w-4 accent-[#0e9f6e]"
+                  className="mt-0.5 h-4 w-4 accent-[#171a20] dark:accent-white"
                 />
                 <div>
                   <div className="text-sm font-medium text-foreground">
@@ -285,7 +285,7 @@ function TeslaDesignStudioModal({
                   </div>
                 </div>
               </div>
-              <span className="text-xs font-semibold text-[#0e9f6e] tabular shrink-0">
+              <span className="text-xs font-semibold text-foreground tabular shrink-0">
                 -${HEROES_DISCOUNT_AMOUNT.toLocaleString()}
               </span>
             </label>
@@ -345,7 +345,7 @@ function TeslaDesignStudioModal({
                   },
                 });
               }}
-              className="w-full h-11 rounded-[4px] bg-[#3e6ae1] text-white text-sm font-medium hover:bg-[#345ac7] transition-colors"
+              className="w-full h-11 rounded-[4px] bg-foreground text-background text-sm font-medium hover:opacity-90 transition-opacity"
             >
               Order Now · Direct Checkout
             </button>
@@ -412,8 +412,8 @@ export default function TeslaLineupSection({
             <h2 className="font-display mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">
               Compare &amp; Configure Every Model
             </h2>
-            <p className="mt-2.5 inline-flex items-center gap-2 rounded-[4px] border border-[#0e9f6e]/30 bg-[#0e9f6e]/10 px-3 py-1 text-xs font-medium text-[#0e9f6e]">
-              <span>★</span>
+            <p className="mt-3 inline-flex items-center gap-2 rounded-[4px] border border-border bg-card px-3.5 py-1.5 text-xs font-medium text-foreground">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#e82127] shrink-0" />
               <span>$2,000 Off for Our Heroes · Military, Veterans, First Responders, Healthcare &amp; Educators</span>
             </p>
           </div>
@@ -540,8 +540,8 @@ export default function TeslaLineupSection({
                       onClick={() => toggleCompare(v.id)}
                       className={`absolute top-3 right-3 rounded-[3px] px-2.5 py-1 text-[11px] font-medium backdrop-blur-md transition-colors ${
                         isComparing
-                          ? "bg-[#3e6ae1] text-white"
-                          : "bg-black/55 text-white/90 hover:bg-black/75"
+                          ? "bg-white text-[#171a20]"
+                          : "bg-[#171a20]/70 text-white/95 hover:bg-[#171a20]/90"
                       }`}
                     >
                       {isComparing ? "✓ Comparing" : "+ Compare"}
@@ -754,7 +754,7 @@ export default function TeslaLineupSection({
                       onComplete: () => setConfiguringModel(chosen),
                     });
                   }}
-                  className="flex-1 h-11 rounded-[4px] bg-[#3e6ae1] text-white text-sm font-medium hover:bg-[#345ac7] transition-colors"
+                  className="flex-1 h-11 rounded-[4px] bg-foreground text-background text-sm font-medium hover:opacity-90 transition-opacity"
                 >
                   Design & Order {detailModel.name}
                 </button>

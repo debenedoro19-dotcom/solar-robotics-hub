@@ -168,7 +168,7 @@ export default function ProfilePage() {
   };
 
   const strengthLabel = ['', 'Very Weak', 'Weak', 'Fair', 'Strong', 'Very Strong'];
-  const strengthColor = ['', '#E82127', '#FF6B35', '#FFD700', '#00F59B', '#00F59B'];
+  const strengthColor = ['', '#E82127', '#F59E0B', '#D4D4D8', 'var(--text-1)', 'var(--text-1)'];
 
   const showSaved = () => {
     setSaveStatus('saved');
@@ -661,14 +661,14 @@ export default function ProfilePage() {
                     { label: 'One special character', met: /[^A-Za-z0-9]/.test(passwords.newPass) },
                   ].map(req => (
                     <div key={req.label} className="flex items-center gap-2 mb-1">
-                      <div className={`w-3.5 h-3.5 rounded-full flex items-center justify-center ${req.met ? 'bg-success/20' : 'bg-muted'}`}>
+                      <div className={`w-3.5 h-3.5 rounded-full flex items-center justify-center ${req.met ? 'bg-foreground text-background' : 'bg-muted'}`}>
                         {req.met && (
-                          <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#00F59B" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                          <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                             <polyline points="20 6 9 17 4 12" />
                           </svg>
                         )}
                       </div>
-                      <span className={`text-xs ${req.met ? 'text-success' : 'text-muted-foreground'}`}>{req.label}</span>
+                      <span className={`text-xs ${req.met ? 'text-foreground font-medium' : 'text-muted-foreground'}`}>{req.label}</span>
                     </div>
                   ))}
                 </div>
@@ -747,14 +747,14 @@ export default function ProfilePage() {
                 </div>
 
                 {/* Status Banner */}
-                <div className={`flex items-center gap-3 px-4 py-3 rounded border mb-6 ${twoFAEnabled ? 'bg-success/5 border-success/20' : 'bg-primary/5 border-primary/20'}`}>
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${twoFAEnabled ? 'bg-success/20' : 'bg-primary/20'}`}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={twoFAEnabled ? '#00F59B' : '#E82127'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <div className={`flex items-center gap-3 px-4 py-3 rounded border mb-6 ${twoFAEnabled ? 'bg-muted/50 border-border' : 'bg-primary/5 border-primary/20'}`}>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${twoFAEnabled ? 'bg-foreground text-background' : 'bg-primary/20 text-primary'}`}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                       <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                     </svg>
                   </div>
                   <div>
-                    <p className={`text-sm font-bold ${twoFAEnabled ? 'text-success' : 'text-primary'}`}>
+                    <p className={`text-sm font-bold ${twoFAEnabled ? 'text-foreground' : 'text-primary'}`}>
                       2FA is {twoFAEnabled ? 'Enabled' : 'Disabled'}
                     </p>
                     <p className="text-xs text-muted-foreground">
@@ -773,7 +773,7 @@ export default function ProfilePage() {
                         { step: '3', title: 'Enter Code', desc: 'Enter the 6-digit code from your app to verify.' },
                       ].map(s => (
                         <div key={s.step} className="bg-background border border-border rounded p-4">
-                          <div className="w-7 h-7 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center text-xs font-bold text-primary mb-3">{s.step}</div>
+                          <div className="w-7 h-7 rounded-full bg-muted border border-border flex items-center justify-center text-xs font-bold text-foreground mb-3">{s.step}</div>
                           <p className="text-xs font-bold text-foreground mb-1">{s.title}</p>
                           <p className="text-xs text-muted-foreground">{s.desc}</p>
                         </div>
@@ -781,7 +781,7 @@ export default function ProfilePage() {
                     </div>
                     <button
                       onClick={handle2FASetup}
-                      className="px-6 py-2.5 bg-primary text-foreground text-xs font-bold rounded tracking-widest uppercase hover:bg-primary/90 transition-colors"
+                      className="px-6 py-2.5 bg-foreground text-background text-xs font-bold rounded tracking-widest uppercase hover:opacity-90 transition-opacity"
                     >
                       Enable Two-Factor Auth
                     </button>
@@ -818,7 +818,7 @@ export default function ProfilePage() {
                       <button
                         onClick={handle2FAVerify}
                         disabled={twoFACode.length !== 6 || twoFABusy}
-                        className="flex-1 py-2.5 bg-primary text-foreground text-xs font-bold rounded tracking-widest uppercase hover:bg-primary/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                        className="flex-1 py-2.5 bg-foreground text-background text-xs font-bold rounded tracking-widest uppercase hover:opacity-90 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed"
                       >
                         {twoFABusy ? 'Verifying…' : 'Verify & Enable'}
                       </button>
@@ -950,7 +950,7 @@ function SaveButton({ status, onClick, label = 'Save Changes' }: { status: strin
       disabled={status === 'saving'}
       className={`px-6 py-2.5 text-xs font-bold rounded tracking-widest uppercase transition-all ${
         status === 'saved' ?'bg-success/20 text-success border border-success/30'
-          : status === 'error' ?'bg-primary/20 text-primary border border-primary/30' :'bg-primary text-foreground hover:bg-primary/90'
+          : status === 'error' ?'bg-primary/20 text-primary border border-primary/30' :'bg-foreground text-background hover:opacity-90'
       } disabled:opacity-60 disabled:cursor-not-allowed`}
     >
       {status === 'saving' ? 'Saving...' : status === 'saved' ? '✓ Saved' : status === 'error' ? 'Error — Retry' : label}

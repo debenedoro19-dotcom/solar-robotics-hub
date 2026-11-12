@@ -217,12 +217,12 @@ export function PayoutMethodsPanel() {
                   <div className="flex items-center gap-2 flex-wrap">
                     <span className="text-sm font-semibold text-foreground">{m.label || net?.label || 'Crypto'}</span>
                     {m.is_default && (
-                      <span className="text-[10px] uppercase tracking-wide font-bold text-fin-emerald bg-emerald-500/10 px-2 py-0.5 rounded-full">
+                      <span className="text-[10px] uppercase tracking-wide font-bold text-foreground bg-muted border border-border px-2 py-0.5 rounded-full">
                         Default
                       </span>
                     )}
                     {m.is_verified && (
-                      <span className="text-[10px] uppercase tracking-wide font-bold text-sky-500 bg-sky-500/10 px-2 py-0.5 rounded-full">
+                      <span className="text-[10px] uppercase tracking-wide font-bold text-foreground bg-foreground/10 border border-border px-2 py-0.5 rounded-full">
                         Verified
                       </span>
                     )}

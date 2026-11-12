@@ -169,7 +169,7 @@ export default function PrivacyPage() {
               Terms of Service
             </Link>
             <span className="text-muted-foreground/40">|</span>
-            <Link href="/login" ctaLoader loaderLabel="ACCOUNT" className="text-xs font-medium text-[#3e6ae1] hover:underline">
+            <Link href="/login" ctaLoader loaderLabel="ACCOUNT" className="text-xs font-medium text-foreground underline underline-offset-4 hover:opacity-75 transition-opacity">
               Account
             </Link>
           </div>

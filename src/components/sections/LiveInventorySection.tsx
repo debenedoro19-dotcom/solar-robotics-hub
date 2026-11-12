@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AppImage from "@/components/ui/AppImage";
 import CheckoutModal from "@/components/inventory/CheckoutModal";
-import {
-  cybercabImg,
-  megapackImg,
-  modelYImg,
-  normalizeInventoryImageUrl,
-  solarRoofImg,
-} from "@/lib/inventoryImages";
+import { megapackImg, resolveInventoryImageUrl } from "@/lib/inventoryImages";
 import { useTeslaLoader } from "@/components/TeslaLoader";
 
 type Category = "All" | "Vehicles" | "Energy" | "Solar" | "Robotics";
@@ -21,119 +15,511 @@ interface InventoryItem {
   category: Exclude<Category, "All">;
   image: string;
   alt: string;
-  tag?: string;
+  specs: string;
 }
 
-const U = (id: string) =>
-  `https://images.unsplash.com/${id}?auto=format&fit=crop&w=640&q=65`;
+const INVENTORY_CATALOG: InventoryItem[] = [
+  // ── Vehicles (Official Tesla.com Lineup & CPO) ────────────────────────────
+  {
+    id: "ts-model-s-awd",
+    name: "Model S All-Wheel Drive",
+    price: "$74,990",
+    badge: "NEW",
+    badgeType: "new",
+    category: "Vehicles",
+    image: "/images/car-red.jpg",
+    alt: "Tesla Model S All-Wheel Drive flagship electric sedan",
+    specs: "402 mi EPA · 3.1 s 0–60 mph · 130 mph · Dual Motor AWD",
+  },
+  {
+    id: "ts-model-s-plaid",
+    name: "Model S Plaid",
+    price: "$89,990",
+    badge: "FLAGSHIP",
+    badgeType: "new",
+    category: "Vehicles",
+    image: "/images/car-red.jpg",
+    alt: "Tesla Model S Plaid 1,020 hp tri-motor flagship sedan",
+    specs: "359 mi EPA · 1.99 s 0–60 mph · 200 mph · 1,020 hp Tri-Motor",
+  },
+  {
+    id: "ts-model-3-rwd",
+    name: "Model 3 Long Range RWD",
+    price: "$42,490",
+    badge: "NEW",
+    badgeType: "new",
+    category: "Vehicles",
+    image: "/images/car-white.jpg",
+    alt: "Tesla Model 3 Long Range rear-wheel-drive electric sedan",
+    specs: "363 mi EPA · 4.9 s 0–60 mph · 125 mph · 250 kW Supercharging",
+  },
+  {
+    id: "ts-model-3-lr-awd",
+    name: "Model 3 Long Range AWD",
+    price: "$47,490",
+    badge: "NEW",
+    badgeType: "new",
+    category: "Vehicles",
+    image: "/images/car-white.jpg",
+    alt: "Tesla Model 3 Long Range all-wheel-drive sedan",
+    specs: "341 mi EPA · 4.2 s 0–60 mph · Acoustic 360° Cabin · AWD",
+  },
+  {
+    id: "ts-model-3-perf",
+    name: "Model 3 Performance AWD",
+    price: "$54,990",
+    badge: "PERFORMANCE",
+    badgeType: "new",
+    category: "Vehicles",
+    image: "/images/car-white.jpg",
+    alt: "Tesla Model 3 Performance all-wheel-drive sports sedan",
+    specs: "303 mi EPA · 2.9 s 0–60 mph · 163 mph · 510 hp Track Mode V3",
+  },
+  {
+    id: "ts-model-y-lr-rwd",
+    name: "Model Y Long Range RWD",
+    price: "$44,990",
+    badge: "BEST SELLER",
+    badgeType: "new",
+    category: "Vehicles",
+    image: "/images/car-crossover.jpg",
+    alt: "Tesla Model Y Long Range RWD electric crossover SUV",
+    specs: "337 mi EPA · 6.5 s 0–60 mph · 76 cu ft Cargo · HEPA Filter",
+  },
+  {
+    id: "ts-model-y-lr-awd",
+    name: "Model Y Long Range AWD",
+    price: "$48,990",
+    badge: "NEW",
+    badgeType: "new",
+    category: "Vehicles",
+    image: "/images/car-crossover.jpg",
+    alt: "Tesla Model Y Long Range AWD electric crossover",
+    specs: "327 mi EPA · 4.6 s 0–60 mph · Dual Motor AWD · 5-Star Safety",
+  },
+  {
+    id: "ts-model-y-perf",
+    name: "Model Y Performance AWD",
+    price: "$59,990",
+    badge: "PERFORMANCE",
+    badgeType: "new",
+    category: "Vehicles",
+    image: "/images/car-crossover.jpg",
+    alt: "Tesla Model Y Performance all-wheel-drive electric SUV",
+    specs: "294 mi EPA · 3.3 s 0–60 mph · 155 mph · Adaptive Damping",
+  },
+  {
+    id: "ts-model-x-awd",
+    name: "Model X All-Wheel Drive",
+    price: "$79,990",
+    badge: "NEW",
+    badgeType: "new",
+    category: "Vehicles",
+    image: "/images/car-suv.jpg",
+    alt: "Tesla Model X All-Wheel Drive full-size electric SUV",
+    specs: "335 mi EPA · 3.8 s 0–60 mph · Falcon Wing Doors · 5,000 lb Tow",
+  },
+  {
+    id: "ts-model-x-plaid",
+    name: "Model X Plaid",
+    price: "$94,990",
+    badge: "PLAID",
+    badgeType: "new",
+    category: "Vehicles",
+    image: "/images/car-suv.jpg",
+    alt: "Tesla Model X Plaid tri-motor performance SUV",
+    specs: "326 mi EPA · 2.5 s 0–60 mph · 1,020 hp · 163 mph Top Speed",
+  },
+  {
+    id: "ts-cybertruck-awd",
+    name: "Cybertruck All-Wheel Drive",
+    price: "$79,990",
+    badge: "NEW",
+    badgeType: "new",
+    category: "Vehicles",
+    image: "/images/car-truck.jpg",
+    alt: "Tesla Cybertruck All-Wheel Drive stainless-steel electric pickup",
+    specs: "325 mi Est. · 4.1 s 0–60 mph · 11,000 lb Tow · 11.5 kW Powershare",
+  },
+  {
+    id: "ts-cybertruck-beast",
+    name: "Cybertruck Cyberbeast",
+    price: "$99,990",
+    badge: "CYBERBEAST",
+    badgeType: "new",
+    category: "Vehicles",
+    image: "/images/car-truck.jpg",
+    alt: "Tesla Cybertruck Cyberbeast tri-motor performance pickup",
+    specs: "320 mi Est. · 2.6 s 0–60 mph · 845 hp Tri-Motor · Steer-by-Wire",
+  },
+  {
+    id: "ts-cybercab",
+    name: "Tesla Cybercab – Autonomous",
+    price: "$30,000",
+    badge: "AUTONOMY",
+    badgeType: "new",
+    category: "Vehicles",
+    image: "/images/tesla/cybercab-studio.jpg",
+    alt: "Tesla Cybercab two-passenger autonomous robotaxi coupe",
+    specs: "290 mi Est. · AI5 End-to-End FSD · Inductive Wireless Charging",
+  },
+  {
+    id: "ts-semi-300",
+    name: "Tesla Semi – 300 Mile Range",
+    price: "$150,000",
+    badge: "COMMERCIAL",
+    badgeType: "new",
+    category: "Vehicles",
+    image: "/images/tesla/semi-studio.jpg",
+    alt: "Tesla Semi 300-mile regional Class 8 electric tractor truck",
+    specs: "300 mi Est. · 82,000 lb GCWR · 1,000V · <1.7 kWh / Mile",
+  },
+  {
+    id: "ts-semi-500",
+    name: "Tesla Semi – 500 Mile Range",
+    price: "$180,000",
+    badge: "COMMERCIAL",
+    badgeType: "new",
+    category: "Vehicles",
+    image: "/images/tesla/semi-studio.jpg",
+    alt: "Tesla Semi 500-mile long-haul Class 8 electric tractor truck",
+    specs: "500 mi Est. · 82,000 lb GCWR · Tri-Motor · 70% in 30 Min",
+  },
+  {
+    id: "ts-roadster-base",
+    name: "Roadster – Next-Gen Reservation",
+    price: "$200,000",
+    badge: "HYPERCAR",
+    badgeType: "new",
+    category: "Vehicles",
+    image: "/images/car-red.jpg",
+    alt: "Next-Generation Tesla Roadster electric supercar",
+    specs: "620 mi Est. · 1.9 s 0–60 mph · 250+ mph · 200 kWh Pack",
+  },
+  {
+    id: "ts-roadster-founders",
+    name: "Roadster Founders Series",
+    price: "$250,000",
+    badge: "LIMITED",
+    badgeType: "new",
+    category: "Vehicles",
+    image: "/images/car-red.jpg",
+    alt: "Tesla Roadster Founders Series priority production build",
+    specs: "620 mi Est. · 1.9 s 0–60 mph · Tri-Motor AWD · Founders Allocation",
+  },
+  {
+    id: "ts-cpo-s",
+    name: "CPO Model S Long Range",
+    price: "$64,990",
+    badge: "CPO",
+    badgeType: "cpo",
+    category: "Vehicles",
+    image: "/images/car-red.jpg",
+    alt: "Certified pre-owned Tesla Model S Long Range electric sedan",
+    specs: "405 mi EPA · Basic + 1-Yr / 10k mi Used Vehicle Warranty · AWD",
+  },
+  {
+    id: "ts-cpo-3",
+    name: "CPO Model 3 Long Range",
+    price: "$34,990",
+    badge: "CPO",
+    badgeType: "cpo",
+    category: "Vehicles",
+    image: "/images/car-white.jpg",
+    alt: "Certified pre-owned Tesla Model 3 Long Range electric sedan",
+    specs: "341 mi EPA · 102-Point Tesla Inspection · Autopilot Included",
+  },
+  {
+    id: "ts-cpo-y",
+    name: "CPO Model Y Long Range",
+    price: "$37,990",
+    badge: "CPO",
+    badgeType: "cpo",
+    category: "Vehicles",
+    image: "/images/car-crossover.jpg",
+    alt: "Certified pre-owned Tesla Model Y Long Range SUV",
+    specs: "330 mi EPA · Used Vehicle Warranty · 76 cu ft Cargo · AWD",
+  },
+  {
+    id: "ts-cpo-x",
+    name: "CPO Model X Long Range",
+    price: "$68,990",
+    badge: "CPO",
+    badgeType: "cpo",
+    category: "Vehicles",
+    image: "/images/car-suv.jpg",
+    alt: "Certified pre-owned Tesla Model X Long Range electric SUV",
+    specs: "335 mi EPA · Falcon Wing Doors · Certified Multi-Point Inspected",
+  },
 
-const IMG = {
-  cybertruck: U("photo-1715135755172-4605bd091ba2"),
-  modelS: U("photo-1560958089-b8a1929cea89"),
-  modelSAlt: U("photo-1554744512-d6c603f27c54"),
-  model3: U("photo-1591628360686-06bc9367d09a"),
-  model3Alt: U("photo-1655792290994-93437dc0482c"),
-  modelX: U("photo-1650938777875-a375b33cd705"),
-  modelY: modelYImg,
-  modelYAlt: modelYImg,
-  roadster: U("photo-1617788138017-80ad40651399"),
-  semi: U("photo-1601584115197-04ecc0da31d7"),
-  cybercab: cybercabImg,
-  powerwall: U("photo-1706699778556-a9f9da002139"),
-  megapack: megapackImg,
-  gridStorage: megapackImg,
-  charger: U("photo-1593941707882-a5bba14938c7"),
-  supercharger: U("photo-1633158829585-23ba8f7c8caf"),
-  cleanGrid: U("photo-1548337138-e87d889cc369"),
-  solarRoof: solarRoofImg,
-  solarPanels: U("photo-1613665813446-82a78c468a1d"),
-  solarFarm: U("photo-1509391366360-2e959784a276"),
-  optimus: "/assets/images/tesla_optimus_robotics.webp",
-  optimusAlt: U("photo-1531746790731-6c087fecd65a"),
-  roboArm: U("photo-1567789884554-0b844b597180"),
-  aiCompute: U("photo-1558494949-ef010cbdcc31"),
-};
+  // ── Energy (Powerwall, Megapack, Charging) ────────────────────────────────
+  {
+    id: "ts-pw3-single",
+    name: "Powerwall 3 – 13.5 kWh",
+    price: "$11,500",
+    badge: "ENERGY",
+    badgeType: "energy",
+    category: "Energy",
+    image: "/images/battery.jpg",
+    alt: "Tesla Powerwall 3 13.5 kWh whole-home battery mounted on wall",
+    specs: "13.5 kWh Usable · 11.5 kW Continuous Inverter · NEMA 3R Flood",
+  },
+  {
+    id: "ts-pw3-expansion",
+    name: "Powerwall 3 Expansion Pack",
+    price: "$8,200",
+    badge: "ENERGY",
+    badgeType: "energy",
+    category: "Energy",
+    image: "/images/battery.jpg",
+    alt: "Tesla Powerwall 3 DC battery expansion unit",
+    specs: "+13.5 kWh Stackable DC Storage · Expand Up to 40.5 kWh / Inverter",
+  },
+  {
+    id: "ts-pw3-two",
+    name: "Powerwall 3 – Two-Unit System",
+    price: "$21,500",
+    badge: "ENERGY",
+    badgeType: "energy",
+    category: "Energy",
+    image: "/images/battery.jpg",
+    alt: "Dual Tesla Powerwall 3 27 kWh whole-home backup installation",
+    specs: "27.0 kWh Usable · 23.0 kW Output · Full HVAC & Whole-Home Backup",
+  },
+  {
+    id: "ts-pw3-estate",
+    name: "Powerwall 3 – Four-Unit Estate",
+    price: "$41,000",
+    badge: "ENERGY",
+    badgeType: "energy",
+    category: "Energy",
+    image: "/images/battery.jpg",
+    alt: "Four-unit Tesla Powerwall 3 54 kWh estate microgrid system",
+    specs: "54.0 kWh Storage · 46.0 kW Surge · Storm Watch & Virtual Power Plant",
+  },
+  {
+    id: "ts-gateway-2",
+    name: "Backup Gateway 2 + Load Control",
+    price: "$3,200",
+    badge: "ENERGY",
+    badgeType: "energy",
+    category: "Energy",
+    image: "/images/battery.jpg",
+    alt: "Tesla Backup Gateway 2 automatic microgrid transfer switch",
+    specs: "200A Automated Disconnect · Sub-Second Islanding · Utility Net Metering",
+  },
+  {
+    id: "ts-megapack-2xl",
+    name: "Megapack 2 XL – 3.9 MWh",
+    price: "$1,200,000",
+    badge: "UTILITY",
+    badgeType: "energy",
+    category: "Energy",
+    image: megapackImg,
+    alt: "Tesla Megapack 2 XL 3.9 MWh utility-scale battery storage container",
+    specs: "3.9 MWh Unit · 1.9 MW Bi-Directional Inverter · Autobidder AI",
+  },
+  {
+    id: "ts-megapack-array",
+    name: "Megapack Array – 20 MWh Utility",
+    price: "$6,400,000",
+    badge: "UTILITY",
+    badgeType: "energy",
+    category: "Energy",
+    image: megapackImg,
+    alt: "20 MWh Tesla Megapack utility grid-scale energy facility",
+    specs: "20 MWh Turnkey Deployment · Integrated Thermal & Fire Suppression",
+  },
+  {
+    id: "ts-wall-connector",
+    name: "Wall Connector Gen 3 – 48A",
+    price: "$475",
+    badge: "CHARGING",
+    badgeType: "energy",
+    category: "Energy",
+    image: "/images/charger.jpg",
+    alt: "Tesla Wall Connector Gen 3 NACS home charger",
+    specs: "48A / 11.5 kW NACS · Up to 44 mi/hr · 24 ft Cable · Wi-Fi Updates",
+  },
+  {
+    id: "ts-universal-wall-connector",
+    name: "Universal Wall Connector",
+    price: "$620",
+    badge: "CHARGING",
+    badgeType: "energy",
+    category: "Energy",
+    image: "/images/charger.jpg",
+    alt: "Tesla Universal Wall Connector with integrated J1772 and NACS",
+    specs: "Integrated NACS + J1772 · Powershare V2H Ready · 11.5 kW AC",
+  },
+  {
+    id: "ts-supercharger-v4",
+    name: "Supercharger V4 – Commercial Pack",
+    price: "$95,000",
+    badge: "COMMERCIAL",
+    badgeType: "energy",
+    category: "Energy",
+    image: "/images/charger.jpg",
+    alt: "Tesla Supercharger V4 fast-charging cabinet and stalls",
+    specs: "Up to 350 kW V4 Peak · NACS Magic Dock · 99.97% Uptime SLA",
+  },
 
-const inventory: InventoryItem[] = [
-  // ── Vehicles ──────────────────────────────────────────────────────────────
-  { id: 1, name: "2026 Tesla Cybertruck AWD", price: "$79,990", badge: "NEW", badgeType: "new", category: "Vehicles", image: IMG.cybertruck, alt: "Tesla Cybertruck AWD stainless steel pickup parked on open road at dusk" },
-  { id: 2, name: "2026 Cybertruck Cyberbeast", price: "$99,990", badge: "NEW", badgeType: "new", category: "Vehicles", image: IMG.cybertruck, alt: "Tesla Cybertruck Cyberbeast tri-motor edition on desert terrain" },
-  { id: 3, name: "2026 Model S Plaid", price: "$89,990", badge: "NEW", badgeType: "new", category: "Vehicles", image: IMG.modelS, alt: "Tesla Model S Plaid electric sedan, sleek aerodynamic profile" },
-  { id: 4, name: "2026 Model S Long Range", price: "$74,990", badge: "NEW", badgeType: "new", category: "Vehicles", image: IMG.modelSAlt, alt: "Tesla Model S Long Range luxury electric sedan side profile" },
-  { id: 5, name: "CPO Model S Long Range", price: "$69,990", badge: "CPO", badgeType: "cpo", category: "Vehicles", image: IMG.modelSAlt, alt: "Certified pre-owned Tesla Model S Long Range electric sedan" },
-  { id: 6, name: "2026 Model 3 Highland Performance", price: "$54,990", badge: "NEW", badgeType: "new", category: "Vehicles", image: IMG.model3, alt: "Tesla Model 3 Highland Performance compact sport sedan" },
-  { id: 7, name: "2026 Model 3 Highland Long Range AWD", price: "$47,490", badge: "NEW", badgeType: "new", category: "Vehicles", image: IMG.model3Alt, alt: "Tesla Model 3 Highland Long Range all-wheel-drive sedan" },
-  { id: 8, name: "2026 Model 3 Highland RWD", price: "$38,990", badge: "NEW", badgeType: "new", category: "Vehicles", image: IMG.model3Alt, alt: "Tesla Model 3 Highland rear-wheel-drive sedan in urban setting" },
-  { id: 9, name: "CPO Model 3 2024", price: "$32,990", badge: "CPO", badgeType: "cpo", category: "Vehicles", image: IMG.model3, alt: "Certified pre-owned 2024 Tesla Model 3 compact electric sedan" },
-  { id: 10, name: "2026 Model X Plaid", price: "$94,990", badge: "NEW", badgeType: "new", category: "Vehicles", image: IMG.modelX, alt: "Tesla Model X Plaid SUV with falcon wing doors" },
-  { id: 11, name: "2026 Model X Long Range", price: "$79,990", badge: "NEW", badgeType: "new", category: "Vehicles", image: IMG.modelX, alt: "Tesla Model X Long Range full-size electric SUV" },
-  { id: 12, name: "CPO Model X Long Range", price: "$74,990", badge: "CPO", badgeType: "cpo", category: "Vehicles", image: IMG.modelX, alt: "Certified pre-owned Tesla Model X Long Range electric SUV" },
-  { id: 13, name: "2026 Model Y Juniper Performance", price: "$59,990", badge: "NEW", badgeType: "new", category: "Vehicles", image: IMG.modelY, alt: "Tesla Model Y Juniper Performance electric crossover" },
-  { id: 14, name: "2026 Model Y Juniper Long Range AWD", price: "$48,990", badge: "NEW", badgeType: "new", category: "Vehicles", image: IMG.modelYAlt, alt: "Tesla Model Y Juniper Long Range AWD compact SUV" },
-  { id: 15, name: "2026 Model Y Juniper RWD", price: "$44,990", badge: "NEW", badgeType: "new", category: "Vehicles", image: IMG.modelYAlt, alt: "Tesla Model Y Juniper RWD electric crossover" },
-  { id: 16, name: "CPO Model Y 2024", price: "$36,990", badge: "CPO", badgeType: "cpo", category: "Vehicles", image: IMG.modelY, alt: "Certified pre-owned 2024 Tesla Model Y crossover" },
-  { id: 17, name: "Tesla Semi – 500 Mile Range", price: "$150,000", badge: "NEW", badgeType: "new", category: "Vehicles", image: IMG.semi, alt: "Tesla Semi electric long-haul truck on highway" },
-  { id: 18, name: "Tesla Semi – 300 Mile Range", price: "$120,000", badge: "NEW", badgeType: "new", category: "Vehicles", image: IMG.semi, alt: "Tesla Semi 300 mile regional electric freight truck" },
-  { id: 19, name: "Tesla Cybercab – Reservation", price: "$30,000", badge: "NEW", badgeType: "new", category: "Vehicles", image: IMG.cybercab, alt: "Tesla Cybercab autonomous robotaxi two-door concept vehicle" },
-  { id: 20, name: "Roadster Gen 2 – Founders Slot", price: "$250,000", badge: "NEW", badgeType: "new", category: "Vehicles", image: IMG.roadster, alt: "Next generation Tesla Roadster electric hypercar" },
+  // ── Solar (Solar Roof & Panels) ───────────────────────────────────────────
+  {
+    id: "ts-solar-roof-10",
+    name: "Tesla Solar Roof V3 – 10 kW",
+    price: "$35,000",
+    badge: "SOLAR",
+    badgeType: "solar",
+    category: "Solar",
+    image: "/images/solar-roof.jpg",
+    alt: "Tesla Solar Roof V3 tempered glass architectural roof tiles",
+    specs: "Tempered Glass Tiles · 25-Yr Tile Warranty · Class 3 Hail Rated",
+  },
+  {
+    id: "ts-solar-roof-16",
+    name: "Tesla Solar Roof V3 – 16 kW",
+    price: "$52,000",
+    badge: "SOLAR",
+    badgeType: "solar",
+    category: "Solar",
+    image: "/images/solar-roof.jpg",
+    alt: "Large Tesla Solar Roof V3 installation for multi-EV homes",
+    specs: "16 kW Active Roof + Non-Solar Matching Tiles · ASTM Wind Class F",
+  },
+  {
+    id: "ts-solar-panels-48",
+    name: "Tesla Solar Panels – 4.80 kW",
+    price: "$13,500",
+    badge: "SOLAR",
+    badgeType: "solar",
+    category: "Solar",
+    image: "/images/energy-home.jpg",
+    alt: "Tesla 4.80 kW all-black low-profile residential solar panel array",
+    specs: "All-Black Low Profile · No Visible Mounting · Integrated Microinverters",
+  },
+  {
+    id: "ts-solar-panels-81",
+    name: "Tesla Solar Panels – 8.16 kW",
+    price: "$22,000",
+    badge: "SOLAR",
+    badgeType: "solar",
+    category: "Solar",
+    image: "/images/energy-home.jpg",
+    alt: "Tesla 8.16 kW residential clean energy solar installation",
+    specs: "20x High-Efficiency 405W Panels · 30% Federal Tax Credit Eligible",
+  },
+  {
+    id: "ts-solar-bundle",
+    name: "Solar Panels + Powerwall 3 Bundle",
+    price: "$32,500",
+    badge: "BUNDLE",
+    badgeType: "solar",
+    category: "Solar",
+    image: "/images/energy-home.jpg",
+    alt: "Integrated Tesla solar array paired with Powerwall 3 battery",
+    specs: "8.16 kW Array + 13.5 kWh Powerwall 3 · 96% Grid Independence",
+  },
+  {
+    id: "ts-solar-commercial",
+    name: "Commercial Solar Array – 100 kW",
+    price: "$180,000",
+    badge: "COMMERCIAL",
+    badgeType: "solar",
+    category: "Solar",
+    image: "/images/solar-roof.jpg",
+    alt: "100 kW commercial clean energy solar canopy system",
+    specs: "100 kW Flat-Roof Ballasted Array · Commercial MACRS Accelerated Dep.",
+  },
 
-  // ── Energy ────────────────────────────────────────────────────────────────
-  { id: 21, name: "Powerwall 3 – 13.5 kWh", price: "$11,500", badge: "ENERGY", badgeType: "energy", category: "Energy", image: IMG.powerwall, alt: "Tesla Powerwall 3 home battery mounted on exterior wall" },
-  { id: 22, name: "Powerwall 3 – Two-Unit System", price: "$21,500", badge: "ENERGY", badgeType: "energy", category: "Energy", image: IMG.powerwall, alt: "Two Tesla Powerwall 3 home batteries installed side by side" },
-  { id: 23, name: "Powerwall 3 – Four-Unit Estate System", price: "$41,000", badge: "ENERGY", badgeType: "energy", category: "Energy", image: IMG.gridStorage, alt: "Multi-unit Tesla Powerwall estate energy storage installation" },
-  { id: 24, name: "Backup Gateway 2 + Whole-Home Kit", price: "$3,200", badge: "ENERGY", badgeType: "energy", category: "Energy", image: IMG.cleanGrid, alt: "Tesla Backup Gateway whole-home energy management hardware" },
-  { id: 25, name: "Megapack 2 XL – 3.9 MWh", price: "$1,200,000", badge: "ENERGY", badgeType: "energy", category: "Energy", image: IMG.megapack, alt: "Tesla Megapack utility-scale battery storage unit" },
-  { id: 26, name: "Megapack Array – 20 MWh Utility", price: "$6,400,000", badge: "ENERGY", badgeType: "energy", category: "Energy", image: IMG.gridStorage, alt: "Large Tesla Megapack array at a utility-scale storage site" },
-  { id: 27, name: "Powerpack Commercial – 232 kWh", price: "$185,000", badge: "ENERGY", badgeType: "energy", category: "Energy", image: IMG.megapack, alt: "Tesla Powerpack commercial battery storage cabinets" },
-  { id: 28, name: "Wall Connector Gen 3 – 48A", price: "$475", badge: "ENERGY", badgeType: "energy", category: "Energy", image: IMG.charger, alt: "Tesla Wall Connector home EV charger mounted in garage" },
-  { id: 29, name: "Supercharger V4 Cabinet – Host Package", price: "$95,000", badge: "ENERGY", badgeType: "energy", category: "Energy", image: IMG.supercharger, alt: "Tesla Supercharger V4 charging station cabinet and stalls" },
-  { id: 30, name: "Virtual Power Plant – Grid Allocation", price: "$60,000", badge: "ENERGY", badgeType: "energy", category: "Energy", image: IMG.cleanGrid, alt: "Clean energy grid infrastructure for virtual power plant program" },
-
-  // ── Solar ─────────────────────────────────────────────────────────────────
-  { id: 31, name: "Tesla Solar Roof V3 – 10 kW", price: "$35,000", badge: "SOLAR", badgeType: "solar", category: "Solar", image: IMG.solarRoof, alt: "Tesla Solar Roof tiles integrated into a modern home rooftop" },
-  { id: 32, name: "Tesla Solar Roof V3 – 16 kW", price: "$52,000", badge: "SOLAR", badgeType: "solar", category: "Solar", image: IMG.solarRoof, alt: "Large Tesla Solar Roof tile installation on residential home" },
-  { id: 33, name: "Tesla Solar Panels – 4.80 kW", price: "$13,500", badge: "SOLAR", badgeType: "solar", category: "Solar", image: IMG.solarPanels, alt: "Small Tesla solar panel array on a residential roof" },
-  { id: 34, name: "Tesla Solar Panels – 8.16 kW", price: "$22,000", badge: "SOLAR", badgeType: "solar", category: "Solar", image: IMG.solarPanels, alt: "Tesla solar panel array on modern home roof under blue sky" },
-  { id: 35, name: "Tesla Solar Panels – 12.24 kW", price: "$30,000", badge: "SOLAR", badgeType: "solar", category: "Solar", image: IMG.solarFarm, alt: "Large Tesla solar panel installation on building rooftop" },
-  { id: 36, name: "Solar + Powerwall 3 Bundle", price: "$44,500", badge: "SOLAR", badgeType: "solar", category: "Solar", image: IMG.solarPanels, alt: "Tesla solar panels paired with Powerwall home battery system" },
-  { id: 37, name: "Commercial Solar Array – 100 kW", price: "$180,000", badge: "SOLAR", badgeType: "solar", category: "Solar", image: IMG.solarFarm, alt: "Commercial scale solar array field generating clean power" },
-  { id: 38, name: "Solar Farm Participation – 1 MW Block", price: "$900,000", badge: "SOLAR", badgeType: "solar", category: "Solar", image: IMG.solarFarm, alt: "Utility scale solar farm with rows of photovoltaic panels" },
-
-  // ── Robotics ──────────────────────────────────────────────────────────────
-  { id: 39, name: "Optimus Gen 2 – Production Allocation", price: "$25,000", badge: "ROBOTICS", badgeType: "robotics", category: "Robotics", image: IMG.optimus, alt: "Tesla Optimus Gen 2 humanoid robot standing in modern facility" },
-  { id: 40, name: "Optimus Gen 2 – Industrial Pack", price: "$45,000", badge: "ROBOTICS", badgeType: "robotics", category: "Robotics", image: IMG.optimusAlt, alt: "Humanoid robot in industrial configuration performing a factory task" },
-  { id: 41, name: "Optimus Fleet – 10 Unit Deployment", price: "$420,000", badge: "ROBOTICS", badgeType: "robotics", category: "Robotics", image: IMG.optimusAlt, alt: "Fleet of humanoid robots deployed in a manufacturing facility" },
-  { id: 42, name: "Optimus End-Effector Toolkit", price: "$8,500", badge: "ROBOTICS", badgeType: "robotics", category: "Robotics", image: IMG.roboArm, alt: "Precision robotic hand and end-effector engineering components" },
-  { id: 43, name: "Autonomous Factory Robot Package", price: "$150,000", badge: "ROBOTICS", badgeType: "robotics", category: "Robotics", image: IMG.roboArm, alt: "Industrial robotic arm in an automated Gigafactory line" },
-  { id: 44, name: "Dojo AI Training Compute – Allocation", price: "$300,000", badge: "ROBOTICS", badgeType: "robotics", category: "Robotics", image: IMG.aiCompute, alt: "AI supercomputer training cluster hardware racks" },
-  { id: 45, name: "FSD Inference Module – Fleet Bundle", price: "$65,000", badge: "ROBOTICS", badgeType: "robotics", category: "Robotics", image: IMG.aiCompute, alt: "Autonomous driving inference compute modules for vehicle fleets" },
+  // ── Robotics & AI Compute ─────────────────────────────────────────────────
+  {
+    id: "ts-optimus-gen2",
+    name: "Optimus Gen 2 – Studio Allocation",
+    price: "$25,000",
+    badge: "ROBOTICS",
+    badgeType: "robotics",
+    category: "Robotics",
+    image: "/images/tesla/optimus-studio.jpg",
+    alt: "Tesla Optimus Gen 2 humanoid robot on white studio cyclorama",
+    specs: "5'8\" · 125 lb · 28 Torque Actuators · 11-DoF Tactile Hands",
+  },
+  {
+    id: "ts-optimus-industrial",
+    name: "Optimus Gen 2 – Industrial Pack",
+    price: "$45,000",
+    badge: "ROBOTICS",
+    badgeType: "robotics",
+    category: "Robotics",
+    image: "/images/tesla/optimus-studio.jpg",
+    alt: "Tesla Optimus Gen 2 industrial manufacturing configuration",
+    specs: "Dual 45 lb Lift Spec · FSD AI Computer · 2.3 kWh 52V Battery Pack",
+  },
+  {
+    id: "ts-optimus-fleet",
+    name: "Optimus Fleet – 10 Unit Deployment",
+    price: "$420,000",
+    badge: "FLEET",
+    badgeType: "robotics",
+    category: "Robotics",
+    image: "/assets/images/tesla_optimus_robotics.webp",
+    alt: "10-unit Tesla Optimus fleet deployment for autonomous logistics",
+    specs: "10 Humanoid Units + Charging Docks + Fleet Neural Sync License",
+  },
+  {
+    id: "ts-dojo-compute",
+    name: "Dojo AI Training Tile – Allocation",
+    price: "$300,000",
+    badge: "AI COMPUTE",
+    badgeType: "robotics",
+    category: "Robotics",
+    image: "/assets/images/tesla_optimus_robotics.webp",
+    alt: "Tesla Dojo D1 exaFLOP neural training cabinet allocation",
+    specs: "25 D1 Chips / Tile · 9 PFLOPS BF16 · End-to-End Video Neural Training",
+  },
+  {
+    id: "ts-fsd-inference",
+    name: "FSD AI4 / AI5 Fleet Module",
+    price: "$65,000",
+    badge: "AUTONOMY",
+    badgeType: "robotics",
+    category: "Robotics",
+    image: "/assets/images/tesla_optimus_robotics.webp",
+    alt: "Tesla Hardware 4 and AI5 autonomous vision inference compute bundle",
+    specs: "Dual-Redundant Inference SoC · 5 MP 360° Vision · Commercial Fleet Pack",
+  },
 ];
+
+const CANONICAL_BY_NAME = new Map<string, InventoryItem>();
+for (const item of INVENTORY_CATALOG) {
+  CANONICAL_BY_NAME.set(item.name.toLowerCase(), item);
+}
 
 function getSpecLineForItem(name: string, category: string): string {
   const n = name.toLowerCase();
-  if (n.includes("model s plaid")) return "359 mi EPA · 1.99s 0–60 · 200 mph";
-  if (n.includes("model s")) return "402 mi EPA · 3.1s 0–60 · Dual AWD";
-  if (n.includes("model 3") && n.includes("performance")) return "303 mi EPA · 2.9s 0–60 · 163 mph";
-  if (n.includes("model 3") && n.includes("long range")) return "363 mi EPA · 4.2s 0–60 · Acoustic Cabin";
-  if (n.includes("model 3")) return "Up to 363 mi · 250 kW Supercharging";
-  if (n.includes("model x plaid")) return "326 mi EPA · 2.5s 0–60 · 1,020 hp";
-  if (n.includes("model x")) return "335 mi EPA · Falcon Wing Doors · AWD";
-  if (n.includes("model y") && n.includes("performance")) return "294 mi EPA · 3.3s 0–60 · 155 mph";
-  if (n.includes("model y")) return "Up to 337 mi · 76 cu ft Cargo · 5-Star Safety";
-  if (n.includes("cyberbeast")) return "320 mi Est. · 2.6s 0–60 · 845 hp Tri-Motor";
-  if (n.includes("cybertruck")) return "325 mi Est. · 11,000 lb Towing · Steer-by-Wire";
-  if (n.includes("roadster")) return "620 mi Est. · 1.9s 0–60 · 250+ mph";
+  const exact = CANONICAL_BY_NAME.get(n);
+  if (exact) return exact.specs;
+  if (n.includes("model s plaid")) return "359 mi EPA · 1.99 s 0–60 mph · 200 mph";
+  if (n.includes("model s")) return "402 mi EPA · 3.1 s 0–60 mph · Dual AWD";
+  if (n.includes("model 3") && n.includes("performance")) return "303 mi EPA · 2.9 s 0–60 mph · 163 mph";
+  if (n.includes("model 3")) return "Up to 363 mi EPA · 250 kW Supercharging";
+  if (n.includes("model x plaid")) return "326 mi EPA · 2.5 s 0–60 mph · 1,020 hp";
+  if (n.includes("model x")) return "335 mi EPA · Falcon Wing Doors · Dual AWD";
+  if (n.includes("model y") && n.includes("performance")) return "294 mi EPA · 3.3 s 0–60 mph · 155 mph";
+  if (n.includes("model y")) return "Up to 337 mi EPA · 76 cu ft Cargo · 5-Star Safety";
+  if (n.includes("cyberbeast")) return "320 mi Est. · 2.6 s 0–60 mph · 845 hp Tri-Motor";
+  if (n.includes("cybertruck")) return "325 mi Est. · 11,000 lb Tow · Steer-by-Wire";
+  if (n.includes("roadster")) return "620 mi Est. · 1.9 s 0–60 mph · 250+ mph";
   if (n.includes("semi")) return "82,000 lb GCWR · 1,000V · 70% in 30 min";
   if (n.includes("cybercab")) return "290 mi Est. · Full Autonomy · Inductive Charge";
-  if (n.includes("powerwall 3")) return "13.5 kWh / unit · 11.5 kW Continuous Inverter";
+  if (n.includes("powerwall")) return "13.5 kWh Usable · 11.5 kW Continuous Inverter";
   if (n.includes("megapack")) return "3.9 MWh Unit · Integrated Thermal & Autobidder";
-  if (n.includes("wall connector")) return "48A / 11.5 kW · Up to 44 mi/hr · 24 ft Cable";
+  if (n.includes("wall connector")) return "48A / 11.5 kW NACS · Up to 44 mi/hr";
   if (n.includes("supercharger")) return "Up to 350 kW V4 Peak · NACS · 99.97% Uptime";
   if (n.includes("solar roof")) return "Tempered Solar Glass · 25-Yr Warranty · Class 3 Hail";
-  if (n.includes("solar")) return "Monocrystalline Array · 30% Tax Credit Eligible";
+  if (n.includes("solar")) return "All-Black Array · 30% Federal Tax Credit Eligible";
   if (n.includes("optimus")) return "5'8\" · 125 lb · 28 Actuators · 11-DoF Hands";
-  if (n.includes("dojo") || n.includes("fsd")) return "End-to-End Neural Compute · ExaFLOP Cluster";
-  return `Verified ${category} Hardware Allocation`;
+  return `Official Tesla.com Spec · ${category} Allocation`;
 }
 
 const PAGE_SIZE = 12;
@@ -142,7 +528,7 @@ const ORDER: Exclude<Category, "All">[] = ["Vehicles", "Energy", "Solar", "Robot
 const categories: Category[] = ["All", "Vehicles", "Energy", "Solar", "Robotics"];
 
 export default function LiveInventorySection() {
-  const [items, setItems] = useState<InventoryItem[]>(inventory);
+  const [items, setItems] = useState<InventoryItem[]>(INVENTORY_CATALOG);
   const [active, setActive] = useState<Category>("All");
   const [query, setQuery] = useState("");
   const [visible, setVisible] = useState(PAGE_SIZE);
@@ -161,35 +547,46 @@ export default function LiveInventorySection() {
           .order("sort_order", { ascending: true });
         if (cancelled || !data || data.length === 0) return;
 
-        const staticNameMap = new Map<string, string>();
-        for (const item of inventory) {
-          const key = item.name.toLowerCase().trim();
-          staticNameMap.set(key, item.image);
-          staticNameMap.set(key.replace(/^2026\b/, "2025"), item.image);
+        // Keep authoritative Tesla.com catalog first and merge any custom admin listings
+        // added in Supabase, normalizing images so legacy Unsplash / wrong vehicle photos never appear.
+        const customRows: InventoryItem[] = [];
+        const catalogNames = new Set(INVENTORY_CATALOG.map((c) => c.name.toLowerCase()));
+
+        for (const r of data as Array<Record<string, string>>) {
+          const rawName = String(r.name ?? "").trim();
+          const low = rawName.toLowerCase();
+          if (!rawName || catalogNames.has(low)) continue;
+          // Skip legacy stale seed duplicates that already exist in INVENTORY_CATALOG with corrected 2026 MSRP/imagery
+          const isStaleSeed =
+            low.startsWith("2025 ") ||
+            low.startsWith("2026 ") ||
+            low.includes("semi –") ||
+            low.includes("cybercab –") ||
+            low.includes("roadster gen 2") ||
+            low.startsWith("cpo model ");
+          if (isStaleSeed) continue;
+
+          const category = (ORDER.includes(r.category as Exclude<Category, "All">)
+            ? r.category
+            : "Vehicles") as Exclude<Category, "All">;
+          customRows.push({
+            id: r.id,
+            name: rawName,
+            price: String(r.price || "$0"),
+            badge: String(r.badge || "NEW").toUpperCase(),
+            badgeType: (r.badge_type as InventoryItem["badgeType"]) || "new",
+            category,
+            image: resolveInventoryImageUrl(r.image_url, rawName, category),
+            alt: r.alt || rawName,
+            specs: getSpecLineForItem(rawName, category),
+          });
         }
-        staticNameMap.set("2026 model y premium rear-wheel drive", modelYImg);
-        staticNameMap.set("2026 model y premium all-wheel drive", modelYImg);
 
-        setItems(
-          data.map((r: Record<string, string>) => {
-            const normalizedDbImg = normalizeInventoryImageUrl(r.image_url);
-            const fallbackImg =
-              staticNameMap.get(String(r.name ?? "").toLowerCase().trim()) ?? "";
-
-            return {
-              id: r.id,
-              name: r.name,
-              price: r.price,
-              badge: r.badge,
-              badgeType: r.badge_type as InventoryItem["badgeType"],
-              category: r.category as Exclude<Category, "All">,
-              image: normalizedDbImg || fallbackImg,
-              alt: r.alt || r.name,
-            };
-          }),
-        );
+        if (customRows.length > 0) {
+          setItems([...INVENTORY_CATALOG, ...customRows]);
+        }
       } catch {
-        /* keep static catalog */
+        /* keep canonical Tesla.com catalog */
       }
     })();
     return () => {
@@ -200,7 +597,10 @@ export default function LiveInventorySection() {
   const filtered = React.useMemo(() => {
     const q = query.trim().toLowerCase();
     const match = (i: InventoryItem) =>
-      !q || i.name.toLowerCase().includes(q) || i.category.toLowerCase().includes(q);
+      !q ||
+      i.name.toLowerCase().includes(q) ||
+      i.category.toLowerCase().includes(q) ||
+      i.specs.toLowerCase().includes(q);
 
     if (active !== "All") return items.filter((i) => i.category === active && match(i));
     const buckets = ORDER.map((c) => items.filter((i) => i.category === c && match(i)));
@@ -231,24 +631,21 @@ export default function LiveInventorySection() {
   return (
     <section id="inventory" className="py-12 sm:py-16 px-4 sm:px-6 lg:px-10 bg-background">
       <div className="mx-auto max-w-[1440px]">
-        {/* Tesla.com Studio Header */}
+        {/* Tesla.com Monochrome Studio Header */}
         <div className="flex flex-col gap-6 border-b border-border pb-8 md:flex-row md:items-end md:justify-between">
           <div>
-            <div className="inline-flex items-center gap-2 mb-2">
-              <span className="h-2 w-2 rounded-full bg-[#0e9f6e] pulse-dot" />
-              <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#0e9f6e]">
-                Live Direct-Purchase Inventory
-              </span>
-            </div>
-            <h1 className="font-display text-3xl font-semibold tracking-tight sm:text-5xl">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+              Official Tesla.com Lineup · Direct Allocation
+            </p>
+            <h1 className="font-display mt-2 text-3xl font-semibold tracking-tight text-foreground sm:text-5xl">
               Vehicles, Energy, Solar &amp; Robotics
             </h1>
-            <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-              Select any in-stock vehicle or clean energy system for direct online checkout via wallet
-              balance, wire, or digital asset settlement.
+            <p className="mt-2.5 max-w-2xl text-sm text-muted-foreground leading-relaxed">
+              Every Tesla vehicle, home battery, utility Megapack, solar system, and Optimus unit —
+              complete with accurate EPA specifications and direct checkout settlement.
             </p>
-            <div className="mt-3 inline-flex items-center gap-2 rounded-[4px] border border-[#0e9f6e]/30 bg-[#0e9f6e]/10 px-3 py-1.5 text-xs font-medium text-[#0e9f6e]">
-              <span>★</span>
+            <div className="mt-4 inline-flex items-center gap-2 rounded-[4px] border border-border bg-card px-3.5 py-1.5 text-xs font-medium text-foreground">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#e82127] shrink-0" />
               <span>$2,000 Off for Our Heroes · Military, Veterans, First Responders, Healthcare &amp; Educators</span>
             </div>
           </div>
@@ -295,46 +692,49 @@ export default function LiveInventorySection() {
           ))}
         </div>
 
-        {/* Inventory Grid */}
-        <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {/* Tesla Studio Inventory Grid (Matching Homepage Minimalist Model Cards) */}
+        <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {displayed.map((item, idx) => (
             <article
               key={item.id}
-              className="group flex flex-col justify-between overflow-hidden rounded-[6px] border border-border bg-card transition-all duration-300 hover:border-foreground/35 hover:shadow-lg"
+              className="group flex flex-col justify-between"
             >
               <div>
-                <div className="relative aspect-[16/10] overflow-hidden bg-muted">
+                <div className="relative aspect-[16/10] overflow-hidden rounded-[6px] bg-[#f4f4f4] dark:bg-[#14161a] border border-border/60">
                   <AppImage
                     src={item.image}
                     alt={item.alt}
                     fill
-                    priority={idx < 4}
-                    loading={idx < 8 ? "eager" : "lazy"}
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    priority={idx < 3}
+                    loading={idx < 6 ? "eager" : "lazy"}
+                    className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
-                  <span className="absolute top-3 left-3 rounded-[3px] bg-black/75 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-white backdrop-blur-sm">
+                  <div className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black/35 to-transparent" />
+                  <span className="absolute top-3 left-3 rounded-[3px] bg-[#171a20]/90 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-white backdrop-blur-sm">
                     {item.badge}
+                  </span>
+                  <span className="absolute top-3 right-3 rounded-[3px] bg-[#171a20]/75 px-2 py-1 text-[10px] font-medium uppercase tracking-[0.12em] text-white/90 backdrop-blur-sm">
+                    {item.category}
                   </span>
                 </div>
 
-                <div className="p-5">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                    {item.category}
-                  </p>
-                  <h3 className="font-display mt-1 text-base font-semibold leading-snug text-foreground">
-                    {item.name}
-                  </h3>
-                  <p className="mt-1.5 text-[11px] text-muted-foreground">
-                    {getSpecLineForItem(item.name, item.category)}
+                <div className="pt-3.5 pb-3">
+                  <div className="flex items-baseline justify-between gap-3">
+                    <h3 className="font-display text-base font-semibold leading-snug text-foreground">
+                      {item.name}
+                    </h3>
+                    <span className="font-display text-sm font-medium text-foreground/85 tabular shrink-0">
+                      {item.price}
+                    </span>
+                  </div>
+                  <p className="mt-1 text-[12px] text-muted-foreground leading-relaxed">
+                    {item.specs}
                   </p>
                 </div>
               </div>
 
-              <div className="flex items-center justify-between gap-3 border-t border-border px-5 py-4">
-                <span className="font-display text-base font-semibold text-foreground tabular">
-                  {item.price}
-                </span>
+              <div className="pt-1 pb-2 flex items-center gap-2.5">
                 <button
                   type="button"
                   onClick={() =>
@@ -344,9 +744,9 @@ export default function LiveInventorySection() {
                       onComplete: () => setCheckoutItem(item),
                     })
                   }
-                  className="h-9 rounded-[4px] bg-[#3e6ae1] px-4 text-xs font-medium text-white hover:bg-[#345ac7] transition-colors"
+                  className="flex-1 h-10 rounded-[4px] bg-foreground px-4 text-xs font-medium text-background hover:opacity-90 transition-opacity"
                 >
-                  Buy Now
+                  Order Now
                 </button>
               </div>
             </article>

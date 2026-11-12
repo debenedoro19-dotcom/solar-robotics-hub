@@ -36,7 +36,7 @@ interface SupportTicket {
 const TICKET_STATUS_CONFIG: Record<TicketStatus, { label: string; color: string }> = {
   open: { label: 'Open', color: '#F59E0B' },
   in_progress: { label: 'In Progress', color: '#A1A1AA' },
-  resolved: { label: 'Resolved', color: '#00F59B' },
+  resolved: { label: 'Resolved', color: 'var(--fin-emerald)' },
   closed: { label: 'Closed', color: '#A1A1AA' },
 };
 
@@ -258,7 +258,7 @@ export default function AdminPage() {
       (profiles ?? []).forEach((p) => { if (!kycUserIds.has(p.id)) kycStatusMap['none']++; });
       (kyc ?? []).forEach((k) => { kycStatusMap[k.kyc_status] = (kycStatusMap[k.kyc_status] ?? 0) + 1; });
       const kycBreakdown = [
-        { name: 'Approved', value: kycStatusMap['approved'], color: '#00F59B' },
+        { name: 'Approved', value: kycStatusMap['approved'], color: '#5c5e62' },
         { name: 'Pending', value: kycStatusMap['pending'], color: '#F59E0B' },
         { name: 'Under Review', value: kycStatusMap['under_review'], color: '#A1A1AA' },
         { name: 'Rejected', value: kycStatusMap['rejected'], color: '#E82127' },
@@ -642,7 +642,7 @@ export default function AdminPage() {
     { id: 'allocation', label: 'Allocation' },
   ] as const;
 
-  const PIE_COLORS = ['#E82127', '#FF6B6B', '#F59E0B', '#A1A1AA', '#00F59B', '#E82127', '#a78bfa', '#fb923c'];
+  const PIE_COLORS = ['#E82127', '#171A20', '#5C5E62', '#A1A1AA', '#71717A', '#B91C1C', '#D4D4D8', '#3F3F46'];
 
   const navBtnClass = (v: AdminView) =>
     `flex items-center gap-2 px-4 py-2 border text-xs font-bold rounded tracking-widest uppercase transition-all ${
@@ -709,7 +709,7 @@ export default function AdminPage() {
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-8">
               {[
                 { label: 'Total Users', value: users.length, icon: <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>, accent: '#A1A1AA', sub: 'Registered accounts' },
-                { label: 'Active Portfolios', value: users.filter(u => u.stats.totalPortfolio !== '$0').length, icon: <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/>, accent: '#00F59B', sub: 'With portfolio data' },
+                { label: 'Active Portfolios', value: users.filter(u => u.stats.totalPortfolio !== '$0').length, icon: <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/>, accent: '#71717A', sub: 'With portfolio data' },
                 { label: 'KYC Pending', value: kycList.filter(k => k.kyc_status === 'pending').length, icon: <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>, accent: '#F59E0B', sub: 'Awaiting review' },
                 { label: 'Open Tickets', value: supportTickets.filter(t => t.ticket_status === 'open').length, icon: <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>, accent: '#E82127', sub: 'Support requests' },
               ].map((kpi) => (
@@ -751,7 +751,7 @@ export default function AdminPage() {
                   className="relative bg-card border border-border hover:border-border rounded p-5 text-left transition-all hover:bg-card group"
                 >
                   {badge !== undefined && badge > 0 && (
-                    <span className="absolute top-3 right-3 bg-primary text-foreground text-[9px] font-bold px-1.5 py-0.5 rounded-full">{badge}</span>
+                    <span className="absolute top-3 right-3 bg-foreground text-background text-[9px] font-bold px-1.5 py-0.5 rounded-full">{badge}</span>
                   )}
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={`${color} mb-3`} aria-hidden="true">{icon}</svg>
                   <p className="text-sm font-bold text-foreground mb-1">{label}</p>
@@ -1221,7 +1221,7 @@ export default function AdminPage() {
             {/* Category filter */}
             <div className="flex gap-2 mb-6 flex-wrap">
               {(['All', 'Vehicles', 'Energy', 'Robotics'] as const).map(cat => (
-                <button key={cat} onClick={() => setInventoryFilter(cat)} className={`px-4 py-2 rounded text-xs font-semibold transition-all ${inventoryFilter === cat ? 'bg-primary text-foreground' : 'bg-card border border-border text-muted-foreground hover:text-foreground'}`}>{cat}</button>
+                <button key={cat} onClick={() => setInventoryFilter(cat)} className={`px-4 py-2 rounded text-xs font-semibold transition-all ${inventoryFilter === cat ? 'bg-foreground text-background' : 'bg-card border border-border text-muted-foreground hover:text-foreground'}`}>{cat}</button>
               ))}
             </div>
 
@@ -1258,7 +1258,7 @@ export default function AdminPage() {
                   </div>
                 </div>
                 <div className="flex gap-3">
-                  <button onClick={addInventoryItem} className="px-5 py-2.5 bg-primary text-foreground text-xs font-bold rounded tracking-widest uppercase transition-all hover:bg-primary/90">Add Item</button>
+                  <button onClick={addInventoryItem} className="px-5 py-2.5 bg-foreground text-background text-xs font-bold rounded tracking-widest uppercase transition-all hover:opacity-90">Add Item</button>
                   <button onClick={() => setShowAddItem(false)} className="px-5 py-2.5 bg-muted border border-border text-muted-foreground text-xs font-bold rounded tracking-widest uppercase transition-all hover:text-foreground">Cancel</button>
                 </div>
               </div>
@@ -1297,7 +1297,7 @@ export default function AdminPage() {
                   </div>
                 </div>
                 <div className="flex gap-3">
-                  <button onClick={saveInventoryItem} className="px-5 py-2.5 bg-primary text-foreground text-xs font-bold rounded tracking-widest uppercase transition-all hover:bg-primary/90">Save Changes</button>
+                  <button onClick={saveInventoryItem} className="px-5 py-2.5 bg-foreground text-background text-xs font-bold rounded tracking-widest uppercase transition-all hover:opacity-90">Save Changes</button>
                   <button onClick={() => setEditingItem(null)} className="px-5 py-2.5 bg-muted border border-border text-muted-foreground text-xs font-bold rounded tracking-widest uppercase transition-all hover:text-foreground">Cancel</button>
                 </div>
               </div>
@@ -1392,7 +1392,7 @@ export default function AdminPage() {
                   </div>
                 </div>
                 <div className="flex gap-3">
-                  <button onClick={addGiveawayItem} className="px-5 py-2.5 bg-primary text-foreground text-xs font-bold rounded tracking-widest uppercase transition-all hover:bg-primary/90">Create Giveaway</button>
+                  <button onClick={addGiveawayItem} className="px-5 py-2.5 bg-foreground text-background text-xs font-bold rounded tracking-widest uppercase transition-all hover:opacity-90">Create Giveaway</button>
                   <button onClick={() => setShowAddGiveaway(false)} className="px-5 py-2.5 bg-muted border border-border text-muted-foreground text-xs font-bold rounded tracking-widest uppercase transition-all hover:text-foreground">Cancel</button>
                 </div>
               </div>
@@ -1425,7 +1425,7 @@ export default function AdminPage() {
                   </div>
                 </div>
                 <div className="flex gap-3">
-                  <button onClick={saveGiveawayItem} className="px-5 py-2.5 bg-primary text-foreground text-xs font-bold rounded tracking-widest uppercase transition-all hover:bg-primary/90">Save Changes</button>
+                  <button onClick={saveGiveawayItem} className="px-5 py-2.5 bg-foreground text-background text-xs font-bold rounded tracking-widest uppercase transition-all hover:opacity-90">Save Changes</button>
                   <button onClick={() => setEditingGiveaway(null)} className="px-5 py-2.5 bg-muted border border-border text-muted-foreground text-xs font-bold rounded tracking-widest uppercase transition-all hover:text-foreground">Cancel</button>
                 </div>
               </div>
@@ -1586,7 +1586,7 @@ export default function AdminPage() {
                     return (
                       <button key={f} onClick={() => setKycFilter(f)} className={`px-4 py-3 text-xs font-semibold tracking-widest uppercase transition-colors border-b-2 -mb-px whitespace-nowrap flex items-center gap-1.5 ${kycFilter === f ? 'text-foreground border-primary' : 'text-muted-foreground border-transparent hover:text-muted-foreground'}`}>
                         {f === 'under_review' ? 'Under Review' : f.charAt(0).toUpperCase() + f.slice(1)}
-                        {count > 0 && <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-bold ${kycFilter === f ? 'bg-primary text-foreground' : 'bg-muted text-muted-foreground'}`}>{count}</span>}
+                        {count > 0 && <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-bold ${kycFilter === f ? 'bg-foreground text-background' : 'bg-muted text-muted-foreground'}`}>{count}</span>}
                       </button>
                     );
                   })}

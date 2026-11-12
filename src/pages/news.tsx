@@ -169,7 +169,7 @@ export default function NewsPage() {
                   <button
                     type="button"
                     onClick={() => navigateWithLoader(featured.href, "EXPLORE")}
-                    className="self-start text-xs font-semibold text-[#3e6ae1] hover:underline"
+                    className="self-start text-xs font-semibold text-foreground underline underline-offset-4 hover:opacity-75 transition-opacity"
                   >
                     Explore Related Listings →
                   </button>
@@ -212,7 +212,7 @@ export default function NewsPage() {
                   <button
                     type="button"
                     onClick={() => navigateWithLoader(article.href, article.tag.toUpperCase())}
-                    className="text-xs font-semibold text-[#3e6ae1] hover:underline"
+                    className="text-xs font-semibold text-foreground underline underline-offset-4 hover:opacity-75 transition-opacity"
                   >
                     View Section →
                   </button>

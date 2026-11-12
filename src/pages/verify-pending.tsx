@@ -29,7 +29,7 @@ export default function VerifyPendingPage() {
         </p>
         <Link
           href="/login"
-          className="inline-flex h-11 w-full items-center justify-center rounded-[4px] bg-[#3e6ae1] text-white text-sm font-medium hover:bg-[#345ac7] transition-colors"
+          className="inline-flex h-11 w-full items-center justify-center rounded-[4px] bg-foreground text-background text-sm font-medium hover:opacity-90 transition-opacity"
         >
           Continue to Sign In
         </Link>

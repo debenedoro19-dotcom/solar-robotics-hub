@@ -9,7 +9,7 @@ import { EMPTY_WALLET, money, toWallet, type Wallet } from '@/components/investo
 import PlanCard, { type InvestmentPlan as SharedPlan } from '@/components/investment/planCard';
 import { sendInvestmentPurchasedEmail } from '@/lib/emailService';
 import { STATUS_LABEL, type OrderStatus } from '@/lib/inventory.functions';
-import { normalizeInventoryImageUrl } from '@/lib/inventoryImages';
+import { resolveInventoryImageUrl } from '@/lib/inventoryImages';
 
 const PortfolioChart = lazy(() => import('@/components/investor/PortfolioChart'));
 const AccountPanel = lazy(() => import('@/pages/account'));
@@ -73,15 +73,15 @@ interface GiveawayEntry {
 const ORDER_STEPS: OrderStatus[] = ['pending_payment', 'paid', 'processing', 'shipped', 'delivered'];
 
 const STATUS_STYLES: Record<string, string> = {
-  completed: 'bg-[#0e9f6e]/12 text-[#0e9f6e] border-[#0e9f6e]/30',
-  paid: 'bg-[#0e9f6e]/12 text-[#0e9f6e] border-[#0e9f6e]/30',
-  delivered: 'bg-[#0e9f6e]/12 text-[#0e9f6e] border-[#0e9f6e]/30',
-  claimed_fedex_queue: 'bg-[#0e9f6e]/12 text-[#0e9f6e] border-[#0e9f6e]/30',
+  completed: 'bg-foreground text-background border-foreground',
+  paid: 'bg-foreground text-background border-foreground',
+  delivered: 'bg-foreground text-background border-foreground',
+  claimed_fedex_queue: 'bg-foreground text-background border-foreground',
   pending: 'bg-amber-500/12 text-amber-500 border-amber-500/30',
   pending_payment: 'bg-amber-500/12 text-amber-500 border-amber-500/30',
   pending_shipping_verification: 'bg-amber-500/12 text-amber-500 border-amber-500/30',
-  processing: 'bg-[#3e6ae1]/12 text-[#3e6ae1] border-[#3e6ae1]/30',
-  shipped: 'bg-[#3e6ae1]/12 text-[#3e6ae1] border-[#3e6ae1]/30',
+  processing: 'bg-muted text-foreground border-border',
+  shipped: 'bg-muted text-foreground border-border',
   failed: 'bg-[#e82127]/12 text-[#e82127] border-[#e82127]/30',
   rejected: 'bg-[#e82127]/12 text-[#e82127] border-[#e82127]/30',
   cancelled: 'bg-[#e82127]/12 text-[#e82127] border-[#e82127]/30',
@@ -261,7 +261,7 @@ export default function InvestorDashboard() {
   if (loading) {
     return (
       <main className="min-h-screen bg-background flex items-center justify-center">
-        <div className="h-9 w-9 rounded-full border-2 border-[#3e6ae1] border-t-transparent animate-spin" />
+        <div className="h-9 w-9 rounded-full border-2 border-foreground border-t-transparent animate-spin" />
       </main>
     );
   }
@@ -278,7 +278,7 @@ export default function InvestorDashboard() {
           </p>
           <Link
             href="/login"
-            className="inline-flex h-11 items-center justify-center px-6 rounded-[4px] bg-[#3e6ae1] text-white text-sm font-medium hover:bg-[#345ac7] transition-colors"
+            className="inline-flex h-11 items-center justify-center px-6 rounded-[4px] bg-foreground text-background text-sm font-medium hover:opacity-90 transition-opacity"
           >
             Account · Sign In
           </Link>
@@ -354,7 +354,7 @@ export default function InvestorDashboard() {
                   <div className="flex flex-wrap gap-2.5">
                     <button
                       onClick={() => goDeposit()}
-                      className="h-11 px-6 rounded-[4px] bg-[#3e6ae1] text-white text-xs font-medium hover:bg-[#345ac7] transition-colors"
+                      className="h-11 px-6 rounded-[4px] bg-foreground text-background text-xs font-medium hover:opacity-90 transition-opacity"
                     >
                       Deposit Funds
                     </button>
@@ -366,7 +366,7 @@ export default function InvestorDashboard() {
                     </button>
                     <Link
                       href="/inventory"
-                      className="inline-flex items-center justify-center h-11 px-6 rounded-[4px] bg-foreground text-background text-xs font-medium hover:opacity-90 transition-opacity"
+                      className="inline-flex items-center justify-center h-11 px-6 rounded-[4px] border border-border bg-muted/60 text-foreground text-xs font-medium hover:bg-muted transition-colors"
                     >
                       Browse Inventory
                     </Link>
@@ -377,7 +377,7 @@ export default function InvestorDashboard() {
                 <div className="grid grid-cols-2 lg:grid-cols-4 border-t border-border bg-muted/20">
                   {[
                     { l: 'Active Capital', v: money(totalActiveCapital) },
-                    { l: 'Net Yield Accrued', v: money(totalYield), emerald: true },
+                    { l: 'Net Yield Accrued', v: money(totalYield), highlight: true },
                     { l: 'Active Contracts', v: String(activeContracts.length) },
                     { l: 'Hardware Orders', v: String(orders.length) },
                   ].map((m, i) => (
@@ -390,11 +390,7 @@ export default function InvestorDashboard() {
                       <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                         {m.l}
                       </div>
-                      <div
-                        className={`font-display mt-1.5 text-xl sm:text-2xl font-semibold tabular ${
-                          m.emerald ? 'text-[#0e9f6e]' : 'text-foreground'
-                        }`}
-                      >
+                      <div className="font-display mt-1.5 text-xl sm:text-2xl font-semibold tabular text-foreground">
                         {m.v}
                       </div>
                     </div>
@@ -422,7 +418,7 @@ export default function InvestorDashboard() {
                     </Link>
                     <Link
                       href="/inventory"
-                      className="h-9 inline-flex items-center px-4 rounded-[4px] bg-[#3e6ae1] text-white text-xs font-medium hover:bg-[#345ac7] transition-colors"
+                      className="h-9 inline-flex items-center px-4 rounded-[4px] bg-foreground text-background text-xs font-medium hover:opacity-90 transition-opacity"
                     >
                       Order Hardware
                     </Link>
@@ -437,7 +433,7 @@ export default function InvestorDashboard() {
                     </p>
                     <Link
                       href="/inventory"
-                      className="inline-flex h-10 items-center px-5 rounded-[4px] bg-[#3e6ae1] text-white text-xs font-medium hover:bg-[#345ac7] transition-colors"
+                      className="inline-flex h-10 items-center px-5 rounded-[4px] bg-foreground text-background text-xs font-medium hover:opacity-90 transition-opacity"
                     >
                       Explore Vehicles &amp; Energy →
                     </Link>
@@ -451,7 +447,7 @@ export default function InvestorDashboard() {
                           <div className="flex flex-col sm:flex-row sm:items-center gap-4">
                             {o.item_image && (
                               <img
-                                src={normalizeInventoryImageUrl(o.item_image)}
+                                src={resolveInventoryImageUrl(o.item_image, o.item_name, o.item_category ?? undefined)}
                                 alt={o.item_name}
                                 className="w-16 h-12 rounded-[4px] object-cover bg-muted border border-border shrink-0"
                               />
@@ -496,7 +492,7 @@ export default function InvestorDashboard() {
                                 <div key={s}>
                                   <div
                                     className={`h-1.5 rounded-full ${
-                                      i <= idx ? 'bg-[#3e6ae1]' : 'bg-muted'
+                                      i <= idx ? 'bg-foreground' : 'bg-muted'
                                     }`}
                                   />
                                   <p className="text-[10px] text-muted-foreground mt-1 truncate hidden sm:block">
@@ -583,7 +579,7 @@ export default function InvestorDashboard() {
                   </div>
                   <Link
                     href="/invest"
-                    className="text-xs font-medium text-[#3e6ae1] hover:underline"
+                    className="text-xs font-medium text-foreground underline-offset-4 hover:underline"
                   >
                     Open Full Investment Portal →
                   </Link>
@@ -597,7 +593,7 @@ export default function InvestorDashboard() {
                       </p>
                       <button
                         onClick={() => setTab('browse')}
-                        className="h-10 px-5 rounded-[4px] bg-[#3e6ae1] text-white text-xs font-medium hover:bg-[#345ac7] transition-colors"
+                        className="h-10 px-5 rounded-[4px] bg-foreground text-background text-xs font-medium hover:opacity-90 transition-opacity"
                       >
                         Browse Capital Programs
                       </button>
@@ -617,7 +613,7 @@ export default function InvestorDashboard() {
                               <h3 className="font-display text-lg font-semibold tracking-tight">
                                 {c.plan_name}
                               </h3>
-                              <span className="px-2.5 py-0.5 rounded-[3px] text-[10px] font-semibold uppercase tracking-wider border border-[#3e6ae1]/30 bg-[#3e6ae1]/10 text-[#3e6ae1]">
+                              <span className="px-2.5 py-0.5 rounded-[3px] text-[10px] font-semibold uppercase tracking-wider border border-border bg-muted/60 text-foreground">
                                 {c.plan_category}
                               </span>
                             </div>
@@ -642,7 +638,7 @@ export default function InvestorDashboard() {
                                 <dt className="text-[10px] uppercase tracking-wider text-muted-foreground">
                                   Yield Earned
                                 </dt>
-                                <dd className="font-display mt-0.5 text-lg font-semibold tabular text-[#0e9f6e]">
+                                <dd className="font-display mt-0.5 text-lg font-semibold tabular text-foreground">
                                   {money(Number(c.yield_earned))}
                                 </dd>
                               </div>
@@ -657,7 +653,7 @@ export default function InvestorDashboard() {
                             </dl>
                             <div className="h-1.5 rounded-full bg-muted overflow-hidden">
                               <div
-                                className="h-full rounded-full bg-[#3e6ae1]"
+                                className="h-full rounded-full bg-foreground"
                                 style={{ width: `${progress}%` }}
                               />
                             </div>
@@ -679,7 +675,7 @@ export default function InvestorDashboard() {
                         action={
                           <button
                             onClick={() => setInvestPlan(p)}
-                            className="w-full h-10 rounded-[4px] bg-[#3e6ae1] text-white text-xs font-medium hover:bg-[#345ac7] transition-colors"
+                            className="w-full h-10 rounded-[4px] bg-foreground text-background text-xs font-medium hover:opacity-90 transition-opacity"
                           >
                             Deploy Capital
                           </button>
@@ -703,7 +699,7 @@ export default function InvestorDashboard() {
                   </div>
                   <Link
                     href="/giveaways"
-                    className="h-9 inline-flex items-center px-4 rounded-[4px] bg-[#3e6ae1] text-white text-xs font-medium hover:bg-[#345ac7] transition-colors whitespace-nowrap"
+                    className="h-9 inline-flex items-center px-4 rounded-[4px] bg-foreground text-background text-xs font-medium hover:opacity-90 transition-opacity whitespace-nowrap"
                   >
                     View Giveaways
                   </Link>
@@ -794,9 +790,7 @@ export default function InvestorDashboard() {
                               {row.description || '—'}
                             </td>
                             <td
-                              className={`px-5 py-3 text-right font-semibold tabular ${
-                                Number(row.amount) < 0 ? 'text-foreground' : 'text-[#0e9f6e]'
-                              }`}
+                              className="px-5 py-3 text-right font-semibold tabular text-foreground"
                             >
                               {Number(row.amount) < 0 ? '-' : '+'}
                               {money(Math.abs(Number(row.amount)))}
@@ -920,7 +914,7 @@ function InvestModal({
             <p className="text-[11px] uppercase text-muted-foreground">Available Balance</p>
             <p
               className={`font-display text-lg font-semibold tabular ${
-                insufficient ? 'text-[#e82127]' : 'text-[#0e9f6e]'
+                insufficient ? 'text-[#e82127]' : 'text-foreground'
               }`}
             >
               {money(balance)}
@@ -944,7 +938,7 @@ function InvestModal({
             type="number"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
-            className="w-full h-11 px-4 rounded-[4px] border border-border bg-muted/40 text-foreground font-semibold tabular focus:border-[#3e6ae1] outline-none"
+            className="w-full h-11 px-4 rounded-[4px] border border-border bg-muted/40 text-foreground font-semibold tabular focus:border-foreground outline-none"
           />
           <div className="flex gap-2 mt-2">
             {[25, 50, 75, 100].map((pct) => (
@@ -965,16 +959,16 @@ function InvestModal({
           </p>
         </div>
 
-        <div className="rounded-[6px] border border-[#0e9f6e]/30 bg-[#0e9f6e]/8 p-4 space-y-1.5">
+        <div className="rounded-[6px] border border-border bg-muted/40 p-4 space-y-1.5">
           <div className="flex justify-between text-sm">
             <span className="text-muted-foreground">Projected daily payout</span>
-            <span className="font-semibold text-[#0e9f6e] tabular">{money(dailyPayout)}</span>
+            <span className="font-semibold text-foreground tabular">{money(dailyPayout)}</span>
           </div>
           <div className="flex justify-between text-sm">
             <span className="text-muted-foreground">Total return at maturity</span>
-            <span className="font-semibold text-[#0e9f6e] tabular">{money(totalReturn)}</span>
+            <span className="font-semibold text-foreground tabular">{money(totalReturn)}</span>
           </div>
-          <div className="flex justify-between text-sm border-t border-[#0e9f6e]/20 pt-1.5">
+          <div className="flex justify-between text-sm border-t border-border pt-1.5">
             <span className="text-muted-foreground">Principal + yield</span>
             <span className="font-semibold tabular">{money(value + totalReturn)}</span>
           </div>
@@ -987,7 +981,7 @@ function InvestModal({
             </p>
             <button
               onClick={onDeposit}
-              className="w-full h-11 rounded-[4px] bg-[#3e6ae1] text-white text-sm font-medium hover:bg-[#345ac7] transition-colors"
+              className="w-full h-11 rounded-[4px] bg-foreground text-background text-sm font-medium hover:opacity-90 transition-opacity"
             >
               Deposit Funds
             </button>
@@ -996,7 +990,7 @@ function InvestModal({
           <button
             onClick={confirm}
             disabled={busy || outOfBounds || value <= 0}
-            className="w-full h-11 rounded-[4px] bg-[#3e6ae1] text-white text-sm font-medium hover:bg-[#345ac7] transition-colors disabled:opacity-40"
+            className="w-full h-11 rounded-[4px] bg-foreground text-background text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-40"
           >
             {busy
               ? 'Processing…'

@@ -163,7 +163,7 @@ export default function InvestPage() {
                             isLoggedIn ? `INVEST · ${plan.name.toUpperCase()}` : "ACCOUNT",
                           )
                         }
-                        className="w-full h-10 rounded-[4px] bg-[#3e6ae1] text-white text-xs font-medium hover:bg-[#345ac7] transition-colors"
+                        className="w-full h-10 rounded-[4px] bg-foreground text-background text-xs font-medium hover:opacity-90 transition-opacity"
                       >
                         {isLoggedIn ? "Allocate Now →" : "Account · Sign In to Invest"}
                       </button>

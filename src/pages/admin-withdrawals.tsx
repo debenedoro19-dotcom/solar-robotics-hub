@@ -376,7 +376,7 @@ export default function AdminWithdrawalsPage() {
           <div className="flex items-center gap-3">
             {/* Live indicator */}
             <div className="flex items-center gap-1.5">
-              <span className={`w-2 h-2 rounded-full transition-colors duration-300 ${liveIndicator ? 'bg-success shadow-[0_0_6px_#00F59B]' : 'bg-success/40'}`} />
+              <span className={`w-2 h-2 rounded-full transition-colors duration-300 ${liveIndicator ? 'bg-foreground' : 'bg-muted-foreground/40'}`} />
               <span className="text-[10px] text-muted-foreground uppercase tracking-widest">Live</span>
             </div>
             <Link
@@ -767,8 +767,8 @@ export default function AdminWithdrawalsPage() {
             <div className="flex items-center justify-between px-6 py-4 border-b border-border">
               <div className="flex items-center gap-3">
                 {confirmModal.type === 'approve' ? (
-                  <div className="w-8 h-8 rounded-full bg-success/10 border border-success/20 flex items-center justify-center">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00F59B" strokeWidth="2.5" aria-hidden="true">
+                  <div className="w-8 h-8 rounded-full bg-muted border border-border flex items-center justify-center text-foreground">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
                       <path d="M20 6L9 17l-5-5" />
                     </svg>
                   </div>
@@ -831,12 +831,12 @@ export default function AdminWithdrawalsPage() {
               </div>
 
               {confirmModal.type === 'approve' && (
-                <div className="flex items-start gap-2 p-3 bg-success/5 border border-success/15 rounded">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00F59B" strokeWidth="2" className="flex-shrink-0 mt-0.5" aria-hidden="true">
+                <div className="flex items-start gap-2 p-3 bg-muted/50 border border-border rounded text-foreground">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="flex-shrink-0 mt-0.5" aria-hidden="true">
                     <circle cx="12" cy="12" r="10" /><path d="M12 8v4m0 4h.01" />
                   </svg>
-                  <p className="text-xs text-success/80">
-                    Approving this payout will mark it as <strong>Paid</strong> and send a confirmation email to the user.
+                  <p className="text-xs text-muted-foreground">
+                    Approving this payout will mark it as <strong className="text-foreground">Paid</strong> and send a confirmation email to the user.
                   </p>
                 </div>
               )}

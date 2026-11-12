@@ -216,7 +216,7 @@ export default function AdminDepositsPage() {
           </div>
           <h1 className="text-xl font-bold text-foreground mb-2">Admin Access Required</h1>
           <p className="text-sm text-muted-foreground mb-6">You must be logged in as admin to view this page.</p>
-          <Link href="/login" className="px-6 py-2.5 bg-primary text-foreground rounded text-sm font-semibold">Sign In as Admin</Link>
+          <Link href="/login" className="px-6 py-2.5 bg-foreground text-background rounded-[4px] text-sm font-medium hover:opacity-90 transition-opacity">Sign In as Admin</Link>
         </div>
       </main>
     );
@@ -254,8 +254,8 @@ export default function AdminDepositsPage() {
         <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <div className="w-8 h-8 rounded bg-success/10 border border-success/20 flex items-center justify-center">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00F59B" strokeWidth="2" aria-hidden="true"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              <div className="w-8 h-8 rounded bg-muted border border-border flex items-center justify-center text-foreground">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
               </div>
               <h1 className="text-2xl font-medium text-foreground tracking-tight">Deposit Management</h1>
             </div>
@@ -277,9 +277,9 @@ export default function AdminDepositsPage() {
             { label: 'Total', value: stats.total, color: 'text-foreground', accent: '#6B7280' },
             { label: 'Pending', value: stats.pending, color: 'text-warning', accent: '#F59E0B' },
             { label: 'Processing', value: stats.processing, color: 'text-zinc-300', accent: '#A1A1AA' },
-            { label: 'Confirmed', value: stats.confirmed, color: 'text-success', accent: '#00F59B' },
+            { label: 'Confirmed', value: stats.confirmed, color: 'text-foreground', accent: 'var(--fin-emerald)' },
             { label: 'Rejected', value: stats.rejected, color: 'text-destructive', accent: '#E82127' },
-            { label: 'Total Confirmed', value: `$${stats.totalConfirmed.toLocaleString()}`, color: 'text-success', accent: '#00F59B' },
+            { label: 'Total Confirmed', value: `$${stats.totalConfirmed.toLocaleString()}`, color: 'text-foreground', accent: 'var(--fin-emerald)' },
           ].map((s) => (
             <div key={s.label} className="bg-card border border-border rounded p-4">
               <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-2">{s.label}</div>

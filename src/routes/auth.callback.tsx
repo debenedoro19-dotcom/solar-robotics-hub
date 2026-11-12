@@ -86,8 +86,8 @@ function AuthCallbackPage() {
           <div className="mx-auto mb-5 h-9 w-9 animate-spin rounded-full border-2 border-border border-t-primary" />
         )}
         {status === 'verified' && (
-          <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full border border-green-500/30 bg-green-500/10">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#00F59B" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full border border-border bg-muted text-foreground">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <polyline points="20 6 9 17 4 12" />
             </svg>
           </div>

@@ -72,7 +72,7 @@ export default function AccountOrdersPage() {
             </div>
             <Link
               href="/inventory"
-              className="h-10 inline-flex items-center px-5 rounded-[4px] bg-[#3e6ae1] text-white text-xs font-medium hover:bg-[#345ac7] transition-colors"
+              className="h-10 inline-flex items-center px-5 rounded-[4px] bg-foreground text-background text-xs font-medium hover:opacity-90 transition-opacity"
             >
               Order Hardware
             </Link>
@@ -91,7 +91,7 @@ export default function AccountOrdersPage() {
               </p>
               <Link
                 href="/inventory"
-                className="inline-flex h-10 items-center px-5 rounded-[4px] bg-[#3e6ae1] text-white font-medium text-xs hover:bg-[#345ac7] transition-colors"
+                className="inline-flex h-10 items-center px-5 rounded-[4px] bg-foreground text-background font-medium text-xs hover:opacity-90 transition-opacity"
               >
                 Browse Inventory
               </Link>
@@ -120,7 +120,7 @@ export default function AccountOrdersPage() {
                         <h2 className="font-display font-semibold text-base sm:text-lg truncate mt-0.5">
                           {o.item_name}
                         </h2>
-                        <p className="text-sm text-[#3e6ae1] font-semibold tabular mt-0.5">
+                        <p className="text-sm text-foreground font-semibold tabular mt-0.5">
                           {money(Number(o.amount))} ·{' '}
                           <span className="text-muted-foreground font-normal">
                             {o.payment_method === 'wallet' ? 'Wallet Balance' : 'Crypto / Wire'}
@@ -134,7 +134,7 @@ export default function AccountOrdersPage() {
                         className={`self-start sm:self-center text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-[3px] border ${
                           o.order_status === 'cancelled'
                             ? 'bg-[#e82127]/12 text-[#e82127] border-[#e82127]/30'
-                            : 'bg-[#3e6ae1]/12 text-[#3e6ae1] border-[#3e6ae1]/30'
+                            : 'bg-muted text-foreground border-border'
                         }`}
                       >
                         {STATUS_LABEL[o.order_status] ?? o.order_status}
@@ -146,7 +146,7 @@ export default function AccountOrdersPage() {
                           <div key={s}>
                             <div
                               className={`h-1.5 rounded-full ${
-                                i <= idx ? 'bg-[#3e6ae1]' : 'bg-muted'
+                                i <= idx ? 'bg-foreground' : 'bg-muted'
                               }`}
                             />
                             <p className="text-[10px] text-muted-foreground mt-1.5 hidden sm:block">

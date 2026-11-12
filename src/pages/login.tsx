@@ -216,7 +216,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading || twoFactorCode.trim().length < 6}
-              className="w-full h-11 rounded-[4px] bg-[#3e6ae1] text-white text-sm font-medium hover:bg-[#345ac7] disabled:opacity-40 transition-colors"
+              className="w-full h-11 rounded-[4px] bg-foreground text-background text-sm font-medium hover:opacity-90 disabled:opacity-40 transition-opacity"
             >
               {loading ? "Verifying…" : "Verify & Continue"}
             </button>
@@ -231,7 +231,7 @@ export default function LoginPage() {
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             {notice && (
-              <div className="px-3.5 py-2.5 rounded-[4px] bg-[#0e9f6e]/10 border border-[#0e9f6e]/30 text-xs font-medium text-[#0e9f6e]">
+              <div className="px-3.5 py-2.5 rounded-[4px] bg-muted/60 border border-border text-xs font-medium text-foreground">
                 {notice}
               </div>
             )}
@@ -288,7 +288,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full h-11 rounded-[4px] bg-[#3e6ae1] text-white text-sm font-medium hover:bg-[#345ac7] transition-colors flex items-center justify-center gap-2 disabled:opacity-60"
+              className="w-full h-11 rounded-[4px] bg-foreground text-background text-sm font-medium hover:opacity-90 transition-opacity flex items-center justify-center gap-2 disabled:opacity-60"
             >
               {loading ? "Signing In…" : "Next · Sign In"}
             </button>

@@ -56,9 +56,9 @@ interface WithdrawalRequest {
 
 const STATUS_STYLES: Record<string, { label: string; color: string; bg: string; border: string }> = {
   pending:    { label: 'Pending',    color: '#F59E0B', bg: 'rgba(245,158,11,0.1)',  border: 'rgba(245,158,11,0.25)' },
-  processing: { label: 'Processing', color: '#3B82F6', bg: 'rgba(59,130,246,0.1)',  border: 'rgba(59,130,246,0.25)' },
-  paid:       { label: 'Paid',       color: '#22C55E', bg: 'rgba(34,197,94,0.1)',   border: 'rgba(34,197,94,0.25)' },
-  rejected:   { label: 'Rejected',   color: '#EF4444', bg: 'rgba(239,68,68,0.1)',   border: 'rgba(239,68,68,0.25)' },
+  processing: { label: 'Processing', color: 'var(--text-2)', bg: 'var(--surface-2)', border: 'var(--hairline)' },
+  paid:       { label: 'Paid',       color: 'var(--text-1)', bg: 'var(--surface-2)', border: 'var(--hairline-strong)' },
+  rejected:   { label: 'Rejected',   color: '#E82127', bg: 'rgba(232,33,39,0.1)',   border: 'rgba(232,33,39,0.25)' },
 };
 
 export default function ReferralPage() {
@@ -304,20 +304,20 @@ export default function ReferralPage() {
             {/* Live indicator */}
             <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-semibold tracking-wider uppercase transition-all ${
               realtimeConnected
-                ? 'border-green-500/30 bg-green-500/10 text-green-400' : 'border-border bg-card text-muted-foreground'
+                ? 'border-border bg-muted/60 text-foreground' : 'border-border bg-card text-muted-foreground'
             }`}>
-              <span className={`w-1.5 h-1.5 rounded-full ${realtimeConnected ? 'bg-green-400 animate-pulse' : 'bg-muted-foreground'}`} />
+              <span className={`w-1.5 h-1.5 rounded-full ${realtimeConnected ? 'bg-foreground animate-pulse' : 'bg-muted-foreground'}`} />
               {realtimeConnected ? 'Live' : 'Connecting…'}
             </div>
           </div>
 
           {/* Earnings notice */}
-          <div className="mb-8 flex items-start gap-3 px-4 py-3 bg-amber-500/5 border border-amber-500/20 rounded">
-            <svg className="w-4 h-4 text-amber-400 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+          <div className="mb-8 flex items-start gap-3 px-4 py-3 bg-muted/50 border border-border rounded">
+            <svg className="w-4 h-4 text-foreground mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20A10 10 0 0012 2z" />
             </svg>
-            <p className="text-xs text-amber-300/80 leading-relaxed">
-              <span className="font-bold text-amber-400">Earnings Policy:</span> Referral rewards are only credited when your referred user completes an actual investment, purchases a stock, or buys inventory — not on signup alone.
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              <span className="font-bold text-foreground">Earnings Policy:</span> Referral rewards are only credited when your referred user completes an actual investment, purchases a stock, or buys inventory — not on signup alone.
             </p>
           </div>
 
@@ -357,7 +357,7 @@ export default function ReferralPage() {
               <button
                 onClick={handleCopy}
                 className={`px-5 py-3 rounded text-xs font-bold tracking-widest uppercase transition-all min-w-[90px] ${
-                  copied ? 'bg-green-500 text-white' : 'tesla-btn-primary'
+                  copied ? 'bg-foreground text-background' : 'tesla-btn-primary'
                 }`}
               >
                 {copied ? '✓ Copied' : 'Copy'}
@@ -451,7 +451,7 @@ export default function ReferralPage() {
 
             {/* Success banner */}
             {withdrawSuccess && (
-              <div className="mx-5 mt-4 flex items-center gap-2 px-4 py-3 bg-green-500/10 border border-green-500/25 rounded text-xs text-green-400 font-semibold">
+              <div className="mx-5 mt-4 flex items-center gap-2 px-4 py-3 bg-muted/60 border border-border rounded text-xs text-foreground font-semibold">
                 <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
@@ -642,7 +642,7 @@ export default function ReferralPage() {
                         <div className="flex items-center gap-2">
                           <span className="text-sm font-semibold text-foreground">{ref.name}</span>
                           {ref.invested ? (
-                            <span className="px-1.5 py-0.5 bg-green-500/10 border border-green-500/20 rounded text-[9px] font-bold text-green-400 uppercase tracking-wider">Invested</span>
+                            <span className="px-1.5 py-0.5 bg-foreground text-background rounded text-[9px] font-bold uppercase tracking-wider">Invested</span>
                           ) : (
                             <span className="px-1.5 py-0.5 bg-muted border border-border rounded text-[9px] font-bold text-muted-foreground uppercase tracking-wider">Signed Up</span>
                           )}

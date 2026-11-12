@@ -206,7 +206,7 @@ export function EnergyAndSolarSection() {
                       <h3 className="font-display text-lg font-medium">{sys.name}</h3>
                       <span className="text-xs font-semibold tabular">{sys.priceLabel}</span>
                     </div>
-                    <p className="mt-1 text-xs font-medium text-[#3e6ae1]">{sys.headlineMetric}</p>
+                    <p className="mt-1 text-xs font-medium text-foreground/80">{sys.headlineMetric}</p>
                     <p className="mt-2.5 text-xs leading-relaxed text-muted-foreground">
                       {sys.summary}
                     </p>
@@ -256,8 +256,8 @@ export function EnergyAndSolarSection() {
                     See What Your Roof Is Worth
                   </h3>
                 </div>
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-[#0e9f6e]/10 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.08em] text-[#0e9f6e]">
-                  <span className="pulse-dot h-1.5 w-1.5 rounded-full bg-[#0e9f6e]" /> Live Estimate
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.08em] text-foreground">
+                  <span className="pulse-dot h-1.5 w-1.5 rounded-full bg-foreground" /> Live Estimate
                 </span>
               </div>
 
@@ -284,7 +284,7 @@ export function EnergyAndSolarSection() {
                   onChange={(e) => setBill(Number(e.target.value))}
                   className="teh-slider mt-4 w-full"
                   style={{
-                    background: `linear-gradient(to right, #3e6ae1 ${fillPercent}%, #d6d7d9 ${fillPercent}%)`,
+                    background: `linear-gradient(to right, var(--foreground) ${fillPercent}%, var(--border) ${fillPercent}%)`,
                   }}
                   aria-valuetext={`$${bill} per month`}
                 />
@@ -355,11 +355,11 @@ export function EnergyAndSolarSection() {
                   aria-label="Include Powerwall 3"
                   onClick={() => setBattery((v) => !v)}
                   className={`relative inline-flex h-6 w-11 shrink-0 rounded-full border-2 border-transparent transition-colors ${
-                    battery ? "bg-[#3e6ae1]" : "bg-muted-foreground/30"
+                    battery ? "bg-foreground" : "bg-muted-foreground/30"
                   }`}
                 >
                   <span
-                    className={`pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transition-transform ${
+                    className={`pointer-events-none inline-block h-5 w-5 rounded-full bg-background shadow transition-transform ${
                       battery ? "translate-x-5" : "translate-x-0"
                     }`}
                   />
@@ -466,7 +466,7 @@ export function EnergyAndSolarSection() {
                 </div>
                 <div className="h-2 overflow-hidden rounded-full bg-muted">
                   <div
-                    className="h-full rounded-full bg-[#0e9f6e] transition-all duration-500"
+                    className="h-full rounded-full bg-foreground transition-all duration-500"
                     style={{ width: `${Math.max(4, (estimate.newMonthly / bill) * 100)}%` }}
                   />
                 </div>
@@ -476,7 +476,7 @@ export function EnergyAndSolarSection() {
                 <button
                   type="button"
                   onClick={() => navigateWithLoader("/inventory", "ORDER SOLAR & POWERWALL")}
-                  className="h-11 rounded-[4px] bg-[#3e6ae1] text-white text-xs font-medium hover:bg-[#345ac7] transition-colors"
+                  className="h-11 rounded-[4px] bg-foreground text-background text-xs font-medium hover:opacity-90 transition-opacity"
                 >
                   Order Hardware Now
                 </button>
@@ -609,7 +609,7 @@ export function SuperchargerAndRoboticsSection() {
               <button
                 type="button"
                 onClick={() => navigateWithLoader("/inventory", "CHARGING HARDWARE")}
-                className="h-10 rounded-[4px] bg-[#3e6ae1] px-5 text-xs font-medium text-white hover:bg-[#345ac7] transition-colors"
+                className="h-10 rounded-[4px] bg-white px-5 text-xs font-medium text-[#171a20] hover:bg-white/90 transition-colors"
               >
                 Shop Home Wall Connector
               </button>
@@ -632,8 +632,8 @@ export function SuperchargerAndRoboticsSection() {
                 </p>
                 <h3 className="font-display mt-0.5 text-lg font-medium">Find a Supercharger</h3>
               </div>
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#0e9f6e]/10 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.08em] text-[#0e9f6e]">
-                <span className="pulse-dot h-1.5 w-1.5 rounded-full bg-[#0e9f6e]" /> Live
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#171a20]/8 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.08em] text-[#171a20]">
+                <span className="pulse-dot h-1.5 w-1.5 rounded-full bg-[#171a20]" /> Live
               </span>
             </div>
 
@@ -693,7 +693,7 @@ export function SuperchargerAndRoboticsSection() {
                       </p>
                     </div>
                     <div className="shrink-0 text-right">
-                      <span className="block text-[11px] font-semibold text-[#0e9f6e] tabular">
+                      <span className="block text-[11px] font-semibold text-[#171a20] tabular">
                         {ch.available} open
                       </span>
                       <span className="block text-[9px] text-[#76797d] tabular">of {ch.stalls} stalls</span>

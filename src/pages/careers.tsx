@@ -316,7 +316,7 @@ export default function CareersPage() {
       {/* ── Tesla Hero Section ──────────────────────────────────────────────── */}
       <section className="relative overflow-hidden bg-[#0a0b0d] text-white pt-32 pb-20 px-6 border-b border-border">
         <img
-          src="/images/hero-road.jpg"
+          src="/images/energy-home.jpg"
           alt="Tesla engineering careers"
           className="absolute inset-0 h-full w-full object-cover opacity-30"
         />
@@ -557,12 +557,12 @@ export default function CareersPage() {
                   <div className="space-y-2">
                     <div className="flex flex-wrap items-center gap-2">
                       {job.is_entry_level && (
-                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
+                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-muted text-foreground border border-border">
                           Entry-Level
                         </span>
                       )}
                       {job.training_provided && (
-                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-blue-500/15 text-blue-600 dark:text-blue-400 border border-blue-500/30">
+                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-foreground text-background">
                           Full Training Provided
                         </span>
                       )}
@@ -627,7 +627,7 @@ export default function CareersPage() {
             href="/careers/remote-ai-data-specialist"
             ctaLoader
             loaderLabel="APPLICATION PORTAL"
-            className="shrink-0 px-6 py-3 rounded-[4px] bg-[#3e6ae1] text-white hover:bg-[#345ac7] text-xs font-medium tracking-wide transition-colors"
+            className="shrink-0 px-6 py-3 rounded-[4px] bg-foreground text-background hover:opacity-90 text-xs font-medium tracking-wide transition-opacity"
           >
             Submit General Application
           </Link>

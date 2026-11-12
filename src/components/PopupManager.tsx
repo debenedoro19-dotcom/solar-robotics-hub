@@ -218,13 +218,13 @@ function LeadPopup({ onClose }: { onClose: () => void }) {
         <p className="text-[13.5px] text-[var(--popup-text-muted)] leading-relaxed mb-5">{cfg.body}</p>
         {status === "done" ? (
           <div className="flex items-center gap-2.5 py-1">
-            <div className="w-5 h-5 rounded-full bg-emerald-500/15 flex items-center justify-center shrink-0">
+            <div className="w-5 h-5 rounded-full bg-muted border border-border flex items-center justify-center shrink-0 text-foreground">
               <svg
                 width="12"
                 height="12"
                 viewBox="0 0 24 24"
                 fill="none"
-                stroke="var(--popup-success)"
+                stroke="currentColor"
                 strokeWidth="2.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -232,7 +232,7 @@ function LeadPopup({ onClose }: { onClose: () => void }) {
                 <path d="M20 6 9 17l-5-5" />
               </svg>
             </div>
-            <p className="text-sm font-medium text-[var(--popup-success)]">You&apos;re on the list. Welcome aboard.</p>
+            <p className="text-sm font-medium text-foreground">You&apos;re on the list. Welcome aboard.</p>
           </div>
         ) : (
           <form onSubmit={submit} className="space-y-3">
@@ -339,8 +339,8 @@ function CookieBar() {
 
 /* ---------------- Activity feed (illustrative U.S. activity, not live data) ---------------- */
 const KIND_META: Record<ActivityKind, { verb: string; label: string; color: string; path: string }> = {
-  deposit: { verb: "deposited", label: "Deposit confirmed", color: "#10B981", path: "M12 5v14M5 12l7 7 7-7" },
-  investment: { verb: "invested", label: "Investment active", color: "#3B82F6", path: "M4 18 10 12l4 4 6-8M14 6h6v6" },
+  deposit: { verb: "deposited", label: "Deposit confirmed", color: "#171A20", path: "M12 5v14M5 12l7 7 7-7" },
+  investment: { verb: "invested", label: "Investment active", color: "#5C5E62", path: "M4 18 10 12l4 4 6-8M14 6h6v6" },
   withdrawal: { verb: "withdrew", label: "Withdrawal paid", color: "#E31937", path: "M7 17 17 7M9 7h8v8" },
 };
 
