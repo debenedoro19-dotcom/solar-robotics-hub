@@ -1,20 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import Link from "@/components/SmartLink";
 import { setCurrentUser } from "@/lib/portfolioStore";
 import { createClient } from "@/lib/supabase/client";
 import { sanitizeEmail } from "@/lib/sanitize";
+import { confirmUnverifiedUser } from "@/lib/auth.functions";
 import { get2FAStatus, verify2FACode, recordSecurityEvent } from "@/lib/security.functions";
 import { TeslaShieldSvg, useTeslaLoader } from "@/components/TeslaLoader";
 import { ThemeToggle } from "@/lib/theme";
 
 export default function LoginPage() {
+  const confirmUserFn = useServerFn(confirmUnverifiedUser);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [notice, setNotice] = useState("");
   const [needs2FA, setNeeds2FA] = useState(false);
   const [twoFactorCode, setTwoFactorCode] = useState("");
   const { triggerLoader } = useTeslaLoader();
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const prefill = params.get("email");
+    if (prefill) setEmail(prefill);
+    if (params.get("registered") === "1") {
+      setNotice("Account created. Sign in below to access your Trade Tesla Account.");
+    }
+  }, []);
 
   async function finishLogin() {
     const supabase = createClient();
@@ -71,6 +85,7 @@ export default function LoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setNotice("");
     const cleanEmail = sanitizeEmail(email);
     if (!cleanEmail || !password) {
       setError("Please fill in all fields with valid values.");
@@ -80,10 +95,26 @@ export default function LoginPage() {
 
     try {
       const supabase = createClient();
-      const { data, error: signInError } = await supabase.auth.signInWithPassword({
+      let { data, error: signInError } = await supabase.auth.signInWithPassword({
         email: cleanEmail,
         password,
       });
+
+      // Automatically confirm unverified accounts since email verification is disconnected
+      if (
+        signInError &&
+        /email not confirmed|not confirmed/i.test(signInError.message)
+      ) {
+        const confirmed = await confirmUserFn({ data: { email: cleanEmail } }).catch(() => null);
+        if (confirmed?.ok) {
+          const retry = await supabase.auth.signInWithPassword({
+            email: cleanEmail,
+            password,
+          });
+          data = retry.data;
+          signInError = retry.error;
+        }
+      }
 
       if (signInError) {
         setLoading(false);
@@ -199,6 +230,11 @@ export default function LoginPage() {
           </form>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
+            {notice && (
+              <div className="px-3.5 py-2.5 rounded-[4px] bg-[#0e9f6e]/10 border border-[#0e9f6e]/30 text-xs font-medium text-[#0e9f6e]">
+                {notice}
+              </div>
+            )}
             {error && (
               <div className="px-3.5 py-2.5 rounded-[4px] bg-[#e82127]/10 border border-[#e82127]/30 text-xs font-medium text-[#e82127]">
                 {error}

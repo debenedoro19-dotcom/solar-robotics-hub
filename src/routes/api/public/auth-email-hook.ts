@@ -201,14 +201,23 @@ export const Route = createFileRoute("/api/public/auth-email-hook")({
         }
 
         try {
-          if (payload.email_data.email_action_type === "signup" && payload.email_data.token_hash) {
-            try {
-              const confirmationLink = verifyUrl(payload.email_data.token_hash, "signup", payload.email_data.redirect_to);
-              // Auto-confirm user in Supabase Auth while mailbox is suspended
-              await fetch(confirmationLink, { method: "GET", redirect: "manual" }).catch(() => {});
-            } catch (autoErr) {
-              console.warn("[auth-email-hook] Auto-confirmation note:", autoErr);
+          if (payload.email_data.email_action_type === "signup") {
+            const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+            const { data: profile } = await supabaseAdmin
+              .from("user_profiles")
+              .select("id")
+              .ilike("email", recipient.trim().toLowerCase())
+              .maybeSingle();
+            if (profile?.id) {
+              await supabaseAdmin.auth.admin.updateUserById(profile.id, { email_confirm: true }).catch(() => {});
             }
+            const { notifyOwner } = await import("@/lib/owner-alerts.server");
+            await notifyOwner(
+              "New user registered — Trade Tesla",
+              [`Email: ${recipient}`, `Time: ${new Date().toUTCString()}`],
+              `owner-signup-${recipient}`,
+            );
+            return Response.json({ status: "ok", notice: "Email verification disabled; account confirmed" });
           }
 
           const { subject, element } = buildEmail(payload);

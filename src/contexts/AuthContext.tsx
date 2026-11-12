@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import { emailSafeOrigin } from '@/lib/site-url';
+import { registerWithoutVerification, confirmUnverifiedUser } from '@/lib/auth.functions';
 
 const AuthContext = createContext<any>({});
 
@@ -40,29 +40,35 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return () => subscription.unsubscribe();
   }, []);
 
-  // Email/Password Sign Up
+  // Email/Password Sign Up (email verification disconnected)
   const signUp = async (email: string, password: string, metadata: { fullName?: string; avatarUrl?: string } = {}) => {
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          full_name: metadata?.fullName || '',
-          avatar_url: metadata?.avatarUrl || ''
-        },
-        emailRedirectTo: `${emailSafeOrigin()}/auth/callback`
-      }
+    const res = await registerWithoutVerification({
+      data: {
+        name: metadata?.fullName || email.split('@')[0] || 'Investor',
+        email,
+        password,
+      },
     });
+    if (!res.ok) throw new Error(res.error);
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) throw error;
     return data;
   };
 
   // Email/Password Sign In
   const signIn = async (email: string, password: string) => {
-    const { data, error } = await supabase.auth.signInWithPassword({
+    let { data, error } = await supabase.auth.signInWithPassword({
       email,
       password
     });
+    if (error && /email not confirmed|not confirmed/i.test(error.message)) {
+      const confirmed = await confirmUnverifiedUser({ data: { email } }).catch(() => null);
+      if (confirmed?.ok) {
+        const retry = await supabase.auth.signInWithPassword({ email, password });
+        data = retry.data;
+        error = retry.error;
+      }
+    }
     if (error) throw error;
     return data;
   };

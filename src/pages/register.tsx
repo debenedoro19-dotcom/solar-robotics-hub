@@ -1,12 +1,13 @@
 import React, { useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import Link from "@/components/SmartLink";
-import { createClient } from "@/lib/supabase/client";
 import { sanitizeText, sanitizeEmail, sanitizePhone, validatePassword } from "@/lib/sanitize";
-import { emailSafeOrigin } from "@/lib/site-url";
+import { registerWithoutVerification } from "@/lib/auth.functions";
 import { TeslaShieldSvg, useTeslaLoader } from "@/components/TeslaLoader";
 import { ThemeToggle } from "@/lib/theme";
 
 export default function RegisterPage() {
+  const registerFn = useServerFn(registerWithoutVerification);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -16,8 +17,6 @@ export default function RegisterPage() {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [emailSent, setEmailSent] = useState(false);
-  const [registeredEmail, setRegisteredEmail] = useState("");
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [acceptedPrivacy, setAcceptedPrivacy] = useState(false);
   const { triggerLoader } = useTeslaLoader();
@@ -52,65 +51,31 @@ export default function RegisterPage() {
     setLoading(true);
 
     try {
-      const supabase = createClient();
-      const siteUrl = emailSafeOrigin();
-
-      const { data, error: signUpError } = await supabase.auth.signUp({
-        email: cleanEmail,
-        password: form.password,
-        options: {
-          data: { full_name: cleanName, phone: cleanPhone },
-          emailRedirectTo: `${siteUrl}/auth/callback?next=/kyc`,
+      const res = await registerFn({
+        data: {
+          name: cleanName,
+          email: cleanEmail,
+          phone: cleanPhone || undefined,
+          password: form.password,
         },
       });
 
-      if (signUpError) {
-        if (signUpError.status === 429 || signUpError.message.toLowerCase().includes("rate limit")) {
-          setError("Account creation is temporarily busy. Please wait a few minutes before trying again.");
-        } else if (signUpError.message.toLowerCase().includes("already registered")) {
-          setError("An account already exists for this email. Sign in or reset your password instead.");
-        } else {
-          setError(signUpError.message);
-        }
+      if (!res.ok) {
+        setError(res.error || "Registration failed. Please try again.");
         setLoading(false);
         return;
       }
 
-      if (data.session) {
-        triggerLoader({
-          label: "ACCOUNT READY",
-          durationMs: 420,
-          onComplete: () => {
-            window.location.href = "/dashboard";
-          },
-        });
-        return;
-      }
-
-      try {
-        const { data: signInData } = await supabase.auth.signInWithPassword({
-          email: cleanEmail,
-          password: form.password,
-        });
-        if (signInData?.session) {
-          triggerLoader({
-            label: "ACCOUNT READY",
-            durationMs: 420,
-            onComplete: () => {
-              window.location.href = "/dashboard";
-            },
-          });
-          return;
-        }
-      } catch {
-        /* fallback to modal below */
-      }
-
-      setRegisteredEmail(form.email);
-      setEmailSent(true);
+      const target = `/login?registered=1&email=${encodeURIComponent(cleanEmail)}`;
+      triggerLoader({
+        label: "ACCOUNT CREATED",
+        durationMs: 420,
+        onComplete: () => {
+          window.location.href = target;
+        },
+      });
     } catch (err: any) {
       setError(err?.message || "Registration failed. Please try again.");
-    } finally {
       setLoading(false);
     }
   };
@@ -129,37 +94,6 @@ export default function RegisterPage() {
         </Link>
         <ThemeToggle />
       </header>
-
-      {emailSent && (
-        <div
-          className="fixed inset-0 z-50 bg-background/95 backdrop-blur-md flex items-center justify-center px-4"
-          role="status"
-          aria-live="polite"
-        >
-          <div className="w-full max-w-sm rounded-[8px] bg-card border border-border p-7 text-center shadow-xl">
-            <div className="w-12 h-12 rounded-full bg-[#0e9f6e]/15 border border-[#0e9f6e]/30 flex items-center justify-center mx-auto mb-4 text-[#0e9f6e] font-bold">
-              ✓
-            </div>
-            <h2 className="font-display text-xl font-semibold text-foreground mb-2">
-              Account Created
-            </h2>
-            <p className="text-xs text-muted-foreground mb-1">Your account has been created for</p>
-            <p className="text-sm font-semibold text-foreground mb-3 break-all">{registeredEmail}</p>
-            <p className="text-xs text-muted-foreground leading-relaxed mb-5">
-              Email verification is temporarily suspended. You can sign in right away to access your
-              account.
-            </p>
-            <Link
-              href="/login"
-              ctaLoader
-              loaderLabel="SIGN IN"
-              className="flex h-11 w-full items-center justify-center rounded-[4px] bg-[#3e6ae1] text-white text-sm font-medium hover:bg-[#345ac7] transition-colors"
-            >
-              Continue to Sign In
-            </Link>
-          </div>
-        </div>
-      )}
 
       <div className="mx-auto w-full max-w-[380px] px-4 py-12">
         <div className="mb-8">
