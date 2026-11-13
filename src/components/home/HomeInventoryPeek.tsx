@@ -97,6 +97,7 @@ export default function HomeInventoryPeek() {
             const rawName = String(row.name ?? "").trim();
             const low = rawName.toLowerCase();
             if (!rawName || seen.has(low)) continue;
+            if (low.includes("flying car") || low.includes("model aero") || low.includes("evtol")) continue;
             if (low.startsWith("2025 ") || low.startsWith("2026 ") || low.startsWith("cpo ")) continue;
             custom.push({
               id: String(row.id),
@@ -159,13 +160,6 @@ export default function HomeInventoryPeek() {
               className="flex h-9 w-9 items-center justify-center rounded-[4px] border border-border bg-card text-foreground hover:bg-muted transition-colors"
             >
               <ChevronRight className="h-4 w-4" aria-hidden="true" />
-            </button>
-            <button
-              type="button"
-              onClick={() => navigateWithLoader("/flying-car", "FLYING CAR & TEST DRIVE")}
-              className="ml-2 h-9 rounded-[4px] border border-border bg-card px-4 text-xs font-medium text-foreground hover:bg-muted transition-colors"
-            >
-              Pre-Book &amp; Test Drive
             </button>
             <button
               type="button"

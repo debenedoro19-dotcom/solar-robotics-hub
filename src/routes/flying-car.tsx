@@ -1,26 +1,26 @@
 import { createFileRoute } from "@tanstack/react-router";
-import Page from "@/pages/flying-car";
+import { redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/flying-car")({
+  beforeLoad: () => {
+    throw redirect({ to: "/inventory" });
+  },
   head: () => ({
     meta: [
-      { title: "Model Aero Flying Car Pre-Book & Test Drive — Trade Tesla" },
+      { title: "Vehicle Inventory — Trade Tesla" },
       {
         name: "description",
-        content:
-          "Pre-book the dual-mode Tesla Model Aero eVTOL flying vehicle or schedule a prototype track test drive and flight briefing.",
+        content: "Browse current vehicle and clean-energy inventory listings from Trade Tesla.",
       },
-      { property: "og:title", content: "Model Aero Flying Car Pre-Book & Test Drive — Trade Tesla" },
+      { property: "og:title", content: "Vehicle Inventory — Trade Tesla" },
       {
         property: "og:description",
-        content:
-          "Reserve your priority Model Aero build slot or book a prototype test drive at a regional Trade Tesla hub.",
+        content: "Browse current vehicle and clean-energy inventory listings from Trade Tesla.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { property: "og:url", content: "https://tradeenergyhub.com/flying-car" },
+      { property: "og:url", content: "https://tradeenergyhub.com/inventory" },
     ],
-    links: [{ rel: "canonical", href: "https://tradeenergyhub.com/flying-car" }],
+    links: [{ rel: "canonical", href: "https://tradeenergyhub.com/inventory" }],
   }),
-  component: Page,
 });

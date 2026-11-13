@@ -25,13 +25,6 @@ export function QuickLinksSection() {
       href: "/inventory",
     },
     {
-      label: "Flying Car & Demo",
-      title: "Model Aero Pre-Book & Drive",
-      summary: "Reserve a $0 priority Model Aero eVTOL build slot or schedule a prototype test drive.",
-      image: "/images/tesla/cybercab-studio.jpg",
-      href: "/flying-car",
-    },
-    {
       label: "Giveaways",
       title: "Free Vehicle Drops ($0)",
       summary: "Zero-cost promotional prize entries with instant allocation passes & courier tracking.",

@@ -9,8 +9,6 @@ const footerGroups = [
     title: "Vehicles",
     links: [
       { label: "Live Inventory", href: "/inventory" },
-      { label: "Model Aero Flying Car", href: "/flying-car" },
-      { label: "Schedule Test Drive", href: "/flying-car?mode=test_drive" },
       { label: "Model S Plaid", href: "/inventory" },
       { label: "Cybertruck", href: "/inventory" },
     ],

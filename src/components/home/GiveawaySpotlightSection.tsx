@@ -294,13 +294,6 @@ export default function GiveawaySpotlightSection() {
               >
                 Enter Free Giveaway ($0) →
               </button>
-              <button
-                type="button"
-                onClick={() => navigateWithLoader("/flying-car", "MODEL AERO PRE-BOOK")}
-                className="h-12 rounded-[4px] border border-white/30 px-6 text-xs font-medium text-white hover:bg-white/10 transition-colors"
-              >
-                Pre-Book Flying Car &amp; Test Drive
-              </button>
             </div>
           </div>
         </div>

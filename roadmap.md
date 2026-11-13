@@ -9,5 +9,6 @@
 - [x] Inventory: real checkout (wallet or crypto/bank + proof), order tracking, admin orders page, order status emails
 - [x] Clone Tesla Model Y new inventory (tesla.com/inventory/new/my, zip 90060) with 15% lower prices
 - [x] Upgrade homepage with an interactive feature selector, database-backed inventory preview, allocation range tool, and ecosystem grid
+- [x] Remove flying-car promotion, inventory item and navigation; redirect the old page to inventory
 - [x] Add dedicated Giveaways page (/giveaways) and connect Giveaways navigation across header, footer, dashboard and homepage
 - [x] Suspend email verification gates across registration, login, dashboard, and auth hooks while mailbox renewal is pending
