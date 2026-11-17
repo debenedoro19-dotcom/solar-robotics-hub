@@ -1258,23 +1258,40 @@ table td, table th { border-color: var(--border); }
 }
 
 /* ── Eradicate any Lovable editor badge, watermark, or popup ─────────────── */
+lovable-badge,
+lovable-editor,
+gpt-engineer,
 #lovable-badge,
 [data-lovable-badge],
+[data-lovable],
+[data-lovable-editor],
 .lovable-badge,
-[id*="lovable-badge"],
-[class*="lovable-badge"],
-a[href*="lovable.dev"],
+[id*="lovable" i],
+[class*="lovable" i],
+a[href*="lovable.dev" i],
+a[href*="lovable.app" i],
+a[href*="lovable.ai" i],
+iframe[src*="lovable" i],
 button[aria-label*="Lovable" i],
-div:has(> a[href*="lovable.dev"]),
+div:has(> a[href*="lovable.dev" i]),
+div:has(> a[href*="lovable.app" i]),
 div:has(> button[aria-label*="Lovable" i]),
-div:has(> [data-lovable-badge]) {
+div:has(> [data-lovable-badge]),
+div:has(> [data-lovable]),
+div:has(> lovable-badge),
+aside:has(a[href*="lovable" i]) {
   display: none !important;
   opacity: 0 !important;
   visibility: hidden !important;
   pointer-events: none !important;
   width: 0 !important;
   height: 0 !important;
-  position: absolute !important;
-  left: -99999px !important;
-  z-index: -99999 !important;
+  max-width: 0 !important;
+  max-height: 0 !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  position: fixed !important;
+  bottom: -99999px !important;
+  right: -99999px !important;
+  z-index: -999999 !important;
 }
