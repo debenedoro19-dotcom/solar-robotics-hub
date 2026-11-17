@@ -26,89 +26,44 @@ export default function InvestPage() {
 
   return (
     <main className="relative min-h-screen bg-background text-foreground overflow-x-hidden">
-      <Header heroTransparent />
+      <Header />
 
-      {/* Studio Investment Hero */}
-      <section className="relative overflow-hidden bg-[#0a0b0d] text-white pt-28 pb-16 sm:pt-36 sm:pb-24 px-4 sm:px-6 lg:px-10">
-        <img
-          src="/images/energy-home.jpg"
-          alt="Clean Energy Grid Infrastructure"
-          className="absolute inset-0 h-full w-full object-cover opacity-35"
-        />
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(180deg, rgba(10,11,13,0.75) 0%, rgba(10,11,13,0.94) 100%)",
-          }}
-        />
-
-        <div className="relative z-10 mx-auto max-w-[1440px]">
-          <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
-            <div>
-              <div className="inline-flex items-center gap-2 rounded-[4px] border border-white/20 bg-white/10 px-3 py-1 backdrop-blur-md">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#e82127] pulse-dot" />
-                <span className="text-[11px] font-medium uppercase tracking-[0.22em] text-white/90">
-                  Trade Tesla · Institutional & Retail Capital Programs
-                </span>
-              </div>
-              <h1 className="font-display mt-4 text-4xl font-semibold tracking-tight sm:text-5xl lg:text-[56px] lg:leading-[1.06]">
-                Clean Energy, Autonomous Fleet & AI Infrastructure Programs
-              </h1>
-              <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/78 sm:text-base">
-                Allocate capital to structured asset programs across Megapack utility storage, Solar
-                arrays, Supercharger network expansion, and Optimus robotics lines. Track daily
-                positions and maturity settlements in your verified account dashboard.
-              </p>
-
-              <div className="mt-7 flex flex-wrap gap-3">
-                <button
-                  type="button"
-                  onClick={() =>
-                    navigateWithLoader(
-                      isLoggedIn ? "/dashboard" : "/login",
-                      isLoggedIn ? "PORTFOLIO DASHBOARD" : "ACCOUNT",
-                    )
-                  }
-                  className="h-11 rounded-[4px] bg-white px-7 text-sm font-medium text-[#171a20] hover:bg-white/90 transition-colors"
-                >
-                  {isLoggedIn ? "Open Investment Dashboard" : "Account · Sign In to Invest"}
-                </button>
-                <a
-                  href="#programs-catalog"
-                  className="inline-flex h-11 items-center justify-center rounded-[4px] border border-white/35 px-7 text-sm font-medium text-white hover:bg-white/10 transition-colors"
-                >
-                  View All Programs
-                </a>
-              </div>
+      {/* Clean Studio Top Bar */}
+      <section className="pt-24 pb-8 sm:pt-28 sm:pb-10 px-4 sm:px-6 lg:px-10 border-b border-border bg-background">
+        <div className="mx-auto max-w-[1440px] flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+          <div>
+            <div className="inline-flex items-center gap-2 rounded-[4px] border border-border bg-muted/40 px-3 py-1">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#e82127]" />
+              <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                Trade Tesla · Structured Clean Energy & AI Capital
+              </span>
             </div>
-
-            <div className="grid grid-cols-2 gap-4 rounded-[6px] border border-white/15 bg-black/50 p-6 backdrop-blur-xl">
-              <div>
-                <div className="font-display text-2xl font-semibold tabular">Daily</div>
-                <div className="mt-1 text-[11px] uppercase tracking-[0.14em] text-white/65">
-                  ROI Telemetry Ledger
-                </div>
-              </div>
-              <div>
-                <div className="font-display text-2xl font-semibold tabular">Multi-Rail</div>
-                <div className="mt-1 text-[11px] uppercase tracking-[0.14em] text-white/65">
-                  Wire, Card & Crypto Funding
-                </div>
-              </div>
-              <div>
-                <div className="font-display text-2xl font-semibold tabular">KYC</div>
-                <div className="mt-1 text-[11px] uppercase tracking-[0.14em] text-white/65">
-                  Identity Verified Accounts
-                </div>
-              </div>
-              <div>
-                <div className="font-display text-2xl font-semibold tabular">24/7</div>
-                <div className="mt-1 text-[11px] uppercase tracking-[0.14em] text-white/65">
-                  Portfolio Transparency
-                </div>
-              </div>
-            </div>
+            <h1 className="font-display mt-3 text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-foreground">
+              Investment Programs & Allocation
+            </h1>
+            <p className="mt-2 text-sm text-muted-foreground max-w-xl">
+              Model return yields, explore proportional asset programs, and fund positions with daily liquidity telemetry.
+            </p>
+          </div>
+          <div className="flex flex-wrap items-center gap-3">
+            <button
+              type="button"
+              onClick={() =>
+                navigateWithLoader(
+                  isLoggedIn ? "/dashboard" : "/login",
+                  isLoggedIn ? "PORTFOLIO DASHBOARD" : "ACCOUNT",
+                )
+              }
+              className="h-11 rounded-[4px] bg-foreground text-background px-6 text-xs font-semibold hover:opacity-90 transition-opacity"
+            >
+              {isLoggedIn ? "Open Portfolio Dashboard →" : "Sign In to Invest"}
+            </button>
+            <a
+              href="#programs-catalog"
+              className="inline-flex h-11 items-center justify-center rounded-[4px] border border-border bg-card px-6 text-xs font-semibold text-foreground hover:bg-muted transition-colors"
+            >
+              View All Programs ↓
+            </a>
           </div>
         </div>
       </section>
@@ -200,6 +155,87 @@ export default function InvestPage() {
               </div>
             ))}
           </div>
+
+          {/* Institutional Infrastructure & Settlement Architecture (Placed at bottom of page) */}
+          <section className="mt-14 rounded-[6px] overflow-hidden border border-border bg-[#0a0b0d] text-white p-6 sm:p-10 relative">
+            <img
+              src="/images/energy-home.jpg"
+              alt="Clean Energy Grid Infrastructure"
+              className="absolute inset-0 h-full w-full object-cover opacity-25 pointer-events-none"
+            />
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background:
+                  "linear-gradient(180deg, rgba(10,11,13,0.85) 0%, rgba(10,11,13,0.96) 100%)",
+              }}
+            />
+            <div className="relative z-10 grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
+              <div>
+                <div className="inline-flex items-center gap-2 rounded-[4px] border border-white/20 bg-white/10 px-3 py-1">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#e82127]" />
+                  <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-white/90">
+                    Trade Tesla Infrastructure Architecture
+                  </span>
+                </div>
+                <h3 className="font-display mt-3 text-2xl sm:text-3xl font-semibold tracking-tight text-white">
+                  Clean Energy, Autonomous Fleet & AI Infrastructure Programs
+                </h3>
+                <p className="mt-3 max-w-2xl text-xs sm:text-sm leading-relaxed text-white/75">
+                  Allocate capital to structured asset programs across Megapack utility storage, Solar
+                  arrays, Supercharger network expansion, and Optimus robotics lines. Track daily
+                  positions and maturity settlements in your verified account dashboard.
+                </p>
+                <div className="mt-6 flex flex-wrap gap-3">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      navigateWithLoader(
+                        isLoggedIn ? "/dashboard" : "/login",
+                        isLoggedIn ? "PORTFOLIO DASHBOARD" : "ACCOUNT",
+                      )
+                    }
+                    className="h-10 rounded-[4px] bg-white px-6 text-xs font-semibold text-[#171a20] hover:bg-white/90 transition-colors"
+                  >
+                    {isLoggedIn ? "Open Investment Dashboard" : "Account · Sign In to Invest"}
+                  </button>
+                  <a
+                    href="#programs-catalog"
+                    className="inline-flex h-10 items-center justify-center rounded-[4px] border border-white/35 px-6 text-xs font-semibold text-white hover:bg-white/10 transition-colors"
+                  >
+                    View All Programs
+                  </a>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3.5 rounded-[6px] border border-white/15 bg-black/60 p-5 backdrop-blur-xl">
+                <div>
+                  <div className="font-display text-2xl font-semibold tabular">Daily</div>
+                  <div className="mt-1 text-[10px] uppercase tracking-[0.14em] text-white/65">
+                    ROI Telemetry Ledger
+                  </div>
+                </div>
+                <div>
+                  <div className="font-display text-2xl font-semibold tabular">Multi-Rail</div>
+                  <div className="mt-1 text-[10px] uppercase tracking-[0.14em] text-white/65">
+                    Wire, Card & Crypto Funding
+                  </div>
+                </div>
+                <div>
+                  <div className="font-display text-2xl font-semibold tabular">KYC</div>
+                  <div className="mt-1 text-[10px] uppercase tracking-[0.14em] text-white/65">
+                    Identity Verified Accounts
+                  </div>
+                </div>
+                <div>
+                  <div className="font-display text-2xl font-semibold tabular">24/7</div>
+                  <div className="mt-1 text-[10px] uppercase tracking-[0.14em] text-white/65">
+                    Portfolio Transparency
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
 
           {/* Institutional Risk Disclosure */}
           <div className="mt-12 border-t border-border pt-8 space-y-2 text-xs leading-relaxed text-muted-foreground">

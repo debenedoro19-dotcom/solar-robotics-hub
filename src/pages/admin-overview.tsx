@@ -9,7 +9,7 @@ import {
   PieChart, Pie, Cell, LineChart, Line, CartesianGrid,
 } from 'recharts';
 
-type AdminView = 'users' | 'edit' | 'kyc' | 'analytics' | 'support' | 'storage' | 'userdata' | 'inventory' | 'giveaways';
+type AdminView = 'users' | 'edit' | 'kyc' | 'analytics' | 'support';
 
 type TicketStatus = 'open' | 'in_progress' | 'resolved' | 'closed';
 type TicketCategory = 'account' | 'investment' | 'withdrawal' | 'kyc' | 'technical' | 'other';
@@ -86,49 +86,11 @@ interface AnalyticsData {
   portfolioUsers: number;
 }
 
-// ── Inventory types ──────────────────────────────────────────────────────────
-type InventoryCategory = 'Vehicles' | 'Energy' | 'Robotics';
-interface InventoryItem {
-  id: string;
-  name: string;
-  price: string;
-  category: InventoryCategory;
-  badge: string;
-  image: string;
-  description: string;
-  available: boolean;
-}
-
-// ── Giveaway types ───────────────────────────────────────────────────────────
-interface GiveawayItem {
-  id: string;
-  title: string;
-  prize: string;
-  ends: string;
-  entryFee: string;
-  entries: number;
-  maxEntries: number;
-  badge: string;
-  active: boolean;
-}
-
-const DEFAULT_INVENTORY: InventoryItem[] = [
-  { id: '1', name: '2025 Tesla Cybertruck AWD', price: '$79,990', category: 'Vehicles', badge: 'NEW', image: '', description: 'Stainless steel body, 340mi range', available: true },
-  { id: '2', name: '2025 Model S Plaid', price: '$89,990', category: 'Vehicles', badge: 'NEW', image: '', description: 'Tri-motor, 0-60 in 1.99s', available: true },
-  { id: '3', name: 'Powerwall 3 – 13.5 kWh', price: '$11,500', category: 'Energy', badge: 'ENERGY', image: '', description: 'Home battery storage system', available: true },
-  { id: '4', name: 'Tesla Solar Roof V3 – 10 kW', price: '$35,000', category: 'Energy', badge: 'ENERGY', image: '', description: 'Integrated solar tile system', available: true },
-  { id: '5', name: 'Optimus Gen 2 – Production Allocation', price: '$25,000', category: 'Robotics', badge: 'ROBOTICS', image: '', description: 'Humanoid robot allocation', available: true },
-];
-
-const DEFAULT_GIVEAWAYS: GiveawayItem[] = [
-  { id: '1', title: 'Win a 2025 Model 3 Long Range', prize: '2025 Tesla Model 3 Long Range AWD', ends: '2026-12-31', entryFee: 'Free with any inventory inquiry', entries: 1247, maxEntries: 5000, badge: 'FREE ENTRY', active: true },
-  { id: '2', title: 'Cybertruck Experience Weekend', prize: 'Cybertruck Foundation Series + $2,000 credit', ends: '2026-10-15', entryFee: '$25 entry', entries: 683, maxEntries: 2000, badge: '$25 ENTRY', active: true },
-];
-
 export default function AdminPage() {
   const [mounted, setMounted] = useState(false);
   const [authorized, setAuthorized] = useState(false);
   const [view, setView] = useState<AdminView>('users');
+  const [dashboardCategory, setDashboardCategory] = useState<'all' | 'finance' | 'catalog' | 'system'>('all');
   const [users, setUsers] = useState<UserPortfolio[]>([]);
   const [selectedPortfolio, setSelectedPortfolio] = useState<UserPortfolio | null>(null);
   const [activeSection, setActiveSection] = useState<'stats' | 'investments' | 'transactions' | 'alerts' | 'chart' | 'allocation'>('stats');
@@ -156,32 +118,6 @@ export default function AdminPage() {
   const [ticketSaving, setTicketSaving] = useState(false);
   const [ticketSaved, setTicketSaved] = useState(false);
   const [supportFilter, setSupportFilter] = useState<'all' | TicketStatus>('all');
-
-  // Storage bucket state
-  const [storageFiles, setStorageFiles] = useState<any[]>([]);
-  const [storageLoading, setStorageLoading] = useState(false);
-  const [storageBucket, setStorageBucket] = useState('kyc-documents');
-  const [storagePrefix, setStoragePrefix] = useState('');
-  const [storageBuckets, setStorageBuckets] = useState<string[]>(['kyc-documents', 'user-uploads', 'avatars']);
-
-  // User data state
-  const [userData, setUserData] = useState<any[]>([]);
-  const [userDataLoading, setUserDataLoading] = useState(false);
-  const [userDataTable, setUserDataTable] = useState<'user_profiles' | 'kyc_submissions' | 'user_portfolios'>('user_profiles');
-  const [userDataSearch, setUserDataSearch] = useState('');
-
-  // Inventory state
-  const [inventoryItems, setInventoryItems] = useState<InventoryItem[]>(DEFAULT_INVENTORY);
-  const [inventoryFilter, setInventoryFilter] = useState<'All' | InventoryCategory>('All');
-  const [editingItem, setEditingItem] = useState<InventoryItem | null>(null);
-  const [showAddItem, setShowAddItem] = useState(false);
-  const [newItem, setNewItem] = useState<Partial<InventoryItem>>({ category: 'Vehicles', available: true, badge: 'NEW' });
-
-  // Giveaway state
-  const [giveawayItems, setGiveawayItems] = useState<GiveawayItem[]>(DEFAULT_GIVEAWAYS);
-  const [editingGiveaway, setEditingGiveaway] = useState<GiveawayItem | null>(null);
-  const [showAddGiveaway, setShowAddGiveaway] = useState(false);
-  const [newGiveaway, setNewGiveaway] = useState<Partial<GiveawayItem>>({ active: true, entries: 0, maxEntries: 1000 });
 
   useEffect(() => {
     setMounted(true);
@@ -314,118 +250,6 @@ export default function AdminPage() {
       console.error('Failed to load support tickets:', err);
     }
     setSupportLoading(false);
-  }
-
-  // ── Storage Bucket ────────────────────────────────────────────────────────
-  async function loadStorageFiles() {
-    setStorageLoading(true);
-    try {
-      const supabase = createClient();
-      const { data, error } = await supabase.storage.from(storageBucket).list(storagePrefix || undefined, { limit: 100, sortBy: { column: 'created_at', order: 'desc' } });
-      if (!error && data) setStorageFiles(data);
-      else setStorageFiles([]);
-    } catch (err) {
-      console.error('Storage load error:', err);
-      setStorageFiles([]);
-    }
-    setStorageLoading(false);
-  }
-
-  async function getStorageUrl(path: string) {
-    const supabase = createClient();
-    const { data } = await supabase.storage.from(storageBucket).createSignedUrl(
-      storagePrefix ? `${storagePrefix}/${path}` : path, 3600
-    );
-    if (data?.signedUrl) window.open(data.signedUrl, '_blank');
-  }
-
-  async function deleteStorageFile(path: string) {
-    if (!confirm(`Delete "${path}"? This cannot be undone.`)) return;
-    const supabase = createClient();
-    const fullPath = storagePrefix ? `${storagePrefix}/${path}` : path;
-    await supabase.storage.from(storageBucket).remove([fullPath]);
-    loadStorageFiles();
-  }
-
-  // ── User Data ─────────────────────────────────────────────────────────────
-  async function loadUserData() {
-    setUserDataLoading(true);
-    try {
-      const supabase = createClient();
-      const { data, error } = await supabase.from(userDataTable).select('*').order('created_at', { ascending: false }).limit(200);
-      if (!error && data) setUserData(data);
-      else setUserData([]);
-    } catch (err) {
-      console.error('User data load error:', err);
-      setUserData([]);
-    }
-    setUserDataLoading(false);
-  }
-
-  async function deleteUserRow(id: string) {
-    if (!confirm('Delete this record? This cannot be undone.')) return;
-    const supabase = createClient();
-    await supabase.from(userDataTable).delete().eq('id', id);
-    loadUserData();
-  }
-
-  // ── Inventory ─────────────────────────────────────────────────────────────
-  function saveInventoryItem() {
-    if (!editingItem) return;
-    setInventoryItems(prev => prev.map(i => i.id === editingItem.id ? editingItem : i));
-    setEditingItem(null);
-  }
-
-  function deleteInventoryItem(id: string) {
-    if (!confirm('Remove this inventory item?')) return;
-    setInventoryItems(prev => prev.filter(i => i.id !== id));
-  }
-
-  function addInventoryItem() {
-    if (!newItem.name || !newItem.price) return;
-    const item: InventoryItem = {
-      id: Date.now().toString(),
-      name: newItem.name || '',
-      price: newItem.price || '',
-      category: newItem.category as InventoryCategory || 'Vehicles',
-      badge: newItem.badge || 'NEW',
-      image: newItem.image || '',
-      description: newItem.description || '',
-      available: newItem.available ?? true,
-    };
-    setInventoryItems(prev => [...prev, item]);
-    setNewItem({ category: 'Vehicles', available: true, badge: 'NEW' });
-    setShowAddItem(false);
-  }
-
-  // ── Giveaways ─────────────────────────────────────────────────────────────
-  function saveGiveawayItem() {
-    if (!editingGiveaway) return;
-    setGiveawayItems(prev => prev.map(g => g.id === editingGiveaway.id ? editingGiveaway : g));
-    setEditingGiveaway(null);
-  }
-
-  function deleteGiveawayItem(id: string) {
-    if (!confirm('Remove this giveaway?')) return;
-    setGiveawayItems(prev => prev.filter(g => g.id !== id));
-  }
-
-  function addGiveawayItem() {
-    if (!newGiveaway.title || !newGiveaway.prize) return;
-    const item: GiveawayItem = {
-      id: Date.now().toString(),
-      title: newGiveaway.title || '',
-      prize: newGiveaway.prize || '',
-      ends: newGiveaway.ends || '2026-12-31',
-      entryFee: newGiveaway.entryFee || 'Free',
-      entries: newGiveaway.entries ?? 0,
-      maxEntries: newGiveaway.maxEntries ?? 1000,
-      badge: newGiveaway.badge || 'FREE ENTRY',
-      active: newGiveaway.active ?? true,
-    };
-    setGiveawayItems(prev => [...prev, item]);
-    setNewGiveaway({ active: true, entries: 0, maxEntries: 1000 });
-    setShowAddGiveaway(false);
   }
 
   function openKYCDetail(kyc: KYCSubmission) {
@@ -650,38 +474,95 @@ export default function AdminPage() {
         ? 'bg-primary/20 border-primary/40 text-primary' :'bg-card hover:bg-muted border-border hover:border-border text-foreground/90 hover:text-foreground'
     }`;
 
-  const filteredInventory = inventoryFilter === 'All' ? inventoryItems : inventoryItems.filter(i => i.category === inventoryFilter);
-  const filteredUserData = userDataSearch
-    ? userData.filter(row => JSON.stringify(row).toLowerCase().includes(userDataSearch.toLowerCase()))
-    : userData;
-
   return (
     <main className="min-h-screen bg-background text-foreground">
-      {/* Top bar */}
-      <div className="border-b border-border bg-background/95  sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link href="/" className="flex items-center gap-2.5">
-              <img src="/tesla-mark.png" width={18} height={18} alt="" aria-hidden="true" className="text-primary object-contain" />
-              <span className="text-foreground font-bold text-sm tracking-widest uppercase">Trade Tesla</span>
-            </Link>
-            <span className="text-muted-foreground/40">|</span>
-            <span className="text-xs text-primary tracking-widest uppercase font-semibold">Admin Panel</span>
-          </div>
+      {/* Top Admin Navigation Header */}
+      <header className="border-b border-border bg-background/95 backdrop-blur-md sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            {(view === 'edit' || view === 'kyc' || view === 'analytics' || view === 'support' || view === 'storage' || view === 'userdata' || view === 'inventory' || view === 'giveaways') && (
+            <Link href="/" className="flex items-center gap-2">
+              <img
+                src="/tesla-mark.png"
+                width={20}
+                height={20}
+                alt="Trade Tesla"
+                className="text-primary object-contain"
+              />
+              <span className="text-foreground font-bold text-sm tracking-wider uppercase">
+                Trade Tesla
+              </span>
+            </Link>
+            <span className="text-muted-foreground/30">|</span>
+            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-semibold uppercase tracking-widest bg-primary/10 text-primary border border-primary/20">
+              Admin Command
+            </span>
+          </div>
+
+          {/* Quick Nav Links on Header */}
+          <nav className="hidden xl:flex items-center gap-1 text-xs">
+            <button
+              onClick={() => setView('users')}
+              className={`px-3 py-1.5 rounded transition-colors font-medium ${
+                view === 'users' ? 'bg-primary/20 text-primary font-semibold' : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              Dashboard
+            </button>
+            <Link href="/admin/deposits" className="px-3 py-1.5 rounded text-muted-foreground hover:text-foreground transition-colors font-medium">
+              Deposits
+            </Link>
+            <Link href="/admin/withdrawals" className="px-3 py-1.5 rounded text-muted-foreground hover:text-foreground transition-colors font-medium">
+              Withdrawals
+            </Link>
+            <Link href="/admin/orders" className="px-3 py-1.5 rounded text-muted-foreground hover:text-foreground transition-colors font-medium">
+              Orders
+            </Link>
+            <Link href="/admin/plans" className="px-3 py-1.5 rounded text-muted-foreground hover:text-foreground transition-colors font-medium">
+              Packages
+            </Link>
+            <Link href="/admin/inventory" className="px-3 py-1.5 rounded text-muted-foreground hover:text-foreground transition-colors font-medium">
+              Inventory
+            </Link>
+            <Link href="/admin/giveaways" className="px-3 py-1.5 rounded text-muted-foreground hover:text-foreground transition-colors font-medium">
+              Giveaways
+            </Link>
+            <Link href="/admin/users" className="px-3 py-1.5 rounded text-muted-foreground hover:text-foreground transition-colors font-medium">
+              Users
+            </Link>
+            <Link href="/admin/settings" className="px-3 py-1.5 rounded text-muted-foreground hover:text-foreground transition-colors font-medium">
+              Settings
+            </Link>
+          </nav>
+
+          <div className="flex items-center gap-3">
+            {view !== 'users' && (
               <button
                 onClick={() => { setView('users'); setSelectedKyc(null); setSelectedTicket(null); }}
-                className="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5"
+                className="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5 px-2.5 py-1 rounded border border-border bg-card"
               >
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
-                Dashboard
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                  <path d="M19 12H5M12 19l-7-7 7-7" />
+                </svg>
+                Overview
               </button>
             )}
-            <div className="w-7 h-7 rounded-full bg-primary flex items-center justify-center text-[10px] font-bold text-foreground">A</div>
+            <Link
+              href="/"
+              target="_blank"
+              className="hidden sm:inline-flex text-xs text-muted-foreground hover:text-foreground transition-colors items-center gap-1"
+            >
+              Public Site ↗
+            </Link>
+            <div className="flex items-center gap-1.5 px-2.5 py-1 bg-card border border-border rounded">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-semibold">Live</span>
+            </div>
+            <div className="w-7 h-7 rounded-full bg-primary flex items-center justify-center text-[10px] font-bold text-foreground">
+              A
+            </div>
           </div>
         </div>
-      </div>
+      </header>
 
       <div className="max-w-7xl mx-auto px-6 py-8">
         {/* Users List View */}
@@ -727,128 +608,274 @@ export default function AdminPage() {
               ))}
             </div>
 
-            {/* ── Control Grid ── */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 mb-8">
+            {/* ── Operational Categories Navigation Tabs ── */}
+            <div className="flex items-center gap-2 mb-6 border-b border-border pb-3 overflow-x-auto">
               {[
-                { view: 'analytics' as AdminView, label: 'Analytics', icon: <path d="M18 20V10M12 20V4M6 20v-6" />, color: 'text-zinc-300', desc: 'User demographics & signups' },
-                { view: 'kyc' as AdminView, label: 'KYC Review', icon: <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />, color: 'text-warning', desc: 'Verify identity documents', badge: kycList.filter(k => k.kyc_status === 'pending').length },
-                { view: 'support' as AdminView, label: 'Support', icon: <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>, color: 'text-success', desc: 'Manage support tickets', badge: supportTickets.filter(t => t.ticket_status === 'open').length },
-                { view: 'storage' as AdminView, label: 'Storage Bucket', icon: <><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></>, color: 'text-zinc-300', desc: 'View & manage uploaded files' },
-                { view: 'userdata' as AdminView, label: 'User Data', icon: <><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></>, color: 'text-muted-foreground', desc: 'Browse & manage database records' },
-                { view: 'inventory' as AdminView, label: 'Inventory', icon: <><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></>, color: 'text-warning', desc: 'Add/edit vehicles, energy, robotics' },
-                { view: 'giveaways' as AdminView, label: 'Giveaways', icon: <><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></>, color: 'text-pink-400', desc: 'Manage active giveaway campaigns' },
-              ].map(({ view: v, label, icon, color, desc, badge }) => (
+                { id: 'all', label: 'All Operations' },
+                { id: 'finance', label: 'Treasury & Settlement' },
+                { id: 'catalog', label: 'Products & Catalog' },
+                { id: 'system', label: 'Governance & Settings' },
+              ].map((tab) => (
                 <button
-                  key={v}
-                  onClick={() => {
-                    setView(v);
-                    if (v === 'analytics') loadAnalytics();
-                    if (v === 'kyc') { setSelectedKyc(null); loadKYCSubmissions(); }
-                    if (v === 'support') { setSelectedTicket(null); loadSupportTickets(); }
-                    if (v === 'storage') loadStorageFiles();
-                    if (v === 'userdata') loadUserData();
-                  }}
-                  className="relative bg-card border border-border hover:border-border rounded p-5 text-left transition-all hover:bg-card group"
+                  key={tab.id}
+                  onClick={() => setDashboardCategory(tab.id as any)}
+                  className={`px-4 py-2 rounded text-xs font-semibold tracking-wider uppercase transition-all whitespace-nowrap ${
+                    dashboardCategory === tab.id
+                      ? 'bg-foreground text-background shadow-sm'
+                      : 'bg-card border border-border text-muted-foreground hover:text-foreground hover:bg-card/80'
+                  }`}
                 >
-                  {badge !== undefined && badge > 0 && (
-                    <span className="absolute top-3 right-3 bg-foreground text-background text-[9px] font-bold px-1.5 py-0.5 rounded-full">{badge}</span>
-                  )}
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={`${color} mb-3`} aria-hidden="true">{icon}</svg>
-                  <p className="text-sm font-bold text-foreground mb-1">{label}</p>
-                  <p className="text-[10px] text-muted-foreground leading-relaxed">{desc}</p>
+                  {tab.label}
                 </button>
               ))}
-              <Link
-                href="/admin/users"
-                className="bg-card border border-border hover:border-border rounded p-5 text-left transition-all hover:bg-card"
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-zinc-300 mb-3" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" /></svg>
-                <p className="text-sm font-bold text-foreground mb-1">User Management</p>
-                <p className="text-[10px] text-muted-foreground leading-relaxed">View users, review KYC & adjust balances</p>
-              </Link>
-              <Link
-                href="/admin/withdrawals"
-                className="bg-card border border-border hover:border-border rounded p-5 text-left transition-all hover:bg-card"
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-destructive mb-3" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
-                <p className="text-sm font-bold text-foreground mb-1">Withdrawals</p>
-                <p className="text-[10px] text-muted-foreground leading-relaxed">Review & approve withdrawal requests</p>
-              </Link>
-              <Link
-                href="/admin/audit"
-                className="bg-card border border-border hover:border-border rounded p-5 text-left transition-all hover:bg-card"
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-success mb-3" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><path d="M14 2v6h6M9 15h6M9 11h6" /></svg>
-                <p className="text-sm font-bold text-foreground mb-1">Audit Trail</p>
-                <p className="text-[10px] text-muted-foreground leading-relaxed">Full history of every money movement</p>
-              </Link>
-              <Link
-                href="/admin/deposits"
-                className="bg-card border border-border hover:border-success/20 rounded p-5 text-left transition-all hover:bg-card group"
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-success mb-3" aria-hidden="true"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                <p className="text-sm font-bold text-foreground mb-1">Deposits</p>
-                <p className="text-[10px] text-muted-foreground leading-relaxed">Track & confirm user deposit requests</p>
-              </Link>
-              <Link
-                href="/admin/careers"
-                className="bg-card border border-border hover:border-border rounded p-5 text-left transition-all hover:bg-card"
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-muted-foreground mb-3" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2" ry="2" /><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" /></svg>
-                <p className="text-sm font-bold text-foreground mb-1">Careers</p>
-                <p className="text-[10px] text-muted-foreground leading-relaxed">Job postings & applicant pipeline</p>
-              </Link>
-              <Link
-                href="/admin/inventory"
-                className="bg-card border border-border hover:border-border rounded p-5 text-left transition-all hover:bg-card"
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-warning mb-3" aria-hidden="true"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 12l9 4 9-4"/><path d="M3 17l9 4 9-4"/></svg>
-                <p className="text-sm font-bold text-foreground mb-1">Inventory</p>
-                <p className="text-[10px] text-muted-foreground leading-relaxed">Add, edit, reorder & recategorize listings</p>
-              </Link>
-              <Link
-                href="/admin/orders"
-                className="bg-card border border-border hover:border-border rounded p-5 text-left transition-all hover:bg-card"
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-destructive mb-3" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>
-                <p className="text-sm font-bold text-foreground mb-1">Inventory Orders</p>
-                <p className="text-[10px] text-muted-foreground leading-relaxed">Confirm payments, ship & track purchases</p>
-              </Link>
-              <Link
-                href="/admin/plans"
-                className="bg-card border border-border hover:border-border rounded p-5 text-left transition-all hover:bg-card"
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-success mb-3" aria-hidden="true"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg>
-                <p className="text-sm font-bold text-foreground mb-1">Investment Packages</p>
-                <p className="text-[10px] text-muted-foreground leading-relaxed">Edit ROI, terms, limits & visibility of every plan</p>
-              </Link>
-              <Link
-                href="/admin/sessions"
-                className="bg-card border border-border hover:border-border rounded p-5 text-left transition-all hover:bg-card"
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-zinc-300 mb-3" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-                <p className="text-sm font-bold text-foreground mb-1">Session Bookings</p>
-                <p className="text-[10px] text-muted-foreground leading-relaxed">Reschedule, update payment status & notes</p>
-              </Link>
-              <Link
-                href="/admin/giveaways"
-                className="bg-card border border-border hover:border-border rounded p-5 text-left transition-all hover:bg-card"
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-pink-400 mb-3" aria-hidden="true"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M12 8v13M3 12h18"/></svg>
-                <p className="text-sm font-bold text-foreground mb-1">Giveaways</p>
-                <p className="text-[10px] text-muted-foreground leading-relaxed">Create wallet-funded campaigns & view entrants</p>
-              </Link>
+            </div>
 
+            {/* ── Grouped Authentic Command Cards ── */}
+            <div className="space-y-8 mb-10">
+              {/* Category 1: Treasury & Settlement */}
+              {(dashboardCategory === 'all' || dashboardCategory === 'finance') && (
+                <div>
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                    <h2 className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
+                      Treasury & Settlement Operations
+                    </h2>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                    <Link
+                      href="/admin/deposits"
+                      className="bg-card border border-border hover:border-emerald-500/40 rounded p-5 text-left transition-all hover:bg-card/80 group flex flex-col justify-between"
+                    >
+                      <div>
+                        <div className="w-8 h-8 rounded bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-3 group-hover:scale-105 transition-transform">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                        </div>
+                        <p className="text-sm font-bold text-foreground mb-1 group-hover:text-emerald-400 transition-colors">Deposits Ledger</p>
+                        <p className="text-[11px] text-muted-foreground leading-relaxed">Confirm incoming wire & crypto deposits, credit user balances.</p>
+                      </div>
+                      <span className="text-[10px] text-emerald-500 font-semibold uppercase tracking-wider mt-4 inline-flex items-center gap-1">Manage Deposits &rarr;</span>
+                    </Link>
 
+                    <Link
+                      href="/admin/withdrawals"
+                      className="bg-card border border-border hover:border-destructive/40 rounded p-5 text-left transition-all hover:bg-card/80 group flex flex-col justify-between"
+                    >
+                      <div>
+                        <div className="w-8 h-8 rounded bg-destructive/10 border border-destructive/20 flex items-center justify-center text-destructive mb-3 group-hover:scale-105 transition-transform">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
+                        </div>
+                        <p className="text-sm font-bold text-foreground mb-1 group-hover:text-destructive transition-colors">Withdrawal Approvals</p>
+                        <p className="text-[11px] text-muted-foreground leading-relaxed">Review, authorize, or reject client settlement releases and payouts.</p>
+                      </div>
+                      <span className="text-[10px] text-destructive font-semibold uppercase tracking-wider mt-4 inline-flex items-center gap-1">Review Payouts &rarr;</span>
+                    </Link>
 
-              <Link
-                href="/admin/settings"
-                className="bg-card border border-border hover:border-border rounded p-5 text-left transition-all hover:bg-card"
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-teal-400 mb-3" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
-                <p className="text-sm font-bold text-foreground mb-1">Settings</p>
-                <p className="text-[10px] text-muted-foreground leading-relaxed">Limits, commissions, KYC, security & care</p>
-              </Link>
+                    <Link
+                      href="/admin/orders"
+                      className="bg-card border border-border hover:border-primary/40 rounded p-5 text-left transition-all hover:bg-card/80 group flex flex-col justify-between"
+                    >
+                      <div>
+                        <div className="w-8 h-8 rounded bg-primary/10 border border-primary/20 flex items-center justify-center text-primary mb-3 group-hover:scale-105 transition-transform">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>
+                        </div>
+                        <p className="text-sm font-bold text-foreground mb-1 group-hover:text-primary transition-colors">Orders & Enclosed Freight</p>
+                        <p className="text-[11px] text-muted-foreground leading-relaxed">Fulfill vehicle checkouts, enclosed shipping, and hardware deliveries.</p>
+                      </div>
+                      <span className="text-[10px] text-primary font-semibold uppercase tracking-wider mt-4 inline-flex items-center gap-1">Track Shipments &rarr;</span>
+                    </Link>
+
+                    <Link
+                      href="/admin/audit"
+                      className="bg-card border border-border hover:border-zinc-400/40 rounded p-5 text-left transition-all hover:bg-card/80 group flex flex-col justify-between"
+                    >
+                      <div>
+                        <div className="w-8 h-8 rounded bg-muted border border-border flex items-center justify-center text-muted-foreground mb-3 group-hover:scale-105 transition-transform">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><path d="M14 2v6h6M9 15h6M9 11h6" /></svg>
+                        </div>
+                        <p className="text-sm font-bold text-foreground mb-1 group-hover:text-zinc-200 transition-colors">Settlement Audit Trail</p>
+                        <p className="text-[11px] text-muted-foreground leading-relaxed">Immutable historical record of every balance transfer and credit event.</p>
+                      </div>
+                      <span className="text-[10px] text-muted-foreground font-semibold uppercase tracking-wider mt-4 inline-flex items-center gap-1">View Audit Log &rarr;</span>
+                    </Link>
+                  </div>
+                </div>
+              )}
+
+              {/* Category 2: Products & Catalog */}
+              {(dashboardCategory === 'all' || dashboardCategory === 'catalog') && (
+                <div>
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="w-2 h-2 rounded-full bg-amber-500" />
+                    <h2 className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
+                      Products & Commercial Offerings
+                    </h2>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                    <Link
+                      href="/admin/plans"
+                      className="bg-card border border-border hover:border-amber-500/40 rounded p-5 text-left transition-all hover:bg-card/80 group flex flex-col justify-between"
+                    >
+                      <div>
+                        <div className="w-8 h-8 rounded bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 mb-3 group-hover:scale-105 transition-transform">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg>
+                        </div>
+                        <p className="text-sm font-bold text-foreground mb-1 group-hover:text-amber-400 transition-colors">Investment Packages</p>
+                        <p className="text-[11px] text-muted-foreground leading-relaxed">Sync proportional daily yields (15d 15% to 180d 180%), limits & terms.</p>
+                      </div>
+                      <span className="text-[10px] text-amber-500 font-semibold uppercase tracking-wider mt-4 inline-flex items-center gap-1">Manage Yield Tiers &rarr;</span>
+                    </Link>
+
+                    <Link
+                      href="/admin/inventory"
+                      className="bg-card border border-border hover:border-amber-500/40 rounded p-5 text-left transition-all hover:bg-card/80 group flex flex-col justify-between"
+                    >
+                      <div>
+                        <div className="w-8 h-8 rounded bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 mb-3 group-hover:scale-105 transition-transform">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 12l9 4 9-4"/><path d="M3 17l9 4 9-4"/></svg>
+                        </div>
+                        <p className="text-sm font-bold text-foreground mb-1 group-hover:text-amber-400 transition-colors">Vehicles & Hardware</p>
+                        <p className="text-[11px] text-muted-foreground leading-relaxed">Live Tesla inventory, CPO specs, pricing, badges, and stock availability.</p>
+                      </div>
+                      <span className="text-[10px] text-amber-500 font-semibold uppercase tracking-wider mt-4 inline-flex items-center gap-1">Edit Inventory &rarr;</span>
+                    </Link>
+
+                    <Link
+                      href="/admin/giveaways"
+                      className="bg-card border border-border hover:border-pink-500/40 rounded p-5 text-left transition-all hover:bg-card/80 group flex flex-col justify-between"
+                    >
+                      <div>
+                        <div className="w-8 h-8 rounded bg-pink-500/10 border border-pink-500/20 flex items-center justify-center text-pink-400 mb-3 group-hover:scale-105 transition-transform">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M12 8v13M3 12h18"/></svg>
+                        </div>
+                        <p className="text-sm font-bold text-foreground mb-1 group-hover:text-pink-400 transition-colors">Verified Giveaways</p>
+                        <p className="text-[11px] text-muted-foreground leading-relaxed">Manage authentic 2027 Model 3 & Cybertruck draws and verified entrants.</p>
+                      </div>
+                      <span className="text-[10px] text-pink-500 font-semibold uppercase tracking-wider mt-4 inline-flex items-center gap-1">Manage Campaigns &rarr;</span>
+                    </Link>
+
+                    <Link
+                      href="/admin/sessions"
+                      className="bg-card border border-border hover:border-zinc-400/40 rounded p-5 text-left transition-all hover:bg-card/80 group flex flex-col justify-between"
+                    >
+                      <div>
+                        <div className="w-8 h-8 rounded bg-muted border border-border flex items-center justify-center text-muted-foreground mb-3 group-hover:scale-105 transition-transform">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                        </div>
+                        <p className="text-sm font-bold text-foreground mb-1 group-hover:text-zinc-200 transition-colors">Session Bookings</p>
+                        <p className="text-[11px] text-muted-foreground leading-relaxed">Review private consultations, test drives, and advisory appointments.</p>
+                      </div>
+                      <span className="text-[10px] text-muted-foreground font-semibold uppercase tracking-wider mt-4 inline-flex items-center gap-1">View Bookings &rarr;</span>
+                    </Link>
+                  </div>
+                </div>
+              )}
+
+              {/* Category 3: Governance & Settings */}
+              {(dashboardCategory === 'all' || dashboardCategory === 'system') && (
+                <div>
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="w-2 h-2 rounded-full bg-blue-500" />
+                    <h2 className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
+                      Governance, Verification & Desk
+                    </h2>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3">
+                    <Link
+                      href="/admin/users"
+                      className="bg-card border border-border hover:border-blue-500/40 rounded p-5 text-left transition-all hover:bg-card/80 group flex flex-col justify-between"
+                    >
+                      <div>
+                        <div className="w-8 h-8 rounded bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 mb-3 group-hover:scale-105 transition-transform">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" /></svg>
+                        </div>
+                        <p className="text-sm font-bold text-foreground mb-1 group-hover:text-blue-400 transition-colors">User Directory</p>
+                        <p className="text-[11px] text-muted-foreground leading-relaxed">Accounts, balances, portfolios & credentials.</p>
+                      </div>
+                      <span className="text-[10px] text-blue-500 font-semibold uppercase tracking-wider mt-4 inline-flex items-center gap-1">Open Directory &rarr;</span>
+                    </Link>
+
+                    <button
+                      onClick={() => { setView('kyc'); setSelectedKyc(null); loadKYCSubmissions(); }}
+                      className="relative bg-card border border-border hover:border-warning/40 rounded p-5 text-left transition-all hover:bg-card/80 group flex flex-col justify-between"
+                    >
+                      {kycList.filter(k => k.kyc_status === 'pending').length > 0 && (
+                        <span className="absolute top-3 right-3 bg-warning text-black text-[9px] font-bold px-1.5 py-0.5 rounded-full">
+                          {kycList.filter(k => k.kyc_status === 'pending').length}
+                        </span>
+                      )}
+                      <div>
+                        <div className="w-8 h-8 rounded bg-warning/10 border border-warning/20 flex items-center justify-center text-warning mb-3 group-hover:scale-105 transition-transform">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                        </div>
+                        <p className="text-sm font-bold text-foreground mb-1 group-hover:text-warning transition-colors">KYC Verification</p>
+                        <p className="text-[11px] text-muted-foreground leading-relaxed">Verify IDs, residential proof & accreditation.</p>
+                      </div>
+                      <span className="text-[10px] text-warning font-semibold uppercase tracking-wider mt-4 inline-flex items-center gap-1">Review Queue &rarr;</span>
+                    </button>
+
+                    <button
+                      onClick={() => { setView('support'); setSelectedTicket(null); loadSupportTickets(); }}
+                      className="relative bg-card border border-border hover:border-emerald-500/40 rounded p-5 text-left transition-all hover:bg-card/80 group flex flex-col justify-between"
+                    >
+                      {supportTickets.filter(t => t.ticket_status === 'open').length > 0 && (
+                        <span className="absolute top-3 right-3 bg-emerald-500 text-black text-[9px] font-bold px-1.5 py-0.5 rounded-full">
+                          {supportTickets.filter(t => t.ticket_status === 'open').length}
+                        </span>
+                      )}
+                      <div>
+                        <div className="w-8 h-8 rounded bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-3 group-hover:scale-105 transition-transform">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                        </div>
+                        <p className="text-sm font-bold text-foreground mb-1 group-hover:text-emerald-400 transition-colors">Support Desk</p>
+                        <p className="text-[11px] text-muted-foreground leading-relaxed">Respond to user tickets and email notifications.</p>
+                      </div>
+                      <span className="text-[10px] text-emerald-500 font-semibold uppercase tracking-wider mt-4 inline-flex items-center gap-1">Open Tickets &rarr;</span>
+                    </button>
+
+                    <button
+                      onClick={() => { setView('analytics'); loadAnalytics(); }}
+                      className="bg-card border border-border hover:border-blue-500/40 rounded p-5 text-left transition-all hover:bg-card/80 group flex flex-col justify-between"
+                    >
+                      <div>
+                        <div className="w-8 h-8 rounded bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 mb-3 group-hover:scale-105 transition-transform">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M18 20V10M12 20V4M6 20v-6" /></svg>
+                        </div>
+                        <p className="text-sm font-bold text-foreground mb-1 group-hover:text-blue-400 transition-colors">Platform Telemetry</p>
+                        <p className="text-[11px] text-muted-foreground leading-relaxed">Signups, geographic reach & investor adoption.</p>
+                      </div>
+                      <span className="text-[10px] text-blue-500 font-semibold uppercase tracking-wider mt-4 inline-flex items-center gap-1">View Graphs &rarr;</span>
+                    </button>
+
+                    <Link
+                      href="/admin/settings"
+                      className="bg-card border border-border hover:border-cyan-500/40 rounded p-5 text-left transition-all hover:bg-card/80 group flex flex-col justify-between"
+                    >
+                      <div>
+                        <div className="w-8 h-8 rounded bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 mb-3 group-hover:scale-105 transition-transform">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                        </div>
+                        <p className="text-sm font-bold text-foreground mb-1 group-hover:text-cyan-400 transition-colors">Platform Settings</p>
+                        <p className="text-[11px] text-muted-foreground leading-relaxed">Deposit wallets, fees, security & email configs.</p>
+                      </div>
+                      <span className="text-[10px] text-cyan-500 font-semibold uppercase tracking-wider mt-4 inline-flex items-center gap-1">Edit Config &rarr;</span>
+                    </Link>
+
+                    <Link
+                      href="/admin/careers"
+                      className="bg-card border border-border hover:border-zinc-400/40 rounded p-5 text-left transition-all hover:bg-card/80 group flex flex-col justify-between"
+                    >
+                      <div>
+                        <div className="w-8 h-8 rounded bg-muted border border-border flex items-center justify-center text-muted-foreground mb-3 group-hover:scale-105 transition-transform">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2" ry="2" /><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" /></svg>
+                        </div>
+                        <p className="text-sm font-bold text-foreground mb-1 group-hover:text-zinc-200 transition-colors">Careers Pipeline</p>
+                        <p className="text-[11px] text-muted-foreground leading-relaxed">Job listings & applicant submissions.</p>
+                      </div>
+                      <span className="text-[10px] text-muted-foreground font-semibold uppercase tracking-wider mt-4 inline-flex items-center gap-1">View Candidates &rarr;</span>
+                    </Link>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* ── User list ── */}
@@ -1047,426 +1074,6 @@ export default function AdminPage() {
                 </div>
               </div>
             )}
-          </>
-        )}
-
-        {/* ── Storage Bucket View ─────────────────────────────────────────── */}
-        {view === 'storage' && (
-          <>
-            <div className="mb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-              <div>
-                <h1 className="text-2xl font-medium text-foreground tracking-tight mb-1">Storage Bucket</h1>
-                <p className="text-sm text-muted-foreground">Browse and manage uploaded user documents and files from Supabase Storage.</p>
-              </div>
-              <button onClick={loadStorageFiles} disabled={storageLoading} className="flex items-center gap-2 px-4 py-2 bg-card hover:bg-muted border border-border text-muted-foreground hover:text-foreground text-xs font-semibold rounded transition-all disabled:opacity-50 self-start sm:self-auto">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={storageLoading ? 'animate-spin' : ''} aria-hidden="true"><path d="M23 4v6h-6M1 20v-6h6" /><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" /></svg>
-                Refresh
-              </button>
-            </div>
-
-            {/* Bucket selector + prefix */}
-            <div className="flex flex-wrap gap-3 mb-6">
-              <div className="flex flex-col gap-1">
-                <label className="text-[10px] text-muted-foreground uppercase tracking-widest">Bucket</label>
-                <select value={storageBucket} onChange={e => setStorageBucket(e.target.value)} className="bg-card border border-border text-foreground text-xs rounded px-3 py-2 focus:outline-none focus:border-border">
-                  {storageBuckets.map(b => <option key={b} value={b}>{b}</option>)}
-                </select>
-              </div>
-              <div className="flex flex-col gap-1">
-                <label className="text-[10px] text-muted-foreground uppercase tracking-widest">Folder Prefix (optional)</label>
-                <input value={storagePrefix} onChange={e => setStoragePrefix(e.target.value)} placeholder="e.g. user-id/kyc" className="bg-card border border-border text-foreground text-xs rounded px-3 py-2 focus:outline-none focus:border-border w-56" />
-              </div>
-              <div className="flex flex-col justify-end">
-                <button onClick={loadStorageFiles} className="px-5 py-2 bg-primary/10 hover:bg-primary/20 border border-primary/20 text-primary text-xs font-bold rounded transition-all">Browse</button>
-              </div>
-            </div>
-
-            {storageLoading ? (
-              <div className="flex items-center justify-center py-24"><div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" /></div>
-            ) : storageFiles.length === 0 ? (
-              <div className="flex flex-col items-center justify-center gap-4 py-24 bg-card border border-border rounded">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#333" strokeWidth="1.5" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                <p className="text-sm text-muted-foreground">No files found in <span className="text-foreground font-semibold">{storageBucket}</span>{storagePrefix ? `/${storagePrefix}` : ''}.</p>
-                <p className="text-xs text-muted-foreground">Try a different bucket name or leave prefix empty to list root.</p>
-              </div>
-            ) : (
-              <div className="bg-card border border-border rounded overflow-hidden">
-                <div className="grid grid-cols-12 gap-4 px-5 py-3 border-b border-border text-[10px] text-muted-foreground uppercase tracking-widest font-bold">
-                  <div className="col-span-5">Name</div>
-                  <div className="col-span-2">Size</div>
-                  <div className="col-span-3">Last Modified</div>
-                  <div className="col-span-2 text-right">Actions</div>
-                </div>
-                {storageFiles.map((file) => (
-                  <div key={file.name} className="grid grid-cols-12 gap-4 px-5 py-3.5 border-b border-border last:border-0 hover:bg-card transition-colors items-center">
-                    <div className="col-span-5 flex items-center gap-3">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="1.5" aria-hidden="true">
-                        {file.metadata ? <><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></> : <><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></>}
-                      </svg>
-                      <span className="text-xs text-foreground font-medium truncate">{file.name}</span>
-                    </div>
-                    <div className="col-span-2 text-xs text-muted-foreground">
-                      {file.metadata?.size ? `${(file.metadata.size / 1024).toFixed(1)} KB` : '—'}
-                    </div>
-                    <div className="col-span-3 text-xs text-muted-foreground">
-                      {file.updated_at ? new Date(file.updated_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '—'}
-                    </div>
-                    <div className="col-span-2 flex items-center justify-end gap-2">
-                      {file.metadata && (
-                        <button onClick={() => getStorageUrl(file.name)} className="text-[10px] text-primary hover:underline font-semibold">View</button>
-                      )}
-                      <button onClick={() => deleteStorageFile(file.name)} className="text-[10px] text-destructive hover:underline font-semibold">Delete</button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </>
-        )}
-
-        {/* ── User Data View ──────────────────────────────────────────────── */}
-        {view === 'userdata' && (
-          <>
-            <div className="mb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-              <div>
-                <h1 className="text-2xl font-medium text-foreground tracking-tight mb-1">User Data</h1>
-                <p className="text-sm text-muted-foreground">Browse and manage collected user records from the database.</p>
-              </div>
-              <button onClick={loadUserData} disabled={userDataLoading} className="flex items-center gap-2 px-4 py-2 bg-card hover:bg-muted border border-border text-muted-foreground hover:text-foreground text-xs font-semibold rounded transition-all disabled:opacity-50 self-start sm:self-auto">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={userDataLoading ? 'animate-spin' : ''} aria-hidden="true"><path d="M23 4v6h-6M1 20v-6h6" /><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" /></svg>
-                Refresh
-              </button>
-            </div>
-
-            {/* Table selector + search */}
-            <div className="flex flex-wrap gap-3 mb-6 items-end">
-              <div className="flex flex-col gap-1">
-                <label className="text-[10px] text-muted-foreground uppercase tracking-widest">Table</label>
-                <select value={userDataTable} onChange={e => { setUserDataTable(e.target.value as any); setUserData([]); }} className="bg-card border border-border text-foreground text-xs rounded px-3 py-2 focus:outline-none focus:border-border">
-                  <option value="user_profiles">user_profiles</option>
-                  <option value="kyc_submissions">kyc_submissions</option>
-                  <option value="user_portfolios">user_portfolios</option>
-                </select>
-              </div>
-              <div className="flex flex-col gap-1 flex-1 min-w-[200px]">
-                <label className="text-[10px] text-muted-foreground uppercase tracking-widest">Search</label>
-                <input value={userDataSearch} onChange={e => setUserDataSearch(e.target.value)} placeholder="Filter by any field…" className="bg-card border border-border text-foreground text-xs rounded px-3 py-2 focus:outline-none focus:border-border" />
-              </div>
-              <button onClick={loadUserData} className="px-5 py-2 bg-primary/10 hover:bg-primary/20 border border-primary/20 text-primary text-xs font-bold rounded transition-all">Load</button>
-            </div>
-
-            {userDataLoading ? (
-              <div className="flex items-center justify-center py-24"><div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" /></div>
-            ) : userData.length === 0 ? (
-              <div className="flex flex-col items-center justify-center gap-4 py-24 bg-card border border-border rounded">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#333" strokeWidth="1.5" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
-                <p className="text-sm text-muted-foreground">Click <span className="text-foreground font-semibold">Load</span> to fetch records from <span className="text-foreground font-semibold">{userDataTable}</span>.</p>
-              </div>
-            ) : (
-              <div className="space-y-3">
-                <p className="text-xs text-muted-foreground">{filteredUserData.length} record{filteredUserData.length !== 1 ? 's' : ''} in <span className="text-foreground">{userDataTable}</span></p>
-                {filteredUserData.map((row) => (
-                  <div key={row.id} className="bg-card border border-border rounded p-4 hover:border-border transition-colors">
-                    <div className="flex items-start justify-between gap-4 mb-3">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-xs font-bold text-primary shrink-0">
-                          {(row.full_name || row.email || row.user_email || '?').charAt(0).toUpperCase()}
-                        </div>
-                        <div>
-                          <p className="text-sm font-bold text-foreground">{row.full_name || row.user_name || row.email || row.user_email || row.id}</p>
-                          <p className="text-xs text-muted-foreground">{row.email || row.user_email || `ID: ${row.id?.slice(0, 8)}…`}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-3 shrink-0">
-                        {row.kyc_status && (
-                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded border ${kycStatusConfig[row.kyc_status as keyof typeof kycStatusConfig]?.bg} ${kycStatusConfig[row.kyc_status as keyof typeof kycStatusConfig]?.color}`}>
-                            {kycStatusConfig[row.kyc_status as keyof typeof kycStatusConfig]?.label}
-                          </span>
-                        )}
-                        {row.role && <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-primary/10 border border-primary/20 text-primary">{row.role}</span>}
-                        <button onClick={() => deleteUserRow(row.id)} className="text-[10px] text-destructive hover:text-destructive font-semibold transition-colors">Delete</button>
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
-                      {Object.entries(row)
-                        .filter(([k]) => !['id', 'full_name', 'email', 'user_email', 'user_name', 'role', 'kyc_status', 'stats', 'investments', 'transactions', 'alerts', 'chart_data', 'allocation', 'referrals'].includes(k))
-                        .slice(0, 8)
-                        .map(([k, v]) => (
-                          <div key={k} className="bg-background rounded p-2">
-                            <p className="text-[9px] text-muted-foreground uppercase tracking-widest mb-0.5">{k.replace(/_/g, ' ')}</p>
-                            <p className="text-[10px] text-foreground/90 truncate">{v === null || v === undefined ? '—' : String(v).slice(0, 40)}</p>
-                          </div>
-                        ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </>
-        )}
-
-        {/* ── Inventory Management View ───────────────────────────────────── */}
-        {view === 'inventory' && (
-          <>
-            <div className="mb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-              <div>
-                <h1 className="text-2xl font-medium text-foreground tracking-tight mb-1">Inventory Management</h1>
-                <p className="text-sm text-muted-foreground">Add, edit, or remove vehicles, energy products, and robotics from the live inventory.</p>
-              </div>
-              <button onClick={() => setShowAddItem(true)} className="flex items-center gap-2 px-5 py-2.5 bg-primary/10 hover:bg-primary/20 border border-primary/20 hover:border-primary/40 text-primary text-xs font-bold rounded tracking-widest uppercase transition-all self-start sm:self-auto">
-                <span>+</span> Add Item
-              </button>
-            </div>
-
-            {/* Category filter */}
-            <div className="flex gap-2 mb-6 flex-wrap">
-              {(['All', 'Vehicles', 'Energy', 'Robotics'] as const).map(cat => (
-                <button key={cat} onClick={() => setInventoryFilter(cat)} className={`px-4 py-2 rounded text-xs font-semibold transition-all ${inventoryFilter === cat ? 'bg-foreground text-background' : 'bg-card border border-border text-muted-foreground hover:text-foreground'}`}>{cat}</button>
-              ))}
-            </div>
-
-            {/* Add Item Form */}
-            {showAddItem && (
-              <div className="bg-card border border-primary/20 rounded p-6 mb-6">
-                <h3 className="text-sm font-bold text-foreground mb-4">New Inventory Item</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
-                  {[
-                    { key: 'name', label: 'Product Name', placeholder: '2025 Tesla Model Y' },
-                    { key: 'price', label: 'Price', placeholder: '$44,990' },
-                    { key: 'badge', label: 'Badge', placeholder: 'NEW' },
-                    { key: 'image', label: 'Image URL', placeholder: 'https://…' },
-                    { key: 'description', label: 'Description', placeholder: 'Short description…' },
-                  ].map(f => (
-                    <div key={f.key}>
-                      <label className="block text-[10px] text-muted-foreground uppercase tracking-widest mb-1.5">{f.label}</label>
-                      <input value={(newItem as any)[f.key] || ''} onChange={e => setNewItem(p => ({ ...p, [f.key]: e.target.value }))} placeholder={f.placeholder} className="w-full px-3 py-2 rounded text-sm input-tesla" />
-                    </div>
-                  ))}
-                  <div>
-                    <label className="block text-[10px] text-muted-foreground uppercase tracking-widest mb-1.5">Category</label>
-                    <select value={newItem.category} onChange={e => setNewItem(p => ({ ...p, category: e.target.value as InventoryCategory }))} className="w-full px-3 py-2 rounded text-sm input-tesla">
-                      <option value="Vehicles">Vehicles</option>
-                      <option value="Energy">Energy</option>
-                      <option value="Robotics">Robotics</option>
-                    </select>
-                  </div>
-                  <div className="flex items-center gap-3 pt-5">
-                    <label className="text-[10px] text-muted-foreground uppercase tracking-widest">Available</label>
-                    <button onClick={() => setNewItem(p => ({ ...p, available: !p.available }))} className={`relative w-10 h-5 rounded-full transition-colors ${newItem.available ? 'bg-primary' : 'bg-muted'}`}>
-                      <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full transition-transform ${newItem.available ? 'translate-x-5' : 'translate-x-0.5'}`} />
-                    </button>
-                  </div>
-                </div>
-                <div className="flex gap-3">
-                  <button onClick={addInventoryItem} className="px-5 py-2.5 bg-foreground text-background text-xs font-bold rounded tracking-widest uppercase transition-all hover:opacity-90">Add Item</button>
-                  <button onClick={() => setShowAddItem(false)} className="px-5 py-2.5 bg-muted border border-border text-muted-foreground text-xs font-bold rounded tracking-widest uppercase transition-all hover:text-foreground">Cancel</button>
-                </div>
-              </div>
-            )}
-
-            {/* Edit Item Form */}
-            {editingItem && (
-              <div className="bg-card border border-zinc-300/20 rounded p-6 mb-6">
-                <h3 className="text-sm font-bold text-foreground mb-4">Edit: {editingItem.name}</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
-                  {[
-                    { key: 'name', label: 'Product Name' },
-                    { key: 'price', label: 'Price' },
-                    { key: 'badge', label: 'Badge' },
-                    { key: 'image', label: 'Image URL' },
-                    { key: 'description', label: 'Description' },
-                  ].map(f => (
-                    <div key={f.key}>
-                      <label className="block text-[10px] text-muted-foreground uppercase tracking-widest mb-1.5">{f.label}</label>
-                      <input value={(editingItem as any)[f.key] || ''} onChange={e => setEditingItem(p => p ? { ...p, [f.key]: e.target.value } : p)} className="w-full px-3 py-2 rounded text-sm input-tesla" />
-                    </div>
-                  ))}
-                  <div>
-                    <label className="block text-[10px] text-muted-foreground uppercase tracking-widest mb-1.5">Category</label>
-                    <select value={editingItem.category} onChange={e => setEditingItem(p => p ? { ...p, category: e.target.value as InventoryCategory } : p)} className="w-full px-3 py-2 rounded text-sm input-tesla">
-                      <option value="Vehicles">Vehicles</option>
-                      <option value="Energy">Energy</option>
-                      <option value="Robotics">Robotics</option>
-                    </select>
-                  </div>
-                  <div className="flex items-center gap-3 pt-5">
-                    <label className="text-[10px] text-muted-foreground uppercase tracking-widest">Available</label>
-                    <button onClick={() => setEditingItem(p => p ? { ...p, available: !p.available } : p)} className={`relative w-10 h-5 rounded-full transition-colors ${editingItem.available ? 'bg-primary' : 'bg-muted'}`}>
-                      <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full transition-transform ${editingItem.available ? 'translate-x-5' : 'translate-x-0.5'}`} />
-                    </button>
-                  </div>
-                </div>
-                <div className="flex gap-3">
-                  <button onClick={saveInventoryItem} className="px-5 py-2.5 bg-foreground text-background text-xs font-bold rounded tracking-widest uppercase transition-all hover:opacity-90">Save Changes</button>
-                  <button onClick={() => setEditingItem(null)} className="px-5 py-2.5 bg-muted border border-border text-muted-foreground text-xs font-bold rounded tracking-widest uppercase transition-all hover:text-foreground">Cancel</button>
-                </div>
-              </div>
-            )}
-
-            {/* Inventory list */}
-            <div className="grid gap-3">
-              {filteredInventory.map(item => (
-                <div key={item.id} className="bg-card border border-border rounded p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-border transition-colors">
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded bg-muted border border-border flex items-center justify-center text-lg shrink-0">
-                      {item.category === 'Vehicles' ? '🚗' : item.category === 'Energy' ? '⚡' : '🤖'}
-                    </div>
-                    <div>
-                      <p className="text-sm font-bold text-foreground">{item.name}</p>
-                      <p className="text-xs text-muted-foreground">{item.description || 'No description'}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-6 sm:gap-8 flex-wrap">
-                    <div className="text-center"><p className="text-xs text-muted-foreground uppercase tracking-widest mb-0.5">Price</p><p className="text-sm font-bold text-primary">{item.price}</p></div>
-                    <div className="text-center"><p className="text-xs text-muted-foreground uppercase tracking-widest mb-0.5">Category</p><p className="text-xs font-semibold text-foreground">{item.category}</p></div>
-                    <div className="text-center"><p className="text-xs text-muted-foreground uppercase tracking-widest mb-0.5">Badge</p><p className="text-xs font-bold text-muted-foreground">{item.badge}</p></div>
-                    <div className="text-center">
-                      <p className="text-xs text-muted-foreground uppercase tracking-widest mb-0.5">Status</p>
-                      <span className={`text-xs font-semibold px-2 py-0.5 rounded border ${item.available ? 'bg-success/10 text-success border-success/20' : 'bg-muted text-muted-foreground border-border'}`}>{item.available ? 'Available' : 'Unavailable'}</span>
-                    </div>
-                    <div className="flex gap-2">
-                      <button onClick={() => setEditingItem({ ...item })} className="px-3 py-1.5 bg-zinc-300/10 hover:bg-zinc-300/20 border border-zinc-300/20 text-zinc-300 text-xs font-semibold rounded transition-all">Edit</button>
-                      <button onClick={() => deleteInventoryItem(item.id)} className="px-3 py-1.5 bg-destructive/10 hover:bg-destructive/20 border border-destructive/20 text-destructive text-xs font-semibold rounded transition-all">Remove</button>
-                    </div>
-                  </div>
-                </div>
-              ))}
-              {filteredInventory.length === 0 && (
-                <div className="text-center py-16 text-muted-foreground text-sm">No items in this category.</div>
-              )}
-            </div>
-          </>
-        )}
-
-        {/* ── Giveaway Management View ────────────────────────────────────── */}
-        {view === 'giveaways' && (
-          <>
-            <div className="mb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-              <div>
-                <h1 className="text-2xl font-medium text-foreground tracking-tight mb-1">Giveaway Management</h1>
-                <p className="text-sm text-muted-foreground">Create, edit, and manage active giveaway campaigns shown on the website.</p>
-              </div>
-              <button onClick={() => setShowAddGiveaway(true)} className="flex items-center gap-2 px-5 py-2.5 bg-primary/10 hover:bg-primary/20 border border-primary/20 hover:border-primary/40 text-primary text-xs font-bold rounded tracking-widest uppercase transition-all self-start sm:self-auto">
-                <span>+</span> New Giveaway
-              </button>
-            </div>
-
-            {/* KPI row */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-              {[
-                { label: 'Total Giveaways', value: giveawayItems.length, color: 'text-foreground' },
-                { label: 'Active', value: giveawayItems.filter(g => g.active).length, color: 'text-success' },
-                { label: 'Total Entries', value: giveawayItems.reduce((s, g) => s + g.entries, 0).toLocaleString(), color: 'text-primary' },
-                { label: 'Max Capacity', value: giveawayItems.reduce((s, g) => s + g.maxEntries, 0).toLocaleString(), color: 'text-zinc-300' },
-              ].map(kpi => (
-                <div key={kpi.label} className="bg-card border border-border rounded p-4">
-                  <p className="text-xs text-muted-foreground uppercase tracking-widest mb-2">{kpi.label}</p>
-                  <p className={`text-2xl font-medium ${kpi.color}`}>{kpi.value}</p>
-                </div>
-              ))}
-            </div>
-
-            {/* Add Giveaway Form */}
-            {showAddGiveaway && (
-              <div className="bg-card border border-primary/20 rounded p-6 mb-6">
-                <h3 className="text-sm font-bold text-foreground mb-4">New Giveaway Campaign</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
-                  {[
-                    { key: 'title', label: 'Title', placeholder: 'Win a Tesla Model Y' },
-                    { key: 'prize', label: 'Prize', placeholder: '2025 Tesla Model Y RWD' },
-                    { key: 'ends', label: 'End Date', placeholder: '2026-12-31' },
-                    { key: 'entryFee', label: 'Entry Fee', placeholder: 'Free / $25 entry' },
-                    { key: 'badge', label: 'Badge Text', placeholder: 'FREE ENTRY' },
-                    { key: 'maxEntries', label: 'Max Entries', placeholder: '5000' },
-                  ].map(f => (
-                    <div key={f.key}>
-                      <label className="block text-[10px] text-muted-foreground uppercase tracking-widest mb-1.5">{f.label}</label>
-                      <input type={f.key === 'maxEntries' ? 'number' : 'text'} value={(newGiveaway as any)[f.key] || ''} onChange={e => setNewGiveaway(p => ({ ...p, [f.key]: f.key === 'maxEntries' ? Number(e.target.value) : e.target.value }))} placeholder={f.placeholder} className="w-full px-3 py-2 rounded text-sm input-tesla" />
-                    </div>
-                  ))}
-                  <div className="flex items-center gap-3 pt-5">
-                    <label className="text-[10px] text-muted-foreground uppercase tracking-widest">Active</label>
-                    <button onClick={() => setNewGiveaway(p => ({ ...p, active: !p.active }))} className={`relative w-10 h-5 rounded-full transition-colors ${newGiveaway.active ? 'bg-primary' : 'bg-muted'}`}>
-                      <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full transition-transform ${newGiveaway.active ? 'translate-x-5' : 'translate-x-0.5'}`} />
-                    </button>
-                  </div>
-                </div>
-                <div className="flex gap-3">
-                  <button onClick={addGiveawayItem} className="px-5 py-2.5 bg-foreground text-background text-xs font-bold rounded tracking-widest uppercase transition-all hover:opacity-90">Create Giveaway</button>
-                  <button onClick={() => setShowAddGiveaway(false)} className="px-5 py-2.5 bg-muted border border-border text-muted-foreground text-xs font-bold rounded tracking-widest uppercase transition-all hover:text-foreground">Cancel</button>
-                </div>
-              </div>
-            )}
-
-            {/* Edit Giveaway Form */}
-            {editingGiveaway && (
-              <div className="bg-card border border-zinc-300/20 rounded p-6 mb-6">
-                <h3 className="text-sm font-bold text-foreground mb-4">Edit: {editingGiveaway.title}</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
-                  {[
-                    { key: 'title', label: 'Title' },
-                    { key: 'prize', label: 'Prize' },
-                    { key: 'ends', label: 'End Date' },
-                    { key: 'entryFee', label: 'Entry Fee' },
-                    { key: 'badge', label: 'Badge Text' },
-                    { key: 'entries', label: 'Current Entries' },
-                    { key: 'maxEntries', label: 'Max Entries' },
-                  ].map(f => (
-                    <div key={f.key}>
-                      <label className="block text-[10px] text-muted-foreground uppercase tracking-widest mb-1.5">{f.label}</label>
-                      <input type={['entries', 'maxEntries'].includes(f.key) ? 'number' : 'text'} value={(editingGiveaway as any)[f.key] || ''} onChange={e => setEditingGiveaway(p => p ? { ...p, [f.key]: ['entries', 'maxEntries'].includes(f.key) ? Number(e.target.value) : e.target.value } : p)} className="w-full px-3 py-2 rounded text-sm input-tesla" />
-                    </div>
-                  ))}
-                  <div className="flex items-center gap-3 pt-5">
-                    <label className="text-[10px] text-muted-foreground uppercase tracking-widest">Active</label>
-                    <button onClick={() => setEditingGiveaway(p => p ? { ...p, active: !p.active } : p)} className={`relative w-10 h-5 rounded-full transition-colors ${editingGiveaway.active ? 'bg-primary' : 'bg-muted'}`}>
-                      <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full transition-transform ${editingGiveaway.active ? 'translate-x-5' : 'translate-x-0.5'}`} />
-                    </button>
-                  </div>
-                </div>
-                <div className="flex gap-3">
-                  <button onClick={saveGiveawayItem} className="px-5 py-2.5 bg-foreground text-background text-xs font-bold rounded tracking-widest uppercase transition-all hover:opacity-90">Save Changes</button>
-                  <button onClick={() => setEditingGiveaway(null)} className="px-5 py-2.5 bg-muted border border-border text-muted-foreground text-xs font-bold rounded tracking-widest uppercase transition-all hover:text-foreground">Cancel</button>
-                </div>
-              </div>
-            )}
-
-            {/* Giveaway list */}
-            <div className="grid gap-4">
-              {giveawayItems.map(g => {
-                const pct = Math.round((g.entries / g.maxEntries) * 100);
-                return (
-                  <div key={g.id} className="bg-card border border-border rounded p-6 hover:border-border transition-colors">
-                    <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4">
-                      <div>
-                        <div className="flex items-center gap-3 mb-1">
-                          <h3 className="text-sm font-bold text-foreground">{g.title}</h3>
-                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded border ${g.active ? 'bg-success/10 text-success border-success/20' : 'bg-muted text-muted-foreground border-border'}`}>{g.active ? 'Active' : 'Inactive'}</span>
-                        </div>
-                        <p className="text-xs text-muted-foreground">Prize: <span className="text-foreground/90">{g.prize}</span></p>
-                        <p className="text-xs text-muted-foreground mt-0.5">Ends: <span className="text-foreground/90">{g.ends}</span> · Entry: <span className="text-foreground/90">{g.entryFee}</span></p>
-                      </div>
-                      <div className="flex gap-2 shrink-0">
-                        <button onClick={() => setEditingGiveaway({ ...g })} className="px-3 py-1.5 bg-zinc-300/10 hover:bg-zinc-300/20 border border-zinc-300/20 text-zinc-300 text-xs font-semibold rounded transition-all">Edit</button>
-                        <button onClick={() => deleteGiveawayItem(g.id)} className="px-3 py-1.5 bg-destructive/10 hover:bg-destructive/20 border border-destructive/20 text-destructive text-xs font-semibold rounded transition-all">Remove</button>
-                      </div>
-                    </div>
-                    <div>
-                      <div className="flex justify-between text-xs text-muted-foreground mb-1.5">
-                        <span>{g.entries.toLocaleString()} entries</span>
-                        <span>{pct}% of {g.maxEntries.toLocaleString()} max</span>
-                      </div>
-                      <div className="h-2 rounded-full bg-muted overflow-hidden">
-                        <div className="h-full rounded-full bg-gradient-to-r from-primary to-primary/60" style={{ width: `${pct}%` }} />
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-              {giveawayItems.length === 0 && (
-                <div className="text-center py-16 text-muted-foreground text-sm">No giveaways yet. Click &quot;New Giveaway&quot; to create one.</div>
-              )}
-            </div>
           </>
         )}
 

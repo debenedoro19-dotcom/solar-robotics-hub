@@ -134,11 +134,48 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   errorComponent: ErrorComponent,
 });
 
+const PURGE_LOVABLE_SCRIPT = `
+(function(){
+  function purge(){
+    try {
+      var badges = document.querySelectorAll('#lovable-badge, [data-lovable-badge], [id*="lovable"], a[href*="lovable.dev"], [class*="lovable-badge"]');
+      for (var i = 0; i < badges.length; i++) {
+        var el = badges[i];
+        if (el) {
+          var container = el.closest('div[style*="fixed"], div[style*="absolute"], div.fixed, div.absolute') || el;
+          container.remove();
+        }
+      }
+      var all = document.querySelectorAll('div, a, button, span');
+      for (var j = all.length - 1; j >= 0; j--) {
+        var node = all[j];
+        if (node && node.textContent && node.textContent.indexOf('Edit with') !== -1 && node.textContent.indexOf('Lovable') !== -1) {
+          var box = node.closest('div[style*="fixed"], div[style*="absolute"], div.fixed, div.absolute') || node;
+          box.remove();
+        }
+      }
+    } catch(e) {}
+  }
+  if (typeof document !== 'undefined') {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', purge);
+    } else {
+      purge();
+    }
+    if (typeof MutationObserver !== 'undefined') {
+      new MutationObserver(purge).observe(document.documentElement, { childList: true, subtree: true });
+    }
+    setInterval(purge, 500);
+  }
+})();
+`;
+
 function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+        <script dangerouslySetInnerHTML={{ __html: PURGE_LOVABLE_SCRIPT }} />
         <HeadContent />
       </head>
       <body>

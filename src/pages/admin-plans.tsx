@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import Link from '@/components/SmartLink';
 import { supabase } from '@/lib/supabase/client';
+import { CANONICAL_PROPORTIONAL_PLANS } from '@/components/investment/usePlans';
 
 interface Plan {
   id: string;
@@ -140,6 +141,40 @@ export default function AdminPlansPage() {
     await load();
   }
 
+  async function syncProportionalDefaults() {
+    if (!window.confirm("Sync canonical proportional packages (15d: 15%, 30d: 30%, 45d: 45%, 60d: 60%, 90d: 90%, 180d: 180%)?")) return;
+    setSaving(true);
+    setError(null);
+    try {
+      for (const p of CANONICAL_PROPORTIONAL_PLANS) {
+        const payload = {
+          name: p.name,
+          category: p.category,
+          description: p.description,
+          daily_roi: p.daily_roi,
+          duration_days: p.duration_days,
+          min_deposit: p.min_deposit,
+          max_deposit: p.max_deposit,
+          sort_order: p.sort_order,
+          is_active: true,
+        };
+        const existing = plans.find(
+          (x) => x.name.toLowerCase() === p.name.toLowerCase() || x.duration_days === p.duration_days,
+        );
+        if (existing) {
+          await supabase.from('investment_plans').update(payload).eq('id', existing.id);
+        } else {
+          await supabase.from('investment_plans').insert(payload);
+        }
+      }
+      await load();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Sync failed');
+    } finally {
+      setSaving(false);
+    }
+  }
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
@@ -156,12 +191,21 @@ export default function AdminPlansPage() {
               Create, edit, reorder and retire every investment plan offered on the platform.
             </p>
           </div>
-          <button
-            onClick={openCreate}
-            className="px-5 py-2.5 rounded bg-success hover:bg-success text-black text-xs font-bold uppercase tracking-widest transition-colors"
-          >
-            + New Plan
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={syncProportionalDefaults}
+              disabled={saving}
+              className="px-4 py-2.5 rounded border border-border bg-card hover:bg-muted text-foreground text-xs font-semibold uppercase tracking-wider transition-colors disabled:opacity-50"
+            >
+              ⚡ Sync Proportional Tiers (15d–180d)
+            </button>
+            <button
+              onClick={openCreate}
+              className="px-5 py-2.5 rounded bg-success hover:bg-success text-black text-xs font-bold uppercase tracking-widest transition-colors"
+            >
+              + New Plan
+            </button>
+          </div>
         </div>
 
         {error && (

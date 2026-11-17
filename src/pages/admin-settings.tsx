@@ -9,7 +9,7 @@ import QrCode from '@/components/payments/QrCode';
 import { walletUri } from '@/components/payments/cryptoWallets';
 
 
-type SettingsTab = 'platform' | 'security' | 'customercare' | 'email' | 'payments' | 'giveaways' | 'popups';
+type SettingsTab = 'platform' | 'security' | 'customercare' | 'email' | 'payments' | 'popups';
 
 interface PopupSettings {
   welcome: { enabled: boolean; title: string; body: string; ctaLabel: string; ctaHref: string; delaySeconds: number; cooldownHours: number };
@@ -79,18 +79,6 @@ interface CryptoWallets {
   usdt: string;
 }
 
-interface GiveawayEntry {
-  id: number;
-  title: string;
-  description: string;
-  prize: string;
-  ends: string;
-  entryFee: string;
-  entries: number;
-  maxEntries: number;
-  badge: string;
-}
-
 const DEFAULT_PLATFORM: PlatformSettings = {
   withdrawalMinAmount: '100',
   withdrawalMaxAmount: '50000',
@@ -145,31 +133,6 @@ const DEFAULT_CRYPTO_WALLETS: CryptoWallets = {
   usdt: 'TQn9Y2khEsLJW1ChVWFMSMeRDow5KcbLSE',
 };
 
-const DEFAULT_GIVEAWAYS: GiveawayEntry[] = [
-  {
-    id: 1,
-    title: 'Win a 2025 Model 3 Long Range',
-    description: '2025 Tesla Model 3 Long Range AWD. One winner selected after campaign ends. Includes standard delivery within the continental US.',
-    prize: '2025 Tesla Model 3 Long Range AWD',
-    ends: '2026-12-31',
-    entryFee: 'Free with any inventory inquiry',
-    entries: 1247,
-    maxEntries: 5000,
-    badge: 'FREE ENTRY',
-  },
-  {
-    id: 2,
-    title: 'Cybertruck Experience Weekend',
-    description: 'Win a full weekend with a Cybertruck Foundation Series plus a $2,000 platform credit toward any purchase.',
-    prize: 'Cybertruck Foundation Series + $2,000 credit',
-    ends: '2026-10-15',
-    entryFee: '$25 entry',
-    entries: 683,
-    maxEntries: 2000,
-    badge: '$25 ENTRY',
-  },
-];
-
 const STORAGE_KEYS = {
   platform: 'admin_settings_platform',
   security: 'admin_settings_security',
@@ -197,12 +160,6 @@ export default function AdminSettingsPage() {
   const [cryptoWallets, setCryptoWallets] = useState<CryptoWallets>(DEFAULT_CRYPTO_WALLETS);
   const [walletsLoading, setWalletsLoading] = useState(false);
   const [walletsError, setWalletsError] = useState('');
-
-  const [giveaways, setGiveaways] = useState<GiveawayEntry[]>(DEFAULT_GIVEAWAYS);
-  const [giveawaysLoading, setGiveawaysLoading] = useState(false);
-  const [giveawaysError, setGiveawaysError] = useState('');
-  const [editingGiveaway, setEditingGiveaway] = useState<GiveawayEntry | null>(null);
-  const [addingGiveaway, setAddingGiveaway] = useState(false);
 
   const [popups, setPopups] = useState<PopupSettings>(DEFAULT_POPUPS);
   const [popupsLoading, setPopupsLoading] = useState(false);
@@ -285,9 +242,8 @@ export default function AdminSettingsPage() {
         setCustomerCare({ ...c, ...(localOnce<CustomerCareSettings>(STORAGE_KEYS.customerCare) ?? {}) });
         setEmailTemplates({ ...e, ...(localOnce<EmailTemplateSettings>(STORAGE_KEYS.email) ?? {}) });
       })();
-      // Load crypto wallets and giveaways from Supabase
+      // Load crypto wallets and popups from Supabase
       loadCryptoWallets();
-      loadGiveaways();
       loadPopups();
     }
 
@@ -307,20 +263,6 @@ export default function AdminSettingsPage() {
           eth: data.value.eth || DEFAULT_CRYPTO_WALLETS.eth,
           usdt: data.value.usdt || DEFAULT_CRYPTO_WALLETS.usdt,
         });
-      }
-    } catch {}
-  }
-
-  async function loadGiveaways() {
-    try {
-      const supabase = createClient();
-      const { data } = await supabase
-        .from('site_settings')
-        .select('value')
-        .eq('key', 'giveaways')
-        .single();
-      if (data?.value && Array.isArray(data.value)) {
-        setGiveaways(data.value as GiveawayEntry[]);
       }
     } catch {}
   }
@@ -352,39 +294,6 @@ export default function AdminSettingsPage() {
       setWalletsError(err instanceof Error ? err.message : 'Failed to save wallet addresses.');
     }
     setWalletsLoading(false);
-  }
-
-  async function saveGiveaways(updated: GiveawayEntry[]) {
-    setGiveawaysLoading(true);
-    setGiveawaysError('');
-    try {
-      const supabase = createClient();
-      const { error } = await supabase
-        .from('site_settings')
-        .upsert({ key: 'giveaways', value: updated, updated_at: new Date().toISOString() }, { onConflict: 'key' });
-      if (error) throw error;
-      setGiveaways(updated);
-      setEditingGiveaway(null);
-      setAddingGiveaway(false);
-      setSaved('giveaways');
-      setTimeout(() => setSaved(null), 2500);
-    } catch (err: unknown) {
-      setGiveawaysError(err instanceof Error ? err.message : 'Failed to save giveaways.');
-    }
-    setGiveawaysLoading(false);
-  }
-
-  function deleteGiveaway(id: number) {
-    const updated = giveaways.filter(g => g.id !== id);
-    saveGiveaways(updated);
-  }
-
-  function upsertGiveaway(entry: GiveawayEntry) {
-    const exists = giveaways.find(g => g.id === entry.id);
-    const updated = exists
-      ? giveaways.map(g => g.id === entry.id ? entry : g)
-      : [...giveaways, { ...entry, id: Date.now() }];
-    saveGiveaways(updated);
   }
 
   async function handlePasswordChange(e: React.FormEvent) {
@@ -532,7 +441,7 @@ export default function AdminSettingsPage() {
       <div className="max-w-5xl mx-auto px-6 py-8">
         <div className="mb-8">
           <h1 className="text-2xl font-medium text-foreground tracking-tight mb-1">Platform Settings</h1>
-          <p className="text-sm text-muted-foreground">Configure withdrawal limits, commissions, KYC rules, security, customer care, payment wallets, and giveaways.</p>
+          <p className="text-sm text-muted-foreground">Configure withdrawal limits, commissions, KYC rules, security, customer care, payment wallets, and pop-ups.</p>
         </div>
 
         {/* Tabs */}
@@ -544,10 +453,6 @@ export default function AdminSettingsPage() {
           <button className={tabClass('payments')} onClick={() => setActiveTab('payments')}>
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
             Payments
-          </button>
-          <button className={tabClass('giveaways')} onClick={() => setActiveTab('giveaways')}>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
-            Giveaways
           </button>
           <button className={tabClass('security')} onClick={() => setActiveTab('security')}>
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
@@ -687,158 +592,6 @@ export default function AdminSettingsPage() {
                 ) : 'Save Wallet Addresses'}
               </button>
             </div>
-          </div>
-        )}
-
-        {/* ── GIVEAWAYS TAB ── */}
-        {activeTab === 'giveaways' && (
-          <div className="space-y-6">
-            <div className="bg-background border border-border rounded p-5 flex items-start gap-3">
-              <div className="w-9 h-9 rounded bg-accent/10 flex items-center justify-center shrink-0">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-accent" aria-hidden="true"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
-              </div>
-              <div>
-                <p className="text-sm font-bold text-foreground mb-0.5">Giveaway Management</p>
-                <p className="text-xs text-muted-foreground">Add, edit, or remove giveaway entries. Changes reflect immediately on the homepage giveaway section.</p>
-              </div>
-            </div>
-
-            {giveawaysError && (
-              <div className="px-4 py-3 rounded bg-primary/10 border border-primary/30 text-sm text-primary">{giveawaysError}</div>
-            )}
-
-            {saved === 'giveaways' && (
-              <div className="px-4 py-3 rounded bg-success/10 border border-success/30 text-sm text-success flex items-center gap-2">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg>
-                Giveaways updated — changes are live on the homepage!
-              </div>
-            )}
-
-            {/* Giveaway list */}
-            <div className="space-y-4">
-              {giveaways.map((g) => (
-                <div key={g.id} className="bg-background border border-border rounded p-5">
-                  <div className="flex items-start justify-between gap-4 mb-3">
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="px-2 py-0.5 rounded-full text-[9px] font-medium tracking-widest uppercase bg-accent/15 text-accent border border-accent/30">{g.badge}</span>
-                      </div>
-                      <h3 className="text-sm font-bold text-foreground truncate">{g.title}</h3>
-                      <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">{g.description}</p>
-                    </div>
-                    <div className="flex items-center gap-2 shrink-0">
-                      <button
-                        onClick={() => setEditingGiveaway({ ...g })}
-                        className="px-3 py-1.5 rounded text-xs font-bold bg-card border border-border hover:border-primary/40 hover:text-primary text-muted-foreground transition-all"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        onClick={() => deleteGiveaway(g.id)}
-                        disabled={giveawaysLoading}
-                        className="px-3 py-1.5 rounded text-xs font-bold bg-primary/5 border border-primary/20 hover:bg-primary/10 text-primary transition-all disabled:opacity-40"
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-3 gap-3 text-[10px]">
-                    <div><span className="text-muted-foreground uppercase tracking-widest">Ends</span><div className="text-foreground font-mono mt-0.5">{g.ends}</div></div>
-                    <div><span className="text-muted-foreground uppercase tracking-widest">Entries</span><div className="text-foreground font-mono mt-0.5">{g.entries.toLocaleString()} / {g.maxEntries.toLocaleString()}</div></div>
-                    <div><span className="text-muted-foreground uppercase tracking-widest">Entry Fee</span><div className="text-foreground mt-0.5">{g.entryFee}</div></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Add new giveaway button */}
-            {!addingGiveaway && !editingGiveaway && (
-              <button
-                onClick={() => {
-                  setAddingGiveaway(true);
-                  setEditingGiveaway({
-                    id: 0,
-                    title: '',
-                    description: '',
-                    prize: '',
-                    ends: '',
-                    entryFee: 'Free',
-                    entries: 0,
-                    maxEntries: 1000,
-                    badge: 'FREE ENTRY',
-                  });
-                }}
-                className="w-full py-3 border border-dashed border-border hover:border-primary/40 rounded text-xs font-bold text-muted-foreground hover:text-primary transition-all flex items-center justify-center gap-2"
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                Add New Giveaway
-              </button>
-            )}
-
-            {/* Edit / Add form */}
-            {editingGiveaway && (
-              <div className={sectionClass + ' border-primary/30'}>
-                <p className={sectionTitleClass}>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E82127" strokeWidth="2" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                  {addingGiveaway ? 'Add New Giveaway' : 'Edit Giveaway'}
-                </p>
-                <div className="space-y-4">
-                  <div>
-                    <label className={labelClass}>Title</label>
-                    <input type="text" value={editingGiveaway.title} onChange={e => setEditingGiveaway(g => g ? { ...g, title: e.target.value } : g)} className={inputClass} placeholder="Win a 2025 Model 3..." />
-                  </div>
-                  <div>
-                    <label className={labelClass}>Description</label>
-                    <textarea value={editingGiveaway.description} onChange={e => setEditingGiveaway(g => g ? { ...g, description: e.target.value } : g)} rows={3} className={inputClass + ' resize-none'} placeholder="Full giveaway description..." />
-                  </div>
-                  <div>
-                    <label className={labelClass}>Prize</label>
-                    <input type="text" value={editingGiveaway.prize} onChange={e => setEditingGiveaway(g => g ? { ...g, prize: e.target.value } : g)} className={inputClass} placeholder="2025 Tesla Model 3 Long Range AWD" />
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className={labelClass}>End Date (YYYY-MM-DD)</label>
-                      <input type="date" value={editingGiveaway.ends} onChange={e => setEditingGiveaway(g => g ? { ...g, ends: e.target.value } : g)} className={inputClass} />
-                    </div>
-                    <div>
-                      <label className={labelClass}>Badge Label</label>
-                      <input type="text" value={editingGiveaway.badge} onChange={e => setEditingGiveaway(g => g ? { ...g, badge: e.target.value } : g)} className={inputClass} placeholder="FREE ENTRY" />
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <div>
-                      <label className={labelClass}>Entry Fee</label>
-                      <input type="text" value={editingGiveaway.entryFee} onChange={e => setEditingGiveaway(g => g ? { ...g, entryFee: e.target.value } : g)} className={inputClass} placeholder="Free / $25 entry" />
-                    </div>
-                    <div>
-                      <label className={labelClass}>Current Entries</label>
-                      <input type="number" value={editingGiveaway.entries} onChange={e => setEditingGiveaway(g => g ? { ...g, entries: Number(e.target.value) } : g)} className={inputClass} placeholder="0" />
-                    </div>
-                    <div>
-                      <label className={labelClass}>Max Entries</label>
-                      <input type="number" value={editingGiveaway.maxEntries} onChange={e => setEditingGiveaway(g => g ? { ...g, maxEntries: Number(e.target.value) } : g)} className={inputClass} placeholder="1000" />
-                    </div>
-                  </div>
-                </div>
-                <div className="flex gap-3 pt-2">
-                  <button
-                    onClick={() => { setEditingGiveaway(null); setAddingGiveaway(false); }}
-                    className="flex-1 py-3 tesla-btn-outline rounded text-sm font-semibold"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    onClick={() => editingGiveaway && upsertGiveaway(editingGiveaway)}
-                    disabled={giveawaysLoading || !editingGiveaway?.title}
-                    className="flex-1 py-3 tesla-btn-primary rounded text-sm font-semibold flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
-                  >
-                    {giveawaysLoading ? (
-                      <><div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />Saving...</>
-                    ) : addingGiveaway ? 'Add Giveaway' : 'Save Changes'}
-                  </button>
-                </div>
-              </div>
-            )}
           </div>
         )}
 

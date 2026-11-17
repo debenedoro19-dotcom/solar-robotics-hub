@@ -1256,3 +1256,25 @@ table td, table th { border-color: var(--border); }
 @media (prefers-reduced-motion: reduce) {
   .home-hero-media, .home-inventory-card { animation: none; transition: none; }
 }
+
+/* ── Eradicate any Lovable editor badge, watermark, or popup ─────────────── */
+#lovable-badge,
+[data-lovable-badge],
+.lovable-badge,
+[id*="lovable-badge"],
+[class*="lovable-badge"],
+a[href*="lovable.dev"],
+button[aria-label*="Lovable" i],
+div:has(> a[href*="lovable.dev"]),
+div:has(> button[aria-label*="Lovable" i]),
+div:has(> [data-lovable-badge]) {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  position: absolute !important;
+  left: -99999px !important;
+  z-index: -99999 !important;
+}

@@ -10,27 +10,42 @@ export default function AllocationSimulator({
 }) {
   const { plans, loading } = useInvestmentPlans();
   const [planId, setPlanId] = useState("");
-  const [amount, setAmount] = useState(5000);
+  const [amount, setAmount] = useState(1000);
   const { navigateWithLoader } = useTeslaLoader();
 
   const plan = useMemo(
     () => plans.find((item) => item.id === planId) ?? plans[0],
     [planId, plans],
   );
-  const minimum = plan ? Number(plan.min_deposit) : 0;
-  const maximum = plan ? Number(plan.max_deposit) : 0;
-  const safeAmount = plan ? Math.min(maximum, Math.max(minimum, amount)) : 0;
-  const step = Math.max(10, Math.round((maximum - minimum) / 100));
 
+  const minimum = plan ? Number(plan.min_deposit) : 500;
+  const maximum = plan ? Number(plan.max_deposit) : 10000;
+  const safeAmount = plan ? Math.min(maximum, Math.max(minimum, amount)) : 1000;
+  const step = Math.max(50, Math.round((maximum - minimum) / 100));
+
+  // When selected plan changes, set amount to its minimum if current amount is below minimum
   useEffect(() => {
-    if (plan && amount < Number(plan.min_deposit)) setAmount(Number(plan.min_deposit));
-    if (plan && amount > Number(plan.max_deposit)) setAmount(Number(plan.max_deposit));
-  }, [amount, plan]);
+    if (!plan) return;
+    const planMin = Number(plan.min_deposit);
+    const planMax = Number(plan.max_deposit);
+    if (amount < planMin) {
+      setAmount(planMin);
+    } else if (amount > planMax) {
+      setAmount(planMax);
+    }
+  }, [plan?.id]);
 
-  const dailyRoi = plan ? Number(plan.daily_roi) / 100 : 0;
-  const durationDays = plan ? Number(plan.duration_days) : 0;
+  const dailyRoi = plan ? Number(plan.daily_roi) / 100 : 0.01;
+  const durationDays = plan ? Number(plan.duration_days) : 15;
   const estDailyTarget = safeAmount * dailyRoi;
   const estTermTotal = estDailyTarget * durationDays;
+  const estTotalMaturity = safeAmount + estTermTotal;
+  const totalReturnPct = Math.round(dailyRoi * durationDays * 100);
+
+  // Quick preset chips that fall within the current plan's bounds
+  const presets = [500, 1000, 2500, 5000, 10000, 25000].filter(
+    (val) => val >= minimum && val <= maximum,
+  );
 
   return (
     <section
@@ -94,7 +109,7 @@ export default function AllocationSimulator({
               >
                 {plans.map((item) => (
                   <option key={item.id} value={item.id}>
-                    {item.name} — {Number(item.daily_roi).toFixed(2)}% / day ({item.duration_days}d)
+                    {item.name} — +{Math.round(Number(item.daily_roi) * item.duration_days)}% Return ({item.duration_days} Days) · Min {money(Number(item.min_deposit))}
                   </option>
                 ))}
               </select>
@@ -121,7 +136,29 @@ export default function AllocationSimulator({
                 <span>Max {money(maximum)}</span>
               </div>
 
-              <dl className="mt-6 grid grid-cols-3 gap-3 border-t border-border pt-5">
+              {presets.length > 1 && (
+                <div className="mt-3 flex flex-wrap items-center gap-1.5 pt-1">
+                  <span className="text-[10px] uppercase tracking-wider text-muted-foreground mr-1">
+                    Presets:
+                  </span>
+                  {presets.map((val) => (
+                    <button
+                      key={val}
+                      type="button"
+                      onClick={() => setAmount(val)}
+                      className={`px-2 py-0.5 rounded text-xs font-semibold tabular transition-colors ${
+                        safeAmount === val
+                          ? "bg-foreground text-background"
+                          : "border border-border bg-background hover:bg-muted text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      {money(val)}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              <dl className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3 border-t border-border pt-5">
                 <div>
                   <dt className="text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
                     Program Term
@@ -132,18 +169,26 @@ export default function AllocationSimulator({
                 </div>
                 <div>
                   <dt className="text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
-                    Illustrative / Day
+                    Target Return
                   </dt>
-                  <dd className="font-display mt-1 text-base font-semibold text-foreground tabular">
-                    {money(estDailyTarget)}
+                  <dd className="font-display mt-1 text-base font-semibold text-emerald-500 tabular">
+                    +{totalReturnPct}%
                   </dd>
                 </div>
                 <div>
                   <dt className="text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
-                    Target Return
+                    Projected Yield
                   </dt>
                   <dd className="font-display mt-1 text-base font-semibold text-foreground tabular">
                     {money(estTermTotal)}
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
+                    Maturity Total
+                  </dt>
+                  <dd className="font-display mt-1 text-base font-semibold text-foreground tabular">
+                    {money(estTotalMaturity)}
                   </dd>
                 </div>
               </dl>

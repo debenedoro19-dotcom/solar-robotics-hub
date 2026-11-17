@@ -21,17 +21,17 @@ const DEFAULT_SPOTLIGHTS: SpotlightCampaign[] = [
   {
     id: "spotlight-model-3",
     eyebrow: "Spotlight Drop 01 · Free Vehicle Allocation",
-    title: "Win a 2025 Model 3 Long Range",
-    prize: "2025 Tesla Model 3 Long Range AWD",
+    title: "Win a 2027 Model 3 Long Range",
+    prize: "2027 Tesla Model 3 Long Range AWD",
     summary:
-      "Reserve your $0 verified pass for a refreshed Model 3 Long Range Dual Motor featuring acoustic 360-degree glass and 341 miles of EPA range.",
+      "Reserve your $0 verified pass for a refreshed 2027 Model 3 Long Range Dual Motor featuring acoustic 360-degree glass and 363 miles of EPA range.",
     image: model3Img,
-    endsAt: "2026-12-31",
+    endsAt: "2027-12-31",
     entries: 1247,
     maxEntries: 5000,
     specs: [
       { label: "Entry Fee", value: "$0 Free" },
-      { label: "EPA Range", value: "341 mi" },
+      { label: "EPA Range", value: "363 mi" },
       { label: "0–60 mph", value: "4.2 s" },
       { label: "MSRP Value", value: "$47,490" },
     ],
@@ -39,12 +39,12 @@ const DEFAULT_SPOTLIGHTS: SpotlightCampaign[] = [
   {
     id: "spotlight-cybertruck",
     eyebrow: "Spotlight Drop 02 · Foundation Series",
-    title: "Cybertruck Experience Weekend",
+    title: "Cybertruck Foundation Series Experience",
     prize: "Cybertruck Foundation Series + $2,000 Credit",
     summary:
       "Claim a zero-cost entry for an all-stainless Cybertruck Foundation Series weekend experience plus a $2,000 Trade Tesla purchase credit.",
     image: cybertruckImg,
-    endsAt: "2026-10-15",
+    endsAt: "2027-10-15",
     entries: 683,
     maxEntries: 2000,
     specs: [
