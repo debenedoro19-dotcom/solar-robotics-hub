@@ -11,3 +11,4 @@
 
 ## Frontend structure
 - Keep homepage feature sections in focused components under `src/components/home/` so interactions remain isolated and `src/pages/home.tsx` stays an orchestration layer.
+- Keep AI chat history in browser storage when requested; keep model calls server-side and retrieve only public active listing data to ground answers.

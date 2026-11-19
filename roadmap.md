@@ -12,3 +12,4 @@
 - [x] Remove flying-car promotion, inventory item and navigation; redirect the old page to inventory
 - [x] Add dedicated Giveaways page (/giveaways) and connect Giveaways navigation across header, footer, dashboard and homepage
 - [x] Suspend email verification gates across registration, login, dashboard, and auth hooks while mailbox renewal is pending
+- [ ] Build a public AI assistant grounded in current solar and robotics listings and verified website trust details; one conversation, saved in this browser
